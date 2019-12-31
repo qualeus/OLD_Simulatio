@@ -123,7 +123,7 @@ public:
 				Collision(bodyA, bodyB);
 			}
 			
-			//Attraction(bodyA, bodyB);
+			Attraction(bodyA, bodyB);
 						
 		}
 
@@ -242,23 +242,23 @@ public:
 		{
 			if (!sBody->Equals(bodyA))
 			{
-				//bodyA.setspdX(bodyA.getspdX() + attr * ((bodyB.getX() - bodyA.getX()) / dist));
-				//bodyA.setspdY(bodyA.getspdY() + attr * ((bodyB.getY() - bodyA.getY()) / dist));
+				bodyA.setspdX(bodyA.getspdX() + attr * ((bodyB.getX() - bodyA.getX()) / dist));
+				bodyA.setspdY(bodyA.getspdY() + attr * ((bodyB.getY() - bodyA.getY()) / dist));
 			}
 
 			if (!sBody->Equals(bodyB))
 			{
-				//bodyB.setspdX(bodyB.getspdX() - attr * ((bodyB.getX() - bodyA.getX()) / dist));
-				//bodyB.setspdY(bodyB.getspdY() - attr * ((bodyB.getX() - bodyA.getX()) / dist));
+				bodyB.setspdX(bodyB.getspdX() - attr * ((bodyB.getX() - bodyA.getX()) / dist));
+				bodyB.setspdY(bodyB.getspdY() - attr * ((bodyB.getX() - bodyA.getX()) / dist));
 			}
 		}
 		else
 		{
-			//bodyA.setspdX(bodyA.getspdX() + attr * ((bodyB.getX() - bodyA.getX()) / dist));
-			//bodyA.setspdY(bodyA.getspdY() + attr * ((bodyB.getY() - bodyA.getY()) / dist));
+			bodyA.setspdX(bodyA.getspdX() + attr * ((bodyB.getX() - bodyA.getX()) / dist));
+			bodyA.setspdY(bodyA.getspdY() + attr * ((bodyB.getY() - bodyA.getY()) / dist));
 			
-			//bodyB.setspdX(bodyB.getspdX() - attr * ((bodyB.getX() - bodyA.getX()) / dist));
-			//bodyB.setspdY(bodyB.getspdY() - attr * ((bodyB.getX() - bodyA.getX()) / dist));
+			bodyB.setspdX(bodyB.getspdX() - attr * ((bodyB.getX() - bodyA.getX()) / dist));
+			bodyB.setspdY(bodyB.getspdY() - attr * ((bodyB.getX() - bodyA.getX()) / dist));
 		}
 	}
 
