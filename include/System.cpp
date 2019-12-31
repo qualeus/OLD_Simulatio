@@ -120,7 +120,7 @@ public:
 				Collision(bodyA, bodyB);
 			}
 			
-			Attraction(bodyA, bodyB);
+			//Attraction(bodyA, bodyB);
 						
 		}
 	}
@@ -133,28 +133,52 @@ public:
 		float overlap = 0.5f * (distance - bodyA.getSize() - bodyB.getSize());
 		
 		
-		if (sBody != nullptr || bodyA.getEtherial() || bodyB.getEtherial() || bodyA.getFixed() || bodyB.getFixed())
+		if (sBody != nullptr)
 		{
-			if (!sBody->Equals(bodyA))
+			
+			if (!sBody->Equals(bodyA) && !bodyA.isFixed())
 			{
 				bodyA.setX(bodyA.getX() - overlap * (bodyA.getX() - bodyB.getX()) / distance);
 				bodyA.setY(bodyA.getY() - overlap * (bodyA.getY() - bodyB.getY()) / distance);
 			}
 
-			if (!sBody->Equals(bodyB))
+			if (!sBody->Equals(bodyB) && !bodyB.isFixed())
 			{
 				bodyB.setX(bodyB.getX() + overlap * (bodyA.getX() - bodyB.getX()) / distance);
 				bodyB.setY(bodyB.getY() + overlap * (bodyA.getY() - bodyB.getY()) / distance);
+			}
+			
+		}
+		else if (bodyA.isFixed() || bodyB.isFixed())
+		{
+			if (bodyA.isFixed() && bodyB.isFixed())
+			{
+				bodyB.setX(bodyB.getX() + 2 * overlap * (bodyA.getX() - bodyB.getX()) / distance);
+				bodyB.setY(bodyB.getY() + 2 * overlap * (bodyA.getY() - bodyB.getY()) / distance);
+			}
+			else
+			{
+				if (!bodyA.isFixed())
+				{
+					bodyA.setX(bodyA.getX() - 2 * overlap * (bodyA.getX() - bodyB.getX()) / distance);
+					bodyA.setY(bodyA.getY() - 2 * overlap * (bodyA.getY() - bodyB.getY()) / distance);
+				}
+				else
+				{
+					bodyB.setX(bodyB.getX() + 2 * overlap * (bodyA.getX() - bodyB.getX()) / distance);
+					bodyB.setY(bodyB.getY() + 2 * overlap * (bodyA.getY() - bodyB.getY()) / distance);
+				}
 			}
 		}
 		else
 		{
 			bodyA.setX(bodyA.getX() - overlap * (bodyA.getX() - bodyB.getX()) / distance);
 			bodyA.setY(bodyA.getY() - overlap * (bodyA.getY() - bodyB.getY()) / distance);
-			
+		
 			bodyB.setX(bodyB.getX() + overlap * (bodyA.getX() - bodyB.getX()) / distance);
 			bodyB.setY(bodyB.getY() + overlap * (bodyA.getY() - bodyB.getY()) / distance);
 		}
+		
 		
 		distanceX = bodyA.getX() - bodyB.getX();
 		distanceY = bodyA.getY() - bodyB.getY();
@@ -175,11 +199,28 @@ public:
 		float mA = (dpNormA * (bodyA.getMass() - bodyB.getMass()) + 2.0f * bodyB.getMass() * dpNormB) / (bodyA.getMass() + bodyB.getMass());
 		float mB = (dpNormB * (bodyB.getMass() - bodyA.getMass()) + 2.0f * bodyA.getMass() * dpNormA) / (bodyA.getMass() + bodyB.getMass());
 
-		bodyA.setspdX(tangentX * dpTanA + normalX * mA);
-		bodyA.setspdY(tangentY * dpTanA + normalY * mA);
-
-		bodyB.setspdX(tangentX * dpTanB + normalX * mB);
-		bodyB.setspdY(tangentY * dpTanB + normalY * mB);
+		if (bodyA.isFixed() || bodyB.isFixed())
+		{
+			if (!bodyA.isFixed())
+			{
+				bodyA.setspdX(tangentX * dpTanA + normalX * mA);
+				bodyA.setspdY(tangentY * dpTanA + normalY * mA);
+			}
+			else
+			{
+				bodyB.setspdX(tangentX * dpTanB + normalX * mB);
+				bodyB.setspdY(tangentY * dpTanB + normalY * mB);
+			}
+		}
+		else
+		{
+			bodyA.setspdX(tangentX * dpTanA + normalX * mA);
+			bodyA.setspdY(tangentY * dpTanA + normalY * mA);
+		
+			bodyB.setspdX(tangentX * dpTanB + normalX * mB);
+			bodyB.setspdY(tangentY * dpTanB + normalY * mB);
+		}
+	
 	}
 
 	void Attraction(Body& bodyA, Body& bodyB)
@@ -217,7 +258,10 @@ public:
 		{
 			if (event.mouseButton.button == Mouse::Left || event.mouseButton.button == Mouse::Right)
 			{
-				this->sBody = nullptr;
+				if (this->sBody != nullptr)
+				{
+					this->sBody = nullptr;
+				}
 
 				for (int x = 0; x < this->Corpses.size(); x++)
 				{
@@ -272,8 +316,11 @@ public:
 					sBody->setspdY(0.1 * (sBody->getY() - mouseY));
 				}
 
-				sBody = nullptr;
 				sType = 0;
+				if (this->sBody != nullptr)
+				{
+					this->sBody = nullptr;
+				}
 			}
 		}
 	}
@@ -297,7 +344,7 @@ public:
 		for (int i = 0; i < this->Corpses.size(); i++)
 		{
 			Body b = *this->get(i);
-			DrawCircle(b.getX(),b.getY(),b.getSize(),Color::White);
+			DrawCircle(b.getX(),b.getY(),b.getSize(),b.getColor());
 		}
 	}
 

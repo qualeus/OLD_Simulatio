@@ -14,13 +14,15 @@ private:
 	string name;
 	float spdX, spdY;
 	int mass;
-	float size;
 	float friction;
+
+	float size;
+	Color color;
 
 	bool fixed;
 	bool etherial;
 
-	void Initialize(float x, float y, string name, float spdX, float spdY, int mass, float size, float friction, bool fixed=false, bool etherial=false)
+	void Initialize(float x, float y, string name, float spdX, float spdY, int mass, float size, float friction, bool fixed=false, bool etherial=false, Color color=Color::White)
 	{
 		this->x = x;
 		this->y = y;
@@ -32,6 +34,7 @@ private:
 		this->friction = friction;
 		this->fixed = fixed;
 		this->etherial = etherial;
+		this->color = color;
 	}
 
 public:
@@ -55,14 +58,9 @@ public:
 		Initialize(x, y, name, spdX, spdY, mass, size, friction);
 	}
 
-	Body(float x, float y, string name, int mass, float size, float spdX, float spdY, float friction, bool fixed)
+	Body(float x, float y, string name, int mass, float size, float spdX, float spdY, float friction, bool fixed, bool etherial, Color color=Color::White)
 	{
-		Initialize(x, y, name, spdX, spdY, mass, size, friction, fixed);
-	}
-
-	Body(float x, float y, string name, int mass, float size, float spdX, float spdY, float friction, bool fixed, bool etherial)
-	{
-		Initialize(x, y, name, spdX, spdY, mass, size, friction, fixed, etherial);
+		Initialize(x, y, name, spdX, spdY, mass, size, friction, fixed, etherial, color);
 	}
 
 	void Move()
@@ -106,9 +104,10 @@ public:
 
 	float getSize() { return this->size; }
 	float getMass() { return this->mass; }
+	Color getColor() { return this->color; }
 
-	bool getFixed(){ return this->fixed; }
-	bool getEtherial() { return this->etherial; }
+	bool isFixed(){ return this->fixed; }
+	bool isEtherial() { return this->etherial; }
 
 	bool Equals(Body b) { return (this->mass == b.mass && this->x == b.x && this->y == b.y && this->spdX == b.spdX && this->spdY == b.spdY); }
 };
