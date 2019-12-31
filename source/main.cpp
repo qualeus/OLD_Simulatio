@@ -8,17 +8,14 @@ using namespace sf;
 int main()
 {
 
-    System SolarSystem("Solar System",0,0, 1000, 800);
+    System SolarSystem("Test System", 0, 0, 1000, 800);
 
-    for (int i= 0; i<2; i++)
+    for (int i= 0; i<100; i++)
     {
-    	SolarSystem.add(Body(rand() % 1000, rand() % 800, "def", 20, 50, 0, 0, 0.05));
+    	SolarSystem.add(Body(rand() % 1000, rand() % 800, "def", 20, 30, 0, 0, 0.05));
     }
-	
-	SolarSystem.add(Body(rand() % 1000, rand() % 800, "def", 1000, 100, 0, 0, 0.05));
 
-    SolarSystem.add(Body(200, 100, "def", 20, 50, 0, 0, 0, true, false, Color::Blue));
-    SolarSystem.add(Body(400, 100, "def", 20, 50, 0, 0, 0, true, false, Color::Blue));
+    SolarSystem.add(Body(200, 100, "def", 40, 50, 0, 0, 0, true, true, Color::Blue));
 
     /*
     SolarSystem.add(Body(100, 100, "A", 10, 50, 0, 0, 0.05));

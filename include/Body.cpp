@@ -104,7 +104,9 @@ public:
 
 	float getSize() { return this->size; }
 	float getMass() { return this->mass; }
+
 	Color getColor() { return this->color; }
+	void setColor(Color color) { this->color = color; }
 
 	bool isFixed(){ return this->fixed; }
 	bool isEtherial() { return this->etherial; }

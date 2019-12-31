@@ -29,15 +29,15 @@ private:
 	void Initialize(string name, float forceX, float forceY, int screenX, int screenY)
 	{
 		this->name = name;
-		this->forceX = 0.0f;
-		this->forceY = 0.0f;
+		this->forceX = forceX;
+		this->forceY = forceY;
 
 		//Defaults
 		this->Corpses = vector<Body>();
 
 		ContextSettings settings;
 		settings.antialiasingLevel = 8;
-		this->renderer.create(VideoMode(screenX, screenY), "Windows", Style::Default, settings);
+		this->renderer.create(VideoMode(screenX, screenY), this->name, Style::Default, settings);
 		this->renderer.setFramerateLimit(60);
 	}
 
@@ -79,7 +79,7 @@ public:
 		}
 	}
 
-	void Calc()
+	void Prepare()
 	{
 		for (int x = 0; x < this->Corpses.size(); x++)
 		{
@@ -107,7 +107,10 @@ public:
 				}
 			}
 		}
-		
+	}
+
+	void Forces()
+	{
 		for (int z = 0; z < Pairs.size(); z++)
 		{
 			Body& bodyA = *Pairs.at(z).first;
@@ -115,13 +118,20 @@ public:
 
 			float distance = sqrt(pow(bodyA.getX() - bodyB.getX(), 2) + pow(bodyA.getY() - bodyB.getY(), 2));
 
-			if (distance < bodyA.getSize() + bodyB.getSize())
+			if (distance < bodyA.getSize() + bodyB.getSize() && !bodyA.isEtherial() && !bodyB.isEtherial())
 			{
 				Collision(bodyA, bodyB);
 			}
 			
 			//Attraction(bodyA, bodyB);
 						
+		}
+
+		for (int z = 0; z < Corpses.size(); z++)
+		{
+			Body& b = Corpses.at(z);
+			b.setspdX(b.getspdX() + this->forceX);
+			b.setspdY(b.getspdY() + this->forceY);
 		}
 	}
 
@@ -389,6 +399,7 @@ public:
 
 	void Render()
 	{
+		Prepare();
 		while (this->renderer.isOpen())
 		{
 
@@ -407,7 +418,7 @@ public:
 				}
 			}
 
-			this->Calc();
+			this->Forces();
 			this->Move();
 			this->Draw();
 			this->Debug();
