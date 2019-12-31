@@ -20,15 +20,19 @@ private:
 	
 	Body* sBody = nullptr;
 	int sType = 0;
+	int debugType = 0;
 	float mouseX;
 	float mouseY;
 
 	Clock clock;
 	Time frameTime;
 
-	void Initialize(string name, float forceX, float forceY, int screenX, int screenY)
+	bool gravity;
+
+	void Initialize(string name, bool gravity, float forceX, float forceY, int screenX, int screenY)
 	{
 		this->name = name;
+		this->gravity = gravity;
 		this->forceX = forceX;
 		this->forceY = forceY;
 
@@ -44,22 +48,22 @@ private:
 public:
 	System()
 	{
-		Initialize("Default", 0.0f, 0.0f, 600, 400);
+		Initialize("Default", false, 0.0f, 0.0f, 600, 400);
 	}
 
 	System(string name)
 	{
-		Initialize(name, 0.0f, 0.0f, 600, 400);
+		Initialize(name, false, 0.0f, 0.0f, 600, 400);
 	}
 
-	System(string name, float forceX, float forceY)
+	System(string name, bool gravity, float forceX, float forceY)
 	{
-		Initialize(name, forceX, forceY, 600, 400);
+		Initialize(name, gravity, forceX, forceY, 600, 400);
 	}
 
-	System(string name, float forceX, float forceY, int screenX, int screenY)
+	System(string name, bool gravity, float forceX, float forceY, int screenX, int screenY)
 	{
-		Initialize(name, forceX, forceY, screenX, screenY);
+		Initialize(name, gravity, forceX, forceY, screenX, screenY);
 	}
 
 	void add(Body b)
@@ -123,7 +127,10 @@ public:
 				Collision(bodyA, bodyB);
 			}
 			
-			Attraction(bodyA, bodyB);
+			if (this->gravity)
+			{
+				Gravity(bodyA, bodyB);
+			}
 						
 		}
 
@@ -233,7 +240,7 @@ public:
 	
 	}
 
-	void Attraction(Body& bodyA, Body& bodyB)
+	void Gravity(Body& bodyA, Body& bodyB)
 	{
 		float dist = sqrt(pow(bodyA.getX() - bodyB.getX(), 2) + pow(bodyA.getY() - bodyB.getY(), 2));
 		double attr = 9.81 * ((bodyA.getMass() * bodyB.getMass()) / pow(dist, 2));
@@ -259,6 +266,12 @@ public:
 			
 			bodyB.setspdX(bodyB.getspdX() - attr * ((bodyB.getX() - bodyA.getX()) / dist));
 			bodyB.setspdY(bodyB.getspdY() - attr * ((bodyB.getX() - bodyA.getX()) / dist));
+		}
+
+		if (debugType > 1)
+		{
+			DrawLine(bodyA.getX(), bodyA.getY(), bodyA.getX() + 20 * attr * ((bodyB.getX() - bodyA.getX()) / dist), bodyA.getY() + 20 * attr * ((bodyB.getY() - bodyA.getY()) / dist), Color::Blue);
+			DrawLine(bodyB.getX(), bodyB.getY(), bodyB.getX() - 20 * attr * ((bodyB.getX() - bodyA.getX()) / dist), bodyB.getY() - 20 * attr * ((bodyB.getY() - bodyA.getY()) / dist), Color::Blue);
 		}
 	}
 
@@ -333,6 +346,22 @@ public:
 				}
 			}
 		}
+
+		if (event.type == Event::KeyPressed)
+		{
+			if (event.key.code == Keyboard::D)
+			{
+				if (this->debugType < 3)
+				{
+					this->debugType += 1;
+				}
+				else
+				{
+					this->debugType = 0;
+				}
+				
+			}
+		}
 	}
 
 	bool PointBody(int x, int y, Body body)
@@ -363,12 +392,18 @@ public:
 		
 		this->frameTime = clock.restart();
 		int framerate = 1 / (frameTime.asMilliseconds() * 0.001);
-		DrawText(to_string(framerate),100,100,30,Color::Yellow);
+		DrawText(to_string(framerate), 0, 0, 30, Color::Yellow);
+		
+		DrawText("[D] Debug: " + to_string(debugType),this->renderer.getSize().x - 150, 0, 24, Color::Yellow);
 
 		for (int i = 0; i < this->Corpses.size(); i++)
 		{
 			Body b = *this->get(i);
-			DrawLine(b.getX(), b.getY(), b.getX() + 10 * b.getspdX(), b.getY() + 10 * b.getspdY(), Color::Red);
+			
+			if (debugType > 0)
+			{
+				DrawLine(b.getX(), b.getY(), b.getX() + 10 * b.getspdX(), b.getY() + 10 * b.getspdY(), Color::Red);
+			}
 		}
 
 		for (int i = 0; i < Pairs.size(); i++)
@@ -380,11 +415,17 @@ public:
 
 			if (dist > a.getSize() + b.getSize() + 1)
 			{
-				//DrawLine(a.getX(), a.getY(), b.getX(), b.getY(), Color::White);
+				if (debugType > 2)
+				{
+					DrawLine(a.getX(), a.getY(), b.getX(), b.getY(), Color::White);
+				}
 			}
 			else
 			{
-				DrawLine(a.getX(), a.getY(), b.getX(), b.getY(), Color::Red);
+				if (debugType > 1)
+				{	
+					DrawLine(a.getX(), a.getY(), b.getX(), b.getY(), Color::Red);
+				}
 			}
 		}
 
@@ -453,6 +494,7 @@ public:
 
 		if (font.loadFromFile("resource/arial.ttf"))
 		{
+			text.setPosition(x, y);
 			text.setFont(font);
 			text.setString(str);
 			text.setCharacterSize(size);

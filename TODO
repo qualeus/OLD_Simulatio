@@ -15,3 +15,4 @@
 
 #Errors
 - When right clicke and draw then left click before releasing
+- If two object have same mass, x, y, ... they are considered as the same object
