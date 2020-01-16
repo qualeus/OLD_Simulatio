@@ -2,8 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include <functional>
 #include <iostream>
-#include "Body.cpp"
 #include <math.h>
+#include "Dot.cpp"
+#include "Constraint.cpp"
 
 using namespace std;
 using namespace sf;
@@ -14,13 +15,15 @@ private:
 	string name;
 	float forceX;
 	float forceY;
-	vector<Body> Corpses;
+	vector<Dot> Corpses;
+	vector<Constraint> Constraints;
+
 	RenderWindow renderer;
-	vector<pair<Body*, Body*>> Pairs;
+	vector<pair<Dot*, Dot*>> Pairs;
 	
-	Body* sBody = nullptr;
+	Dot* sDot = nullptr;
 	int sType = 0;
-	int debugType = 0;
+	int debugType = 1;
 	float mouseX;
 	float mouseY;
 
@@ -37,7 +40,7 @@ private:
 		this->forceY = forceY;
 
 		//Defaults
-		this->Corpses = vector<Body>();
+		this->Corpses = vector<Dot>();
 
 		ContextSettings settings;
 		settings.antialiasingLevel = 8;
@@ -66,16 +69,33 @@ public:
 		Initialize(name, gravity, forceX, forceY, screenX, screenY);
 	}
 
-	void add(Body b)
+	void addDot(Dot b)
 	{
 		this->Corpses.emplace_back(b);
 	}
 
-	Body* get(int index)
+	void addConstraint(Constraint c)
+	{
+		this->Constraints.emplace_back(c);
+	}
+
+	Dot* getDot(int index)
 	{
 		if (index >= 0 && index < this->Corpses.size())
 		{
 			return &this->Corpses.at(index);
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
+
+	Constraint* getConstraint(int index)
+	{
+		if (index >= 0 && index < this->Constraints.size())
+		{
+			return &this->Constraints.at(index);
 		}
 		else
 		{
@@ -93,8 +113,8 @@ public:
 
 				for (int z = 0; z < Pairs.size(); z++)
 				{
-					Body a = *Pairs.at(z).first;
-					Body b = *Pairs.at(z).second;
+					Dot a = *Pairs.at(z).first;
+					Dot b = *Pairs.at(z).second;
 
 					if (a.Equals(Corpses.at(x)) && b.Equals(Corpses.at(y)) || a.Equals(Corpses.at(y)) && b.Equals(Corpses.at(x)))
 					{
@@ -117,161 +137,161 @@ public:
 	{
 		for (int z = 0; z < Pairs.size(); z++)
 		{
-			Body& bodyA = *Pairs.at(z).first;
-			Body& bodyB = *Pairs.at(z).second;
+			Dot& DotA = *Pairs.at(z).first;
+			Dot& DotB = *Pairs.at(z).second;
 
-			float distance = sqrt(pow(bodyA.getX() - bodyB.getX(), 2) + pow(bodyA.getY() - bodyB.getY(), 2));
+			float distance = sqrt(pow(DotA.getX() - DotB.getX(), 2) + pow(DotA.getY() - DotB.getY(), 2));
 
-			if (distance < bodyA.getSize() + bodyB.getSize() && !bodyA.isEtherial() && !bodyB.isEtherial())
+			if (distance < DotA.getSize() + DotB.getSize() && !DotA.isEtherial() && !DotB.isEtherial())
 			{
-				Collision(bodyA, bodyB);
+				Collision(DotA, DotB);
 			}
 			
 			if (this->gravity)
 			{
-				Gravity(bodyA, bodyB);
+				Gravity(DotA, DotB);
 			}
 						
 		}
 
 		for (int z = 0; z < Corpses.size(); z++)
 		{
-			Body& b = Corpses.at(z);
+			Dot& b = Corpses.at(z);
 			b.setspdX(b.getspdX() + this->forceX);
 			b.setspdY(b.getspdY() + this->forceY);
 		}
 	}
 
-	void Collision(Body& bodyA, Body& bodyB)
+	void Collision(Dot& DotA, Dot& DotB)
 	{
-		float distanceX = bodyA.getX() - bodyB.getX();
-		float distanceY = bodyA.getY() - bodyB.getY();
+		float distanceX = DotA.getX() - DotB.getX();
+		float distanceY = DotA.getY() - DotB.getY();
 		float distance = sqrt(pow(distanceX, 2) + pow(distanceY, 2));
-		float overlap = 0.5f * (distance - bodyA.getSize() - bodyB.getSize());
+		float overlap = 0.5f * (distance - DotA.getSize() - DotB.getSize());
 		
 		
-		if (sBody != nullptr)
+		if (sDot != nullptr)
 		{
 			
-			if (!sBody->Equals(bodyA) && !bodyA.isFixed())
+			if (!sDot->Equals(DotA) && !DotA.isFixed())
 			{
-				bodyA.setX(bodyA.getX() - overlap * (bodyA.getX() - bodyB.getX()) / distance);
-				bodyA.setY(bodyA.getY() - overlap * (bodyA.getY() - bodyB.getY()) / distance);
+				DotA.setX(DotA.getX() - overlap * (DotA.getX() - DotB.getX()) / distance);
+				DotA.setY(DotA.getY() - overlap * (DotA.getY() - DotB.getY()) / distance);
 			}
 
-			if (!sBody->Equals(bodyB) && !bodyB.isFixed())
+			if (!sDot->Equals(DotB) && !DotB.isFixed())
 			{
-				bodyB.setX(bodyB.getX() + overlap * (bodyA.getX() - bodyB.getX()) / distance);
-				bodyB.setY(bodyB.getY() + overlap * (bodyA.getY() - bodyB.getY()) / distance);
+				DotB.setX(DotB.getX() + overlap * (DotA.getX() - DotB.getX()) / distance);
+				DotB.setY(DotB.getY() + overlap * (DotA.getY() - DotB.getY()) / distance);
 			}
 			
 		}
-		else if (bodyA.isFixed() || bodyB.isFixed())
+		else if (DotA.isFixed() || DotB.isFixed())
 		{
-			if (bodyA.isFixed() && bodyB.isFixed())
+			if (DotA.isFixed() && DotB.isFixed())
 			{
-				bodyB.setX(bodyB.getX() + 2 * overlap * (bodyA.getX() - bodyB.getX()) / distance);
-				bodyB.setY(bodyB.getY() + 2 * overlap * (bodyA.getY() - bodyB.getY()) / distance);
+				DotB.setX(DotB.getX() + 2 * overlap * (DotA.getX() - DotB.getX()) / distance);
+				DotB.setY(DotB.getY() + 2 * overlap * (DotA.getY() - DotB.getY()) / distance);
 			}
 			else
 			{
-				if (!bodyA.isFixed())
+				if (!DotA.isFixed())
 				{
-					bodyA.setX(bodyA.getX() - 2 * overlap * (bodyA.getX() - bodyB.getX()) / distance);
-					bodyA.setY(bodyA.getY() - 2 * overlap * (bodyA.getY() - bodyB.getY()) / distance);
+					DotA.setX(DotA.getX() - 2 * overlap * (DotA.getX() - DotB.getX()) / distance);
+					DotA.setY(DotA.getY() - 2 * overlap * (DotA.getY() - DotB.getY()) / distance);
 				}
 				else
 				{
-					bodyB.setX(bodyB.getX() + 2 * overlap * (bodyA.getX() - bodyB.getX()) / distance);
-					bodyB.setY(bodyB.getY() + 2 * overlap * (bodyA.getY() - bodyB.getY()) / distance);
+					DotB.setX(DotB.getX() + 2 * overlap * (DotA.getX() - DotB.getX()) / distance);
+					DotB.setY(DotB.getY() + 2 * overlap * (DotA.getY() - DotB.getY()) / distance);
 				}
 			}
 		}
 		else
 		{
-			bodyA.setX(bodyA.getX() - overlap * (bodyA.getX() - bodyB.getX()) / distance);
-			bodyA.setY(bodyA.getY() - overlap * (bodyA.getY() - bodyB.getY()) / distance);
+			DotA.setX(DotA.getX() - overlap * (DotA.getX() - DotB.getX()) / distance);
+			DotA.setY(DotA.getY() - overlap * (DotA.getY() - DotB.getY()) / distance);
 		
-			bodyB.setX(bodyB.getX() + overlap * (bodyA.getX() - bodyB.getX()) / distance);
-			bodyB.setY(bodyB.getY() + overlap * (bodyA.getY() - bodyB.getY()) / distance);
+			DotB.setX(DotB.getX() + overlap * (DotA.getX() - DotB.getX()) / distance);
+			DotB.setY(DotB.getY() + overlap * (DotA.getY() - DotB.getY()) / distance);
 		}
 		
 		
-		distanceX = bodyA.getX() - bodyB.getX();
-		distanceY = bodyA.getY() - bodyB.getY();
+		distanceX = DotA.getX() - DotB.getX();
+		distanceY = DotA.getY() - DotB.getY();
 		distance = sqrt(pow(distanceX, 2) + pow(distanceY, 2));
 		
-		float normalX = (bodyB.getX() - bodyA.getX()) / distance;
-		float normalY = (bodyB.getY() - bodyA.getY()) / distance;
+		float normalX = (DotB.getX() - DotA.getX()) / distance;
+		float normalY = (DotB.getY() - DotA.getY()) / distance;
 
 		float tangentX = -normalY;
 		float tangentY = normalX;
 
-		float dpTanA = bodyA.getspdX() * tangentX + bodyA.getspdY() * tangentY;
-		float dpTanB = bodyB.getspdX() * tangentX + bodyB.getspdY() * tangentY;
+		float dpTanA = DotA.getspdX() * tangentX + DotA.getspdY() * tangentY;
+		float dpTanB = DotB.getspdX() * tangentX + DotB.getspdY() * tangentY;
 		
-		float dpNormA = bodyA.getspdX() * normalX + bodyA.getspdY() * normalY;
-		float dpNormB = bodyB.getspdX() * normalX + bodyB.getspdY() * normalY;
+		float dpNormA = DotA.getspdX() * normalX + DotA.getspdY() * normalY;
+		float dpNormB = DotB.getspdX() * normalX + DotB.getspdY() * normalY;
 
-		float mA = (dpNormA * (bodyA.getMass() - bodyB.getMass()) + 2.0f * bodyB.getMass() * dpNormB) / (bodyA.getMass() + bodyB.getMass());
-		float mB = (dpNormB * (bodyB.getMass() - bodyA.getMass()) + 2.0f * bodyA.getMass() * dpNormA) / (bodyA.getMass() + bodyB.getMass());
+		float mA = (dpNormA * (DotA.getMass() - DotB.getMass()) + 2.0f * DotB.getMass() * dpNormB) / (DotA.getMass() + DotB.getMass());
+		float mB = (dpNormB * (DotB.getMass() - DotA.getMass()) + 2.0f * DotA.getMass() * dpNormA) / (DotA.getMass() + DotB.getMass());
 
-		if (bodyA.isFixed() || bodyB.isFixed())
+		if (DotA.isFixed() || DotB.isFixed())
 		{
-			if (!bodyA.isFixed())
+			if (!DotA.isFixed())
 			{
-				bodyA.setspdX(tangentX * dpTanA + normalX * mA);
-				bodyA.setspdY(tangentY * dpTanA + normalY * mA);
+				DotA.setspdX(tangentX * dpTanA + normalX * mA);
+				DotA.setspdY(tangentY * dpTanA + normalY * mA);
 			}
 			else
 			{
-				bodyB.setspdX(tangentX * dpTanB + normalX * mB);
-				bodyB.setspdY(tangentY * dpTanB + normalY * mB);
+				DotB.setspdX(tangentX * dpTanB + normalX * mB);
+				DotB.setspdY(tangentY * dpTanB + normalY * mB);
 			}
 		}
 		else
 		{
-			bodyA.setspdX(tangentX * dpTanA + normalX * mA);
-			bodyA.setspdY(tangentY * dpTanA + normalY * mA);
+			DotA.setspdX(tangentX * dpTanA + normalX * mA);
+			DotA.setspdY(tangentY * dpTanA + normalY * mA);
 		
-			bodyB.setspdX(tangentX * dpTanB + normalX * mB);
-			bodyB.setspdY(tangentY * dpTanB + normalY * mB);
+			DotB.setspdX(tangentX * dpTanB + normalX * mB);
+			DotB.setspdY(tangentY * dpTanB + normalY * mB);
 		}
 	
 	}
 
-	void Gravity(Body& bodyA, Body& bodyB)
+	void Gravity(Dot& DotA, Dot& DotB)
 	{
-		float dist = sqrt(pow(bodyA.getX() - bodyB.getX(), 2) + pow(bodyA.getY() - bodyB.getY(), 2));
-		double attr = 9.81 * ((bodyA.getMass() * bodyB.getMass()) / pow(dist, 2));
+		float dist = sqrt(pow(DotA.getX() - DotB.getX(), 2) + pow(DotA.getY() - DotB.getY(), 2));
+		double attr = 9.81 * ((DotA.getMass() * DotB.getMass()) / pow(dist, 2));
 
-		if (sBody != nullptr)
+		if (sDot != nullptr)
 		{
-			if (!sBody->Equals(bodyA))
+			if (!sDot->Equals(DotA))
 			{
-				bodyA.setspdX(bodyA.getspdX() + attr * ((bodyB.getX() - bodyA.getX()) / dist));
-				bodyA.setspdY(bodyA.getspdY() + attr * ((bodyB.getY() - bodyA.getY()) / dist));
+				DotA.setspdX(DotA.getspdX() + attr * ((DotB.getX() - DotA.getX()) / dist));
+				DotA.setspdY(DotA.getspdY() + attr * ((DotB.getY() - DotA.getY()) / dist));
 			}
 
-			if (!sBody->Equals(bodyB))
+			if (!sDot->Equals(DotB))
 			{
-				bodyB.setspdX(bodyB.getspdX() - attr * ((bodyB.getX() - bodyA.getX()) / dist));
-				bodyB.setspdY(bodyB.getspdY() - attr * ((bodyB.getX() - bodyA.getX()) / dist));
+				DotB.setspdX(DotB.getspdX() - attr * ((DotB.getX() - DotA.getX()) / dist));
+				DotB.setspdY(DotB.getspdY() - attr * ((DotB.getX() - DotA.getX()) / dist));
 			}
 		}
 		else
 		{
-			bodyA.setspdX(bodyA.getspdX() + attr * ((bodyB.getX() - bodyA.getX()) / dist));
-			bodyA.setspdY(bodyA.getspdY() + attr * ((bodyB.getY() - bodyA.getY()) / dist));
+			DotA.setspdX(DotA.getspdX() + attr * ((DotB.getX() - DotA.getX()) / dist));
+			DotA.setspdY(DotA.getspdY() + attr * ((DotB.getY() - DotA.getY()) / dist));
 			
-			bodyB.setspdX(bodyB.getspdX() - attr * ((bodyB.getX() - bodyA.getX()) / dist));
-			bodyB.setspdY(bodyB.getspdY() - attr * ((bodyB.getX() - bodyA.getX()) / dist));
+			DotB.setspdX(DotB.getspdX() - attr * ((DotB.getX() - DotA.getX()) / dist));
+			DotB.setspdY(DotB.getspdY() - attr * ((DotB.getX() - DotA.getX()) / dist));
 		}
 
 		if (debugType > 1)
 		{
-			DrawLine(bodyA.getX(), bodyA.getY(), bodyA.getX() + 20 * attr * ((bodyB.getX() - bodyA.getX()) / dist), bodyA.getY() + 20 * attr * ((bodyB.getY() - bodyA.getY()) / dist), Color::Blue);
-			DrawLine(bodyB.getX(), bodyB.getY(), bodyB.getX() - 20 * attr * ((bodyB.getX() - bodyA.getX()) / dist), bodyB.getY() - 20 * attr * ((bodyB.getY() - bodyA.getY()) / dist), Color::Blue);
+			DrawLine(DotA.getX(), DotA.getY(), DotA.getX() + 20 * attr * ((DotB.getX() - DotA.getX()) / dist), DotA.getY() + 20 * attr * ((DotB.getY() - DotA.getY()) / dist), Color::Blue);
+			DrawLine(DotB.getX(), DotB.getY(), DotB.getX() - 20 * attr * ((DotB.getX() - DotA.getX()) / dist), DotB.getY() - 20 * attr * ((DotB.getY() - DotA.getY()) / dist), Color::Blue);
 		}
 	}
 
@@ -281,9 +301,9 @@ public:
 		{
 			if (event.mouseButton.button == Mouse::Left || event.mouseButton.button == Mouse::Right)
 			{
-				if (this->sBody != nullptr)
+				if (this->sDot != nullptr)
 				{
-					this->sBody = nullptr;
+					this->sDot = nullptr;
 				}
 
 				for (int x = 0; x < this->Corpses.size(); x++)
@@ -292,11 +312,11 @@ public:
 					mouseX = mousePosition.x;
 					mouseY = mousePosition.y;
 
-					if (PointBody(mousePosition.x, mousePosition.y, this->Corpses.at(x)))
+					if (PointDot(mousePosition.x, mousePosition.y, this->Corpses.at(x)))
 					{
-						sBody = &this->Corpses.at(x);
-						sBody->setspdX(0);
-						sBody->setspdY(0);
+						sDot = &this->Corpses.at(x);
+						sDot->setspdX(0);
+						sDot->setspdY(0);
 
 						if (event.mouseButton.button == Mouse::Left)
 						{
@@ -315,15 +335,15 @@ public:
 		if (event.type == Event::MouseMoved)
 		{
 			Vector2i mousePosition = Mouse::getPosition(this->renderer);
-			if (sBody != nullptr)
+			if (sDot != nullptr)
 			{
 				mouseX = mousePosition.x;
 				mouseY = mousePosition.y;
 
 				if (sType == 1)
 				{
-					sBody->setX(mousePosition.x);
-					sBody->setY(mousePosition.y);
+					sDot->setX(mousePosition.x);
+					sDot->setY(mousePosition.y);
 				}
 				
 			}
@@ -335,14 +355,14 @@ public:
 			{
 				if (sType == 2)
 				{
-					sBody->setspdX(0.1 * (sBody->getX() - mouseX));
-					sBody->setspdY(0.1 * (sBody->getY() - mouseY));
+					sDot->setspdX(0.1 * (sDot->getX() - mouseX));
+					sDot->setspdY(0.1 * (sDot->getY() - mouseY));
 				}
 
 				sType = 0;
-				if (this->sBody != nullptr)
+				if (this->sDot != nullptr)
 				{
-					this->sBody = nullptr;
+					this->sDot = nullptr;
 				}
 			}
 		}
@@ -364,17 +384,25 @@ public:
 		}
 	}
 
-	bool PointBody(int x, int y, Body body)
+	bool PointDot(int x, int y, Dot Dot)
 	{
-		float dist = sqrt(pow(x - body.getX(), 2) + pow(y - body.getY(), 2));
-		return (dist <= body.getSize());
+		float dist = sqrt(pow(x - Dot.getX(), 2) + pow(y - Dot.getY(), 2));
+		return (dist <= Dot.getSize());
 	}
 
 	void Move()
 	{
 		for (int i = 0; i < this->Corpses.size(); i++)
 		{
-			this->get(i)->Move();
+			this->getDot(i)->Move();
+		}
+
+		for (int x = 0; x < 10; x++)
+		{
+			for (int i = 0; i < this->Constraints.size(); i++)
+			{
+				this->getConstraint(i)->Move();
+			}
 		}
 	}
 
@@ -382,8 +410,16 @@ public:
 	{
 		for (int i = 0; i < this->Corpses.size(); i++)
 		{
-			Body b = *this->get(i);
+			Dot b = *this->getDot(i);
 			DrawCircle(b.getX(),b.getY(),b.getSize(),b.getColor());
+		}
+
+		for (int i = 0; i < this->Constraints.size(); i++)
+		{
+			Constraint c = *this->getConstraint(i);
+			Dot& d1 = *c.getD1();
+			Dot& d2 = *c.getD2();
+			DrawLine(d1.getX(), d1.getY(), d2.getX(), d2.getY(), Color::Green);
 		}
 	}
 
@@ -398,7 +434,7 @@ public:
 
 		for (int i = 0; i < this->Corpses.size(); i++)
 		{
-			Body b = *this->get(i);
+			Dot b = *this->getDot(i);
 			
 			if (debugType > 0)
 			{
@@ -408,8 +444,8 @@ public:
 
 		for (int i = 0; i < Pairs.size(); i++)
 		{
-			Body a = *Pairs.at(i).first;
-			Body b = *Pairs.at(i).second;
+			Dot a = *Pairs.at(i).first;
+			Dot b = *Pairs.at(i).second;
 			
 			float dist = sqrt(pow(a.getX() - b.getX(), 2) + pow(a.getY() - b.getY(), 2));
 
@@ -429,11 +465,11 @@ public:
 			}
 		}
 
-		if (sBody != nullptr)
+		if (sDot != nullptr)
 		{
 			if (sType == 2)
 			{
-				DrawLine(sBody->getX(), sBody->getY(), mouseX, mouseY, Color::Blue);
+				DrawLine(sDot->getX(), sDot->getY(), mouseX, mouseY, Color::Blue);
 			}
 		}
 	}

@@ -16,3 +16,5 @@
 #Errors
 - When right clicke and draw then left click before releasing
 - If two object have same mass, x, y, ... they are considered as the same object
+- Gravity can work only in one direction, see the associations of pair for gravity
+- Crash when references nullptr (non existing objects in the array of dot or contraints)

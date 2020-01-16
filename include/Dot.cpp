@@ -7,7 +7,7 @@ using namespace std;
 using namespace sf;
 
 #define PI 3.14159265
-class Body
+class Dot
 {
 private:
 	float x, y;
@@ -38,27 +38,27 @@ private:
 	}
 
 public:
-	Body()
+	Dot()
 	{
-		Initialize(0.0f, 0.0f, "Default", 0.0f, 0.0f, 0, 0.0f, 0.0f);
+		Initialize(0.0f, 0.0f, "Default", 0.0f, 0.0f, 0, 1.0f, 0.0f);
 	}
 
-	Body(float x, float y,string name, int mass, float size)
+	Dot(float x, float y,string name, int mass, float size)
 	{
 		Initialize(x, y, name, 0.0f, 0.0f, mass, size, 0.0f);
 	}
 
-	Body(float x, float y, string name, int mass, float size, float spdX, float spdY)
+	Dot(float x, float y, string name, int mass, float size, float spdX, float spdY)
 	{
 		Initialize(x, y, name, spdX, spdY, mass, size, 0.0f);
 	}
 
-	Body(float x, float y, string name, int mass, float size, float spdX, float spdY, float friction)
+	Dot(float x, float y, string name, int mass, float size, float spdX, float spdY, float friction)
 	{
 		Initialize(x, y, name, spdX, spdY, mass, size, friction);
 	}
 
-	Body(float x, float y, string name, int mass, float size, float spdX, float spdY, float friction, bool fixed, bool etherial, Color color=Color::White)
+	Dot(float x, float y, string name, int mass, float size, float spdX, float spdY, float friction, bool fixed, bool etherial, Color color=Color::White)
 	{
 		Initialize(x, y, name, spdX, spdY, mass, size, friction, fixed, etherial, color);
 	}
@@ -87,6 +87,13 @@ public:
 
 			this->x = this->x + this->spdX;
 			this->y = this->y + this->spdY;
+
+			//TEMPORAIRE
+			if (this->y + this->size > 600)
+			{
+				this->y = 600 - this->size;
+				this->spdY = 0.0f;
+			}
 		}
 	}
 
@@ -111,5 +118,5 @@ public:
 	bool isFixed(){ return this->fixed; }
 	bool isEtherial() { return this->etherial; }
 
-	bool Equals(Body b) { return (this->mass == b.mass && this->x == b.x && this->y == b.y && this->spdX == b.spdX && this->spdY == b.spdY); }
+	bool Equals(Dot b) { return (this->mass == b.mass && this->x == b.x && this->y == b.y && this->spdX == b.spdX && this->spdY == b.spdY); }
 };
