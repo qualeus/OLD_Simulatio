@@ -87,13 +87,7 @@ public:
 
 			this->x = this->x + this->spdX;
 			this->y = this->y + this->spdY;
-
-			//TEMPORAIRE
-			if (this->y + this->size > 600)
-			{
-				this->y = 600 - this->size;
-				this->spdY = 0.0f;
-			}
+			
 		}
 	}
 

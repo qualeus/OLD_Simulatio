@@ -15,7 +15,7 @@ private:
 	float length;
 	Color color;
 
-	void Initialize(Dot* d1, Dot* d2, float stiffness, Color color=Color::White)
+	void Initialize(Dot* d1, Dot* d2, float stiffness, float length = 0.0f, Color color=Color::White)
 	{
 		this->d1 = d1;
 		this->d2 = d2;
@@ -31,7 +31,15 @@ private:
 		float dx = p2.getX() - p1.getX();
 		float dy = p2.getY() - p1.getY();
 
-		this->length = sqrt(pow(dx, 2) + pow(dy, 2));
+		if (length == 0.0f)
+		{
+			this->length = sqrt(pow(dx, 2) + pow(dy, 2));
+		}
+		else
+		{
+			this->length = length;
+		}
+		
 	}
 public:
 	Constraint(Dot* d1, Dot* d2)
@@ -46,7 +54,12 @@ public:
 
 	Constraint(Dot* d1, Dot* d2, float stiffness, Color color)
 	{
-		Initialize(d1, d2, stiffness, color);
+		Initialize(d1, d2, stiffness, 0.0f, color);
+	}
+
+	Constraint(Dot* d1, Dot* d2, float stiffness, float length)
+	{
+		Initialize(d1, d2, stiffness, length);
 	}
 
 	void Move()
@@ -66,16 +79,26 @@ public:
 		float m2 = p1.getMass() / (p1.getMass() + p2.getMass());
 		float m1 = p2.getMass() / (p1.getMass() + p2.getMass());
 
-		if (!p1.isFixed())
+		if (!p1.isFixed() && !p2.isFixed())
 		{
 			p1.setX(p1.getX() - offsetX * m1);
 			p1.setY(p1.getY() - offsetY * m1);
-		}
-
-		if (!p2.isFixed())
-		{
 			p2.setX(p2.getX() + offsetX * m2);
 			p2.setY(p2.getY() + offsetY * m2);
+		}
+		else
+		{
+			if (!p1.isFixed())
+			{
+				p1.setX(p1.getX() - offsetX * (m1 + m2));
+				p1.setY(p1.getY() - offsetY * (m1 + m2));
+			}
+
+			if (!p2.isFixed())
+			{
+				p2.setX(p2.getX() + offsetX * (m1 + m2));
+				p2.setY(p2.getY() + offsetY * (m1 + m2));
+			}
 		}
 	}
 

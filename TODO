@@ -18,3 +18,7 @@
 - If two object have same mass, x, y, ... they are considered as the same object
 - Gravity can work only in one direction, see the associations of pair for gravity
 - Crash when references nullptr (non existing objects in the array of dot or contraints)
+- Stiffness can't be under 0.3f
+- Check for a constraint/struc if a dot from itself is the selected one
+- When two elements are created at the same place it can create errors (same with elements placed over another)
+- crash when a dot with a constraint is pushed in a fixed one
