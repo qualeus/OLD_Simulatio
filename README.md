@@ -74,7 +74,7 @@ It should contain these files:
     └───cmake
         └───SFML
 ```
-You can now run teh build.bat file and press 5 to compile and run the demo code.
+You can now run the build.bat file and press 5 to compile and run the demo code.
 
 ## Built With
 

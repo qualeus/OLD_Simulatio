@@ -8,44 +8,23 @@ using namespace sf;
 int main()
 {
 
-	int stiffness = 1.0f;
-	int xSize = 13;
-	int ySize = 13;
+	
+	System BoxSystem("Box System", false, 0, 0.0f, 1000, 800);
 
-	System TextileSystem("Box System", false, 0, 0.3f, 1000, 800);
+	BoxSystem.addDot(Dot(200, 200, "A", 10, 10, 0, 0, 0.05));
+	BoxSystem.addDot(Dot(200, 300, "A", 10, 10, 0, 0, 0.05));
+	BoxSystem.addDot(Dot(300, 300, "A", 10, 10, 0, 0, 0.05));
+	BoxSystem.addDot(Dot(300, 200, "A", 10, 10, 0, 0, 0.05));
 
-	for (int x=0; x < xSize; x++)
-	{
-		for (int y=0; y < ySize; y++)
-		{
-			if (y == 0)
-			{
-				TextileSystem.addDot(Dot(300 + 30*x, 50 + 30*y, "a", 10, 10, 0, 0, 0.05, true, true, Color::Red));
-			}
-			else
-			{
-				TextileSystem.addDot(Dot(300 + 30*x, 50 + 30*y, "p", 1, 5, 0, 0, 0.05, false, true, Color::White));
-			}
-		}
-	}
+	double stiffness = 10.0f;
 
-	for (int x=0; x < xSize; x++)
-	{
-		for (int y=0; y < ySize; y++)
-		{
-			if (x < xSize -1)
-			{
-				TextileSystem.addConstraint(Constraint(TextileSystem.getDot(xSize*y + x),TextileSystem.getDot(xSize*y + x+1),stiffness));
-			}
+	BoxSystem.addConstraint(Constraint(BoxSystem.getDot(0),BoxSystem.getDot(1),stiffness));
+	BoxSystem.addConstraint(Constraint(BoxSystem.getDot(1),BoxSystem.getDot(2),stiffness));
+	BoxSystem.addConstraint(Constraint(BoxSystem.getDot(2),BoxSystem.getDot(3),stiffness));
+	BoxSystem.addConstraint(Constraint(BoxSystem.getDot(3),BoxSystem.getDot(0),stiffness));
 
-			if (y < ySize -1)
-			{
-				TextileSystem.addConstraint(Constraint(TextileSystem.getDot(xSize*y + x),TextileSystem.getDot(xSize*(y+1)+x),stiffness));
-			}			
-		}
-	}
+	BoxSystem.addConstraint(Constraint(BoxSystem.getDot(2),BoxSystem.getDot(0),stiffness));
 
-
-	TextileSystem.Render();
+	BoxSystem.Render();
 
 }
