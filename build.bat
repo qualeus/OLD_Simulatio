@@ -1,5 +1,6 @@
 @echo off
 color 0a
+set sfmlPath=D:\Librairies\C\SFML-2.5.1-Static\SFML
 
 :menu
 cls
@@ -25,16 +26,16 @@ if %user% == 8 exit
 :cDebug
 cls
 echo Compiling for debug...
-g++ -o bin/debug/*.o -c source/*.cpp -std=c++14 -Werror -Wfatal-errors -DSFML_STATIC -I D:\Librairies\C\SFML-2.5.1-Static\SFML\include
-g++ bin/debug/*.o -o bin/debug/Debug.exe -L D:\Librairies\C\SFML-2.5.1-Static\SFML\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32 -lfreetype
+g++ -o bin/debug/*.o -c source/*.cpp -std=c++14 -Werror -Wfatal-errors -DSFML_STATIC -I %sfmlPath%\include
+g++ bin/debug/*.o -o bin/debug/Debug.exe -L %sfmlPath%\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32 -lfreetype
 echo Done && pause >nul
 goto menu
 
 :crDebug
 cls
 echo Compiling for debug...
-g++ -o bin/debug/*.o -c source/*.cpp -std=c++14 -Werror -Wfatal-errors -DSFML_STATIC -I D:\Librairies\C\SFML-2.5.1-Static\SFML\include
-g++ bin/debug/*.o -o bin/debug/Debug.exe -L D:\Librairies\C\SFML-2.5.1-Static\SFML\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32 -lfreetype
+g++ -o bin/debug/*.o -c source/*.cpp -std=c++14 -Werror -Wfatal-errors -DSFML_STATIC -I %sfmlPath%\include
+g++ bin/debug/*.o -o bin/debug/Debug.exe -L %sfmlPath%\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32 -lfreetype
 echo Done
 "bin/debug/Debug.exe"
 goto menu
@@ -47,16 +48,16 @@ goto menu
 :cRelease
 cls
 echo Compiling for release...
-g++ -o bin/release/*.o -c source/*.cpp -std=c++14 -Werror -Wfatal-errors -DSFML_STATIC -I D:\Librairies\C\SFML-2.5.1-Static\SFML\include -O3 -s -fexpensive-optimizations
-g++ bin/release/*.o -o bin/release/Release.exe -L D:\Librairies\C\SFML-2.5.1-Static\SFML\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32 -lfreetype
+g++ -o bin/release/*.o -c source/*.cpp -std=c++14 -Werror -Wfatal-errors -DSFML_STATIC -I %sfmlPath%\include -O3 -s -fexpensive-optimizations
+g++ bin/release/*.o -o bin/release/Release.exe -L %sfmlPath%/lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32 -lfreetype
 echo Done && pause >nul
 goto menu
 
 :crRelease
 cls
 echo Compiling for release...
-g++ -o bin/release/*.o -c source/*.cpp -std=c++14 -Werror -Wfatal-errors -DSFML_STATIC -I D:\Librairies\C\SFML-2.5.1-Static\SFML\include -O3 -s -fexpensive-optimizations
-g++ bin/release/*.o -o bin/release/Release.exe -L D:\Librairies\C\SFML-2.5.1-Static\SFML\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32 -lfreetype
+g++ -o bin/release/*.o -c source/*.cpp -std=c++14 -Werror -Wfatal-errors -DSFML_STATIC -I %sfmlPath%\include -O3 -s -fexpensive-optimizations
+g++ bin/release/*.o -o bin/release/Release.exe -L %sfmlPath%\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32 -lfreetype
 echo Done
 "bin/release/Release.exe"
 goto menu

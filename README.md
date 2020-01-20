@@ -29,77 +29,68 @@ compilation terminated.
 ```
 
 To install the SFML library:
-Go to the https://www.sfml-dev.org/download/sfml/2.5.1/index-fr.php website and choose the download link.
+Go to the https://www.sfml-dev.org/download/sfml/2.5.1/index-fr.php website and choose a download link.
+
+If you want to be sure it will work, you can compile yourself the library from the source-code in the page or at https://github.com/SFML/SFML. Then extract it in a new folder.
+
+You can install CMake to facilitate the process with a graphical interface (https://cmake.org/download/), or you can just use the command line.
+
+Open CMake and put the path to the extracted SFML folder into the "Where is the source code" field. Create a new folder to put your compiled SFML and put it's path into the "Where to build the binaries" field.
+
+Click on the "Configure" button and select your c/c++ compiler (if you installed MinGW, select MinGW Makefiles) and click on finish.
+
+To compile SFML in static (all in once, don't need the .dll for the .exe to work) uncheck "BUILD_SHARED_LIBS" and check "SFML_USE_STATIC_STD_LIBS" and edit the "CMake_INSTALL_PREFIX" to be the path of a new folder with the final library files we will use. You can then click the "Configure" button once more to check there is no problem, then click on the "Generate" button.
+
+Then open a new command and go to the folder where SFML was built. You can now run the following command:
+```
+mingw32-make install
+```
+If there is no problem during this process, the SFML library should be working.
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+Now, you can download or clone this git where you want.
 
 ```
-Give the example
+git clone https://github.com/mlhoutel/Physics.git
 ```
+or just click on the download button and extract the file where you want.
 
-And repeat
-
+If you want to use the automatic compilation by command, open the "build.bat" file in a text editor like Notepad and edit this line to match your SMFL compilated folder:
 ```
-until finished
+sfmlPath=Path\to\SFML\SFML-2.5.1-Static\SFML
 ```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
+It should contain these files:
 ```
-Give an example
+├───bin
+├───include
+│   └───SFML
+│       ├───Audio
+│       ├───Graphics
+│       ├───Network
+│       ├───System
+│       └───Window
+└───lib
+    └───cmake
+        └───SFML
 ```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
+You can now run teh build.bat file and press 5 to compile and run the demo code.
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [SFML](https://www.sfml-dev.org/tutorials/2.5/) - The graphical library
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+Please read [CONTRIBUTING.md]() for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **LHOUTELLIER Maël** - *Initial work* - [mlhoutel](https://github.com/mlhoutel)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
 
