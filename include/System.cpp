@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 #include <SFML/Graphics.hpp>
 #include <functional>
 #include <iostream>
@@ -22,8 +23,10 @@ private:
 	vector<pair<Dot*, Dot*>> Pairs;
 	
 	Dot* sDot = nullptr;
+	Dot saveDot = Dot();
+
 	int sType = 0;
-	int debugType = 1;
+	int debugType = 0;
 	float mouseX;
 	float mouseY;
 
@@ -170,23 +173,7 @@ public:
 		float overlap = 0.5f * (distance - DotA.getSize() - DotB.getSize());
 		
 		
-		if (sDot != nullptr)
-		{
-			
-			if (!sDot->Equals(DotA) && !DotA.isFixed())
-			{
-				DotA.setX(DotA.getX() - overlap * (DotA.getX() - DotB.getX()) / distance);
-				DotA.setY(DotA.getY() - overlap * (DotA.getY() - DotB.getY()) / distance);
-			}
-
-			if (!sDot->Equals(DotB) && !DotB.isFixed())
-			{
-				DotB.setX(DotB.getX() + overlap * (DotA.getX() - DotB.getX()) / distance);
-				DotB.setY(DotB.getY() + overlap * (DotA.getY() - DotB.getY()) / distance);
-			}
-			
-		}
-		else if (DotA.isFixed() || DotB.isFixed())
+		if (DotA.isFixed() || DotB.isFixed())
 		{
 			if (DotA.isFixed() && DotB.isFixed())
 			{
@@ -265,25 +252,14 @@ public:
 		float dist = sqrt(pow(DotA.getX() - DotB.getX(), 2) + pow(DotA.getY() - DotB.getY(), 2));
 		double attr = 9.81 * ((DotA.getMass() * DotB.getMass()) / pow(dist, 2));
 
-		if (sDot != nullptr)
-		{
-			if (!sDot->Equals(DotA))
-			{
-				DotA.setspdX(DotA.getspdX() + attr * ((DotB.getX() - DotA.getX()) / dist));
-				DotA.setspdY(DotA.getspdY() + attr * ((DotB.getY() - DotA.getY()) / dist));
-			}
-
-			if (!sDot->Equals(DotB))
-			{
-				DotB.setspdX(DotB.getspdX() - attr * ((DotB.getX() - DotA.getX()) / dist));
-				DotB.setspdY(DotB.getspdY() - attr * ((DotB.getX() - DotA.getX()) / dist));
-			}
-		}
-		else
+		if (!DotA.isFixed())
 		{
 			DotA.setspdX(DotA.getspdX() + attr * ((DotB.getX() - DotA.getX()) / dist));
 			DotA.setspdY(DotA.getspdY() + attr * ((DotB.getY() - DotA.getY()) / dist));
-			
+		}
+		
+		if (!DotB.isFixed())
+		{
 			DotB.setspdX(DotB.getspdX() - attr * ((DotB.getX() - DotA.getX()) / dist));
 			DotB.setspdY(DotB.getspdY() - attr * ((DotB.getX() - DotA.getX()) / dist));
 		}
@@ -303,6 +279,8 @@ public:
 			{
 				if (this->sDot != nullptr)
 				{
+					sDot->setFixed(saveDot.isFixed());
+					this->saveDot = Dot();
 					this->sDot = nullptr;
 				}
 
@@ -315,6 +293,9 @@ public:
 					if (PointDot(mousePosition.x, mousePosition.y, this->Corpses.at(x)))
 					{
 						sDot = &this->Corpses.at(x);
+						saveDot = *sDot;
+
+						sDot->setFixed(true);
 						sDot->setspdX(0);
 						sDot->setspdY(0);
 
@@ -362,6 +343,8 @@ public:
 				sType = 0;
 				if (this->sDot != nullptr)
 				{
+					sDot->setFixed(saveDot.isFixed());
+					this->saveDot = Dot();
 					this->sDot = nullptr;
 				}
 			}
@@ -379,7 +362,6 @@ public:
 				{
 					this->debugType = 0;
 				}
-				
 			}
 		}
 	}
@@ -537,5 +519,13 @@ public:
 			text.setFillColor(color);
 			this->renderer.draw(text);
 		}		
+	}
+
+	template <typename T>
+	std::string to_string(T value)
+	{
+	    std::ostringstream oss;
+	    oss << value;
+	    return oss.str();
 	}
 };

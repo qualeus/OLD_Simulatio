@@ -99,8 +99,9 @@ public:
 				p2.setX(p2.getX() + offsetX * (m1 + m2));
 				p2.setY(p2.getY() + offsetY * (m1 + m2));
 			}
-		}
+		}	
 	}
+	
 
 	Dot* getD1() { return this->d1; }
 	void setD1(Dot* d1) { this->d1 = d1; }

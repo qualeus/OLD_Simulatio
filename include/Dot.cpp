@@ -1,17 +1,11 @@
-#include <string>
-#include <SFML/Graphics.hpp>
-#include <functional>
-#include <iostream>
+#include "Body.cpp"
 
 using namespace std;
 using namespace sf;
 
-#define PI 3.14159265
-class Dot
+class Dot : public Body
 {
 private:
-	float x, y;
-	string name;
 	float spdX, spdY;
 	int mass;
 	float friction;
@@ -19,48 +13,61 @@ private:
 	float size;
 	Color color;
 
-	bool fixed;
-	bool etherial;
+public:
 
-	void Initialize(float x, float y, string name, float spdX, float spdY, int mass, float size, float friction, bool fixed=false, bool etherial=false, Color color=Color::White)
+	Dot()
+	:Body(0.0f, 0.0f)
 	{
-		this->x = x;
-		this->y = y;
-		this->name = name;
+		this->spdX = 0.0f;
+		this->spdY = 0.0f;
+		this->mass = 0;
+		this->size = 1.0f;
+		this->friction = 0.0f;
+		this->color = Color::White;
+	}
+
+	Dot(float x, float y,string name, int mass, float size)
+	:Body(x, y, name)
+	{
+		this->spdX = 0.0f;
+		this->spdY = 0.0f;
+		this->mass = mass;
+		this->size = size;
+		this->friction = 0.0f;
+		this->color = Color::White;
+	}
+
+	Dot(float x, float y, string name, int mass, float size, float spdX, float spdY)
+	:Body(x, y, name)
+	{
+		this->spdX = spdX;
+		this->spdY = spdY;
+		this->mass = mass;
+		this->size = size;
+		this->friction = 0.0f;
+		this->color = Color::White;
+	}
+
+	Dot(float x, float y, string name, int mass, float size, float spdX, float spdY, float friction)
+	:Body(x, y, name)
+	{
 		this->spdX = spdX;
 		this->spdY = spdY;
 		this->mass = mass;
 		this->size = size;
 		this->friction = friction;
-		this->fixed = fixed;
-		this->etherial = etherial;
-		this->color = color;
-	}
-
-public:
-	Dot()
-	{
-		Initialize(0.0f, 0.0f, "Default", 0.0f, 0.0f, 0, 1.0f, 0.0f);
-	}
-
-	Dot(float x, float y,string name, int mass, float size)
-	{
-		Initialize(x, y, name, 0.0f, 0.0f, mass, size, 0.0f);
-	}
-
-	Dot(float x, float y, string name, int mass, float size, float spdX, float spdY)
-	{
-		Initialize(x, y, name, spdX, spdY, mass, size, 0.0f);
-	}
-
-	Dot(float x, float y, string name, int mass, float size, float spdX, float spdY, float friction)
-	{
-		Initialize(x, y, name, spdX, spdY, mass, size, friction);
+		this->color = Color::White;
 	}
 
 	Dot(float x, float y, string name, int mass, float size, float spdX, float spdY, float friction, bool fixed, bool etherial, Color color=Color::White)
+	:Body(x, y, name, fixed, etherial)
 	{
-		Initialize(x, y, name, spdX, spdY, mass, size, friction, fixed, etherial, color);
+		this->spdX = spdX;
+		this->spdY = spdY;
+		this->mass = mass;
+		this->size = size;
+		this->friction = friction;
+		this->color = color;
 	}
 
 	void Move()
@@ -110,7 +117,9 @@ public:
 	void setColor(Color color) { this->color = color; }
 
 	bool isFixed(){ return this->fixed; }
+	void setFixed(bool fixed){ this->fixed = fixed; }
 	bool isEtherial() { return this->etherial; }
+	void setEtherial(bool etherial){ this->etherial = etherial; }
 
 	bool Equals(Dot b) { return (this->mass == b.mass && this->x == b.x && this->y == b.y && this->spdX == b.spdX && this->spdY == b.spdY); }
 };

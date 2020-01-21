@@ -7,24 +7,59 @@ using namespace sf;
 
 int main()
 {
+	/* ---------------------------------------------------------------------------------------------------- */
+/*                                            Capacity System                                           */
+/* ---------------------------------------------------------------------------------------------------- */
+/*
+System CapacitySystem("Capacity System", false, 0, 0, 1000, 800);
 
+for (int i= 0; i<100; i++)
+{
+double Mass = 10 + rand() % 50;
+CapacitySystem.addDot(Dot(rand() % 1000, rand() % 800, "RandBody", Mass * Mass, Mass, 0, 0, 0.05));
+}
+CapacitySystem.Render();
+*/
+/* ---------------------------------------------------------------------------------------------------- */
+/*                                             Textile System                                           */
+/* ---------------------------------------------------------------------------------------------------- */
 	
-	System BoxSystem("Box System", false, 0, 0.0f, 1000, 800);
+	int stiffness = 1.0f;
+	int xSize = 5;
+	int ySize = 5;
 
-	BoxSystem.addDot(Dot(200, 200, "A", 10, 10, 0, 0, 0.05));
-	BoxSystem.addDot(Dot(200, 300, "A", 10, 10, 0, 0, 0.05));
-	BoxSystem.addDot(Dot(300, 300, "A", 10, 10, 0, 0, 0.05));
-	BoxSystem.addDot(Dot(300, 200, "A", 10, 10, 0, 0, 0.05));
+	System TextileSystem("Box System", false, 0, 0.3f, 1000, 800);
 
-	double stiffness = 10.0f;
+	for (int x=0; x < xSize; x++)
+	{
+		for (int y=0; y < ySize; y++)
+		{
+			if (y == 0)
+			{
+				TextileSystem.addDot(Dot(300 + 30*x, 50 + 30*y, "a", 10, 10, 0, 0, 0.05, true, true, Color::Red));
+			}
+			else
+			{
+				TextileSystem.addDot(Dot(300 + 30*x, 50 + 30*y, "p", 1, 5, 0, 0, 0.05, false, true, Color::White));
+			}
+		}
+	}
 
-	BoxSystem.addConstraint(Constraint(BoxSystem.getDot(0),BoxSystem.getDot(1),stiffness));
-	BoxSystem.addConstraint(Constraint(BoxSystem.getDot(1),BoxSystem.getDot(2),stiffness));
-	BoxSystem.addConstraint(Constraint(BoxSystem.getDot(2),BoxSystem.getDot(3),stiffness));
-	BoxSystem.addConstraint(Constraint(BoxSystem.getDot(3),BoxSystem.getDot(0),stiffness));
+	for (int x=0; x < xSize; x++)
+	{
+		for (int y=0; y < ySize; y++)
+		{
+			if (x < xSize -1)
+			{
+				TextileSystem.addConstraint(Constraint(TextileSystem.getDot(xSize*y + x),TextileSystem.getDot(xSize*y + x+1),stiffness));
+			}
 
-	BoxSystem.addConstraint(Constraint(BoxSystem.getDot(2),BoxSystem.getDot(0),stiffness));
+			if (y < ySize -1)
+			{
+				TextileSystem.addConstraint(Constraint(TextileSystem.getDot(xSize*y + x),TextileSystem.getDot(xSize*(y+1)+x),stiffness));
+			}			
+		}
+	}
 
-	BoxSystem.Render();
-
+	TextileSystem.Render();
 }

@@ -1,6 +1,6 @@
 @echo off
 color 0a
-set sfmlPath=D:\Librairies\C\SFML-2.5.1-Static\SFML
+set sfmlPath=P:\Physics\SFML\SFML
 
 :menu
 cls
