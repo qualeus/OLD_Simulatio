@@ -4,8 +4,9 @@
 #include <functional>
 #include <iostream>
 #include <math.h>
-#include "Dot.cpp"
-#include "Constraint.cpp"
+
+#include "Body/Dot.cpp"
+#include "Constraint/Constraint.cpp"
 
 using namespace std;
 using namespace sf;
@@ -16,38 +17,56 @@ private:
 	string name;
 	float forceX;
 	float forceY;
+	bool gravity;
+
 	vector<Dot> Corpses;
 	vector<Constraint> Constraints;
-
-	RenderWindow renderer;
 	vector<pair<Dot*, Dot*>> Pairs;
 	
 	Dot* sDot = nullptr;
 	Dot saveDot = Dot();
 
-	int sType = 0;
-	int debugType = 0;
+	int sType;
+	int debugType;
 	float mouseX;
 	float mouseY;
 
+	RenderWindow renderer;
+	View view;
 	Clock clock;
 	Time frameTime;
 
-	bool gravity;
+	float camZoom;
+	float camX;
+	float camY;
+
 
 	void Initialize(string name, bool gravity, float forceX, float forceY, int screenX, int screenY)
 	{
+		//CONFIG
 		this->name = name;
 		this->gravity = gravity;
 		this->forceX = forceX;
 		this->forceY = forceY;
-
-		//Defaults
 		this->Corpses = vector<Dot>();
 
+		//DEBUG
+		this->sType = 0;
+		this->debugType = 0;
+
+		//CAMERA
+		this->camZoom = 1.0f;
+		this->camX = 0.0f;
+		this->camY = 0.0f;
+
+		this->view.reset(FloatRect(this->camX, this->camY, this->camX + screenX * this->camZoom, this->camY + screenY * this->camZoom));
+
+		//RENDERER
 		ContextSettings settings;
 		settings.antialiasingLevel = 8;
+		
 		this->renderer.create(VideoMode(screenX, screenY), this->name, Style::Default, settings);
+		this->renderer.setView(this->view);
 		this->renderer.setFramerateLimit(60);
 	}
 
@@ -286,11 +305,7 @@ public:
 
 				for (int x = 0; x < this->Corpses.size(); x++)
 				{
-					Vector2i mousePosition = Mouse::getPosition(this->renderer);
-					mouseX = mousePosition.x;
-					mouseY = mousePosition.y;
-
-					if (PointDot(mousePosition.x, mousePosition.y, this->Corpses.at(x)))
+					if (PointDot(this->mouseX, this->mouseY, this->Corpses.at(x)))
 					{
 						sDot = &this->Corpses.at(x);
 						saveDot = *sDot;
@@ -316,15 +331,15 @@ public:
 		if (event.type == Event::MouseMoved)
 		{
 			Vector2i mousePosition = Mouse::getPosition(this->renderer);
+			this->mouseX = mousePosition.x + this->camX;
+			this->mouseY = mousePosition.y + this->camY;
+
 			if (sDot != nullptr)
 			{
-				mouseX = mousePosition.x;
-				mouseY = mousePosition.y;
-
 				if (sType == 1)
 				{
-					sDot->setX(mousePosition.x);
-					sDot->setY(mousePosition.y);
+					sDot->setX(this->mouseX);
+					sDot->setY(this->mouseY);
 				}
 				
 			}
@@ -336,8 +351,8 @@ public:
 			{
 				if (sType == 2)
 				{
-					sDot->setspdX(0.1 * (sDot->getX() - mouseX));
-					sDot->setspdY(0.1 * (sDot->getY() - mouseY));
+					sDot->setspdX(0.1 * (sDot->getX() - this->mouseX));
+					sDot->setspdY(0.1 * (sDot->getY() - this->mouseY));
 				}
 
 				sType = 0;
@@ -362,6 +377,23 @@ public:
 				{
 					this->debugType = 0;
 				}
+			}
+
+			if (event.key.code == Keyboard::A)
+			{
+				camUpdate(-10,0);
+			}
+			if (event.key.code == Keyboard::Z)
+			{
+				camUpdate(0,-10);
+			}
+			if (event.key.code == Keyboard::E)
+			{
+				camUpdate(10,0);
+			}
+			if (event.key.code == Keyboard::S)
+			{
+				camUpdate(0,10);
 			}
 		}
 	}
@@ -410,9 +442,12 @@ public:
 		
 		this->frameTime = clock.restart();
 		int framerate = 1 / (frameTime.asMilliseconds() * 0.001);
-		DrawText(to_string(framerate), 0, 0, 30, Color::Yellow);
+		DrawText(to_string(framerate), camX + 0, camY + 0, 30, Color::Yellow);
+
+		DrawText("x: " + to_string(this->camX), camX + 0, camY + 30, 30, Color::Yellow);
+		DrawText("y: " + to_string(this->camY), camX + 0, camY + 60, 30, Color::Yellow);
 		
-		DrawText("[D] Debug: " + to_string(debugType),this->renderer.getSize().x - 150, 0, 24, Color::Yellow);
+		DrawText("[D] Debug: " + to_string(debugType),camX + this->renderer.getSize().x - 150, camY + 0, 24, Color::Yellow);
 
 		for (int i = 0; i < this->Corpses.size(); i++)
 		{
@@ -527,5 +562,16 @@ public:
 	    std::ostringstream oss;
 	    oss << value;
 	    return oss.str();
+	}
+
+	void camUpdate(float X, float Y, float Z = 1)
+	{
+		this->camX = this->camX + X;
+		this->camY = this->camY + Y;
+		this->camZoom = this->camZoom + Z;
+
+		this->view.move(X, Y);
+		//this->view.zoom(this->camZoom);
+		this->renderer.setView(this->view);
 	}
 };
