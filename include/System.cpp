@@ -28,6 +28,7 @@ private:
 
 	int sType;
 	int debugType;
+	bool paused;
 	float mouseX;
 	float mouseY;
 
@@ -53,13 +54,14 @@ private:
 		//DEBUG
 		this->sType = 0;
 		this->debugType = 0;
+		this->paused = false;
 
 		//CAMERA
-		this->camZoom = 1.0f;
+		this->camZoom = 100.0f;
 		this->camX = 0.0f;
 		this->camY = 0.0f;
 
-		this->view.reset(FloatRect(this->camX, this->camY, this->camX + screenX * this->camZoom, this->camY + screenY * this->camZoom));
+		this->view.reset(FloatRect(this->camX, this->camY, this->camX + screenX, this->camY + screenY));
 
 		//RENDERER
 		ContextSettings settings;
@@ -221,7 +223,6 @@ public:
 			DotB.setX(DotB.getX() + overlap * (DotA.getX() - DotB.getX()) / distance);
 			DotB.setY(DotB.getY() + overlap * (DotA.getY() - DotB.getY()) / distance);
 		}
-		
 		
 		distanceX = DotA.getX() - DotB.getX();
 		distanceY = DotA.getY() - DotB.getY();
@@ -395,6 +396,22 @@ public:
 			{
 				camUpdate(0,10);
 			}
+
+			if (event.key.code == Keyboard::W)
+			{
+				camUpdate(0, 10, 0.9f);
+			}
+
+			if (event.key.code == Keyboard::X)
+			{
+				camUpdate(0, 0, 1.1f);
+			}
+
+			if (event.key.code == Keyboard::Space)
+			{
+				this->paused = !this->paused;
+			}
+
 		}
 	}
 
@@ -406,16 +423,21 @@ public:
 
 	void Move()
 	{
-		for (int i = 0; i < this->Corpses.size(); i++)
+		if (!this->paused)
 		{
-			this->getDot(i)->Move();
-		}
-
-		for (int x = 0; x < 10; x++)
-		{
-			for (int i = 0; i < this->Constraints.size(); i++)
+			this->Forces();
+			
+			for (int i = 0; i < this->Corpses.size(); i++)
 			{
-				this->getConstraint(i)->Move();
+				this->getDot(i)->Move();
+			}
+
+			for (int x = 0; x < 10; x++)
+			{
+				for (int i = 0; i < this->Constraints.size(); i++)
+				{
+					this->getConstraint(i)->Move();
+				}
 			}
 		}
 	}
@@ -444,8 +466,10 @@ public:
 		int framerate = 1 / (frameTime.asMilliseconds() * 0.001);
 		DrawText(to_string(framerate), camX + 0, camY + 0, 30, Color::Yellow);
 
-		DrawText("x: " + to_string(this->camX), camX + 0, camY + 30, 30, Color::Yellow);
-		DrawText("y: " + to_string(this->camY), camX + 0, camY + 60, 30, Color::Yellow);
+		DrawText("x: " + to_string(this->camX), camX + 0, camY + 30, 20, Color::Yellow);
+		DrawText("y: " + to_string(this->camY), camX + 0, camY + 50, 20, Color::Yellow);
+		DrawText("z: " + to_string(this->camZoom), camX + 0, camY + 70, 20, Color::Yellow);
+		DrawText("paused: " + to_string(this->paused), camX + 0, camY + 90, 20, Color::Yellow);
 		
 		DrawText("[D] Debug: " + to_string(debugType),camX + this->renderer.getSize().x - 150, camY + 0, 24, Color::Yellow);
 
@@ -512,7 +536,6 @@ public:
 				}
 			}
 
-			this->Forces();
 			this->Move();
 			this->Draw();
 			this->Debug();
@@ -564,14 +587,14 @@ public:
 	    return oss.str();
 	}
 
-	void camUpdate(float X, float Y, float Z = 1)
+	void camUpdate(float X, float Y, float Z = 1.0f)
 	{
 		this->camX = this->camX + X;
 		this->camY = this->camY + Y;
-		this->camZoom = this->camZoom + Z;
+		this->camZoom = this->camZoom * Z;
 
 		this->view.move(X, Y);
-		//this->view.zoom(this->camZoom);
+		this->view.zoom(Z);
 		this->renderer.setView(this->view);
 	}
 };

@@ -8,16 +8,14 @@ using namespace sf;
 int main()
 {
 
-	/* ---------------------------------------------------------------------------------------------------- */
-	/*                                            Capacity System                                           */
-	/* ---------------------------------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------------- */
+/*                                            Gravity System                                            */
+/* ---------------------------------------------------------------------------------------------------- */
 
-	System CapacitySystem("Capacity System", false, 0, 0, 1000, 800);
+System GravitySystem("Gravity System", true, 0, 0, 1000, 800);
 
-	for (int i= 0; i<100; i++)
-	{
-		double Mass = 10 + rand() % 50;
-		CapacitySystem.addDot(Dot(rand() % 1000, rand() % 800, "RandBody", Mass * Mass, Mass, 0, 0, 0.05));
-	}
-	CapacitySystem.Render();
+GravitySystem.addDot(Dot(500, 160, "def", 5, 10, 15, 0, 0));
+GravitySystem.addDot(Dot(500, 100, "def", 5, 20, 10, 0, 0));
+GravitySystem.addDot(Dot(500, 400, "def", 1000, 50, 0, 0, 0, true, true, Color::Blue));
+GravitySystem.Render();
 }
