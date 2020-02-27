@@ -1,21 +1,26 @@
 #include <SFML/Graphics.hpp>
-#include "../include/System.cpp"
 #include <iostream> 
 #include <math.h>
 
+
 using namespace sf;
+using namespace std;
+
+#include "../include/System/Renderer.cpp"
+
 
 int main()
 {
+	Circle circle(400.0f, 300.0f, 10.0f, 5.0f);
+	Renderer renderer(true, 1.0f, 0.0f);
+	renderer.addCorpse(circle);
+	renderer.Render();
+	
+	cout << circle.getClass() << endl;
+	cout << renderer.getCorpse(0)->getClass() << endl;
+	
+	int age;
+	cin >> age;
 
-/* ---------------------------------------------------------------------------------------------------- */
-/*                                            Gravity System                                            */
-/* ---------------------------------------------------------------------------------------------------- */
-
-System GravitySystem("Gravity System", true, 0, 0, 1000, 800);
-
-GravitySystem.addDot(Dot(500, 160, "def", 5, 10, 15, 0, 0));
-GravitySystem.addDot(Dot(500, 100, "def", 5, 20, 10, 0, 0));
-GravitySystem.addDot(Dot(500, 400, "def", 1000, 50, 0, 0, 0, true, true, Color::Blue));
-GravitySystem.Render();
 }
+
