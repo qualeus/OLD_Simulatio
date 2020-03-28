@@ -26,7 +26,7 @@ if %user% == 8 exit
 :cDebug
 cls
 echo Compiling for debug...
-g++ -o bin/debug/*.o -c source/*.cpp -std=c++14 -Werror -Wfatal-errors -DSFML_STATIC -I %sfmlPath%\include
+g++ -o bin/debug/*.o -c source/*.cpp -std=c++14 -pedantic -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wconversion -Wshadow -Weffc++ -Wredundant-decls -Wdouble-promotion -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Wlogical-op -Winline -DSFML_STATIC -I %sfmlPath%\include
 g++ bin/debug/*.o -o bin/debug/Debug.exe -L %sfmlPath%\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32 -lfreetype
 echo Done && pause >nul
 goto menu
