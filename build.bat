@@ -35,6 +35,7 @@ pause
 IF %ERRORLEVEL%==0 (
 	g++ bin/Source/Debug/*.o -o bin/Source/Debug/Debug.exe -L %lib_path%\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32 -lfreetype
 	xcopy /f /y "ressources/Fonts/arial.ttf" "bin/Source/Debug/"
+	pause
 	goto run_debug
 )
 goto menu

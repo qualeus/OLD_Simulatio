@@ -10,8 +10,9 @@ System::System(bool gravity, float force_x, float force_y) {
 
 	this->corpses = std::vector<std::shared_ptr<Corpse>>();
 	this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
+	this->quad_pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
 
-	this->quadtree = Quadtree({sf::Vector2f(0.0f, 0.0f), sf::Vector2f(1000.0f, 1000.0f)}, 1);
+	this->quadtree = Quadtree({sf::Vector2f(-50.0f, -250.0f), sf::Vector2f(1000.0f, 1000.0f)}, 1);
 
 	this->corpses_size = 0;
 	this->pairs_size = 0;
@@ -52,9 +53,12 @@ void  System::CorpseStop(int i) {
 void System::PairsStep() {
 	for (int i = 0; i < pairs_size; i++) { 
 		if (this->gravity) { Forces(get_pair_A(i), get_pair_B(i)); }
-
-		Collision(get_pair_A(i), get_pair_B(i));
+		//Collision(get_pair_A(i), get_pair_B(i));
 	}
+
+	std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> quadpairs = this->quadtree.make_pairs();
+	this->quad_pairs = quadpairs;
+	for (int i = 0; i < quadpairs.size(); i++) { Collision(quadpairs.at(i).first, quadpairs.at(i).second); }
 }
 
 void System::Collision(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
@@ -116,6 +120,7 @@ void System::set_gravity(bool gravity) { this->gravity = gravity; }
 
 int System::get_corpses_size() { return this->corpses_size; }
 int System::get_pairs_size() { return this->pairs_size; }
+int System::get_quad_pairs_size() { return this->quad_pairs.size(); }
 
 void System::addCorpse(Polygon a) { add_corpse(std::make_shared<Polygon>(a)); }
 void System::addCorpse(Circle a) { add_corpse(std::make_shared<Circle>(a)); }
@@ -151,5 +156,7 @@ std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>  System
 std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>  System::get_pair(int index) { if (index >= 0 && index < get_pairs_size()) { return this->pairs.at(index); } else { return {nullptr, nullptr}; } }
 std::shared_ptr<Corpse> System::get_pair_A(int index) { if (index >= 0 && index < get_pairs_size()) { return this->pairs.at(index).first; } else { return nullptr; } }
 std::shared_ptr<Corpse>  System::get_pair_B(int index) { if (index >= 0 && index < get_pairs_size()) { return this->pairs.at(index).second; } else { return nullptr; } }
+
+std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> System::get_quad_pair(int index) { if (index >= 0 && index < this->quad_pairs.size()) { return this->quad_pairs.at(index); } else { return {nullptr, nullptr}; } }
 
 }

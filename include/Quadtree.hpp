@@ -10,8 +10,9 @@
 
 namespace phy {
 
-#define MAX_OBJECT 1
-#define MAX_LEVELS 10
+#define MAX_OBJECT 6
+#define MAX_LEVELS 5
+#define NUMBER_SUB 4
 
 class Quadtree
 {
@@ -31,11 +32,16 @@ public:
 	virtual ~Quadtree();
 
 	void clear();
+	void clear_nodes();
 	void split();
 	int get_index(std::shared_ptr<Corpse> corpse);
 	void insert(std::shared_ptr<Corpse> corpse);
 
 	std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> make_pairs();
+
+	std::vector<std::shared_ptr<Corpse>> get_sub_corpses();
+
+	std::vector<std::shared_ptr<Corpse>> get_all_corpses();
 
 	std::shared_ptr<Quadtree> get_node(int i);
 

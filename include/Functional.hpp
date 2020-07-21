@@ -32,13 +32,12 @@ sf::Vector2f Scale(const sf::Vector2f vect, float scale);
 
 float digits_comma(float number, int digits);
 
-// return an angle from a line
 float bearing(float x1, float y1, float x2, float y2);
 
 template<class C>
 std::shared_ptr<C> remove(int i, std::vector<std::shared_ptr<C>> &vect) {
 	std::shared_ptr<C> corpse = vect.at(i);
-	vect.erase (vect.begin()+i);
+	vect.erase(vect.begin()+i);
 	return corpse;
 }
 

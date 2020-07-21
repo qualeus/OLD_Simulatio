@@ -23,6 +23,7 @@ class System
 private:
 	std::vector<std::shared_ptr<Corpse>> corpses;
 	std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> pairs;
+	std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> quad_pairs;
 
 	Quadtree quadtree;
 
@@ -66,6 +67,7 @@ public:
 
 	int get_corpses_size();
 	int get_pairs_size();
+	int get_quad_pairs_size();
 
 	void addCorpse(Polygon a);
 	void addCorpse(Circle a);
@@ -77,6 +79,8 @@ public:
 
 	std::vector<std::shared_ptr<Corpse>> get_corpses();
 	std::shared_ptr<Corpse> get_corpse(int index);
+
+	std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> get_quad_pair(int index);
 
 	std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> get_pairs();
 	std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> get_pair(int index);

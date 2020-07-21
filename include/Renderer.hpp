@@ -161,6 +161,8 @@ public:
 	sf::Vector2f get_real_pos(sf::Vector2i pos);
 	float get_real_pos_x(float x);
 	float get_real_pos_y(float y);
+
+	bool rect_in_screen(vtr::Rectangle rect);
 };
 
 #endif

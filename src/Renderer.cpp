@@ -278,23 +278,23 @@ void Renderer::Debug() {
 		UpdateDebug();
 	}
 
-	Interface();
-
 	switch (this->debug_type) {
 		case D_DEFAULT:
 			break;
 		case D_CONTACT: {
 			std::vector<vtr::Rectangle> quadtrees = this->system.get_quadtree()->get_all_bounds();
-			for (int i = 0; i < quadtrees.size(); i++) {
-				DrawQuadtree(quadtrees.at(i));
-			}
+			for (int i = 0; i < quadtrees.size(); i++) { DrawQuadtree(quadtrees.at(i)); }
 		} break;
+
 		case D_FORCES: {
-			for (int i = 0; i < system.get_pairs_size(); i++) {
-				//DrawPair(system.get_pair(i));
-			}
+			// for (int i = 0; i < system.get_pairs_size(); i++) { DrawPair(system.get_pair(i)); }
+			std::vector<vtr::Rectangle> quadtrees = this->system.get_quadtree()->get_all_bounds();
+			for (int i = 0; i < quadtrees.size(); i++) { DrawQuadtree(quadtrees.at(i)); }
+			for (int i = 0; i < system.get_quad_pairs_size(); i++) { DrawPair(system.get_quad_pair(i)); }
 		} break;
 	}
+	
+	Interface();
 }
 
 void Renderer::Interface() {
@@ -356,7 +356,7 @@ void Renderer::DrawRectangle(int x, int y, int height, int width, bool fixed, sf
 		this->window.draw(rect);
 	} else {
     	// test if the rectangle is in the screen bounds
-    	if (((x > get_real_pos_x(0)) && (x + width < get_real_pos_x(screen_width)) && (y > get_real_pos_y(0)) && (y + height < get_real_pos_y(screen_height)))) {
+    	if (rect_in_screen({sf::Vector2f(x, y), sf::Vector2f(width, height)})) {
 			sf::RectangleShape rect(sf::Vector2f(width, height));
 			rect.setPosition(x, y);
 			if (outline) {
@@ -433,5 +433,18 @@ float Renderer::get_real_pos_x(float x) {
 float Renderer::get_real_pos_y(float y) { 
 	 return window.mapPixelToCoords(sf::Vector2i(0, y)).y;
 	// return this->view.getCenter().y + (this->camera_y + y - this->view.getCenter().y - (this->screen_height/2)) * get_camera_size(); 
+}
+
+bool Renderer::rect_in_screen(vtr::Rectangle rect) {
+	// One point in screen
+	if (rect.pos.x > get_real_pos_x(0) && rect.pos.x < get_real_pos_x(screen_width)) { return true; }
+	if (rect.pos.x + rect.size.x > get_real_pos_x(0) && rect.pos.x + rect.size.x  < get_real_pos_x(screen_width)) { return true; }
+	if (rect.pos.y > get_real_pos_y(0) && rect.pos.y < get_real_pos_y(screen_height)) { return true; }
+	if (rect.pos.y + rect.size.y > get_real_pos_y(0) && rect.pos.y + rect.size.y < get_real_pos_y(screen_height)) { return true; }
+
+	// Or screen in the shape
+	if (rect.pos.x < get_real_pos_x(0) && rect.pos.x + rect.size.x > get_real_pos_x(screen_width) && rect.pos.y < get_real_pos_y(0) && rect.pos.y + rect.size.y > get_real_pos_y(screen_height)) { return true; }
+	
+	return false; // is it faster to test first for true or for false?
 }
 

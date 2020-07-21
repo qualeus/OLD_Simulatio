@@ -35,6 +35,25 @@ void Quadtree::clear() {
 	std::vector<std::shared_ptr<Corpse>>().swap(this->corpses);
 }
 
+void Quadtree::clear_nodes() {
+	if (this->node_A != nullptr) {
+		this->node_A->clear();
+		this->node_A = nullptr;
+	}
+	if (this->node_B != nullptr) {
+		this->node_B->clear();
+		this->node_B = nullptr;
+	}
+	if (this->node_C != nullptr) {
+		this->node_C->clear();
+		this->node_C = nullptr;
+	}
+	if (this->node_D != nullptr) {
+		this->node_D->clear();
+		this->node_D = nullptr;
+	}
+}
+
 /*
 	+---+---+ 
 	| A | B | Clear the previous pointers and 
@@ -48,7 +67,7 @@ void Quadtree::split() {
 	float sub_w = this->bounds.size.x / 2.0f;
 	float sub_h = this->bounds.size.y / 2.0f;
 
-	clear();
+	clear_nodes();
 	this->node_A = std::make_shared<Quadtree>(Quadtree({sf::Vector2f(pos_x, pos_y), sf::Vector2f(sub_w, sub_h)}, this->level + 1));
 	this->node_B = std::make_shared<Quadtree>(Quadtree({sf::Vector2f(pos_x+sub_w, pos_y), sf::Vector2f(sub_w, sub_h)}, this->level + 1));
 	this->node_C = std::make_shared<Quadtree>(Quadtree({sf::Vector2f(pos_x, pos_y+sub_h), sf::Vector2f(sub_w, sub_h)}, this->level + 1));
@@ -100,27 +119,78 @@ void Quadtree::insert(std::shared_ptr<Corpse> corpse) {
 		}
 	}
 
-	this->corpses.emplace_back(std::move(corpse));
+	this->corpses.push_back(corpse);
 
 	if (this->corpses.size() > MAX_OBJECT && this->level < MAX_LEVELS) {
+
 		if (this->node_A == nullptr) { split(); }
 
 		int i = 0;
 		while (i < this->corpses.size()) {
 			int index = get_index(this->corpses.at(i));
-			if (index != -1) { get_node(index)->insert(vtr::remove(i, this->corpses)); } else { i++; }
+			if (index != -1) { 
+				std::shared_ptr<Corpse> rem = vtr::remove(i, this->corpses);
+				get_node(index)->insert(rem); 
+			} else {
+			 	i++; 
+			}
 		}
 	}
 
 }
 
 std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> Quadtree::make_pairs() {
+
 	std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
-	std::vector<std::shared_ptr<Corpse>> corpses = std::vector<std::shared_ptr<Corpse>>();
-	// tt les corps
-	// faire paires
-	// ajouter paires des sub
+	int corpse_size = corpses.size();
+	if (this->corpses.size() > 1) { 
+		for (int a = 0; a < corpse_size; a++) {
+			for (int b = a + 1; b < corpse_size; b++) { pairs.push_back({this->corpses.at(a), this->corpses.at(b)}); } 
+		}
+	}	
+
+	std::vector<std::shared_ptr<Corpse>> sub_corpses = get_sub_corpses();
+	for (int a = 0; a < corpse_size; a++) {
+		for (int b = 0; b < sub_corpses.size(); b++) { pairs.push_back({this->corpses.at(a), sub_corpses.at(b)}); } 
+	}
+
+	for (int i = 0; i < NUMBER_SUB; i++) {
+		if (get_node(i) != nullptr) {
+			std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> temp_pairs = get_node(i)->make_pairs();
+			for (int j = 0; j < temp_pairs.size(); j++) { pairs.push_back(temp_pairs.at(j)); }
+		}
+	}
+
 	return pairs;
+}
+
+std::vector<std::shared_ptr<Corpse>> Quadtree::get_sub_corpses() {
+
+	std::vector<std::shared_ptr<Corpse>> sub_corpses = std::vector<std::shared_ptr<Corpse>>();
+
+	for (int i = 0; i < NUMBER_SUB; i++) {
+		if (get_node(i) != nullptr) {
+			std::vector<std::shared_ptr<Corpse>> temp_sub_corpses = get_node(i)->get_all_corpses();
+			for (int j = 0; j < temp_sub_corpses.size(); j++) { sub_corpses.push_back(temp_sub_corpses.at(j)); }
+		}
+	}
+	return sub_corpses;
+}
+
+std::vector<std::shared_ptr<Corpse>> Quadtree::get_all_corpses() {
+	std::vector<std::shared_ptr<Corpse>> sub_corpses = std::vector<std::shared_ptr<Corpse>>();
+
+	for (int j = 0; j < this->corpses.size(); j++) { sub_corpses.push_back(this->corpses.at(j)); }
+
+	for (int i = 0; i < NUMBER_SUB; i++) {
+		if (get_node(i) != nullptr) {
+			std::vector<std::shared_ptr<Corpse>> temp_sub_corpses = get_node(i)->get_all_corpses();
+			for (int j = 0; j < temp_sub_corpses.size(); j++) { sub_corpses.push_back(temp_sub_corpses.at(j)); }
+		}
+	}
+
+	return sub_corpses;
+
 }
 
 std::shared_ptr<Quadtree> Quadtree::get_node(int i) {
@@ -139,26 +209,12 @@ std::vector<vtr::Rectangle> Quadtree::get_all_bounds() {
 	
 	temp.push_back(this->bounds);
 
-	if (this->node_A != nullptr) {
-		std::vector<vtr::Rectangle> temp_A = this->node_A->get_all_bounds();
-		for (int i = 0; i < temp_A.size(); i++) { temp.push_back(temp_A.at(i)); }
+	for (int i = 0; i < NUMBER_SUB; i++) {
+		if (get_node(i) != nullptr) {
+			std::vector<vtr::Rectangle> temp_bounds = get_node(i)->get_all_bounds();
+			for (int j = 0; j < temp_bounds.size(); j++) { temp.push_back(temp_bounds.at(j)); }
+		}
 	}
-
-	if (this->node_B != nullptr) {
-		std::vector<vtr::Rectangle> temp_B = this->node_B->get_all_bounds();
-		for (int i = 0; i < temp_B.size(); i++) { temp.push_back(temp_B.at(i)); }
-	}
-
-	if (this->node_C != nullptr) {
-		std::vector<vtr::Rectangle> temp_C = this->node_C->get_all_bounds();
-		for (int i = 0; i < temp_C.size(); i++) { temp.push_back(temp_C.at(i)); }
-	}
-
-	if (this->node_A != nullptr) {
-		std::vector<vtr::Rectangle> temp_D = this->node_D->get_all_bounds();
-		for (int i = 0; i < temp_D.size(); i++) { temp.push_back(temp_D.at(i)); }
-	}
-
 	return temp;
 }
 
