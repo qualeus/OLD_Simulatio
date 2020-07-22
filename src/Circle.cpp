@@ -50,8 +50,11 @@ void Circle::Collision(std::shared_ptr<Corpse> a) {
 			if (asymetric) {
 				if (!this->get_fixed()) {
 					this->Move(sf::Vector2f(x_diff / distance, y_diff / distance) * overlap * damping * 2.0f);
-				} else {
+				} else if (!circle->get_fixed()) {
 					circle->Move(sf::Vector2f(x_diff / distance, y_diff / distance) * -overlap * damping * 2.0f);
+				} else {
+					this->Move(sf::Vector2f(x_diff / distance, y_diff / distance) * overlap);
+					circle->Move(sf::Vector2f(x_diff / distance, y_diff / distance) * -overlap);
 				}
 			} else {
 				float normal_mass = this->get_mass() + circle->get_mass();
@@ -69,17 +72,6 @@ void Circle::Collision(std::shared_ptr<Corpse> a) {
     	
     }
 }
-
-sf::Color Circle::get_color() { return this->color; }
-void Circle::set_color(sf::Color color) { this->color = color; }
-
-sf::Vector2f Circle::get_last_pos() { return this->last_pos; }
-float Circle::get_last_pos_x() { return this->last_pos.x; }
-float Circle::get_last_pos_y() { return this->last_pos.y; }
-
-void Circle::set_last_pos(sf::Vector2f pos) { this->last_pos = pos; }
-void Circle::set_last_pos_x(float pos_x) { this->last_pos.x = pos_x; }
-void Circle::set_last_pos_y(float pos_y) { this->last_pos.y = pos_y; }
 
 float Circle::get_size() { return this->size; }
 

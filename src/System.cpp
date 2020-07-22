@@ -2,7 +2,7 @@
 
 namespace phy {
 
-System::System(bool gravity, float force_x, float force_y) {
+System::System(bool gravity, float force_x, float force_y, float limit_x, float limit_y) {
 	this->gravity = gravity;
 	this->force_x = force_x;
 	this->force_y = force_y;
@@ -12,18 +12,21 @@ System::System(bool gravity, float force_x, float force_y) {
 	this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
 	this->quad_pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
 
-	this->quadtree = Quadtree({sf::Vector2f(-50.0f, -250.0f), sf::Vector2f(1000.0f, 1000.0f)}, 1);
+	this->quadtree = Quadtree({sf::Vector2f(-limit_x/2.0f, -limit_y/2.0f), sf::Vector2f(limit_x, limit_y)}, 1);
+	// this->quadtree = Quadtree({sf::Vector2f(50, -250), sf::Vector2f(1000, 1000)}, 1);
+
+	// Optimisation 
+	//  - when obj on vert lim do not add
 
 	this->corpses_size = 0;
 	this->pairs_size = 0;
 
-	this->limits = {sf::Vector2f(-2000.0f, -2000.0f), sf::Vector2f(4000.0f, 4000.0f)};
+	this->limits = {sf::Vector2f(-limit_x/2.0f, -limit_y/2.0f), sf::Vector2f(limit_x, limit_y)};
 }
 
 System::~System() {}
 
 void System::Prepare() {
-	// temp one time but to update every frame
 	this->quadtree.clear();
 	for (int i = 0; i < corpses_size; i++) { 
 		if (get_corpse(i)->get_removed()) { continue; } // Removed
@@ -94,7 +97,6 @@ void System::Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
 	if (a->get_removed() || b->get_removed()) { return; } // Removed
 
 	// Gravity
-	float size = a->get_size() + b->get_size();
 	float dist = vtr::Length(a->get_pos_x(), a->get_pos_y(), b->get_pos_x(), b->get_pos_y()) + 10;
 	
 	// G * (ma * mb)/(r^2)

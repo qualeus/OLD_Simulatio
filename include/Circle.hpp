@@ -16,7 +16,6 @@ class Circle : public Corpse
 private:
 	sf::Vector2f last_pos;
 	float size;
-	sf::Color color;
 
 public:
 	Circle(float x = 0.0f, float y = 0.0f, float size = 1.0f, float mass = 1.0f, float damping = 1.0f, float speed_x = 0.0f, float speed_y = 0.0f, bool fixed = false, bool etherial = false, sf::Color color = sf::Color::White);
@@ -32,9 +31,6 @@ public:
 	bool Pointed(float x, float y);
 
 	void Collision(std::shared_ptr<Corpse> a);
-
-	sf::Color get_color();
-	void set_color(sf::Color color);
 
 	sf::Vector2f get_last_pos();
 	float get_last_pos_x();

@@ -23,6 +23,8 @@ protected:
 	float mass;
 	float damping;
 	sf::Vector2f current_pos;
+	sf::Vector2f last_pos;
+	sf::Color color;
 
 public:
 	explicit Corpse(float x, float y, float mass, float damping, bool fixed, bool etherial); // System Constructor
@@ -49,6 +51,9 @@ public:
 
 	virtual void Collision(std::shared_ptr<Corpse> a);
 
+	sf::Color get_color();
+	void set_color(sf::Color color);
+
 	sf::Vector2f get_pos();
 	float get_pos_x();
 	float get_pos_y();
@@ -57,10 +62,17 @@ public:
 	void set_pos_x(float pos_x);
 	void set_pos_y(float pos_y);
 
+	sf::Vector2f get_last_pos();
+	float get_last_pos_x();
+	float get_last_pos_y();
+
+	void set_last_pos(sf::Vector2f pos);
+	void set_last_pos_x(float pos_x);
+	void set_last_pos_y(float pos_y);
+
 	void set_damping(float damping);
 	float get_bounce();
 	float get_mass();
-	virtual float get_size() = 0;
 	virtual vtr::Rectangle get_corpse_bounds() = 0;
 
 	bool Equals(const Corpse* other);

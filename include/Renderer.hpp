@@ -3,9 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Main.hpp>
-#include <sstream>
 #include <cmath>
-#include <iostream>
 
 #include "../include/Functional.hpp"
 #include "../include/System.hpp"
@@ -84,7 +82,7 @@ public:
 
 	phy::System system;
 	
-	Renderer(std::string p_name, bool gravity, float force_x, float force_y); // Renderer Constructor
+	Renderer(std::string p_name = "Default", bool gravity = false, float force_x = 0.0f, float force_y = 0.0f, float limit_x = 4000.0f, float limit_y = 4000.0f); // Renderer Constructor
 	virtual ~Renderer(); // Renderer Destructor
 
 	void Render(); // Initialize the System and launch the Render loop
@@ -124,13 +122,6 @@ public:
 	void DrawRectangle(int x, int y, int height, int width, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);
 	void DrawPolygon(/* array of points, sf::Color color = sf::Color::White */ ); 
 	void DrawText(std::string str, int x, int y, int size = 20, bool fixed = false, sf::Color color = sf::Color::White);
-
-	template <typename T> // Convert value to string
-	std::string to_string(T value) {
-		std::ostringstream oss;
-		oss << value;
-		return oss.str();
-	} 
 
 	void Camera(sf::Vector2f move, float zoom = 1.0f); // Update the positio of the Camera
 	bool Paused(); // Return true if the system is paused

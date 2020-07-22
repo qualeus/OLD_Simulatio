@@ -5,6 +5,8 @@
 #include <cmath>
 #include <vector>
 #include <memory>
+#include <sstream>
+#include <iostream>
 
 #define PI 3.141592654
 
@@ -42,6 +44,13 @@ std::shared_ptr<C> remove(int i, std::vector<std::shared_ptr<C>> &vect) {
 	vect.erase(vect.begin()+i);
 	return corpse;
 }
+
+template <typename T>
+std::string to_string(T value) {
+	std::ostringstream oss;
+	oss << value;
+	return oss.str();
+} 
 
 }
 #endif

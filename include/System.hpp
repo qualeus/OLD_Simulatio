@@ -39,7 +39,7 @@ private:
 	vtr::Rectangle limits;
 
 public:
-	System(bool gravity = false, float force_x = 0.0f, float force_y = 0.0f); // System Constructor
+	System(bool gravity = false, float force_x = 0.0f, float force_y = 0.0f, float limit_x = 4000.0f, float limit_y = 4000.0f); // System Constructor
 	virtual ~System(); // System Destructor
 
 	void Prepare();

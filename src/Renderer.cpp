@@ -1,9 +1,9 @@
 #include "../include/Renderer.hpp"
 
-Renderer::Renderer(std::string p_name, bool gravity, float force_x, float force_y) {
+Renderer::Renderer(std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y) {
 
 	// System
-	this->system = phy::System(gravity, force_x, force_y);
+	this->system = phy::System(gravity, force_x, force_y, limit_x, limit_y);
 	this->name = p_name;
 
 	// Debug
@@ -310,17 +310,17 @@ void Renderer::Debug() {
 
 void Renderer::Interface() {
 
-	DrawText(to_string(debug_values[0]), 0, 0, 30, true, C_SUN);
-	DrawText("[D] Debug: " + to_string(debug_values[1]), this->window.getSize().x - 150, 0, 24, true, C_SUN);
+	DrawText(vtr::to_string(debug_values[0]), 0, 0, 30, true, C_SUN);
+	DrawText("[D] Debug: " + vtr::to_string(debug_values[1]), this->window.getSize().x - 150, 0, 24, true, C_SUN);
 
 	DrawRectangle(0, this->window.getSize().y - 35, 35, this->window.getSize().x, true, C_BLACK);
 
-	DrawText("mouse [ " + to_string(round(debug_values[2])) + " ; " + to_string(round(debug_values[3])) + " ]", 10, this->window.getSize().y - 30, 18, true, C_SUN);
-	DrawText("[ " + to_string(round(debug_values[4])) + " ; " + to_string(round(debug_values[5])) + " ]", 180, this->window.getSize().y - 30, 18, true, C_SUN);
-	DrawText("camera x" +  to_string(debug_values[6]), 380, this->window.getSize().y - 30, 18, true, C_SUN);
-	DrawText("[ " + to_string(debug_values[7]) + " ; " + to_string(debug_values[8]) + " ]", 510, this->window.getSize().y - 30, 18, true, C_SUN);
+	DrawText("mouse [ " + vtr::to_string(round(debug_values[2])) + " ; " + vtr::to_string(round(debug_values[3])) + " ]", 10, this->window.getSize().y - 30, 18, true, C_SUN);
+	DrawText("[ " + vtr::to_string(round(debug_values[4])) + " ; " + vtr::to_string(round(debug_values[5])) + " ]", 180, this->window.getSize().y - 30, 18, true, C_SUN);
+	DrawText("camera x" +  vtr::to_string(debug_values[6]), 380, this->window.getSize().y - 30, 18, true, C_SUN);
+	DrawText("[ " + vtr::to_string(debug_values[7]) + " ; " + vtr::to_string(debug_values[8]) + " ]", 510, this->window.getSize().y - 30, 18, true, C_SUN);
 	
-	DrawText("[r][t]dt: " + to_string(debug_values[10]), this->window.getSize().x - 310, this->window.getSize().y - 30, 18, true, C_SUN);
+	DrawText("[r][t]dt: " + vtr::to_string(debug_values[10]), this->window.getSize().x - 310, this->window.getSize().y - 30, 18, true, C_SUN);
 	
 	if (debug_values[9]) {
 		DrawText("[space] paused: true", this->window.getSize().x - 180, this->window.getSize().y - 30, 18, true, C_SUN);

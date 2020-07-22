@@ -5,52 +5,26 @@ namespace phy {
 Quadtree::Quadtree(vtr::Rectangle bounds, int level) {
 	this->level = level;
 	this->bounds = bounds;
-	this->node_A = nullptr;
-	this->node_B = nullptr;
-	this->node_C = nullptr;
-	this->node_D = nullptr;
 
+	for (int i = 0; i < NUMBER_SUB; i++) { get_node(i) = nullptr; }
 	this->corpses = std::vector<std::shared_ptr<Corpse>>();
+	// if (level < MAX_LEVELS) { this->corpses.reserve(MAX_OBJECT); } // Problem, if can't allocatoe objects on bounds, keep it (so can be > than max)
+	
 }
 Quadtree::~Quadtree() {}
 
 void Quadtree::clear() {
-	if (this->node_A != nullptr) {
-		this->node_A->clear();
-		this->node_A = nullptr;
-	}
-	if (this->node_B != nullptr) {
-		this->node_B->clear();
-		this->node_B = nullptr;
-	}
-	if (this->node_C != nullptr) {
-		this->node_C->clear();
-		this->node_C = nullptr;
-	}
-	if (this->node_D != nullptr) {
-		this->node_D->clear();
-		this->node_D = nullptr;
-	}
-
+	
+	clear_nodes();
 	std::vector<std::shared_ptr<Corpse>>().swap(this->corpses);
 }
 
 void Quadtree::clear_nodes() {
-	if (this->node_A != nullptr) {
-		this->node_A->clear();
-		this->node_A = nullptr;
-	}
-	if (this->node_B != nullptr) {
-		this->node_B->clear();
-		this->node_B = nullptr;
-	}
-	if (this->node_C != nullptr) {
-		this->node_C->clear();
-		this->node_C = nullptr;
-	}
-	if (this->node_D != nullptr) {
-		this->node_D->clear();
-		this->node_D = nullptr;
+	for (int i = 0; i < NUMBER_SUB; i++) { 
+		if (get_node(i) != nullptr) {
+			get_node(i)->clear();
+			set_node(i, nullptr);
+		}
 	}
 }
 
@@ -105,12 +79,34 @@ int Quadtree::get_index(std::shared_ptr<Corpse> corpse) {
 	return index;
 }
 
+int Quadtree::get_size() { return this->corpses.size(); }
+
 /*
 	Insert the object into the Quadtree
 	if the node excelm the capacity it will
 	split and add all objects to subnodes
 */ 
 void Quadtree::insert(std::shared_ptr<Corpse> corpse) {
+		
+	/*
+	if (get_node(index)==nullptr) {  
+		float pos_x = this->bounds.pos.x;
+		float pos_y = this->bounds.pos.y;
+		float sub_w = this->bounds.size.x / 2.0f;
+		float sub_h = this->bounds.size.y / 2.0f;
+		
+		if (index == 0) {
+			this->node_A = std::make_shared<Quadtree>(Quadtree({sf::Vector2f(pos_x, pos_y), sf::Vector2f(sub_w, sub_h)}, this->level + 1));
+		} else if (index == 1) {
+			this->node_B = std::make_shared<Quadtree>(Quadtree({sf::Vector2f(pos_x+sub_w, pos_y), sf::Vector2f(sub_w, sub_h)}, this->level + 1));
+		} else if (index == 2) {
+				this->node_C = std::make_shared<Quadtree>(Quadtree({sf::Vector2f(pos_x, pos_y+sub_h), sf::Vector2f(sub_w, sub_h)}, this->level + 1));
+		} else if (index == 3) {
+				this->node_D = std::make_shared<Quadtree>(Quadtree({sf::Vector2f(pos_x+sub_w, pos_y+sub_h), sf::Vector2f(sub_w, sub_h)}, this->level + 1));
+		}
+		
+	}*/
+
 	if (this->node_A != nullptr) {
 		int index = get_index(corpse);
 		if (index != -1) {
@@ -136,7 +132,43 @@ void Quadtree::insert(std::shared_ptr<Corpse> corpse) {
 			}
 		}
 	}
+}
 
+/*
+	Recursively clear all the unused Quadtree to gain performances
+	return true: empty 
+	return false: filled
+*/
+bool Quadtree::clear_empty() {
+	
+	// If not the smallest quadtree, test the sub quadtrees
+	if (!(this->node_A == nullptr && this->node_B == nullptr && this->node_C == nullptr && this->node_D == nullptr)) {
+		for (int i = 0; i < NUMBER_SUB; i++) { 
+			if (get_node(i) != nullptr) {
+				if (get_node(i)->clear_empty()) { 
+					get_node(i)->clear();
+					set_node(i, nullptr);
+				}
+			}
+		}
+	}
+
+	// Test after update if it's the smallest
+	if (this->node_A == nullptr && this->node_B == nullptr && this->node_C == nullptr && this->node_D == nullptr) {
+		if (this->get_size() == 0) { return true; }
+	}
+	return false;
+}
+
+/*
+	return true if at least one of the sub quadtrees is not null;
+*/
+bool Quadtree::sub_not_null() {
+	if (this->node_A != nullptr) { return true; }
+	if (this->node_B != nullptr) { return true; }
+	if (this->node_C != nullptr) { return true; }
+	if (this->node_D != nullptr) { return true; }
+	return false;
 }
 
 std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> Quadtree::make_pairs() {
@@ -178,6 +210,7 @@ std::vector<std::shared_ptr<Corpse>> Quadtree::get_sub_corpses() {
 }
 
 std::vector<std::shared_ptr<Corpse>> Quadtree::get_all_corpses() {
+
 	std::vector<std::shared_ptr<Corpse>> sub_corpses = std::vector<std::shared_ptr<Corpse>>();
 
 	for (int j = 0; j < this->corpses.size(); j++) { sub_corpses.push_back(this->corpses.at(j)); }
@@ -202,6 +235,15 @@ std::shared_ptr<Quadtree> Quadtree::get_node(int i) {
 	}
 
 	return nullptr;
+}
+
+void Quadtree::set_node(int i, std::shared_ptr<Quadtree> node) { 
+	switch (i) {
+		case 0: this->node_A = node;
+		case 1: this->node_B = node;
+		case 2: this->node_C = node;
+		case 3: this->node_D = node;
+	}
 }
 
 std::vector<vtr::Rectangle> Quadtree::get_all_bounds() {

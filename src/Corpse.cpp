@@ -34,6 +34,9 @@ void Corpse::Move(float x, float y) {}
 void Corpse::Move(sf::Vector2f move) {}
 void Corpse::Collision(std::shared_ptr<Corpse> a) {}
 
+sf::Color Corpse::get_color() { return this->color; }
+void Corpse::set_color(sf::Color color) { this->color = color; }
+
 sf::Vector2f Corpse::get_pos() { return this->current_pos; }
 float Corpse::get_pos_x() { return this->current_pos.x; }
 float Corpse::get_pos_y() { return this->current_pos.y; }
@@ -41,6 +44,14 @@ float Corpse::get_pos_y() { return this->current_pos.y; }
 void Corpse::set_pos(sf::Vector2f pos) { this->current_pos = pos; }
 void Corpse::set_pos_x(float pos_x) { this->current_pos.x = pos_x; }
 void Corpse::set_pos_y(float pos_y) { this->current_pos.y = pos_y; }
+
+sf::Vector2f Corpse::get_last_pos() { return this->last_pos; }
+float Corpse::get_last_pos_x() { return this->last_pos.x; }
+float Corpse::get_last_pos_y() { return this->last_pos.y; }
+
+void Corpse::set_last_pos(sf::Vector2f pos) { this->last_pos = pos; }
+void Corpse::set_last_pos_x(float pos_x) { this->last_pos.x = pos_x; }
+void Corpse::set_last_pos_y(float pos_y) { this->last_pos.y = pos_y; }
 
 void Corpse::set_damping(float damping) { if (damping < 0.1f) { this->damping = 0.1f; } else { this->damping = damping; } }
 float Corpse::get_bounce() { return 1.0f/this->damping; }
