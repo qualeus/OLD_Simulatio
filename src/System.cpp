@@ -16,6 +16,8 @@ System::System(bool gravity, float force_x, float force_y) {
 
 	this->corpses_size = 0;
 	this->pairs_size = 0;
+
+	this->limits = {sf::Vector2f(-2000.0f, -2000.0f), sf::Vector2f(4000.0f, 4000.0f)};
 }
 
 System::~System() {}
@@ -23,17 +25,34 @@ System::~System() {}
 void System::Prepare() {
 	// temp one time but to update every frame
 	this->quadtree.clear();
-	for (int i = 0; i < corpses_size; i++) { this->quadtree.insert(get_corpse(i)); }
+	for (int i = 0; i < corpses_size; i++) { 
+		if (get_corpse(i)->get_removed()) { continue; } // Removed
+
+		this->quadtree.insert(get_corpse(i));
+	}
 }
 
 void System::Step() {
 	Prepare();
+	CheckLimits();
 	CorpsesStep();
 	PairsStep();
 }
 
+void System::CheckLimits() {
+	for (int i = 0; i < corpses_size; i++) {
+		if (phy::Circle* circle = dynamic_cast<phy::Circle*>(get_corpse(i).get())) {
+			if (!vtr::rect_in_bounds(circle->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
+	    } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(get_corpse(i).get())) {
+	    	
+	    }
+	}
+}
+
 void System::CorpsesStep() {
 	for (int i = 0; i < corpses_size; i++) {
+		if (get_corpse(i)->get_removed()) { continue; }// Removed
+
 		get_corpse(i)->Step(); 
 		if (!get_corpse(i)->get_fixed()) { get_corpse(i)->Move(sf::Vector2f(this->force_x, this->force_y)); }
 	}
@@ -53,7 +72,7 @@ void  System::CorpseStop(int i) {
 void System::PairsStep() {
 	for (int i = 0; i < pairs_size; i++) { 
 		if (this->gravity) { Forces(get_pair_A(i), get_pair_B(i)); }
-		//Collision(get_pair_A(i), get_pair_B(i));
+		//Collision(get_pair_A(i), get_pair_B(i)); old collision system
 	}
 
 	std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> quadpairs = this->quadtree.make_pairs();
@@ -62,6 +81,7 @@ void System::PairsStep() {
 }
 
 void System::Collision(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
+	if (a->get_removed() || b->get_removed()) { return; } // Removed
 
     if (phy::Circle* circle = dynamic_cast<phy::Circle*>(a.get())) {
 		circle->Collision(b);
@@ -71,6 +91,7 @@ void System::Collision(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
 }
 
 void System::Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
+	if (a->get_removed() || b->get_removed()) { return; } // Removed
 
 	// Gravity
 	float size = a->get_size() + b->get_size();
@@ -149,6 +170,7 @@ void System::add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
 	this->pairs_size++; // Update the size of the array = [n(n-1)]/2
 }
 
+vtr::Rectangle System::get_limits() { return this->limits; }
 std::vector<std::shared_ptr<Corpse>> System::get_corpses() { return this->corpses; }
 std::shared_ptr<Corpse> System::get_corpse(int index) { if (index >= 0 && index < get_corpses_size()) { return this->corpses.at(index); } else { return nullptr; } }
 

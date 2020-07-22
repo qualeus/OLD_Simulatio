@@ -39,4 +39,18 @@ float vtr::digits_comma(float number, int digits) {
 /* Angle from a line: atan2(y, x) = Arg(x+iy) rad <=> atan2(y, x)*(180/3.1415)= Arg(x+iy) deg */
 float vtr::bearing(float x1, float y1, float x2, float y2) { return atan2(y1 - y2, x1 - x2) * (180 / PI); }
 
+bool vtr::rect_in_bounds(vtr::Rectangle object, vtr::Rectangle limits) {
+	// One point in bounds
+	// p1 (x,y)
+	if (object.pos.x > limits.pos.x && object.pos.x < limits.pos.x + limits.size.x && object.pos.y > limits.pos.y && object.pos.y < limits.pos.y + limits.size.y) { return true; }
+	// p2 (x+w,y)
+	if (object.pos.x + object.size.x > limits.pos.x && object.pos.x + object.size.x < limits.pos.x + limits.size.x && object.pos.y > limits.pos.y && object.pos.y < limits.pos.y + limits.size.y) { return true; }
+	// p3 (x,y+h)
+	if (object.pos.x > limits.pos.x && object.pos.x < limits.pos.x + limits.size.x && object.pos.y + object.size.y > limits.pos.y && object.pos.y + object.size.y <  limits.pos.y + limits.size.y) { return true; }
+	// p4 (x+w,y+h)
+	if (object.pos.x + object.size.x > limits.pos.x && object.pos.x + object.size.x < limits.pos.x + limits.size.x  && object.pos.y + object.size.y > limits.pos.y && object.pos.y + object.size.y <  limits.pos.y + limits.size.y) { return true; }
+
+	return false;
+}
+
 

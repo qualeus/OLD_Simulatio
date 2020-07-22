@@ -34,6 +34,8 @@ float digits_comma(float number, int digits);
 
 float bearing(float x1, float y1, float x2, float y2);
 
+bool rect_in_bounds(vtr::Rectangle object, vtr::Rectangle limits);
+
 template<class C>
 std::shared_ptr<C> remove(int i, std::vector<std::shared_ptr<C>> &vect) {
 	std::shared_ptr<C> corpse = vect.at(i);

@@ -208,9 +208,11 @@ void Renderer::DragPositionStop(sf::Event event) {
 }
 
 bool Renderer::DragCorpseInit(sf::Event event) {
-	if (this->select_type == S_DRAG_CORPSE) { return false; } 
+	if (this->select_type == S_DRAG_CORPSE) { return false; }
 
 	for (int i = 0; i < system.get_corpses_size(); i++) {
+		if (system.get_corpse(i)->get_removed()) { continue; } // Removed
+
 		if (system.get_corpse(i)->Pointed(this->sys_mouse_x, this->sys_mouse_y)) {
 			this->selected_drag_corpse_cursor = i;
 
@@ -248,9 +250,11 @@ void Renderer::Draw() {
 	for (int i = 0; i < system.get_corpses_size(); i++) {
 		DrawCorpse(system.get_corpse(i));
 	}
+	DrawLimits();
 }
 
 void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
+	if (corpse->get_removed()) { return; } // Removed
 
     if (phy::Circle* circle = dynamic_cast<phy::Circle*>(corpse.get())) {
 		DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), circle->get_color()); 
@@ -260,6 +264,8 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
 }
 
 void Renderer::DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair) {
+	if (pair.first->get_removed() || pair.second->get_removed()) { return; } // Removed
+	
 	sf::Vector2f pos_A = pair.first->get_pos();
 	sf::Vector2f pos_B = pair.second->get_pos();
 
@@ -268,6 +274,11 @@ void Renderer::DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<
 
 void Renderer::DrawQuadtree(vtr::Rectangle rect) {
 	DrawRectangle(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y, false, C_RED, true);
+}
+
+void Renderer::DrawLimits() { 
+	vtr::Rectangle limits = system.get_limits();
+	DrawRectangle(limits.pos.x, limits.pos.y, limits.size.x, limits.size.y, false, C_RED, true); 
 }
 
 void Renderer::Debug() {

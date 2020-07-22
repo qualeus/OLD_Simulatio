@@ -36,6 +36,8 @@ private:
 
 	int dt;
 
+	vtr::Rectangle limits;
+
 public:
 	System(bool gravity = false, float force_x = 0.0f, float force_y = 0.0f); // System Constructor
 	virtual ~System(); // System Destructor
@@ -43,6 +45,7 @@ public:
 	void Prepare();
 
 	void Step();
+	void CheckLimits();
 	void CorpsesStep();
 	void CorpseStop(int i);
 	void PairsStep();
@@ -76,6 +79,8 @@ public:
 	void add_corpse(std::shared_ptr<Circle> a);
 
 	void add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
+
+	vtr::Rectangle get_limits();
 
 	std::vector<std::shared_ptr<Corpse>> get_corpses();
 	std::shared_ptr<Corpse> get_corpse(int index);

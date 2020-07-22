@@ -110,6 +110,7 @@ public:
 	void DrawCorpse(std::shared_ptr<phy::Corpse> corpse);
 	void DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair);
 	void DrawQuadtree(vtr::Rectangle rect);
+	void DrawLimits();
 
 	void Debug(); // Draw the Debug objects
 	void Interface(); // Draw the renderer interface

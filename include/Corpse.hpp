@@ -19,6 +19,7 @@ protected:
 	int id;
 	bool fixed;
 	bool etherial;
+	bool removed;
 	float mass;
 	float damping;
 	sf::Vector2f current_pos;
@@ -35,6 +36,9 @@ public:
 
 	bool get_etherial() const;
 	void set_etherial(bool etherial);
+
+	bool get_removed() const;
+	void Remove();
 
 	virtual void Step();
 	virtual void Stop();

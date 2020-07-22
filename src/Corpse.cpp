@@ -8,6 +8,7 @@ Corpse::Corpse(float x, float y, float mass, float damping, bool fixed, bool eth
 
 	this->fixed = fixed;
 	this->etherial = etherial;
+	this->removed = false;
 	this->current_pos = sf::Vector2f(x, y);
 	this->mass = mass;
 	set_damping(damping);
@@ -23,6 +24,9 @@ void Corpse::set_fixed(bool fixed) { this->fixed = fixed; }
 
 bool Corpse::get_etherial() const { return this->etherial; }
 void Corpse::set_etherial(bool etherial) { this->etherial = etherial; }
+
+bool Corpse::get_removed() const { return this->removed; }
+void Corpse::Remove() { this->removed = true; }
 
 void Corpse::Step() {}
 void Corpse::Stop() {}
