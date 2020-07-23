@@ -17,26 +17,35 @@ struct Rectangle {
 	sf::Vector2f size;
 };
 
-float Dot(const sf::Vector2f vect_a, const sf::Vector2f vect_b);
+struct Text {
+	std::string str = "";
+	float x = 0.0f;
+	float y = 0.0f;
+	float size = 18;
+	bool fixed = false;
+	sf::Color color = sf::Color::White;
+};
+
+float Dot(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
 float Dot(float x1, float y1, float x2, float y2);
 
-float Length(const sf::Vector2f vect);
+float Length(const sf::Vector2f &vect);
 float Length(float x, float y);
 float Length(float x1, float y1, float x2, float y2);
-
-sf::Vector2f Normalize(sf::Vector2f vect);
 
 float degree_to_radian(float degree);
 float radian_to_degree(float radian);
 
-sf::Vector2f Rotate(const sf::Vector2f vect, int angle);
-sf::Vector2f Scale(const sf::Vector2f vect, float scale);
+void Normalize(sf::Vector2f &vect);
+void Rotate(sf::Vector2f &vect, int angle);
+void Scale(sf::Vector2f &vect, float scale);
 
 float digits_comma(float number, int digits);
 
 float bearing(float x1, float y1, float x2, float y2);
 
-bool rect_in_bounds(vtr::Rectangle object, vtr::Rectangle limits);
+bool rect_in_bounds(const vtr::Rectangle &object, const vtr::Rectangle &limits);
+bool rect_out_bounds(const vtr::Rectangle &object, const vtr::Rectangle &limits);
 
 template<class C>
 std::shared_ptr<C> remove(int i, std::vector<std::shared_ptr<C>> &vect) {

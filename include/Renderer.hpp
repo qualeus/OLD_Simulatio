@@ -32,6 +32,7 @@
 
 #define G_CIRCLE_RESOLUTION 20
 #define G_OUTLINE_THICKNESS 2
+#define G_TEXT_RESOLUTION 28.0f
 
 #define D_DEFAULT 0
 #define D_CONTACT 1
@@ -78,11 +79,12 @@ private:
 	const static int DELAY_DEBUG = 3;
 	int counter_debug;
 
+	std::vector<vtr::Text> texts = { };
 public:
 
 	phy::System system;
 	
-	Renderer(std::string p_name = "Default", bool gravity = false, float force_x = 0.0f, float force_y = 0.0f, float limit_x = 4000.0f, float limit_y = 4000.0f); // Renderer Constructor
+	Renderer(float camera_x = 0.0f, float camera_y = 0.0f, float camera_h = 800.0f, float camera_w = 1200.0f, float zoom = 1.0f, std::string p_name = "Default", bool gravity = false, float force_x = 0.0f, float force_y = 0.0f, float limit_x = 4000.0f, float limit_y = 4000.0f); // Renderer Constructor
 	virtual ~Renderer(); // Renderer Destructor
 
 	void Render(); // Initialize the System and launch the Render loop
@@ -133,6 +135,7 @@ public:
 	// Return the select and debug types
 	int get_select_type();
 	int get_debug_type();
+	void set_debug_type(int i);
 
 	// Getter/Setters of the camera X position
 	float get_camera_x();
@@ -155,6 +158,9 @@ public:
 	float get_real_pos_y(float y);
 
 	bool rect_in_screen(vtr::Rectangle rect);
+
+	void addText(vtr::Text txt);
+	void DrawTexts();
 };
 
 #endif

@@ -18,6 +18,8 @@ namespace phy {
 #define LS 100 // 2,998 * 10e+8
 #define G 10 //6.7 * 10e-11
 
+#define AROUND_QUADTREE 1000
+
 class System
 {
 private:

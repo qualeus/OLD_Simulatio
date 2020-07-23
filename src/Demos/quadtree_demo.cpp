@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "../include/Renderer.hpp"
+#include "../../include/Renderer.hpp"
 
 int main()
 {
@@ -13,7 +13,7 @@ int main()
 	demo.addText({"Place it here and it will not \nhave to check any collision.", 290, 360, 15, false, C_SUN});
 	demo.addText({"Here, it will associate with the \ntwo bodies to check if it collide.", 25, 380, 15, false, C_SUN});
 	demo.addText({"There, it will overflow the capacity \nof the edge and subdivise it.", 20, 40, 15, false, C_SUN});
-	demo.addText({"The corpses out the grid are soft \ndestroyed for better performances.", 1010, 360, 15, false, C_SUN});
+	demo.addText({"The corpses out the grid are soft \ndestroyed for better performances.", 510, 360, 15, false, C_SUN});
 	
 	demo.system.addCorpse(phy::Circle(170, 120, 20, 5, 2, 0, 0, false, false, C_TURQUOISE));
 	demo.system.addCorpse(phy::Circle(30, 160, 20, 5, 2, 0, 0, false, false, C_TURQUOISE));

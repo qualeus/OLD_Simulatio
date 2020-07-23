@@ -21,7 +21,7 @@ System::System(bool gravity, float force_x, float force_y, float limit_x, float 
 	this->corpses_size = 0;
 	this->pairs_size = 0;
 
-	this->limits = {sf::Vector2f(-limit_x/2.0f, -limit_y/2.0f), sf::Vector2f(limit_x, limit_y)};
+	this->limits = {sf::Vector2f(-(AROUND_QUADTREE+limit_x)/2.0f, -(AROUND_QUADTREE+limit_y)/2.0f), sf::Vector2f(limit_x+AROUND_QUADTREE, limit_y+AROUND_QUADTREE)};
 }
 
 System::~System() {}
@@ -45,7 +45,7 @@ void System::Step() {
 void System::CheckLimits() {
 	for (int i = 0; i < corpses_size; i++) {
 		if (phy::Circle* circle = dynamic_cast<phy::Circle*>(get_corpse(i).get())) {
-			if (!vtr::rect_in_bounds(circle->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
+			if (vtr::rect_out_bounds(circle->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
 	    } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(get_corpse(i).get())) {
 	    	
 	    }

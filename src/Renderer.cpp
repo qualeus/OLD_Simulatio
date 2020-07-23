@@ -1,6 +1,6 @@
 #include "../include/Renderer.hpp"
 
-Renderer::Renderer(std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y) {
+Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_w, float zoom, std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y) {
 
 	// System
 	this->system = phy::System(gravity, force_x, force_y, limit_x, limit_y);
@@ -21,12 +21,13 @@ Renderer::Renderer(std::string p_name, bool gravity, float force_x, float force_
 
 	// Camera
 	this->camera_zoom = 100.0f;
-	this->screen_width = 1200.0f;
-	this->screen_height = 800.0f;
+	this->screen_width = camera_w;
+	this->screen_height = camera_h;
 	this->camera_x = 0.0f;
 	this->camera_y = 0.0f;
 
-	this->view.reset(sf::FloatRect(this->camera_x, this->camera_y, this->camera_x + this->screen_width, this->camera_y + this->screen_height));
+	this->view.reset(sf::FloatRect(-screen_width/2, -screen_height/2, this->screen_width, this->screen_height));
+	Camera(sf::Vector2f(camera_x, camera_y), zoom);
 
 	// Renderer
 	sf::ContextSettings settings;
@@ -36,7 +37,6 @@ Renderer::Renderer(std::string p_name, bool gravity, float force_x, float force_
 	this->window.setView(this->view);
 	this->window.setFramerateLimit(60);	
 
-	Camera(sf::Vector2f(0.0f, 0.0f), 1.0f);
 }
 
 Renderer::~Renderer() {}
@@ -306,6 +306,7 @@ void Renderer::Debug() {
 	}
 	
 	Interface();
+	DrawTexts();
 }
 
 void Renderer::Interface() {
@@ -388,14 +389,17 @@ void Renderer::DrawText(std::string str, int x, int y, int size, bool fixed, sf:
 	sf::Text text;
 
 	if (font.loadFromFile("arial.ttf")) {
+		text.setCharacterSize(G_TEXT_RESOLUTION);
+		float resolution_resize = size/G_TEXT_RESOLUTION;
+
 		if (fixed) {
-			text.setCharacterSize(size);
-			text.scale(get_camera_size(), get_camera_size());
+			text.scale(get_camera_size()*resolution_resize, get_camera_size()*resolution_resize);
 			text.setPosition(get_real_pos_x(x), get_real_pos_y(y));
 		} else {
-			text.setCharacterSize(size);
+			text.scale(resolution_resize, resolution_resize);
 			text.setPosition(x, y);
 		}
+
 		text.setFont(font);
 		text.setString(str);
 		text.setFillColor(color);
@@ -422,6 +426,7 @@ float Renderer::get_mouse_y() { return this->mouse_y; }
 
 int Renderer::get_select_type() { return this->select_type; }
 int Renderer::get_debug_type() { return this->debug_type; }
+void Renderer::set_debug_type(int i) { this->debug_type=i; }
 
 float Renderer::get_camera_x() { return this->camera_x; }
 float Renderer::get_camera_y() { return this->camera_y; }
@@ -457,5 +462,13 @@ bool Renderer::rect_in_screen(vtr::Rectangle rect) {
 	if (rect.pos.x < get_real_pos_x(0) && rect.pos.x + rect.size.x > get_real_pos_x(screen_width) && rect.pos.y < get_real_pos_y(0) && rect.pos.y + rect.size.y > get_real_pos_y(screen_height)) { return true; }
 	
 	return false; // is it faster to test first for true or for false?
+}
+
+void Renderer::addText(vtr::Text txt) { this->texts.push_back(txt); }
+void Renderer::DrawTexts() {
+	for (int i = 0; i < this->texts.size(); i++) { 
+		vtr::Text txt = this->texts.at(i);
+		DrawText(txt.str, txt.x, txt.y, txt.size, txt.fixed, txt.color);
+	}
 }
 
