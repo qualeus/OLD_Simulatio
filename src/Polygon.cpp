@@ -49,6 +49,8 @@ bool Polygon::Pointed(float x, float y) {
 
 void Polygon::Collision(std::shared_ptr<Corpse> a) {
 	if (Circle* circle = dynamic_cast<Circle*>(a.get())) {
+
+		// Polygon / Circle collision
 		std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = this->get_sides();
 
 		for (int i=0; i<sides.size(); i++) {
@@ -105,7 +107,8 @@ void Polygon::Collision(std::shared_ptr<Corpse> a) {
 		}
 
 	} else if (Polygon* polygon = dynamic_cast<Polygon*>(a.get())) {
-		// Separating axis theorem
+
+		// Polygon / Polygon collision (Separating axis theorem)
 
 		// Make separating axis (perpendicular to the line that pass by the two objects center)
 		sf::Vector2f axis = ftn::Norme(this->get_pos(), polygon->get_pos()); // sf::Vector2f axis = ftn::Norme(this->get_diff_pos(), polygon->get_diff_pos());

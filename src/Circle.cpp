@@ -77,7 +77,8 @@ void Circle::Collision(std::shared_ptr<Corpse> a) {
 		}
 		
     } else if (Polygon* polygon = dynamic_cast<Polygon*>(a.get())) {
-    	// Circle / Polygon
+    	
+    	// Circle / Polygon collision
     	std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = polygon->get_sides();
 
 		for (int i=0; i<sides.size(); i++) {
