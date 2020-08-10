@@ -101,7 +101,29 @@ goto menu
 
 :build_tests
 cls
-echo Todo
+echo Compiling Tests...
+
+for /R %%f in (src/Tests/*.cpp) do (
+	if not exist "bin/Tests/Debug/%%~nf/" mkdir "bin/Tests/Debug/%%~nf/"
+	if not exist "bin/Tests/Release/%%~nf/" mkdir "bin/Tests/Release/%%~nf/"
+
+	for /R %%s in (src/*.cpp) do (
+		if "%%~nxs"=="Functional.cpp" (
+			g++ -o bin/Tests/Debug/%%~nf/%%~ns.o -c src/%%~nxs -std=c++17 -Werror -Wfatal-errors -DSFML_STATIC -I %lib_path%\include
+			g++ -o bin/Tests/Release/%%~nf/%%~ns.o -c src/%%~nxs -std=c++17 -Werror -Wfatal-errors -DSFML_STATIC -I %lib_path%\include -O3 -s -fexpensive-optimizations
+			echo %%~nxs - %%~nxf Done
+		)
+	)
+
+	g++ -o bin/Tests/Debug/%%~nf/%%~nf.o -c src/Tests/%%~nxf -std=c++17 -Werror -Wfatal-errors -DSFML_STATIC -I %lib_path%\include
+	g++ bin/Tests/Debug/%%~nf/*.o -o bin/Tests/Debug/%%~nf/%%~nf.exe -L %lib_path%\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32 -lfreetype
+
+	g++ -o bin/Tests/Release/%%~nf/%%~nf.o -c src/Tests/%%~nxf -std=c++17 -Werror -Wfatal-errors -DSFML_STATIC -I %lib_path%\include -O3 -s -fexpensive-optimizations
+	g++ bin/Tests/Release/%%~nf/*.o -o bin/Tests/Release/%%~nf/%%~nf.exe -L %lib_path%\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32 -lfreetype
+
+	echo %%~nxf Done
+)
+pause
 goto menu
 
 :commit_push

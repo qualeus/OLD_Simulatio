@@ -177,7 +177,7 @@ void Renderer::UpdateDebug() {
 	debug_values[3] = this->mouse_y;
 	debug_values[4] = this->sys_mouse_x;
 	debug_values[5] = this->sys_mouse_y;
-	debug_values[6] = vtr::digits_comma(1/get_camera_size(), 3);
+	debug_values[6] = ftn::digits_comma(1/get_camera_size(), 3);
 	debug_values[7] = this->camera_x;
 	debug_values[8] = this->camera_y;
 	debug_values[9] = this->paused;
@@ -228,8 +228,7 @@ bool Renderer::DragCorpseInit(sf::Event event) {
 }
 
 void Renderer::DragCorpseStep(sf::Event event) {
-	system.get_corpse(selected_drag_corpse_cursor)->set_pos_x(this->sys_mouse_x);
-	system.get_corpse(selected_drag_corpse_cursor)->set_pos_y(this->sys_mouse_y);
+	system.get_corpse(selected_drag_corpse_cursor)->Move(sf::Vector2f(this->sys_mouse_x, this->sys_mouse_y), false);
 	system.CorpseStop(selected_drag_corpse_cursor);
 }
 
@@ -258,8 +257,15 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
 
     if (phy::Circle* circle = dynamic_cast<phy::Circle*>(corpse.get())) {
 		DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), circle->get_color()); 
-    } else if (phy::Polygon* c = dynamic_cast<phy::Polygon*>(corpse.get())) {
+    } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(corpse.get())) {
+    	ftn::Rectangle bounds = polygon->get_corpse_bounds();
+    	DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y);
 
+    	DrawPolygon(polygon->get_points(), polygon->get_color());
+    	DrawCircle(polygon->get_pos_x(), polygon->get_pos_y(), 10, sf::Color::Red);
+
+    	std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = polygon->get_sides();
+    	for (int i=0; i<sides.size(); i++) { DrawLine(sides.at(i).first.x, sides.at(i).first.y,sides.at(i).second.x, sides.at(i).second.y, sf::Color::Yellow); }
     }
 }
 
@@ -272,12 +278,12 @@ void Renderer::DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<
 	DrawLine(pos_A.x, pos_A.y, pos_B.x, pos_B.y);
 }
 
-void Renderer::DrawQuadtree(vtr::Rectangle rect) {
+void Renderer::DrawQuadtree(ftn::Rectangle rect) {
 	DrawRectangle(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y, false, C_RED, true);
 }
 
 void Renderer::DrawLimits() { 
-	vtr::Rectangle limits = system.get_limits();
+	ftn::Rectangle limits = system.get_limits();
 	DrawRectangle(limits.pos.x, limits.pos.y, limits.size.x, limits.size.y, false, C_RED, true); 
 }
 
@@ -293,13 +299,13 @@ void Renderer::Debug() {
 		case D_DEFAULT:
 			break;
 		case D_CONTACT: {
-			std::vector<vtr::Rectangle> quadtrees = this->system.get_quadtree()->get_all_bounds();
+			std::vector<ftn::Rectangle> quadtrees = this->system.get_quadtree()->get_all_bounds();
 			for (int i = 0; i < quadtrees.size(); i++) { DrawQuadtree(quadtrees.at(i)); }
 		} break;
 
 		case D_FORCES: {
 			// for (int i = 0; i < system.get_pairs_size(); i++) { DrawPair(system.get_pair(i)); }
-			std::vector<vtr::Rectangle> quadtrees = this->system.get_quadtree()->get_all_bounds();
+			std::vector<ftn::Rectangle> quadtrees = this->system.get_quadtree()->get_all_bounds();
 			for (int i = 0; i < quadtrees.size(); i++) { DrawQuadtree(quadtrees.at(i)); }
 			for (int i = 0; i < system.get_quad_pairs_size(); i++) { DrawPair(system.get_quad_pair(i)); }
 		} break;
@@ -311,17 +317,17 @@ void Renderer::Debug() {
 
 void Renderer::Interface() {
 
-	DrawText(vtr::to_string(debug_values[0]), 0, 0, 30, true, C_SUN);
-	DrawText("[D] Debug: " + vtr::to_string(debug_values[1]), this->window.getSize().x - 150, 0, 24, true, C_SUN);
+	DrawText(ftn::to_string(debug_values[0]), 0, 0, 30, true, C_SUN);
+	DrawText("[D] Debug: " + ftn::to_string(debug_values[1]), this->window.getSize().x - 150, 0, 24, true, C_SUN);
 
-	DrawRectangle(0, this->window.getSize().y - 35, 35, this->window.getSize().x, true, C_BLACK);
+	DrawRectangle(0, this->window.getSize().y - 35, this->window.getSize().x, 35, true, C_BLACK);
 
-	DrawText("mouse [ " + vtr::to_string(round(debug_values[2])) + " ; " + vtr::to_string(round(debug_values[3])) + " ]", 10, this->window.getSize().y - 30, 18, true, C_SUN);
-	DrawText("[ " + vtr::to_string(round(debug_values[4])) + " ; " + vtr::to_string(round(debug_values[5])) + " ]", 180, this->window.getSize().y - 30, 18, true, C_SUN);
-	DrawText("camera x" +  vtr::to_string(debug_values[6]), 380, this->window.getSize().y - 30, 18, true, C_SUN);
-	DrawText("[ " + vtr::to_string(debug_values[7]) + " ; " + vtr::to_string(debug_values[8]) + " ]", 510, this->window.getSize().y - 30, 18, true, C_SUN);
+	DrawText("mouse [ " + ftn::to_string(round(debug_values[2])) + " ; " + ftn::to_string(round(debug_values[3])) + " ]", 10, this->window.getSize().y - 30, 18, true, C_SUN);
+	DrawText("[ " + ftn::to_string(round(debug_values[4])) + " ; " + ftn::to_string(round(debug_values[5])) + " ]", 180, this->window.getSize().y - 30, 18, true, C_SUN);
+	DrawText("camera x" +  ftn::to_string(debug_values[6]), 380, this->window.getSize().y - 30, 18, true, C_SUN);
+	DrawText("[ " + ftn::to_string(debug_values[7]) + " ; " + ftn::to_string(debug_values[8]) + " ]", 510, this->window.getSize().y - 30, 18, true, C_SUN);
 	
-	DrawText("[r][t]dt: " + vtr::to_string(debug_values[10]), this->window.getSize().x - 310, this->window.getSize().y - 30, 18, true, C_SUN);
+	DrawText("[r][t]dt: " + ftn::to_string(debug_values[10]), this->window.getSize().x - 310, this->window.getSize().y - 30, 18, true, C_SUN);
 	
 	if (debug_values[9]) {
 		DrawText("[space] paused: true", this->window.getSize().x - 180, this->window.getSize().y - 30, 18, true, C_SUN);
@@ -335,10 +341,10 @@ void Renderer::DrawLine(int x1, int y1, int x2, int y2, sf::Color color) {
 
     // test if the line is in the screen bounds (TODO test if the line pass by the rect for screen for the zoom)
 	if (((x1 > get_real_pos_x(0)) && (x1 < get_real_pos_x(screen_width)) && (y1 > get_real_pos_y(0)) && (y1 < get_real_pos_y(screen_height))) || ((x2 > get_real_pos_x(0)) && (x2 < get_real_pos_x(screen_height)) && (y2 > get_real_pos_y(0)) && (y2 < get_real_pos_y(screen_height)))) {
-		sf::RectangleShape line(sf::Vector2f(vtr::Length(x1, y1, x2, y2), 5));
+		sf::RectangleShape line(sf::Vector2f(ftn::Length(x1, y1, x2, y2), 5));
 		line.setOrigin(0, 2);
 		line.setPosition(x2, y2);
-		line.rotate(vtr::bearing(x1, y1, x2, y2));
+		line.rotate(ftn::bearing(x1, y1, x2, y2));
 		line.setFillColor(color);
 		this->window.draw(line);
 	}
@@ -356,7 +362,7 @@ void Renderer::DrawCircle(int x, int y, int radius, sf::Color color) {
 	}
 }
 
-void Renderer::DrawRectangle(int x, int y, int height, int width, bool fixed, sf::Color color, bool outline) {
+void Renderer::DrawRectangle(int x, int y, int width, int height, bool fixed, sf::Color color, bool outline) {
 	if (fixed) {
 		sf::RectangleShape rect(sf::Vector2f(width, height));
 		rect.setPosition(x, y);
@@ -381,6 +387,16 @@ void Renderer::DrawRectangle(int x, int y, int height, int width, bool fixed, sf
 			this->window.draw(rect);
 		}
 	}
+}
+
+void Renderer::DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color) {
+	sf::ConvexShape convex;
+
+	convex.setPointCount(points.size());
+	for (int i=0; i<points.size(); i++) { convex.setPoint(i, points.at(i)); }
+	
+	convex.setFillColor(color);
+	this->window.draw(convex);
 }
 	
 
@@ -451,7 +467,7 @@ float Renderer::get_real_pos_y(float y) {
 	// return this->view.getCenter().y + (this->camera_y + y - this->view.getCenter().y - (this->screen_height/2)) * get_camera_size(); 
 }
 
-bool Renderer::rect_in_screen(vtr::Rectangle rect) {
+bool Renderer::rect_in_screen(ftn::Rectangle rect) {
 	// One point in screen
 	if (rect.pos.x > get_real_pos_x(0) && rect.pos.x < get_real_pos_x(screen_width)) { return true; }
 	if (rect.pos.x + rect.size.x > get_real_pos_x(0) && rect.pos.x + rect.size.x  < get_real_pos_x(screen_width)) { return true; }
@@ -464,10 +480,10 @@ bool Renderer::rect_in_screen(vtr::Rectangle rect) {
 	return false; // is it faster to test first for true or for false?
 }
 
-void Renderer::addText(vtr::Text txt) { this->texts.push_back(txt); }
+void Renderer::addText(ftn::Text txt) { this->texts.push_back(txt); }
 void Renderer::DrawTexts() {
 	for (int i = 0; i < this->texts.size(); i++) { 
-		vtr::Text txt = this->texts.at(i);
+		ftn::Text txt = this->texts.at(i);
 		DrawText(txt.str, txt.x, txt.y, txt.size, txt.fixed, txt.color);
 	}
 }

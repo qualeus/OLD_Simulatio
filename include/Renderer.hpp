@@ -79,7 +79,7 @@ private:
 	const static int DELAY_DEBUG = 3;
 	int counter_debug;
 
-	std::vector<vtr::Text> texts = { };
+	std::vector<ftn::Text> texts = { };
 public:
 
 	phy::System system;
@@ -109,7 +109,7 @@ public:
 	void Draw(); // Manage the drawing of the Renderer
 	void DrawCorpse(std::shared_ptr<phy::Corpse> corpse);
 	void DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair);
-	void DrawQuadtree(vtr::Rectangle rect);
+	void DrawQuadtree(ftn::Rectangle rect);
 	void DrawLimits();
 
 	void Debug(); // Draw the Debug objects
@@ -122,7 +122,7 @@ public:
 	void DrawLine(int x1, int y1, int x2, int y2, sf::Color color = sf::Color::White);
 	void DrawCircle(int x, int y, int radius, sf::Color color = sf::Color::White);
 	void DrawRectangle(int x, int y, int height, int width, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);
-	void DrawPolygon(/* array of points, sf::Color color = sf::Color::White */ ); 
+	void DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color = sf::Color::White); 
 	void DrawText(std::string str, int x, int y, int size = 20, bool fixed = false, sf::Color color = sf::Color::White);
 
 	void Camera(sf::Vector2f move, float zoom = 1.0f); // Update the positio of the Camera
@@ -157,9 +157,9 @@ public:
 	float get_real_pos_x(float x);
 	float get_real_pos_y(float y);
 
-	bool rect_in_screen(vtr::Rectangle rect);
+	bool rect_in_screen(ftn::Rectangle rect);
 
-	void addText(vtr::Text txt);
+	void addText(ftn::Text txt);
 	void DrawTexts();
 };
 

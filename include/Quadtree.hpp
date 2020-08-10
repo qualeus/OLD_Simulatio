@@ -19,7 +19,7 @@ class Quadtree
 {
 private:
 	int level;
-	struct vtr::Rectangle bounds;
+	struct ftn::Rectangle bounds;
 
 	std::shared_ptr<Quadtree> node_A;
 	std::shared_ptr<Quadtree> node_B;
@@ -29,7 +29,7 @@ private:
 	std::vector<std::shared_ptr<Corpse>> corpses;
 	
 public:
-	Quadtree(vtr::Rectangle bounds = vtr::Rectangle({sf::Vector2f(), sf::Vector2f()}), int level=1);
+	Quadtree(ftn::Rectangle bounds = ftn::Rectangle({sf::Vector2f(), sf::Vector2f()}), int level=1);
 	virtual ~Quadtree();
 
 	void clear();
@@ -51,7 +51,7 @@ public:
 	std::shared_ptr<Quadtree> get_node(int i);
 	void set_node(int i, std::shared_ptr<Quadtree> node);
 
-	std::vector<vtr::Rectangle> get_all_bounds();
+	std::vector<ftn::Rectangle> get_all_bounds();
 };
 
 }

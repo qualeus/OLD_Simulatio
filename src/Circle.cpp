@@ -2,15 +2,14 @@
 
 namespace phy {
 
-Circle::Circle(float x, float y, float size, float mass, float damping, float speed_x, float speed_y, bool fixed, bool etherial, sf::Color color):Corpse(x, y, mass, damping, fixed, etherial) {
+Circle::Circle(float x, float y, float size, float mass, float damping, float speed_x, float speed_y, bool fixed, bool etherial, sf::Color color):Corpse(x, y, mass, damping, fixed, etherial, color) {
 	this->last_pos = sf::Vector2f(x-speed_x, y-speed_y);
 	this->size = size;
-	this->color = color;
 }
 
 Circle::~Circle() {}
 
-const int Circle::get_class() { return ID_CIRCLE;}
+int Circle::get_class() const { return ID_CIRCLE;}
 
 void Circle::Step() {
 	if (this->fixed)  {
@@ -23,22 +22,35 @@ void Circle::Step() {
 }
 void Circle::Stop() { this->last_pos = this->current_pos; }
 
-void Circle::Move(float x, float y) { this->current_pos = this->current_pos+sf::Vector2f(x, y); }
-void Circle::Move(sf::Vector2f move) { this->current_pos = this->current_pos+move; }
+void Circle::Move(float x, float y, bool relative) { 
+	if(relative) {
+		this->current_pos = this->current_pos+sf::Vector2f(x, y); 
+	} else {
+		this->current_pos = sf::Vector2f(x, y); 
+	}
+}
+void Circle::Move(sf::Vector2f move, bool relative) { 
+	if (relative) {
+		this->current_pos = this->current_pos+move;
+	} else {
+		this->current_pos = move;
+	} 
+}
 bool Circle::inBounds(float x1, float x2, float y1, float y2) {
 	return ((this->current_pos.x + this->size > x1) && (this->current_pos.x - this->size < x2) && (this->current_pos.y + this->size > y1) && (this->current_pos.y - this->size < y2)) || ((this->current_pos.x > x1) && (this->current_pos.x < x2) && (this->current_pos.y > y1) && (this->current_pos.y < y2)) ;
 }
 
 bool Circle::Pointed(float x, float y) {
-	return (vtr::Length(this->get_pos_x(), this->get_pos_y(), x, y) <= this->size);
+	return (ftn::Length(this->get_pos_x(), this->get_pos_y(), x, y) <= this->size);
 }
 
 void Circle::Collision(std::shared_ptr<Corpse> a) {
 	if (Circle* circle = dynamic_cast<Circle*>(a.get())) {
-		// Circle on Circle Collision
-		float distance = vtr::Length(this->get_pos_x(), this->get_pos_y(), circle->get_pos_x(), circle->get_pos_y());
+
+		// Circle / Circle Collision
+		float distance = ftn::Length(this->get_pos_x(), this->get_pos_y(), circle->get_pos_x(), circle->get_pos_y());
 		bool asymetric = this->get_fixed() || circle->get_fixed();		
-		
+
 		// Repulsion for avoid the corpses superposition
 		float overlap = (this->get_size() + circle->get_size() - distance) * 0.5f;
 		float x_diff = this->get_pos_x() - circle->get_pos_x();
@@ -66,15 +78,14 @@ void Circle::Collision(std::shared_ptr<Corpse> a) {
 			}
 		}
 		
-		
     } else if (Polygon* polygon = dynamic_cast<Polygon*>(a.get())) {
     	// Circle / Polygon
     	
     }
 }
 
-float Circle::get_size() { return this->size; }
+float Circle::get_size() const { return this->size; }
 
-vtr::Rectangle Circle::get_corpse_bounds() { return vtr::Rectangle({sf::Vector2f(this->get_pos_x()-this->get_size(), this->get_pos_y()-this->get_size()), sf::Vector2f(this->get_size() * 2.0f, this->get_size() * 2.0f)}); }
+ftn::Rectangle Circle::get_corpse_bounds() const { return ftn::Rectangle({sf::Vector2f(this->get_pos_x()-this->get_size(), this->get_pos_y()-this->get_size()), sf::Vector2f(this->get_size() * 2.0f, this->get_size() * 2.0f)}); }
 
 }

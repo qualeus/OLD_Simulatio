@@ -10,7 +10,7 @@
 
 #define PI 3.141592654
 
-namespace vtr {
+namespace ftn {
 
 struct Rectangle {
 	sf::Vector2f pos;
@@ -36,16 +36,24 @@ float Length(float x1, float y1, float x2, float y2);
 float degree_to_radian(float degree);
 float radian_to_degree(float radian);
 
-void Normalize(sf::Vector2f &vect);
+sf::Vector2f Normalize(const sf::Vector2f &vect);
 void Rotate(sf::Vector2f &vect, int angle);
 void Scale(sf::Vector2f &vect, float scale);
+bool Lines_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const sf::Vector2f &vect_D);
+
+int line_orientation(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C);
+bool on_segment(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C);
+bool Segments_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const sf::Vector2f &vect_D);
+bool Test_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const sf::Vector2f &vect_D);
+
+sf::Vector2f Projection(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
 
 float digits_comma(float number, int digits);
 
 float bearing(float x1, float y1, float x2, float y2);
 
-bool rect_in_bounds(const vtr::Rectangle &object, const vtr::Rectangle &limits);
-bool rect_out_bounds(const vtr::Rectangle &object, const vtr::Rectangle &limits);
+bool rect_in_bounds(const ftn::Rectangle &object, const ftn::Rectangle &limits);
+bool rect_out_bounds(const ftn::Rectangle &object, const ftn::Rectangle &limits);
 
 template<class C>
 std::shared_ptr<C> remove(int i, std::vector<std::shared_ptr<C>> &vect) {
@@ -59,7 +67,24 @@ std::string to_string(T value) {
 	std::ostringstream oss;
 	oss << value;
 	return oss.str();
-} 
+}
+
+template <typename T>
+std::string to_string(std::vector<T> vector) {
+	std::ostringstream oss;
+	oss << "{";
+	if (!vector.empty()) {
+		std::copy(vector.begin(), vector.end()-1, std::ostream_iterator<T>(oss, ","));
+    	oss << vector.back();
+	}
+    oss << "}";
+	return oss.str();
+}
+
+template <typename T>
+bool decimal_equals(const T& a, const T& b, T epsilon = std::numeric_limits<T>::epsilon()) {
+	return fabs(a - b) < epsilon;
+}
 
 }
 #endif

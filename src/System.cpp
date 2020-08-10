@@ -8,53 +8,45 @@ System::System(bool gravity, float force_x, float force_y, float limit_x, float 
 	this->force_y = force_y;
 	this->dt = 1000;
 
+	this->corpses_size = 0;
 	this->corpses = std::vector<std::shared_ptr<Corpse>>();
+
+	this->pairs_size = 0;
 	this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
 	this->quad_pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
 
 	this->quadtree = Quadtree({sf::Vector2f(-limit_x/2.0f, -limit_y/2.0f), sf::Vector2f(limit_x, limit_y)}, 1);
-	// this->quadtree = Quadtree({sf::Vector2f(50, -250), sf::Vector2f(1000, 1000)}, 1);
-
-	// Optimisation 
-	//  - when obj on vert lim do not add
-
-	this->corpses_size = 0;
-	this->pairs_size = 0;
 
 	this->limits = {sf::Vector2f(-(AROUND_QUADTREE+limit_x)/2.0f, -(AROUND_QUADTREE+limit_y)/2.0f), sf::Vector2f(limit_x+AROUND_QUADTREE, limit_y+AROUND_QUADTREE)};
+	Prepare();
 }
 
 System::~System() {}
 
 void System::Prepare() {
-	this->quadtree.clear();
-	for (int i = 0; i < corpses_size; i++) { 
-		if (get_corpse(i)->get_removed()) { continue; } // Removed
-
-		this->quadtree.insert(get_corpse(i));
-	}
+	InitQuadtree();
 }
 
 void System::Step() {
-	Prepare();
 	CheckLimits();
 	CorpsesStep();
+	StepQuadtree();
 	PairsStep();
 }
 
 void System::CheckLimits() {
 	for (int i = 0; i < corpses_size; i++) {
 		if (phy::Circle* circle = dynamic_cast<phy::Circle*>(get_corpse(i).get())) {
-			if (vtr::rect_out_bounds(circle->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
+			if (ftn::rect_out_bounds(circle->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
 	    } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(get_corpse(i).get())) {
-	    	
+	    	if (ftn::rect_out_bounds(polygon->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
 	    }
 	}
 }
 
 void System::CorpsesStep() {
 	for (int i = 0; i < corpses_size; i++) {
-		if (get_corpse(i)->get_removed()) { continue; }// Removed
+		if (get_corpse(i)->get_removed()) { continue; } // Removed
 
 		get_corpse(i)->Step(); 
 		if (!get_corpse(i)->get_fixed()) { get_corpse(i)->Move(sf::Vector2f(this->force_x, this->force_y)); }
@@ -97,7 +89,7 @@ void System::Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
 	if (a->get_removed() || b->get_removed()) { return; } // Removed
 
 	// Gravity
-	float dist = vtr::Length(a->get_pos_x(), a->get_pos_y(), b->get_pos_x(), b->get_pos_y()) + 10;
+	float dist = ftn::Length(a->get_pos_x(), a->get_pos_y(), b->get_pos_x(), b->get_pos_y()) + 10;
 	
 	// G * (ma * mb)/(r^2)
 	float force = G * ((a->get_mass() * b->get_mass()) / pow(dist, 2));
@@ -126,6 +118,18 @@ void System::Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
 	b->Move(sf::Vector2f((a->get_pos_x() - b->get_pos_x()) / dist, (a->get_pos_y() - b->get_pos_y()) / dist) * force * normal_mass_b);
 }
 
+void System::InitQuadtree() {
+	StepQuadtree();
+}
+
+void System::StepQuadtree() {
+	this->quadtree.clear();
+	for (int i = 0; i < corpses_size; i++) { 
+		if (get_corpse(i)->get_removed()) { continue; } // Removed
+		this->quadtree.insert(get_corpse(i));
+	}
+}
+
 std::shared_ptr<Quadtree> System::get_quadtree() { return std::make_shared<Quadtree>(this->quadtree); }
 
 int System::get_dt() { return this->dt; }
@@ -145,41 +149,34 @@ int System::get_corpses_size() { return this->corpses_size; }
 int System::get_pairs_size() { return this->pairs_size; }
 int System::get_quad_pairs_size() { return this->quad_pairs.size(); }
 
-void System::addCorpse(Polygon a) { add_corpse(std::make_shared<Polygon>(a)); }
-void System::addCorpse(Circle a) { add_corpse(std::make_shared<Circle>(a)); }
+void System::addCorpse(Polygon poly) { 
+	this->polygons.push_back(poly);
+	add_corpse(std::make_shared<Polygon>(this->polygons.at(this->polygons.size()-1))); 
+}
+void System::addCorpse(Circle circ) {
+	this->circles.push_back(circ);
+	add_corpse(std::make_shared<Circle>(this->circles.at(this->circles.size()-1))); 
+}
 
 void System::add_corpse(std::shared_ptr<Corpse> a) {
 	this->corpses.emplace_back(std::move(a));
 	this->corpses_size++; // Update the size of the array = n
-
-	if (corpses_size > 1) {
-		for (int b = 0; b < corpses_size - 1; b++) { System::add_pair(a, get_corpse(b)); }
-	}
-}
-
-void  System::add_corpse(std::shared_ptr<Circle> a) {
-	this->corpses.emplace_back(std::move(a));
-	this->corpses_size++; // Update the size of the array = n
-
-	if (corpses_size > 1) {
-		for (int b = 0; b < corpses_size - 1; b++) { System::add_pair(get_corpse(corpses_size-1), get_corpse(b)); }
-	}
+	if (corpses_size > 1) { for (int b = 0; b < corpses_size - 1; b++) { System::add_pair(a, get_corpse(b)); } }
 }
 
 void System::add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
 	this->pairs.push_back({a, b});
-
 	this->pairs_size++; // Update the size of the array = [n(n-1)]/2
 }
 
-vtr::Rectangle System::get_limits() { return this->limits; }
+ftn::Rectangle System::get_limits() { return this->limits; }
 std::vector<std::shared_ptr<Corpse>> System::get_corpses() { return this->corpses; }
 std::shared_ptr<Corpse> System::get_corpse(int index) { if (index >= 0 && index < get_corpses_size()) { return this->corpses.at(index); } else { return nullptr; } }
 
-std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>  System::get_pairs() { return this->pairs; }
-std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>  System::get_pair(int index) { if (index >= 0 && index < get_pairs_size()) { return this->pairs.at(index); } else { return {nullptr, nullptr}; } }
+std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> System::get_pairs() { return this->pairs; }
+std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> System::get_pair(int index) { if (index >= 0 && index < get_pairs_size()) { return this->pairs.at(index); } else { return {nullptr, nullptr}; } }
 std::shared_ptr<Corpse> System::get_pair_A(int index) { if (index >= 0 && index < get_pairs_size()) { return this->pairs.at(index).first; } else { return nullptr; } }
-std::shared_ptr<Corpse>  System::get_pair_B(int index) { if (index >= 0 && index < get_pairs_size()) { return this->pairs.at(index).second; } else { return nullptr; } }
+std::shared_ptr<Corpse> System::get_pair_B(int index) { if (index >= 0 && index < get_pairs_size()) { return this->pairs.at(index).second; } else { return nullptr; } }
 
 std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> System::get_quad_pair(int index) { if (index >= 0 && index < this->quad_pairs.size()) { return this->quad_pairs.at(index); } else { return {nullptr, nullptr}; } }
 

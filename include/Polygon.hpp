@@ -15,32 +15,38 @@ class Polygon : public Corpse
 {
 private:
 	int points_number;
-	std::vector<std::shared_ptr<sf::Vector2f>> points;
+	std::vector<sf::Vector2f> points;
+	std::vector<sf::Vector2f> relative_points;
 
 public:
-	Polygon(float x = 0.0f, float y = 0.0f, float size = 1.0f, float mass = 1.0f, float damping = 1.0f, float speed_x = 0.0f, float speed_y = 0.0f, bool fixed = false, bool etherial = false, sf::Color color = sf::Color::White);
+	Polygon(std::vector<sf::Vector2f> points = std::vector<sf::Vector2f>(), float mass = 1.0f, float damping = 1.0f, float speed_x = 0.0f, float speed_y = 0.0f, bool fixed = false, bool etherial = false, sf::Color color = sf::Color::White);
 	virtual ~Polygon();
 
 	const int get_class();
 
 	void Step();
 	void Stop();
-	void Move(float x, float y);
-	void Move(sf::Vector2f move);
+	void Move(float x, float y, bool relative = true);
+	void Move(sf::Vector2f move, bool relative = true);
 	bool inBounds(float x1, float x2, float y1, float y2);
 	bool Pointed(float x, float y);
 
 	void Collision(std::shared_ptr<Corpse> a);
 
-	std::vector<std::shared_ptr<sf::Vector2f>> get_points();
-	void set_points(std::vector<std::shared_ptr<sf::Vector2f>> points);
+	void update_points();
+	std::vector<sf::Vector2f> init_relative_points(std::vector<sf::Vector2f> points, sf::Vector2f pos);
+	void set_points(std::vector<sf::Vector2f> points);
 
 	void add_point(int i);
 	void remove_point(int i);
 
-	void compute_center(); // position = average of all points
-
-	vtr::Rectangle get_corpse_bounds();
+	sf::Vector2f compute_center(std::vector<sf::Vector2f> points);
+	ftn::Rectangle get_corpse_bounds() const;
+	int get_points_number() const;
+	std::vector<sf::Vector2f> get_points() const;
+	std::vector<float> get_sides_size() const;
+	std::vector<sf::Vector2f> get_sides_val() const;
+	std::vector<std::pair<sf::Vector2f, sf::Vector2f>> get_sides() const;
 };
 
 }

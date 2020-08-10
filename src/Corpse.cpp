@@ -2,7 +2,7 @@
 
 namespace phy {
 
-Corpse::Corpse(float x, float y, float mass, float damping, bool fixed, bool etherial) {
+Corpse::Corpse(float x, float y, float mass, float damping, bool fixed, bool etherial, sf::Color color) {
 	static int global_corpse_id = 0;
 	this->id = global_corpse_id++;
 
@@ -11,6 +11,9 @@ Corpse::Corpse(float x, float y, float mass, float damping, bool fixed, bool eth
 	this->removed = false;
 	this->current_pos = sf::Vector2f(x, y);
 	this->mass = mass;
+	this->friction = 1.0f;
+
+	this->color = color;
 	set_damping(damping);
 }
 
@@ -30,32 +33,33 @@ void Corpse::Remove() { this->removed = true; }
 
 void Corpse::Step() {}
 void Corpse::Stop() {}
-void Corpse::Move(float x, float y) {}
-void Corpse::Move(sf::Vector2f move) {}
+void Corpse::Move(float x, float y, bool relative) {}
+void Corpse::Move(sf::Vector2f move, bool relative) {}
 void Corpse::Collision(std::shared_ptr<Corpse> a) {}
+sf::Vector2f Corpse::get_diff_pos() const { return (this->current_pos - this->last_pos); }
 
-sf::Color Corpse::get_color() { return this->color; }
+sf::Color Corpse::get_color() const { return this->color; }
 void Corpse::set_color(sf::Color color) { this->color = color; }
 
-sf::Vector2f Corpse::get_pos() { return this->current_pos; }
-float Corpse::get_pos_x() { return this->current_pos.x; }
-float Corpse::get_pos_y() { return this->current_pos.y; }
+sf::Vector2f Corpse::get_pos() const { return this->current_pos; }
+float Corpse::get_pos_x() const { return this->current_pos.x; }
+float Corpse::get_pos_y() const { return this->current_pos.y; }
 
 void Corpse::set_pos(sf::Vector2f pos) { this->current_pos = pos; }
 void Corpse::set_pos_x(float pos_x) { this->current_pos.x = pos_x; }
 void Corpse::set_pos_y(float pos_y) { this->current_pos.y = pos_y; }
 
-sf::Vector2f Corpse::get_last_pos() { return this->last_pos; }
-float Corpse::get_last_pos_x() { return this->last_pos.x; }
-float Corpse::get_last_pos_y() { return this->last_pos.y; }
+sf::Vector2f Corpse::get_last_pos() const { return this->last_pos; }
+float Corpse::get_last_pos_x() const { return this->last_pos.x; }
+float Corpse::get_last_pos_y() const { return this->last_pos.y; }
 
 void Corpse::set_last_pos(sf::Vector2f pos) { this->last_pos = pos; }
 void Corpse::set_last_pos_x(float pos_x) { this->last_pos.x = pos_x; }
 void Corpse::set_last_pos_y(float pos_y) { this->last_pos.y = pos_y; }
 
 void Corpse::set_damping(float damping) { if (damping < 0.1f) { this->damping = 0.1f; } else { this->damping = damping; } }
-float Corpse::get_bounce() { return 1.0f/this->damping; }
-float Corpse::get_mass() { return this->mass; }
+float Corpse::get_bounce() const { return 1.0f/this->damping; }
+float Corpse::get_mass() const { return this->mass; }
 
 bool Corpse::Equals(const Corpse* other) { 	
 	if (this->get_id() != other->get_id()) { return false; }

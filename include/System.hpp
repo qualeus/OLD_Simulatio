@@ -23,6 +23,11 @@ namespace phy {
 class System
 {
 private:
+	std::vector<Circle> circles;
+	std::vector<Polygon> polygons;
+
+	int corpses_size;
+	int pairs_size;
 	std::vector<std::shared_ptr<Corpse>> corpses;
 	std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> pairs;
 	std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> quad_pairs;
@@ -33,12 +38,9 @@ private:
 	float force_y;
 	bool gravity;
 
-	int corpses_size;
-	int pairs_size;
-
 	int dt;
 
-	vtr::Rectangle limits;
+	ftn::Rectangle limits;
 
 public:
 	System(bool gravity = false, float force_x = 0.0f, float force_y = 0.0f, float limit_x = 4000.0f, float limit_y = 4000.0f); // System Constructor
@@ -55,6 +57,8 @@ public:
 	void Collision(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
 	void Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
 
+	void InitQuadtree();
+	void StepQuadtree();
 	std::shared_ptr<Quadtree> get_quadtree();
 
 	int get_dt();
@@ -78,11 +82,9 @@ public:
 	void addCorpse(Circle a);
 
 	void add_corpse(std::shared_ptr<Corpse> a);
-	void add_corpse(std::shared_ptr<Circle> a);
-
 	void add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
 
-	vtr::Rectangle get_limits();
+	ftn::Rectangle get_limits();
 
 	std::vector<std::shared_ptr<Corpse>> get_corpses();
 	std::shared_ptr<Corpse> get_corpse(int index);

@@ -5,27 +5,22 @@
 int main()
 {
 
-	Renderer demo = Renderer(350.0f, 250.0f, 800.0f, 1200.0f, 0.7f, "Quadtree Demo", false, 0.0f, 0.0f, 1000, 1000);
-	demo.set_debug_type(2);
-	
-	demo.addText({"Move the red ball to see the \ncollision detection pairs update.", 265, 100, 15, false, C_SUN});
-	demo.addText({"On a edge, it associate with every body of \nthe sub node (where the edge is crossed).", 390, 240, 15, false, C_SUN});
-	demo.addText({"Place it here and it will not \nhave to check any collision.", 290, 360, 15, false, C_SUN});
-	demo.addText({"Here, it will associate with the \ntwo bodies to check if it collide.", 25, 380, 15, false, C_SUN});
-	demo.addText({"There, it will overflow the capacity \nof the edge and subdivise it.", 20, 40, 15, false, C_SUN});
-	demo.addText({"The corpses out the grid are soft \ndestroyed for better performances.", 1010, 360, 15, false, C_SUN});
-	
-	demo.system.addCorpse(phy::Circle(170, 120, 20, 5, 2, 0, 0, false, false, C_TURQUOISE));
-	demo.system.addCorpse(phy::Circle(30, 160, 20, 5, 2, 0, 0, false, false, C_TURQUOISE));
-	demo.system.addCorpse(phy::Circle(80, 160, 20, 5, 2, 0, 0, false, false, C_TURQUOISE));
-	demo.system.addCorpse(phy::Circle(210, 170, 20, 5, 2, 0, 0, false, false, C_TURQUOISE));
-	demo.system.addCorpse(phy::Circle(150, 200, 20, 5, 2, 0, 0, false, false, C_TURQUOISE));
+	Renderer test = Renderer(0.0f, 0.0f, 800.0f, 1200.0f, 1.0f, "Test", false, 0.0f, 1.0f, 2000.0f, 2000.0f);
 
-	demo.system.addCorpse(phy::Circle(360, 260, 20, 5, 2, 0, 0, false, false, C_RED));
+	test.system.addCorpse(phy::Circle(500, 100, 40, 5, 1, 0, 0, false, false, sf::Color::Red));
+	std::vector<sf::Vector2f> points = std::vector<sf::Vector2f>();
+	points.push_back({-100.0f, 50.0f});
+	points.push_back({20.0f, 90.0f});
+	points.push_back({120.0f, -150.0f});
+	points.push_back({-190.0f, -10.0f});
+	test.system.addCorpse(phy::Polygon(points, 5, 1, 10, -50, true, false, sf::Color::Green));
 
-	demo.system.addCorpse(phy::Circle(180, 300, 20, 5, 2, 0, 0, false, false, C_RIVER));
-	demo.system.addCorpse(phy::Circle(130, 330, 20, 5, 2, 0, 0, false, false, C_RIVER));
+	for (int i = 0; i < 200; ++i) { test.system.addCorpse(phy::Circle(rand() % 500 + 250, rand() % 500, rand() % 20 + 20, 5, 2, 0, 0, false, false, sf::Color::Blue)); }
 
-	demo.Render();
+	for (int i = 0; i < 10; ++i) { test.system.addCorpse(phy::Circle(100*i, 700, 50, 5, 1, 0, 0, true, false)); }
+	for (int i = 0; i < 10; ++i) { test.system.addCorpse(phy::Circle(0, -300 + 100*i, 50, 5, 1, 0, 0, true, false)); }
+	for (int i = 0; i < 10; ++i) { test.system.addCorpse(phy::Circle(900, -300 + 100*i, 50, 5, 1, 0, 0, true, false)); }
+
+	test.Render();
  	return 0;
 }
