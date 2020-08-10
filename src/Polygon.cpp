@@ -30,7 +30,9 @@ void Polygon::Move(sf::Vector2f move, bool relative) {
 	this->update_points();
 }
 
-bool Polygon::inBounds(float x1, float x2, float y1, float y2) { return true; }
+bool Polygon::inBounds(float x1, float x2, float y1, float y2) {
+	return true;
+}
 bool Polygon::Pointed(float x, float y) {
 	// Ray Casting Algorithm
 	std::vector<float> sizes = this->get_sides_size();
@@ -38,14 +40,93 @@ bool Polygon::Pointed(float x, float y) {
 
 	sf::Vector2f rayA = {x, y};
 	sf::Vector2f rayB = {x+ray_lenght, y}; //ftn::Normalize(this->get_pos()-sf::Vector2f(x, y))*ray_lenght;
-	std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = get_sides();
+	std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = this->get_sides();
 	int intersections = 0;
 	for (int i=0; i<sides.size(); i++) { if(ftn::Segments_Intersect(rayA, rayB, sides.at(i).first, sides.at(i).second)) { intersections++; } }
 	if ((intersections & 1) == 1) { return true; }
 	return false;
 }
 
-void Polygon::Collision(std::shared_ptr<Corpse> a) { }
+void Polygon::Collision(std::shared_ptr<Corpse> a) {
+	if (Circle* circle = dynamic_cast<Circle*>(a.get())) {
+		std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = this->get_sides();
+
+		for (int i=0; i<sides.size(); i++) {
+			auto test_intersect = ftn::Line_Circle_Intersect(sides.at(i).first, sides.at(i).second, circle->get_pos(), circle->get_size());
+			
+			// Collide if one side of the polygon intersect with the circle 
+			if (test_intersect.first) {
+				bool asymetric = this->get_fixed() || circle->get_fixed();		
+				float damping = (this->get_bounce() + circle->get_bounce()) * 0.5f;
+
+				float normal_mass = this->get_mass() + circle->get_mass();
+				float normal_mass_this = this->get_mass() / normal_mass;
+				float normal_mass_circle = circle->get_mass() / normal_mass;
+				if (asymetric) {
+					if (!this->get_fixed()) {
+						this->Move(sf::Vector2f(test_intersect.second.x, test_intersect.second.y) * damping * normal_mass_circle);
+					} else if (!circle->get_fixed()) {
+						circle->Move(-sf::Vector2f(test_intersect.second.x, test_intersect.second.y) * damping * normal_mass_this);
+					} else {
+						this->Move(sf::Vector2f(test_intersect.second.x, test_intersect.second.y) * 0.5f * damping * normal_mass_circle);
+						circle->Move(-sf::Vector2f(test_intersect.second.x, test_intersect.second.y) * 0.5f * damping * normal_mass_this);
+					}
+				} else {
+					this->Move(sf::Vector2f(test_intersect.second.x, test_intersect.second.y) * 0.5f * damping * normal_mass_circle);
+					circle->Move(-sf::Vector2f(test_intersect.second.x, test_intersect.second.y) * 0.5f * damping * normal_mass_this);
+				}
+				return;
+			}
+		}
+
+		// Collide if the center of the circle is in the polygon
+		if (this->Pointed(circle->get_pos().x, circle->get_pos().y)) {
+			bool asymetric = this->get_fixed() || circle->get_fixed();
+			float damping = (this->get_bounce() + circle->get_bounce()) * 0.5f;
+
+			float normal_mass = this->get_mass() + circle->get_mass();
+			float normal_mass_this = this->get_mass() / normal_mass;
+			float normal_mass_circle = circle->get_mass() / normal_mass;
+			
+			sf::Vector2f pos_diff = this->get_pos()-circle->get_pos();
+			if (asymetric) {
+				if (!this->get_fixed()) {
+					this->Move(-pos_diff * damping * normal_mass_circle);
+				} else if (!circle->get_fixed()) {
+					circle->Move(pos_diff * damping * normal_mass_this);
+				} else {
+					this->Move(-pos_diff * 0.5f * damping * normal_mass_circle);
+					circle->Move(pos_diff * 0.5f * damping * normal_mass_this);
+				}
+			} else {
+				this->Move(-pos_diff * 0.5f * damping * normal_mass_circle);
+				circle->Move(pos_diff * 0.5f * damping * normal_mass_this);
+			}	
+		}
+
+	} else if (Polygon* polygon = dynamic_cast<Polygon*>(a.get())) {
+		// Separating axis theorem
+
+		// Make separating axis (perpendicular to the line that pass by the two objects center)
+		sf::Vector2f axis = ftn::Norme(this->get_pos(), polygon->get_pos()); // sf::Vector2f axis = ftn::Norme(this->get_diff_pos(), polygon->get_diff_pos());
+		
+		// Find the two farthest points of the projection points on the separator axis
+		std::vector<float> self_projections = std::vector<float>();
+		std::vector<float> other_projections = std::vector<float>();
+
+		for (int i=0; i<this->get_points_number(); i++) { self_projections.push_back(ftn::Dot(this->get_points().at(i), axis)); }
+		for (int i=0; i<polygon->get_points_number(); i++) { other_projections.push_back(ftn::Dot(polygon->get_points().at(i), axis)); }
+
+		const auto self_minmax = std::minmax_element(self_projections.begin(), self_projections.end());
+		const auto other_minmax = std::minmax_element(other_projections.begin(), other_projections.end());
+		
+		float self_min = *self_minmax.first;
+		float self_max = *self_minmax.second;
+		float other_min = *other_minmax.first;
+		float other_max = *other_minmax.second;
+
+	}
+}
 
 void Polygon::update_points() {
 	for (int i=0; i<this->points_number; i++) { this->points.at(i) = this->get_pos() + this->relative_points.at(i); }

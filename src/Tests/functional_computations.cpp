@@ -29,6 +29,14 @@ void assert_Equals(const float& test_result, const float& true_result) {
 	}
 }
 
+void assert_Equals(const sf::Vector2f& test_result, const sf::Vector2f& true_result) {
+	if (ftn::decimal_equals(test_result.x, true_result.x, 0.05f) && ftn::decimal_equals(test_result.y, true_result.y, 0.05f)) {
+		functionnal_Message(test_result, true_result);
+	} else {
+		error_Message(test_result, true_result);
+	}
+}
+
 /* Test the ftn::Dot(vect2f, vect2f) function */
 void test_Dot_vect() {
 	std::cout << "\nTesting Dot_vect: [test_value == true_value ?]" << std::endl;
@@ -99,11 +107,27 @@ void test_Remove() {
 	assert_Equals(test_result, true_result);
 }
 
+void test_Segment_Projection() {
+
+	std::cout << "\nTesting Point projection on a Line: [test_value == true_value ?]" << std::endl;
+	
+	std::cout << "# Project point [5,3] on a line [0,0] [4,0]: ";
+	sf::Vector2f test_result = ftn::Segment_Projection({0,0}, {4,0}, {5,3});
+	sf::Vector2f true_result = {5, 0};
+	assert_Equals(test_result, true_result);
+
+	std::cout << "# Project point [452,-691] on a line [49,-727] [375,-274]: ";
+	test_result = ftn::Segment_Projection({49,-727}, {375,-274}, {452,-691});
+	true_result = {203.568,-512.217};
+	assert_Equals(test_result, true_result);
+}
+
 int main() {
 	std::cout << "unit test launching..." << std::endl;
 
 	test_Dot_vect();
 	test_Remove();
+	test_Segment_Projection();
 
 	system("pause");
 }

@@ -4,8 +4,13 @@
 float ftn::Dot(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b) { return vect_a.x*vect_b.x + vect_a.y*vect_b.y; }
 float ftn::Dot(float x1, float y1, float x2, float y2) { return x1*x2 + y1*y2; }
 
+/* Perp/Cross Dot product: [Ax Ay].[Bx By] = (Ax)(Bx)-(Ay)(By) = Amag*Bmag*sin(theta) */
+float ftn::Perp_Dot(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b) { return vect_a.x*vect_b.x - vect_a.y*vect_b.y; }
+float ftn::Perp_Dot(float x1, float y1, float x2, float y2) { return x1*x2 - y1*y2; }
+
 /* Vector length: c^2=a^2+b^2 <=> c = sqrt(a*a+b*b) */
 float ftn::Length(const sf::Vector2f &vect) { return std::sqrt(Dot(vect, vect)); }
+float ftn::Length(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B) { return std::sqrt(Dot(vect_B-vect_A, vect_B-vect_A)); }
 float ftn::Length(float x, float y) { return std::sqrt(Dot(x, y, x, y)); }
 float ftn::Length(float x1, float y1, float x2, float y2) { return std::sqrt(Dot(x1-x2, y1-y2, x1-x2, y1-y2)); }
 
@@ -15,10 +20,19 @@ float ftn::radian_to_degree(float radian) { return (radian / PI) * 180; }
 
 /* Normalize vect = [Ax Ay].(1/size) = [Ax/size Ay/size] */
 sf::Vector2f ftn::Normalize(const sf::Vector2f &vect) {
-	sf::Vector2f temp_vect = vect;
+	sf::Vector2f temp_vect = {vect.x, vect.y};
 	float length = ftn::Length(temp_vect);
 	if (length != 0 ) { temp_vect /= length; }
 	return temp_vect;
+}
+/* Return the Norme = [Ay - By, Bx - Ax] */
+sf::Vector2f ftn::Norme(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B) {
+	return sf::Vector2f(vect_A.y - vect_B.y, vect_B.x - vect_A.x);
+}
+
+/* Return the inverse Norme = [Ay - By, Bx - Ax] */
+sf::Vector2f ftn::inverse_Norme(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B) {
+	return sf::Vector2f(vect_B.y - vect_A.y, vect_A.x - vect_B.x);
 }
 
 /* Rotate vector: [Ax Ay].scale = [Ax*scale Ay*scale] */
@@ -128,12 +142,46 @@ bool ftn::Test_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B,
 }
 
 
-/* Project the vector A onto the vector B */
-sf::Vector2f ftn::Projection(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b) {
-	float dp = Dot(vect_a, vect_b); // dot product of A and B
-	float bd = Dot(vect_b, vect_b); // length of B squared
+/* Project point A onto the line B */
+sf::Vector2f ftn::Line_Projection(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b) {
+	float dp = ftn::Dot(vect_a, vect_b); // dot product of A and B
+	float bd = ftn::Dot(vect_b, vect_b); // length of B squared
 	if (bd == 0) { return sf::Vector2f(); }
 	return vect_b*(dp/bd); // proj = [(dp/bd)*vect_b.x, (dp/bd)*vect_b.y]
+}
+
+/* Projected point C onto the line AB */
+sf::Vector2f ftn::Segment_Projection(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b, const sf::Vector2f &vect_c) {
+	sf::Vector2f vect_ab = vect_b-vect_a; //v2
+	sf::Vector2f vect_ac = vect_c-vect_a; //v1
+
+	float dp = Dot(vect_ab, vect_ac); // dot product of A and B
+	float bd = Dot(vect_ab, vect_ab); // length of B squared
+	if (bd == 0) { return sf::Vector2f(); }
+	return vect_a + (dp/bd)*vect_ab; // proj = [(dp/bd)*vect_b.x, (dp/bd)*vect_b.y]
+}
+
+/* Test if the line segment [AB] intersect with the circle C. Return true if collide and the collision point */
+std::pair<bool, sf::Vector2f> ftn::Line_Circle_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const float &size) {
+	
+	sf::Vector2f closest = ftn::Segment_Projection(vect_A, vect_B, vect_C);
+	sf::Vector2f speed_dir = closest-vect_C;
+
+	// Check if one of the ends of the line segment (side) is inside the circle
+	if (ftn::Length(vect_A,vect_C) <= size) { return {true, speed_dir}; }
+	if (ftn::Length(vect_B,vect_C) <= size) { return {true, speed_dir}; }
+
+	// Check if the closest point on the line is inside the circle
+	/*
+	float side_len = ftn::Length(vect_A, vect_B);
+	float dot = ftn::Dot(vect_C-vect_A, vect_B-vect_A) / (side_len*side_len);
+	sf::Vector2f closest = vect_A + dot * (vect_B-vect_A);
+	*/
+
+	if (!ftn::on_segment(vect_A, vect_B, closest)) { return {false, sf::Vector2f()}; }
+	if (ftn::Length(closest,vect_C) <= size) { return {true, speed_dir}; }
+
+	return {false, sf::Vector2f()};
 }
 
 /* Return the float with a designed number of digits behind the comma */

@@ -249,6 +249,36 @@ void Renderer::Draw() {
 	for (int i = 0; i < system.get_corpses_size(); i++) {
 		DrawCorpse(system.get_corpse(i));
 	}
+
+	phy::Polygon* polygonA = dynamic_cast<phy::Polygon*>(system.get_corpse(1).get());
+	phy::Polygon* polygonB = dynamic_cast<phy::Polygon*>(system.get_corpse(2).get());
+
+	DrawLine(polygonA->get_pos_x(), polygonA->get_pos_y(), polygonB->get_pos_x(), polygonB->get_pos_y());
+
+	sf::Vector2f axis = ftn::Normalize(ftn::Norme(polygonA->get_pos(), polygonB->get_pos()))*300.0f;
+	sf::Vector2f pos_mid= {(polygonA->get_pos_x()+polygonB->get_pos_x())/2, (polygonA->get_pos_y()+polygonB->get_pos_y())/2};
+	DrawLine(pos_mid.x, pos_mid.y, pos_mid.x+axis.x, pos_mid.y+axis.y, sf::Color::Red);
+	/*
+	std::vector<float> self_projections = std::vector<float>();
+	std::vector<float> other_projections = std::vector<float>();
+
+	for (int i=0; i<polygonA->get_points_number(); i++) { self_projections.push_back(ftn::Dot(polygonA->get_points().at(i), axis)); }
+	for (int i=0; i<polygonB->get_points_number(); i++) { other_projections.push_back(ftn::Dot(polygonB->get_points().at(i), axis)); }
+
+	const auto self_minmax = std::minmax_element(self_projections.begin(), self_projections.end());
+	const auto other_minmax = std::minmax_element(other_projections.begin(), other_projections.end());
+	
+	float self_min = *self_minmax.first;
+	float self_max = *self_minmax.second;
+	float other_min = *other_minmax.first;
+	float other_max = *other_minmax.second;
+
+	sf::Vector2f proj = ftn::Segment_Projection(axis, pos_mid+axis, polygonA->get_points().at(0));
+	DrawCircle(proj.x, proj.y, 10);
+	DrawLine(polygonA->get_points().at(0).x, polygonA->get_points().at(0).y, proj.x, proj.y, sf::Color::Red);
+	*/
+	//std::cout << (pos_mid.x+axis.x)*self_min <<";"<< self_min << std::endl;
+	
 	DrawLimits();
 }
 
@@ -258,14 +288,14 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
     if (phy::Circle* circle = dynamic_cast<phy::Circle*>(corpse.get())) {
 		DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), circle->get_color()); 
     } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(corpse.get())) {
-    	ftn::Rectangle bounds = polygon->get_corpse_bounds();
-    	DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y);
+    	//ftn::Rectangle bounds = polygon->get_corpse_bounds();
+    	//DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y);
 
     	DrawPolygon(polygon->get_points(), polygon->get_color());
     	DrawCircle(polygon->get_pos_x(), polygon->get_pos_y(), 10, sf::Color::Red);
 
     	std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = polygon->get_sides();
-    	for (int i=0; i<sides.size(); i++) { DrawLine(sides.at(i).first.x, sides.at(i).first.y,sides.at(i).second.x, sides.at(i).second.y, sf::Color::Yellow); }
+    	for (int i=0; i<sides.size(); i++) { DrawLine(sides.at(i).first.x, sides.at(i).first.y,sides.at(i).second.x, sides.at(i).second.y, sf::Color::Blue); }
     }
 }
 
