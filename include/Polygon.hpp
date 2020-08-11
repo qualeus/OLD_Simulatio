@@ -37,7 +37,7 @@ public:
 	std::vector<sf::Vector2f> init_relative_points(std::vector<sf::Vector2f> points);
 	void set_points(std::vector<sf::Vector2f> points);
 
-	void add_point(int i);
+	void add_point(sf::Vector2f point);
 	void remove_point(int i);
 
 	sf::Vector2f compute_center(std::vector<sf::Vector2f> points);

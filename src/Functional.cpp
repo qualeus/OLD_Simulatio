@@ -161,6 +161,39 @@ sf::Vector2f ftn::Segment_Projection(const sf::Vector2f &vect_a, const sf::Vecto
 	return vect_a + (dp/bd)*vect_ab; // proj = [(dp/bd)*vect_b.x, (dp/bd)*vect_b.y]
 }
 
+/* Compute the centroid of the polygon with its edges */
+/*
+	X = SUM[(Xi + Xi+1) * (Xi * Yi+1 - Xi+1 * Yi)] / 6 / A
+	Y = SUM[(Yi + Yi+1) * (Xi * Yi+1 - Xi+1 * Yi)] / 6 / A
+*/
+sf::Vector2f ftn::Centroid(std::vector<std::pair<sf::Vector2f, sf::Vector2f>> edges) {
+	sf::Vector2f centroid = sf::Vector2f();
+	float signed_area = 0.0f;
+	float A = 0.0f;
+
+	for (int i=0; i<edges.size(); i++) {
+		sf::Vector2f pA = edges.at(i).first;
+		sf::Vector2f pB = edges.at(i).second;
+		A = pA.x*pB.y - pB.x*pA.y;
+		signed_area += A;
+		centroid += (pA+pB)*A;
+	}
+
+	if (signed_area == 0) { return sf::Vector2f(); }
+	signed_area*=0.5f;
+	centroid /= (6.0f*signed_area);
+	return centroid;
+}
+
+/* Compute the averages of the points */
+sf::Vector2f ftn::Points_Average(std::vector<sf::Vector2f> points) {
+	sf::Vector2f points_average = sf::Vector2f();
+	if (points.size() == 0) { return points_average; }
+
+	for (int i=0; i<points.size(); i++) { points_average = points_average + points.at(i); }
+	return points_average / (float)points.size();
+}
+
 /* Test if the line segment [AB] intersect with the circle of center C and of radius size. Return true if collide and the collision point */
 std::pair<bool, sf::Vector2f> ftn::Line_Circle_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const float &size) {
 	

@@ -8,8 +8,8 @@ Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float d
 	sf::Vector2f computed_center = phy::Polygon::compute_center(vect_points);
 	this->set_pos(computed_center);
 	this->points = vect_points;
-	this->last_pos = computed_center-sf::Vector2f(speed_x, speed_y);
 	this->points_number = vect_points.size();
+	this->last_pos = computed_center-sf::Vector2f(speed_x, speed_y);
 	this->relative_points = init_relative_points(vect_points);
 }
 
@@ -113,16 +113,23 @@ std::vector<sf::Vector2f> Polygon::init_relative_points(std::vector<sf::Vector2f
 
 void Polygon::set_points(std::vector<sf::Vector2f> points) { this->points = points; }
 
-void Polygon::add_point(int i) {}
+void Polygon::add_point(sf::Vector2f point) {
+	this->points.push_back(point);
+	this->points_number++;
+
+	sf::Vector2f diff_pos = this->current_pos - this->last_pos;
+	sf::Vector2f computed_center = phy::Polygon::compute_center(this->points);
+
+	this->set_pos(computed_center);
+	this->last_pos = computed_center-diff_pos;
+	this->relative_points = init_relative_points(this->points);
+	this->update_points();
+}
 void Polygon::remove_point(int i) {}
 
 sf::Vector2f Polygon::compute_center(std::vector<sf::Vector2f> points) {
-	sf::Vector2f points_average = sf::Vector2f(0.0f, 0.0f);
-	if (points.size() == 0) { return points_average; }
-
-	for (int i=0; i<points.size(); i++) { points_average = points_average + points.at(i); }
-	std::cout << ftn::to_string(points_average / (float)this->points_number) << std::endl;
-	return points_average / (float)this->points_number;
+	//return ftn::Points_Average(this->points);
+	return ftn::Centroid(this->get_sides());
 }
 
 
@@ -171,9 +178,9 @@ std::vector<sf::Vector2f> Polygon::get_sides_val() const {
 
 std::vector<std::pair<sf::Vector2f, sf::Vector2f>> Polygon::get_sides() const {
 	std::vector<std::pair<sf::Vector2f, sf::Vector2f>> pairs = std::vector<std::pair<sf::Vector2f, sf::Vector2f>>();
-	if (this->points_number > 1) {
-		for (int i=0; i<this->points_number-1; i++) { pairs.push_back({this->points.at(i),this->points.at(i+1)}); }
-		pairs.push_back({this->points.at(this->points_number-1),this->points.at(0)});
+	if (this->points.size() > 1) {
+		for (int i=0; i<this->points.size()-1; i++) { pairs.push_back({this->points.at(i),this->points.at(i+1)}); }
+		pairs.push_back({this->points.at(this->points.size()-1),this->points.at(0)});
 	}
 	return pairs;
 }

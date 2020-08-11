@@ -94,8 +94,15 @@ void Renderer::Input(sf::Event event) {
 			case sf::Mouse::Left:
 				if (!DragCorpseInit(event)) { DragPositionInit(event); }
 				break;
-			case sf::Mouse::Right:
-				break;
+			case sf::Mouse::Right: 
+			{
+				if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(this->system.get_corpse(1).get())) {
+
+					polygon->add_point(sf::Vector2f(this->sys_mouse_x, this->sys_mouse_y));
+				}
+				
+			}
+				break;	
 		}
 
 	} else if (event.type == sf::Event::MouseMoved) {

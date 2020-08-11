@@ -7,7 +7,7 @@ int main()
 
 	Renderer test = Renderer(0.0f, 0.0f, 800.0f, 1200.0f, 1.0f, "Test", false, 0.0f, 1.0f, 2000.0f, 2000.0f);
 
-	test.system.addCorpse(phy::Circle(500, 100, 40, 5, 1, 0, 0, false, false, sf::Color::Red));
+	test.system.addCorpse(phy::Circle(500, 100, 300, 5, 1, 0, 0, true, false, sf::Color::Red));
 	test.system.addCorpse(phy::Polygon({{600, 50},{720, 90},{820, -150},{590, -10}}, 5, 1, 10, -50, true, false, sf::Color::Green));
 	test.system.addCorpse(phy::Polygon({{-200, -200},{-200, 200},{200, 200},{200, -200}}, 5, 1, 10, -50, true, false, C_CARROT));
 
