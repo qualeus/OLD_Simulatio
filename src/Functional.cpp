@@ -161,15 +161,14 @@ sf::Vector2f ftn::Segment_Projection(const sf::Vector2f &vect_a, const sf::Vecto
 	return vect_a + (dp/bd)*vect_ab; // proj = [(dp/bd)*vect_b.x, (dp/bd)*vect_b.y]
 }
 
-/* Test if the line segment [AB] intersect with the circle C. Return true if collide and the collision point */
+/* Test if the line segment [AB] intersect with the circle of center C and of radius size. Return true if collide and the collision point */
 std::pair<bool, sf::Vector2f> ftn::Line_Circle_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const float &size) {
 	
 	sf::Vector2f closest = ftn::Segment_Projection(vect_A, vect_B, vect_C);
-	sf::Vector2f speed_dir = closest-vect_C;
 
 	// Check if one of the ends of the line segment (side) is inside the circle
-	if (ftn::Length(vect_A,vect_C) <= size) { return {true, speed_dir}; }
-	if (ftn::Length(vect_B,vect_C) <= size) { return {true, speed_dir}; }
+	if (ftn::Length(vect_A,vect_C) <= size) { return {true, closest}; }
+	if (ftn::Length(vect_B,vect_C) <= size) { return {true, closest}; }
 
 	// Check if the closest point on the line is inside the circle
 	/*
@@ -179,7 +178,7 @@ std::pair<bool, sf::Vector2f> ftn::Line_Circle_Intersect(const sf::Vector2f &vec
 	*/
 
 	if (!ftn::on_segment(vect_A, vect_B, closest)) { return {false, sf::Vector2f()}; }
-	if (ftn::Length(closest,vect_C) <= size) { return {true, speed_dir}; }
+	if (ftn::Length(closest,vect_C) <= size) { return {true, closest}; }
 
 	return {false, sf::Vector2f()};
 }

@@ -53,6 +53,8 @@ public:
 	virtual void Collision(std::shared_ptr<Corpse> a);
 	sf::Vector2f get_diff_pos() const;
 
+	void CollisionResponse(phy::Corpse* corpse_a, phy::Corpse* corpse_b, const sf::Vector2f& vect_force);
+
 	sf::Color get_color() const;
 	void set_color(sf::Color color);
 

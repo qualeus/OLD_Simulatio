@@ -38,6 +38,36 @@ void Corpse::Move(sf::Vector2f move, bool relative) {}
 void Corpse::Collision(std::shared_ptr<Corpse> a) {}
 sf::Vector2f Corpse::get_diff_pos() const { return (this->current_pos - this->last_pos); }
 
+void Corpse::CollisionResponse(phy::Corpse* corpse_a, phy::Corpse* corpse_b, const sf::Vector2f& vect_force) {
+	float normal_damping = (corpse_a->get_bounce() + corpse_b->get_bounce()) * 0.5f; // damping average
+	sf::Vector2f force = vect_force * normal_damping; // Damping is evenly distributed among the corpses
+
+	// Test if the collision is asymetric (Fixed/Not Fixed) / or if the two corpses are Fixed
+	if (corpse_a->get_fixed() || corpse_b->get_fixed()) {
+			if (!corpse_a->get_fixed()) {
+				// corpse_a is Not Fixed and corpse_b is Fixed
+				corpse_a->Move(force);
+			} else if (!corpse_b->get_fixed()) {
+				// corpse_a is Fixed and corpse_b is Not Fixed
+				corpse_b->Move(-force);
+			} else {
+				// Both corpse_a and corpse_b are Fixed
+				corpse_a->Move(force*0.5f);
+				corpse_b->Move(-force*0.5f);
+			}
+		} else {
+			// Both corpse_a and corpse_b are Not Fixed
+			// Mass response is not evenly distributed among the corpses
+			float normal_mass = corpse_a->get_mass() + corpse_b->get_mass();
+			float normal_mass_corpse_a = corpse_a->get_mass() / normal_mass;
+			float normal_mass_corpse_b = corpse_b->get_mass() / normal_mass;
+
+			corpse_a->Move(force * normal_mass_corpse_b * 0.5f); // Mass response of the corpse_b is projected onto the corpse_a
+			corpse_b->Move(-force * normal_mass_corpse_a * 0.5f); // Mass response of the corpse_a is projected onto the corpse_b
+		}
+		
+}
+
 sf::Color Corpse::get_color() const { return this->color; }
 void Corpse::set_color(sf::Color color) { this->color = color; }
 

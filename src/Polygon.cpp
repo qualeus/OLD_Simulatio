@@ -58,52 +58,17 @@ void Polygon::Collision(std::shared_ptr<Corpse> a) {
 			
 			// Collide if one side of the polygon intersect with the circle 
 			if (test_intersect.first) {
-				bool asymetric = this->get_fixed() || circle->get_fixed();		
-				float damping = (this->get_bounce() + circle->get_bounce()) * 0.5f;
-
-				float normal_mass = this->get_mass() + circle->get_mass();
-				float normal_mass_this = this->get_mass() / normal_mass;
-				float normal_mass_circle = circle->get_mass() / normal_mass;
-				if (asymetric) {
-					if (!this->get_fixed()) {
-						this->Move(sf::Vector2f(test_intersect.second.x, test_intersect.second.y) * damping * normal_mass_circle);
-					} else if (!circle->get_fixed()) {
-						circle->Move(-sf::Vector2f(test_intersect.second.x, test_intersect.second.y) * damping * normal_mass_this);
-					} else {
-						this->Move(sf::Vector2f(test_intersect.second.x, test_intersect.second.y) * 0.5f * damping * normal_mass_circle);
-						circle->Move(-sf::Vector2f(test_intersect.second.x, test_intersect.second.y) * 0.5f * damping * normal_mass_this);
-					}
-				} else {
-					this->Move(sf::Vector2f(test_intersect.second.x, test_intersect.second.y) * 0.5f * damping * normal_mass_circle);
-					circle->Move(-sf::Vector2f(test_intersect.second.x, test_intersect.second.y) * 0.5f * damping * normal_mass_this);
-				}
+				sf::Vector2f vector_response = ftn::Normalize(circle->get_pos() - test_intersect.second) * (ftn::Length(circle->get_pos(), test_intersect.second) - circle->get_size());
+				Corpse::CollisionResponse(this, circle, vector_response);
 				return;
 			}
 		}
 
 		// Collide if the center of the circle is in the polygon
 		if (this->Pointed(circle->get_pos().x, circle->get_pos().y)) {
-			bool asymetric = this->get_fixed() || circle->get_fixed();
-			float damping = (this->get_bounce() + circle->get_bounce()) * 0.5f;
-
-			float normal_mass = this->get_mass() + circle->get_mass();
-			float normal_mass_this = this->get_mass() / normal_mass;
-			float normal_mass_circle = circle->get_mass() / normal_mass;
-			
-			sf::Vector2f pos_diff = this->get_pos()-circle->get_pos();
-			if (asymetric) {
-				if (!this->get_fixed()) {
-					this->Move(-pos_diff * damping * normal_mass_circle);
-				} else if (!circle->get_fixed()) {
-					circle->Move(pos_diff * damping * normal_mass_this);
-				} else {
-					this->Move(-pos_diff * 0.5f * damping * normal_mass_circle);
-					circle->Move(pos_diff * 0.5f * damping * normal_mass_this);
-				}
-			} else {
-				this->Move(-pos_diff * 0.5f * damping * normal_mass_circle);
-				circle->Move(pos_diff * 0.5f * damping * normal_mass_this);
-			}	
+			sf::Vector2f vector_response = this->get_pos() - circle->get_pos();
+			Corpse::CollisionResponse(this, circle, vector_response);
+			return;	
 		}
 
 	} else if (Polygon* polygon = dynamic_cast<Polygon*>(a.get())) {
