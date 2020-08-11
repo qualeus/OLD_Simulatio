@@ -19,7 +19,7 @@ private:
 	std::vector<sf::Vector2f> relative_points;
 
 public:
-	Polygon(std::vector<sf::Vector2f> points = std::vector<sf::Vector2f>(), float mass = 1.0f, float damping = 1.0f, float speed_x = 0.0f, float speed_y = 0.0f, bool fixed = false, bool etherial = false, sf::Color color = sf::Color::White);
+	Polygon(std::initializer_list<sf::Vector2f> points = {}, float mass = 1.0f, float damping = 1.0f, float speed_x = 0.0f, float speed_y = 0.0f, bool fixed = false, bool etherial = false, sf::Color color = sf::Color::White);
 	virtual ~Polygon();
 
 	const int get_class();
@@ -34,7 +34,7 @@ public:
 	void Collision(std::shared_ptr<Corpse> a);
 
 	void update_points();
-	std::vector<sf::Vector2f> init_relative_points(std::vector<sf::Vector2f> points, sf::Vector2f pos);
+	std::vector<sf::Vector2f> init_relative_points(std::vector<sf::Vector2f> points);
 	void set_points(std::vector<sf::Vector2f> points);
 
 	void add_point(int i);

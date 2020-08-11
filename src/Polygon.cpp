@@ -2,11 +2,15 @@
 
 namespace phy {
 
-Polygon::Polygon(std::vector<sf::Vector2f> points, float mass, float damping, float speed_x, float speed_y, bool fixed, bool etherial, sf::Color color):Corpse(compute_center(points).x, compute_center(points).y, mass, damping, fixed, etherial, color) {
-	this->last_pos = sf::Vector2f(compute_center(points).x-speed_x, compute_center(points).y-speed_y);
-	this->points_number = points.size();
-	this->points = points;
-	this->relative_points = init_relative_points(points, compute_center(points));
+Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float damping, float speed_x, float speed_y, bool fixed, bool etherial, sf::Color color):Corpse(0.0f, 0.0f, mass, damping, fixed, etherial, color) {
+	std::cout << "bnuilde" << std::endl;
+	std::vector<sf::Vector2f> vect_points(std::begin(points), std::end(points));
+	sf::Vector2f computed_center = phy::Polygon::compute_center(vect_points);
+	this->set_pos(computed_center);
+	this->points = vect_points;
+	this->last_pos = computed_center-sf::Vector2f(speed_x, speed_y);
+	this->points_number = vect_points.size();
+	this->relative_points = init_relative_points(vect_points);
 }
 
 Polygon::~Polygon() {}
@@ -100,7 +104,8 @@ void Polygon::update_points() {
 	for (int i=0; i<this->points_number; i++) { this->points.at(i) = this->get_pos() + this->relative_points.at(i); }
 }
 
-std::vector<sf::Vector2f> Polygon::init_relative_points(std::vector<sf::Vector2f> points, sf::Vector2f pos) {
+std::vector<sf::Vector2f> Polygon::init_relative_points(std::vector<sf::Vector2f> points) {
+	sf::Vector2f pos = phy::Polygon::compute_center(points);
 	std::vector<sf::Vector2f> relative_points = std::vector<sf::Vector2f>();
 	for (int i=0; i<points.size(); i++) { relative_points.push_back(points.at(i)-pos); }
 	return relative_points;
@@ -116,6 +121,7 @@ sf::Vector2f Polygon::compute_center(std::vector<sf::Vector2f> points) {
 	if (points.size() == 0) { return points_average; }
 
 	for (int i=0; i<points.size(); i++) { points_average = points_average + points.at(i); }
+	std::cout << ftn::to_string(points_average / (float)this->points_number) << std::endl;
 	return points_average / (float)this->points_number;
 }
 
