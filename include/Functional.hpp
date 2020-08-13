@@ -58,7 +58,9 @@ sf::Vector2f Segment_Projection(const sf::Vector2f &vect_a, const sf::Vector2f &
 
 sf::Vector2f Centroid(std::vector<std::pair<sf::Vector2f, sf::Vector2f>> edges);
 sf::Vector2f Points_Average(std::vector<sf::Vector2f> points);
-std::pair<bool, sf::Vector2f> Line_Circle_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const float &size);
+std::pair<int, sf::Vector2f> Line_Circle_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const float &size);
+
+std::pair<sf::Vector2f, sf::Vector2f> Closest_Edge(std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides, sf::Vector2f point);
 
 float digits_comma(float number, int digits);
 

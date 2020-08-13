@@ -195,13 +195,11 @@ sf::Vector2f ftn::Points_Average(std::vector<sf::Vector2f> points) {
 }
 
 /* Test if the line segment [AB] intersect with the circle of center C and of radius size. Return true if collide and the collision point */
-std::pair<bool, sf::Vector2f> ftn::Line_Circle_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const float &size) {
+std::pair<int, sf::Vector2f> ftn::Line_Circle_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const float &size) {
 	
-	sf::Vector2f closest = ftn::Segment_Projection(vect_A, vect_B, vect_C);
-
 	// Check if one of the ends of the line segment (side) is inside the circle
-	if (ftn::Length(vect_A,vect_C) <= size) { return {true, closest}; }
-	if (ftn::Length(vect_B,vect_C) <= size) { return {true, closest}; }
+	if (ftn::Length(vect_A,vect_C) <= size) { return {2, sf::Vector2f()}; }
+	if (ftn::Length(vect_B,vect_C) <= size) { return {3, sf::Vector2f()}; }
 
 	// Check if the closest point on the line is inside the circle
 	/*
@@ -209,11 +207,28 @@ std::pair<bool, sf::Vector2f> ftn::Line_Circle_Intersect(const sf::Vector2f &vec
 	float dot = ftn::Dot(vect_C-vect_A, vect_B-vect_A) / (side_len*side_len);
 	sf::Vector2f closest = vect_A + dot * (vect_B-vect_A);
 	*/
+	sf::Vector2f closest = ftn::Segment_Projection(vect_A, vect_B, vect_C);
 
-	if (!ftn::on_segment(vect_A, vect_B, closest)) { return {false, sf::Vector2f()}; }
-	if (ftn::Length(closest,vect_C) <= size) { return {true, closest}; }
+	if (!ftn::on_segment(vect_A, vect_B, closest)) { return {0, sf::Vector2f()}; }
+	if (ftn::Length(closest,vect_C) <= size) { return {1, closest}; }
 
-	return {false, sf::Vector2f()};
+	return {0, sf::Vector2f()};
+}
+/* Find the closest edge to the point by finding the closest projected point */
+std::pair<sf::Vector2f, sf::Vector2f> ftn::Closest_Edge(std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides, sf::Vector2f point) {
+
+	const auto closest = std::min_element(sides.begin(), sides.end(), 
+	[point](const std::pair<sf::Vector2f, sf::Vector2f>& lhs, const std::pair<sf::Vector2f, sf::Vector2f>& rhs) {
+
+		sf::Vector2f pro_lhs = ftn::Segment_Projection(lhs.first, lhs.second, point);
+		sf::Vector2f pro_rhs = ftn::Segment_Projection(rhs.first, rhs.second, point);
+
+		float dot_dist_lhs = ftn::Length(pro_lhs, point);
+		float dot_dist_rhs = ftn::Length(pro_rhs, point);
+		return dot_dist_lhs < dot_dist_rhs; 
+	});
+	std::pair<sf::Vector2f, sf::Vector2f> closest_side = (*closest);
+	return closest_side;
 }
 
 /* Return the float with a designed number of digits behind the comma */

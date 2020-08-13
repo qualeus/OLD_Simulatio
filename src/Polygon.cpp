@@ -3,7 +3,6 @@
 namespace phy {
 
 Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float damping, float speed_x, float speed_y, bool fixed, bool etherial, sf::Color color):Corpse(0.0f, 0.0f, mass, damping, fixed, etherial, color) {
-	std::cout << "bnuilde" << std::endl;
 	std::vector<sf::Vector2f> vect_points(std::begin(points), std::end(points));
 	sf::Vector2f computed_center = phy::Polygon::compute_center(vect_points);
 	this->set_pos(computed_center);
@@ -57,23 +56,52 @@ void Polygon::Collision(std::shared_ptr<Corpse> a) {
 		// Polygon / Circle collision
 		std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = this->get_sides();
 
-		for (int i=0; i<sides.size(); i++) {
-			auto test_intersect = ftn::Line_Circle_Intersect(sides.at(i).first, sides.at(i).second, circle->get_pos(), circle->get_size());
-			
-			// Collide if one side of the polygon intersect with the circle 
-			if (test_intersect.first) {
-				sf::Vector2f vector_response = ftn::Normalize(circle->get_pos() - test_intersect.second) * (ftn::Length(circle->get_pos(), test_intersect.second) - circle->get_size());
-				Corpse::CollisionResponse(this, circle, vector_response);
-				return;
-			}
-		}
-
 		// Collide if the center of the circle is in the polygon
 		if (this->Pointed(circle->get_pos().x, circle->get_pos().y)) {
-			sf::Vector2f vector_response = this->get_pos() - circle->get_pos();
+			
+			// Find the closest point on edges
+			std::pair<sf::Vector2f, sf::Vector2f> closest_side = ftn::Closest_Edge(sides, circle->get_pos());
+
+			sf::Vector2f closest_projection = ftn::Segment_Projection(closest_side.first, closest_side.second, circle->get_pos());
+			sf::Vector2f vector_response = ftn::Normalize(ftn::Norme(closest_side.second, closest_side.first))*(ftn::Length(circle->get_pos(), closest_projection)+circle->get_size());
 			Corpse::CollisionResponse(this, circle, vector_response);
 			return;	
 		}
+		
+		for (int i=0; i<sides.size(); i++) {
+			auto test_intersect = ftn::Line_Circle_Intersect(sides.at(i).first, sides.at(i).second, circle->get_pos(), circle->get_size());
+			
+			// Don't collide with any edge
+			if (test_intersect.first == 0) { continue; }
+			
+			if (test_intersect.first == 1) {
+
+				// Collide at the middle of an edge
+				sf::Vector2f vector_response = ftn::Normalize(circle->get_pos() - test_intersect.second) * (ftn::Length(circle->get_pos(), test_intersect.second) - circle->get_size());
+				Corpse::CollisionResponse(this, circle, vector_response);
+				return;
+
+			} else if (test_intersect.first == 2) {
+
+				// Collide with the first point of the edge (current edge + last edge)
+				int last_edge = (i-1) % sides.size();
+				sf::Vector2f normals_average = ftn::Norme(sides.at(last_edge).first, sides.at(last_edge).second) + ftn::Norme(sides.at(i).first, sides.at(i).second);
+				sf::Vector2f vector_response = ftn::Normalize(normals_average) * (ftn::Length(circle->get_pos(), sides.at(i).first)-circle->get_size());
+				Corpse::CollisionResponse(this, circle, vector_response);
+				return;
+
+			} else if (test_intersect.first == 3) {
+
+				// Collide with the second point of the edge (current edge + next edge)
+				int next_edge = (i+1) % sides.size();
+				sf::Vector2f normals_average = ftn::Norme(sides.at(i).first, sides.at(i).second) + ftn::Norme(sides.at(next_edge).first, sides.at(next_edge).second);
+				sf::Vector2f vector_response = ftn::Normalize(normals_average) * (ftn::Length(circle->get_pos(), sides.at(i).second)-circle->get_size());
+				Corpse::CollisionResponse(this, circle, vector_response);
+				return;
+
+			}
+		}
+
 
 	} else if (Polygon* polygon = dynamic_cast<Polygon*>(a.get())) {
 
