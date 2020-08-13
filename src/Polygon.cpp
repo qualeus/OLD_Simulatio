@@ -4,12 +4,14 @@ namespace phy {
 
 Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float damping, float speed_x, float speed_y, bool fixed, bool etherial, sf::Color color):Corpse(0.0f, 0.0f, mass, damping, fixed, etherial, color) {
 	std::vector<sf::Vector2f> vect_points(std::begin(points), std::end(points));
+	this->points = vect_points;
+	this->relative_points = init_relative_points(vect_points);
+
 	sf::Vector2f computed_center = phy::Polygon::compute_center(vect_points);
 	this->set_pos(computed_center);
-	this->points = vect_points;
+	
 	this->points_number = vect_points.size();
 	this->last_pos = computed_center-sf::Vector2f(speed_x, speed_y);
-	this->relative_points = init_relative_points(vect_points);
 }
 
 Polygon::~Polygon() {}
@@ -134,6 +136,7 @@ void Polygon::update_points() {
 
 std::vector<sf::Vector2f> Polygon::init_relative_points(std::vector<sf::Vector2f> points) {
 	sf::Vector2f pos = phy::Polygon::compute_center(points);
+	this->set_pos(pos);
 	std::vector<sf::Vector2f> relative_points = std::vector<sf::Vector2f>();
 	for (int i=0; i<points.size(); i++) { relative_points.push_back(points.at(i)-pos); }
 	return relative_points;
