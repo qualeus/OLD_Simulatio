@@ -39,7 +39,7 @@
 #define D_FORCES 2
 
 #define S_DEFAULT 0
-#define S_TEST 1
+#define S_SELECT_MULTIPLE 1
 #define S_LAUNCH_CORPSE 2
 #define S_DRAG_CORPSE 3
 #define S_DRAG_SCREEN 4
@@ -52,9 +52,11 @@ private:
 	sf::Clock clock;
 	sf::Time frame;
 
-	sf::Vector2f save_pos;
-	bool selected_drag_corpse_fixed;
-	int selected_drag_corpse_cursor;
+	sf::Vector2f saved_mouse_pos;
+	ftn::Rectangle selected_area;
+	std::vector<bool> selected_corpses_fixed;
+	std::vector<int> selected_corpses_cursor;
+	std::vector<sf::Vector2f> selected_corpses_diff;
 
 	std::string name;
 	float mouse_x;
@@ -99,9 +101,18 @@ public:
 	void DragPositionStep(sf::Event event); // Drag the position until the Release
 	void DragPositionStop(sf::Event event); // Stop the dragging of the Position
 
-	bool DragCorpseInit(sf::Event event); // Initialize the draggig of the Corpse
-	void DragCorpseStep(sf::Event event); // Drag the Corpse until the Release
-	void DragCorpseStop(sf::Event event); // Stop the dragging of the Corpse
+	bool SelectUniqueCorpseInit(sf::Event event); // Initialize the selection of a unique corpse to Drag
+	
+	void SelectMultipleCorpsesInit(sf::Event event); // Initialize the selecting of multiple corpses to Drag
+	void SelectMultipleCorpsesStep(sf::Event event); // Drag the selection rectangle until release
+	void SelectMultipleCorpsesStop(sf::Event event); // Select corpses and stop the selection event
+
+	void DragCorpsesStep(sf::Event event); // Drag the Corpse until the Release
+	void DragCorpsesStop(sf::Event event); // Stop the dragging of the Corpse
+
+	bool LaunchCorpseInit(sf::Event event); // Initialize the launching of the Corpse
+	void LaunchCorpseStep(sf::Event event); // Drag the launcher until the Release
+	void LaunchCorpseStop(sf::Event event); // Launch corpse and Stop the launching event
 
 	int Framerate(); // Return the number of frames per second
 	void UpdateDebug(); // Update the Debug Values
@@ -120,9 +131,9 @@ public:
 	void DebugDrag(); // Draw the inputs on the Corpses 
 
 	void DrawLine(int x1, int y1, int x2, int y2, sf::Color color = sf::Color::White);
-	void DrawCircle(int x, int y, int radius, sf::Color color = sf::Color::White);
+	void DrawCircle(int x, int y, int radius, sf::Color color = sf::Color::White, bool outline = false);
 	void DrawRectangle(int x, int y, int height, int width, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);
-	void DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color = sf::Color::White); 
+	void DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color = sf::Color::White, bool outline = false); 
 	void DrawText(std::string str, int x, int y, int size = 20, bool fixed = false, sf::Color color = sf::Color::White);
 
 	void Camera(sf::Vector2f move, float zoom = 1.0f); // Update the positio of the Camera

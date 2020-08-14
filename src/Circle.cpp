@@ -19,8 +19,19 @@ void Circle::Step() {
 		this->last_pos = this->current_pos;
 		this->current_pos = this->current_pos + diff_pos;
 	}
+
+	if (this->tied) {
+		this->last_rotation = this->current_rotation;
+	} else {
+		float diff_rotation = this->current_rotation - this->last_rotation;
+		this->last_rotation = this->current_rotation;
+		this->current_rotation = this->current_rotation + diff_rotation;
+	}
 }
-void Circle::Stop() { this->last_pos = this->current_pos; }
+void Circle::Stop() { 
+	this->last_pos = this->current_pos;
+	this->last_rotation = this->current_rotation; 
+}
 
 void Circle::Move(float x, float y, bool relative) { 
 	if(relative) {
@@ -56,7 +67,7 @@ void Circle::Collision(std::shared_ptr<Corpse> a) {
 		float y_diff = this->get_pos_y() - circle->get_pos_y();
 
 		sf::Vector2f vector_response = sf::Vector2f(x_diff / distance, y_diff / distance) * overlap;
-
+		//vector_response=ftn::Pow(vector_response,10);
 		Corpse::CollisionResponse(this, circle, vector_response);
     } else if (Polygon* polygon = dynamic_cast<Polygon*>(a.get())) {
     	

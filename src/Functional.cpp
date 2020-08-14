@@ -8,6 +8,15 @@ float ftn::Dot(float x1, float y1, float x2, float y2) { return x1*x2 + y1*y2; }
 float ftn::Perp_Dot(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b) { return vect_a.x*vect_b.x - vect_a.y*vect_b.y; }
 float ftn::Perp_Dot(float x1, float y1, float x2, float y2) { return x1*x2 - y1*y2; }
 
+sf::Vector2f ftn::Pow(const sf::Vector2f &vect, int power) {
+	sf::Vector2f pow = vect;
+	for (int i=0; i<power-1; i++) {
+		pow.x = pow.x*pow.x;
+		pow.y = pow.y*pow.y;
+	}
+	return vect;
+}
+
 /* Vector length: c^2=a^2+b^2 <=> c = sqrt(a*a+b*b) */
 float ftn::Length(const sf::Vector2f &vect) { return std::sqrt(Dot(vect, vect)); }
 float ftn::Length(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B) { return std::sqrt(Dot(vect_B-vect_A, vect_B-vect_A)); }

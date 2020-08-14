@@ -184,7 +184,10 @@ void Polygon::Step() {
 
 	this->update_points();
 }
-void Polygon::Stop() { this->last_pos = this->current_pos; }
+void Polygon::Stop() {
+	this->last_pos = this->current_pos; 
+	this->last_rotation = this->current_rotation;
+}
 
 ftn::Rectangle Polygon::get_corpse_bounds() const {
 	const std::vector<sf::Vector2f> points = this->points;

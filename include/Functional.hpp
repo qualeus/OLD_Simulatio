@@ -32,6 +32,8 @@ float Dot(float x1, float y1, float x2, float y2);
 float Perp_Dot(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
 float Perp_Dot(float x1, float y1, float x2, float y2);
 
+sf::Vector2f Pow(const sf::Vector2f &vect, int power);
+
 float Length(const sf::Vector2f &vect);
 float Length(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
 float Length(float x, float y);
