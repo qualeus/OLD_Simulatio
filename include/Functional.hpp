@@ -44,6 +44,7 @@ sf::Vector2f Normalize(const sf::Vector2f &vect);
 sf::Vector2f Norme(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
 sf::Vector2f inverse_Norme(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
 
+sf::Vector2f Rotate_Point(sf::Vector2f pA, sf::Vector2f pB, float angle);
 void Rotate(sf::Vector2f &vect, int angle);
 void Scale(sf::Vector2f &vect, float scale);
 bool Lines_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const sf::Vector2f &vect_D);
@@ -63,7 +64,6 @@ std::pair<int, sf::Vector2f> Line_Circle_Intersect(const sf::Vector2f &vect_A, c
 std::pair<sf::Vector2f, sf::Vector2f> Closest_Edge(std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides, sf::Vector2f point);
 
 float digits_comma(float number, int digits);
-
 float bearing(float x1, float y1, float x2, float y2);
 
 bool rect_in_bounds(const ftn::Rectangle &object, const ftn::Rectangle &limits);

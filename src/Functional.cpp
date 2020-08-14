@@ -35,6 +35,19 @@ sf::Vector2f ftn::inverse_Norme(const sf::Vector2f &vect_A, const sf::Vector2f &
 	return sf::Vector2f(vect_B.y - vect_A.y, vect_A.x - vect_B.x);
 }
 
+/* Rotate the point A around the point B by the angle in degree */
+sf::Vector2f ftn::Rotate_Point(sf::Vector2f pA, sf::Vector2f pB, float angle) {
+	float theta = degree_to_radian(angle);
+	float cos_theta = std::cos(theta);
+	float sin_theta = std::sin(theta);
+
+	// translate point back to origin:
+	sf::Vector2f rotated = pA - pB;
+	rotated = { rotated.x*cos_theta - rotated.y*sin_theta, rotated.x*sin_theta - rotated.y*cos_theta };
+	rotated += pB;
+	return rotated;
+}
+
 /* Rotate vector: [Ax Ay].scale = [Ax*scale Ay*scale] */
 void ftn::Rotate(sf::Vector2f &vect, int angle) { 
 	float theta = degree_to_radian(angle);

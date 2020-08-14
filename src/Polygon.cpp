@@ -2,7 +2,7 @@
 
 namespace phy {
 
-Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float damping, float speed_x, float speed_y, bool fixed, bool etherial, sf::Color color):Corpse(0.0f, 0.0f, mass, damping, fixed, etherial, color) {
+Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float damping, float speed_x, float speed_y, bool fixed, bool tied, bool etherial, sf::Color color):Corpse(0.0f, 0.0f, mass, damping, fixed, tied, etherial, color) {
 	std::vector<sf::Vector2f> vect_points(std::begin(points), std::end(points));
 	this->points = vect_points;
 	this->relative_points = init_relative_points(vect_points);
@@ -172,6 +172,16 @@ void Polygon::Step() {
 		this->last_pos = this->current_pos;
 		this->current_pos = this->current_pos + diff_pos;
 	}
+
+	if (this->tied) {
+		this->last_rotation = this->current_rotation;
+	} else {
+		float diff_rotation = this->current_rotation - this->last_rotation;
+		this->last_rotation = this->current_rotation;
+		this->current_rotation = this->current_rotation + diff_rotation;
+		for (int i=0; i<this->relative_points.size(); i++) { ftn::Rotate(this->relative_points.at(i), diff_rotation); }
+	}
+
 	this->update_points();
 }
 void Polygon::Stop() { this->last_pos = this->current_pos; }

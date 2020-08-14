@@ -2,14 +2,18 @@
 
 namespace phy {
 
-Corpse::Corpse(float x, float y, float mass, float damping, bool fixed, bool etherial, sf::Color color) {
+Corpse::Corpse(float x, float y, float mass, float damping, bool fixed, bool tied, bool etherial, sf::Color color) {
 	static int global_corpse_id = 0;
 	this->id = global_corpse_id++;
 
 	this->fixed = fixed;
+	this->tied = tied;
 	this->etherial = etherial;
 	this->removed = false;
 	this->current_pos = sf::Vector2f(x, y);
+
+	this->current_rotation = 0.0f;
+	this->last_rotation = -1.0f;
 	this->mass = mass;
 	this->friction = 1.0f;
 
@@ -86,6 +90,11 @@ float Corpse::get_last_pos_y() const { return this->last_pos.y; }
 void Corpse::set_last_pos(sf::Vector2f pos) { this->last_pos = pos; }
 void Corpse::set_last_pos_x(float pos_x) { this->last_pos.x = pos_x; }
 void Corpse::set_last_pos_y(float pos_y) { this->last_pos.y = pos_y; }
+
+float Corpse::get_current_rotation() const { return this->current_rotation; }
+void Corpse::set_current_rotation(float current_rotation){ this->current_rotation = current_rotation; }
+float Corpse::get_last_rotation() const { return this->last_rotation; };
+void Corpse::set_last_rotation(float last_rotation) { this->last_rotation = last_rotation; }
 
 void Corpse::set_damping(float damping) { if (damping < 0.1f) { this->damping = 0.1f; } else { this->damping = damping; } }
 float Corpse::get_bounce() const { return 1.0f/this->damping; }

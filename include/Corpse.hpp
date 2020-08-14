@@ -18,6 +18,7 @@ class Corpse
 protected:
 	int id;
 	bool fixed;
+	bool tied;
 	bool etherial;
 	bool removed;
 	float friction;
@@ -25,10 +26,12 @@ protected:
 	float damping;
 	sf::Vector2f current_pos;
 	sf::Vector2f last_pos;
+	float current_rotation;
+	float last_rotation;
 	sf::Color color;
 
 public:
-	explicit Corpse(float x, float y, float mass, float damping, bool fixed, bool etherial, sf::Color color); // System Constructor
+	explicit Corpse(float x, float y, float mass, float damping, bool fixed, bool tied, bool etherial, sf::Color color); // System Constructor
 	virtual ~Corpse(); // System Destructor
 
 	int get_id() const;
@@ -73,6 +76,11 @@ public:
 	void set_last_pos(sf::Vector2f pos);
 	void set_last_pos_x(float pos_x);
 	void set_last_pos_y(float pos_y);
+
+	float get_current_rotation() const;
+	void set_current_rotation(float current_rotation);
+	float get_last_rotation() const;
+	void set_last_rotation(float last_rotation);
 
 	void set_damping(float damping);
 	float get_bounce() const;

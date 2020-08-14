@@ -94,15 +94,10 @@ void Renderer::Input(sf::Event event) {
 			case sf::Mouse::Left:
 				if (!DragCorpseInit(event)) { DragPositionInit(event); }
 				break;
-			case sf::Mouse::Right: 
-			{
-				if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(this->system.get_corpse(1).get())) {
-
-					polygon->add_point(sf::Vector2f(this->sys_mouse_x, this->sys_mouse_y));
-				}
-				
-			}
-				break;	
+			case sf::Mouse::Right: {
+				// test polygon add point
+				// if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(this->system.get_corpse(1).get())) { polygon->add_point(sf::Vector2f(this->sys_mouse_x, this->sys_mouse_y)); }
+			} break;	
 		}
 
 	} else if (event.type == sf::Event::MouseMoved) {
@@ -263,11 +258,23 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
 	if (corpse->get_removed()) { return; } // Removed
 
     if (phy::Circle* circle = dynamic_cast<phy::Circle*>(corpse.get())) {
+    	switch (this->debug_type) {
+    		case D_CONTACT:{
+				ftn::Rectangle bounds = circle->get_corpse_bounds();
+    			DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
+    		} break;
+    	}
+
 		DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), circle->get_color()); 
     } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(corpse.get())) {
-    	//ftn::Rectangle bounds = polygon->get_corpse_bounds();
-    	//DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y);
 
+    	switch (this->debug_type) {
+    		case D_CONTACT:{
+				ftn::Rectangle bounds = polygon->get_corpse_bounds();
+    			DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
+    		} break;
+    	}
+    	
     	DrawPolygon(polygon->get_points(), polygon->get_color());
     	DrawCircle(polygon->get_pos_x(), polygon->get_pos_y(), 10, sf::Color::Red);
 
