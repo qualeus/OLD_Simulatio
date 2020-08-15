@@ -208,6 +208,8 @@ void Renderer::DragPositionStop(sf::Event event) {
 
 bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
 
+	if (this->select_type != S_DEFAULT) { return false; }
+
 	// If already selected by multiple selection
 	if (selected_corpses_cursor.size() > 0) { 
 		bool one_pointed = false;
