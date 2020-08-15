@@ -253,6 +253,20 @@ std::pair<sf::Vector2f, sf::Vector2f> ftn::Closest_Edge(std::vector<std::pair<sf
 	return closest_side;
 }
 
+ftn::Rectangle ftn::Reorder_Rectangle(ftn::Rectangle rectangle) {
+
+	std::vector<sf::Vector2f> points = { rectangle.pos, rectangle.pos+rectangle.size };
+	const auto min_max_x = std::minmax_element(points.begin(), points.end(), [](const sf::Vector2f& lhs, const sf::Vector2f& rhs) { return lhs.x < rhs.x; });
+	const auto min_max_y = std::minmax_element(points.begin(), points.end(), [](const sf::Vector2f& lhs, const sf::Vector2f& rhs) { return lhs.y < rhs.y; });
+
+	float min_x = (*min_max_x.first).x;
+	float max_x = (*min_max_x.second).x;
+	float min_y = (*min_max_y.first).y;
+	float max_y = (*min_max_y.second).y;
+
+	return {sf::Vector2f(min_x, min_y), sf::Vector2f(max_x-min_x, max_y-min_y)}; 
+}
+
 /* Return the float with a designed number of digits behind the comma */
 float ftn::digits_comma(float number, int digits) { 
 	int d_limit = std::pow(10, digits);

@@ -56,8 +56,8 @@ void Corpse::CollisionResponse(phy::Corpse* corpse_a, phy::Corpse* corpse_b, con
 				corpse_b->Move(-force);
 			} else {
 				// Both corpse_a and corpse_b are Fixed
-				corpse_a->Move(force*0.5f);
-				corpse_b->Move(-force*0.5f);
+				//corpse_a->Move(force*0.5f);
+				//corpse_b->Move(-force*0.5f);
 			}
 		} else {
 			// Both corpse_a and corpse_b are Not Fixed

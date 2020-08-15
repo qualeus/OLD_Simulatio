@@ -64,7 +64,7 @@ sf::Vector2f Points_Average(std::vector<sf::Vector2f> points);
 std::pair<int, sf::Vector2f> Line_Circle_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const float &size);
 
 std::pair<sf::Vector2f, sf::Vector2f> Closest_Edge(std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides, sf::Vector2f point);
-
+ftn::Rectangle Reorder_Rectangle(ftn::Rectangle rectangle);
 float digits_comma(float number, int digits);
 float bearing(float x1, float y1, float x2, float y2);
 

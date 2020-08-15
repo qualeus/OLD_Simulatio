@@ -106,6 +106,7 @@ void Renderer::Input(sf::Event event) {
 				SelectMultipleCorpsesStep(event);
 				break;
 			case S_LAUNCH_CORPSE:
+				LaunchCorpseStep(event);
 				break;
 			case S_DRAG_CORPSE:
 				DragCorpsesStep(event);
@@ -125,6 +126,7 @@ void Renderer::Input(sf::Event event) {
 				DragCorpsesStop(event);
 			} break;
 			case sf::Mouse::Right: {
+				LaunchCorpseStop(event);
 				SelectMultipleCorpsesStop(event);
 			} break;
 		}
@@ -273,15 +275,20 @@ void Renderer::SelectMultipleCorpsesStep(sf::Event event) {
 
 void Renderer::SelectMultipleCorpsesStop(sf::Event event) {
 	if (this->select_type == S_SELECT_MULTIPLE) {
-		for (int i = 0; i < system.get_corpses_size(); i++) {
 
+		// Reorganize the points in a rectangle ABCD (top left point A / bottom right point C)
+		ftn::Rectangle rectangle = ftn::Reorder_Rectangle(this->selected_area);
+
+
+		for (int i = 0; i < system.get_corpses_size(); i++) {
+			if (system.get_corpse(i)->get_removed()) { continue; } // Removed
 			if (phy::Circle* circle = dynamic_cast<phy::Circle*>(system.get_corpse(i).get())) {
-    			if (!ftn::rect_out_bounds(circle->get_corpse_bounds(), this->selected_area)) {
+    			if (!ftn::rect_out_bounds(circle->get_corpse_bounds(), rectangle)) {
 					this->selected_corpses_cursor.push_back(i);
 					this->selected_corpses_fixed.push_back(system.get_corpse(i)->get_fixed());
     			}
 	    	} else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(system.get_corpse(i).get())) {
-				if (!ftn::rect_out_bounds(polygon->get_corpse_bounds(), this->selected_area)) {
+				if (!ftn::rect_out_bounds(polygon->get_corpse_bounds(), rectangle)) {
     				this->selected_corpses_cursor.push_back(i);
     			}
 	    	}
@@ -296,6 +303,7 @@ void Renderer::SelectMultipleCorpsesStop(sf::Event event) {
 
 void Renderer::DragCorpsesStep(sf::Event event) {
 	for (int i=0; i<selected_corpses_cursor.size(); i++ ) {
+		if (system.get_corpse(selected_corpses_cursor.at(i))->get_removed()) { continue; } // Removed
 		system.get_corpse(selected_corpses_cursor.at(i))->Move(get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y)) + selected_corpses_diff.at(i), false);
 		system.CorpseStop(selected_corpses_cursor.at(i));
 	}
@@ -306,26 +314,65 @@ void Renderer::DragCorpsesStop(sf::Event event) {
 		this->select_type = S_DEFAULT;
 
 		for (int i=0; i<selected_corpses_cursor.size(); i++ ) { 
+			if (system.get_corpse(selected_corpses_cursor.at(i))->get_removed()) { continue; } // Removed
 			system.get_corpse(selected_corpses_cursor.at(i))->set_fixed(selected_corpses_fixed.at(i));
 			system.CorpseStop(selected_corpses_cursor.at(i));
 		}
 
 		/* Make sure that the arrays are empty */
+		/*
 		this->selected_corpses_cursor = {};
 		this->selected_corpses_fixed = {};
 		this->selected_corpses_diff = {};
+		*/
 	}
 }
 
 bool Renderer::LaunchCorpseInit(sf::Event event) {
+	/* Make sure that the arrays are empty */
+	this->selected_corpses_cursor = {};
+	this->selected_corpses_fixed = {};
+	this->selected_corpses_diff = {};
+
+	if (this->select_type != S_DEFAULT) { return false; }
+
+	for (int i = 0; i < system.get_corpses_size(); i++) {
+		if (system.get_corpse(i)->get_removed()) { continue; } // Removed
+		if (system.get_corpse(i)->Pointed(this->sys_mouse_x, this->sys_mouse_y)) {
+
+			this->selected_corpses_cursor.push_back(i);
+			this->selected_corpses_diff.push_back(system.get_corpse(i)->get_pos() - get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)));
+			this->selected_corpses_fixed.push_back(system.get_corpse(i)->get_fixed());
+			system.get_corpse(i)->set_fixed(true);
+
+			this->selected_area = { get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)), sf::Vector2f() };
+	
+			this->select_type = S_LAUNCH_CORPSE;
+			return true;
+		}
+	}
 	return false;
 }
 
 void Renderer::LaunchCorpseStep(sf::Event event) {
+	if (this->select_type == S_LAUNCH_CORPSE) { this->selected_area.size = get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y)) - this->selected_area.pos; }
 }
 
 void Renderer::LaunchCorpseStop(sf::Event event) {
+ 	if (this->select_type == S_LAUNCH_CORPSE) {
+		for (int i = 0; i < selected_corpses_cursor.size(); i++) {
+			sf::Vector2f launch_vector = ftn::Normalize(this->selected_area.size - this->selected_area.pos)*30.0f;
+			system.get_corpse(selected_corpses_cursor.at(i))->Move(launch_vector);
+			system.get_corpse(selected_corpses_cursor.at(i))->set_fixed(selected_corpses_fixed.at(i));
+		}
 
+		this->select_type = S_DEFAULT;
+		
+		/* Make sure that the arrays are empty */
+		this->selected_corpses_cursor = {};
+		this->selected_corpses_fixed = {};
+		this->selected_corpses_diff = {};
+	}
 }
 
 void Renderer::Draw() {
@@ -358,9 +405,10 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
     	
     	DrawPolygon(polygon->get_points(), polygon->get_color());
     	DrawCircle(polygon->get_pos_x(), polygon->get_pos_y(), 10, sf::Color::Red);
-
+    	/*
     	std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = polygon->get_sides();
     	for (int i=0; i<sides.size(); i++) { DrawLine(sides.at(i).first.x, sides.at(i).first.y,sides.at(i).second.x, sides.at(i).second.y, sf::Color::Blue); }
+    	*/
     }
 }
 
@@ -425,7 +473,7 @@ void Renderer::Debug() {
 	// Outline the selected bodies
 	for (int i=0; i<selected_corpses_cursor.size(); i++ ) {
 		int cursor = selected_corpses_cursor.at(i);
-		if (system.get_corpse(cursor)->get_removed()) { return; } // Removed
+		if (system.get_corpse(cursor)->get_removed()) { continue; } // Removed
 
 	    if (phy::Circle* circle = dynamic_cast<phy::Circle*>(system.get_corpse(cursor).get())) {
 			DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), sf::Color::Red, true); 
