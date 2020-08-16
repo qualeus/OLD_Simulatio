@@ -528,8 +528,8 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
     if (phy::Circle* circle = dynamic_cast<phy::Circle*>(corpse.get())) {
     	switch (this->debug_type) {
     		case D_CONTACT:{
-				//ftn::Rectangle bounds = circle->get_corpse_bounds();
-    			//DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
+				ftn::Rectangle bounds = circle->get_corpse_bounds();
+    			DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
     		} break;
     	}
 
@@ -538,8 +538,8 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
 
     	switch (this->debug_type) {
     		case D_CONTACT:{
-				//ftn::Rectangle bounds = polygon->get_corpse_bounds();
-    			//DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
+				ftn::Rectangle bounds = polygon->get_corpse_bounds();
+    			DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
     			DrawCircle(polygon->get_pos_x(), polygon->get_pos_y(), 5, sf::Color::Red);
     		} break;
     	}

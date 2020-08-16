@@ -31,7 +31,11 @@ void System::Step() {
 	CheckLimits();
 	CorpsesStep();
 	StepQuadtree();
+
+	for (int i=0; i < COLLISION_ACCURACY; i++) { QuadPairsStep(); }
+
 	PairsStep();
+	
 }
 
 void System::CheckLimits() {
@@ -69,6 +73,9 @@ void System::PairsStep() {
 		if (this->gravity) { Forces(get_pair_A(i), get_pair_B(i)); }
 		//Collision(get_pair_A(i), get_pair_B(i)); old collision system
 	}
+}
+
+void System::QuadPairsStep() {
 
 	std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> quadpairs = this->quadtree.make_pairs();
 	this->quad_pairs = quadpairs;

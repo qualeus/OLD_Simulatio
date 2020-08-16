@@ -19,6 +19,7 @@ namespace phy {
 #define G 10 //6.7 * 10e-11
 
 #define AROUND_QUADTREE 1000
+#define COLLISION_ACCURACY 50 // Number of times the collision step is done per frame
 
 class System
 {
@@ -53,6 +54,7 @@ public:
 	void CorpsesStep();
 	void CorpseStop(int i);
 	void PairsStep();
+	void QuadPairsStep();
 
 	void Collision(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
 	void Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
