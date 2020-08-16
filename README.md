@@ -1,5 +1,7 @@
 # Physics
 
+![Demo image](/ressources/ScreenShots/screenshot_1.png)
+
 This project is a personal challenge that I launched to train me in programming and compiling the c++ language, while learning the basic concepts and functions of 2D physical simulation (applicable to 3D thereafter).
 
 The ultimate goal would be to present an easy-to-use and optimized physical engine, a bit like a simplified "Algodoo"
