@@ -43,6 +43,10 @@
 #define S_LAUNCH_CORPSE 2
 #define S_DRAG_CORPSE 3
 #define S_DRAG_SCREEN 4
+#define S_CREATE_CIRCLE 5
+#define S_CREATE_POLYGON 6
+
+#define I_LAUNCH_POWER 0.2f
 
 class Renderer
 {
@@ -75,7 +79,7 @@ private:
 	float screen_height;
 	bool paused;
 
-	const static int DEBUG_LENGTH = 11;
+	const static int DEBUG_LENGTH = 13;
 	float debug_values[ DEBUG_LENGTH ] = { };
 
 	const static int DELAY_DEBUG = 3;
@@ -114,6 +118,21 @@ public:
 	void LaunchCorpseStep(sf::Event event); // Drag the launcher until the Release
 	void LaunchCorpseStop(sf::Event event); // Launch corpse and Stop the launching event
 
+	void ToggleOnCircle(sf::Event event);
+	void ToggleOffCircle(sf::Event event);
+	void CreateCircleInit(sf::Event event);
+	void CreateCircleFast(sf::Event event);
+	void CreateCircleStep(sf::Event event);
+	void CreateCircleStop(sf::Event event);
+
+	void ToggleOnPolygon(sf::Event event);
+	void ToggleOffPolygon(sf::Event event);
+
+	void CreatePolygonInit(sf::Event event);
+	void CreatePolygonAddPoint(sf::Event event);
+	void CreatePolygonStep(sf::Event event);
+	void CreatePolygonStop(sf::Event event);
+
 	int Framerate(); // Return the number of frames per second
 	void UpdateDebug(); // Update the Debug Values
 
@@ -124,6 +143,7 @@ public:
 	void DrawLimits();
 
 	void Debug(); // Draw the Debug objects
+	void DrawInputs();
 	void Interface(); // Draw the renderer interface
 
 	void DebugSpeed(); // Draw the speed of the Corpses

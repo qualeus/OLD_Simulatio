@@ -13,7 +13,6 @@ Corpse::Corpse(float x, float y, float mass, float damping, bool fixed, bool tie
 	this->current_pos = sf::Vector2f(x, y);
 
 	this->current_rotation = 0.0f;
-	this->last_rotation = -1.0f;
 	this->mass = mass;
 	this->friction = 1.0f;
 

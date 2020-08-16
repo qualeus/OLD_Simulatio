@@ -2,7 +2,7 @@
 
 namespace phy {
 
-Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float damping, float speed_x, float speed_y, bool fixed, bool tied, bool etherial, sf::Color color):Corpse(0.0f, 0.0f, mass, damping, fixed, tied, etherial, color) {
+Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float damping, float speed_x, float speed_y, float rotation, bool fixed, bool tied, bool etherial, sf::Color color):Corpse(0.0f, 0.0f, mass, damping, fixed, tied, etherial, color) {
 	std::vector<sf::Vector2f> vect_points(std::begin(points), std::end(points));
 	this->points = vect_points;
 	this->relative_points = init_relative_points(vect_points);
@@ -12,6 +12,7 @@ Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float d
 	
 	this->points_number = vect_points.size();
 	this->last_pos = computed_center-sf::Vector2f(speed_x, speed_y);
+	this->last_rotation = rotation;
 }
 
 Polygon::~Polygon() {}

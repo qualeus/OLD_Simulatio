@@ -19,7 +19,7 @@ private:
 	std::vector<sf::Vector2f> relative_points;
 
 public:
-	Polygon(std::initializer_list<sf::Vector2f> points = {}, float mass = 1.0f, float damping = 1.0f, float speed_x = 0.0f, float speed_y = 0.0f, bool fixed = false, bool tied = false, bool etherial = false, sf::Color color = sf::Color::White);
+	Polygon(std::initializer_list<sf::Vector2f> points = {}, float mass = 1.0f, float damping = 1.0f, float speed_x = 0.0f, float speed_y = 0.0f, float rotation = 0.0f, bool fixed = false, bool tied = false, bool etherial = false, sf::Color color = sf::Color::White);
 	virtual ~Polygon();
 
 	const int get_class();
