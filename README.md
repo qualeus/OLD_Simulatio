@@ -1,10 +1,26 @@
 # Physics
 
-![Demo image](/ressources/ScreenShots/screenshot_1.png)
+![Screenshot image](/ressources/ScreenShots/screenshot_2.png)
 
-This project is a personal challenge that I launched to train me in programming and compiling the c++ language, while learning the basic concepts and functions of 2D physical simulation (applicable to 3D thereafter).
+This project started from the personal challenge of recreating different physical phenomena in a simulation running in real time.
 
-The ultimate goal would be to present an easy-to-use and optimized physical engine, a bit like a simplified "Algodoo"
+The goal was to learn more about the functioning of these different physical phenomena, such as:
+- Gravity (My goal was not to model objects at the molecular level so I used the classical mecanics one)
+- Collision (3rd law of Newton/Reciprocal force between two bodies)
+- Friction (Approximation with dissipation in heat)
+- Fluids (IN DEV)
+- Electromagnetic fields (IN DEV)
+
+This project also allows me to familiarize myself with several areas of programming, like:
+- Graph Theory and Data structures like Quadtrees
+- C++ programs/libraries compilation (Mingw batch/ CMake)
+- Memory allocation / Classes Inheritances
+- Optimisation 
+- Threads and Graphical acceleration with CUDA (IN DEV)
+
+To summarize this is an introduction to the basic concepts and functions of 2D physical simulation (applicable to 3D thereafter).
+
+The ultimate goal would be to present an easy-to-use and optimized physical engine, a bit like a simplified "Algodoo".
 
 ## Getting Started
 
@@ -60,23 +76,28 @@ or just click on the download button and extract the file where you want.
 
 If you want to use the automatic compilation by command, open the "build.bat" file in a text editor like Notepad and edit this line to match your SMFL compilated folder:
 ```
-sfmlPath=Path\to\SFML\SFML-2.5.1-Static\SFML
+set lib_path="D:\Projets\Physics\ressources\Libraries"
 ```
 It should contain these files:
 ```
-├───bin
-├───include
-│   └───SFML
-│       ├───Audio
-│       ├───Graphics
-│       ├───Network
-│       ├───System
-│       └───Window
-└───lib
-    └───cmake
-        └───SFML
+├───.git
+├───bin             # All binaries files
+│   │───Demos       # Demos of functionnalities and performances (ex: \Release\granular_demo\granular_demo.exe)
+│   │───Saves       # Saved binaries of the last versions (ex: \v0.2.3\Release)
+│   │───Sources     # Where the current build is stored (Debug and Release)
+│   └───Tests       # Manuals Units tests (ex: \Release\functional_computations\functional_computations.exe)
+├───include         # Headers files (.hpp)
+├───ressources      # Fonts, Libraries and Images
+└───src             # Sources files (.cpp)
+    │───Demos       # Demos files
+    └───Tests       # Tests files
 ```
+
 You can now run the build.bat file and press 5 to compile and run the demo code.
+
+### Info
+
+I'll try to make and CMake build when the project will be more advanced to automate some build configs.
 
 ## Built With
 
