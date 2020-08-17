@@ -2,10 +2,11 @@
 
 namespace phy {
 
-Circle::Circle(float x, float y, float size, float mass, float damping, float speed_x, float speed_y, float rotation, bool fixed, bool tied, bool etherial, sf::Color color):Corpse(x, y, mass, damping, fixed, tied, etherial, color) {
+Circle::Circle(float x, float y, float size, float mass, float damping, float speed_x, float speed_y, float rotation, float motor, bool fixed, bool tied, bool etherial, sf::Color color):Corpse(x, y, mass, damping, fixed, tied, etherial, color) {
 	this->last_pos = sf::Vector2f(x-speed_x, y-speed_y);
 	this->size = size;
 	this->last_rotation = rotation;
+	this->motor_rotation = motor;
 }
 
 Circle::~Circle() {}
@@ -28,6 +29,12 @@ void Circle::Step() {
 		this->last_rotation = this->current_rotation;
 		this->current_rotation = this->current_rotation + diff_rotation;
 	}
+	
+	if (!ftn::decimal_equals(motor_rotation, 0.0f, 0.0001f)) {
+		// Add the motor rotation even if the object is tied
+		this->current_rotation = this->current_rotation + motor_rotation;
+	}
+	
 }
 void Circle::Stop() { 
 	this->last_pos = this->current_pos;

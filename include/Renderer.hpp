@@ -33,11 +33,18 @@
 #define G_CIRCLE_RESOLUTION 20
 #define G_OUTLINE_THICKNESS 2
 #define G_TEXT_RESOLUTION 28.0f
+#define G_VECTOR_SIZE 40.0f
 
+#define D_SIZE 7 /* Size of the array of Debug values */
 #define D_DEFAULT 0
-#define D_CONTACT 1
-#define D_FORCES 2
+#define D_QUADTREE 1
+#define D_BOUNDINGS 2
+#define D_COLLISIONS 3
+#define D_NORMALS 4
+#define D_FORCES 5
+#define D_PAIRS 6
 
+#define S_SIZE 7 /* Size of the array of Selections values */
 #define S_DEFAULT 0
 #define S_SELECT_MULTIPLE 1
 #define S_LAUNCH_CORPSE 2

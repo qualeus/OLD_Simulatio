@@ -92,8 +92,10 @@ void Corpse::set_last_pos_y(float pos_y) { this->last_pos.y = pos_y; }
 
 float Corpse::get_current_rotation() const { return this->current_rotation; }
 void Corpse::set_current_rotation(float current_rotation){ this->current_rotation = current_rotation; }
-float Corpse::get_last_rotation() const { return this->last_rotation; };
+float Corpse::get_last_rotation() const { return this->last_rotation; }
 void Corpse::set_last_rotation(float last_rotation) { this->last_rotation = last_rotation; }
+float Corpse::get_motor_rotation() const { return this->motor_rotation; }
+void Corpse::set_motor_rotation(float motor_rotation) { this->motor_rotation = motor_rotation; }
 
 void Corpse::set_damping(float damping) { if (damping < 0.1f) { this->damping = 0.1f; } else { this->damping = damping; } }
 float Corpse::get_bounce() const { return 1.0f/this->damping; }

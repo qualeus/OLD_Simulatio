@@ -99,27 +99,13 @@ void Renderer::Input(sf::Event event) {
 		UpdateMouse();
 
 		switch (this->select_type) {
-			case S_DEFAULT: {
-				// Nothing
-			} break;
-			case S_SELECT_MULTIPLE: {
-				SelectMultipleCorpsesStep(event);
-			} break;
-			case S_LAUNCH_CORPSE: {
-				LaunchCorpseStep(event);
-			} break;
-			case S_DRAG_CORPSE: {
-				DragCorpsesStep(event);
-			} break;
-			case S_DRAG_SCREEN: {
-				DragPositionStep(event);
-			} break;
-			case S_CREATE_CIRCLE: {
-				CreateCircleStep(event);
-			} break;
-			case S_CREATE_POLYGON: {
-				CreatePolygonStep(event);
-			} break;
+			case S_DEFAULT: { } break;
+			case S_SELECT_MULTIPLE: { SelectMultipleCorpsesStep(event); } break;
+			case S_LAUNCH_CORPSE: { LaunchCorpseStep(event); } break;
+			case S_DRAG_CORPSE: { DragCorpsesStep(event); } break;
+			case S_DRAG_SCREEN: { DragPositionStep(event); } break;
+			case S_CREATE_CIRCLE: { CreateCircleStep(event); } break;
+			case S_CREATE_POLYGON: { CreatePolygonStep(event); } break;
 		}
 
 	} else if (event.type == sf::Event::MouseButtonReleased) {
@@ -147,34 +133,18 @@ void Renderer::Input(sf::Event event) {
 
 		// Handle the functions associated with the keyboard buttons
 		switch (event.key.code) {
-			case sf::Keyboard::D: {
-				NextDebug();
-			} break;
-			case sf::Keyboard::R: {
-				this->system.add_dt(-100);
-			} break;
-			case sf::Keyboard::T: {
-				this->system.add_dt(100);
-			} break;
-			case sf::Keyboard::Space: {
-				Pause();
-			} break;
-			case sf::Keyboard::A: {
-				ToggleOnCircle(event);
-			} break;
-			case sf::Keyboard::Z: {
-				ToggleOnPolygon(event);
-			} break;
+			case sf::Keyboard::D: { NextDebug(); } break;
+			case sf::Keyboard::R: { this->system.add_dt(-100); } break;
+			case sf::Keyboard::T: { this->system.add_dt(100); } break;
+			case sf::Keyboard::Space: { Pause(); } break;
+			case sf::Keyboard::A: { ToggleOnCircle(event); } break;
+			case sf::Keyboard::Z: { ToggleOnPolygon(event); } break;
 		}
 
 	} else if (event.type == sf::Event::KeyReleased ) {
 		switch (event.key.code) {
-			case sf::Keyboard::A: {
-				ToggleOffCircle(event);
-			} break;
-			case sf::Keyboard::Z: {
-				ToggleOffPolygon(event);
-			} break;
+			case sf::Keyboard::A: { ToggleOffCircle(event); } break;
+			case sf::Keyboard::Z: { ToggleOffPolygon(event); } break;
 		}
 	}
 }
@@ -192,7 +162,7 @@ void Renderer::UpdateMouse() {
 }
 
 void Renderer::Pause() { this->paused = !this->paused; }
-void Renderer::NextDebug() { if (this->debug_type < 3) { this->debug_type++; } else { this->debug_type = 0; } }
+void Renderer::NextDebug() { if (this->debug_type < D_SIZE) { this->debug_type++; } else { this->debug_type = 0; } }
 int Renderer::Framerate() { return (1000 / this->frame.asMilliseconds()); }
 void Renderer::UpdateDebug() {
 	debug_values[0] = Framerate(); 
@@ -449,7 +419,7 @@ void Renderer::ToggleOffCircle(sf::Event event) {
 void Renderer::CreateCircleFast(sf::Event event) {
 	if (this->select_type != S_CREATE_CIRCLE) { return; }
 	sf::Vector2f temp_pos = get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
-	system.addCorpse(phy::Circle(temp_pos.x, temp_pos.y, 40, 40, 2, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue));
+	system.addCorpse(phy::Circle(temp_pos.x, temp_pos.y, 40, 40, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue));
 }
 
 void Renderer::CreateCircleInit(sf::Event event) {
@@ -464,7 +434,7 @@ void Renderer::CreateCircleStop(sf::Event event) {
 	sf::Vector2f temp_pos = this->selected_area.pos;
 	float temp_size = ftn::Length(this->selected_area.size);
 	float temp_mass = (temp_size*temp_size) * 0.1f;
-	system.addCorpse(phy::Circle(temp_pos.x, temp_pos.y, temp_size, temp_mass, 2, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue));
+	system.addCorpse(phy::Circle(temp_pos.x, temp_pos.y, temp_size, temp_mass, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue));
 	this->selected_area = { sf::Vector2f(), sf::Vector2f() };
 }
 
@@ -480,7 +450,7 @@ void Renderer::ToggleOffPolygon(sf::Event event) {
 	this->select_type = S_DEFAULT;
 
 	if (this->selected_corpses_diff.size() > 2) {
-		phy::Polygon temp_poly = phy::Polygon({}, 10, 1, 0.0f, 0.0f, 0.0f, false, false, false, C_NEPHRITIS);
+		phy::Polygon temp_poly = phy::Polygon({}, 10, 1, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, C_NEPHRITIS);
 		for (int i=0; i<this->selected_corpses_diff.size(); i++) {
 			temp_poly.add_point(this->selected_corpses_diff.at(i));
 		}
@@ -504,7 +474,7 @@ void Renderer::CreatePolygonStop(sf::Event event) {
 	if (this->select_type != S_CREATE_POLYGON) { return; }
 	
 	if (this->selected_corpses_diff.size() > 2) {
-		phy::Polygon temp_poly = phy::Polygon({}, 10, 1, 0.0f, 0.0f, 0.0f, false, false, false, C_NEPHRITIS);
+		phy::Polygon temp_poly = phy::Polygon({}, 10, 1, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, C_NEPHRITIS);
 		for (int i=0; i<this->selected_corpses_diff.size(); i++) {
 			temp_poly.add_point(this->selected_corpses_diff.at(i));
 		}
@@ -527,28 +497,57 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
 
     if (phy::Circle* circle = dynamic_cast<phy::Circle*>(corpse.get())) {
     	switch (this->debug_type) {
-    		case D_CONTACT:{
-				ftn::Rectangle bounds = circle->get_corpse_bounds();
+    		case D_DEFAULT: { } break;
+    		case D_QUADTREE: { } break;
+    		case D_BOUNDINGS: {
+    			ftn::Rectangle bounds = circle->get_corpse_bounds();
     			DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
+    			DrawCircle(circle->get_pos_x(), circle->get_pos_y(), 5, sf::Color::Red, true);
     		} break;
+    		case D_COLLISIONS: { } break;
+    		case D_NORMALS: { } break;
+    		case D_FORCES: { } break;
+    		case D_PAIRS: { } break;
     	}
 
-		DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), circle->get_color(), true); 
+    	/* -------------------------------------- Default Drawing -------------------------------------- */
+		DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), circle->get_color(), true);
+
     } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(corpse.get())) {
 
     	switch (this->debug_type) {
-    		case D_CONTACT:{
-				ftn::Rectangle bounds = polygon->get_corpse_bounds();
+    		case D_DEFAULT: { } break;
+    		case D_QUADTREE: { } break;
+    		case D_BOUNDINGS: {
+    			ftn::Rectangle bounds = polygon->get_corpse_bounds();
     			DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
-    			DrawCircle(polygon->get_pos_x(), polygon->get_pos_y(), 5, sf::Color::Red);
+    			DrawCircle(polygon->get_pos_x(), polygon->get_pos_y(), 5, sf::Color::Red, true);
     		} break;
+    		case D_COLLISIONS: { } break;
+    		case D_NORMALS: {
+    			std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = polygon->get_sides();
+    			for (int i = 0; i<sides.size(); i++) {
+    				sf::Vector2f edge_center = (sides.at(i).first + sides.at(i).second)/2.0f;
+    				sf::Vector2f edge_vector = edge_center + ftn::Normalize(ftn::Norme(sides.at(i).first, sides.at(i).second))*G_VECTOR_SIZE;
+    				DrawCircle(edge_center.x, edge_center.y, 5, sf::Color::Red, true);
+    				Renderer::DrawLine(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, sf::Color::Red);
+    			
+    				std::pair<sf::Vector2f, sf::Vector2f> last_edge = sides.at((i-1) % sides.size());
+    				std::pair<sf::Vector2f, sf::Vector2f> current_edge = sides.at(i);
+    				
+					sf::Vector2f point_center = last_edge.second;
+    				sf::Vector2f point_vector = point_center + ftn::Normalize(ftn::Norme(last_edge.first, last_edge.second) + ftn::Norme(current_edge.first, current_edge.second))*G_VECTOR_SIZE;
+    				DrawCircle(point_center.x, point_center.y, 5, sf::Color::Red, true);
+    				Renderer::DrawLine(point_center.x, point_center.y, point_vector.x, point_vector.y, sf::Color::Red);
+    			}
+    		} break;
+    		case D_FORCES: { } break;
+    		case D_PAIRS: { } break;
     	}
     	
+    	/* -------------------------------------- Default Drawing -------------------------------------- */
     	DrawPolygon(polygon->get_points(), polygon->get_color(), true);
-    	/*
-    	std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = polygon->get_sides();
-    	for (int i=0; i<sides.size(); i++) { DrawLine(sides.at(i).first.x, sides.at(i).first.y,sides.at(i).second.x, sides.at(i).second.y, sf::Color::Blue); }
-    	*/
+
     }
 }
 
@@ -585,13 +584,16 @@ void Renderer::Debug() {
 
 void Renderer::DrawInputs() {
 	switch (this->debug_type) {
-		case D_DEFAULT:
-			break;
-		case D_CONTACT: {
+		case D_DEFAULT:{ } break;
+		case D_QUADTREE: {
 			std::vector<ftn::Rectangle> quadtrees = this->system.get_quadtree()->get_all_bounds();
 			for (int i = 0; i < quadtrees.size(); i++) { DrawQuadtree(quadtrees.at(i)); }
 		} break;
-		case D_FORCES: {
+		case D_BOUNDINGS:{ } break;
+		case D_COLLISIONS: { } break;
+    	case D_NORMALS: { } break;
+		case D_FORCES:{ } break;
+		case D_PAIRS:{
 			// for (int i = 0; i < system.get_pairs_size(); i++) { DrawPair(system.get_pair(i)); }
 			std::vector<ftn::Rectangle> quadtrees = this->system.get_quadtree()->get_all_bounds();
 			for (int i = 0; i < quadtrees.size(); i++) { DrawQuadtree(quadtrees.at(i)); }
@@ -612,8 +614,7 @@ void Renderer::DrawInputs() {
 			sf::Vector2f pB = this->selected_area.pos+this->selected_area.size;
 			DrawLine(pA.x, pA.y, pB.x, pB.y, sf::Color::White);
 		} break;
-		case S_DRAG_CORPSE: {
-		} break;
+		case S_DRAG_CORPSE: { } break;
 		case S_CREATE_CIRCLE: {
 			sf::Vector2f temp_pos = this->selected_area.pos;
 			float temp_size = ftn::Length(this->selected_area.size);

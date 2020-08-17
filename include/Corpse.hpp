@@ -28,6 +28,7 @@ protected:
 	sf::Vector2f last_pos;
 	float current_rotation;
 	float last_rotation;
+	float motor_rotation;
 	sf::Color color;
 
 public:
@@ -81,6 +82,8 @@ public:
 	void set_current_rotation(float current_rotation);
 	float get_last_rotation() const;
 	void set_last_rotation(float last_rotation);
+	float get_motor_rotation() const;
+	void set_motor_rotation(float motor_rotation);
 
 	void set_damping(float damping);
 	float get_bounce() const;

@@ -30,9 +30,11 @@ void System::Prepare() {
 void System::Step() {
 	CheckLimits();
 	CorpsesStep();
-	StepQuadtree();
 
-	for (int i=0; i < COLLISION_ACCURACY; i++) { QuadPairsStep(); }
+	for (int i=0; i <COLLISION_ACCURACY; i++) {
+		StepQuadtree();
+		QuadPairsStep(); 
+	}
 
 	PairsStep();
 	

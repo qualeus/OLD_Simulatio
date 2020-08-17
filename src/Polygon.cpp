@@ -2,8 +2,12 @@
 
 namespace phy {
 
-Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float damping, float speed_x, float speed_y, float rotation, bool fixed, bool tied, bool etherial, sf::Color color):Corpse(0.0f, 0.0f, mass, damping, fixed, tied, etherial, color) {
+Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float damping, float speed_x, float speed_y, float rotation, float motor, bool fixed, bool tied, bool etherial, sf::Color color):Corpse(0.0f, 0.0f, mass, damping, fixed, tied, etherial, color) {
 	std::vector<sf::Vector2f> vect_points(std::begin(points), std::end(points));
+
+	// Triangulation
+	// std::vector<std::vector<sf::Vector2f>>
+	// 
 	this->points = vect_points;
 	this->relative_points = init_relative_points(vect_points);
 
@@ -13,6 +17,7 @@ Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float d
 	this->points_number = vect_points.size();
 	this->last_pos = computed_center-sf::Vector2f(speed_x, speed_y);
 	this->last_rotation = rotation;
+	this->motor_rotation = motor;
 }
 
 Polygon::~Polygon() {}
@@ -183,6 +188,12 @@ void Polygon::Step() {
 		for (int i=0; i<this->relative_points.size(); i++) { ftn::Rotate(this->relative_points.at(i), diff_rotation); }
 	}
 
+	if (!ftn::decimal_equals(motor_rotation, 0.0f, 0.0001f)) {
+		// Add the motor rotation even if the object is tied
+		this->current_rotation = this->current_rotation + motor_rotation;
+		for (int i=0; i<this->relative_points.size(); i++) { ftn::Rotate(this->relative_points.at(i), motor_rotation); }
+	}
+	
 	this->update_points();
 }
 void Polygon::Stop() {
