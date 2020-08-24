@@ -1,7 +1,5 @@
 # Physics
 
-![Screenshot image](/ressources/ScreenShots/screenshot_2.png)
-
 This project started from the personal challenge of recreating different physical phenomena in a simulation running in real time.
 
 The goal was to learn more about the functioning of these different physical phenomena, such as:
