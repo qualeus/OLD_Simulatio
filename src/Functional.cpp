@@ -5,8 +5,8 @@ float ftn::Dot(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b) { return 
 float ftn::Dot(float x1, float y1, float x2, float y2) { return x1*x2 + y1*y2; }
 
 /* Perp/Cross Dot product: [Ax Ay].[Bx By] = (Ax)(Bx)-(Ay)(By) = Amag*Bmag*sin(theta) */
-float ftn::Perp_Dot(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b) { return vect_a.x*vect_b.x - vect_a.y*vect_b.y; }
-float ftn::Perp_Dot(float x1, float y1, float x2, float y2) { return x1*x2 - y1*y2; }
+float ftn::Cross(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b) { return vect_a.x*vect_b.y - vect_a.y*vect_b.x; }
+float ftn::Cross(float x1, float y1, float x2, float y2) { return x1*y2 - y1*x2; }
 
 sf::Vector2f ftn::Pow(const sf::Vector2f &vect, int power) {
 	sf::Vector2f pow = vect;
@@ -276,6 +276,14 @@ float ftn::digits_comma(float number, int digits) {
 /* Angle from a line: atan2(y, x) = Arg(x+iy) rad <=> atan2(y, x)*(180/3.1415)= Arg(x+iy) deg */
 float ftn::bearing(float x1, float y1, float x2, float y2) { return atan2(y1 - y2, x1 - x2) * (180 / PI); }
 
+/* Compute the angle formed by 3 points */
+float ftn::angle(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C) {
+	sf::Vector2f vect_AB = vect_B - vect_A;
+	sf::Vector2f vect_CB = vect_B - vect_C;
+
+	return atan2(Cross(vect_AB, vect_CB), Dot(vect_AB, vect_CB)) * (180 / PI);
+}
+
 bool ftn::rect_in_bounds(const ftn::Rectangle &object, const ftn::Rectangle &limits) {
 	// One point in bounds
 	// p1 (x,y)
@@ -304,3 +312,7 @@ bool ftn::rect_out_bounds(const ftn::Rectangle &object, const ftn::Rectangle &li
 	return false;
 }
 
+/* Compute the mirrored point from A to the line B */
+sf::Vector2f ftn::Mirrored_Point(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B) {
+	return 2.0f * ftn::Line_Projection(vect_A, vect_B) - vect_A;
+}

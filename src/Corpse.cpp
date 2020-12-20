@@ -39,36 +39,60 @@ void Corpse::Stop() {}
 void Corpse::Move(float x, float y, bool relative) {}
 void Corpse::Move(sf::Vector2f move, bool relative) {}
 void Corpse::Collision(std::shared_ptr<Corpse> a) {}
-sf::Vector2f Corpse::get_diff_pos() const { return (this->current_pos - this->last_pos); }
 
 void Corpse::CollisionResponse(phy::Corpse* corpse_a, phy::Corpse* corpse_b, const sf::Vector2f& vect_force) {
-	float normal_damping = (corpse_a->get_bounce() + corpse_b->get_bounce()) * 0.5f; // damping average
-	sf::Vector2f force = vect_force * normal_damping; // Damping is evenly distributed among the corpses
+	
+	float damping = (corpse_a->get_bounce() + corpse_b->get_bounce()) * 0.5f; // Damping is evenly distributed among the corpses
+	
+	/*
+		TEMP: TODO
+		- recompute the damping with the proper forces applied
+		- push the corpse out of the other shape with the normal vector and the force passed by parameter (vect_force)
+			=> BUT DON'T CHANCE THE VELOCITY (how to do? last pos?)
+		- Then apply the vector (2m2v¯2 + (m1 −m2)v¯1)/(2m2v¯2 + (m1 −m2)v¯1)
 
+	*/
 	// Test if the collision is asymetric (Fixed/Not Fixed) / or if the two corpses are Fixed
 	if (corpse_a->get_fixed() || corpse_b->get_fixed()) {
-			if (!corpse_a->get_fixed()) {
-				// corpse_a is Not Fixed and corpse_b is Fixed
-				corpse_a->Move(force);
-			} else if (!corpse_b->get_fixed()) {
-				// corpse_a is Fixed and corpse_b is Not Fixed
-				corpse_b->Move(-force);
-			} else {
-				// Both corpse_a and corpse_b are Fixed
-				//corpse_a->Move(force*0.5f);
-				//corpse_b->Move(-force*0.5f);
-			}
-		} else {
-			// Both corpse_a and corpse_b are Not Fixed
-			// Mass response is not evenly distributed among the corpses
-			float normal_mass = corpse_a->get_mass() + corpse_b->get_mass();
-			float normal_mass_corpse_a = corpse_a->get_mass() / normal_mass;
-			float normal_mass_corpse_b = corpse_b->get_mass() / normal_mass;
+		if (!corpse_a->get_fixed()) {
+			// corpse_a is Not Fixed and corpse_b is Fixed:
+			//sf::Vector2f temp_pos = corpse_a->get_last_pos();
 
-			corpse_a->Move(force * normal_mass_corpse_b * 0.5f); // Mass response of the corpse_b is projected onto the corpse_a
-			corpse_b->Move(-force * normal_mass_corpse_a * 0.5f); // Mass response of the corpse_a is projected onto the corpse_b
+			//corpse_a->set_last_pos(corpse_a->get_pos());
+			corpse_a->Move(vect_force);
+			//corpse_a->Move(ftn::Mirrored_Point(temp_pos - corpse_a->get_pos(), vect_force) * damping);
+
+		} else if (!corpse_b->get_fixed()) {
+			// corpse_a is Fixed and corpse_b is Not Fixed:
+			//sf::Vector2f temp_pos = corpse_b->get_last_pos();
+
+			//corpse_b->set_last_pos(corpse_b->get_pos());
+			corpse_b->Move(-vect_force);
+			//corpse_b->Move(ftn::Mirrored_Point(temp_pos - corpse_b->get_pos(), vect_force) * damping);
+		} else {
+			// Both corpse_a and corpse_b are Fixed:
+			//corpse_a->Move(force*0.5f);
+			//corpse_b->Move(-force*0.5f);
 		}
-		
+	} else {
+		// Both corpse_a and corpse_b are Not Fixed:
+		float normal_mass = corpse_a->get_mass() + corpse_b->get_mass();
+		float normal_mass_corpse_a = corpse_a->get_mass() / normal_mass;
+		float normal_mass_corpse_b = corpse_b->get_mass() / normal_mass;
+
+		//sf::Vector2f temp_pos_a = corpse_a->get_last_pos();
+		//sf::Vector2f temp_pos_b = corpse_b->get_last_pos();
+
+		//corpse_a->set_last_pos(corpse_a->get_pos());
+		//corpse_b->set_last_pos(corpse_b->get_pos());
+
+		corpse_a->Move(vect_force * normal_mass_corpse_b * 0.5f);
+		corpse_b->Move(-vect_force * normal_mass_corpse_a * 0.5f);
+
+		//corpse_a->Move(ftn::Mirrored_Point(temp_pos_a - corpse_a->get_pos(), vect_force) * damping);
+		//corpse_b->Move(ftn::Mirrored_Point(temp_pos_b - corpse_b->get_pos(), vect_force) * damping);
+	}
+	
 }
 
 sf::Color Corpse::get_color() const { return this->color; }
@@ -89,6 +113,10 @@ float Corpse::get_last_pos_y() const { return this->last_pos.y; }
 void Corpse::set_last_pos(sf::Vector2f pos) { this->last_pos = pos; }
 void Corpse::set_last_pos_x(float pos_x) { this->last_pos.x = pos_x; }
 void Corpse::set_last_pos_y(float pos_y) { this->last_pos.y = pos_y; }
+
+sf::Vector2f Corpse::get_diff_pos() const { return (this->get_pos() - this->get_last_pos()); }
+float Corpse::get_diff_pos_x() const { return (this->get_pos_x() - this->get_last_pos_x()); }
+float Corpse::get_diff_pos_y() const { return (this->get_pos_y() - this->get_last_pos_y()); }
 
 float Corpse::get_current_rotation() const { return this->current_rotation; }
 void Corpse::set_current_rotation(float current_rotation){ this->current_rotation = current_rotation; }

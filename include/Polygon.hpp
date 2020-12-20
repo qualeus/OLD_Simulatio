@@ -17,6 +17,7 @@ private:
 	int points_number;
 	std::vector<sf::Vector2f> points;
 	std::vector<sf::Vector2f> relative_points;
+	std::vector<std::vector<std::shared_ptr<sf::Vector2f>>> triangulation;
 
 public:
 	Polygon(std::initializer_list<sf::Vector2f> points = {}, float mass = 1.0f, float damping = 1.0f, float speed_x = 0.0f, float speed_y = 0.0f, float rotation = 0.0f, float motor = 0.0f, bool fixed = false, bool tied = false, bool etherial = false, sf::Color color = sf::Color::White);
@@ -33,10 +34,11 @@ public:
 
 	void Collision(std::shared_ptr<Corpse> a);
 
+	void triangulate();
 	void update_points();
+	
 	std::vector<sf::Vector2f> init_relative_points(std::vector<sf::Vector2f> points);
 	void set_points(std::vector<sf::Vector2f> points);
-
 	void add_point(sf::Vector2f point);
 	void remove_point(int i);
 
@@ -47,6 +49,8 @@ public:
 	std::vector<float> get_sides_size() const;
 	std::vector<sf::Vector2f> get_sides_val() const;
 	std::vector<std::pair<sf::Vector2f, sf::Vector2f>> get_sides() const;
+	std::vector<std::vector<std::shared_ptr<sf::Vector2f>>> get_triangulation() const;
+	bool is_convex() const;
 };
 
 }

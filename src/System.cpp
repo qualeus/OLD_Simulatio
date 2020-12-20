@@ -94,6 +94,7 @@ void System::Collision(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     }
 }
 
+/* PROBLEM HERE THAT MAKE THE SOFTWARE CRASH ??? */
 void System::Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
 	if (a->get_removed() || b->get_removed()) { return; } // Removed
 

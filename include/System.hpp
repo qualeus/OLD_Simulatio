@@ -19,7 +19,7 @@ namespace phy {
 #define G 10 //6.7 * 10e-11
 
 #define AROUND_QUADTREE 1000
-#define COLLISION_ACCURACY 1 //50 // Number of times the collision step is done per frame
+#define COLLISION_ACCURACY 10 //50 // Number of times the collision step is done per frame
 
 class System
 {

@@ -14,7 +14,6 @@ const static int ID_CIRCLE = 2;
 class Circle : public Corpse
 {
 private:
-	sf::Vector2f last_pos;
 	float size;
 
 public:

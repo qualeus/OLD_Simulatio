@@ -1,6 +1,9 @@
 #ifndef Renderer_HPP
 #define Renderer_HPP
 
+#include "imgui.h"
+#include "imgui-SFML.h"
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Main.hpp>
 #include <cmath>
@@ -34,6 +37,9 @@
 #define G_OUTLINE_THICKNESS 2
 #define G_TEXT_RESOLUTION 28.0f
 #define G_VECTOR_SIZE 40.0f
+#define G_ARRAY_HEAD_SIZE 12
+
+
 
 #define D_SIZE 7 /* Size of the array of Debug values */
 #define D_DEFAULT 0
@@ -54,6 +60,7 @@
 #define S_CREATE_POLYGON 6
 
 #define I_LAUNCH_POWER 0.2f
+#define I_ZOOM_SPEED 0.1f
 
 class Renderer
 {
@@ -158,6 +165,7 @@ public:
 	void DebugDrag(); // Draw the inputs on the Corpses 
 
 	void DrawLine(int x1, int y1, int x2, int y2, sf::Color color = sf::Color::White);
+	void DrawArrow(int x1, int y1, int x2, int y2, int xhead = G_ARRAY_HEAD_SIZE, int yhead = G_ARRAY_HEAD_SIZE, sf::Color color= sf::Color::White);
 	void DrawCircle(int x, int y, int radius, sf::Color color = sf::Color::White, bool outline = false);
 	void DrawRectangle(int x, int y, int height, int width, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);
 	void DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color = sf::Color::White, bool outline = false); 

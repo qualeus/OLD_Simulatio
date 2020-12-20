@@ -1,5 +1,5 @@
 @echo off
-set lib_path="D:\Projets\Physics\ressources\Libraries"
+set lib_path="D:\Documents\Projets\Physics\ressources\Libraries"
 
 :menu
 color 0a
@@ -31,11 +31,9 @@ for /R %%f in (src/*.cpp) do (
 	g++ -o bin/Source/Debug/%%~nf.o -c src/%%~nxf -std=c++17 -Werror -Wfatal-errors -DSFML_STATIC -I %lib_path%\include
 	IF NOT %ERRORLEVEL%==0 (pause && goto menu)
 )
-pause
 IF %ERRORLEVEL%==0 (
 	g++ bin/Source/Debug/*.o -o bin/Source/Debug/Debug.exe -L %lib_path%\lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32 -lfreetype
 	xcopy /f /y "ressources/Fonts/arial.ttf" "bin/Source/Debug/"
-	pause
 	goto run_debug
 )
 goto menu

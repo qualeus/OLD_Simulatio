@@ -29,8 +29,8 @@ struct Text {
 float Dot(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
 float Dot(float x1, float y1, float x2, float y2);
 
-float Perp_Dot(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
-float Perp_Dot(float x1, float y1, float x2, float y2);
+float Cross(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
+float Cross(float x1, float y1, float x2, float y2);
 
 sf::Vector2f Pow(const sf::Vector2f &vect, int power);
 
@@ -67,9 +67,13 @@ std::pair<sf::Vector2f, sf::Vector2f> Closest_Edge(std::vector<std::pair<sf::Vec
 ftn::Rectangle Reorder_Rectangle(ftn::Rectangle rectangle);
 float digits_comma(float number, int digits);
 float bearing(float x1, float y1, float x2, float y2);
+float angle(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C);
+
 
 bool rect_in_bounds(const ftn::Rectangle &object, const ftn::Rectangle &limits);
 bool rect_out_bounds(const ftn::Rectangle &object, const ftn::Rectangle &limits);
+
+sf::Vector2f Mirrored_Point(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
 
 template<class C>
 std::shared_ptr<C> remove(int i, std::vector<std::shared_ptr<C>> &vect) {

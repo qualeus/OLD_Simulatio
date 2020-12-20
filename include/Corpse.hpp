@@ -13,8 +13,7 @@ namespace phy {
 
 const static int ID_CORPSE = 1;
 
-class Corpse
-{
+class Corpse {
 protected:
 	int id;
 	bool fixed;
@@ -55,7 +54,6 @@ public:
 	virtual bool Pointed(float x, float y) = 0;
 
 	virtual void Collision(std::shared_ptr<Corpse> a);
-	sf::Vector2f get_diff_pos() const;
 
 	void CollisionResponse(phy::Corpse* corpse_a, phy::Corpse* corpse_b, const sf::Vector2f& vect_force);
 
@@ -77,6 +75,10 @@ public:
 	void set_last_pos(sf::Vector2f pos);
 	void set_last_pos_x(float pos_x);
 	void set_last_pos_y(float pos_y);
+	
+	sf::Vector2f get_diff_pos() const;
+	float get_diff_pos_x() const;
+	float get_diff_pos_y() const;
 
 	float get_current_rotation() const;
 	void set_current_rotation(float current_rotation);

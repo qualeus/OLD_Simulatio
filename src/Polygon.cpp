@@ -4,11 +4,10 @@ namespace phy {
 
 Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float damping, float speed_x, float speed_y, float rotation, float motor, bool fixed, bool tied, bool etherial, sf::Color color):Corpse(0.0f, 0.0f, mass, damping, fixed, tied, etherial, color) {
 	std::vector<sf::Vector2f> vect_points(std::begin(points), std::end(points));
+	//this->points = vect_points;
+	this->set_points(vect_points);
 
-	// Triangulation
-	// std::vector<std::vector<sf::Vector2f>>
-	// 
-	this->points = vect_points;
+	/* Put all this in set_points in case of using it alone... */
 	this->relative_points = init_relative_points(vect_points);
 
 	sf::Vector2f computed_center = phy::Polygon::compute_center(vect_points);
@@ -18,6 +17,8 @@ Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float d
 	this->last_pos = computed_center-sf::Vector2f(speed_x, speed_y);
 	this->last_rotation = rotation;
 	this->motor_rotation = motor;
+
+	this->triangulate();
 }
 
 Polygon::~Polygon() {}
@@ -136,8 +137,29 @@ void Polygon::Collision(std::shared_ptr<Corpse> a) {
 	}
 }
 
-void Polygon::update_points() {
-	for (int i=0; i<this->points_number; i++) { this->points.at(i) = this->get_pos() + this->relative_points.at(i); }
+void Polygon::update_points() { for (int i=0; i<this->points_number; i++) { this->points.at(i) = this->get_pos() + this->relative_points.at(i); } }
+
+void Polygon::triangulate() {
+	
+	/* Reset the triangulation shape */
+	this->triangulation = std::vector<std::vector<std::shared_ptr<sf::Vector2f>>>();
+	
+	if (this->is_convex()) {
+		/* If the polygon is convex, no need to decompose it for the collision to work properly */
+		std::vector<std::shared_ptr<sf::Vector2f>> triangle = std::vector<std::shared_ptr<sf::Vector2f>>();
+		for (int i=0; i<this->points_number; i++) {
+			/* /!\ IT COPY THE POINTS INSTEAD OF LINKING THEM... */
+			triangle.push_back(std::make_shared<sf::Vector2f>(std::forward<sf::Vector2f>(this->points.at(i))));
+		}
+		this->triangulation.push_back(triangle);
+	} else {
+		std::vector<std::shared_ptr<sf::Vector2f>> triangle = std::vector<std::shared_ptr<sf::Vector2f>>();
+
+		/* Ear clipping / Triangulation */
+		// TODO
+		
+		this->triangulation.push_back(triangle);
+	}
 }
 
 std::vector<sf::Vector2f> Polygon::init_relative_points(std::vector<sf::Vector2f> points) {
@@ -148,9 +170,12 @@ std::vector<sf::Vector2f> Polygon::init_relative_points(std::vector<sf::Vector2f
 	return relative_points;
 }
 
-void Polygon::set_points(std::vector<sf::Vector2f> points) { this->points = points; }
+void Polygon::set_points(std::vector<sf::Vector2f> points) { 
+	this->points = points;
+}
 
 void Polygon::add_point(sf::Vector2f point) {
+
 	this->points.push_back(point);
 	this->points_number++;
 
@@ -161,7 +186,9 @@ void Polygon::add_point(sf::Vector2f point) {
 	this->last_pos = computed_center-diff_pos;
 	this->relative_points = init_relative_points(this->points);
 	this->update_points();
+	this->triangulate();
 }
+
 void Polygon::remove_point(int i) {}
 
 sf::Vector2f Polygon::compute_center(std::vector<sf::Vector2f> points) {
@@ -240,4 +267,37 @@ std::vector<std::pair<sf::Vector2f, sf::Vector2f>> Polygon::get_sides() const {
 	}
 	return pairs;
 }
+
+std::vector<std::vector<std::shared_ptr<sf::Vector2f>>> Polygon::get_triangulation() const { return this->triangulation; }
+
+bool Polygon::is_convex() const {
+	/*
+		Check if the polygon is not convex
+		- Check if 2 edges intersect ?
+		- Check for all angles if they are > 180°/2PI
+	*/
+
+	std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = this->get_sides();
+
+	/* We check for every edges that don't have an edge in common (opposites) if they intersect */
+	if (sides.size() <= 3) { return true; } /* triangles are always convex */
+
+	for (int i = 0; i<sides.size()-2; i++) {
+		for (int j = i+2; j<sides.size()-(i==0); j++) {
+			std::pair<sf::Vector2f, sf::Vector2f> sideA = sides.at(i);
+			std::pair<sf::Vector2f, sf::Vector2f> sideB = sides.at(j);
+			if (ftn::Segments_Intersect(sideA.first, sideA.second, sideB.first, sideB.second)) { return false; }
+		}
+	}
+
+	std::vector<sf::Vector2f> points = this->get_points();
+
+	// tests angles <= 2PI...
+	for (int i = 0; i < points.size() - 2; i++) { if (ftn::angle(points.at(i), points.at(i+1), points.at(i+2)) > 180.0f) { return false; } }
+
+	if (ftn::angle(points.at(points.size()-1), points.at(0), points.at(1)) > 180.0f) { return false; } 
+
+	return true;
+}
+
 }

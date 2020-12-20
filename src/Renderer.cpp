@@ -38,7 +38,9 @@ Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_
 
 	this->window.create(sf::VideoMode(this->screen_width, this->screen_height), this->name, sf::Style::Default, settings);
 	this->window.setView(this->view);
-	this->window.setFramerateLimit(60);	
+	this->window.setFramerateLimit(60);
+
+	ImGui::SFML::Init(this->window);
 
 }
 
@@ -56,13 +58,19 @@ void Renderer::Render() {
 		sf::Event event;
 		while (this->window.pollEvent(event)) { Input(event); }
 
+		ImGui::SFML::Update(window, this->frame);
+        ImGui::Begin("Demo window");
+		ImGui::Button("Hello!");
+		ImGui::End();
 		this->Draw();
 		
 		// Debug
 		this->frame = this->clock.restart();
+        ImGui::SFML::Render(window);
 		this->Debug();
 		this->window.display();
 	}
+    ImGui::SFML::Shutdown();
 }
 
 void Renderer::Close() {
@@ -70,6 +78,9 @@ void Renderer::Close() {
 }
 
 void Renderer::Input(sf::Event event) {
+	     
+	ImGui::SFML::ProcessEvent(event);
+
 	if (event.type == sf::Event::Closed) {
 
 		// Manage the Closure event
@@ -128,7 +139,7 @@ void Renderer::Input(sf::Event event) {
 		// Stop the events associated with the mouse holding
 	} else if (event.type == sf::Event::MouseWheelScrolled) {
 		UpdateMouse();
-		Camera(sf::Vector2f(0.0f, 0.0f), 1.0f-(event.mouseWheelScroll.delta*0.05));
+		Camera(sf::Vector2f(0.0f, 0.0f), 1.0f-(event.mouseWheelScroll.delta * I_ZOOM_SPEED));
 	} else if (event.type == sf::Event::KeyPressed) {
 
 		// Handle the functions associated with the keyboard buttons
@@ -504,9 +515,13 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
     			DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
     			DrawCircle(circle->get_pos_x(), circle->get_pos_y(), 5, sf::Color::Red, true);
     		} break;
-    		case D_COLLISIONS: { } break;
+    		case D_COLLISIONS: {
+    			DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size()+3, sf::Color::Red, true);
+    		} break;
     		case D_NORMALS: { } break;
-    		case D_FORCES: { } break;
+    		case D_FORCES: { 
+				DrawLine(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + circle->get_diff_pos_x(), circle->get_pos_y() + circle->get_diff_pos_y(), sf::Color::Red);
+			} break;
     		case D_PAIRS: { } break;
     	}
 
@@ -523,14 +538,21 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
     			DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
     			DrawCircle(polygon->get_pos_x(), polygon->get_pos_y(), 5, sf::Color::Red, true);
     		} break;
-    		case D_COLLISIONS: { } break;
+    		case D_COLLISIONS: {
+    			std::vector<std::vector<std::shared_ptr<sf::Vector2f>>> triangles = polygon->get_triangulation();
+    			for (int i=0; i<triangles.size(); i++) {
+    				std::vector<std::shared_ptr<sf::Vector2f>> triangle = triangles.at(i);
+    				for (int j=0; j<triangle.size()-1; j++) { Renderer::DrawLine(triangle.at(j)->x, triangle.at(j)->y, triangle.at(j+1)->x, triangle.at(j+1)->y, sf::Color::Red); }
+    				Renderer::DrawLine(triangle.at(triangle.size()-1)->x, triangle.at(triangle.size()-1)->y, triangle.at(0)->x, triangle.at(0)->y, sf::Color::Red);
+    			}
+    		} break;
     		case D_NORMALS: {
     			std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = polygon->get_sides();
     			for (int i = 0; i<sides.size(); i++) {
     				sf::Vector2f edge_center = (sides.at(i).first + sides.at(i).second)/2.0f;
     				sf::Vector2f edge_vector = edge_center + ftn::Normalize(ftn::Norme(sides.at(i).first, sides.at(i).second))*G_VECTOR_SIZE;
     				DrawCircle(edge_center.x, edge_center.y, 5, sf::Color::Red, true);
-    				Renderer::DrawLine(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, sf::Color::Red);
+    				Renderer::DrawArrow(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, 12, 12, sf::Color::Red);
     			
     				std::pair<sf::Vector2f, sf::Vector2f> last_edge = sides.at((i-1) % sides.size());
     				std::pair<sf::Vector2f, sf::Vector2f> current_edge = sides.at(i);
@@ -541,7 +563,9 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
     				Renderer::DrawLine(point_center.x, point_center.y, point_vector.x, point_vector.y, sf::Color::Red);
     			}
     		} break;
-    		case D_FORCES: { } break;
+    		case D_FORCES: { 
+				//DrawLine(circle->get_pos_x(), circle->get_pos_y(), circle->get_diff_pos_x(), circle->get_diff_pos_x(), sf::Color::Red);
+			} break;
     		case D_PAIRS: { } break;
     	}
     	
@@ -684,6 +708,30 @@ void Renderer::DrawLine(int x1, int y1, int x2, int y2, sf::Color color) {
 	}
 }
 
+void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, sf::Color color) {
+	float angle = ftn::bearing(x2, y2, x1, y1);
+	float length = ftn::Length(x1, y1, x2, y2);
+	
+	sf::ConvexShape head = sf::ConvexShape(3);
+	head.setPoint(0, {0.0f, 0.0f});
+	head.setPoint(1, {(float)xhead, (float)yhead / 2.0f});
+	head.setPoint(2, {0.0f, (float)yhead});
+	head.setOrigin((float)xhead, (float)yhead / 2.0f);
+	head.setPosition(x2, y2);
+	head.setRotation(angle);
+	head.setFillColor(color);
+
+	const sf::Vector2f size = sf::Vector2f(length - (float)xhead, 2.0f);
+	sf::RectangleShape tail = sf::RectangleShape(size);
+	tail.setOrigin(0.0f, size.y /2.0f);
+	tail.setPosition(x1, y1);
+	tail.setRotation(angle);
+	tail.setFillColor(color);
+	
+	this->window.draw(head);
+	this->window.draw(tail);
+}
+
 void Renderer::DrawCircle(int x, int y, int radius, sf::Color color, bool outline) {
 	sf::CircleShape circle(radius, G_CIRCLE_RESOLUTION);
 
@@ -749,7 +797,7 @@ void Renderer::DrawText(std::string str, int x, int y, int size, bool fixed, sf:
 	sf::Font font;
 	sf::Text text;
 
-	if (font.loadFromFile("arial.ttf")) {
+	if (font.loadFromFile("../ressources/fonts/arial.ttf")) {
 		text.setCharacterSize(G_TEXT_RESOLUTION);
 		float resolution_resize = size/G_TEXT_RESOLUTION;
 
