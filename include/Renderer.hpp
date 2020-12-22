@@ -42,7 +42,12 @@
 #define G_ARRAY_HEAD_SIZE 12
 #define G_ARRAY_HEAD_SIZE 12
 #define G_BACKGROUND_COLOR sf::Color::Black
-#define G_TOP_BAR_SIZE 50
+
+#define G_TOP_BAR_SIZE 50         // Size in Px
+#define G_UP_DOCK_SIZE 0.10f      // 100% <=> 1.0f
+#define G_BOTTOM_DOCK_SIZE 0.20f  // 100% <=> 1.0f
+#define G_LEFT_DOCK_SIZE 0.20f    // 100% <=> 1.0f
+#define G_RIGHT_DOCK_SIZE 0.20f   // 100% <=> 1.0f
 
 /* TO TRANSFORM IN BOOL , changeable in the menu checkboxes */
 #define D_SIZE 7 /* Size of the array of Debug values */
@@ -80,6 +85,10 @@ class Renderer {
     std::vector<sf::Vector2f> selected_corpses_diff;
 
     bool reset_base_layout = false;
+    bool show_gui_console = true;
+    bool show_gui_properties = true;
+    bool show_gui_overlay = true;
+
     ImGuiID dockspace_id;
     ImGuiID dockspace_bottom_id;
     ImGuiID dockspace_left_id;
@@ -178,6 +187,10 @@ class Renderer {
     void DrawGuiMenu();
     void DrawGuiBar();
     void DrawGuiDocking();
+
+    void ShowGuiConsole(bool* p_open);
+    void ShowGuiProperties(bool* p_open);
+    void ShowGuiOverlay(bool* p_open);
 
     void DebugSpeed();  // Draw the speed of the Corpses
     void DebugPairs();  // Draw the interactions of the Corpses

@@ -4,7 +4,7 @@
 
 int main() {
     Renderer test = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Test", false, 0.0f, 1.0f, 2000.0f, 2000.0f);
-    test.set_enable_inputs(false);
+    test.set_enable_inputs(true);
 
     for (int i = 0; i < 100; ++i) {
         test.system.addCorpse(phy::Circle(rand() % 500 + 250, rand() % 500, rand() % 20 + 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue));
