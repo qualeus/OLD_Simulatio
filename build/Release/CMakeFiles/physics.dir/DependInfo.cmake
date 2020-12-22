@@ -4,6 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "D:/Documents/Projets/Physics/assets/fonts/iconsforkawesome.cpp" "D:/Documents/Projets/Physics/build/Release/CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.obj"
+  "D:/Documents/Projets/Physics/assets/fonts/proggy.cpp" "D:/Documents/Projets/Physics/build/Release/CMakeFiles/physics.dir/assets/fonts/proggy.cpp.obj"
+  "D:/Documents/Projets/Physics/assets/fonts/roboto.cpp" "D:/Documents/Projets/Physics/build/Release/CMakeFiles/physics.dir/assets/fonts/roboto.cpp.obj"
   "D:/Documents/Projets/Physics/src/Circle.cpp" "D:/Documents/Projets/Physics/build/Release/CMakeFiles/physics.dir/src/Circle.cpp.obj"
   "D:/Documents/Projets/Physics/src/Constraint.cpp" "D:/Documents/Projets/Physics/build/Release/CMakeFiles/physics.dir/src/Constraint.cpp.obj"
   "D:/Documents/Projets/Physics/src/Corpse.cpp" "D:/Documents/Projets/Physics/build/Release/CMakeFiles/physics.dir/src/Corpse.cpp.obj"
@@ -12,6 +15,9 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "D:/Documents/Projets/Physics/src/Polygon.cpp" "D:/Documents/Projets/Physics/build/Release/CMakeFiles/physics.dir/src/Polygon.cpp.obj"
   "D:/Documents/Projets/Physics/src/Quadtree.cpp" "D:/Documents/Projets/Physics/build/Release/CMakeFiles/physics.dir/src/Quadtree.cpp.obj"
   "D:/Documents/Projets/Physics/src/Renderer.cpp" "D:/Documents/Projets/Physics/build/Release/CMakeFiles/physics.dir/src/Renderer.cpp.obj"
+  "D:/Documents/Projets/Physics/src/RendererDraw.cpp" "D:/Documents/Projets/Physics/build/Release/CMakeFiles/physics.dir/src/RendererDraw.cpp.obj"
+  "D:/Documents/Projets/Physics/src/RendererEvents.cpp" "D:/Documents/Projets/Physics/build/Release/CMakeFiles/physics.dir/src/RendererEvents.cpp.obj"
+  "D:/Documents/Projets/Physics/src/RendererGui.cpp" "D:/Documents/Projets/Physics/build/Release/CMakeFiles/physics.dir/src/RendererGui.cpp.obj"
   "D:/Documents/Projets/Physics/src/System.cpp" "D:/Documents/Projets/Physics/build/Release/CMakeFiles/physics.dir/src/System.cpp.obj"
   "D:/Documents/Projets/Physics/src/main.cpp" "D:/Documents/Projets/Physics/build/Release/CMakeFiles/physics.dir/src/main.cpp.obj"
   )
@@ -27,7 +33,7 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../../include"
   "D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/include"
-  "D:/Librairies/imgui-sfml_2_0_0/imgui_sfml_build/include"
+  "D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/include"
   )
 
 # Targets to which this target links.

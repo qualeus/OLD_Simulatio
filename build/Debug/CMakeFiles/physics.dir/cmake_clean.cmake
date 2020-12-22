@@ -1,4 +1,7 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.obj"
+  "CMakeFiles/physics.dir/assets/fonts/proggy.cpp.obj"
+  "CMakeFiles/physics.dir/assets/fonts/roboto.cpp.obj"
   "CMakeFiles/physics.dir/src/Circle.cpp.obj"
   "CMakeFiles/physics.dir/src/Constraint.cpp.obj"
   "CMakeFiles/physics.dir/src/Corpse.cpp.obj"
@@ -7,6 +10,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/physics.dir/src/Polygon.cpp.obj"
   "CMakeFiles/physics.dir/src/Quadtree.cpp.obj"
   "CMakeFiles/physics.dir/src/Renderer.cpp.obj"
+  "CMakeFiles/physics.dir/src/RendererDraw.cpp.obj"
+  "CMakeFiles/physics.dir/src/RendererEvents.cpp.obj"
+  "CMakeFiles/physics.dir/src/RendererGui.cpp.obj"
   "CMakeFiles/physics.dir/src/System.cpp.obj"
   "CMakeFiles/physics.dir/src/main.cpp.obj"
   "bin/physics.exe"

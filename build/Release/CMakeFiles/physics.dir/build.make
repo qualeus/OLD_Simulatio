@@ -182,10 +182,52 @@ CMakeFiles/physics.dir/src/Renderer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/physics.dir/src/Renderer.cpp.s"
 	D:\Librairies\Mingw64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Documents\Projets\Physics\src\Renderer.cpp -o CMakeFiles\physics.dir\src\Renderer.cpp.s
 
+CMakeFiles/physics.dir/src/RendererDraw.cpp.obj: CMakeFiles/physics.dir/flags.make
+CMakeFiles/physics.dir/src/RendererDraw.cpp.obj: CMakeFiles/physics.dir/includes_CXX.rsp
+CMakeFiles/physics.dir/src/RendererDraw.cpp.obj: ../../src/RendererDraw.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Documents\Projets\Physics\build\Release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/physics.dir/src/RendererDraw.cpp.obj"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\physics.dir\src\RendererDraw.cpp.obj -c D:\Documents\Projets\Physics\src\RendererDraw.cpp
+
+CMakeFiles/physics.dir/src/RendererDraw.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/physics.dir/src/RendererDraw.cpp.i"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Documents\Projets\Physics\src\RendererDraw.cpp > CMakeFiles\physics.dir\src\RendererDraw.cpp.i
+
+CMakeFiles/physics.dir/src/RendererDraw.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/physics.dir/src/RendererDraw.cpp.s"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Documents\Projets\Physics\src\RendererDraw.cpp -o CMakeFiles\physics.dir\src\RendererDraw.cpp.s
+
+CMakeFiles/physics.dir/src/RendererEvents.cpp.obj: CMakeFiles/physics.dir/flags.make
+CMakeFiles/physics.dir/src/RendererEvents.cpp.obj: CMakeFiles/physics.dir/includes_CXX.rsp
+CMakeFiles/physics.dir/src/RendererEvents.cpp.obj: ../../src/RendererEvents.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Documents\Projets\Physics\build\Release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/physics.dir/src/RendererEvents.cpp.obj"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\physics.dir\src\RendererEvents.cpp.obj -c D:\Documents\Projets\Physics\src\RendererEvents.cpp
+
+CMakeFiles/physics.dir/src/RendererEvents.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/physics.dir/src/RendererEvents.cpp.i"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Documents\Projets\Physics\src\RendererEvents.cpp > CMakeFiles\physics.dir\src\RendererEvents.cpp.i
+
+CMakeFiles/physics.dir/src/RendererEvents.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/physics.dir/src/RendererEvents.cpp.s"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Documents\Projets\Physics\src\RendererEvents.cpp -o CMakeFiles\physics.dir\src\RendererEvents.cpp.s
+
+CMakeFiles/physics.dir/src/RendererGui.cpp.obj: CMakeFiles/physics.dir/flags.make
+CMakeFiles/physics.dir/src/RendererGui.cpp.obj: CMakeFiles/physics.dir/includes_CXX.rsp
+CMakeFiles/physics.dir/src/RendererGui.cpp.obj: ../../src/RendererGui.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Documents\Projets\Physics\build\Release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/physics.dir/src/RendererGui.cpp.obj"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\physics.dir\src\RendererGui.cpp.obj -c D:\Documents\Projets\Physics\src\RendererGui.cpp
+
+CMakeFiles/physics.dir/src/RendererGui.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/physics.dir/src/RendererGui.cpp.i"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Documents\Projets\Physics\src\RendererGui.cpp > CMakeFiles\physics.dir\src\RendererGui.cpp.i
+
+CMakeFiles/physics.dir/src/RendererGui.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/physics.dir/src/RendererGui.cpp.s"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Documents\Projets\Physics\src\RendererGui.cpp -o CMakeFiles\physics.dir\src\RendererGui.cpp.s
+
 CMakeFiles/physics.dir/src/System.cpp.obj: CMakeFiles/physics.dir/flags.make
 CMakeFiles/physics.dir/src/System.cpp.obj: CMakeFiles/physics.dir/includes_CXX.rsp
 CMakeFiles/physics.dir/src/System.cpp.obj: ../../src/System.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Documents\Projets\Physics\build\Release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/physics.dir/src/System.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Documents\Projets\Physics\build\Release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/physics.dir/src/System.cpp.obj"
 	D:\Librairies\Mingw64\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\physics.dir\src\System.cpp.obj -c D:\Documents\Projets\Physics\src\System.cpp
 
 CMakeFiles/physics.dir/src/System.cpp.i: cmake_force
@@ -195,6 +237,48 @@ CMakeFiles/physics.dir/src/System.cpp.i: cmake_force
 CMakeFiles/physics.dir/src/System.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/physics.dir/src/System.cpp.s"
 	D:\Librairies\Mingw64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Documents\Projets\Physics\src\System.cpp -o CMakeFiles\physics.dir\src\System.cpp.s
+
+CMakeFiles/physics.dir/assets/fonts/roboto.cpp.obj: CMakeFiles/physics.dir/flags.make
+CMakeFiles/physics.dir/assets/fonts/roboto.cpp.obj: CMakeFiles/physics.dir/includes_CXX.rsp
+CMakeFiles/physics.dir/assets/fonts/roboto.cpp.obj: ../../assets/fonts/roboto.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Documents\Projets\Physics\build\Release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/physics.dir/assets/fonts/roboto.cpp.obj"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\physics.dir\assets\fonts\roboto.cpp.obj -c D:\Documents\Projets\Physics\assets\fonts\roboto.cpp
+
+CMakeFiles/physics.dir/assets/fonts/roboto.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/physics.dir/assets/fonts/roboto.cpp.i"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Documents\Projets\Physics\assets\fonts\roboto.cpp > CMakeFiles\physics.dir\assets\fonts\roboto.cpp.i
+
+CMakeFiles/physics.dir/assets/fonts/roboto.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/physics.dir/assets/fonts/roboto.cpp.s"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Documents\Projets\Physics\assets\fonts\roboto.cpp -o CMakeFiles\physics.dir\assets\fonts\roboto.cpp.s
+
+CMakeFiles/physics.dir/assets/fonts/proggy.cpp.obj: CMakeFiles/physics.dir/flags.make
+CMakeFiles/physics.dir/assets/fonts/proggy.cpp.obj: CMakeFiles/physics.dir/includes_CXX.rsp
+CMakeFiles/physics.dir/assets/fonts/proggy.cpp.obj: ../../assets/fonts/proggy.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Documents\Projets\Physics\build\Release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/physics.dir/assets/fonts/proggy.cpp.obj"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\physics.dir\assets\fonts\proggy.cpp.obj -c D:\Documents\Projets\Physics\assets\fonts\proggy.cpp
+
+CMakeFiles/physics.dir/assets/fonts/proggy.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/physics.dir/assets/fonts/proggy.cpp.i"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Documents\Projets\Physics\assets\fonts\proggy.cpp > CMakeFiles\physics.dir\assets\fonts\proggy.cpp.i
+
+CMakeFiles/physics.dir/assets/fonts/proggy.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/physics.dir/assets/fonts/proggy.cpp.s"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Documents\Projets\Physics\assets\fonts\proggy.cpp -o CMakeFiles\physics.dir\assets\fonts\proggy.cpp.s
+
+CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.obj: CMakeFiles/physics.dir/flags.make
+CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.obj: CMakeFiles/physics.dir/includes_CXX.rsp
+CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.obj: ../../assets/fonts/iconsforkawesome.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Documents\Projets\Physics\build\Release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.obj"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\physics.dir\assets\fonts\iconsforkawesome.cpp.obj -c D:\Documents\Projets\Physics\assets\fonts\iconsforkawesome.cpp
+
+CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.i"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Documents\Projets\Physics\assets\fonts\iconsforkawesome.cpp > CMakeFiles\physics.dir\assets\fonts\iconsforkawesome.cpp.i
+
+CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.s"
+	D:\Librairies\Mingw64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Documents\Projets\Physics\assets\fonts\iconsforkawesome.cpp -o CMakeFiles\physics.dir\assets\fonts\iconsforkawesome.cpp.s
 
 # Object files for target physics
 physics_OBJECTS = \
@@ -207,7 +291,13 @@ physics_OBJECTS = \
 "CMakeFiles/physics.dir/src/Polygon.cpp.obj" \
 "CMakeFiles/physics.dir/src/Quadtree.cpp.obj" \
 "CMakeFiles/physics.dir/src/Renderer.cpp.obj" \
-"CMakeFiles/physics.dir/src/System.cpp.obj"
+"CMakeFiles/physics.dir/src/RendererDraw.cpp.obj" \
+"CMakeFiles/physics.dir/src/RendererEvents.cpp.obj" \
+"CMakeFiles/physics.dir/src/RendererGui.cpp.obj" \
+"CMakeFiles/physics.dir/src/System.cpp.obj" \
+"CMakeFiles/physics.dir/assets/fonts/roboto.cpp.obj" \
+"CMakeFiles/physics.dir/assets/fonts/proggy.cpp.obj" \
+"CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.obj"
 
 # External object files for target physics
 physics_EXTERNAL_OBJECTS =
@@ -221,12 +311,18 @@ bin/physics.exe: CMakeFiles/physics.dir/src/Functional.cpp.obj
 bin/physics.exe: CMakeFiles/physics.dir/src/Polygon.cpp.obj
 bin/physics.exe: CMakeFiles/physics.dir/src/Quadtree.cpp.obj
 bin/physics.exe: CMakeFiles/physics.dir/src/Renderer.cpp.obj
+bin/physics.exe: CMakeFiles/physics.dir/src/RendererDraw.cpp.obj
+bin/physics.exe: CMakeFiles/physics.dir/src/RendererEvents.cpp.obj
+bin/physics.exe: CMakeFiles/physics.dir/src/RendererGui.cpp.obj
 bin/physics.exe: CMakeFiles/physics.dir/src/System.cpp.obj
+bin/physics.exe: CMakeFiles/physics.dir/assets/fonts/roboto.cpp.obj
+bin/physics.exe: CMakeFiles/physics.dir/assets/fonts/proggy.cpp.obj
+bin/physics.exe: CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.obj
 bin/physics.exe: CMakeFiles/physics.dir/build.make
 bin/physics.exe: D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/libsfml-graphics-s.a
 bin/physics.exe: D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/libsfml-window-s.a
 bin/physics.exe: D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/libsfml-system-s.a
-bin/physics.exe: D:/Librairies/imgui-sfml_2_0_0/imgui_sfml_build/lib/libImGui-SFML.a
+bin/physics.exe: D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/lib/libImGui-SFML.a
 bin/physics.exe: D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/libsfml-graphics-s.a
 bin/physics.exe: D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/libfreetype.a
 bin/physics.exe: D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/libsfml-window-s.a
@@ -234,7 +330,7 @@ bin/physics.exe: D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/libsfml-system-s.
 bin/physics.exe: CMakeFiles/physics.dir/linklibs.rsp
 bin/physics.exe: CMakeFiles/physics.dir/objects1.rsp
 bin/physics.exe: CMakeFiles/physics.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=D:\Documents\Projets\Physics\build\Release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable bin\physics.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=D:\Documents\Projets\Physics\build\Release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Linking CXX executable bin\physics.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\physics.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

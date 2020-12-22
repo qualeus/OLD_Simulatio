@@ -6,6 +6,8 @@
 
 #IncludeRegexTransform: 
 
+D:/Documents/Projets/Physics/assets/fonts/IconsForkAwesome.h
+
 D:/Documents/Projets/Physics/include/Circle.hpp
 SFML/Graphics.hpp
 -
@@ -67,20 +69,24 @@ D:/Documents/Projets/Physics/include/Circle.hpp
 D:/Documents/Projets/Physics/include/Polygon.hpp
 
 D:/Documents/Projets/Physics/include/Renderer.hpp
-imgui.h
-D:/Documents/Projets/Physics/include/imgui.h
-imgui-SFML.h
-D:/Documents/Projets/Physics/include/imgui-SFML.h
 SFML/Graphics.hpp
 -
 SFML/Main.hpp
 -
 cmath
 -
+../assets/fonts/IconsForkAwesome.h
+D:/Documents/Projets/Physics/assets/fonts/IconsForkAwesome.h
 ../include/Functional.hpp
 D:/Documents/Projets/Physics/include/Functional.hpp
 ../include/System.hpp
 D:/Documents/Projets/Physics/include/System.hpp
+imgui-SFML.h
+D:/Documents/Projets/Physics/include/imgui-SFML.h
+imgui.h
+D:/Documents/Projets/Physics/include/imgui.h
+imgui_internal.h
+D:/Documents/Projets/Physics/include/imgui_internal.h
 
 D:/Documents/Projets/Physics/include/System.hpp
 sstream
@@ -104,15 +110,31 @@ D:/Documents/Projets/Physics/include/Quadtree.hpp
 ../include/Functional.hpp
 D:/Documents/Projets/Physics/include/Functional.hpp
 
+D:/Documents/Projets/Physics/src/Renderer.cpp
+../include/Renderer.hpp
+D:/Documents/Projets/Physics/include/Renderer.hpp
+
+D:/Documents/Projets/Physics/src/RendererDraw.cpp
+../include/Renderer.hpp
+D:/Documents/Projets/Physics/include/Renderer.hpp
+
+D:/Documents/Projets/Physics/src/RendererEvents.cpp
+../include/Renderer.hpp
+D:/Documents/Projets/Physics/include/Renderer.hpp
+
+D:/Documents/Projets/Physics/src/RendererGui.cpp
+../include/Renderer.hpp
+D:/Documents/Projets/Physics/include/Renderer.hpp
+
 D:/Documents/Projets/Physics/src/main.cpp
 iostream
 -
 ../include/Renderer.hpp
 D:/Documents/Projets/Physics/include/Renderer.hpp
 
-D:/Librairies/imgui-sfml_2_0_0/imgui_sfml_build/include/imconfig.h
+D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/include/imconfig.h
 
-D:/Librairies/imgui-sfml_2_0_0/imgui_sfml_build/include/imgui-SFML.h
+D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/include/imgui-SFML.h
 SFML/System/Vector2.hpp
 -
 SFML/Graphics/Rect.hpp
@@ -124,13 +146,13 @@ SFML/System/Time.hpp
 SFML/Window/Joystick.hpp
 -
 imgui-SFML_export.h
-D:/Librairies/imgui-sfml_2_0_0/imgui_sfml_build/include/imgui-SFML_export.h
+D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/include/imgui-SFML_export.h
 
-D:/Librairies/imgui-sfml_2_0_0/imgui_sfml_build/include/imgui-SFML_export.h
+D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/include/imgui-SFML_export.h
 
-D:/Librairies/imgui-sfml_2_0_0/imgui_sfml_build/include/imgui.h
+D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/include/imgui.h
 imconfig.h
-D:/Librairies/imgui-sfml_2_0_0/imgui_sfml_build/include/imconfig.h
+D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/include/imconfig.h
 float.h
 -
 stdarg.h
@@ -144,7 +166,23 @@ assert.h
 stdint.h
 -
 imgui_user.h
-D:/Librairies/imgui-sfml_2_0_0/imgui_sfml_build/include/imgui_user.h
+D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/include/imgui_user.h
+
+D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/include/imgui_internal.h
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+limits.h
+-
+imstb_textedit.h
+D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/include/imstb_textedit.h
+
+D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/include/imstb_textedit.h
+string.h
+-
 
 D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/include/SFML/Config.hpp
 TargetConditionals.h

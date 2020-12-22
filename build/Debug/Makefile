@@ -122,6 +122,87 @@ physics/fast:
 	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/build
 .PHONY : physics/fast
 
+assets/fonts/iconsforkawesome.obj: assets/fonts/iconsforkawesome.cpp.obj
+
+.PHONY : assets/fonts/iconsforkawesome.obj
+
+# target to build an object file
+assets/fonts/iconsforkawesome.cpp.obj:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.obj
+.PHONY : assets/fonts/iconsforkawesome.cpp.obj
+
+assets/fonts/iconsforkawesome.i: assets/fonts/iconsforkawesome.cpp.i
+
+.PHONY : assets/fonts/iconsforkawesome.i
+
+# target to preprocess a source file
+assets/fonts/iconsforkawesome.cpp.i:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.i
+.PHONY : assets/fonts/iconsforkawesome.cpp.i
+
+assets/fonts/iconsforkawesome.s: assets/fonts/iconsforkawesome.cpp.s
+
+.PHONY : assets/fonts/iconsforkawesome.s
+
+# target to generate assembly for a file
+assets/fonts/iconsforkawesome.cpp.s:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.s
+.PHONY : assets/fonts/iconsforkawesome.cpp.s
+
+assets/fonts/proggy.obj: assets/fonts/proggy.cpp.obj
+
+.PHONY : assets/fonts/proggy.obj
+
+# target to build an object file
+assets/fonts/proggy.cpp.obj:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/proggy.cpp.obj
+.PHONY : assets/fonts/proggy.cpp.obj
+
+assets/fonts/proggy.i: assets/fonts/proggy.cpp.i
+
+.PHONY : assets/fonts/proggy.i
+
+# target to preprocess a source file
+assets/fonts/proggy.cpp.i:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/proggy.cpp.i
+.PHONY : assets/fonts/proggy.cpp.i
+
+assets/fonts/proggy.s: assets/fonts/proggy.cpp.s
+
+.PHONY : assets/fonts/proggy.s
+
+# target to generate assembly for a file
+assets/fonts/proggy.cpp.s:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/proggy.cpp.s
+.PHONY : assets/fonts/proggy.cpp.s
+
+assets/fonts/roboto.obj: assets/fonts/roboto.cpp.obj
+
+.PHONY : assets/fonts/roboto.obj
+
+# target to build an object file
+assets/fonts/roboto.cpp.obj:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/roboto.cpp.obj
+.PHONY : assets/fonts/roboto.cpp.obj
+
+assets/fonts/roboto.i: assets/fonts/roboto.cpp.i
+
+.PHONY : assets/fonts/roboto.i
+
+# target to preprocess a source file
+assets/fonts/roboto.cpp.i:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/roboto.cpp.i
+.PHONY : assets/fonts/roboto.cpp.i
+
+assets/fonts/roboto.s: assets/fonts/roboto.cpp.s
+
+.PHONY : assets/fonts/roboto.s
+
+# target to generate assembly for a file
+assets/fonts/roboto.cpp.s:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/roboto.cpp.s
+.PHONY : assets/fonts/roboto.cpp.s
+
 src/Circle.obj: src/Circle.cpp.obj
 
 .PHONY : src/Circle.obj
@@ -338,6 +419,87 @@ src/Renderer.cpp.s:
 	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/src/Renderer.cpp.s
 .PHONY : src/Renderer.cpp.s
 
+src/RendererDraw.obj: src/RendererDraw.cpp.obj
+
+.PHONY : src/RendererDraw.obj
+
+# target to build an object file
+src/RendererDraw.cpp.obj:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/src/RendererDraw.cpp.obj
+.PHONY : src/RendererDraw.cpp.obj
+
+src/RendererDraw.i: src/RendererDraw.cpp.i
+
+.PHONY : src/RendererDraw.i
+
+# target to preprocess a source file
+src/RendererDraw.cpp.i:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/src/RendererDraw.cpp.i
+.PHONY : src/RendererDraw.cpp.i
+
+src/RendererDraw.s: src/RendererDraw.cpp.s
+
+.PHONY : src/RendererDraw.s
+
+# target to generate assembly for a file
+src/RendererDraw.cpp.s:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/src/RendererDraw.cpp.s
+.PHONY : src/RendererDraw.cpp.s
+
+src/RendererEvents.obj: src/RendererEvents.cpp.obj
+
+.PHONY : src/RendererEvents.obj
+
+# target to build an object file
+src/RendererEvents.cpp.obj:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/src/RendererEvents.cpp.obj
+.PHONY : src/RendererEvents.cpp.obj
+
+src/RendererEvents.i: src/RendererEvents.cpp.i
+
+.PHONY : src/RendererEvents.i
+
+# target to preprocess a source file
+src/RendererEvents.cpp.i:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/src/RendererEvents.cpp.i
+.PHONY : src/RendererEvents.cpp.i
+
+src/RendererEvents.s: src/RendererEvents.cpp.s
+
+.PHONY : src/RendererEvents.s
+
+# target to generate assembly for a file
+src/RendererEvents.cpp.s:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/src/RendererEvents.cpp.s
+.PHONY : src/RendererEvents.cpp.s
+
+src/RendererGui.obj: src/RendererGui.cpp.obj
+
+.PHONY : src/RendererGui.obj
+
+# target to build an object file
+src/RendererGui.cpp.obj:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/src/RendererGui.cpp.obj
+.PHONY : src/RendererGui.cpp.obj
+
+src/RendererGui.i: src/RendererGui.cpp.i
+
+.PHONY : src/RendererGui.i
+
+# target to preprocess a source file
+src/RendererGui.cpp.i:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/src/RendererGui.cpp.i
+.PHONY : src/RendererGui.cpp.i
+
+src/RendererGui.s: src/RendererGui.cpp.s
+
+.PHONY : src/RendererGui.s
+
+# target to generate assembly for a file
+src/RendererGui.cpp.s:
+	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/src/RendererGui.cpp.s
+.PHONY : src/RendererGui.cpp.s
+
 src/System.obj: src/System.cpp.obj
 
 .PHONY : src/System.obj
@@ -401,6 +563,15 @@ help:
 	@echo ... physics
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... assets/fonts/iconsforkawesome.obj
+	@echo ... assets/fonts/iconsforkawesome.i
+	@echo ... assets/fonts/iconsforkawesome.s
+	@echo ... assets/fonts/proggy.obj
+	@echo ... assets/fonts/proggy.i
+	@echo ... assets/fonts/proggy.s
+	@echo ... assets/fonts/roboto.obj
+	@echo ... assets/fonts/roboto.i
+	@echo ... assets/fonts/roboto.s
 	@echo ... src/Circle.obj
 	@echo ... src/Circle.i
 	@echo ... src/Circle.s
@@ -425,6 +596,15 @@ help:
 	@echo ... src/Renderer.obj
 	@echo ... src/Renderer.i
 	@echo ... src/Renderer.s
+	@echo ... src/RendererDraw.obj
+	@echo ... src/RendererDraw.i
+	@echo ... src/RendererDraw.s
+	@echo ... src/RendererEvents.obj
+	@echo ... src/RendererEvents.i
+	@echo ... src/RendererEvents.s
+	@echo ... src/RendererGui.obj
+	@echo ... src/RendererGui.i
+	@echo ... src/RendererGui.s
 	@echo ... src/System.obj
 	@echo ... src/System.i
 	@echo ... src/System.s

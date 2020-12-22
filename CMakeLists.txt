@@ -35,7 +35,7 @@ if(NOT SFML_FOUND)
 endif()
 
 # IMGUI
-set(ImGui-SFML_DIR "D:/Librairies/imgui-sfml_2_0_0/imgui_sfml_build/lib/cmake/ImGui-SFML")
+set(ImGui-SFML_DIR "D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/lib/cmake/ImGui-SFML")
 find_package(ImGui-SFML REQUIRED)
 
 # Compile Target
@@ -50,6 +50,9 @@ set(SOURCES
     src/Polygon.cpp
     src/Quadtree.cpp
     src/Renderer.cpp
+    src/RendererDraw.cpp
+    src/RendererEvents.cpp
+    src/RendererGui.cpp
     src/System.cpp  
 )
 set(HEADERS
@@ -63,10 +66,18 @@ set(HEADERS
     include/Renderer.hpp
     include/System.hpp
 )
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+
+set(FONTS
+    assets/fonts/roboto.cpp
+    assets/fonts/proggy.cpp
+    assets/fonts/iconsforkawesome.cpp
+    assets/fonts/IconsForkAwesome.h
+)
+
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${FONTS})
 
 # Link libraries
 target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system ImGui-SFML::ImGui-SFML)
 
 # Copy assets
-file(COPY ressources DESTINATION ${CMAKE_BINARY_DIR})
+#file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})

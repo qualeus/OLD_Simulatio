@@ -1,46 +1,50 @@
 #ifndef Renderer_HPP
 #define Renderer_HPP
 
-#include "imgui.h"
-#include "imgui-SFML.h"
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Main.hpp>
 #include <cmath>
 
+#include "../assets/fonts/IconsForkAwesome.h"
 #include "../include/Functional.hpp"
 #include "../include/System.hpp"
+#include "imgui-SFML.h"
+#include "imgui.h"
+#include "imgui_internal.h"
 
-#define C_TURQUOISE sf::Color(26, 188, 156, 255) //rgba(26, 188, 156,1.0)
-#define C_GREEN sf::Color(22, 160, 133, 255) //rgba(22, 160, 133,1.0)
-#define C_EMERALD sf::Color(46, 204, 113, 255) //rgba(46, 204, 113,1.0)
-#define C_NEPHRITIS sf::Color(39, 174, 96, 255) //rgba(39, 174, 96,1.0)
-#define C_RIVER sf::Color(52, 152, 219, 255) //rgba(52, 152, 219,1.0)
-#define C_BLUE sf::Color(41, 128, 185, 255) //rgba(41, 128, 185,1.0)
-#define C_AMETHYST sf::Color(155, 89, 182, 255) //rgba(155, 89, 182,1.0)
-#define C_PURPLE sf::Color(142, 68, 173, 255) //rgba(142, 68, 173,1.0)
-#define C_ASPHALT sf::Color(52, 73, 94, 255) //rgba(52, 73, 94,1.0)
-#define C_MARINE sf::Color(44, 62, 80, 255) //rgba(44, 62, 80,1.0)
-#define C_BLACK sf::Color(22, 29, 31, 255) //rgba(22, 29, 31,1.0)
-#define C_SUN sf::Color(241, 196, 15, 255) //rgba(241, 196, 15,1.0)
-#define C_ORANGE sf::Color(243, 156, 18, 255) //rgba(243, 156, 18,1.0)
-#define C_CARROT sf::Color(230, 126, 34, 255) //rgba(230, 126, 34,1.0)
-#define C_PUMPKIN sf::Color(211, 84, 0, 255) //rgba(211, 84, 0,1.0)
-#define C_ALIZARIN sf::Color(231, 76, 60, 255) //rgba(231, 76, 60,1.0)
-#define C_RED sf::Color(192, 57, 43, 255) //rgba(192, 57, 43,1.0)
-#define C_WHITE sf::Color(236, 240, 241, 255) //rgba(236, 240, 241,1.0)
-#define C_SILVER sf::Color(189, 195, 199, 255) //rgba(189, 195, 199,1.0)
-#define C_CONCRETE sf::Color(149, 165, 166, 255) //rgba(149, 165, 166,1.0)
-#define C_GREY sf::Color(127, 140, 141, 255) //rgba(127, 140, 141,1.0)
+#define C_TURQUOISE sf::Color(26, 188, 156, 255)  // rgba(26, 188, 156,1.0)
+#define C_GREEN sf::Color(22, 160, 133, 255)      // rgba(22, 160, 133,1.0)
+#define C_EMERALD sf::Color(46, 204, 113, 255)    // rgba(46, 204, 113,1.0)
+#define C_NEPHRITIS sf::Color(39, 174, 96, 255)   // rgba(39, 174, 96,1.0)
+#define C_RIVER sf::Color(52, 152, 219, 255)      // rgba(52, 152, 219,1.0)
+#define C_BLUE sf::Color(41, 128, 185, 255)       // rgba(41, 128, 185,1.0)
+#define C_AMETHYST sf::Color(155, 89, 182, 255)   // rgba(155, 89, 182,1.0)
+#define C_PURPLE sf::Color(142, 68, 173, 255)     // rgba(142, 68, 173,1.0)
+#define C_ASPHALT sf::Color(52, 73, 94, 255)      // rgba(52, 73, 94,1.0)
+#define C_MARINE sf::Color(44, 62, 80, 255)       // rgba(44, 62, 80,1.0)
+#define C_BLACK sf::Color(22, 29, 31, 255)        // rgba(22, 29, 31,1.0)
+#define C_SUN sf::Color(241, 196, 15, 255)        // rgba(241, 196, 15,1.0)
+#define C_ORANGE sf::Color(243, 156, 18, 255)     // rgba(243, 156, 18,1.0)
+#define C_CARROT sf::Color(230, 126, 34, 255)     // rgba(230, 126, 34,1.0)
+#define C_PUMPKIN sf::Color(211, 84, 0, 255)      // rgba(211, 84, 0,1.0)
+#define C_ALIZARIN sf::Color(231, 76, 60, 255)    // rgba(231, 76, 60,1.0)
+#define C_RED sf::Color(192, 57, 43, 255)         // rgba(192, 57, 43,1.0)
+#define C_WHITE sf::Color(236, 240, 241, 255)     // rgba(236, 240, 241,1.0)
+#define C_SILVER sf::Color(189, 195, 199, 255)    // rgba(189, 195, 199,1.0)
+#define C_CONCRETE sf::Color(149, 165, 166, 255)  // rgba(149, 165, 166,1.0)
+#define C_GREY sf::Color(127, 140, 141, 255)      // rgba(127, 140, 141,1.0)
 
+/* TO TRANSFORM IN VARS, editable in menu */
 #define G_CIRCLE_RESOLUTION 20
 #define G_OUTLINE_THICKNESS 2
 #define G_TEXT_RESOLUTION 28.0f
 #define G_VECTOR_SIZE 40.0f
 #define G_ARRAY_HEAD_SIZE 12
+#define G_ARRAY_HEAD_SIZE 12
+#define G_BACKGROUND_COLOR sf::Color::Black
+#define G_TOP_BAR_SIZE 50
 
-
-
+/* TO TRANSFORM IN BOOL , changeable in the menu checkboxes */
 #define D_SIZE 7 /* Size of the array of Debug values */
 #define D_DEFAULT 0
 #define D_QUADTREE 1
@@ -62,151 +66,169 @@
 #define I_LAUNCH_POWER 0.2f
 #define I_ZOOM_SPEED 0.1f
 
-class Renderer
-{
-private:
-	sf::RenderWindow window;
-	sf::View view;
-	sf::Clock clock;
-	sf::Time frame;
+class Renderer {
+   private:
+    sf::RenderWindow window;
+    sf::View view;
+    sf::Clock clock;
+    sf::Time frame;
 
-	sf::Vector2f saved_mouse_pos;
-	ftn::Rectangle selected_area;
-	std::vector<bool> selected_corpses_fixed;
-	std::vector<int> selected_corpses_cursor;
-	std::vector<sf::Vector2f> selected_corpses_diff;
+    sf::Vector2f saved_mouse_pos;
+    ftn::Rectangle selected_area;
+    std::vector<bool> selected_corpses_fixed;
+    std::vector<int> selected_corpses_cursor;
+    std::vector<sf::Vector2f> selected_corpses_diff;
 
-	std::string name;
-	float mouse_x;
-	float mouse_y;
+    bool reset_base_layout = false;
+    ImGuiID dockspace_id;
+    ImGuiID dockspace_bottom_id;
+    ImGuiID dockspace_left_id;
+    ImGuiID dockspace_right_id;
+    ImGuiID dockspace_up_id;
 
-	float sys_mouse_x;
-	float sys_mouse_y;
+    std::string name;
+    float mouse_x;
+    float mouse_y;
 
-	int select_type;
-	int debug_type;
+    float sys_mouse_x;
+    float sys_mouse_y;
 
-	float camera_x;
-	float camera_y;
-	float camera_zoom;
-	float screen_width;
-	float screen_height;
-	bool paused;
+    int select_type;
+    int debug_type;
 
-	const static int DEBUG_LENGTH = 13;
-	float debug_values[ DEBUG_LENGTH ] = { };
+    float camera_x;
+    float camera_y;
+    float camera_zoom;
+    float screen_width;
+    float screen_height;
+    bool paused;
+    bool enable_inputs;
 
-	const static int DELAY_DEBUG = 3;
-	int counter_debug;
+    const static int DEBUG_LENGTH = 13;
+    float debug_values[DEBUG_LENGTH] = {};
 
-	std::vector<ftn::Text> texts = { };
-public:
+    const static int DELAY_DEBUG = 3;
+    int counter_debug;
 
-	phy::System system;
-	
-	Renderer(float camera_x = 0.0f, float camera_y = 0.0f, float camera_h = 800.0f, float camera_w = 1200.0f, float zoom = 1.0f, std::string p_name = "Default", bool gravity = false, float force_x = 0.0f, float force_y = 0.0f, float limit_x = 4000.0f, float limit_y = 4000.0f); // Renderer Constructor
-	virtual ~Renderer(); // Renderer Destructor
+    std::vector<ftn::Text> texts = {};
 
-	void Render(); // Initialize the System and launch the Render loop
-	void Close(); // Close the Renderer and Clean the System
+   public:
+    phy::System system;
 
-	void Input(sf::Event event); // Handle Input events
-	void UpdateMouse(); // Upate the Mouse position
-	void Pause(); // Toggle the pause of the System
-	void NextDebug(); // Switch the Debug type
+    Renderer(float camera_x = 0.0f, float camera_y = 0.0f, float camera_h = 800.0f, float camera_w = 1200.0f, float zoom = 1.0f, std::string p_name = "Default", bool gravity = false,
+             float force_x = 0.0f, float force_y = 0.0f, float limit_x = 4000.0f, float limit_y = 4000.0f);
+    void SetupGui();
+    void SetupGuiBaseLayout();
+    virtual ~Renderer();
 
-	bool DragPositionInit(sf::Event event); // Initialize the draggig of the Position
-	void DragPositionStep(sf::Event event); // Drag the position until the Release
-	void DragPositionStop(sf::Event event); // Stop the dragging of the Position
+    void Render();  // Initialize the System and launch the Render loop
+    void RenderGui();
+    void RenderWindow();
+    void Close();  // Close the Renderer and Clean the System
 
-	bool SelectUniqueCorpseInit(sf::Event event); // Initialize the selection of a unique corpse to Drag
-	
-	void SelectMultipleCorpsesInit(sf::Event event); // Initialize the selecting of multiple corpses to Drag
-	void SelectMultipleCorpsesStep(sf::Event event); // Drag the selection rectangle until release
-	void SelectMultipleCorpsesStop(sf::Event event); // Select corpses and stop the selection event
+    void Input(sf::Event event);  // Handle Input events
+    void UpdateMouse();           // Upate the Mouse position
+    void Pause();                 // Toggle the pause of the System
+    void NextDebug();             // Switch the Debug type
 
-	void DragCorpsesStep(sf::Event event); // Drag the Corpse until the Release
-	void DragCorpsesStop(sf::Event event); // Stop the dragging of the Corpse
+    bool DragPositionInit(sf::Event event);  // Initialize the draggig of the Position
+    void DragPositionStep(sf::Event event);  // Drag the position until the Release
+    void DragPositionStop(sf::Event event);  // Stop the dragging of the Position
 
-	bool LaunchCorpseInit(sf::Event event); // Initialize the launching of the Corpse
-	void LaunchCorpseStep(sf::Event event); // Drag the launcher until the Release
-	void LaunchCorpseStop(sf::Event event); // Launch corpse and Stop the launching event
+    bool SelectUniqueCorpseInit(sf::Event event);  // Initialize the selection of a unique corpse to Drag
 
-	void ToggleOnCircle(sf::Event event);
-	void ToggleOffCircle(sf::Event event);
-	void CreateCircleInit(sf::Event event);
-	void CreateCircleFast(sf::Event event);
-	void CreateCircleStep(sf::Event event);
-	void CreateCircleStop(sf::Event event);
+    void SelectMultipleCorpsesInit(sf::Event event);  // Initialize the selecting of multiple corpses to Drag
+    void SelectMultipleCorpsesStep(sf::Event event);  // Drag the selection rectangle until release
+    void SelectMultipleCorpsesStop(sf::Event event);  // Select corpses and stop the selection event
 
-	void ToggleOnPolygon(sf::Event event);
-	void ToggleOffPolygon(sf::Event event);
+    void DragCorpsesStep(sf::Event event);  // Drag the Corpse until the Release
+    void DragCorpsesStop(sf::Event event);  // Stop the dragging of the Corpse
 
-	void CreatePolygonInit(sf::Event event);
-	void CreatePolygonAddPoint(sf::Event event);
-	void CreatePolygonStep(sf::Event event);
-	void CreatePolygonStop(sf::Event event);
+    bool LaunchCorpseInit(sf::Event event);  // Initialize the launching of the Corpse
+    void LaunchCorpseStep(sf::Event event);  // Drag the launcher until the Release
+    void LaunchCorpseStop(sf::Event event);  // Launch corpse and Stop the launching event
 
-	int Framerate(); // Return the number of frames per second
-	void UpdateDebug(); // Update the Debug Values
+    void ToggleOnCircle(sf::Event event);
+    void ToggleOffCircle(sf::Event event);
+    void CreateCircleInit(sf::Event event);
+    void CreateCircleFast(sf::Event event);
+    void CreateCircleStep(sf::Event event);
+    void CreateCircleStop(sf::Event event);
 
-	void Draw(); // Manage the drawing of the Renderer
-	void DrawCorpse(std::shared_ptr<phy::Corpse> corpse);
-	void DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair);
-	void DrawQuadtree(ftn::Rectangle rect);
-	void DrawLimits();
+    void ToggleOnPolygon(sf::Event event);
+    void ToggleOffPolygon(sf::Event event);
 
-	void Debug(); // Draw the Debug objects
-	void DrawInputs();
-	void Interface(); // Draw the renderer interface
+    void CreatePolygonInit(sf::Event event);
+    void CreatePolygonAddPoint(sf::Event event);
+    void CreatePolygonStep(sf::Event event);
+    void CreatePolygonStop(sf::Event event);
 
-	void DebugSpeed(); // Draw the speed of the Corpses
-	void DebugPairs(); // Draw the interactions of the Corpses
-	void DebugDrag(); // Draw the inputs on the Corpses 
+    int Framerate();     // Return the number of frames per second
+    void UpdateDebug();  // Update the Debug Values
 
-	void DrawLine(int x1, int y1, int x2, int y2, sf::Color color = sf::Color::White);
-	void DrawArrow(int x1, int y1, int x2, int y2, int xhead = G_ARRAY_HEAD_SIZE, int yhead = G_ARRAY_HEAD_SIZE, sf::Color color= sf::Color::White);
-	void DrawCircle(int x, int y, int radius, sf::Color color = sf::Color::White, bool outline = false);
-	void DrawRectangle(int x, int y, int height, int width, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);
-	void DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color = sf::Color::White, bool outline = false); 
-	void DrawText(std::string str, int x, int y, int size = 20, bool fixed = false, sf::Color color = sf::Color::White);
+    void Draw();  // Manage the drawing of the Renderer
+    void DrawCorpse(std::shared_ptr<phy::Corpse> corpse);
+    void DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair);
+    void DrawQuadtree(ftn::Rectangle rect);
+    void DrawLimits();
 
-	void Camera(sf::Vector2f move, float zoom = 1.0f); // Update the positio of the Camera
-	bool Paused(); // Return true if the system is paused
+    void Debug();  // Draw the Debug objects
+    void DrawInputs();
+    void DrawGui();  // Draw the renderer interface
+    void DrawGuiMenu();
+    void DrawGuiBar();
+    void DrawGuiDocking();
 
-	// Return the mouse position on the screen
-	float get_mouse_x();
-	float get_mouse_y();
+    void DebugSpeed();  // Draw the speed of the Corpses
+    void DebugPairs();  // Draw the interactions of the Corpses
+    void DebugDrag();   // Draw the inputs on the Corpses
 
-	// Return the select and debug types
-	int get_select_type();
-	int get_debug_type();
-	void set_debug_type(int i);
+    void DrawLine(int x1, int y1, int x2, int y2, sf::Color color = sf::Color::White);
+    void DrawArrow(int x1, int y1, int x2, int y2, int xhead = G_ARRAY_HEAD_SIZE, int yhead = G_ARRAY_HEAD_SIZE, sf::Color color = sf::Color::White);
+    void DrawCircle(int x, int y, int radius, sf::Color color = sf::Color::White, bool outline = false);
+    void DrawRectangle(int x, int y, int height, int width, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);
+    void DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color = sf::Color::White, bool outline = false);
+    void DrawText(std::string str, int x, int y, int size = 20, bool fixed = false, sf::Color color = sf::Color::White);
 
-	// Getter/Setters of the camera X position
-	float get_camera_x();
-	void set_camera_x(float camera_x);
+    void Camera(sf::Vector2f move, float zoom = 1.0f);  // Update the positio of the Camera
+    bool Paused();                                      // Return true if the system is paused
 
-	// Getter/Setters of the camera Y position
-	float get_camera_y();
-	void set_camera_y(float camera_y);
+    // Return the mouse position on the screen
+    float get_mouse_x();
+    float get_mouse_y();
 
-	// Getter/Setters of the camera Zoom
-	float get_camera_zoom();
-	void set_camera_zoom(float camera_zoom);
+    // Return the select and debug types
+    int get_select_type();
+    int get_debug_type();
+    void set_debug_type(int i);
 
-	// Return the size of the view on the base plane
-	float get_camera_size();
+    // Getter/Setters of the camera X position
+    float get_camera_x();
+    void set_camera_x(float camera_x);
 
-	// Return the pos on the plane with the pos on the screen
-	sf::Vector2f get_real_pos(sf::Vector2i pos);
-	float get_real_pos_x(float x);
-	float get_real_pos_y(float y);
+    // Getter/Setters of the camera Y position
+    float get_camera_y();
+    void set_camera_y(float camera_y);
 
-	bool rect_in_screen(ftn::Rectangle rect);
+    // Getter/Setters of the camera Zoom
+    float get_camera_zoom();
+    void set_camera_zoom(float camera_zoom);
 
-	void addText(ftn::Text txt);
-	void DrawTexts();
+    // Return the size of the view on the base plane
+    float get_camera_size();
+
+    // Return the pos on the plane with the pos on the screen
+    sf::Vector2f get_real_pos(sf::Vector2i pos);
+    float get_real_pos_x(float x);
+    float get_real_pos_y(float y);
+
+    bool rect_in_screen(ftn::Rectangle rect);
+
+    void addText(ftn::Text txt);
+    void DrawTexts();
+
+    bool get_enable_inputs();
+    void set_enable_inputs(bool enable);
 };
 
 #endif
