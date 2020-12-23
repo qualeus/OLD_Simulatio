@@ -109,7 +109,7 @@ void Renderer::DrawGui() {
     DrawGuiDocking();
 
     if (show_gui_console) {
-        ImGui::ShowDemoWindow(&show_gui_console);
+        // ImGui::ShowDemoWindow(&show_gui_console);
     }
     if (show_gui_console) {
         ShowGuiConsole(&show_gui_console);
@@ -237,7 +237,7 @@ struct Console {
     void Draw(const char* title, bool* p_open) {
         ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
         ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
-        if (!ImGui::Begin(title, p_open)) {
+        if (!ImGui::Begin(title, p_open, ImGuiWindowFlags_None | ImGuiWindowFlags_NoFocusOnAppearing)) {
             ImGui::End();
             return;
         }
@@ -443,7 +443,7 @@ void Renderer::ShowGuiConsole(bool* p_open) {
 }
 
 void Renderer::ShowGuiProperties(bool* p_open) {
-    ImGui::Begin("Properties");
+    ImGui::Begin("Properties", p_open, ImGuiWindowFlags_NoFocusOnAppearing);
     ImGui::End();
 }
 
