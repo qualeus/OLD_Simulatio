@@ -506,25 +506,53 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
 
     ImGui::SetNextWindowBgAlpha(0.35f);  // Transparent background
     if (ImGui::Begin("Debug Overlay", p_open, window_flags)) {
-        ImGui::Text(
-            "Performances:\n"
-            " * %.1f Frames/s \n"
-            " * %.1f Ms/frame (%.f,%.f)\n ",
-            debug_values[0], (1.0f / debug_values[0]) * 10.0f);
+        ImGui::Text("--- Debug Overlay ----------------------------");
+        ImGui::Text("%.1f Frames/s (%.1f Ms/frame)", debug_values[0], (1.0f / debug_values[0]) * 10.0f);
+        ImGui::Text("%.1fs since beginning - dt: %.1f", ImGui::GetTime(), debug_values[10]);
+        ImGui::Text("");
+        if (ImGui::TreeNode("Performances")) {
+            ImGui::Separator();
+            static int display_frames_size = 170;
+            static int update_frame_delay = 10;
+            ImGui::SetNextItemWidth(80);
+            ImGui::InputInt("ms", &update_frame_delay);
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(130);
+            ImGui::SliderInt("count", &display_frames_size, 10, G_DEBUG_FRAME_SIZE);
 
-        ImGui::Separator();
-        ImGui::Text(
-            "\nMouse Position:\n"
-            " * Relative(%.f,%.f)\n"
-            " * Absolute(%.f,%.f)\n"
-            " * Global(%.f,%.f)\n ",
-            debug_values[2], debug_values[3], debug_values[4], debug_values[5], io.MousePos.x, io.MousePos.y);
+            static float t = 0.0f;
+            if (ImGui::GetTime() - t > (update_frame_delay / 1000.0f)) {
+                t = ImGui::GetTime();
+                for (int i = IM_ARRAYSIZE(debug_frames) - 1; i >= 0; i--) {
+                    debug_frames[i + 1] = debug_frames[i];
+                }
+                debug_frames[0] = debug_values[0];
+            }
 
-        ImGui::Separator();
-        ImGui::Text("\n[r][t] dt : %.1f", debug_values[10]);
-        ImGui::Text("%.f corpses\n ", debug_values[12]);
+            float average = 0.0f;
+            static float last_limit_average = 50.0f;
+            for (int n = 0; n < last_limit_average; n++) average += debug_frames[n];
+            average /= last_limit_average;
 
+            char average_text[32];
+            sprintf(average_text, "-80\n\n-45\n\n-10\nAvg: %.fHz", average);
+            ImGui::PlotLines(average_text, debug_frames, display_frames_size, 0, NULL, 10.0f, 80.0f, ImVec2(230.0f, 80.0f));
+            ImGui::TreePop();
+        }
+        if (ImGui::TreeNode("Mouse Position")) {
+            ImGui::Text(
+                " * Relative(%.f,%.f)\n"
+                " * Absolute(%.f,%.f)\n"
+                " * Global(%.f,%.f)\n ",
+                debug_values[4], debug_values[5], debug_values[2], debug_values[3], io.MousePos.x, io.MousePos.y);
+            ImGui::TreePop();
+        }
         ImGui::Separator();
+
+        if (ImGui::TreeNode("temp")) {
+            ImGui::Text("%.f corpses\n ", debug_values[12]);
+            ImGui::TreePop();
+        }
         ImGui::Text("\n(right-click to change position)");
 
         if (ImGui::BeginPopupContextWindow()) {

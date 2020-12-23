@@ -42,6 +42,7 @@
 #define G_ARRAY_HEAD_SIZE 12
 #define G_ARRAY_HEAD_SIZE 12
 #define G_BACKGROUND_COLOR sf::Color::Black
+#define G_DEBUG_FRAME_SIZE 300
 
 #define G_TOP_BAR_SIZE 50         // Size in Px
 #define G_UP_DOCK_SIZE 0.10f      // 100% <=> 1.0f
@@ -115,6 +116,7 @@ class Renderer {
 
     const static int DEBUG_LENGTH = 13;
     float debug_values[DEBUG_LENGTH] = {};
+    float debug_frames[G_DEBUG_FRAME_SIZE] = {};
 
     const static int DELAY_DEBUG = 3;
     int counter_debug;
