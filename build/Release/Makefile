@@ -149,60 +149,6 @@ assets/fonts/iconsforkawesome.cpp.s:
 	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.s
 .PHONY : assets/fonts/iconsforkawesome.cpp.s
 
-assets/fonts/proggy.obj: assets/fonts/proggy.cpp.obj
-
-.PHONY : assets/fonts/proggy.obj
-
-# target to build an object file
-assets/fonts/proggy.cpp.obj:
-	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/proggy.cpp.obj
-.PHONY : assets/fonts/proggy.cpp.obj
-
-assets/fonts/proggy.i: assets/fonts/proggy.cpp.i
-
-.PHONY : assets/fonts/proggy.i
-
-# target to preprocess a source file
-assets/fonts/proggy.cpp.i:
-	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/proggy.cpp.i
-.PHONY : assets/fonts/proggy.cpp.i
-
-assets/fonts/proggy.s: assets/fonts/proggy.cpp.s
-
-.PHONY : assets/fonts/proggy.s
-
-# target to generate assembly for a file
-assets/fonts/proggy.cpp.s:
-	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/proggy.cpp.s
-.PHONY : assets/fonts/proggy.cpp.s
-
-assets/fonts/roboto.obj: assets/fonts/roboto.cpp.obj
-
-.PHONY : assets/fonts/roboto.obj
-
-# target to build an object file
-assets/fonts/roboto.cpp.obj:
-	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/roboto.cpp.obj
-.PHONY : assets/fonts/roboto.cpp.obj
-
-assets/fonts/roboto.i: assets/fonts/roboto.cpp.i
-
-.PHONY : assets/fonts/roboto.i
-
-# target to preprocess a source file
-assets/fonts/roboto.cpp.i:
-	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/roboto.cpp.i
-.PHONY : assets/fonts/roboto.cpp.i
-
-assets/fonts/roboto.s: assets/fonts/roboto.cpp.s
-
-.PHONY : assets/fonts/roboto.s
-
-# target to generate assembly for a file
-assets/fonts/roboto.cpp.s:
-	$(MAKE) -f CMakeFiles\physics.dir\build.make CMakeFiles/physics.dir/assets/fonts/roboto.cpp.s
-.PHONY : assets/fonts/roboto.cpp.s
-
 src/Circle.obj: src/Circle.cpp.obj
 
 .PHONY : src/Circle.obj
@@ -566,12 +512,6 @@ help:
 	@echo ... assets/fonts/iconsforkawesome.obj
 	@echo ... assets/fonts/iconsforkawesome.i
 	@echo ... assets/fonts/iconsforkawesome.s
-	@echo ... assets/fonts/proggy.obj
-	@echo ... assets/fonts/proggy.i
-	@echo ... assets/fonts/proggy.s
-	@echo ... assets/fonts/roboto.obj
-	@echo ... assets/fonts/roboto.i
-	@echo ... assets/fonts/roboto.s
 	@echo ... src/Circle.obj
 	@echo ... src/Circle.i
 	@echo ... src/Circle.s

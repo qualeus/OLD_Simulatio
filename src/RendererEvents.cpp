@@ -80,7 +80,6 @@ void Renderer::Input(sf::Event event) {
         // Handle the functions associated with the keyboard buttons
         switch (event.key.code) {
             case sf::Keyboard::D: {
-                NextDebug();
             } break;
             case sf::Keyboard::R: {
                 this->system.add_dt(-100);

@@ -6,79 +6,63 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
     }  // Removed
 
     if (phy::Circle *circle = dynamic_cast<phy::Circle *>(corpse.get())) {
-        switch (this->debug_type) {
-            case D_DEFAULT: {
-            } break;
-            case D_QUADTREE: {
-            } break;
-            case D_BOUNDINGS: {
-                ftn::Rectangle bounds = circle->get_corpse_bounds();
-                DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
-                DrawCircle(circle->get_pos_x(), circle->get_pos_y(), 5, sf::Color::Red, true);
-            } break;
-            case D_COLLISIONS: {
-                DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size() + 3, sf::Color::Red, true);
-            } break;
-            case D_NORMALS: {
-            } break;
-            case D_FORCES: {
-                DrawLine(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + circle->get_diff_pos_x(), circle->get_pos_y() + circle->get_diff_pos_y(), sf::Color::Red);
-            } break;
-            case D_PAIRS: {
-            } break;
+        if (debug_show_centroids) {
+            DrawCircle(circle->get_pos_x(), circle->get_pos_y(), 5, sf::Color::Red, true);
+        }
+        if (debug_show_rectangles) {
+            ftn::Rectangle bounds = circle->get_corpse_bounds();
+            DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
+        }
+        if (debug_show_edges) {
+            DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size() + 3, sf::Color::Red, true);
+        }
+        if (debug_show_velocity) {
+            DrawLine(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + circle->get_diff_pos_x(), circle->get_pos_y() + circle->get_diff_pos_y(), sf::Color::Red);
         }
 
         /* -------------------------------------- Default Drawing -------------------------------------- */
         DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), circle->get_color(), true);
+
     } else if (phy::Polygon *polygon = dynamic_cast<phy::Polygon *>(corpse.get())) {
-        switch (this->debug_type) {
-            case D_DEFAULT: {
-            } break;
-            case D_QUADTREE: {
-            } break;
-            case D_BOUNDINGS: {
-                ftn::Rectangle bounds = polygon->get_corpse_bounds();
-                DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
-                DrawCircle(polygon->get_pos_x(), polygon->get_pos_y(), 5, sf::Color::Red, true);
-            } break;
-            case D_COLLISIONS: {
-                std::vector<std::vector<std::shared_ptr<sf::Vector2f>>> triangles = polygon->get_triangulation();
-                for (int i = 0; i < triangles.size(); i++) {
-                    std::vector<std::shared_ptr<sf::Vector2f>> triangle = triangles.at(i);
-                    for (int j = 0; j < triangle.size() - 1; j++) {
-                        Renderer::DrawLine(triangle.at(j)->x, triangle.at(j)->y, triangle.at(j + 1)->x, triangle.at(j + 1)->y, sf::Color::Red);
-                    }
-                    Renderer::DrawLine(triangle.at(triangle.size() - 1)->x, triangle.at(triangle.size() - 1)->y, triangle.at(0)->x, triangle.at(0)->y, sf::Color::Red);
+        if (debug_show_rectangles) {
+            ftn::Rectangle bounds = polygon->get_corpse_bounds();
+            DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
+        }
+        if (debug_show_centroids) {
+            DrawCircle(polygon->get_pos_x(), polygon->get_pos_y(), 5, sf::Color::Red, true);
+        }
+        if (debug_show_edges) {
+            std::vector<std::vector<std::shared_ptr<sf::Vector2f>>> triangles = polygon->get_triangulation();
+            for (int i = 0; i < triangles.size(); i++) {
+                std::vector<std::shared_ptr<sf::Vector2f>> triangle = triangles.at(i);
+                for (int j = 0; j < triangle.size() - 1; j++) {
+                    Renderer::DrawLine(triangle.at(j)->x, triangle.at(j)->y, triangle.at(j + 1)->x, triangle.at(j + 1)->y, sf::Color::Red);
                 }
-            } break;
-            case D_NORMALS: {
-                std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = polygon->get_sides();
-                for (int i = 0; i < sides.size(); i++) {
-                    sf::Vector2f edge_center = (sides.at(i).first + sides.at(i).second) / 2.0f;
-                    sf::Vector2f edge_vector = edge_center + ftn::Normalize(ftn::Norme(sides.at(i).first, sides.at(i).second)) * G_VECTOR_SIZE;
-                    DrawCircle(edge_center.x, edge_center.y, 5, sf::Color::Red, true);
-                    Renderer::DrawArrow(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, 12, 12, sf::Color::Red);
+                Renderer::DrawLine(triangle.at(triangle.size() - 1)->x, triangle.at(triangle.size() - 1)->y, triangle.at(0)->x, triangle.at(0)->y, sf::Color::Red);
+            }
+        }
+        if (debug_show_normals) {
+            std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = polygon->get_sides();
+            for (int i = 0; i < sides.size(); i++) {
+                sf::Vector2f edge_center = (sides.at(i).first + sides.at(i).second) / 2.0f;
+                sf::Vector2f edge_vector = edge_center + ftn::Normalize(ftn::Norme(sides.at(i).first, sides.at(i).second)) * G_VECTOR_SIZE;
+                DrawCircle(edge_center.x, edge_center.y, 5, sf::Color::Red, true);
+                Renderer::DrawArrow(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, 12, 12, sf::Color::Red);
 
-                    std::pair<sf::Vector2f, sf::Vector2f> last_edge = sides.at((i - 1) % sides.size());
-                    std::pair<sf::Vector2f, sf::Vector2f> current_edge = sides.at(i);
+                std::pair<sf::Vector2f, sf::Vector2f> last_edge = sides.at((i - 1) % sides.size());
+                std::pair<sf::Vector2f, sf::Vector2f> current_edge = sides.at(i);
 
-                    sf::Vector2f point_center = last_edge.second;
-                    sf::Vector2f point_vector = point_center + ftn::Normalize(ftn::Norme(last_edge.first, last_edge.second) + ftn::Norme(current_edge.first, current_edge.second)) * G_VECTOR_SIZE;
-                    DrawCircle(point_center.x, point_center.y, 5, sf::Color::Red, true);
-                    Renderer::DrawLine(point_center.x, point_center.y, point_vector.x, point_vector.y, sf::Color::Red);
-                }
-            } break;
-            case D_FORCES: {
-                // DrawLine(circle->get_pos_x(), circle->get_pos_y(),
-                // circle->get_diff_pos_x(), circle->get_diff_pos_x(),
-                // sf::Color::Red);
-            } break;
-            case D_PAIRS: {
-            } break;
+                sf::Vector2f point_center = last_edge.second;
+                sf::Vector2f point_vector = point_center + ftn::Normalize(ftn::Norme(last_edge.first, last_edge.second) + ftn::Norme(current_edge.first, current_edge.second)) * G_VECTOR_SIZE;
+                DrawCircle(point_center.x, point_center.y, 5, sf::Color::Red, true);
+                Renderer::DrawLine(point_center.x, point_center.y, point_vector.x, point_vector.y, sf::Color::Red);
+            }
+        }
+        if (debug_show_velocity) {
+            DrawLine(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x() + polygon->get_diff_pos_x(), polygon->get_pos_y() + polygon->get_diff_pos_y(), sf::Color::Red);
         }
 
-        /* -------------------------------------- Default Drawing
-         * -------------------------------------- */
+        /* -------------------------------------- Default Drawing -------------------------------------- */
         DrawPolygon(polygon->get_points(), polygon->get_color(), true);
     }
 }
@@ -114,34 +98,17 @@ void Renderer::Debug() {
 }
 
 void Renderer::DrawInputs() {
-    switch (this->debug_type) {
-        case D_DEFAULT: {
-        } break;
-        case D_QUADTREE: {
-            std::vector<ftn::Rectangle> quadtrees = this->system.get_quadtree()->get_all_bounds();
-            for (int i = 0; i < quadtrees.size(); i++) {
-                DrawQuadtree(quadtrees.at(i));
-            }
-        } break;
-        case D_BOUNDINGS: {
-        } break;
-        case D_COLLISIONS: {
-        } break;
-        case D_NORMALS: {
-        } break;
-        case D_FORCES: {
-        } break;
-        case D_PAIRS: {
-            // for (int i = 0; i < system.get_pairs_size(); i++) {
-            // DrawPair(system.get_pair(i)); }
-            std::vector<ftn::Rectangle> quadtrees = this->system.get_quadtree()->get_all_bounds();
-            for (int i = 0; i < quadtrees.size(); i++) {
-                DrawQuadtree(quadtrees.at(i));
-            }
-            for (int i = 0; i < system.get_quad_pairs_size(); i++) {
-                DrawPair(system.get_quad_pair(i));
-            }
-        } break;
+    if (debug_show_quadtree) {
+        std::vector<ftn::Rectangle> quadtrees = this->system.get_quadtree()->get_all_bounds();
+        for (int i = 0; i < quadtrees.size(); i++) {
+            DrawQuadtree(quadtrees.at(i));
+        }
+    }
+
+    if (debug_show_pairs) {
+        for (int i = 0; i < system.get_quad_pairs_size(); i++) {
+            DrawPair(system.get_quad_pair(i));
+        }
     }
 
     switch (this->select_type) {

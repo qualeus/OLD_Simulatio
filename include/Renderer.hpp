@@ -6,6 +6,9 @@
 #include <cmath>
 
 #include "../assets/fonts/IconsForkAwesome.h"
+#include "../assets/fonts/consolas.hpp"
+#include "../assets/fonts/proggy.hpp"
+#include "../assets/fonts/roboto.hpp"
 #include "../include/Functional.hpp"
 #include "../include/System.hpp"
 #include "imgui-SFML.h"
@@ -50,16 +53,6 @@
 #define G_LEFT_DOCK_SIZE 0.20f    // 100% <=> 1.0f
 #define G_RIGHT_DOCK_SIZE 0.20f   // 100% <=> 1.0f
 
-/* TO TRANSFORM IN BOOL , changeable in the menu checkboxes */
-#define D_SIZE 7 /* Size of the array of Debug values */
-#define D_DEFAULT 0
-#define D_QUADTREE 1
-#define D_BOUNDINGS 2
-#define D_COLLISIONS 3
-#define D_NORMALS 4
-#define D_FORCES 5
-#define D_PAIRS 6
-
 #define S_SIZE 7 /* Size of the array of Selections values */
 #define S_DEFAULT 0
 #define S_SELECT_MULTIPLE 1
@@ -89,6 +82,18 @@ class Renderer {
     bool show_gui_console = true;
     bool show_gui_properties = true;
     bool show_gui_overlay = true;
+
+    bool debug_show_quadtree = false;
+    bool debug_show_rectangles = false;
+    bool debug_show_centroids = false;
+    bool debug_show_edges = false;
+    bool debug_show_vertices = false;
+    bool debug_show_normals = false;
+    bool debug_show_velocity = false;
+    bool debug_show_xyvelocity = false;
+    bool debug_show_pairs = false;
+    bool debug_show_contacts = false;
+    bool debug_show_collisions = false;
 
     ImGuiID dockspace_id;
     ImGuiID dockspace_bottom_id;
@@ -140,7 +145,6 @@ class Renderer {
     void Input(sf::Event event);  // Handle Input events
     void UpdateMouse();           // Upate the Mouse position
     void Pause();                 // Toggle the pause of the System
-    void NextDebug();             // Switch the Debug type
 
     bool DragPositionInit(sf::Event event);  // Initialize the draggig of the Position
     void DragPositionStep(sf::Event event);  // Drag the position until the Release

@@ -1,7 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.obj"
-  "CMakeFiles/physics.dir/assets/fonts/proggy.cpp.obj"
-  "CMakeFiles/physics.dir/assets/fonts/roboto.cpp.obj"
   "CMakeFiles/physics.dir/src/Circle.cpp.obj"
   "CMakeFiles/physics.dir/src/Constraint.cpp.obj"
   "CMakeFiles/physics.dir/src/Corpse.cpp.obj"

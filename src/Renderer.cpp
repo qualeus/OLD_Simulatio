@@ -92,13 +92,6 @@ void Renderer::Close() {
 }
 
 void Renderer::Pause() { this->paused = !this->paused; }
-void Renderer::NextDebug() {
-    if (this->debug_type < D_SIZE) {
-        this->debug_type++;
-    } else {
-        this->debug_type = 0;
-    }
-}
 int Renderer::Framerate() { return (1000 / this->frame.asMilliseconds()); }
 void Renderer::UpdateDebug() {
     debug_values[0] = Framerate();

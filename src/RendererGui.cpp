@@ -16,8 +16,12 @@ void Renderer::SetupGui() {
     // io.ConfigDockingWithShift = true;
 
     /* ImGui Setup Font */
-    io.Fonts->AddFontDefault();
-    // ImFont* roboto = io.Fonts->AddFontFromMemoryCompressedTTF(Roboto_compressed_data, Roboto_compressed_size, 30);
+    io.Fonts->Clear();
+    io.Fonts->AddFontFromMemoryCompressedTTF(Roboto_compressed_data, Roboto_compressed_size, 16.0f);  // New Default Font
+    io.Fonts->AddFontFromMemoryCompressedTTF(Consolas_compressed_data, Consolas_compressed_size, 14.0f);
+    io.Fonts->AddFontFromMemoryCompressedTTF(Proggy_compressed_data, Proggy_compressed_size, 14.0f);
+
+    ImGui::SFML::UpdateFontTexture();
 
     /* Add icons to the Font */
     /*
@@ -231,6 +235,7 @@ struct Console {
     }
 
     void Draw(const char* title, bool* p_open) {
+        ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
         ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
         if (!ImGui::Begin(title, p_open)) {
             ImGui::End();
@@ -325,6 +330,7 @@ struct Console {
         // Auto-focus on window apparition
         ImGui::SetItemDefaultFocus();
         if (reclaim_focus) ImGui::SetKeyboardFocusHere(-1);  // Auto focus previous widget
+        ImGui::PopFont();
         ImGui::End();
     }
 
@@ -490,6 +496,7 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
     const float DISTANCE = 5.0f;
     static int corner = 1;
     ImGuiIO& io = ImGui::GetIO();
+    ImGui::PushFont(io.Fonts->Fonts[1]);
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings |
                                     ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
     if (corner != -1) {
@@ -536,7 +543,7 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
 
             char average_text[32];
             sprintf(average_text, "-80\n\n-45\n\n-10\nAvg: %.fHz", average);
-            ImGui::PlotLines(average_text, debug_frames, display_frames_size, 0, NULL, 10.0f, 80.0f, ImVec2(230.0f, 80.0f));
+            ImGui::PlotLines(average_text, debug_frames, display_frames_size, 0, NULL, 10.0f, 80.0f, ImVec2(235.0f, 80.0f));
             ImGui::TreePop();
         }
         if (ImGui::TreeNode("Mouse Position")) {
@@ -565,6 +572,7 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             ImGui::EndPopup();
         }
     }
+    ImGui::PopFont();
     ImGui::End();
 }
 
@@ -615,6 +623,7 @@ void Renderer::DrawGuiMenu() {
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Tools")) {
+            ImGui::PushItemFlag(ImGuiItemFlags_SelectableDontClosePopup, true);
             ImGui::MenuItem("Console", NULL, &show_gui_console);
             ImGui::MenuItem("Properties", NULL, &show_gui_properties);
             ImGui::MenuItem("Debug Overlay", NULL, &show_gui_overlay);
@@ -623,18 +632,23 @@ void Renderer::DrawGuiMenu() {
             ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);
             ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);
             ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);
+            ImGui::PopItemFlag();
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Debug")) {
-            if (ImGui::MenuItem("Display A")) {
-                /* Do stuff */
-            }
-            if (ImGui::MenuItem("Display B")) {
-                /* Do stuff */
-            }
-            if (ImGui::MenuItem("Display C")) {
-                /* Do stuff */
-            }
+            ImGui::PushItemFlag(ImGuiItemFlags_SelectableDontClosePopup, true);
+            ImGui::MenuItem("Quadtree", NULL, &debug_show_quadtree);
+            ImGui::MenuItem("Rectangles", NULL, &debug_show_rectangles);
+            ImGui::MenuItem("Centroids", NULL, &debug_show_centroids);
+            ImGui::MenuItem("Edges", NULL, &debug_show_edges);
+            ImGui::MenuItem("Vertices", NULL, &debug_show_vertices);
+            ImGui::MenuItem("Normals", NULL, &debug_show_normals);
+            ImGui::MenuItem("Velocity", NULL, &debug_show_velocity);
+            ImGui::MenuItem("XYVelocity", NULL, &debug_show_xyvelocity);
+            ImGui::MenuItem("Pairs", NULL, &debug_show_pairs);
+            ImGui::MenuItem("Contacts", NULL, &debug_show_contacts);
+            ImGui::MenuItem("Collisions", NULL, &debug_show_collisions);
+            ImGui::PopItemFlag();
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Help")) {
