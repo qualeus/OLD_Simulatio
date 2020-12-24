@@ -68,8 +68,9 @@ set(HEADERS
 )
 
 set(FONTS
-    assets/fonts/roboto.cpp
-    assets/fonts/proggy.cpp
+    assets/fonts/roboto.hpp
+    assets/fonts/proggy.hpp
+    assets/fonts/consolas.hpp
     assets/fonts/iconsforkawesome.cpp
     assets/fonts/IconsForkAwesome.h
 )

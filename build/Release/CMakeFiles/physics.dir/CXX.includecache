@@ -8,6 +8,12 @@
 
 D:/Documents/Projets/Physics/assets/fonts/IconsForkAwesome.h
 
+D:/Documents/Projets/Physics/assets/fonts/consolas.hpp
+
+D:/Documents/Projets/Physics/assets/fonts/proggy.hpp
+
+D:/Documents/Projets/Physics/assets/fonts/roboto.hpp
+
 D:/Documents/Projets/Physics/include/Circle.hpp
 SFML/Graphics.hpp
 -
@@ -77,6 +83,12 @@ cmath
 -
 ../assets/fonts/IconsForkAwesome.h
 D:/Documents/Projets/Physics/assets/fonts/IconsForkAwesome.h
+../assets/fonts/consolas.hpp
+D:/Documents/Projets/Physics/assets/fonts/consolas.hpp
+../assets/fonts/proggy.hpp
+D:/Documents/Projets/Physics/assets/fonts/proggy.hpp
+../assets/fonts/roboto.hpp
+D:/Documents/Projets/Physics/assets/fonts/roboto.hpp
 ../include/Functional.hpp
 D:/Documents/Projets/Physics/include/Functional.hpp
 ../include/System.hpp
@@ -110,7 +122,7 @@ D:/Documents/Projets/Physics/include/Quadtree.hpp
 ../include/Functional.hpp
 D:/Documents/Projets/Physics/include/Functional.hpp
 
-D:/Documents/Projets/Physics/src/RendererGui.cpp
+D:/Documents/Projets/Physics/src/RendererEvents.cpp
 ../include/Renderer.hpp
 D:/Documents/Projets/Physics/include/Renderer.hpp
 

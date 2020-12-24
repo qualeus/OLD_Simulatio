@@ -60,6 +60,8 @@ Install the cmake software that I use to controll the build process, and also bu
  * Go to http://www.cmake.org/download/ and click on the **Download button**.
  * Add it's path to then environment variables: ```...\CMake\bin```
 
+---
+
 #### Libraries
 
 ##### SFML
@@ -90,7 +92,7 @@ Then open a new command in the folder where SFML was built.
 
  * Run the following command: ```mingw32-make install```
 
-# IMGUI
+##### IMGUI
 
 IMGUI_DIR = D:/Librairies/imgui
 SFML_DIR = D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/cmake/SFML
@@ -135,6 +137,9 @@ cd build
 cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ../.. && cmake --build .
 cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build .
 ```
+
+---
+
 ## Built With
 
 * [SFML](https://www.sfml-dev.org/tutorials/2.5/) - The graphical library

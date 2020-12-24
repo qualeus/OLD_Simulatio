@@ -6,6 +6,9 @@
 #include <cmath>
 
 #include "../assets/fonts/IconsForkAwesome.h"
+#include "../assets/fonts/consolas.hpp"
+#include "../assets/fonts/proggy.hpp"
+#include "../assets/fonts/roboto.hpp"
 #include "../include/Functional.hpp"
 #include "../include/System.hpp"
 #include "imgui-SFML.h"
@@ -42,17 +45,13 @@
 #define G_ARRAY_HEAD_SIZE 12
 #define G_ARRAY_HEAD_SIZE 12
 #define G_BACKGROUND_COLOR sf::Color::Black
-#define G_TOP_BAR_SIZE 50
+#define G_DEBUG_FRAME_SIZE 300
 
-/* TO TRANSFORM IN BOOL , changeable in the menu checkboxes */
-#define D_SIZE 7 /* Size of the array of Debug values */
-#define D_DEFAULT 0
-#define D_QUADTREE 1
-#define D_BOUNDINGS 2
-#define D_COLLISIONS 3
-#define D_NORMALS 4
-#define D_FORCES 5
-#define D_PAIRS 6
+#define G_TOP_BAR_SIZE 50         // Size in Px
+#define G_UP_DOCK_SIZE 0.10f      // 100% <=> 1.0f
+#define G_BOTTOM_DOCK_SIZE 0.20f  // 100% <=> 1.0f
+#define G_LEFT_DOCK_SIZE 0.20f    // 100% <=> 1.0f
+#define G_RIGHT_DOCK_SIZE 0.20f   // 100% <=> 1.0f
 
 #define S_SIZE 7 /* Size of the array of Selections values */
 #define S_DEFAULT 0
@@ -80,6 +79,22 @@ class Renderer {
     std::vector<sf::Vector2f> selected_corpses_diff;
 
     bool reset_base_layout = false;
+    bool show_gui_console = true;
+    bool show_gui_properties = true;
+    bool show_gui_overlay = true;
+
+    bool debug_show_quadtree = false;
+    bool debug_show_rectangles = false;
+    bool debug_show_centroids = false;
+    bool debug_show_edges = false;
+    bool debug_show_vertices = false;
+    bool debug_show_normals = false;
+    bool debug_show_velocity = false;
+    bool debug_show_xyvelocity = false;
+    bool debug_show_pairs = false;
+    bool debug_show_contacts = false;
+    bool debug_show_collisions = false;
+
     ImGuiID dockspace_id;
     ImGuiID dockspace_bottom_id;
     ImGuiID dockspace_left_id;
@@ -106,6 +121,7 @@ class Renderer {
 
     const static int DEBUG_LENGTH = 13;
     float debug_values[DEBUG_LENGTH] = {};
+    float debug_frames[G_DEBUG_FRAME_SIZE] = {};
 
     const static int DELAY_DEBUG = 3;
     int counter_debug;
@@ -129,7 +145,6 @@ class Renderer {
     void Input(sf::Event event);  // Handle Input events
     void UpdateMouse();           // Upate the Mouse position
     void Pause();                 // Toggle the pause of the System
-    void NextDebug();             // Switch the Debug type
 
     bool DragPositionInit(sf::Event event);  // Initialize the draggig of the Position
     void DragPositionStep(sf::Event event);  // Drag the position until the Release
@@ -178,6 +193,10 @@ class Renderer {
     void DrawGuiMenu();
     void DrawGuiBar();
     void DrawGuiDocking();
+
+    void ShowGuiConsole(bool* p_open);
+    void ShowGuiProperties(bool* p_open);
+    void ShowGuiOverlay(bool* p_open);
 
     void DebugSpeed();  // Draw the speed of the Corpses
     void DebugPairs();  // Draw the interactions of the Corpses

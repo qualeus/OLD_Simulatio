@@ -3,10 +3,6 @@
 
 CMakeFiles/physics.dir/assets/fonts/iconsforkawesome.cpp.obj: ../../assets/fonts/iconsforkawesome.cpp
 
-CMakeFiles/physics.dir/assets/fonts/proggy.cpp.obj: ../../assets/fonts/proggy.cpp
-
-CMakeFiles/physics.dir/assets/fonts/roboto.cpp.obj: ../../assets/fonts/roboto.cpp
-
 CMakeFiles/physics.dir/src/Circle.cpp.obj: ../../include/Circle.hpp
 CMakeFiles/physics.dir/src/Circle.cpp.obj: ../../include/Corpse.hpp
 CMakeFiles/physics.dir/src/Circle.cpp.obj: ../../include/Functional.hpp
@@ -408,6 +404,9 @@ CMakeFiles/physics.dir/src/Quadtree.cpp.obj: D:/Librairies/sfml_2_5_1/sfml_2_5_1
 CMakeFiles/physics.dir/src/Quadtree.cpp.obj: D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/include/SFML/Window/WindowStyle.hpp
 
 CMakeFiles/physics.dir/src/Renderer.cpp.obj: ../../assets/fonts/IconsForkAwesome.h
+CMakeFiles/physics.dir/src/Renderer.cpp.obj: ../../assets/fonts/consolas.hpp
+CMakeFiles/physics.dir/src/Renderer.cpp.obj: ../../assets/fonts/proggy.hpp
+CMakeFiles/physics.dir/src/Renderer.cpp.obj: ../../assets/fonts/roboto.hpp
 CMakeFiles/physics.dir/src/Renderer.cpp.obj: ../../include/Circle.hpp
 CMakeFiles/physics.dir/src/Renderer.cpp.obj: ../../include/Corpse.hpp
 CMakeFiles/physics.dir/src/Renderer.cpp.obj: ../../include/Functional.hpp
@@ -499,6 +498,9 @@ CMakeFiles/physics.dir/src/Renderer.cpp.obj: D:/Librairies/sfml_2_5_1/sfml_2_5_1
 CMakeFiles/physics.dir/src/Renderer.cpp.obj: D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/include/SFML/Window/WindowStyle.hpp
 
 CMakeFiles/physics.dir/src/RendererDraw.cpp.obj: ../../assets/fonts/IconsForkAwesome.h
+CMakeFiles/physics.dir/src/RendererDraw.cpp.obj: ../../assets/fonts/consolas.hpp
+CMakeFiles/physics.dir/src/RendererDraw.cpp.obj: ../../assets/fonts/proggy.hpp
+CMakeFiles/physics.dir/src/RendererDraw.cpp.obj: ../../assets/fonts/roboto.hpp
 CMakeFiles/physics.dir/src/RendererDraw.cpp.obj: ../../include/Circle.hpp
 CMakeFiles/physics.dir/src/RendererDraw.cpp.obj: ../../include/Corpse.hpp
 CMakeFiles/physics.dir/src/RendererDraw.cpp.obj: ../../include/Functional.hpp
@@ -590,6 +592,9 @@ CMakeFiles/physics.dir/src/RendererDraw.cpp.obj: D:/Librairies/sfml_2_5_1/sfml_2
 CMakeFiles/physics.dir/src/RendererDraw.cpp.obj: D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/include/SFML/Window/WindowStyle.hpp
 
 CMakeFiles/physics.dir/src/RendererEvents.cpp.obj: ../../assets/fonts/IconsForkAwesome.h
+CMakeFiles/physics.dir/src/RendererEvents.cpp.obj: ../../assets/fonts/consolas.hpp
+CMakeFiles/physics.dir/src/RendererEvents.cpp.obj: ../../assets/fonts/proggy.hpp
+CMakeFiles/physics.dir/src/RendererEvents.cpp.obj: ../../assets/fonts/roboto.hpp
 CMakeFiles/physics.dir/src/RendererEvents.cpp.obj: ../../include/Circle.hpp
 CMakeFiles/physics.dir/src/RendererEvents.cpp.obj: ../../include/Corpse.hpp
 CMakeFiles/physics.dir/src/RendererEvents.cpp.obj: ../../include/Functional.hpp
@@ -681,6 +686,9 @@ CMakeFiles/physics.dir/src/RendererEvents.cpp.obj: D:/Librairies/sfml_2_5_1/sfml
 CMakeFiles/physics.dir/src/RendererEvents.cpp.obj: D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/include/SFML/Window/WindowStyle.hpp
 
 CMakeFiles/physics.dir/src/RendererGui.cpp.obj: ../../assets/fonts/IconsForkAwesome.h
+CMakeFiles/physics.dir/src/RendererGui.cpp.obj: ../../assets/fonts/consolas.hpp
+CMakeFiles/physics.dir/src/RendererGui.cpp.obj: ../../assets/fonts/proggy.hpp
+CMakeFiles/physics.dir/src/RendererGui.cpp.obj: ../../assets/fonts/roboto.hpp
 CMakeFiles/physics.dir/src/RendererGui.cpp.obj: ../../include/Circle.hpp
 CMakeFiles/physics.dir/src/RendererGui.cpp.obj: ../../include/Corpse.hpp
 CMakeFiles/physics.dir/src/RendererGui.cpp.obj: ../../include/Functional.hpp
@@ -854,6 +862,9 @@ CMakeFiles/physics.dir/src/System.cpp.obj: D:/Librairies/sfml_2_5_1/sfml_2_5_1_b
 CMakeFiles/physics.dir/src/System.cpp.obj: D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/include/SFML/Window/WindowStyle.hpp
 
 CMakeFiles/physics.dir/src/main.cpp.obj: ../../assets/fonts/IconsForkAwesome.h
+CMakeFiles/physics.dir/src/main.cpp.obj: ../../assets/fonts/consolas.hpp
+CMakeFiles/physics.dir/src/main.cpp.obj: ../../assets/fonts/proggy.hpp
+CMakeFiles/physics.dir/src/main.cpp.obj: ../../assets/fonts/roboto.hpp
 CMakeFiles/physics.dir/src/main.cpp.obj: ../../include/Circle.hpp
 CMakeFiles/physics.dir/src/main.cpp.obj: ../../include/Corpse.hpp
 CMakeFiles/physics.dir/src/main.cpp.obj: ../../include/Functional.hpp

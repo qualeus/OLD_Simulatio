@@ -13,100 +13,123 @@ void Renderer::Input(sf::Event event) {
         return;
     }
 
-    if (event.type == sf::Event::MouseButtonPressed) {
-        switch (event.mouseButton.button) {
-            case sf::Mouse::Left: {
-                /* If the mouse is not on an Corpse, Drag screen */
-                if (!SelectUniqueCorpseInit(event)) {
-                    DragPositionInit(event);
-                }
+    /* Prevent events on ImGui from falling into SFML */
+    ImGuiIO &io = ImGui::GetIO();
 
-                CreatePolygonStop(event);
-                CreateCircleInit(event);
-            } break;
-            case sf::Mouse::Right: {
-                if (!LaunchCorpseInit(event)) {
-                    SelectMultipleCorpsesInit(event);
-                }
-                CreateCircleFast(event);
-                CreatePolygonAddPoint(event);
-            } break;
-        }
-    } else if (event.type == sf::Event::MouseMoved) {
-        UpdateMouse();
+    switch (event.type) {
+        case sf::Event::MouseButtonPressed: {
+            if (io.WantCaptureMouse) break;
 
-        switch (this->select_type) {
-            case S_DEFAULT: {
-            } break;
-            case S_SELECT_MULTIPLE: {
-                SelectMultipleCorpsesStep(event);
-            } break;
-            case S_LAUNCH_CORPSE: {
-                LaunchCorpseStep(event);
-            } break;
-            case S_DRAG_CORPSE: {
-                DragCorpsesStep(event);
-            } break;
-            case S_DRAG_SCREEN: {
-                DragPositionStep(event);
-            } break;
-            case S_CREATE_CIRCLE: {
-                CreateCircleStep(event);
-            } break;
-            case S_CREATE_POLYGON: {
-                CreatePolygonStep(event);
-            } break;
-        }
-    } else if (event.type == sf::Event::MouseButtonReleased) {
-        // Handle the functions associated with the mouse release
-        switch (event.mouseButton.button) {
-            case sf::Mouse::Left: {
-                DragPositionStop(event);
-                DragCorpsesStop(event);
-                // CreatePolygonStop(event);
-                CreateCircleStop(event);
-            } break;
-            case sf::Mouse::Right: {
-                LaunchCorpseStop(event);
-                SelectMultipleCorpsesStop(event);
-            } break;
-        }
+            switch (event.mouseButton.button) {
+                case sf::Mouse::Left: {
+                    /* If the mouse is not on an Corpse, Drag screen */
+                    if (!SelectUniqueCorpseInit(event)) {
+                        DragPositionInit(event);
+                    }
 
-        // Stop the events associated with the mouse holding
-    } else if (event.type == sf::Event::MouseWheelScrolled) {
-        UpdateMouse();
-        Camera(sf::Vector2f(0.0f, 0.0f), 1.0f - (event.mouseWheelScroll.delta * I_ZOOM_SPEED));
-    } else if (event.type == sf::Event::KeyPressed) {
-        // Handle the functions associated with the keyboard buttons
-        switch (event.key.code) {
-            case sf::Keyboard::D: {
-                NextDebug();
-            } break;
-            case sf::Keyboard::R: {
-                this->system.add_dt(-100);
-            } break;
-            case sf::Keyboard::T: {
-                this->system.add_dt(100);
-            } break;
-            case sf::Keyboard::Space: {
-                Pause();
-            } break;
-            case sf::Keyboard::A: {
-                ToggleOnCircle(event);
-            } break;
-            case sf::Keyboard::Z: {
-                ToggleOnPolygon(event);
-            } break;
-        }
-    } else if (event.type == sf::Event::KeyReleased) {
-        switch (event.key.code) {
-            case sf::Keyboard::A: {
-                ToggleOffCircle(event);
-            } break;
-            case sf::Keyboard::Z: {
-                ToggleOffPolygon(event);
-            } break;
-        }
+                    CreatePolygonStop(event);
+                    CreateCircleInit(event);
+                } break;
+                case sf::Mouse::Right: {
+                    if (!LaunchCorpseInit(event)) {
+                        SelectMultipleCorpsesInit(event);
+                    }
+                    CreateCircleFast(event);
+                    CreatePolygonAddPoint(event);
+                } break;
+            }
+        } break;
+
+        case sf::Event::MouseMoved: {
+            if (io.WantCaptureMouse) break;
+
+            UpdateMouse();
+            switch (this->select_type) {
+                case S_DEFAULT: {
+                } break;
+                case S_SELECT_MULTIPLE: {
+                    SelectMultipleCorpsesStep(event);
+                } break;
+                case S_LAUNCH_CORPSE: {
+                    LaunchCorpseStep(event);
+                } break;
+                case S_DRAG_CORPSE: {
+                    DragCorpsesStep(event);
+                } break;
+                case S_DRAG_SCREEN: {
+                    DragPositionStep(event);
+                } break;
+                case S_CREATE_CIRCLE: {
+                    CreateCircleStep(event);
+                } break;
+                case S_CREATE_POLYGON: {
+                    CreatePolygonStep(event);
+                } break;
+            }
+        } break;
+
+        case sf::Event::MouseButtonReleased: {
+            if (io.WantCaptureMouse) break;
+
+            // Handle the functions associated with the mouse release
+            switch (event.mouseButton.button) {
+                case sf::Mouse::Left: {
+                    DragPositionStop(event);
+                    DragCorpsesStop(event);
+                    // CreatePolygonStop(event);
+                    CreateCircleStop(event);
+                } break;
+                case sf::Mouse::Right: {
+                    LaunchCorpseStop(event);
+                    SelectMultipleCorpsesStop(event);
+                } break;
+            }
+        } break;
+
+        case sf::Event::MouseWheelScrolled: {
+            if (io.WantCaptureMouse) break;
+
+            UpdateMouse();
+            Camera(sf::Vector2f(0.0f, 0.0f), 1.0f - (event.mouseWheelScroll.delta * I_ZOOM_SPEED));
+        } break;
+
+        case sf::Event::KeyPressed: {
+            if (io.WantCaptureKeyboard) break;
+
+            // Handle the functions associated with the keyboard buttons
+            switch (event.key.code) {
+                case sf::Keyboard::D: {
+                } break;
+                case sf::Keyboard::R: {
+                    this->system.add_dt(-100);
+                } break;
+                case sf::Keyboard::T: {
+                    this->system.add_dt(100);
+                } break;
+                case sf::Keyboard::Space: {
+                    Pause();
+                } break;
+                case sf::Keyboard::A: {
+                    ToggleOnCircle(event);
+                } break;
+                case sf::Keyboard::Z: {
+                    ToggleOnPolygon(event);
+                } break;
+            }
+        } break;
+
+        case sf::Event::KeyReleased: {
+            if (io.WantCaptureKeyboard) break;
+
+            switch (event.key.code) {
+                case sf::Keyboard::A: {
+                    ToggleOffCircle(event);
+                } break;
+                case sf::Keyboard::Z: {
+                    ToggleOffPolygon(event);
+                } break;
+            }
+        } break;
     }
 }
 

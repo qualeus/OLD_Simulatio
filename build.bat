@@ -24,7 +24,7 @@ if %user% == 7 goto commit_push
 if %user% == 8 exit
 
 :build_debug
-if not exist "build/Debug/%%~nf/" mkdir "build/Debug/%%~nf/"
+if not exist "build/Debug/" mkdir "build/Debug/"
 cls
 echo Compiling for Debug...
 cd build\Debug
@@ -41,7 +41,7 @@ cd ..\..\..
 goto menu
 
 :build_release
-if not exist "build/Release/%%~nf/" mkdir "build/Release/%%~nf/"
+if not exist "build/Release/" mkdir "build/Release/"
 cls
 echo Compiling for Release...
 cd build\Release
