@@ -237,101 +237,98 @@ struct Console {
     void Draw(const char* title, bool* p_open) {
         ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
         ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
-        if (!ImGui::Begin(title, p_open, ImGuiWindowFlags_None | ImGuiWindowFlags_NoFocusOnAppearing)) {
-            ImGui::End();
-            return;
-        }
-
-        if (ImGui::BeginPopupContextItem()) {
-            if (ImGui::MenuItem("Close Console")) *p_open = false;
-            ImGui::EndPopup();
-        }
-        ImGui::TextWrapped("Enter 'HELP' for help.");
-
-        if (ImGui::SmallButton("Add Debug Text")) {
-            AddLog("%d some text", Items.Size);
-        }
-
-        ImGui::SameLine();
-        if (ImGui::SmallButton("Add Debug Error")) {
-            AddLog("[error] something went wrong");
-        }
-
-        ImGui::SameLine();
-        if (ImGui::SmallButton("Clear")) {
-            ClearLog();
-        }
-
-        ImGui::SameLine();
-        bool copy_to_clipboard = ImGui::SmallButton("Copy");
-        ImGui::Separator();
-
-        // Options menu
-        if (ImGui::BeginPopup("Options")) {
-            ImGui::Checkbox("Auto-scroll", &AutoScroll);
-            ImGui::EndPopup();
-        }
-
-        // Options, Filter
-        if (ImGui::Button("Options")) ImGui::OpenPopup("Options");
-        ImGui::SameLine();
-        Filter.Draw("Filter: ('-' before sentences to exclude)", 180);
-        ImGui::Separator();
-        const float footer_height_to_reserve = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
-        ImGui::BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar);
-        if (ImGui::BeginPopupContextWindow()) {
-            if (ImGui::Selectable("Clear")) ClearLog();
-            ImGui::EndPopup();
-        }
-
-        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1));
-        if (copy_to_clipboard) ImGui::LogToClipboard();
-        for (int i = 0; i < Items.Size; i++) {
-            const char* item = Items[i];
-            if (!Filter.PassFilter(item)) continue;
-            ImVec4 color;
-            bool has_color = false;
-            for (int j = 0; j < ColorSyntax.size(); j++) {
-                if (strncmp(item, ColorSyntax[j].second, 2) == 0) {
-                    has_color = true;
-                    color = ColorSyntax[j].first;
-                    break;
-                }
+        if (ImGui::Begin(title, p_open, ImGuiWindowFlags_NoFocusOnAppearing)) {
+            if (ImGui::BeginPopupContextItem()) {
+                if (ImGui::MenuItem("Close Console")) *p_open = false;
+                ImGui::EndPopup();
             }
-            if (has_color) ImGui::PushStyleColor(ImGuiCol_Text, color);
-            ImGui::TextUnformatted(item);
-            if (has_color) ImGui::PopStyleColor();
-        }
-        if (copy_to_clipboard) ImGui::LogFinish();
-        if (ScrollToBottom || (AutoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY())) ImGui::SetScrollHereY(1.0f);
-        ScrollToBottom = false;
-        ImGui::PopStyleVar();
-        ImGui::EndChild();
-        ImGui::Separator();
+            ImGui::TextWrapped("Enter 'HELP' for help.");
 
-        // Command-line
-        bool reclaim_focus = false;
-        ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
-        if (ImGui::InputText(" ", InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &TextEditCallbackStub, (void*)this)) {
-            char* s = InputBuf;
-            Strtrim(s);
-            if (s[0]) ExecCommand(s);
-            strcpy(s, "");
-            reclaim_focus = true;
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Validate")) {
-            char* s = InputBuf;
-            Strtrim(s);
-            if (s[0]) ExecCommand(s);
-            strcpy(s, "");
-        }
+            if (ImGui::SmallButton("Add Debug Text")) {
+                AddLog("%d some text", Items.Size);
+            }
 
-        // Auto-focus on window apparition
-        ImGui::SetItemDefaultFocus();
-        if (reclaim_focus) ImGui::SetKeyboardFocusHere(-1);  // Auto focus previous widget
-        ImGui::PopFont();
-        ImGui::End();
+            ImGui::SameLine();
+            if (ImGui::SmallButton("Add Debug Error")) {
+                AddLog("[error] something went wrong");
+            }
+
+            ImGui::SameLine();
+            if (ImGui::SmallButton("Clear")) {
+                ClearLog();
+            }
+
+            ImGui::SameLine();
+            bool copy_to_clipboard = ImGui::SmallButton("Copy");
+            ImGui::Separator();
+
+            // Options menu
+            if (ImGui::BeginPopup("Options")) {
+                ImGui::Checkbox("Auto-scroll", &AutoScroll);
+                ImGui::EndPopup();
+            }
+
+            // Options, Filter
+            if (ImGui::Button("Options")) ImGui::OpenPopup("Options");
+            ImGui::SameLine();
+            Filter.Draw("Filter: ('-' before sentences to exclude)", 180);
+            ImGui::Separator();
+            const float footer_height_to_reserve = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
+            ImGui::BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar);
+            if (ImGui::BeginPopupContextWindow()) {
+                if (ImGui::Selectable("Clear")) ClearLog();
+                ImGui::EndPopup();
+            }
+
+            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1));
+            if (copy_to_clipboard) ImGui::LogToClipboard();
+            for (int i = 0; i < Items.Size; i++) {
+                const char* item = Items[i];
+                if (!Filter.PassFilter(item)) continue;
+                ImVec4 color;
+                bool has_color = false;
+                for (int j = 0; j < ColorSyntax.size(); j++) {
+                    if (strncmp(item, ColorSyntax[j].second, 2) == 0) {
+                        has_color = true;
+                        color = ColorSyntax[j].first;
+                        break;
+                    }
+                }
+                if (has_color) ImGui::PushStyleColor(ImGuiCol_Text, color);
+                ImGui::TextUnformatted(item);
+                if (has_color) ImGui::PopStyleColor();
+            }
+            if (copy_to_clipboard) ImGui::LogFinish();
+            if (ScrollToBottom || (AutoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY())) ImGui::SetScrollHereY(1.0f);
+            ScrollToBottom = false;
+            ImGui::PopStyleVar();
+            ImGui::EndChild();
+            ImGui::Separator();
+
+            // Command-line
+            bool reclaim_focus = false;
+            ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
+            if (ImGui::InputText(" ", InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &TextEditCallbackStub, (void*)this)) {
+                char* s = InputBuf;
+                Strtrim(s);
+                if (s[0]) ExecCommand(s);
+                strcpy(s, "");
+                reclaim_focus = true;
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Validate")) {
+                char* s = InputBuf;
+                Strtrim(s);
+                if (s[0]) ExecCommand(s);
+                strcpy(s, "");
+            }
+
+            // Auto-focus on window apparition
+            ImGui::SetItemDefaultFocus();
+            if (reclaim_focus) ImGui::SetKeyboardFocusHere(-1);  // Auto focus previous widget
+            ImGui::PopFont();
+            ImGui::End();
+        }
     }
 
     void ExecCommand(const char* command_line) {
