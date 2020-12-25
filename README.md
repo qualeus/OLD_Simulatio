@@ -22,11 +22,9 @@ The ultimate goal would be to present an easy-to-use and optimized physical engi
 
 ---
 
-## Getting Started
+## Prerequisites
 
-### Prerequisites
-
-#### CPP compiler
+### CPP compiler
 
 **MINGW 32**
  * Download with [MinGW 32 bits](https://osdn.net/projects/mingw/downloads/68260/mingw-get-setup.exe/). 
@@ -54,7 +52,7 @@ Check if it works by opening a new command line and typing:
 gcc: fatal error: no input files
 compilation terminated.
 ```
-#### CMAKE
+### CMAKE
 
 Install the cmake software that I use to controll the build process, and also build the libraries:
  * Go to http://www.cmake.org/download/ and click on the **Download button**.
@@ -62,9 +60,9 @@ Install the cmake software that I use to controll the build process, and also bu
 
 ---
 
-#### Libraries
+## Libraries
 
-##### SFML
+### SFML
 
 Download precompiled library from https://www.sfml-dev.org/download/sfml/2.5.1/index-fr.php
 
@@ -92,7 +90,7 @@ Then open a new command in the folder where SFML was built.
 
  * Run the following command: ```mingw32-make install```
 
-##### IMGUI
+### IMGUI
 
 IMGUI_DIR = D:/Librairies/imgui
 SFML_DIR = D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/cmake/SFML
@@ -108,7 +106,7 @@ Then open a new command in the folder where IMGUI was built.
 
  * Run the following command: ```mingw32-make install```
 
-### Installing
+## Installing
 
 Download this repo with ```git clone https://github.com/mlhoutel/Physics.git```
 
@@ -142,7 +140,9 @@ cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build .
 
 ## Built With
 
-* [SFML](https://www.sfml-dev.org/tutorials/2.5/) - The graphical library
+* [SFML](https://github.com/SFML/SFML) - The Graphical library
+* [ImGui](https://github.com/ocornut/imgui) - The GUI library
+* [ImGui::SFML](https://github.com/eliasdaler/imgui-sfml) - The Binder library
 
 ## Contributing
 

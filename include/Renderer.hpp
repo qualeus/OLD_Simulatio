@@ -123,6 +123,11 @@ class Renderer {
     float debug_values[DEBUG_LENGTH] = {};
     float debug_frames[G_DEBUG_FRAME_SIZE] = {};
 
+    sf::Vector2f last_mouse_pos = sf::Vector2f();
+    float last_mouse_vel = 0.0f;
+    float last_mouse_acc = 0.0f;
+    float mouse_angle = 0.0f;
+
     const static int DELAY_DEBUG = 3;
     int counter_debug;
 

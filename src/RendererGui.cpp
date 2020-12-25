@@ -514,8 +514,10 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
         ImGui::Text("%.1f Frames/s (%.1f Ms/frame)", debug_values[0], (1.0f / debug_values[0]) * 10.0f);
         ImGui::Text("%.1fs since beginning - dt: %.1f", ImGui::GetTime(), debug_values[10]);
         ImGui::Text("");
+
         if (ImGui::TreeNode("Performances")) {
             ImGui::Separator();
+
             static int display_frames_size = 170;
             static int update_frame_delay = 10;
             ImGui::SetNextItemWidth(80);
@@ -524,11 +526,12 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             ImGui::SetNextItemWidth(130);
             ImGui::SliderInt("count", &display_frames_size, 10, G_DEBUG_FRAME_SIZE);
 
-            static float t = 0.0f;
-            if (ImGui::GetTime() - t > (update_frame_delay / 1000.0f)) {
-                t = ImGui::GetTime();
-                for (int i = IM_ARRAYSIZE(debug_frames) - 1; i >= 0; i--) {
-                    debug_frames[i + 1] = debug_frames[i];
+            static float t_perf = 0.0f;
+            if (ImGui::GetTime() - t_perf > (update_frame_delay / 1000.0f)) {
+                t_perf = ImGui::GetTime();
+
+                for (int i = IM_ARRAYSIZE(debug_frames) - 1; i > 0; i--) {
+                    debug_frames[i] = debug_frames[i - 1];
                 }
                 debug_frames[0] = debug_values[0];
             }
@@ -541,23 +544,69 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             char average_text[32];
             sprintf(average_text, "-80\n\n-45\n\n-10\nAvg: %.fHz", average);
             ImGui::PlotLines(average_text, debug_frames, display_frames_size, 0, NULL, 10.0f, 80.0f, ImVec2(235.0f, 80.0f));
-            ImGui::TreePop();
-        }
-        if (ImGui::TreeNode("Mouse Position")) {
-            ImGui::Text(
-                " * Relative(%.f,%.f)\n"
-                " * Absolute(%.f,%.f)\n"
-                " * Global(%.f,%.f)\n ",
-                debug_values[4], debug_values[5], debug_values[2], debug_values[3], io.MousePos.x, io.MousePos.y);
-            ImGui::TreePop();
-        }
-        ImGui::Separator();
 
-        if (ImGui::TreeNode("temp")) {
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNode("Mouse Position")) {
+            ImGui::Separator();
+
+            const ImVec2 p = ImGui::GetCursorScreenPos();
+            float x = p.x + 240.0f;
+            float y = p.y + 14.0f;
+            static float sz = 84.0f;
+            static float rad = sz * 0.5f;
+            static ImU32 color = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+            static ImU32 color_sec = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+            ImDrawList* draw_list = ImGui::GetWindowDrawList();
+
+            // Update mouse values
+            static float t_mouse = 0.0f;
+            if (ImGui::GetTime() - t_mouse > 0.05f) {
+                t_mouse = ImGui::GetTime();
+
+                last_mouse_acc = ftn::Length({io.MousePos.x - last_mouse_pos.x, io.MousePos.y - last_mouse_pos.y}) - last_mouse_vel;
+                last_mouse_vel = ftn::Length({io.MousePos.x - last_mouse_pos.x, io.MousePos.y - last_mouse_pos.y});
+                if (last_mouse_vel > 3.0f) {
+                    mouse_angle = ftn::degree_to_radian(ftn::bearing(io.MousePos.x, io.MousePos.y, last_mouse_pos.x, last_mouse_pos.y));
+                }
+                last_mouse_pos = {io.MousePos.x, io.MousePos.y};
+            }
+
+            float velocity_length = rad;
+            float velocity_prec = std::log(last_mouse_vel) * 8.0f;
+            if (velocity_prec < rad) {
+                velocity_length = velocity_prec;
+            }
+            draw_list->AddCircle(ImVec2(x + rad, y + rad), rad, color, 20, 2.0f);
+            draw_list->AddLine(ImVec2(x + rad, y + rad), ImVec2(x + rad + std ::cos(mouse_angle) * rad, y + rad + std ::sin(mouse_angle) * rad), color, 2.0f);
+            draw_list->AddLine(ImVec2(x + rad, y + rad), ImVec2(x + rad + std ::cos(mouse_angle) * velocity_length, y + rad + std ::sin(mouse_angle) * velocity_length), color_sec, 2.0f);
+            ImGui::Text(
+                " \n"
+                " * Relative: (%.f,%.f)\n"
+                " * Absolute: (%.f,%.f)\n"
+                " * Global: (%.f,%.f)\n"
+                " \n"
+                " * Velocity: %.f\n"
+                " * Acceleration: %.f\n ",
+                debug_values[4], debug_values[5], debug_values[2], debug_values[3], io.MousePos.x, io.MousePos.y, last_mouse_vel, last_mouse_acc);
+
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNode("Inputs")) {
+            ImGui::Separator();
+            ImGui::Text(" ");
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNode("Global Informations")) {
+            ImGui::Separator();
             ImGui::Text("%.f corpses\n ", debug_values[12]);
             ImGui::TreePop();
         }
-        ImGui::Text("\n(right-click to change position)");
+
+        ImGui::Text("\n------------- (right-click to change position)");
 
         if (ImGui::BeginPopupContextWindow()) {
             if (ImGui::MenuItem("Custom", NULL, corner == -1)) corner = -1;
