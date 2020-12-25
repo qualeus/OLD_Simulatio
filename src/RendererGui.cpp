@@ -627,7 +627,28 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
 
 void Renderer::ShowGuiSettings(bool* p_open) {
     if (ImGui::Begin("Settings", p_open)) {
+        ImGui::BeginChild("SettingsMenu", ImVec2(140, 0), true);
+        if (ImGui::BeginTable("SettingMenu", 1, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Sortable)) {
+            for (int i = 0; i < 40; i++) {
+                ImGui::TableNextColumn();
+                ImGui::Button("Style Settings", ImVec2(-FLT_MIN, 0.0f));
+            }
+            ImGui::EndTable();
+        }
+        ImGui::EndChild();
+        ImGui::SameLine();
+        ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+        ImGui::BeginChild("SettingsPage", ImVec2(0, 0), true, ImGuiWindowFlags_MenuBar);
+        if (ImGui::BeginMenuBar()) {
+            if (ImGui::BeginMenu("Style")) {
+                ImGui::EndMenu();
+            }
+            ImGui::EndMenuBar();
+        }
         ImGui::ShowStyleEditor();
+        ImGui::EndChild();
+        ImGui::PopStyleVar();
+
         ImGui::End();
     }
 }
