@@ -109,7 +109,7 @@ void Renderer::DrawGui() {
     DrawGuiDocking();
 
     if (show_gui_console) {
-        // ImGui::ShowDemoWindow(&show_gui_console);
+        ImGui::ShowDemoWindow(&show_gui_console);
     }
     if (show_gui_console) {
         ShowGuiConsole(&show_gui_console);
@@ -119,6 +119,9 @@ void Renderer::DrawGui() {
     }
     if (show_gui_overlay) {
         ShowGuiOverlay(&show_gui_overlay);
+    }
+    if (show_gui_settings) {
+        ShowGuiSettings(&show_gui_settings);
     }
 }
 
@@ -622,6 +625,13 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
     ImGui::End();
 }
 
+void Renderer::ShowGuiSettings(bool* p_open) {
+    if (ImGui::Begin("Settings", p_open)) {
+        ImGui::ShowStyleEditor();
+        ImGui::End();
+    }
+}
+
 void Renderer::DrawGuiMenu() {
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
@@ -634,6 +644,22 @@ void Renderer::DrawGuiMenu() {
             if (ImGui::MenuItem("Close", "Ctrl+W")) {
                 /* Do stuff */
             }
+
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::Separator();
+            ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+            if (ImGui::MenuItem("Settings")) {
+                show_gui_settings = true;
+            }
+
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::Separator();
+            ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+            if (ImGui::MenuItem("Exit")) {
+                Close();
+            }
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Edit")) {
@@ -643,7 +669,11 @@ void Renderer::DrawGuiMenu() {
             if (ImGui::MenuItem("Redo", "Ctrl+Y")) {
                 /* Do stuff */
             }
+
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Separator();
+            ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
             if (ImGui::MenuItem("Cut", "Ctrl+X")) {
                 /* Do stuff */
             }
@@ -655,20 +685,19 @@ void Renderer::DrawGuiMenu() {
             }
             ImGui::EndMenu();
         }
-        if (ImGui::BeginMenu("Options")) {
-            if (ImGui::MenuItem("Settings")) {
-                /* Do stuff */
-            }
-            ImGui::Separator();
+
+        if (ImGui::BeginMenu("Tools")) {
             if (ImGui::BeginMenu("Layout")) {
                 if (ImGui::MenuItem("Reset Base Layout")) {
                     this->reset_base_layout = true;
                 }
                 ImGui::EndMenu();
             }
-            ImGui::EndMenu();
-        }
-        if (ImGui::BeginMenu("Tools")) {
+
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::Separator();
+            ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
             ImGui::PushItemFlag(ImGuiItemFlags_SelectableDontClosePopup, true);
             ImGui::MenuItem("Console", NULL, &show_gui_console);
             ImGui::MenuItem("Properties", NULL, &show_gui_properties);
@@ -705,9 +734,6 @@ void Renderer::DrawGuiMenu() {
                 /* Do stuff */
             }
             ImGui::EndMenu();
-        }
-        if (ImGui::MenuItem("Exit", "SPACE")) {
-            Close();
         }
         ImGui::EndMainMenuBar();
     }

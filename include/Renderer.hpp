@@ -82,6 +82,7 @@ class Renderer {
     bool show_gui_console = true;
     bool show_gui_properties = true;
     bool show_gui_overlay = true;
+    bool show_gui_settings = false;
 
     bool debug_show_quadtree = false;
     bool debug_show_rectangles = false;
@@ -202,6 +203,7 @@ class Renderer {
     void ShowGuiConsole(bool* p_open);
     void ShowGuiProperties(bool* p_open);
     void ShowGuiOverlay(bool* p_open);
+    void ShowGuiSettings(bool* p_open);
 
     void DebugSpeed();  // Draw the speed of the Corpses
     void DebugPairs();  // Draw the interactions of the Corpses
