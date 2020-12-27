@@ -15,11 +15,23 @@ void Renderer::SetupGui() {
 
     // io.ConfigDockingWithShift = true;
 
+    /* ImGui Setup Theme */
+    ImGui::StyleColorsDark();
+    // ImGui::StyleColorsLight();
+
     /* ImGui Setup Font */
     io.Fonts->Clear();
-    io.Fonts->AddFontFromMemoryCompressedTTF(Roboto_compressed_data, Roboto_compressed_size, 16.0f);  // New Default Font
-    io.Fonts->AddFontFromMemoryCompressedTTF(Consolas_compressed_data, Consolas_compressed_size, 14.0f);
-    io.Fonts->AddFontFromMemoryCompressedTTF(Proggy_compressed_data, Proggy_compressed_size, 14.0f);
+    ImFontConfig roboto_cfg = ImFontConfig();
+    ImFormatString(roboto_cfg.Name, IM_ARRAYSIZE(roboto_cfg.Name), "RobotoMedium.ttf, 16px", (int)roboto_cfg.SizePixels);
+    io.Fonts->AddFontFromMemoryCompressedTTF(Roboto_compressed_data, Roboto_compressed_size, 16.0f, &roboto_cfg);
+
+    ImFontConfig consolas_cfg = ImFontConfig();
+    ImFormatString(consolas_cfg.Name, IM_ARRAYSIZE(consolas_cfg.Name), "Consolas.ttf, 14px", (int)consolas_cfg.SizePixels);
+    io.Fonts->AddFontFromMemoryCompressedTTF(Consolas_compressed_data, Consolas_compressed_size, 14.0f, &consolas_cfg);
+
+    ImFontConfig proggy_cfg = ImFontConfig();
+    ImFormatString(proggy_cfg.Name, IM_ARRAYSIZE(proggy_cfg.Name), "ProggyClean.ttf, 14px", (int)proggy_cfg.SizePixels);
+    io.Fonts->AddFontFromMemoryCompressedTTF(Proggy_compressed_data, Proggy_compressed_size, 14.0f, &proggy_cfg);
 
     ImGui::SFML::UpdateFontTexture();
 
@@ -48,6 +60,7 @@ void Renderer::SetupGuiBaseLayout() {
 
     ImGui::DockBuilderDockWindow("Properties", dockspace_right_id);
     ImGui::DockBuilderDockWindow("Console", dockspace_bottom_id);
+
     // ImGui::DockBuilderDockWindow("Bar", dockspace_up_id);
 
     ImGui::DockBuilderFinish(dockspace_id);
@@ -109,7 +122,7 @@ void Renderer::DrawGui() {
     DrawGuiDocking();
 
     if (show_gui_console) {
-        ImGui::ShowDemoWindow(&show_gui_console);
+        // ImGui::ShowDemoWindow(&show_gui_console);
     }
     if (show_gui_console) {
         ShowGuiConsole(&show_gui_console);
@@ -240,11 +253,12 @@ struct Console {
     void Draw(const char* title, bool* p_open) {
         ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
         ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
-        if (ImGui::Begin(title, p_open, ImGuiWindowFlags_NoFocusOnAppearing)) {
+        if (ImGui::Begin(title, p_open, ImGuiWindowFlags_None)) {  // ImGuiWindowFlags_NoFocusOnAppearing
             if (ImGui::BeginPopupContextItem()) {
                 if (ImGui::MenuItem("Close Console")) *p_open = false;
                 ImGui::EndPopup();
             }
+
             ImGui::TextWrapped("Enter 'HELP' for help.");
 
             if (ImGui::SmallButton("Add Debug Text")) {
@@ -327,8 +341,8 @@ struct Console {
             }
 
             // Auto-focus on window apparition
-            ImGui::SetItemDefaultFocus();
-            if (reclaim_focus) ImGui::SetKeyboardFocusHere(-1);  // Auto focus previous widget
+            // ImGui::SetItemDefaultFocus();
+            // if (reclaim_focus) ImGui::SetKeyboardFocusHere(-1);  // Auto focus previous widget
             ImGui::PopFont();
             ImGui::End();
         }
@@ -514,10 +528,13 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
     ImGui::SetNextWindowBgAlpha(0.35f);  // Transparent background
     if (ImGui::Begin("Debug Overlay", p_open, window_flags)) {
         ImGui::Text("--- Debug Overlay ----------------------------");
+        ImGui::SameLine();
+        DrawGuiHelp("right-click to change position.");
         ImGui::Text("%.1f Frames/s (%.1f Ms/frame)", debug_values[0], (1.0f / debug_values[0]) * 10.0f);
         ImGui::Text("%.1fs since beginning - dt: %.1f", ImGui::GetTime(), debug_values[10]);
         ImGui::Text("");
 
+        ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
         if (ImGui::TreeNode("Performances")) {
             ImGui::Separator();
 
@@ -551,6 +568,7 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             ImGui::TreePop();
         }
 
+        ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);  // ImGuiTreeNodeFlags_DefaultOpen
         if (ImGui::TreeNode("Mouse Position")) {
             ImGui::Separator();
 
@@ -597,7 +615,7 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             ImGui::TreePop();
         }
 
-        if (ImGui::TreeNode("Inputs")) {
+        if (ImGui::TreeNode("User Inputs")) {
             ImGui::Separator();
             ImGui::Text(" ");
             ImGui::TreePop();
@@ -609,7 +627,7 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             ImGui::TreePop();
         }
 
-        ImGui::Text("\n------------- (right-click to change position)");
+        ImGui::Text("\n--------------------------------------------------");
 
         if (ImGui::BeginPopupContextWindow()) {
             if (ImGui::MenuItem("Custom", NULL, corner == -1)) corner = -1;
@@ -625,27 +643,110 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
     ImGui::End();
 }
 
+void Renderer::ShowGuiSettingsInterface() {
+    ImGui::Text("Interface Style");
+
+    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+    ImGui::Separator();
+    ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+    static int style_idx = 0;
+    if (ImGui::Combo("Theme", &style_idx, "Dark\0Classic\0Light\0")) {
+        switch (style_idx) {
+            case 0:
+                ImGui::StyleColorsDark();
+                break;
+            case 1:
+                ImGui::StyleColorsClassic();
+                break;
+            case 2:
+                ImGui::StyleColorsLight();
+                break;
+        }
+    }
+}
+
 void Renderer::ShowGuiSettings(bool* p_open) {
+    ImGui::SetNextWindowSize(ImVec2(500, 400), ImGuiCond_FirstUseEver);
+
+    ImGui::PushStyleVar(ImGuiStyleVar_ChildBorderSize, 0.0f);
     if (ImGui::Begin("Settings", p_open)) {
-        ImGui::BeginChild("SettingsMenu", ImVec2(140, 0), true);
-        if (ImGui::BeginTable("SettingMenu", 1, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Sortable)) {
-            for (int i = 0; i < 40; i++) {
-                ImGui::TableNextColumn();
-                ImGui::Button("Style Settings", ImVec2(-FLT_MIN, 0.0f));
+        ImGui::BeginChild("SettingsMenu", ImVec2(200, 0), true);
+        ImGui::Text("Settings");
+
+        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+        ImGui::Separator();
+        ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+        static int selected_menu = 0;
+        static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_SpanFullWidth;
+        static ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_None;
+
+        ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
+        if (ImGui::TreeNode("WorkBench")) {
+            ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
+            if (ImGui::TreeNodeEx("Styles", ImGuiTreeNodeFlags_SpanFullWidth)) {
+                node_flags = base_flags;
+                if (selected_menu == S_MENU_INTERFACE) node_flags |= ImGuiTreeNodeFlags_Selected;
+
+                ImGui::TreeNodeEx("Interface", node_flags, "Interface", S_MENU_INTERFACE);
+                if (ImGui::IsItemClicked()) selected_menu = S_MENU_INTERFACE;
+
+                node_flags = base_flags;
+                if (selected_menu == S_MENU_SIMULATION) node_flags |= ImGuiTreeNodeFlags_Selected;
+
+                ImGui::TreeNodeEx("Simulation", node_flags, "Simulation", S_MENU_SIMULATION);
+                if (ImGui::IsItemClicked()) selected_menu = S_MENU_SIMULATION;
+
+                node_flags = base_flags;
+                if (selected_menu == S_MENU_CONSOLE) node_flags |= ImGuiTreeNodeFlags_Selected;
+
+                ImGui::TreeNodeEx("Console", node_flags, "Console", S_MENU_CONSOLE);
+                if (ImGui::IsItemClicked()) selected_menu = S_MENU_CONSOLE;
+                ImGui::TreePop();
             }
-            ImGui::EndTable();
+            ImGui::TreePop();
+        }
+        if (ImGui::TreeNode("Window")) {
+            if (ImGui::TreeNodeEx("...", ImGuiTreeNodeFlags_SpanFullWidth)) {
+                ImGui::TreePop();
+            }
+            ImGui::TreePop();
+        }
+        if (ImGui::TreeNode("Simulation")) {
+            if (ImGui::TreeNodeEx("...", ImGuiTreeNodeFlags_SpanFullWidth)) {
+                ImGui::TreePop();
+            }
+            ImGui::TreePop();
+        }
+        if (ImGui::TreeNode("Preferences")) {
+            if (ImGui::TreeNodeEx("Shortcuts", ImGuiTreeNodeFlags_SpanFullWidth)) {
+                ImGui::TreePop();
+            }
+            ImGui::TreePop();
         }
         ImGui::EndChild();
+        ImGui::PopStyleVar();
+
         ImGui::SameLine();
         ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-        ImGui::BeginChild("SettingsPage", ImVec2(0, 0), true, ImGuiWindowFlags_MenuBar);
-        if (ImGui::BeginMenuBar()) {
-            if (ImGui::BeginMenu("Style")) {
-                ImGui::EndMenu();
-            }
-            ImGui::EndMenuBar();
+        ImGui::BeginChild("SettingsPage", ImVec2(0, 0), true);
+
+        switch (selected_menu) {
+            case S_MENU_INTERFACE: {
+                ShowGuiSettingsInterface();
+            } break;
+            case S_MENU_SIMULATION: {
+                ImGui::ShowStyleEditor();
+            } break;
+            case S_MENU_CONSOLE: {
+                ImGui::ShowStyleSelector("style");
+            } break;
+
+            default: {
+            } break;
         }
-        ImGui::ShowStyleEditor();
+
         ImGui::EndChild();
         ImGui::PopStyleVar();
 
@@ -757,5 +858,16 @@ void Renderer::DrawGuiMenu() {
             ImGui::EndMenu();
         }
         ImGui::EndMainMenuBar();
+    }
+}
+
+void Renderer::DrawGuiHelp(const char* desc) {
+    ImGui::TextDisabled("(?)");
+    if (ImGui::IsItemHovered()) {
+        ImGui::BeginTooltip();
+        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+        ImGui::TextUnformatted(desc);
+        ImGui::PopTextWrapPos();
+        ImGui::EndTooltip();
     }
 }

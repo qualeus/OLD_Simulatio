@@ -65,6 +65,10 @@
 #define I_LAUNCH_POWER 0.2f
 #define I_ZOOM_SPEED 0.1f
 
+#define S_MENU_INTERFACE 1
+#define S_MENU_SIMULATION 2
+#define S_MENU_CONSOLE 3
+
 class Renderer {
    private:
     sf::RenderWindow window;
@@ -199,11 +203,13 @@ class Renderer {
     void DrawGuiMenu();
     void DrawGuiBar();
     void DrawGuiDocking();
+    void DrawGuiHelp(const char* desc);
 
     void ShowGuiConsole(bool* p_open);
     void ShowGuiProperties(bool* p_open);
     void ShowGuiOverlay(bool* p_open);
     void ShowGuiSettings(bool* p_open);
+    void ShowGuiSettingsInterface();
 
     void DebugSpeed();  // Draw the speed of the Corpses
     void DebugPairs();  // Draw the interactions of the Corpses
