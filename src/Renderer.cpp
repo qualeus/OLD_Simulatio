@@ -42,7 +42,7 @@ Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_
     /* Initialize the Window */
     this->window.create(sf::VideoMode(this->screen_width, this->screen_height), this->name, sf::Style::Default, settings);
     this->window.setView(this->view);
-    this->window.setFramerateLimit(60);
+    this->window.setFramerateLimit(max_framerate);
 
     /* Setup the Gui */
     this->SetupGui();
@@ -58,7 +58,7 @@ void Renderer::Render() {
         }
 
         /* Background Color */
-        this->window.clear(G_BACKGROUND_COLOR);
+        this->window.clear(background_color);
 
         /* Events Handling */
         sf::Event event;
@@ -92,6 +92,11 @@ void Renderer::Close() {
 }
 
 void Renderer::Pause() { this->paused = !this->paused; }
+void Renderer::UpdateMaxFramerate(int max_framerate) {
+    this->max_framerate = max_framerate;
+    this->window.setFramerateLimit(max_framerate);
+}
+
 int Renderer::Framerate() { return (1000 / this->frame.asMilliseconds()); }
 void Renderer::UpdateDebug() {
     debug_values[0] = Framerate();

@@ -43,10 +43,8 @@
 #define G_TEXT_RESOLUTION 28.0f
 #define G_VECTOR_SIZE 40.0f
 #define G_ARRAY_HEAD_SIZE 12
-#define G_ARRAY_HEAD_SIZE 12
-#define G_BACKGROUND_COLOR sf::Color::Black
-#define G_DEBUG_FRAME_SIZE 300
 
+#define G_DEBUG_FRAME_SIZE 300    // Size of framerate array
 #define G_TOP_BAR_SIZE 50         // Size in Px
 #define G_UP_DOCK_SIZE 0.10f      // 100% <=> 1.0f
 #define G_BOTTOM_DOCK_SIZE 0.20f  // 100% <=> 1.0f
@@ -107,6 +105,9 @@ class Renderer {
     ImGuiID dockspace_up_id;
 
     std::string name;
+    sf::Color background_color = sf::Color(0, 0, 0, 255);
+    int max_framerate = 60;
+
     float mouse_x;
     float mouse_y;
 
@@ -188,7 +189,8 @@ class Renderer {
     void CreatePolygonStep(sf::Event event);
     void CreatePolygonStop(sf::Event event);
 
-    int Framerate();     // Return the number of frames per second
+    int Framerate();  // Return the number of frames per second
+    void UpdateMaxFramerate(int max_framerate);
     void UpdateDebug();  // Update the Debug Values
 
     void Draw();  // Manage the drawing of the Renderer
