@@ -177,90 +177,124 @@ void Renderer::ShowGuiProperties(bool* p_open) {
         ImFormatString(selection_name, IM_ARRAYSIZE(selection_name), "Selection <%s>", "none");
         if (ImGui::BeginTabBar("MyTabBar")) {
             if (ImGui::BeginTabItem(system_name)) {
-                char temp_name[32];
-                ImFormatString(temp_name, IM_ARRAYSIZE(temp_name), name.c_str());
-                ImGui::InputText("Name", temp_name, IM_ARRAYSIZE(temp_name), ImGuiInputTextFlags_EnterReturnsTrue);
-                name = temp_name;
-                // ImGui::SetKeyboardFocusHere(-1);
+                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
+                if (ImGui::TreeNode("System Settings")) {
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
-                ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                ImGui::Separator();
-                ImGui::Dummy(ImVec2(0.0f, 5.0f));
+                    char temp_name[32];
+                    ImFormatString(temp_name, IM_ARRAYSIZE(temp_name), name.c_str());
+                    ImGui::InputText("Name", temp_name, IM_ARRAYSIZE(temp_name), ImGuiInputTextFlags_EnterReturnsTrue);
+                    name = temp_name;
+                    // ImGui::SetKeyboardFocusHere(-1);
 
-                static ImVec4 temp_background_color = ImVec4(background_color.r, background_color.g, background_color.b, 255);
-                ImGui::ColorEdit3("Background", (float*)&temp_background_color);
-                ImGui::SameLine();
-                DrawGuiHelp("Right click on the color picker\nto change its format, or even\nexport the color.");
-                background_color = sf::Color(temp_background_color.x * 255.0f, temp_background_color.y * 255.0f, temp_background_color.z * 255.0f, 255.0f);
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
-                ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                ImGui::Separator();
-                ImGui::Dummy(ImVec2(0.0f, 5.0f));
+                    static float temp_force_x = system.get_force_x();
+                    static float temp_force_y = system.get_force_y();
+                    ImGui::DragFloat("Force X", &temp_force_x, 0.005f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+                    ImGui::DragFloat("Force Y", &temp_force_y, 0.005f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+                    system.set_force_x(temp_force_x);
+                    system.set_force_y(temp_force_y);
 
-                static float temp_force_x = system.get_force_x();
-                static float temp_force_y = system.get_force_y();
-                ImGui::DragFloat("Force X", &temp_force_x, 0.005f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
-                ImGui::DragFloat("Force Y", &temp_force_y, 0.005f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
-                system.set_force_x(temp_force_x);
-                system.set_force_y(temp_force_y);
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
-                ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                ImGui::Separator();
-                ImGui::Dummy(ImVec2(0.0f, 5.0f));
+                    static int temp_dt = system.get_dt();
+                    ImGui::InputInt("dt", &temp_dt);
+                    system.set_dt(temp_dt);
 
-                static bool temp_gravity = system.get_gravity();
-                static int temp_LS = system.get_LS();
-                static int temp_G = system.get_G();
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
-                ImGui::Checkbox("Enable Gravity", &temp_gravity);
-                ImGui::DragInt("LS", &temp_LS, 1, 0, 1000, "%d", ImGuiSliderFlags_AlwaysClamp);
-                ImGui::DragInt("G", &temp_G, 1, 0, 1000, "%d", ImGuiSliderFlags_AlwaysClamp);
+                    ftn::Rectangle rect_limits = system.get_limits();
+                    static float temp_limits[4] = {rect_limits.pos.x, rect_limits.pos.y, rect_limits.size.x, rect_limits.size.y};
+                    ImGui::DragFloat4("Limits", temp_limits, 1.f, -FLT_MAX, +FLT_MAX, "%.f");
+                    ImGui::SameLine();
+                    DrawGuiHelp("Pos (x,y) => center of the rectangle\nSize (x,y) => size of the rectangle");
+                    rect_limits = {sf::Vector2f(temp_limits[0], temp_limits[1]), sf::Vector2f(temp_limits[2], temp_limits[3])};
+                    system.set_limits(rect_limits);
 
-                system.set_gravity(temp_gravity);
-                system.set_LS(temp_LS);
-                system.set_G(temp_G);
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::Separator();
+                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
-                ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                ImGui::Separator();
-                ImGui::Dummy(ImVec2(0.0f, 5.0f));
+                    static bool temp_gravity = system.get_gravity();
+                    static int temp_LS = system.get_LS();
+                    static int temp_G = system.get_G();
 
-                static int temp_dt = system.get_dt();
-                ImGui::InputInt("dt", &temp_dt);
-                system.set_dt(temp_dt);
+                    ImGui::Checkbox("Enable Gravity", &temp_gravity);
+                    ImGui::DragInt("LS", &temp_LS, 1, 0, 1000, "%d", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::DragInt("G", &temp_G, 1, 0, 1000, "%d", ImGuiSliderFlags_AlwaysClamp);
 
-                ftn::Rectangle rect_limits = system.get_limits();
-                static float temp_limits[4] = {rect_limits.pos.x, rect_limits.pos.y, rect_limits.size.x, rect_limits.size.y};
-                ImGui::DragFloat4("Limits", temp_limits, 1.f, -FLT_MAX, +FLT_MAX, "%.f");
-                ImGui::SameLine();
-                DrawGuiHelp("Pos (x,y) => center of the rectangle\nSize (x,y) => size of the rectangle");
-                rect_limits = {sf::Vector2f(temp_limits[0], temp_limits[1]), sf::Vector2f(temp_limits[2], temp_limits[3])};
-                system.set_limits(rect_limits);
+                    system.set_gravity(temp_gravity);
+                    system.set_LS(temp_LS);
+                    system.set_G(temp_G);
 
-                ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                ImGui::Separator();
-                ImGui::Dummy(ImVec2(0.0f, 5.0f));
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::Separator();
+                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
-                static bool locked_accuracy = true;
-                ImGui::Checkbox("Lock Accuracy", &locked_accuracy);
-                ImGui::SameLine();
-                DrawGuiHelp("Warning: Accuracy greatly impact the performances");
+                    static bool locked_accuracy = true;
+                    ImGui::Checkbox("Lock Accuracy", &locked_accuracy);
+                    ImGui::SameLine();
+                    DrawGuiHelp("Warning: Accuracy greatly impact the performances");
 
-                if (locked_accuracy) {
-                    ImGuiStyle& style = ImGui::GetStyle();
-                    ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
-                    ImGui::PushStyleColor(ImGuiCol_FrameBg, style.Colors[ImGuiCol_TableHeaderBg]);
-                    ImGui::PushStyleColor(ImGuiCol_SliderGrab, style.Colors[ImGuiCol_TextDisabled]);
+                    if (locked_accuracy) {
+                        ImGuiStyle& style = ImGui::GetStyle();
+                        ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+                        ImGui::PushStyleColor(ImGuiCol_FrameBg, style.Colors[ImGuiCol_TableHeaderBg]);
+                        ImGui::PushStyleColor(ImGuiCol_SliderGrab, style.Colors[ImGuiCol_TextDisabled]);
+                    }
+
+                    static int temp_collision_accuracy = system.get_collision_accuracy();
+                    static int temp_constraint_accuracy = system.get_constraint_accuracy();
+                    ImGui::SliderInt("Collisions", &temp_collision_accuracy, 1, 100, "x%d");
+                    ImGui::SliderInt("Constraints", &temp_constraint_accuracy, 1, 100, "x%d");
+                    system.set_collision_accuracy(temp_collision_accuracy);
+                    system.set_constraint_accuracy(temp_constraint_accuracy);
+
+                    if (locked_accuracy) {
+                        ImGui::PopItemFlag();
+                        ImGui::PopStyleColor(2);
+                    }
+
+                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
+                    ImGui::TreePop();
                 }
 
-                static int temp_collision_accuracy = system.get_collision_accuracy();
-                ImGui::SliderInt("Collision", &temp_collision_accuracy, 1, 200, "x%d");
-                system.set_collision_accuracy(temp_collision_accuracy);
+                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
+                if (ImGui::TreeNode("Graphical Settings")) {
+                    static ImVec4 temp_background_color = ImVec4(background_color.r, background_color.g, background_color.b, 255);
+                    ImGui::ColorEdit3("Background", (float*)&temp_background_color);
+                    ImGui::SameLine();
+                    DrawGuiHelp("Right click on the color picker\nto change its format, or even\nexport the color.");
+                    background_color = sf::Color(temp_background_color.x * 255.0f, temp_background_color.y * 255.0f, temp_background_color.z * 255.0f, 255.0f);
 
-                if (locked_accuracy) {
-                    ImGui::PopItemFlag();
-                    ImGui::PopStyleColor(2);
+                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
+                    ImGui::TreePop();
                 }
 
+                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
+                if (ImGui::TreeNode("Inputs Settings")) {
+                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+                    static float temp_camera_pos[2] = {get_camera_x(), get_camera_y()};
+                    ImGui::DragFloat2("Camera", temp_camera_pos, 1.f, -FLT_MAX, +FLT_MAX, "%.f");
+                    ImGui::SameLine();
+                    DrawGuiHelp("Camera Position (x,y) => center of the screen");
+                    set_camera_x(temp_camera_pos[0]);
+                    set_camera_y(temp_camera_pos[1]);
+
+                    /*
+                    float camera_x;
+                    float camera_y;
+                    float camera_zoom;
+                    float screen_width;
+                    float screen_height;
+                    bool paused;
+                    bool enable_inputs;
+                    */
+
+                    ImGui::TreePop();
+                }
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem(selection_name)) {

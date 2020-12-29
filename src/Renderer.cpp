@@ -144,8 +144,16 @@ void Renderer::set_debug_type(int i) { this->debug_type = i; }
 float Renderer::get_camera_x() { return this->camera_x; }
 float Renderer::get_camera_y() { return this->camera_y; }
 
-void Renderer::set_camera_x(float camera_x) { this->camera_x = camera_x; }
-void Renderer::set_camera_y(float camera_y) { this->camera_y = camera_y; }
+void Renderer::set_camera_x(float camera_x) {
+    this->camera_x = camera_x;
+    // this->view.setCenter(this->camera_x, this->camera_y);
+    // this->window.setView(this->view);
+}
+void Renderer::set_camera_y(float camera_y) {
+    this->camera_y = camera_y;
+    // this->view.setCenter(this->camera_x, this->camera_y);
+    // this->window.setView(this->view);
+}
 
 float Renderer::get_camera_zoom() { return this->camera_zoom; }
 float Renderer::get_camera_size() { return this->camera_zoom / 100.0f; }

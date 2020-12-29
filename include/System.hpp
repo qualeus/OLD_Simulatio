@@ -39,6 +39,7 @@ class System {
 
     int dt = 1000;
     int collision_accuracy = 10;
+    int constraint_accuracy = 10;
 
     ftn::Rectangle limits;
 
@@ -83,6 +84,9 @@ class System {
 
     int get_collision_accuracy();
     void set_collision_accuracy(int collision_accuracy);
+
+    int get_constraint_accuracy();
+    void set_constraint_accuracy(int constraint_accuracy);
 
     int get_corpses_size();
     int get_pairs_size();

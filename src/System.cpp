@@ -66,6 +66,7 @@ void System::CorpseStop(int i) {
     if (phy::Circle* circle = dynamic_cast<phy::Circle*>(corpse.get())) {
         circle->Stop();
     } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(corpse.get())) {
+        polygon->Stop();
     }
 }
 
@@ -172,6 +173,9 @@ void System::set_G(int G) { this->G = G; }
 
 int System::get_collision_accuracy() { return this->collision_accuracy; }
 void System::set_collision_accuracy(int collision_accuracy) { this->collision_accuracy = collision_accuracy; }
+
+int System::get_constraint_accuracy() { return this->constraint_accuracy; }
+void System::set_constraint_accuracy(int constraint_accuracy) { this->constraint_accuracy = constraint_accuracy; }
 
 int System::get_corpses_size() { return this->corpses_size; }
 int System::get_pairs_size() { return this->pairs_size; }
