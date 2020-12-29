@@ -220,6 +220,47 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                 system.set_LS(temp_LS);
                 system.set_G(temp_G);
 
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                ImGui::Separator();
+                ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+                static int temp_dt = system.get_dt();
+                ImGui::InputInt("dt", &temp_dt);
+                system.set_dt(temp_dt);
+
+                ftn::Rectangle rect_limits = system.get_limits();
+                static float temp_limits[4] = {rect_limits.pos.x, rect_limits.pos.y, rect_limits.size.x, rect_limits.size.y};
+                ImGui::DragFloat4("Limits", temp_limits, 1.f, -FLT_MAX, +FLT_MAX, "%.f");
+                ImGui::SameLine();
+                DrawGuiHelp("Pos (x,y) => center of the rectangle\nSize (x,y) => size of the rectangle");
+                rect_limits = {sf::Vector2f(temp_limits[0], temp_limits[1]), sf::Vector2f(temp_limits[2], temp_limits[3])};
+                system.set_limits(rect_limits);
+
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                ImGui::Separator();
+                ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+                static bool locked_accuracy = true;
+                ImGui::Checkbox("Lock Accuracy", &locked_accuracy);
+                ImGui::SameLine();
+                DrawGuiHelp("Warning: Accuracy greatly impact the performances");
+
+                if (locked_accuracy) {
+                    ImGuiStyle& style = ImGui::GetStyle();
+                    ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+                    ImGui::PushStyleColor(ImGuiCol_FrameBg, style.Colors[ImGuiCol_TableHeaderBg]);
+                    ImGui::PushStyleColor(ImGuiCol_SliderGrab, style.Colors[ImGuiCol_TextDisabled]);
+                }
+
+                static int temp_collision_accuracy = system.get_collision_accuracy();
+                ImGui::SliderInt("Collision", &temp_collision_accuracy, 1, 200, "x%d");
+                system.set_collision_accuracy(temp_collision_accuracy);
+
+                if (locked_accuracy) {
+                    ImGui::PopItemFlag();
+                    ImGui::PopStyleColor(2);
+                }
+
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem(selection_name)) {

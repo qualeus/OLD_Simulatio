@@ -81,6 +81,9 @@ class System {
     int get_G();
     void set_G(int G);
 
+    int get_collision_accuracy();
+    void set_collision_accuracy(int collision_accuracy);
+
     int get_corpses_size();
     int get_pairs_size();
     int get_quad_pairs_size();
@@ -92,6 +95,7 @@ class System {
     void add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
 
     ftn::Rectangle get_limits();
+    void set_limits(ftn::Rectangle limits);
 
     std::vector<std::shared_ptr<Corpse>> get_corpses();
     std::shared_ptr<Corpse> get_corpse(int index);

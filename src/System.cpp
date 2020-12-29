@@ -25,7 +25,7 @@ void System::Step() {
     CheckLimits();
     CorpsesStep();
 
-    for (int i = 0; i < COLLISION_ACCURACY; i++) {
+    for (int i = 0; i < collision_accuracy; i++) {
         StepQuadtree();
         QuadPairsStep();
     }
@@ -170,6 +170,9 @@ void System::set_LS(int LS) { this->LS = LS; }
 int System::get_G() { return this->G; }
 void System::set_G(int G) { this->G = G; }
 
+int System::get_collision_accuracy() { return this->collision_accuracy; }
+void System::set_collision_accuracy(int collision_accuracy) { this->collision_accuracy = collision_accuracy; }
+
 int System::get_corpses_size() { return this->corpses_size; }
 int System::get_pairs_size() { return this->pairs_size; }
 int System::get_quad_pairs_size() { return this->quad_pairs.size(); }
@@ -199,6 +202,8 @@ void System::add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
 }
 
 ftn::Rectangle System::get_limits() { return this->limits; }
+void System::set_limits(ftn::Rectangle limits) { this->limits = limits; }
+
 std::vector<std::shared_ptr<Corpse>> System::get_corpses() { return this->corpses; }
 std::shared_ptr<Corpse> System::get_corpse(int index) {
     if (index >= 0 && index < get_corpses_size()) {
@@ -217,7 +222,7 @@ std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> System::get_pair(int
     }
 }
 std::shared_ptr<Corpse> System::get_pair_A(int index) {
-        if (index >= 0 && index < get_pairs_size()) {
+    if (index >= 0 && index < get_pairs_size()) {
         return this->pairs.at(index).first;
     } else {
         return nullptr;
