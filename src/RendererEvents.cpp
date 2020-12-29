@@ -8,6 +8,12 @@ void Renderer::Input(sf::Event event) {
         Close();
     }
 
+    /* Update the view to the new size of the window */
+    if (event.type == sf::Event::Resized) {
+        set_screen_width(event.size.width);
+        set_screen_height(event.size.height);
+    }
+
     /* Check if the Inputs are Allowed */
     if (!this->get_enable_inputs()) {
         return;
@@ -161,11 +167,7 @@ void Renderer::DragPositionStep(sf::Event event) {
     }
 
     const sf::Vector2f new_pos = get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
-    const sf::Vector2f delta_pos = this->saved_mouse_pos - new_pos;
-
-    Camera(delta_pos);
-
-    this->saved_mouse_pos = get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+    this->Camera(this->saved_mouse_pos - new_pos);
 }
 
 void Renderer::DragPositionStop(sf::Event event) {

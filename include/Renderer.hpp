@@ -120,8 +120,8 @@ class Renderer {
     float camera_x;
     float camera_y;
     float camera_zoom;
-    float screen_width;
-    float screen_height;
+    int screen_width;
+    int screen_height;
     bool paused;
     bool enable_inputs;
 
@@ -227,6 +227,8 @@ class Renderer {
     void Camera(sf::Vector2f move, float zoom = 1.0f);  // Update the positio of the Camera
     bool Paused();                                      // Return true if the system is paused
 
+    void UpdateCamera();
+
     // Return the mouse position on the screen
     float get_mouse_x();
     float get_mouse_y();
@@ -250,6 +252,13 @@ class Renderer {
 
     // Return the size of the view on the base plane
     float get_camera_size();
+    void set_camera_size(float camera_size);
+
+    int get_screen_width();
+    void set_screen_width(int screen_width);
+
+    int get_screen_height();
+    void set_screen_height(int screen_height);
 
     // Return the pos on the plane with the pos on the screen
     sf::Vector2f get_real_pos(sf::Vector2i pos);

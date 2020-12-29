@@ -276,12 +276,29 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                 if (ImGui::TreeNode("Inputs Settings")) {
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
-                    static float temp_camera_pos[2] = {get_camera_x(), get_camera_y()};
+                    float temp_camera_pos[2] = {get_camera_x(), get_camera_y()};
+                    float temp_camera_zoom = 100.0f * (100.0f / get_camera_zoom());
+                    int temp_screen_size[2] = {get_screen_width(), get_screen_height()};
+
                     ImGui::DragFloat2("Camera", temp_camera_pos, 1.f, -FLT_MAX, +FLT_MAX, "%.f");
                     ImGui::SameLine();
                     DrawGuiHelp("Camera Position (x,y) => center of the screen");
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                    ImGui::DragFloat("Zoom", &temp_camera_zoom, 0.5f, -FLT_MAX, +FLT_MAX, "%.1f%%");
+                    ImGui::SameLine();
+                    DrawGuiHelp("Camera Zoom =>  100.0f * (100.0f / Scale)");
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                    ImGui::DragInt2("Window", temp_screen_size, 1.f, 0, +INT_MAX, "%dpx");
+
                     set_camera_x(temp_camera_pos[0]);
                     set_camera_y(temp_camera_pos[1]);
+                    set_camera_zoom(100.0f * (100.0f / temp_camera_zoom));
+                    set_screen_width(temp_screen_size[0]);
+                    set_screen_height(temp_screen_size[1]);
 
                     /*
                     float camera_x;
