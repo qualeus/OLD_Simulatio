@@ -221,7 +221,13 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     static int temp_G = system.get_G();
 
                     ImGui::Checkbox("Enable Gravity", &temp_gravity);
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
                     ImGui::DragInt("LS", &temp_LS, 1, 0, 1000, "%d", ImGuiSliderFlags_AlwaysClamp);
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
                     ImGui::DragInt("G", &temp_G, 1, 0, 1000, "%d", ImGuiSliderFlags_AlwaysClamp);
 
                     system.set_gravity(temp_gravity);
@@ -246,7 +252,13 @@ void Renderer::ShowGuiProperties(bool* p_open) {
 
                     static int temp_collision_accuracy = system.get_collision_accuracy();
                     static int temp_constraint_accuracy = system.get_constraint_accuracy();
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
                     ImGui::SliderInt("Collisions", &temp_collision_accuracy, 1, 100, "x%d");
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
                     ImGui::SliderInt("Constraints", &temp_constraint_accuracy, 1, 100, "x%d");
                     system.set_collision_accuracy(temp_collision_accuracy);
                     system.set_constraint_accuracy(temp_constraint_accuracy);
@@ -268,12 +280,52 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     DrawGuiHelp("Right click on the color picker\nto change its format, or even\nexport the color.");
                     background_color = sf::Color(temp_background_color.x * 255.0f, temp_background_color.y * 255.0f, temp_background_color.z * 255.0f, 255.0f);
 
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                    static int temp_max_framerate = get_max_framerate();
+                    const char* items[] = {"30 Hz", "60 Hz", "120 Hz", "No Limit"};
+                    static int item_current = 1;
+
+                    switch (temp_max_framerate) {
+                        case 30:
+                            item_current = 0;
+                            break;
+                        case 60:
+                            break;
+                        case 120:
+                            item_current = 2;
+                            break;
+                        default:
+                            item_current = 3;
+                    }
+                    ImGui::Combo("Framerate", &item_current, items, IM_ARRAYSIZE(items));
+
+                    switch (item_current) {
+                        case 0:
+                            set_max_framerate(30);
+                            break;
+                        case 1:
+                            set_max_framerate(60);
+                            break;
+                        case 2:
+                            set_max_framerate(120);
+                            break;
+                        default:
+                            set_max_framerate(INT_MAX);
+                    }
+
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
                     ImGui::TreePop();
                 }
 
                 ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
                 if (ImGui::TreeNode("Inputs Settings")) {
+                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+                    ImGui::Checkbox("Enable Inputs", &enable_inputs);
+                    ImGui::SameLine();
+                    ImGui::Checkbox("Paused", &paused);
+
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
                     float temp_camera_pos[2] = {get_camera_x(), get_camera_y()};
@@ -300,15 +352,10 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     set_screen_width(temp_screen_size[0]);
                     set_screen_height(temp_screen_size[1]);
 
-                    /*
-                    float camera_x;
-                    float camera_y;
-                    float camera_zoom;
-                    float screen_width;
-                    float screen_height;
-                    bool paused;
-                    bool enable_inputs;
-                    */
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                    ImGui::SliderFloat("Lauch Power", &launch_power, -5, 5, "%.1f");
+                    ImGui::SliderFloat("Zoom Speed", &zoom_speed, -1, 1, "%.2f");
 
                     ImGui::TreePop();
                 }

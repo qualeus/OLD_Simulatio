@@ -37,13 +37,6 @@
 #define C_CONCRETE sf::Color(149, 165, 166, 255)  // rgba(149, 165, 166,1.0)
 #define C_GREY sf::Color(127, 140, 141, 255)      // rgba(127, 140, 141,1.0)
 
-/* TO TRANSFORM IN VARS, editable in menu */
-#define G_CIRCLE_RESOLUTION 20
-#define G_OUTLINE_THICKNESS 2
-#define G_TEXT_RESOLUTION 28.0f
-#define G_VECTOR_SIZE 40.0f
-#define G_ARRAY_HEAD_SIZE 12
-
 #define G_DEBUG_FRAME_SIZE 300    // Size of framerate array
 #define G_TOP_BAR_SIZE 50         // Size in Px
 #define G_UP_DOCK_SIZE 0.10f      // 100% <=> 1.0f
@@ -60,15 +53,21 @@
 #define S_CREATE_CIRCLE 5
 #define S_CREATE_POLYGON 6
 
-#define I_LAUNCH_POWER 0.2f
-#define I_ZOOM_SPEED 0.1f
-
 #define S_MENU_INTERFACE 1
 #define S_MENU_SIMULATION 2
 #define S_MENU_CONSOLE 3
 
 class Renderer {
    private:
+    float launch_power = 0.2f;
+    float zoom_speed = 0.1f;
+
+    int circle_resolution = 20;
+    int outline_thickness = 2;
+    float text_resolution = 28.0f;
+    float vector_size = 40.0f;
+    int arrow_size = 12;
+
     sf::RenderWindow window;
     sf::View view;
     sf::Clock clock;
@@ -218,7 +217,7 @@ class Renderer {
     void DebugDrag();   // Draw the inputs on the Corpses
 
     void DrawLine(int x1, int y1, int x2, int y2, sf::Color color = sf::Color::White);
-    void DrawArrow(int x1, int y1, int x2, int y2, int xhead = G_ARRAY_HEAD_SIZE, int yhead = G_ARRAY_HEAD_SIZE, sf::Color color = sf::Color::White);
+    void DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, sf::Color color = sf::Color::White);
     void DrawCircle(int x, int y, int radius, sf::Color color = sf::Color::White, bool outline = false);
     void DrawRectangle(int x, int y, int height, int width, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);
     void DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color = sf::Color::White, bool outline = false);
@@ -259,6 +258,9 @@ class Renderer {
 
     int get_screen_height();
     void set_screen_height(int screen_height);
+
+    int get_max_framerate();
+    void set_max_framerate(int max_framerate);
 
     // Return the pos on the plane with the pos on the screen
     sf::Vector2f get_real_pos(sf::Vector2i pos);

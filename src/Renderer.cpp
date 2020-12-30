@@ -134,6 +134,7 @@ void Renderer::UpdateCamera() {
     this->view.setSize(get_screen_width() * get_camera_size(), get_screen_height() * get_camera_size());
     this->window.setView(this->view);
     this->window.setSize({static_cast<unsigned int>(get_screen_width()), static_cast<unsigned int>(get_screen_height())});
+    this->window.setFramerateLimit(max_framerate);
 }
 
 bool Renderer::Paused() { return this->paused; }
@@ -163,20 +164,12 @@ void Renderer::set_screen_width(int screen_width) { this->screen_width = screen_
 int Renderer::get_screen_height() { return this->screen_height; }
 void Renderer::set_screen_height(int screen_height) { this->screen_height = screen_height; }
 
-sf::Vector2f Renderer::get_real_pos(sf::Vector2i pos) {
-    return window.mapPixelToCoords(pos);
-    // return sf::Vector2f(get_real_pos_x(pos.x), get_real_pos_y(pos.y));
-}
-float Renderer::get_real_pos_x(float x) {
-    return window.mapPixelToCoords(sf::Vector2i(x, 0)).x;
-    // return this->view.getCenter().x + (this->camera_x + x -
-    // this->view.getCenter().x - (this->screen_width/2)) * get_camera_size();
-}
-float Renderer::get_real_pos_y(float y) {
-    return window.mapPixelToCoords(sf::Vector2i(0, y)).y;
-    // return this->view.getCenter().y + (this->camera_y + y -
-    // this->view.getCenter().y - (this->screen_height/2)) * get_camera_size();
-}
+int Renderer::get_max_framerate() { return this->max_framerate; }
+void Renderer::set_max_framerate(int max_framerate) { this->max_framerate = max_framerate; }
+
+sf::Vector2f Renderer::get_real_pos(sf::Vector2i pos) { return window.mapPixelToCoords(pos); }
+float Renderer::get_real_pos_x(float x) { return window.mapPixelToCoords(sf::Vector2i(x, 0)).x; }
+float Renderer::get_real_pos_y(float y) { return window.mapPixelToCoords(sf::Vector2i(0, y)).y; }
 
 bool Renderer::rect_in_screen(ftn::Rectangle rect) {
     // One point in screen

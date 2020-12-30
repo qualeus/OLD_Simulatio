@@ -96,7 +96,7 @@ void Renderer::Input(sf::Event event) {
             if (io.WantCaptureMouse) break;
 
             UpdateMouse();
-            Camera(sf::Vector2f(0.0f, 0.0f), 1.0f - (event.mouseWheelScroll.delta * I_ZOOM_SPEED));
+            Camera(sf::Vector2f(0.0f, 0.0f), 1.0f - (event.mouseWheelScroll.delta * zoom_speed));
         } break;
 
         case sf::Event::KeyPressed: {
@@ -384,7 +384,7 @@ void Renderer::LaunchCorpseStop(sf::Event event) {
             continue;
         }
         sf::Vector2f diff_vector = this->selected_area.pos - (this->selected_area.pos + this->selected_area.size);
-        sf::Vector2f launch_vector = ftn::Normalize(diff_vector) * ftn::Length(diff_vector) * I_LAUNCH_POWER;
+        sf::Vector2f launch_vector = ftn::Normalize(diff_vector) * ftn::Length(diff_vector) * launch_power;
         system.get_corpse(selected_corpses_cursor.at(i))->Move(launch_vector);
         system.get_corpse(selected_corpses_cursor.at(i))->set_fixed(selected_corpses_fixed.at(i));
     }
