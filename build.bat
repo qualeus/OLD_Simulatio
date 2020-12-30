@@ -11,7 +11,8 @@ echo [4] Run Release
 echo [5] Build Demos
 echo [6] Build Tests
 echo [7] Commit/Push Git
-echo [8] Exit
+echo [8] Build Wrapper
+echo [9] Exit
 set /p user=
 
 if %user% == 1 goto build_debug
@@ -21,7 +22,8 @@ if %user% == 4 goto run_release
 if %user% == 5 goto build_demos
 if %user% == 6 goto build_tests
 if %user% == 7 goto commit_push
-if %user% == 8 exit
+if %user% == 8 goto build_wrapper
+if %user% == 9 exit
 
 :build_debug
 if not exist "build/Debug/" mkdir "build/Debug/"
@@ -62,6 +64,18 @@ goto menu
 goto menu
 
 :build_tests
+goto menu
+
+:build_wrapper
+if not exist "build/Debug/" mkdir "build/Debug/"
+cls
+echo Compiling for Debug...
+cd build\Debug
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. 
+build-wrapper --out-dir ..\bw-outputs cmake --build .
+cd bin
+physics.exe
+cd ..\..\..
 goto menu
 
 :commit_push
