@@ -41,8 +41,8 @@
 #define G_TOP_BAR_SIZE 50         // Size in Px
 #define G_UP_DOCK_SIZE 0.10f      // 100% <=> 1.0f
 #define G_BOTTOM_DOCK_SIZE 0.20f  // 100% <=> 1.0f
-#define G_LEFT_DOCK_SIZE 0.20f    // 100% <=> 1.0f
-#define G_RIGHT_DOCK_SIZE 0.20f   // 100% <=> 1.0f
+#define G_LEFT_DOCK_SIZE 0.25f    // 100% <=> 1.0f
+#define G_RIGHT_DOCK_SIZE 0.25f   // 100% <=> 1.0f
 
 #define S_SIZE 7 /* Size of the array of Selections values */
 #define S_DEFAULT 0
@@ -62,7 +62,7 @@ class Renderer {
     float launch_power = 0.2f;
     float zoom_speed = 0.1f;
 
-    int circle_resolution = 20;
+    int circle_resolution = 60;
     int outline_thickness = -5;
     float text_resolution = 28.0f;
     float vector_size = 40.0f;
