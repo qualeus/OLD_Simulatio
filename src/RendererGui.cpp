@@ -315,6 +315,39 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     }
 
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+                    int temp_circle_resolution = circle_resolution;
+                    ImGui::InputInt("Circle", &temp_circle_resolution);
+                    if (temp_circle_resolution > 0) {
+                        circle_resolution = temp_circle_resolution;
+                    }
+
+                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
+                    ImGui::InputInt("Outline", &outline_thickness);
+
+                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+                    float temp_text_resolution = text_resolution;
+                    ImGui::InputFloat("Text", &temp_text_resolution, 0.1f, 1.0f, "%.1fpx");
+                    if (temp_text_resolution > 0) {
+                        text_resolution = temp_text_resolution;
+                    }
+
+                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
+                    float temp_vector_size = vector_size;
+                    ImGui::InputFloat("Vector", &temp_vector_size, 0.5f, 1.0f, "%.1fpx");
+                    if (temp_vector_size > 0) {
+                        vector_size = temp_vector_size;
+                    }
+
+                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
+                    int temp_arrow_size = arrow_size;
+                    ImGui::InputInt("Arrow", &temp_arrow_size);
+                    if (temp_arrow_size > 0) {
+                        arrow_size = temp_arrow_size;
+                    }
+
+                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
                     ImGui::TreePop();
                 }
 

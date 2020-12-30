@@ -47,7 +47,7 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
                 sf::Vector2f edge_center = (sides.at(i).first + sides.at(i).second) / 2.0f;
                 sf::Vector2f edge_vector = edge_center + ftn::Normalize(ftn::Norme(sides.at(i).first, sides.at(i).second)) * vector_size;
                 DrawCircle(edge_center.x, edge_center.y, 5, sf::Color::Red, true);
-                Renderer::DrawArrow(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, 12, 12, sf::Color::Red);
+                Renderer::DrawArrow(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, arrow_size, arrow_size, sf::Color::Red);
 
                 std::pair<sf::Vector2f, sf::Vector2f> last_edge = sides.at((i - 1) % sides.size());
                 std::pair<sf::Vector2f, sf::Vector2f> current_edge = sides.at(i);
