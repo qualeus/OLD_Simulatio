@@ -34,8 +34,8 @@ class System {
     float force_x;
     float force_y;
     bool gravity;
-    int LS = 100;  // 2,998 * 10e+8
-    int G = 10;    // 6.7 * 10e-11
+    float LS = 2.998e+8;  // 2,998 * 10e+8
+    float G = 6.7e-11;    // 6.7 * 10e-11
 
     int dt = 1000;
     int collision_accuracy = 10;
@@ -76,11 +76,11 @@ class System {
     bool get_gravity();
     void set_gravity(bool gravity);
 
-    int get_LS();
-    void set_LS(int LS);
+    float get_LS();
+    void set_LS(float LS);
 
-    int get_G();
-    void set_G(int G);
+    float get_G();
+    void set_G(float G);
 
     int get_collision_accuracy();
     void set_collision_accuracy(int collision_accuracy);

@@ -164,11 +164,11 @@ void System::set_force_y(float force_y) { this->force_y = force_y; }
 bool System::get_gravity() { return this->gravity; }
 void System::set_gravity(bool gravity) { this->gravity = gravity; }
 
-int System::get_LS() { return this->LS; }
-void System::set_LS(int LS) { this->LS = LS; }
+float System::get_LS() { return this->LS; }
+void System::set_LS(float LS) { this->LS = LS; }
 
-int System::get_G() { return this->G; }
-void System::set_G(int G) { this->G = G; }
+float System::get_G() { return this->G; }
+void System::set_G(float G) { this->G = G; }
 
 int System::get_collision_accuracy() { return this->collision_accuracy; }
 void System::set_collision_accuracy(int collision_accuracy) { this->collision_accuracy = collision_accuracy; }

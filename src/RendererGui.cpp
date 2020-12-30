@@ -217,18 +217,26 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
                     static bool temp_gravity = system.get_gravity();
-                    static int temp_LS = system.get_LS();
-                    static int temp_G = system.get_G();
+                    static float temp_LS = system.get_LS();
+                    static float temp_G = system.get_G();
 
                     ImGui::Checkbox("Enable Gravity", &temp_gravity);
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-
-                    ImGui::DragInt("LS", &temp_LS, 1, 0, 1000, "%d", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::InputFloat("LS", &temp_LS, 1.0e6, 1.0e4, "%e");
+                    ImGui::SameLine();
+                    DrawGuiHelp(
+                        "The speed of light in vacuum, commonly denoted c.\n"
+                        "Its exact value is defined as 299 792 458 m.s-1\n"
+                        "second (approximately 300 000 km.s-1");
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-
-                    ImGui::DragInt("G", &temp_G, 1, 0, 1000, "%d", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::InputFloat("G", &temp_G, 1.0e-15, 1.0e-13, "%e");
+                    ImGui::SameLine();
+                    DrawGuiHelp(
+                        "The gravitational constant (also known as the\n"
+                        "Newtonian constant of gravitation). Its value\n"
+                        "is approximately 6.674×10-11 m3.kg-1.s-2");
 
                     system.set_gravity(temp_gravity);
                     system.set_LS(temp_LS);
