@@ -88,6 +88,7 @@
         "rope": "cpp",
         "cfenv": "cpp",
         "cinttypes": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "regex": "cpp"
     }
 }

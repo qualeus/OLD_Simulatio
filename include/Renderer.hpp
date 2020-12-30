@@ -37,16 +37,7 @@
 #define C_CONCRETE sf::Color(149, 165, 166, 255)  // rgba(149, 165, 166,1.0)
 #define C_GREY sf::Color(127, 140, 141, 255)      // rgba(127, 140, 141,1.0)
 
-/* TO TRANSFORM IN VARS, editable in menu */
-#define G_CIRCLE_RESOLUTION 20
-#define G_OUTLINE_THICKNESS 2
-#define G_TEXT_RESOLUTION 28.0f
-#define G_VECTOR_SIZE 40.0f
-#define G_ARRAY_HEAD_SIZE 12
-#define G_ARRAY_HEAD_SIZE 12
-#define G_BACKGROUND_COLOR sf::Color::Black
-#define G_DEBUG_FRAME_SIZE 300
-
+#define G_DEBUG_FRAME_SIZE 300    // Size of framerate array
 #define G_TOP_BAR_SIZE 50         // Size in Px
 #define G_UP_DOCK_SIZE 0.10f      // 100% <=> 1.0f
 #define G_BOTTOM_DOCK_SIZE 0.20f  // 100% <=> 1.0f
@@ -62,11 +53,21 @@
 #define S_CREATE_CIRCLE 5
 #define S_CREATE_POLYGON 6
 
-#define I_LAUNCH_POWER 0.2f
-#define I_ZOOM_SPEED 0.1f
+#define S_MENU_INTERFACE 1
+#define S_MENU_SIMULATION 2
+#define S_MENU_CONSOLE 3
 
 class Renderer {
    private:
+    float launch_power = 0.2f;
+    float zoom_speed = 0.1f;
+
+    int circle_resolution = 20;
+    int outline_thickness = -5;
+    float text_resolution = 28.0f;
+    float vector_size = 40.0f;
+    int arrow_size = 12;
+
     sf::RenderWindow window;
     sf::View view;
     sf::Clock clock;
@@ -82,6 +83,7 @@ class Renderer {
     bool show_gui_console = true;
     bool show_gui_properties = true;
     bool show_gui_overlay = true;
+    bool show_gui_settings = false;
 
     bool debug_show_quadtree = false;
     bool debug_show_rectangles = false;
@@ -102,6 +104,9 @@ class Renderer {
     ImGuiID dockspace_up_id;
 
     std::string name;
+    sf::Color background_color = sf::Color(0, 0, 0, 255);
+    int max_framerate = 60;
+
     float mouse_x;
     float mouse_y;
 
@@ -114,14 +119,19 @@ class Renderer {
     float camera_x;
     float camera_y;
     float camera_zoom;
-    float screen_width;
-    float screen_height;
+    int screen_width;
+    int screen_height;
     bool paused;
     bool enable_inputs;
 
     const static int DEBUG_LENGTH = 13;
     float debug_values[DEBUG_LENGTH] = {};
     float debug_frames[G_DEBUG_FRAME_SIZE] = {};
+
+    sf::Vector2f last_mouse_pos = sf::Vector2f();
+    float last_mouse_vel = 0.0f;
+    float last_mouse_acc = 0.0f;
+    float mouse_angle = 0.0f;
 
     const static int DELAY_DEBUG = 3;
     int counter_debug;
@@ -178,7 +188,8 @@ class Renderer {
     void CreatePolygonStep(sf::Event event);
     void CreatePolygonStop(sf::Event event);
 
-    int Framerate();     // Return the number of frames per second
+    int Framerate();  // Return the number of frames per second
+    void UpdateMaxFramerate(int max_framerate);
     void UpdateDebug();  // Update the Debug Values
 
     void Draw();  // Manage the drawing of the Renderer
@@ -193,17 +204,20 @@ class Renderer {
     void DrawGuiMenu();
     void DrawGuiBar();
     void DrawGuiDocking();
+    void DrawGuiHelp(const char* desc);
 
     void ShowGuiConsole(bool* p_open);
     void ShowGuiProperties(bool* p_open);
     void ShowGuiOverlay(bool* p_open);
+    void ShowGuiSettings(bool* p_open);
+    void ShowGuiSettingsInterface();
 
     void DebugSpeed();  // Draw the speed of the Corpses
     void DebugPairs();  // Draw the interactions of the Corpses
     void DebugDrag();   // Draw the inputs on the Corpses
 
     void DrawLine(int x1, int y1, int x2, int y2, sf::Color color = sf::Color::White);
-    void DrawArrow(int x1, int y1, int x2, int y2, int xhead = G_ARRAY_HEAD_SIZE, int yhead = G_ARRAY_HEAD_SIZE, sf::Color color = sf::Color::White);
+    void DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, sf::Color color = sf::Color::White);
     void DrawCircle(int x, int y, int radius, sf::Color color = sf::Color::White, bool outline = false);
     void DrawRectangle(int x, int y, int height, int width, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);
     void DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color = sf::Color::White, bool outline = false);
@@ -211,6 +225,8 @@ class Renderer {
 
     void Camera(sf::Vector2f move, float zoom = 1.0f);  // Update the positio of the Camera
     bool Paused();                                      // Return true if the system is paused
+
+    void UpdateCamera();
 
     // Return the mouse position on the screen
     float get_mouse_x();
@@ -235,6 +251,16 @@ class Renderer {
 
     // Return the size of the view on the base plane
     float get_camera_size();
+    void set_camera_size(float camera_size);
+
+    int get_screen_width();
+    void set_screen_width(int screen_width);
+
+    int get_screen_height();
+    void set_screen_height(int screen_height);
+
+    int get_max_framerate();
+    void set_max_framerate(int max_framerate);
 
     // Return the pos on the plane with the pos on the screen
     sf::Vector2f get_real_pos(sf::Vector2i pos);

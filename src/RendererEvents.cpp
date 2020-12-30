@@ -8,6 +8,12 @@ void Renderer::Input(sf::Event event) {
         Close();
     }
 
+    /* Update the view to the new size of the window */
+    if (event.type == sf::Event::Resized) {
+        set_screen_width(event.size.width);
+        set_screen_height(event.size.height);
+    }
+
     /* Check if the Inputs are Allowed */
     if (!this->get_enable_inputs()) {
         return;
@@ -90,7 +96,7 @@ void Renderer::Input(sf::Event event) {
             if (io.WantCaptureMouse) break;
 
             UpdateMouse();
-            Camera(sf::Vector2f(0.0f, 0.0f), 1.0f - (event.mouseWheelScroll.delta * I_ZOOM_SPEED));
+            Camera(sf::Vector2f(0.0f, 0.0f), 1.0f - (event.mouseWheelScroll.delta * zoom_speed));
         } break;
 
         case sf::Event::KeyPressed: {
@@ -161,11 +167,7 @@ void Renderer::DragPositionStep(sf::Event event) {
     }
 
     const sf::Vector2f new_pos = get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
-    const sf::Vector2f delta_pos = this->saved_mouse_pos - new_pos;
-
-    Camera(delta_pos);
-
-    this->saved_mouse_pos = get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+    this->Camera(this->saved_mouse_pos - new_pos);
 }
 
 void Renderer::DragPositionStop(sf::Event event) {
@@ -382,7 +384,7 @@ void Renderer::LaunchCorpseStop(sf::Event event) {
             continue;
         }
         sf::Vector2f diff_vector = this->selected_area.pos - (this->selected_area.pos + this->selected_area.size);
-        sf::Vector2f launch_vector = ftn::Normalize(diff_vector) * ftn::Length(diff_vector) * I_LAUNCH_POWER;
+        sf::Vector2f launch_vector = ftn::Normalize(diff_vector) * ftn::Length(diff_vector) * launch_power;
         system.get_corpse(selected_corpses_cursor.at(i))->Move(launch_vector);
         system.get_corpse(selected_corpses_cursor.at(i))->set_fixed(selected_corpses_fixed.at(i));
     }

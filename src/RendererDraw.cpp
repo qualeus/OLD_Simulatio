@@ -45,15 +45,15 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
             std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = polygon->get_sides();
             for (int i = 0; i < sides.size(); i++) {
                 sf::Vector2f edge_center = (sides.at(i).first + sides.at(i).second) / 2.0f;
-                sf::Vector2f edge_vector = edge_center + ftn::Normalize(ftn::Norme(sides.at(i).first, sides.at(i).second)) * G_VECTOR_SIZE;
+                sf::Vector2f edge_vector = edge_center + ftn::Normalize(ftn::Norme(sides.at(i).first, sides.at(i).second)) * vector_size;
                 DrawCircle(edge_center.x, edge_center.y, 5, sf::Color::Red, true);
-                Renderer::DrawArrow(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, 12, 12, sf::Color::Red);
+                Renderer::DrawArrow(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, arrow_size, arrow_size, sf::Color::Red);
 
                 std::pair<sf::Vector2f, sf::Vector2f> last_edge = sides.at((i - 1) % sides.size());
                 std::pair<sf::Vector2f, sf::Vector2f> current_edge = sides.at(i);
 
                 sf::Vector2f point_center = last_edge.second;
-                sf::Vector2f point_vector = point_center + ftn::Normalize(ftn::Norme(last_edge.first, last_edge.second) + ftn::Norme(current_edge.first, current_edge.second)) * G_VECTOR_SIZE;
+                sf::Vector2f point_vector = point_center + ftn::Normalize(ftn::Norme(last_edge.first, last_edge.second) + ftn::Norme(current_edge.first, current_edge.second)) * vector_size;
                 DrawCircle(point_center.x, point_center.y, 5, sf::Color::Red, true);
                 Renderer::DrawLine(point_center.x, point_center.y, point_vector.x, point_vector.y, sf::Color::Red);
             }
@@ -194,14 +194,14 @@ void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, s
 }
 
 void Renderer::DrawCircle(int x, int y, int radius, sf::Color color, bool outline) {
-    sf::CircleShape circle(radius, G_CIRCLE_RESOLUTION);
+    sf::CircleShape circle(radius, circle_resolution);
 
     // test if the circle is in the screen bounds
     circle.setPosition(x, y);
     circle.setOrigin(circle.getRadius(), circle.getRadius());
 
     if (outline) {
-        circle.setOutlineThickness(G_OUTLINE_THICKNESS);
+        circle.setOutlineThickness(outline_thickness);
         circle.setOutlineColor(color);
         circle.setFillColor(sf::Color::Transparent);
     } else {
@@ -224,7 +224,7 @@ void Renderer::DrawRectangle(int x, int y, int width, int height, bool fixed, sf
     }
 
     if (outline) {
-        rect.setOutlineThickness(G_OUTLINE_THICKNESS);
+        rect.setOutlineThickness(outline_thickness);
         rect.setOutlineColor(color);
         rect.setFillColor(sf::Color::Transparent);
     } else {
@@ -246,7 +246,7 @@ void Renderer::DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color, bo
     }
 
     if (outline) {
-        convex.setOutlineThickness(G_OUTLINE_THICKNESS);
+        convex.setOutlineThickness(outline_thickness);
         convex.setOutlineColor(color);
         convex.setFillColor(sf::Color::Transparent);
     } else {
@@ -261,8 +261,8 @@ void Renderer::DrawText(std::string str, int x, int y, int size, bool fixed, sf:
     sf::Text text;
 
     if (font.loadFromFile("../assets/fonts/arial.ttf")) {
-        text.setCharacterSize(G_TEXT_RESOLUTION);
-        float resolution_resize = size / G_TEXT_RESOLUTION;
+        text.setCharacterSize(text_resolution);
+        float resolution_resize = size / text_resolution;
 
         if (fixed) {
             text.scale(get_camera_size() * resolution_resize, get_camera_size() * resolution_resize);
