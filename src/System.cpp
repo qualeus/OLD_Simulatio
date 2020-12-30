@@ -73,8 +73,7 @@ void System::CorpseStop(int i) {
 void System::PairsStep() {
     for (int i = 0; i < pairs_size; i++) {
         if (this->gravity) {
-            get_pair(i).first->get_pos();
-            // Forces(get_pair_A(i), get_pair_B(i));
+            Forces(get_pair_A(i), get_pair_B(i));
         }
         // Collision(get_pair_A(i), get_pair_B(i)); old collision system
     }
@@ -194,8 +193,8 @@ void System::add_corpse(std::shared_ptr<Corpse> a) {
     this->corpses.emplace_back(std::move(a));
     this->corpses_size++;  // Update the size of the array = n
     if (corpses_size > 1) {
-        for (int b = 0; b < corpses_size - 1; b++) {
-            System::add_pair(a, get_corpse(b));
+        for (int b_index = 0; b_index < corpses_size - 1; b_index++) {
+            System::add_pair(get_corpse(this->corpses_size - 1), get_corpse(b_index));
         }
     }
 }

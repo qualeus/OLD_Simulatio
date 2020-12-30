@@ -63,7 +63,7 @@ class Renderer {
     float zoom_speed = 0.1f;
 
     int circle_resolution = 20;
-    int outline_thickness = 2;
+    int outline_thickness = -5;
     float text_resolution = 28.0f;
     float vector_size = 40.0f;
     int arrow_size = 12;

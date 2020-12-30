@@ -272,7 +272,6 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::TreePop();
                 }
 
-                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
                 if (ImGui::TreeNode("Graphical Settings")) {
                     static ImVec4 temp_background_color = ImVec4(background_color.r, background_color.g, background_color.b, 255);
                     ImGui::ColorEdit3("Background", (float*)&temp_background_color);
@@ -351,7 +350,6 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::TreePop();
                 }
 
-                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
                 if (ImGui::TreeNode("Inputs Settings")) {
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
