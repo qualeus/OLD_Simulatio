@@ -1,0 +1,13 @@
+D:\Librairies\imgui-sfml_2_0_0\imgui_docking_build/lib/libImGui-SFML.a
+D:\Librairies\imgui-sfml_2_0_0\imgui_docking_build/include/imgui-SFML.h
+D:\Librairies\imgui-sfml_2_0_0\imgui_docking_build/include/imgui-SFML_export.h
+D:\Librairies\imgui-sfml_2_0_0\imgui_docking_build/include/imconfig-SFML.h
+D:\Librairies\imgui-sfml_2_0_0\imgui_docking_build/include/imconfig.h
+D:\Librairies\imgui-sfml_2_0_0\imgui_docking_build/include/imgui.h
+D:\Librairies\imgui-sfml_2_0_0\imgui_docking_build/include/imgui_internal.h
+D:\Librairies\imgui-sfml_2_0_0\imgui_docking_build/include/imstb_rectpack.h
+D:\Librairies\imgui-sfml_2_0_0\imgui_docking_build/include/imstb_textedit.h
+D:\Librairies\imgui-sfml_2_0_0\imgui_docking_build/include/imstb_truetype.h
+D:\Librairies\imgui-sfml_2_0_0\imgui_docking_build/include/imgui_stdlib.h
+D:\Librairies\imgui-sfml_2_0_0\imgui_docking_build/lib/cmake/ImGui-SFML/ImGui-SFMLConfig.cmake
+D:\Librairies\imgui-sfml_2_0_0\imgui_docking_build/lib/cmake/ImGui-SFML/ImGui-SFMLConfig-noconfig.cmake

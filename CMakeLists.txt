@@ -25,8 +25,8 @@ if (NOT CMAKE_BUILD_TYPE)
 endif (NOT CMAKE_BUILD_TYPE)
 
 # SFML
-set(SFML_DIR "D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/cmake/SFML")
-set(SFML_DOC_DIR "D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/cmake/SFML")
+set(SFML_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/sfml/lib/cmake/SFML)
+set(SFML_DOC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/sfml/lib/cmake/SFML)
 set(SFML_STATIC_LIBRARIES TRUE)
 find_package (SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
 
@@ -35,11 +35,12 @@ if(NOT SFML_FOUND)
 endif()
 
 # IMGUI
-set(ImGui-SFML_DIR "D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/lib/cmake/ImGui-SFML")
+set(ImGui-SFML_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/imgui/lib/cmake/ImGui-SFML)
 find_package(ImGui-SFML REQUIRED)
 
 # Compile Target
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 set(SOURCES
     src/main.cpp
     src/Circle.cpp
