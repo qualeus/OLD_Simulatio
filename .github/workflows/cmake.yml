@@ -39,7 +39,7 @@ jobs:
     - name: Build
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: ../build-wrapper-win-x86/build-wrapper-win-x86-64.exe --out-dir ../bw-outputs cmake --build . --config $BUILD_TYPE
+      run: build-wrapper-win-x86/build-wrapper-win-x86-64.exe --out-dir ../bw-outputs cmake --build . --config $BUILD_TYPE
 
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
