@@ -267,22 +267,6 @@ jobs:
           message(FATAL_ERROR "Bad exit status")
         endif()
 
-    - name: Setup Linux dependancies
-      if: runner.os == 'Linux'
-      shell: bash
-      run: |
-        sudo apt-get update -y
-        sudo apt install -y pkg-config
-        sudo apt-get install -y libpthread-stubs0-dev
-        sudo apt-get install -y libgl1-mesa-dev
-        sudo apt-get install -y libx11-dev
-        sudo apt-get install -y libxrandr-dev
-        sudo apt-get install -y libfreetype6-dev
-        sudo apt-get install -y libglew1.5-dev
-        sudo apt-get install -y libjpeg8-dev
-        sudo apt-get install -y libsndfile1-dev
-        sudo apt-get install -y libopenal-dev
-
     - name: Build imgui-sfml
       shell: cmake -P {0}
       run: |
@@ -328,7 +312,6 @@ jobs:
             -D CMAKE_CXX_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
             -D CMAKE_PREFIX_PATH=${{ steps.install_sfml.outputs.sfml_install_dir }}
             -D SFML_DIR=${{ steps.install_sfml.outputs.sfml_install_dir }}
-            -D SFML_DOC_DIR=${{ steps.install_sfml.outputs.sfml_install_dir }}
             -D ImGui-SFML_DIR=$ENV{GITHUB_WORKSPACE}/imgui-sfml/build/lib/cmake/ImGui-SFML
             -D BUILD_SHARED_LIBS=ON
           RESULT_VARIABLE result
