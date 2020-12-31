@@ -27,22 +27,21 @@ jobs:
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -G "MinGW Makefiles"
 
-    - name: Build
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: cmake --build . --config $BUILD_TYPE
-
     - name: Wrapper Download
+      working-directory: ${{runner.workspace}}/build
       uses: carlosperate/download-file-action@v1.0.3
       with:
         file-url: 'https://sonarcloud.io/static/cpp/build-wrapper-win-x86.zip'
         
     - name: Wrapper Unzip
+      working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: |
-        unzip build-wrapper-win-x86.zip
-        build-wrapper-win-x86/build-wrapper-win-x86-64.exe --out-dir ../bw-outputs cmake --build . --config $BUILD_TYPE
+      run: unzip build-wrapper-win-x86.zip
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: build-wrapper-win-x86/build-wrapper-win-x86-64.exe --out-dir ../bw-outputs cmake --build . --config $BUILD_TYPE
 
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
