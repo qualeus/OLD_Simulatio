@@ -46,10 +46,11 @@ jobs:
     - name: Setup sonarqube
       uses: warchant/setup-sonar-scanner@v3
     - name: Run sonarqube
-      #env:
-        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: sonar-scanner
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          #-Dsonar.login=${{ secrets.SONAR_TOKEN }}
           -Dsonar.organization=mlhoutel
           -Dsonar.host.url=https://sonarcloud.io/
           -Dsonar.projectKey=mlhoutel_Physics
