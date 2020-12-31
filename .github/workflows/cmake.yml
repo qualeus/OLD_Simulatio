@@ -267,7 +267,7 @@ jobs:
           message(FATAL_ERROR "Bad exit status")
         endif()
 
-    - name Setup Linux dependancies
+    - name: Setup Linux dependancies
       if: ${{ matrix.os == 'ubuntu-latest' }}
       shell: bash
       run: |
