@@ -37,8 +37,6 @@ The ultimate goal would be to present an easy-to-use and optimized physical engi
  * Select the architecture **x86_64** and the treads to **posix**
  * Then click on the **Next** and wait until it's downloaded.
 
----
-
 You must then add the **environment variable** to your compiler:
  * Type **env** in the windows search bar and open **Edit the environment variables**.
  * Then click on **Environment variables** in **Avanced System Parameters**. 
