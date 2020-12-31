@@ -1,6 +1,4 @@
 @echo off
-set lib_path="D:\Documents\Projets\Physics\ressources\Libraries"
-
 :menu
 color 0a
 cls
