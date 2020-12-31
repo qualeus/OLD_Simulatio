@@ -184,7 +184,7 @@ jobs:
           execute_process(
             COMMAND sudo apt-get install libgl1-mesa-dev
             COMMAND sudo apt-get install libegl1-mesa-dev
-            COMMAND sudo apt-get -y install libx11-dev libxcursor-dev libsfml-dev libudev libudev-dev libopenal-dev libvorbis-dev libflac-dev libxrandr-dev freeglut3 freeglut3-dev libjpeg-dev libfreetype6-dev libxrandr-dev libglew-dev libsndfile1-dev libopenal-dev libfreetype6-dev libsystemd-dev
+            COMMAND sudo apt-get -y install libx11-dev libxcursor-dev libudev-dev libsfml-dev libopenal-dev libvorbis-dev libflac-dev libxrandr-dev freeglut3 freeglut3-dev libjpeg-dev libfreetype6-dev libxrandr-dev libglew-dev libsndfile1-dev libopenal-dev libfreetype6-dev libsystemd-dev
           )
         endif()
         if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
