@@ -12,6 +12,11 @@ set (CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Werror -Wfatal-errors")
 set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Werror -Wfatal-errors -O3 -s -fexpensive-optimizations")
 
+# disable deprecated warning in MSVC
+if(MSVC)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+endif()
+
 # CMake options
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 set(CMAKE_VERBOSE_MAKEFILE OFF)
@@ -31,7 +36,21 @@ set(SFML_STATIC_LIBRARIES TRUE)
 find_package (SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
 
 if(NOT SFML_FOUND)
-    message(FATAL_ERROR "SFML couldn't be located!")
+    message(STATUS "SFML not found, fetching from github...")
+    include(FetchContent)
+    FetchContent_Declare(
+        sfml
+        GIT_REPOSITORY https://github.com/sfml/sfml.git
+        # 2.5.1 actually uses auto_ptr(!) which is incompatible with 
+        # modern c++ so we use a slightly later commit which fixes
+        # this issue
+        GIT_TAG        bf92efe9a4035fee0258386173d53556aa196e49
+    )
+    FetchContent_MakeAvailable(sfml)
+endif()
+
+if (NOT BUILD_SHARED_LIBS)
+    add_definitions(-DSFML_STATIC -DXY_STATIC)
 endif()
 
 # IMGUI
