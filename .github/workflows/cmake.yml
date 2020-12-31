@@ -31,7 +31,6 @@ jobs:
       uses: carlosperate/download-file-action@v1.0.3
       with:
         file-url: 'https://sonarcloud.io/static/cpp/build-wrapper-win-x86.zip'
-        location: './build'
         
     - name: Wrapper Unzip
       working-directory: ${{runner.workspace}}/build
