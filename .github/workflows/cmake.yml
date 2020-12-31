@@ -268,23 +268,20 @@ jobs:
         endif()
 
     - name: Setup Linux dependancies
-      if: ${{ runner.os }}" STREQUAL "Linux"
+      if: runner.os == 'Linux'
       shell: bash
       run: |
         sudo apt-get update -y
         sudo apt install -y pkg-config
-        sudo apt-get install -y libfreetype6-dev
-        sudo apt-get install -y x11-apps
-        sudo apt-get install -y libx11-dev
-        sudo apt-get install -y x11-xserver-utils
-        sudo apt-get install -y udev
-        sudo apt-get install -y libudev-dev
-        sudo apt-get install -y freeglut3-dev
-        sudo apt-get install -y flac
-        sudo apt-get install -y libflac++-dev
-        sudo apt-get install -y vorbis-tools
-        sudo apt-get install -y libopenal-dev
         sudo apt-get install -y libpthread-stubs0-dev
+        sudo apt-get install -y libgl1-mesa-dev
+        sudo apt-get install -y libx11-dev
+        sudo apt-get install -y libxrandr-dev
+        sudo apt-get install -y libfreetype6-dev
+        sudo apt-get install -y libglew1.5-dev
+        sudo apt-get install -y libjpeg8-dev
+        sudo apt-get install -y libsndfile1-dev
+        sudo apt-get install -y libopenal-dev
 
     - name: Build imgui-sfml
       shell: cmake -P {0}
