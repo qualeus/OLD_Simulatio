@@ -18,8 +18,6 @@ if(MSVC)
 endif()
 
 # CMake options
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
-set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -30,24 +28,16 @@ if (NOT CMAKE_BUILD_TYPE)
 endif (NOT CMAKE_BUILD_TYPE)
 
 # SFML
+# set(SFML_DOC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/sfml/lib/cmake/SFML)
+set(SFML_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/sfml/include)
+set(SFML_LIBRARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/sfml/lib)
 set(SFML_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/sfml/lib/cmake/SFML)
-set(SFML_DOC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/sfml/lib/cmake/SFML)
 set(SFML_STATIC_LIBRARIES TRUE)
-find_package (SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
 
-if(NOT SFML_FOUND)
-    message(STATUS "SFML not found, fetching from github...")
-    include(FetchContent)
-    FetchContent_Declare(
-        sfml
-        GIT_REPOSITORY https://github.com/sfml/sfml.git
-        # 2.5.1 actually uses auto_ptr(!) which is incompatible with 
-        # modern c++ so we use a slightly later commit which fixes
-        # this issue
-        GIT_TAG        bf92efe9a4035fee0258386173d53556aa196e49
-    )
-    FetchContent_MakeAvailable(sfml)
-endif()
+link_directories(SFML_LIBRARY_DIR)
+include_directories(SFML_INCLUDE_DIR)
+
+find_package (SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
 
 if (NOT BUILD_SHARED_LIBS)
     add_definitions(-DSFML_STATIC -DXY_STATIC)
@@ -58,7 +48,6 @@ set(ImGui-SFML_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/imgui/lib/cmake/ImGui-SFM
 find_package(ImGui-SFML REQUIRED)
 
 # Compile Target
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 set(SOURCES
     src/main.cpp
@@ -102,9 +91,9 @@ set (IMGUI_LIBRARIES ImGui-SFML::ImGui-SFML)
 # Link libraries
 
 if(WIN32)
-    target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${IMGUI_LIBRARIES} -lmingw32 -lm -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid)
+    target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} ${IMGUI_LIBRARIES} -lmingw32 -lm -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid)
 else()
-    target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${IMGUI_LIBRARIES})
+    target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} ${IMGUI_LIBRARIES})
 endif()
 # Copy assets
 #file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
