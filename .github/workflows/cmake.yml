@@ -34,12 +34,8 @@ jobs:
       run: cmake --build . --config $BUILD_TYPE
 
     - name: Wrapper Download
-      working-directory: ${{runner.workspace}}/build
       uses: carlosperate/download-file-action@v1.0.3
-      with:
-        file-url: 'https://sonarcloud.io/static/cpp/build-wrapper-win-x86.zip'
-        file-name: 'build-wrapper-win-x86.zip'
-        location: '.'
+      file-url: 'https://sonarcloud.io/static/cpp/build-wrapper-win-x86.zip'
         
     - name: Wrapper Unzip
       shell: bash
