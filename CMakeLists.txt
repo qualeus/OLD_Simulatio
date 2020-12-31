@@ -77,9 +77,15 @@ set(FONTS
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${FONTS})
+set (SFML_LIBRARIES sfml-graphics sfml-window sfml-system )
+set (IMGUI_LIBRARIES ImGui-SFML::ImGui-SFML)
 
 # Link libraries
-target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system ImGui-SFML::ImGui-SFML)
 
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${IMGUI_LIBRARIES} -lmingw32 -lm -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid)
+else()
+    target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${IMGUI_LIBRARIES})
+endif()
 # Copy assets
 #file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
