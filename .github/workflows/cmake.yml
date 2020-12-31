@@ -33,7 +33,8 @@ jobs:
             cxx: "cl",
             environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
             build_type: Release
-          }- {
+          }
+        - {
             name: "Windows Latest - MinGW - Debug",
             os: windows-latest,
             cc: "gcc",
