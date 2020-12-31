@@ -66,6 +66,9 @@ jobs:
     steps:
     - name: Checkout Physics
       uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        path: Physics
 
     - name: Checkout ImGui-SFML
       uses: actions/checkout@v2
