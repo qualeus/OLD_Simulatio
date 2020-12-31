@@ -233,7 +233,7 @@ jobs:
         execute_process(COMMAND ${{ steps.ccache.outputs.ccache_binary }} -s)
         message("::set-output name=sfml_install_dir::${sfml_install_dir}")
 
-    - name: Configure
+    - name: Configure imgui-sfml
       shell: cmake -P {0}
       run: |
         if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
@@ -264,7 +264,7 @@ jobs:
           message(FATAL_ERROR "Bad exit status")
         endif()
 
-    - name: Build
+    - name: Build imgui-sfml
       shell: cmake -P {0}
       run: |
         if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
@@ -278,6 +278,60 @@ jobs:
         execute_process(
           COMMAND ${{ steps.cmake.outputs.cmake_binary }}
             --build $ENV{GITHUB_WORKSPACE}/imgui-sfml/build
+            --config ${BUILD_TYPE}
+          RESULT_VARIABLE result
+        )
+        if (NOT result EQUAL 0)
+          message(FATAL_ERROR "Build: Bad exit status")
+        endif()
+        execute_process(COMMAND ${{ steps.ccache.outputs.ccache_binary }} -s)
+
+- name: Configure Physics
+      shell: cmake -P {0}
+      run: |
+        if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
+          file(STRINGS environment_script_output.txt output_lines)
+          foreach(line IN LISTS output_lines)
+            if (line MATCHES "^([a-zA-Z0-9_-]+)=(.*)$")
+              set(ENV{${CMAKE_MATCH_1}} "${CMAKE_MATCH_2}")
+            endif()
+          endforeach()
+        endif()
+        execute_process(
+          COMMAND ${{ steps.cmake.outputs.cmake_binary }}
+            -S $ENV{GITHUB_WORKSPACE}/Physics
+            -B $ENV{GITHUB_WORKSPACE}/Physics/build
+            -D CMAKE_CONFIGURATION_TYPES=${{ matrix.config.build_type }}
+            -D CMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
+            -G Ninja
+            -D CMAKE_MAKE_PROGRAM=${{ steps.ninja.outputs.ninja_binary }}
+            -D CMAKE_C_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
+            -D CMAKE_CXX_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
+            -D CMAKE_PREFIX_PATH=${{ steps.install_sfml.outputs.sfml_install_dir }}
+            -D SFML_DIR=${{ steps.install_sfml.outputs.sfml_install_dir }}
+            -D SFML_DOC_DIR=${{ steps.install_sfml.outputs.sfml_install_dir }}
+            -D ImGui-SFML_DIR=$ENV{GITHUB_WORKSPACE}/imgui-sfml/build/lib/cmake/ImGui-SFML
+            -D BUILD_SHARED_LIBS=ON
+          RESULT_VARIABLE result
+        )
+        if (NOT result EQUAL 0)
+          message(FATAL_ERROR "Bad exit status")
+        endif()
+
+    - name: Build Physics
+      shell: cmake -P {0}
+      run: |
+        if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
+          file(STRINGS environment_script_output.txt output_lines)
+          foreach(line IN LISTS output_lines)
+            if (line MATCHES "^([a-zA-Z0-9_-]+)=(.*)$")
+              set(ENV{${CMAKE_MATCH_1}} "${CMAKE_MATCH_2}")
+            endif()
+          endforeach()
+        endif()
+        execute_process(
+          COMMAND ${{ steps.cmake.outputs.cmake_binary }}
+            --build $ENV{GITHUB_WORKSPACE}/Physics/build
             --config ${BUILD_TYPE}
           RESULT_VARIABLE result
         )
