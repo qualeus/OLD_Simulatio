@@ -31,14 +31,16 @@ jobs:
       uses: carlosperate/download-file-action@v1.0.3
       with:
         file-url: 'https://sonarcloud.io/static/cpp/build-wrapper-win-x86.zip'
+        location: ${{runner.workspace}}/build
         
     - name: Wrapper Unzip
       shell: bash
+      working-directory: ${{runner.workspace}}/build
       run: unzip build-wrapper-win-x86.zip
 
     - name: Build
-      working-directory: ${{runner.workspace}}/build
       shell: bash
+      working-directory: ${{runner.workspace}}/build
       run: build-wrapper-win-x86/build-wrapper-win-x86-64.exe --out-dir ../bw-outputs cmake --build . --config $BUILD_TYPE
 
     - name: SonarCloud Scan
