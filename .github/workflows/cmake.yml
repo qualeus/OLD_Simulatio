@@ -36,8 +36,10 @@ jobs:
     - name: Wrapper Build
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: build-wrapper --out-dir ../bw-outputs cmake --build . --config $BUILD_TYPE
+      run: |
+        wget https://sonarcloud.io/static/cpp/build-wrapper-win-x86.zip
+        unzip build-wrapper-win-x86.zip
+        build-wrapper-win-x86 --out-dir ../bw-outputs cmake --build . --config $BUILD_TYPE
 
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
