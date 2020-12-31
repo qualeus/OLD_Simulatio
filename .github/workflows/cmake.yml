@@ -40,6 +40,8 @@ jobs:
         file-url: 'https://sonarcloud.io/static/cpp/build-wrapper-win-x86.zip'
         file-name: 'build-wrapper-win-x86.zip'
         location: '.'
+        
+    - name: Wrapper Unzip
       shell: bash
       run: |
         unzip build-wrapper-win-x86.zip
