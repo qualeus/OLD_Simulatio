@@ -286,7 +286,7 @@ jobs:
         endif()
         execute_process(COMMAND ${{ steps.ccache.outputs.ccache_binary }} -s)
 
-- name: Configure Physics
+    - name: Configure Physics
       shell: cmake -P {0}
       run: |
         if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
