@@ -42,7 +42,7 @@ jobs:
       shell: bash
       run: |
         unzip build-wrapper-win-x86.zip
-        build-wrapper-win-x86 --out-dir ../bw-outputs cmake --build . --config $BUILD_TYPE
+        build-wrapper-win-x86/build-wrapper-win-x86-64.exe --out-dir ../bw-outputs cmake --build . --config $BUILD_TYPE
 
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
