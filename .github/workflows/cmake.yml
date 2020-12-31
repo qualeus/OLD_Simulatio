@@ -89,7 +89,7 @@ jobs:
         submodules: recursive
         path: imgui
         
-     - name: Download CMake
+    - name: Download CMake
       id: cmake
       shell: cmake -P {0}
       run: |
