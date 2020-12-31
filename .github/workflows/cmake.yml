@@ -272,18 +272,18 @@ jobs:
       shell: bash
       run: |
         sudo apt-get update -y
-        sudo apt-get install -y freetype
-        sudo apt-get install -y x11
+        sudo apt-get install -y libfreetype6-dev
+        sudo apt-get install -y x11-apps
         sudo apt-get install -y xrandr
         sudo apt-get install -y udev
-        sudo apt-get install -y opengl
+        sudo apt-get install -y freeglut3-dev
         sudo apt-get install -y flac
-        sudo apt-get install -y ogg
+        sudo apt-get install -y vorbis-tools
         sudo apt-get install -y vorbis
         sudo apt-get install -y vorbisenc
         sudo apt-get install -y vorbisfile
-        sudo apt-get install -y openal
-        sudo apt-get install -y pthread
+        sudo apt-get install -y libopenal-dev
+        sudo apt-get install -y libpthread-stubs0-dev
 
     - name: Build imgui-sfml
       shell: cmake -P {0}
