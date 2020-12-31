@@ -28,20 +28,17 @@ if (NOT CMAKE_BUILD_TYPE)
 endif (NOT CMAKE_BUILD_TYPE)
 
 # SFML
-# set(SFML_DOC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/sfml/lib/cmake/SFML)
+set(BUILD_SHARED_LIBS OFF)
+set(SFML_STATIC_LIBRARIES ON)
+
 set(SFML_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/sfml/include)
 set(SFML_LIBRARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/sfml/lib)
 set(SFML_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/sfml/lib/cmake/SFML)
-set(SFML_STATIC_LIBRARIES TRUE)
 
 link_directories(SFML_LIBRARY_DIR)
 include_directories(SFML_INCLUDE_DIR)
 
-find_package (SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
-
-if (NOT BUILD_SHARED_LIBS)
-    add_definitions(-DSFML_STATIC -DXY_STATIC)
-endif()
+find_package(SFML 2.5 COMPONENTS graphics system window)
 
 # IMGUI
 set(ImGui-SFML_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/imgui/lib/cmake/ImGui-SFML)
