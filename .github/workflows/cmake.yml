@@ -268,7 +268,7 @@ jobs:
         endif()
 
     - name: Setup Linux dependancies
-      if: ${{ matrix.os == 'ubuntu-latest' }}
+      if: ${{ runner.os }}" STREQUAL "Linux"
       shell: bash
       run: |
         sudo apt-get update -y
