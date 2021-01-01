@@ -1,4 +1,4 @@
-name: Build
+name: BUILDER
 
 on:
   - push
@@ -19,12 +19,45 @@ jobs:
       matrix:
         config:
         - {
+            name: "Ubuntu Latest - GCC - Debug",
+            os: ubuntu-latest,
+            cc: "gcc",
+            cxx: "g++",
+            build_type: Debug,
+            sleep: 0s
+          }
+        - {
+            name: "Ubuntu Latest - GCC - Release",
+            os: ubuntu-latest,
+            cc: "gcc",
+            cxx: "g++",
+            build_type: Release,
+            sleep: 30s
+          }
+        - {
+            name: "Ubuntu Latest - Clang - Debug",
+            os: ubuntu-latest,
+            cc: "clang",
+            cxx: "clang++",
+            build_type: Debug,
+            sleep: 60s
+          }
+        - {
+            name: "Ubuntu Latest - Clang - Release",
+            os: ubuntu-latest,
+            cc: "clang",
+            cxx: "clang++",
+            build_type: Release,
+            sleep: 90s
+          }
+        - {
             name: "Windows Latest - MSVC - Debug",
             os: windows-latest,
             cc: "cl",
             cxx: "cl",
             environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
-            build_type: Debug
+            build_type: Debug,
+            sleep: 120s
           }
         - {
             name: "Windows Latest - MSVC - Release",
@@ -32,35 +65,56 @@ jobs:
             cc: "cl",
             cxx: "cl",
             environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
-            build_type: Release
+            build_type: Release,
+            sleep: 150s
           }
         - {
             name: "Windows Latest - MinGW - Debug",
             os: windows-latest,
             cc: "gcc",
             cxx: "g++",
-            build_type: Debug
+            build_type: Debug,
+            sleep: 180s
           }
         - {
             name: "Windows Latest - MinGW - Release",
             os: windows-latest,
             cc: "gcc",
             cxx: "g++",
-            build_type: Release
+            build_type: Release,
+            sleep: 210s
           }
         - {
-            name: "Ubuntu Latest - GCC - Debug",
-            os: ubuntu-latest,
+            name: "macOS Latest - GCC - Debug",
+            os: macos-latest,
             cc: "gcc",
             cxx: "g++",
-            build_type: Debug
+            build_type: Debug,
+            sleep: 240s
           }
         - {
-            name: "Ubuntu Latest - GCC - Release",
-            os: ubuntu-latest,
+            name: "macOS Latest - GCC - Release",
+            os: macos-latest,
             cc: "gcc",
             cxx: "g++",
-            build_type: Release
+            build_type: Release,
+            sleep: 270s
+          }
+        - {
+            name: "macOS Latest - Clang - Debug",
+            os: macos-latest,
+            cc: "clang",
+            cxx: "clang++",
+            build_type: Debug,
+            sleep: 300s
+          }
+        - {
+            name: "macOS Latest - Clang - Release",
+            os: macos-latest,
+            cc: "clang",
+            cxx: "clang++",
+            build_type: Release,
+            sleep: 330s
           }
 
     steps:
@@ -76,7 +130,6 @@ jobs:
         repository: eliasdaler/imgui-sfml
         submodules: recursive
         path: imgui-sfml
-        # ref: docking
 
     - name: Checkout SFML
       uses: actions/checkout@v2
@@ -91,6 +144,7 @@ jobs:
         repository: ocornut/imgui
         submodules: recursive
         path: imgui
+        ref: docking
         
     - name: Download CMake
       id: cmake
@@ -205,21 +259,41 @@ jobs:
             endif()
           endforeach()
         endif()
-        file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/sfml_install" sfml_install_dir)
+        file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/Physics/BUILDER/${{ runner.os }}/${{ matrix.config.cxx }}/${{ matrix.config.build_type }}/sfml" sfml_install_dir)
         execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${sfml_install_dir})
-        execute_process(
-          COMMAND ${{ steps.cmake.outputs.cmake_binary }}
-            -S $ENV{GITHUB_WORKSPACE}/SFML
-            -B $ENV{GITHUB_WORKSPACE}/SFML/build
-            -D CMAKE_CONFIGURATION_TYPES=${{ matrix.config.build_type }}
-            -D CMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
-            -G Ninja
-            -D CMAKE_MAKE_PROGRAM=${{ steps.ninja.outputs.ninja_binary }}
-            -D CMAKE_C_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
-            -D CMAKE_CXX_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
-            -D CMAKE_INSTALL_PREFIX=${sfml_install_dir}
-          RESULT_VARIABLE result
-        )
+        if ("${{ runner.os }}" STREQUAL "Windows")
+          execute_process(
+            COMMAND ${{ steps.cmake.outputs.cmake_binary }}
+              -S $ENV{GITHUB_WORKSPACE}/SFML
+              -B $ENV{GITHUB_WORKSPACE}/SFML/build
+              -D CMAKE_CONFIGURATION_TYPES=${{ matrix.config.build_type }}
+              -D CMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
+              -G Ninja
+              -D CMAKE_MAKE_PROGRAM=${{ steps.ninja.outputs.ninja_binary }}
+              -D CMAKE_C_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
+              -D CMAKE_CXX_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
+              -D CMAKE_INSTALL_PREFIX=${sfml_install_dir}
+              -D BUILD_SHARED_LIBS=OFF
+              -D SFML_USE_STATIC_STD_LIBS=ON
+            RESULT_VARIABLE result
+          )
+        else()
+          execute_process(
+            COMMAND ${{ steps.cmake.outputs.cmake_binary }}
+              -S $ENV{GITHUB_WORKSPACE}/SFML
+              -B $ENV{GITHUB_WORKSPACE}/SFML/build
+              -D CMAKE_CONFIGURATION_TYPES=${{ matrix.config.build_type }}
+              -D CMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
+              -G Ninja
+              -D CMAKE_MAKE_PROGRAM=${{ steps.ninja.outputs.ninja_binary }}
+              -D CMAKE_C_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
+              -D CMAKE_CXX_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
+              -D CMAKE_INSTALL_PREFIX=${sfml_install_dir}
+              -D SFML_DEPENDENCIES_INSTALL_PREFIX=${sfml_install_dir}
+            RESULT_VARIABLE result
+          )
+        endif()
+        
         if (NOT result EQUAL 0)
           message(FATAL_ERROR "SFML configure: Bad exit status")
         endif()
@@ -247,22 +321,46 @@ jobs:
             endif()
           endforeach()
         endif()
-        execute_process(
-          COMMAND ${{ steps.cmake.outputs.cmake_binary }}
-            -S $ENV{GITHUB_WORKSPACE}/imgui-sfml
-            -B $ENV{GITHUB_WORKSPACE}/imgui-sfml/build
-            -D CMAKE_CONFIGURATION_TYPES=${{ matrix.config.build_type }}
-            -D CMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
-            -G Ninja
-            -D CMAKE_MAKE_PROGRAM=${{ steps.ninja.outputs.ninja_binary }}
-            -D CMAKE_C_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
-            -D CMAKE_CXX_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
-            -D CMAKE_PREFIX_PATH=${{ steps.install_sfml.outputs.sfml_install_dir }}
-            -D SFML_DIR=${{ steps.install_sfml.outputs.sfml_install_dir }}
-            -D IMGUI_DIR=$ENV{GITHUB_WORKSPACE}/imgui
-            -D BUILD_SHARED_LIBS=ON
-          RESULT_VARIABLE result
-        )
+        file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/Physics/BUILDER/${{ runner.os }}/${{ matrix.config.cxx }}/${{ matrix.config.build_type }}/imgui" imgui_install_dir)
+        execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${imgui_install_dir})
+        if ("${{ runner.os }}" STREQUAL "Windows")
+          execute_process(
+            COMMAND ${{ steps.cmake.outputs.cmake_binary }}
+              -S $ENV{GITHUB_WORKSPACE}/imgui-sfml
+              -B $ENV{GITHUB_WORKSPACE}/imgui-sfml/build
+              -D CMAKE_CONFIGURATION_TYPES=${{ matrix.config.build_type }}
+              -D CMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
+              -G Ninja
+              -D CMAKE_MAKE_PROGRAM=${{ steps.ninja.outputs.ninja_binary }}
+              -D CMAKE_C_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
+              -D CMAKE_CXX_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
+              -D CMAKE_PREFIX_PATH=${{ steps.install_sfml.outputs.sfml_install_dir }}
+              -D SFML_DIR=${{ steps.install_sfml.outputs.sfml_install_dir }}/lib/cmake/SFML
+              -D SFML_DOC_DIR=${{ steps.install_sfml.outputs.sfml_install_dir }}/lib/cmake/SFML
+              -D IMGUI_DIR=$ENV{GITHUB_WORKSPACE}/imgui
+              -D BUILD_SHARED_LIBS=OFF
+              -D CMAKE_INSTALL_PREFIX=${imgui_install_dir}
+            RESULT_VARIABLE result
+          )
+        else()
+          execute_process(
+            COMMAND ${{ steps.cmake.outputs.cmake_binary }}
+              -S $ENV{GITHUB_WORKSPACE}/imgui-sfml
+              -B $ENV{GITHUB_WORKSPACE}/imgui-sfml/build
+              -D CMAKE_CONFIGURATION_TYPES=${{ matrix.config.build_type }}
+              -D CMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
+              -G Ninja
+              -D CMAKE_MAKE_PROGRAM=${{ steps.ninja.outputs.ninja_binary }}
+              -D CMAKE_C_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
+              -D CMAKE_CXX_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
+              -D CMAKE_PREFIX_PATH=${{ steps.install_sfml.outputs.sfml_install_dir }}
+              -D SFML_DIR=${{ steps.install_sfml.outputs.sfml_install_dir }}/lib/cmake/SFML
+              -D IMGUI_DIR=$ENV{GITHUB_WORKSPACE}/imgui
+              -D BUILD_SHARED_LIBS=ON
+              -D CMAKE_INSTALL_PREFIX=${imgui_install_dir}
+            RESULT_VARIABLE result
+          )
+        endif()
         if (NOT result EQUAL 0)
           message(FATAL_ERROR "Bad exit status")
         endif()
@@ -282,6 +380,7 @@ jobs:
           COMMAND ${{ steps.cmake.outputs.cmake_binary }}
             --build $ENV{GITHUB_WORKSPACE}/imgui-sfml/build
             --config ${BUILD_TYPE}
+            --target install
           RESULT_VARIABLE result
         )
         if (NOT result EQUAL 0)
@@ -289,55 +388,19 @@ jobs:
         endif()
         execute_process(COMMAND ${{ steps.ccache.outputs.ccache_binary }} -s)
 
-    - name: Configure Physics
-      shell: cmake -P {0}
-      run: |
-        if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
-          file(STRINGS environment_script_output.txt output_lines)
-          foreach(line IN LISTS output_lines)
-            if (line MATCHES "^([a-zA-Z0-9_-]+)=(.*)$")
-              set(ENV{${CMAKE_MATCH_1}} "${CMAKE_MATCH_2}")
-            endif()
-          endforeach()
-        endif()
-        execute_process(
-          COMMAND ${{ steps.cmake.outputs.cmake_binary }}
-            -S $ENV{GITHUB_WORKSPACE}/Physics
-            -B $ENV{GITHUB_WORKSPACE}/Physics/build
-            -D CMAKE_CONFIGURATION_TYPES=${{ matrix.config.build_type }}
-            -D CMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
-            -G Ninja
-            -D CMAKE_MAKE_PROGRAM=${{ steps.ninja.outputs.ninja_binary }}
-            -D CMAKE_C_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
-            -D CMAKE_CXX_COMPILER_LAUNCHER=${{ steps.ccache.outputs.ccache_binary }}
-            -D CMAKE_PREFIX_PATH=${{ steps.install_sfml.outputs.sfml_install_dir }}
-            -D SFML_DIR=${{ steps.install_sfml.outputs.sfml_install_dir }}
-            -D ImGui-SFML_DIR=$ENV{GITHUB_WORKSPACE}/imgui-sfml/build/lib/cmake/ImGui-SFML
-            -D BUILD_SHARED_LIBS=ON
-          RESULT_VARIABLE result
-        )
-        if (NOT result EQUAL 0)
-          message(FATAL_ERROR "Bad exit status")
-        endif()
+    - name: Desynchronize 
+      uses: juliangruber/sleep-action@v1
+      with:
+        time: ${{ matrix.config.sleep }}
 
-    - name: Build Physics
-      shell: cmake -P {0}
+    - name: Push to Remote
+      shell: bash
       run: |
-        if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
-          file(STRINGS environment_script_output.txt output_lines)
-          foreach(line IN LISTS output_lines)
-            if (line MATCHES "^([a-zA-Z0-9_-]+)=(.*)$")
-              set(ENV{${CMAKE_MATCH_1}} "${CMAKE_MATCH_2}")
-            endif()
-          endforeach()
-        endif()
-        execute_process(
-          COMMAND ${{ steps.cmake.outputs.cmake_binary }}
-            --build $ENV{GITHUB_WORKSPACE}/Physics/build
-            --config ${BUILD_TYPE}
-          RESULT_VARIABLE result
-        )
-        if (NOT result EQUAL 0)
-          message(FATAL_ERROR "Build: Bad exit status")
-        endif()
-        execute_process(COMMAND ${{ steps.ccache.outputs.ccache_binary }} -s)
+        cd $GITHUB_WORKSPACE/Physics
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        
+        git pull
+        git add -A
+        git commit -m "Building libraries for ${{ matrix.config.name }}"
+        git push
