@@ -12,9 +12,10 @@ set (CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Werror -Wfatal-errors")
 set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Werror -Wfatal-errors -O3 -s -fexpensive-optimizations")
 
+#set(LIBRARIES_PATH "Windows/g++/Release/")
+set(LIBRARIES_PATH "")
+
 # CMake options
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
-set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -25,21 +26,25 @@ if (NOT CMAKE_BUILD_TYPE)
 endif (NOT CMAKE_BUILD_TYPE)
 
 # SFML
-set(SFML_DIR "D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/cmake/SFML")
-set(SFML_DOC_DIR "D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/cmake/SFML")
-set(SFML_STATIC_LIBRARIES TRUE)
-find_package (SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
+set(BUILD_SHARED_LIBS OFF)
+set(SFML_STATIC_LIBRARIES ON)
 
-if(NOT SFML_FOUND)
-    message(FATAL_ERROR "SFML couldn't be located!")
-endif()
+set(SFML_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/${LIBRARIES_PATH}sfml/include)
+set(SFML_LIBRARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/${LIBRARIES_PATH}sfml/lib)
+set(SFML_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/${LIBRARIES_PATH}sfml/lib/cmake/SFML)
+
+link_directories(SFML_LIBRARY_DIR)
+include_directories(SFML_INCLUDE_DIR)
+
+find_package(SFML 2.5 COMPONENTS graphics system window)
 
 # IMGUI
-set(ImGui-SFML_DIR "D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/lib/cmake/ImGui-SFML")
+set(ImGui-SFML_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/${LIBRARIES_PATH}imgui/lib/cmake/ImGui-SFML)
+
 find_package(ImGui-SFML REQUIRED)
 
 # Compile Target
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 set(SOURCES
     src/main.cpp
     src/Circle.cpp
@@ -76,9 +81,15 @@ set(FONTS
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${FONTS})
+set (SFML_LIBRARIES sfml-graphics sfml-window sfml-system )
+set (IMGUI_LIBRARIES ImGui-SFML::ImGui-SFML)
 
 # Link libraries
-target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system ImGui-SFML::ImGui-SFML)
 
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} ${IMGUI_LIBRARIES} -lmingw32 -lm -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid)
+else()
+    target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} ${IMGUI_LIBRARIES})
+endif()
 # Copy assets
 #file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
