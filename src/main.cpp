@@ -4,15 +4,14 @@
 
 int main() {
     Renderer test = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Test", false, 0.0f, 1.0f, 2000.0f, 2000.0f);
-    test.set_enable_inputs(true);
 
     for (int i = 0; i < 100; ++i) {
         test.system.addCorpse(phy::Circle(rand() % 500 + 250, rand() % 500, rand() % 20 + 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue));
     }
 
-    /* Concave Shape / Simplify?
-    test.system.addCorpse(phy::Polygon({{850, -350},{950, -350},{950, 750},{-50, 750},{-50, -350},{50, -350},{50, 650},{850, 650}}, 5, 1, 0.0f, 0.0f, 0.0f, true, false, C_NEPHRITIS));
-    */
+    /* Concave Shape / Simplify? */
+    // test.system.addCorpse(phy::Polygon({{850, -350}, {950, -350}, {950, 750}, {-50, 750}, {-50, -350}, {50, -350}, {50, 650}, {850, 650}}, 5, 1, 0.0f, 0.0f, 0.0f, 0.0f, true, true, false, C_NEPHRITIS));
+
     test.system.addCorpse(phy::Polygon({{750, 750}, {950, 750}, {950, -350}, {750, -350}}, 5, 1, 0.0f, 0.0f, 0.0f, 0.0f, true, true, false, C_NEPHRITIS));
     test.system.addCorpse(phy::Polygon({{-150, 750}, {50, 750}, {50, -350}, {-150, -350}}, 5, 1, 0.0f, 0.0f, 0.0f, 0.0f, true, true, false, C_NEPHRITIS));
     test.system.addCorpse(phy::Polygon({{-150, 950}, {950, 950}, {950, 750}, {-150, 750}}, 5, 1, 0.0f, 0.0f, 0.0f, 0.0f, true, true, false, C_NEPHRITIS));

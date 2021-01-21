@@ -17,7 +17,7 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
             DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size() + 3, sf::Color::Red, true);
         }
         if (debug_show_velocity) {
-            DrawLine(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + circle->get_diff_pos_x(), circle->get_pos_y() + circle->get_diff_pos_y(), sf::Color::Red);
+            DrawLine(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + circle->get_diff_pos_x() * velocity_size, circle->get_pos_y() + circle->get_diff_pos_y() * velocity_size, sf::Color::Red);
         }
 
         /* -------------------------------------- Default Drawing -------------------------------------- */

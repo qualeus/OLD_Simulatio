@@ -3,27 +3,27 @@
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
-#include <vector>
+#include <iostream>
 #include <memory>
 #include <sstream>
-#include <iostream>
+#include <vector>
 
 #define PI 3.141592654
 
 namespace ftn {
 
 struct Rectangle {
-	sf::Vector2f pos;
-	sf::Vector2f size;
+    sf::Vector2f pos;
+    sf::Vector2f size;
 };
 
 struct Text {
-	std::string str = "";
-	float x = 0.0f;
-	float y = 0.0f;
-	float size = 18;
-	bool fixed = false;
-	sf::Color color = sf::Color::White;
+    std::string str = "";
+    float x = 0.0f;
+    float y = 0.0f;
+    float size = 18;
+    bool fixed = false;
+    sf::Color color = sf::Color::White;
 };
 
 float Dot(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
@@ -31,6 +31,8 @@ float Dot(float x1, float y1, float x2, float y2);
 
 float Cross(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
 float Cross(float x1, float y1, float x2, float y2);
+
+bool Equals(float a, float b, float sigma = 0.1f);
 
 sf::Vector2f Pow(const sf::Vector2f &vect, int power);
 
@@ -69,49 +71,48 @@ float digits_comma(float number, int digits);
 float bearing(float x1, float y1, float x2, float y2);
 float angle(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C);
 
-
 bool rect_in_bounds(const ftn::Rectangle &object, const ftn::Rectangle &limits);
 bool rect_out_bounds(const ftn::Rectangle &object, const ftn::Rectangle &limits);
 
 sf::Vector2f Mirrored_Point(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
 
-template<class C>
+template <class C>
 std::shared_ptr<C> remove(int i, std::vector<std::shared_ptr<C>> &vect) {
-	std::shared_ptr<C> corpse = vect.at(i);
-	vect.erase(vect.begin()+i);
-	return corpse;
+    std::shared_ptr<C> corpse = vect.at(i);
+    vect.erase(vect.begin() + i);
+    return corpse;
 }
 
 template <typename T>
 std::string to_string(T value) {
-	std::ostringstream oss;
-	oss << value;
-	return oss.str();
+    std::ostringstream oss;
+    oss << value;
+    return oss.str();
 }
 
 template <typename T>
 std::string to_string(std::vector<T> vector) {
-	std::ostringstream oss;
-	oss << "{";
-	if (!vector.empty()) {
-		std::copy(vector.begin(), vector.end()-1, std::ostream_iterator<T>(oss, ","));
-    	oss << vector.back();
-	}
+    std::ostringstream oss;
+    oss << "{";
+    if (!vector.empty()) {
+        std::copy(vector.begin(), vector.end() - 1, std::ostream_iterator<T>(oss, ","));
+        oss << vector.back();
+    }
     oss << "}";
-	return oss.str();
+    return oss.str();
 }
 
 template <typename T>
 std::string to_string(sf::Vector2<T> vector) {
-	std::ostringstream oss;
-	oss << "{" << vector.x << ";" << vector.y << "}";
-	return oss.str();
+    std::ostringstream oss;
+    oss << "{" << vector.x << ";" << vector.y << "}";
+    return oss.str();
 }
 
 template <typename T>
-bool decimal_equals(const T& a, const T& b, T epsilon = std::numeric_limits<T>::epsilon()) {
-	return fabs(a - b) < epsilon;
+bool decimal_equals(const T &a, const T &b, T epsilon = std::numeric_limits<T>::epsilon()) {
+    return fabs(a - b) < epsilon;
 }
 
-}
+}  // namespace ftn
 #endif

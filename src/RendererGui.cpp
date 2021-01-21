@@ -174,7 +174,12 @@ void Renderer::ShowGuiProperties(bool* p_open) {
         char system_name[32];
         char selection_name[32];
         ImFormatString(system_name, IM_ARRAYSIZE(system_name), "System");  //"System <%s>", name.c_str());
-        ImFormatString(selection_name, IM_ARRAYSIZE(selection_name), "Selection <%s>", "none");
+        if (selected_corpses_cursor.size() == 0) {
+            ImFormatString(selection_name, IM_ARRAYSIZE(selection_name), "Selection <%s>", "none");
+        } else {
+            ImFormatString(selection_name, IM_ARRAYSIZE(selection_name), "Selection <%i bodies>", selected_corpses_cursor.size());
+        }
+
         if (ImGui::BeginTabBar("MyTabBar")) {
             if (ImGui::BeginTabItem(system_name)) {
                 ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
@@ -280,7 +285,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::TreePop();
                 }
 
-                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
+                ImGui::SetNextTreeNodeOpen(false, ImGuiCond_FirstUseEver);
                 if (ImGui::TreeNode("Inputs Settings")) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
@@ -323,7 +328,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::TreePop();
                 }
 
-                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
+                ImGui::SetNextTreeNodeOpen(false, ImGuiCond_FirstUseEver);
                 if (ImGui::TreeNode("Graphical Settings")) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     static ImVec4 temp_background_color = ImVec4(background_color.r, background_color.g, background_color.b, 255);
@@ -393,6 +398,13 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     }
 
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
+                    float temp_velocity_size = velocity_size;
+                    ImGui::InputFloat("Velocity", &temp_velocity_size, 0.1f, 1.0f, "%.1funits");
+                    if (temp_velocity_size > 0) {
+                        velocity_size = temp_velocity_size;
+                    }
+
+                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
                     int temp_arrow_size = arrow_size;
                     ImGui::InputInt("Arrow", &temp_arrow_size);
                     if (temp_arrow_size > 0) {
@@ -406,7 +418,145 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem(selection_name)) {
-                ImGui::TextDisabled("Select an object to edit it's properties");
+                bool nothing_selected = (selected_corpses_cursor.size() == 0);
+                bool unique_selected = (selected_corpses_cursor.size() == 1);
+
+                if (nothing_selected) {
+                    ImGui::TextDisabled("Select an object to edit it's properties");
+                } else {
+                    static float temp_position_x;
+                    static float temp_position_y;
+                    static float temp_velocity_x;
+                    static float temp_velocity_y;
+                    static bool temp_fixed;
+                    static bool temp_etherial;
+
+                    bool update_fixed = false;
+                    bool update_etherial = false;
+
+                    char label_posX[30] = "Position X";
+                    char label_posY[30] = "Position Y";
+                    char label_velX[30] = "Velocity X";
+                    char label_velY[30] = "Velocity Y";
+                    char label_fix[30] = "Fixed";
+                    char label_eth[30] = "Etherial";
+
+                    if (unique_selected) {
+                        int body_cursor = selected_corpses_cursor.at(0);
+                        temp_position_x = system.get_corpse(body_cursor)->get_pos_x();
+                        temp_position_y = system.get_corpse(body_cursor)->get_pos_y();
+                        temp_velocity_x = system.get_corpse(body_cursor)->get_diff_pos_x();
+                        temp_velocity_y = system.get_corpse(body_cursor)->get_diff_pos_y();
+                        temp_fixed = system.get_corpse(body_cursor)->get_fixed();
+                        temp_etherial = system.get_corpse(body_cursor)->get_etherial();
+                    } else {
+                        int body_cursor = selected_corpses_cursor.at(0);
+                        temp_position_x = system.get_corpse(body_cursor)->get_pos_x();
+                        temp_position_y = system.get_corpse(body_cursor)->get_pos_y();
+                        temp_velocity_x = system.get_corpse(body_cursor)->get_diff_pos_x();
+                        temp_velocity_y = system.get_corpse(body_cursor)->get_diff_pos_y();
+                        temp_fixed = system.get_corpse(body_cursor)->get_fixed();
+                        temp_etherial = system.get_corpse(body_cursor)->get_etherial();
+
+                        for (int i = 1; i < selected_corpses_cursor.size(); i++) {
+                            int temp_cursor = selected_corpses_cursor.at(i);
+                            float sig_pos = 0.1f;
+                            float sig_vel = 0.01f;
+
+                            if (!ftn::Equals(system.get_corpse(temp_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
+                                ImFormatString(label_posX, IM_ARRAYSIZE(label_posX), "Position X <differ>");
+                                temp_position_x = 0.0f;
+                            }
+                            if (!ftn::Equals(system.get_corpse(temp_cursor)->get_pos_y(), temp_position_y, sig_pos)) {
+                                ImFormatString(label_posY, IM_ARRAYSIZE(label_posY), "Position Y <differ>");
+                                temp_position_y = 0.0f;
+                            }
+                            if (!ftn::Equals(system.get_corpse(temp_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
+                                ImFormatString(label_velX, IM_ARRAYSIZE(label_velX), "Velocity X <differ>");
+                                temp_velocity_x = 0.0f;
+                            }
+                            if (!ftn::Equals(system.get_corpse(temp_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
+                                ImFormatString(label_velY, IM_ARRAYSIZE(label_velY), "Velocity Y <differ>");
+                                temp_velocity_y = 0.0f;
+                            }
+                            if (!system.get_corpse(temp_cursor)->get_fixed() == temp_fixed) {
+                                ImFormatString(label_fix, IM_ARRAYSIZE(label_fix), "Fixed <differ>");
+                                temp_fixed = false;
+                            }
+                            if (!system.get_corpse(temp_cursor)->get_etherial() == temp_etherial) {
+                                ImFormatString(label_eth, IM_ARRAYSIZE(label_eth), "Etherial <differ>");
+                                temp_etherial = false;
+                            }
+                        }
+                    }
+
+                    ImGui::DragFloat(label_posX, &temp_position_x, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+                    ImGui::DragFloat(label_posY, &temp_position_y, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+
+                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+                    ImGui::DragFloat(label_velX, &temp_velocity_x, 0.01f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+                    ImGui::DragFloat(label_velY, &temp_velocity_y, 0.01f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+
+                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+                    ImGui::Checkbox(label_fix, &temp_fixed);
+                    ImGui::SameLine();
+                    ImGui::Checkbox(label_eth, &temp_etherial);
+
+                    if (unique_selected) {
+                        int body_cursor = selected_corpses_cursor.at(0);
+                        float sig_pos = 0.1f;
+                        float sig_vel = 0.01f;
+                        if (!ftn::Equals(system.get_corpse(body_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
+                            system.get_corpse(body_cursor)->Move(temp_position_x, system.get_corpse(body_cursor)->get_pos_y(), false);
+                            system.get_corpse(body_cursor)->Stop();
+                        }
+                        if (!ftn::Equals(system.get_corpse(body_cursor)->get_pos_y(), temp_position_y, sig_pos)) {
+                            system.get_corpse(body_cursor)->Move(system.get_corpse(body_cursor)->get_pos_x(), temp_position_y, false);
+                            system.get_corpse(body_cursor)->Stop();
+                        }
+                        if (!ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
+                            system.get_corpse(body_cursor)->Move(temp_velocity_x, 0.0f, true);
+                        }
+                        if (!ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
+                            system.get_corpse(body_cursor)->Move(0.0f, temp_velocity_y, true);
+                        }
+
+                        system.get_corpse(body_cursor)->set_fixed(temp_fixed);
+                        system.get_corpse(body_cursor)->set_etherial(temp_etherial);
+                    } else {
+                        update_fixed = (system.get_corpse(0)->get_fixed() != temp_fixed);
+                        update_etherial = (system.get_corpse(0)->get_etherial() != temp_etherial);
+
+                        for (int i = 0; i < selected_corpses_cursor.size(); i++) {
+                            int body_cursor = selected_corpses_cursor.at(i);
+                            float sig_pos = 0.1f;
+                            float sig_vel = 0.01f;
+
+                            if (!ftn::Equals(0.0f, temp_position_x, sig_pos) && !ftn::Equals(system.get_corpse(body_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
+                                system.get_corpse(body_cursor)->Move(system.get_corpse(body_cursor)->get_pos_x() + temp_position_x, system.get_corpse(body_cursor)->get_pos_y(), false);
+                                system.get_corpse(body_cursor)->Stop();
+                            }
+                            if (!ftn::Equals(0.0f, temp_position_y, sig_pos) && !ftn::Equals(system.get_corpse(body_cursor)->get_pos_y(), temp_position_y, sig_pos)) {
+                                system.get_corpse(body_cursor)->Move(system.get_corpse(body_cursor)->get_pos_x(), system.get_corpse(body_cursor)->get_pos_y() + temp_position_y, false);
+                                system.get_corpse(body_cursor)->Stop();
+                            }
+                            if (!ftn::Equals(0.0f, temp_velocity_x, sig_vel) && !ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
+                                system.get_corpse(body_cursor)->Move(temp_velocity_x, 0.0f, true);
+                            }
+                            if (!ftn::Equals(0.0f, temp_velocity_y, sig_vel) && !ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
+                                system.get_corpse(body_cursor)->Move(0.0f, temp_velocity_y, true);
+                            }
+                            if (update_fixed) {
+                                system.get_corpse(body_cursor)->set_fixed(temp_fixed);
+                            }
+                            if (update_etherial) {
+                                system.get_corpse(body_cursor)->set_etherial(temp_etherial);
+                            }
+                        }
+                    }
+                }
                 ImGui::EndTabItem();
             }
             ImGui::EndTabBar();
@@ -464,15 +614,13 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
     static int corner = 1;
     ImGuiIO& io = ImGui::GetIO();
     ImGui::PushFont(io.Fonts->Fonts[1]);
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings |
-                                    ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
     if (corner != -1) {
         window_flags |= ImGuiWindowFlags_NoMove;
         ImGuiViewport* viewport = ImGui::GetMainViewport();
         ImVec2 work_area_pos = viewport->GetWorkPos();  // Instead of using viewport->Pos we use GetWorkPos() to avoid menu bars, if any!
         ImVec2 work_area_size = viewport->GetWorkSize();
-        ImVec2 window_pos = ImVec2((corner & 1) ? (work_area_pos.x + work_area_size.x - DISTANCE) : (work_area_pos.x + DISTANCE),
-                                   (corner & 2) ? (work_area_pos.y + work_area_size.y - DISTANCE) : (work_area_pos.y + DISTANCE));
+        ImVec2 window_pos = ImVec2((corner & 1) ? (work_area_pos.x + work_area_size.x - DISTANCE) : (work_area_pos.x + DISTANCE), (corner & 2) ? (work_area_pos.y + work_area_size.y - DISTANCE) : (work_area_pos.y + DISTANCE));
         ImVec2 window_pos_pivot = ImVec2((corner & 1) ? 1.0f : 0.0f, (corner & 2) ? 1.0f : 0.0f);
         ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always, window_pos_pivot);
         ImGui::SetNextWindowViewport(viewport->ID);

@@ -66,6 +66,7 @@ class Renderer {
     int outline_thickness = -5;
     float text_resolution = 28.0f;
     float vector_size = 40.0f;
+    float velocity_size = 1.0f;
     int arrow_size = 12;
 
     sf::RenderWindow window;
@@ -141,8 +142,8 @@ class Renderer {
    public:
     phy::System system;
 
-    Renderer(float camera_x = 0.0f, float camera_y = 0.0f, float camera_h = 800.0f, float camera_w = 1200.0f, float zoom = 1.0f, std::string p_name = "Default", bool gravity = false,
-             float force_x = 0.0f, float force_y = 0.0f, float limit_x = 4000.0f, float limit_y = 4000.0f);
+    Renderer(float camera_x = 0.0f, float camera_y = 0.0f, float camera_h = 800.0f, float camera_w = 1200.0f, float zoom = 1.0f, std::string p_name = "Default", bool gravity = false, float force_x = 0.0f, float force_y = 0.0f,
+             float limit_x = 4000.0f, float limit_y = 4000.0f);
     void SetupGui();
     void SetupGuiBaseLayout();
     virtual ~Renderer();
