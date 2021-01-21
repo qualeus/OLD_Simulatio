@@ -47,16 +47,15 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
             for (int i = 0; i < sides.size(); i++) {
                 sf::Vector2f edge_center = (sides.at(i).first + sides.at(i).second) / 2.0f;
                 sf::Vector2f edge_vector = edge_center + ftn::Normalize(ftn::Norme(sides.at(i).first, sides.at(i).second)) * vector_size;
-                DrawCircle(edge_center.x, edge_center.y, 5, sf::Color::Red, true);
                 Renderer::DrawArrow(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, arrow_size, arrow_size, sf::Color::Red);
 
                 std::pair<sf::Vector2f, sf::Vector2f> last_edge = sides.at((i - 1) % sides.size());
                 std::pair<sf::Vector2f, sf::Vector2f> current_edge = sides.at(i);
 
                 sf::Vector2f point_center = last_edge.second;
-                sf::Vector2f point_vector = point_center + ftn::Normalize(ftn::Norme(last_edge.first, last_edge.second) + ftn::Norme(current_edge.first, current_edge.second)) * vector_size;
-                DrawCircle(point_center.x, point_center.y, 5, sf::Color::Red, true);
-                Renderer::DrawLine(point_center.x, point_center.y, point_vector.x, point_vector.y, sf::Color::Red);
+                sf::Vector2f point_vector =
+                    point_center + ftn::Normalize(ftn::Normalize(ftn::Norme(last_edge.first, last_edge.second)) + ftn::Normalize(ftn::Norme(current_edge.first, current_edge.second))) * vector_size;
+                Renderer::DrawArrow(point_center.x, point_center.y, point_vector.x, point_vector.y, arrow_size, arrow_size, sf::Color::Red);
             }
         }
         if (debug_show_velocity) {

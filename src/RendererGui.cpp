@@ -174,11 +174,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
         char system_name[32];
         char selection_name[32];
         ImFormatString(system_name, IM_ARRAYSIZE(system_name), "System");  //"System <%s>", name.c_str());
-        if (selected_corpses_cursor.size() == 0) {
-            ImFormatString(selection_name, IM_ARRAYSIZE(selection_name), "Selection <%s>", "none");
-        } else {
-            ImFormatString(selection_name, IM_ARRAYSIZE(selection_name), "Selection <%i bodies>", selected_corpses_cursor.size());
-        }
+        ImFormatString(selection_name, IM_ARRAYSIZE(selection_name), "Selection");
 
         if (ImGui::BeginTabBar("MyTabBar")) {
             if (ImGui::BeginTabItem(system_name)) {
@@ -418,144 +414,286 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                 ImGui::EndTabItem();
             }
             if (ImGui::BeginTabItem(selection_name)) {
+                static char selection_label[30];
+                if (selected_corpses_cursor.size() == 0) {
+                    ImFormatString(selection_label, IM_ARRAYSIZE(selection_label), "Selection <%s>", "empty");
+                } else if (selected_corpses_cursor.size() == 1) {
+                    ImFormatString(selection_label, IM_ARRAYSIZE(selection_label), "Selection <1 body [ID %i] >", system.get_corpse(selected_corpses_cursor.at(0))->get_id());
+                } else {
+                    ImFormatString(selection_label, IM_ARRAYSIZE(selection_label), "Selection <%i bodies>", selected_corpses_cursor.size());
+                }
+
+                ImGui::Dummy(ImVec2(0.0f, 10.0f));
+                ImGui::Text(selection_label);
+
+                if (selected_corpses_cursor.size() > 1) {
+                    ImGui::SameLine();
+
+                    static int selected_index = 0;
+                    const char* current_item = std::to_string(selected_corpses_cursor.at(selected_index)).c_str();
+                    ImGuiComboFlags flags = ImGuiComboFlags_NoArrowButton;
+
+                    ImGuiStyle& style = ImGui::GetStyle();
+                    float w = ImGui::CalcItemWidth();
+                    float spacing = style.ItemInnerSpacing.x;
+                    float button_sz = ImGui::GetFrameHeight();
+                    ImGui::PushItemWidth(w - spacing * 2.0f - button_sz * 2.0f);
+
+                    if (ImGui::BeginCombo("##custom combo", current_item, ImGuiComboFlags_NoArrowButton)) {
+                        for (int i = 0; i < selected_corpses_cursor.size(); i++) {
+                            const char* chr_index = std::to_string(selected_corpses_cursor.at(i)).c_str();
+
+                            bool is_selected = (i == selected_index);
+                            if (ImGui::Selectable(chr_index, is_selected)) {
+                                selected_index = i;
+                            }
+                            if (is_selected) {
+                                ImGui::SetItemDefaultFocus();
+                            }
+                        }
+                        ImGui::EndCombo();
+                    }
+
+                    ImGui::PopItemWidth();
+                    ImGui::SameLine(0, spacing);
+                    if (ImGui::ArrowButton("##l", ImGuiDir_Left)) {
+                        selected_index--;
+                    }
+                    ImGui::SameLine(0, spacing);
+                    if (ImGui::ArrowButton("##r", ImGuiDir_Right)) {
+                        selected_index++;
+                    }
+
+                    if (selected_index > selected_corpses_cursor.size() - 1) {
+                        selected_index = selected_corpses_cursor.size() - 1;
+                    }
+                    if (selected_index < 0) {
+                        selected_index = 0;
+                    }
+
+                    /*
+                    // List to select One body (with ids)
+                    static int body_current = 1;
+                    // const int bodies_size = selected_corpses_cursor.size();
+                    const char* bodies_list[100];
+                    for (int i = 0; i < selected_corpses_cursor.size(); i++) {
+                        std::string str_index = std::to_string(selected_corpses_cursor.at(i));
+                        const char* chr_index = str_index.c_str();
+                        bodies_list[i] = chr_index;
+                    }
+                    ImGui::Combo("selection", &body_current, bodies_list, IM_ARRAYSIZE(bodies_list));
+                    */
+                }
+                ImGui::Dummy(ImVec2(0.0f, 10.0f));
+                ImGui::Separator();
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                /*
+                float rotation
+                float motor
+                bool tied
+
+                ??? Add propulsion (x, y, toward the direction)
+
+                float friction;
+                float mass;
+                float damping;
+                */
                 bool nothing_selected = (selected_corpses_cursor.size() == 0);
                 bool unique_selected = (selected_corpses_cursor.size() == 1);
 
-                if (nothing_selected) {
-                    ImGui::TextDisabled("Select an object to edit it's properties");
-                } else {
-                    static float temp_position_x;
-                    static float temp_position_y;
-                    static float temp_velocity_x;
-                    static float temp_velocity_y;
-                    static bool temp_fixed;
-                    static bool temp_etherial;
+                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
+                if (ImGui::TreeNode("Corpse Properties")) {
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
-                    bool update_fixed = false;
-                    bool update_etherial = false;
-
-                    char label_posX[30] = "Position X";
-                    char label_posY[30] = "Position Y";
-                    char label_velX[30] = "Velocity X";
-                    char label_velY[30] = "Velocity Y";
-                    char label_fix[30] = "Fixed";
-                    char label_eth[30] = "Etherial";
-
-                    if (unique_selected) {
-                        int body_cursor = selected_corpses_cursor.at(0);
-                        temp_position_x = system.get_corpse(body_cursor)->get_pos_x();
-                        temp_position_y = system.get_corpse(body_cursor)->get_pos_y();
-                        temp_velocity_x = system.get_corpse(body_cursor)->get_diff_pos_x();
-                        temp_velocity_y = system.get_corpse(body_cursor)->get_diff_pos_y();
-                        temp_fixed = system.get_corpse(body_cursor)->get_fixed();
-                        temp_etherial = system.get_corpse(body_cursor)->get_etherial();
+                    if (nothing_selected) {
+                        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+                        ImGui::TextDisabled("Select one or more objects to edit it's properties");
+                        ImGui::Dummy(ImVec2(0.0f, 10.0f));
                     } else {
-                        int body_cursor = selected_corpses_cursor.at(0);
-                        temp_position_x = system.get_corpse(body_cursor)->get_pos_x();
-                        temp_position_y = system.get_corpse(body_cursor)->get_pos_y();
-                        temp_velocity_x = system.get_corpse(body_cursor)->get_diff_pos_x();
-                        temp_velocity_y = system.get_corpse(body_cursor)->get_diff_pos_y();
-                        temp_fixed = system.get_corpse(body_cursor)->get_fixed();
-                        temp_etherial = system.get_corpse(body_cursor)->get_etherial();
+                        static float temp_position_x;
+                        static float temp_position_y;
+                        static float temp_velocity_x;
+                        static float temp_velocity_y;
 
-                        for (int i = 1; i < selected_corpses_cursor.size(); i++) {
-                            int temp_cursor = selected_corpses_cursor.at(i);
+                        static bool temp_fixed;
+                        static bool temp_etherial;
+                        static bool temp_tied;
+
+                        int update_fixed = false;
+                        int update_etherial = false;
+                        int update_tied = false;
+
+                        char label_posX[30] = "Position X";
+                        char label_posY[30] = "Position Y";
+                        char label_velX[30] = "Velocity X";
+                        char label_velY[30] = "Velocity Y";
+
+                        char label_fix[30] = "Fixed";
+                        char label_eth[30] = "Etherial";
+                        char label_tie[30] = "Tied";
+
+                        if (unique_selected) {
+                            int body_cursor = selected_corpses_cursor.at(0);
+                            temp_position_x = system.get_corpse(body_cursor)->get_pos_x();
+                            temp_position_y = system.get_corpse(body_cursor)->get_pos_y();
+                            temp_velocity_x = system.get_corpse(body_cursor)->get_diff_pos_x();
+                            temp_velocity_y = system.get_corpse(body_cursor)->get_diff_pos_y();
+
+                            temp_fixed = system.get_corpse(body_cursor)->get_fixed();
+                            temp_etherial = system.get_corpse(body_cursor)->get_etherial();
+                            temp_tied = system.get_corpse(body_cursor)->get_tied();
+                        } else {
+                            int body_cursor = selected_corpses_cursor.at(0);
+                            temp_position_x = system.get_corpse(body_cursor)->get_pos_x();
+                            temp_position_y = system.get_corpse(body_cursor)->get_pos_y();
+                            temp_velocity_x = system.get_corpse(body_cursor)->get_diff_pos_x();
+                            temp_velocity_y = system.get_corpse(body_cursor)->get_diff_pos_y();
+
+                            temp_fixed = system.get_corpse(body_cursor)->get_fixed();
+                            temp_etherial = system.get_corpse(body_cursor)->get_etherial();
+                            temp_tied = system.get_corpse(body_cursor)->get_tied();
+
+                            for (int i = 1; i < selected_corpses_cursor.size(); i++) {
+                                int temp_cursor = selected_corpses_cursor.at(i);
+                                float sig_pos = 0.1f;
+                                float sig_vel = 0.01f;
+
+                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
+                                    ImFormatString(label_posX, IM_ARRAYSIZE(label_posX), "Position X <differ>");
+                                    temp_position_x = 0.0f;
+                                }
+                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_pos_y(), temp_position_y, sig_pos)) {
+                                    ImFormatString(label_posY, IM_ARRAYSIZE(label_posY), "Position Y <differ>");
+                                    temp_position_y = 0.0f;
+                                }
+                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
+                                    ImFormatString(label_velX, IM_ARRAYSIZE(label_velX), "Velocity X <differ>");
+                                    temp_velocity_x = 0.0f;
+                                }
+                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
+                                    ImFormatString(label_velY, IM_ARRAYSIZE(label_velY), "Velocity Y <differ>");
+                                    temp_velocity_y = 0.0f;
+                                }
+                                if (!system.get_corpse(temp_cursor)->get_fixed() == temp_fixed) {
+                                    ImFormatString(label_fix, IM_ARRAYSIZE(label_fix), "Fixed <differ>");
+                                    temp_fixed = false;
+                                }
+                                if (!system.get_corpse(temp_cursor)->get_etherial() == temp_etherial) {
+                                    ImFormatString(label_eth, IM_ARRAYSIZE(label_eth), "Etherial <differ>");
+                                    temp_etherial = false;
+                                }
+                                if (!system.get_corpse(temp_cursor)->get_tied() == temp_tied) {
+                                    ImFormatString(label_tie, IM_ARRAYSIZE(label_tie), "Tied <differ>");
+                                    temp_tied = false;
+                                }
+                            }
+                        }
+
+                        ImGui::DragFloat(label_posX, &temp_position_x, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+                        ImGui::DragFloat(label_posY, &temp_position_y, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+
+                        ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+                        ImGui::DragFloat(label_velX, &temp_velocity_x, 0.01f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+                        ImGui::DragFloat(label_velY, &temp_velocity_y, 0.01f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+
+                        ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+                        ImGui::Checkbox(label_fix, &temp_fixed);
+                        if (ImGui::IsItemEdited()) {
+                            update_fixed = true;
+                        }
+                        ImGui::SameLine();
+                        ImGui::Checkbox(label_eth, &temp_etherial);
+
+                        if (ImGui::IsItemEdited()) {
+                            update_etherial = true;
+                        }
+                        ImGui::SameLine();
+                        ImGui::Checkbox(label_tie, &temp_tied);
+                        if (ImGui::IsItemEdited()) {
+                            update_tied = true;
+                        }
+
+                        if (unique_selected) {
+                            int body_cursor = selected_corpses_cursor.at(0);
                             float sig_pos = 0.1f;
                             float sig_vel = 0.01f;
-
-                            if (!ftn::Equals(system.get_corpse(temp_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
-                                ImFormatString(label_posX, IM_ARRAYSIZE(label_posX), "Position X <differ>");
-                                temp_position_x = 0.0f;
-                            }
-                            if (!ftn::Equals(system.get_corpse(temp_cursor)->get_pos_y(), temp_position_y, sig_pos)) {
-                                ImFormatString(label_posY, IM_ARRAYSIZE(label_posY), "Position Y <differ>");
-                                temp_position_y = 0.0f;
-                            }
-                            if (!ftn::Equals(system.get_corpse(temp_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
-                                ImFormatString(label_velX, IM_ARRAYSIZE(label_velX), "Velocity X <differ>");
-                                temp_velocity_x = 0.0f;
-                            }
-                            if (!ftn::Equals(system.get_corpse(temp_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
-                                ImFormatString(label_velY, IM_ARRAYSIZE(label_velY), "Velocity Y <differ>");
-                                temp_velocity_y = 0.0f;
-                            }
-                            if (!system.get_corpse(temp_cursor)->get_fixed() == temp_fixed) {
-                                ImFormatString(label_fix, IM_ARRAYSIZE(label_fix), "Fixed <differ>");
-                                temp_fixed = false;
-                            }
-                            if (!system.get_corpse(temp_cursor)->get_etherial() == temp_etherial) {
-                                ImFormatString(label_eth, IM_ARRAYSIZE(label_eth), "Etherial <differ>");
-                                temp_etherial = false;
-                            }
-                        }
-                    }
-
-                    ImGui::DragFloat(label_posX, &temp_position_x, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
-                    ImGui::DragFloat(label_posY, &temp_position_y, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
-
-                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
-
-                    ImGui::DragFloat(label_velX, &temp_velocity_x, 0.01f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
-                    ImGui::DragFloat(label_velY, &temp_velocity_y, 0.01f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
-
-                    ImGui::Dummy(ImVec2(0.0f, 5.0f));
-
-                    ImGui::Checkbox(label_fix, &temp_fixed);
-                    ImGui::SameLine();
-                    ImGui::Checkbox(label_eth, &temp_etherial);
-
-                    if (unique_selected) {
-                        int body_cursor = selected_corpses_cursor.at(0);
-                        float sig_pos = 0.1f;
-                        float sig_vel = 0.01f;
-                        if (!ftn::Equals(system.get_corpse(body_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
-                            system.get_corpse(body_cursor)->Move(temp_position_x, system.get_corpse(body_cursor)->get_pos_y(), false);
-                            system.get_corpse(body_cursor)->Stop();
-                        }
-                        if (!ftn::Equals(system.get_corpse(body_cursor)->get_pos_y(), temp_position_y, sig_pos)) {
-                            system.get_corpse(body_cursor)->Move(system.get_corpse(body_cursor)->get_pos_x(), temp_position_y, false);
-                            system.get_corpse(body_cursor)->Stop();
-                        }
-                        if (!ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
-                            system.get_corpse(body_cursor)->Move(temp_velocity_x, 0.0f, true);
-                        }
-                        if (!ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
-                            system.get_corpse(body_cursor)->Move(0.0f, temp_velocity_y, true);
-                        }
-
-                        system.get_corpse(body_cursor)->set_fixed(temp_fixed);
-                        system.get_corpse(body_cursor)->set_etherial(temp_etherial);
-                    } else {
-                        update_fixed = (system.get_corpse(0)->get_fixed() != temp_fixed);
-                        update_etherial = (system.get_corpse(0)->get_etherial() != temp_etherial);
-
-                        for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                            int body_cursor = selected_corpses_cursor.at(i);
-                            float sig_pos = 0.1f;
-                            float sig_vel = 0.01f;
-
-                            if (!ftn::Equals(0.0f, temp_position_x, sig_pos) && !ftn::Equals(system.get_corpse(body_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
-                                system.get_corpse(body_cursor)->Move(system.get_corpse(body_cursor)->get_pos_x() + temp_position_x, system.get_corpse(body_cursor)->get_pos_y(), false);
+                            if (!ftn::Equals(system.get_corpse(body_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
+                                system.get_corpse(body_cursor)->Move(temp_position_x, system.get_corpse(body_cursor)->get_pos_y(), false);
                                 system.get_corpse(body_cursor)->Stop();
                             }
-                            if (!ftn::Equals(0.0f, temp_position_y, sig_pos) && !ftn::Equals(system.get_corpse(body_cursor)->get_pos_y(), temp_position_y, sig_pos)) {
-                                system.get_corpse(body_cursor)->Move(system.get_corpse(body_cursor)->get_pos_x(), system.get_corpse(body_cursor)->get_pos_y() + temp_position_y, false);
+                            if (!ftn::Equals(system.get_corpse(body_cursor)->get_pos_y(), temp_position_y, sig_pos)) {
+                                system.get_corpse(body_cursor)->Move(system.get_corpse(body_cursor)->get_pos_x(), temp_position_y, false);
                                 system.get_corpse(body_cursor)->Stop();
                             }
-                            if (!ftn::Equals(0.0f, temp_velocity_x, sig_vel) && !ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
+                            if (!ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
                                 system.get_corpse(body_cursor)->Move(temp_velocity_x, 0.0f, true);
                             }
-                            if (!ftn::Equals(0.0f, temp_velocity_y, sig_vel) && !ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
+                            if (!ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
                                 system.get_corpse(body_cursor)->Move(0.0f, temp_velocity_y, true);
                             }
+
                             if (update_fixed) {
                                 system.get_corpse(body_cursor)->set_fixed(temp_fixed);
                             }
                             if (update_etherial) {
                                 system.get_corpse(body_cursor)->set_etherial(temp_etherial);
                             }
+                            if (update_tied) {
+                                system.get_corpse(body_cursor)->set_etherial(temp_tied);
+                            }
+                        } else {
+                            for (int i = 0; i < selected_corpses_cursor.size(); i++) {
+                                int body_cursor = selected_corpses_cursor.at(i);
+                                float sig_pos = 0.1f;
+                                float sig_vel = 0.01f;
+
+                                if (!ftn::Equals(0.0f, temp_position_x, sig_pos) && !ftn::Equals(system.get_corpse(body_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
+                                    system.get_corpse(body_cursor)->Move(system.get_corpse(body_cursor)->get_pos_x() + temp_position_x, system.get_corpse(body_cursor)->get_pos_y(), false);
+                                    system.get_corpse(body_cursor)->Stop();
+                                }
+                                if (!ftn::Equals(0.0f, temp_position_y, sig_pos) && !ftn::Equals(system.get_corpse(body_cursor)->get_pos_y(), temp_position_y, sig_pos)) {
+                                    system.get_corpse(body_cursor)->Move(system.get_corpse(body_cursor)->get_pos_x(), system.get_corpse(body_cursor)->get_pos_y() + temp_position_y, false);
+                                    system.get_corpse(body_cursor)->Stop();
+                                }
+                                if (!ftn::Equals(0.0f, temp_velocity_x, sig_vel) && !ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
+                                    system.get_corpse(body_cursor)->Move(temp_velocity_x, 0.0f, true);
+                                }
+                                if (!ftn::Equals(0.0f, temp_velocity_y, sig_vel) && !ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
+                                    system.get_corpse(body_cursor)->Move(0.0f, temp_velocity_y, true);
+                                }
+
+                                if (update_fixed) {
+                                    system.get_corpse(body_cursor)->set_fixed(temp_fixed);
+                                }
+                                if (update_etherial) {
+                                    system.get_corpse(body_cursor)->set_etherial(temp_etherial);
+                                }
+                                if (update_tied) {
+                                    system.get_corpse(body_cursor)->set_tied(temp_tied);
+                                }
+                            }
                         }
                     }
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::TreePop();
+                }
+                ImGui::SetNextTreeNodeOpen(false, ImGuiCond_FirstUseEver);
+                if (ImGui::TreeNode("Specific Properties")) {
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                    if (unique_selected) {
+                    } else {
+                        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+                        ImGui::TextDisabled("Select one object to edit it's specific properties");
+                        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+                    }
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::TreePop();
                 }
                 ImGui::EndTabItem();
             }

@@ -266,10 +266,10 @@ sf::Vector2f ftn::Points_Average(std::vector<sf::Vector2f> points) {
 std::pair<int, sf::Vector2f> ftn::Line_Circle_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const float &size) {
     // Check if one of the ends of the line segment (side) is inside the circle
 
-    if (ftn::Length(vect_A, vect_C) <= size) {
+    if (ftn::Length(vect_A, vect_C) < size * EDGE_APPROXIMATION) {
         return {2, sf::Vector2f()};
     }
-    if (ftn::Length(vect_B, vect_C) <= size) {
+    if (ftn::Length(vect_B, vect_C) < size * EDGE_APPROXIMATION) {
         return {3, sf::Vector2f()};
     }
 
@@ -349,7 +349,8 @@ bool ftn::rect_in_bounds(const ftn::Rectangle &object, const ftn::Rectangle &lim
         return true;
     }
     // p4 (x+w,y+h)
-    if (object.pos.x + object.size.x > limits.pos.x && object.pos.x + object.size.x < limits.pos.x + limits.size.x && object.pos.y + object.size.y > limits.pos.y && object.pos.y + object.size.y < limits.pos.y + limits.size.y) {
+    if (object.pos.x + object.size.x > limits.pos.x && object.pos.x + object.size.x < limits.pos.x + limits.size.x && object.pos.y + object.size.y > limits.pos.y &&
+        object.pos.y + object.size.y < limits.pos.y + limits.size.y) {
         return true;
     }
 

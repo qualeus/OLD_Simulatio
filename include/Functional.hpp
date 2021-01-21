@@ -9,6 +9,7 @@
 #include <vector>
 
 #define PI 3.141592654
+#define EDGE_APPROXIMATION 0.95f
 
 namespace ftn {
 
