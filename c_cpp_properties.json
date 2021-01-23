@@ -4,6 +4,7 @@
             "name": "Windows",
             "includePath": [
                 "D:/Documents/Projets/Physics/include",
+                "D:/Documents/Projets/Physics/src",
                 "D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/include",
                 "D:/Librairies/imgui-sfml_2_0_0/imgui",
                 "D:/Documents/Projets/Physics/assets/fonts"

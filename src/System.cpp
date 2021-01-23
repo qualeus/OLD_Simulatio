@@ -122,19 +122,21 @@ void System::Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
         normal_mass_a = 0;
         normal_mass_b = 0;
     } else if (a->get_fixed()) {
-        normal_mass_a = 0;
-        normal_mass_b = 1;
-    } else if (b->get_fixed()) {
-        normal_mass_a = 1;
+        float normal_mass = a->get_mass() + b->get_mass();
+        normal_mass_a = a->get_mass() / normal_mass;
         normal_mass_b = 0;
+    } else if (b->get_fixed()) {
+        float normal_mass = a->get_mass() + b->get_mass();
+        normal_mass_a = 0;
+        normal_mass_b = b->get_mass() / normal_mass;
     } else {
         float normal_mass = a->get_mass() + b->get_mass();
         normal_mass_a = a->get_mass() / normal_mass;
         normal_mass_b = b->get_mass() / normal_mass;
     }
 
-    a->Move(sf::Vector2f((b->get_pos_x() - a->get_pos_x()) / dist, (b->get_pos_y() - a->get_pos_y()) / dist) * force * normal_mass_a);
-    b->Move(sf::Vector2f((a->get_pos_x() - b->get_pos_x()) / dist, (a->get_pos_y() - b->get_pos_y()) / dist) * force * normal_mass_b);
+    a->Move(sf::Vector2f((b->get_pos_x() - a->get_pos_x()) / dist, (b->get_pos_y() - a->get_pos_y()) / dist) * force * normal_mass_b);
+    b->Move(sf::Vector2f((a->get_pos_x() - b->get_pos_x()) / dist, (a->get_pos_y() - b->get_pos_y()) / dist) * force * normal_mass_a);
 }
 
 void System::InitQuadtree() { StepQuadtree(); }

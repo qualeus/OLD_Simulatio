@@ -66,8 +66,16 @@ class Renderer {
     int outline_thickness = -5;
     float text_resolution = 28.0f;
     float vector_size = 40.0f;
-    float velocity_size = 1.0f;
+    float velocity_size = 10.0f;
+    float min_arrow_size = 10.0f;
     int arrow_size = 12;
+
+    bool trajectory_debug_show = false;
+    bool trajectory_debug_all = true;
+    int trajectory_debug_step = 200;
+    int trajectory_debug_time = 1;
+    int trajectory_debug_index = 0;
+    int trajectory_debug_relative_index = 0;
 
     sf::RenderWindow window;
     sf::View view;
@@ -85,6 +93,7 @@ class Renderer {
     bool show_gui_properties = true;
     bool show_gui_overlay = true;
     bool show_gui_settings = false;
+    bool show_gui_imguidemo = false;
 
     bool debug_show_quadtree = false;
     bool debug_show_rectangles = false;
@@ -142,8 +151,7 @@ class Renderer {
    public:
     phy::System system;
 
-    Renderer(float camera_x = 0.0f, float camera_y = 0.0f, float camera_h = 800.0f, float camera_w = 1200.0f, float zoom = 1.0f, std::string p_name = "Default", bool gravity = false, float force_x = 0.0f, float force_y = 0.0f,
-             float limit_x = 4000.0f, float limit_y = 4000.0f);
+    Renderer(float camera_x = 0.0f, float camera_y = 0.0f, float camera_h = 800.0f, float camera_w = 1200.0f, float zoom = 1.0f, std::string p_name = "Default", bool gravity = false, float force_x = 0.0f, float force_y = 0.0f, float limit_x = 4000.0f, float limit_y = 4000.0f);
     void SetupGui();
     void SetupGuiBaseLayout();
     virtual ~Renderer();

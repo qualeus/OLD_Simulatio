@@ -44,6 +44,12 @@ void Corpse::Move(sf::Vector2f move, bool relative) {}
 void Corpse::Collision(std::shared_ptr<Corpse> a) {}
 
 void Corpse::CollisionResponse(phy::Corpse* corpse_a, phy::Corpse* corpse_b, const sf::Vector2f& vect_force) {
+    if (corpse_a->get_etherial()) {
+        return;
+    }
+    if (corpse_b->get_etherial()) {
+        return;
+    }
     float damping = (corpse_a->get_bounce() + corpse_b->get_bounce()) * 0.5f;  // Damping is evenly distributed among the corpses
 
     /*
@@ -133,8 +139,14 @@ void Corpse::set_damping(float damping) {
         this->damping = damping;
     }
 }
+float Corpse::get_damping() const { return this->damping; }
 float Corpse::get_bounce() const { return 1.0f / this->damping; }
+
 float Corpse::get_mass() const { return this->mass; }
+void Corpse::set_mass(float mass) { this->mass = mass; }
+
+float Corpse::get_friction() const { return this->friction; }
+void Corpse::set_friction(float friction) { this->friction = friction; }
 
 bool Corpse::Equals(const Corpse* other) {
     if (this->get_id() != other->get_id()) {

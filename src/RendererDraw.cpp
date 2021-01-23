@@ -17,8 +17,11 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
             DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size() + 3, sf::Color::Red, true);
         }
         if (debug_show_velocity) {
-            DrawLine(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + circle->get_diff_pos_x() * velocity_size, circle->get_pos_y() + circle->get_diff_pos_y() * velocity_size,
-                     sf::Color::Red);
+            DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + circle->get_diff_pos_x() * velocity_size, circle->get_pos_y() + circle->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, sf::Color::Red);
+        }
+        if (debug_show_xyvelocity) {
+            DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + circle->get_diff_pos_x() * velocity_size, circle->get_pos_y(), arrow_size, arrow_size, sf::Color::Blue);
+            DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x(), circle->get_pos_y() + circle->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, sf::Color::Green);
         }
 
         /* -------------------------------------- Default Drawing -------------------------------------- */
@@ -53,13 +56,16 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
                 std::pair<sf::Vector2f, sf::Vector2f> current_edge = sides.at(i);
 
                 sf::Vector2f point_center = last_edge.second;
-                sf::Vector2f point_vector =
-                    point_center + ftn::Normalize(ftn::Normalize(ftn::Norme(last_edge.first, last_edge.second)) + ftn::Normalize(ftn::Norme(current_edge.first, current_edge.second))) * vector_size;
+                sf::Vector2f point_vector = point_center + ftn::Normalize(ftn::Normalize(ftn::Norme(last_edge.first, last_edge.second)) + ftn::Normalize(ftn::Norme(current_edge.first, current_edge.second))) * vector_size;
                 Renderer::DrawArrow(point_center.x, point_center.y, point_vector.x, point_vector.y, arrow_size, arrow_size, sf::Color::Red);
             }
         }
         if (debug_show_velocity) {
-            DrawLine(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x() + polygon->get_diff_pos_x(), polygon->get_pos_y() + polygon->get_diff_pos_y(), sf::Color::Red);
+            DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x() + polygon->get_diff_pos_x() * velocity_size, polygon->get_pos_y() + polygon->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, sf::Color::Red);
+        }
+        if (debug_show_xyvelocity) {
+            DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x() + polygon->get_diff_pos_x() * velocity_size, polygon->get_pos_y(), arrow_size, arrow_size, sf::Color::Blue);
+            DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x(), polygon->get_pos_y() + polygon->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, sf::Color::Green);
         }
 
         /* -------------------------------------- Default Drawing -------------------------------------- */
@@ -158,8 +164,7 @@ void Renderer::DrawInputs() {
 void Renderer::DrawLine(int x1, int y1, int x2, int y2, sf::Color color) {
     // test if the line is in the screen bounds (TODO test if the line pass by
     // the rect for screen for the zoom)
-    if (((x1 > get_real_pos_x(0)) && (x1 < get_real_pos_x(screen_width)) && (y1 > get_real_pos_y(0)) && (y1 < get_real_pos_y(screen_height))) ||
-        ((x2 > get_real_pos_x(0)) && (x2 < get_real_pos_x(screen_height)) && (y2 > get_real_pos_y(0)) && (y2 < get_real_pos_y(screen_height)))) {
+    if (((x1 > get_real_pos_x(0)) && (x1 < get_real_pos_x(screen_width)) && (y1 > get_real_pos_y(0)) && (y1 < get_real_pos_y(screen_height))) || ((x2 > get_real_pos_x(0)) && (x2 < get_real_pos_x(screen_height)) && (y2 > get_real_pos_y(0)) && (y2 < get_real_pos_y(screen_height)))) {
         sf::RectangleShape line(sf::Vector2f(ftn::Length(x1, y1, x2, y2), 5));
         line.setOrigin(0, 2);
         line.setPosition(x2, y2);
@@ -172,6 +177,9 @@ void Renderer::DrawLine(int x1, int y1, int x2, int y2, sf::Color color) {
 void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, sf::Color color) {
     float angle = ftn::bearing(x2, y2, x1, y1);
     float length = ftn::Length(x1, y1, x2, y2);
+    if (ftn::Equals(length, 0.0f, min_arrow_size)) {
+        return;
+    }  // Dont draw if the vector is null
 
     sf::ConvexShape head = sf::ConvexShape(3);
     head.setPoint(0, {0.0f, 0.0f});

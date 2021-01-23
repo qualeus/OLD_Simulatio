@@ -120,8 +120,8 @@ void Renderer::DrawGui() {
     /* The Docking must be Before all the sub Windows*/
     DrawGuiDocking();
 
-    if (show_gui_console) {
-        ImGui::ShowDemoWindow(&show_gui_console);
+    if (show_gui_imguidemo) {
+        ImGui::ShowDemoWindow(&show_gui_imguidemo);
     }
     if (show_gui_console) {
         ShowGuiConsole(&show_gui_console);
@@ -425,12 +425,17 @@ void Renderer::ShowGuiProperties(bool* p_open) {
 
                 ImGui::Dummy(ImVec2(0.0f, 10.0f));
                 ImGui::Text(selection_label);
+                static int selected_index = 0;
 
                 if (selected_corpses_cursor.size() > 1) {
                     ImGui::SameLine();
 
-                    static int selected_index = 0;
-                    const char* current_item = std::to_string(selected_corpses_cursor.at(selected_index)).c_str();
+                    char chr_default[30];
+                    ImFormatString(chr_default, IM_ARRAYSIZE(chr_default), "<%i bodies>", selected_corpses_cursor.size());
+                    const char* current_item = chr_default;
+                    if (selected_index > 0) {
+                        current_item = std::to_string(selected_corpses_cursor.at(selected_index - 1)).c_str();
+                    }
                     ImGuiComboFlags flags = ImGuiComboFlags_NoArrowButton;
 
                     ImGuiStyle& style = ImGui::GetStyle();
@@ -440,8 +445,16 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::PushItemWidth(w - spacing * 2.0f - button_sz * 2.0f);
 
                     if (ImGui::BeginCombo("##custom combo", current_item, ImGuiComboFlags_NoArrowButton)) {
-                        for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                            const char* chr_index = std::to_string(selected_corpses_cursor.at(i)).c_str();
+                        bool default_selected = (0 == selected_index);
+                        if (ImGui::Selectable(chr_default, default_selected)) {
+                            selected_index = 0;
+                        }
+                        if (default_selected) {
+                            ImGui::SetItemDefaultFocus();
+                        }
+
+                        for (int i = 1; i < selected_corpses_cursor.size() + 1; i++) {
+                            const char* chr_index = std::to_string(selected_corpses_cursor.at(i - 1)).c_str();
 
                             bool is_selected = (i == selected_index);
                             if (ImGui::Selectable(chr_index, is_selected)) {
@@ -457,32 +470,16 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::PopItemWidth();
                     ImGui::SameLine(0, spacing);
                     if (ImGui::ArrowButton("##l", ImGuiDir_Left)) {
-                        selected_index--;
+                        if (selected_index > 0) {
+                            selected_index--;
+                        }
                     }
                     ImGui::SameLine(0, spacing);
                     if (ImGui::ArrowButton("##r", ImGuiDir_Right)) {
-                        selected_index++;
+                        if (selected_index < selected_corpses_cursor.size()) {
+                            selected_index++;
+                        }
                     }
-
-                    if (selected_index > selected_corpses_cursor.size() - 1) {
-                        selected_index = selected_corpses_cursor.size() - 1;
-                    }
-                    if (selected_index < 0) {
-                        selected_index = 0;
-                    }
-
-                    /*
-                    // List to select One body (with ids)
-                    static int body_current = 1;
-                    // const int bodies_size = selected_corpses_cursor.size();
-                    const char* bodies_list[100];
-                    for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                        std::string str_index = std::to_string(selected_corpses_cursor.at(i));
-                        const char* chr_index = str_index.c_str();
-                        bodies_list[i] = chr_index;
-                    }
-                    ImGui::Combo("selection", &body_current, bodies_list, IM_ARRAYSIZE(bodies_list));
-                    */
                 }
                 ImGui::Dummy(ImVec2(0.0f, 10.0f));
                 ImGui::Separator();
@@ -501,7 +498,29 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                 */
                 bool nothing_selected = (selected_corpses_cursor.size() == 0);
                 bool unique_selected = (selected_corpses_cursor.size() == 1);
+                int cursor_selected = -1;
 
+                if (unique_selected) {
+                    selected_index = 0;
+                }
+                if (nothing_selected) {
+                    selected_index = 0;
+                }
+
+                if (!nothing_selected) {
+                    if (unique_selected) {
+                        cursor_selected = selected_corpses_cursor.at(0);
+                        trajectory_debug_index = selected_corpses_cursor.at(0);
+                    } else {
+                        if (selected_index > 0) {
+                            cursor_selected = selected_corpses_cursor.at(selected_index - 1);
+                            trajectory_debug_index = selected_corpses_cursor.at(selected_index - 1);
+                            unique_selected = true;
+                        }
+                    }
+                }
+
+                /* CORPSE PROPERTIES */
                 ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
                 if (ImGui::TreeNode("Corpse Properties")) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
@@ -511,14 +530,18 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         ImGui::TextDisabled("Select one or more objects to edit it's properties");
                         ImGui::Dummy(ImVec2(0.0f, 10.0f));
                     } else {
-                        static float temp_position_x;
-                        static float temp_position_y;
-                        static float temp_velocity_x;
-                        static float temp_velocity_y;
+                        float temp_position_x;
+                        float temp_position_y;
+                        float temp_velocity_x;
+                        float temp_velocity_y;
 
-                        static bool temp_fixed;
-                        static bool temp_etherial;
-                        static bool temp_tied;
+                        float temp_friction;
+                        float temp_mass;
+                        float temp_damping;
+
+                        bool temp_fixed;
+                        bool temp_etherial;
+                        bool temp_tied;
 
                         int update_fixed = false;
                         int update_etherial = false;
@@ -529,16 +552,24 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         char label_velX[30] = "Velocity X";
                         char label_velY[30] = "Velocity Y";
 
+                        char label_fric[30] = "Friction";
+                        char label_mass[30] = "Mass";
+                        char label_damp[30] = "Damping";
+
                         char label_fix[30] = "Fixed";
                         char label_eth[30] = "Etherial";
                         char label_tie[30] = "Tied";
 
                         if (unique_selected) {
-                            int body_cursor = selected_corpses_cursor.at(0);
+                            int body_cursor = cursor_selected;
                             temp_position_x = system.get_corpse(body_cursor)->get_pos_x();
                             temp_position_y = system.get_corpse(body_cursor)->get_pos_y();
                             temp_velocity_x = system.get_corpse(body_cursor)->get_diff_pos_x();
                             temp_velocity_y = system.get_corpse(body_cursor)->get_diff_pos_y();
+
+                            temp_friction = system.get_corpse(body_cursor)->get_friction();
+                            temp_mass = system.get_corpse(body_cursor)->get_mass();
+                            temp_damping = system.get_corpse(body_cursor)->get_damping();
 
                             temp_fixed = system.get_corpse(body_cursor)->get_fixed();
                             temp_etherial = system.get_corpse(body_cursor)->get_etherial();
@@ -550,6 +581,10 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                             temp_velocity_x = system.get_corpse(body_cursor)->get_diff_pos_x();
                             temp_velocity_y = system.get_corpse(body_cursor)->get_diff_pos_y();
 
+                            temp_friction = system.get_corpse(body_cursor)->get_friction();
+                            temp_mass = system.get_corpse(body_cursor)->get_mass();
+                            temp_damping = system.get_corpse(body_cursor)->get_damping();
+
                             temp_fixed = system.get_corpse(body_cursor)->get_fixed();
                             temp_etherial = system.get_corpse(body_cursor)->get_etherial();
                             temp_tied = system.get_corpse(body_cursor)->get_tied();
@@ -558,6 +593,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 int temp_cursor = selected_corpses_cursor.at(i);
                                 float sig_pos = 0.1f;
                                 float sig_vel = 0.01f;
+                                float sig_com = 0.001f;
 
                                 if (!ftn::Equals(system.get_corpse(temp_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
                                     ImFormatString(label_posX, IM_ARRAYSIZE(label_posX), "Position X <differ>");
@@ -575,6 +611,17 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                     ImFormatString(label_velY, IM_ARRAYSIZE(label_velY), "Velocity Y <differ>");
                                     temp_velocity_y = 0.0f;
                                 }
+
+                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_friction(), temp_friction, sig_com)) {
+                                    ImFormatString(label_fric, IM_ARRAYSIZE(label_fric), "Fricition <differ>");
+                                }
+                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_mass(), temp_mass, sig_com)) {
+                                    ImFormatString(label_mass, IM_ARRAYSIZE(label_mass), "Mass <differ>");
+                                }
+                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_damping(), temp_damping, sig_com)) {
+                                    ImFormatString(label_damp, IM_ARRAYSIZE(label_damp), "Damping <differ>");
+                                }
+
                                 if (!system.get_corpse(temp_cursor)->get_fixed() == temp_fixed) {
                                     ImFormatString(label_fix, IM_ARRAYSIZE(label_fix), "Fixed <differ>");
                                     temp_fixed = false;
@@ -590,13 +637,19 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                             }
                         }
 
-                        ImGui::DragFloat(label_posX, &temp_position_x, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
-                        ImGui::DragFloat(label_posY, &temp_position_y, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+                        ImGui::DragFloat(label_posX, &temp_position_x, 0.5f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+                        ImGui::DragFloat(label_posY, &temp_position_y, 0.5f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
 
                         ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
-                        ImGui::DragFloat(label_velX, &temp_velocity_x, 0.01f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
-                        ImGui::DragFloat(label_velY, &temp_velocity_y, 0.01f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+                        ImGui::DragFloat(label_velX, &temp_velocity_x, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+                        ImGui::DragFloat(label_velY, &temp_velocity_y, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+
+                        ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+                        ImGui::DragFloat(label_fric, &temp_friction, 0.01f, 0.1f, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+                        ImGui::DragFloat(label_mass, &temp_mass, 0.01f, 0.01f, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
+                        ImGui::DragFloat(label_damp, &temp_damping, 0.01f, 0.1f, +FLT_MAX, "%.3f", ImGuiSliderFlags_None);
 
                         ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
@@ -617,7 +670,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         }
 
                         if (unique_selected) {
-                            int body_cursor = selected_corpses_cursor.at(0);
+                            int body_cursor = cursor_selected;
                             float sig_pos = 0.1f;
                             float sig_vel = 0.01f;
                             if (!ftn::Equals(system.get_corpse(body_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
@@ -629,10 +682,20 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 system.get_corpse(body_cursor)->Stop();
                             }
                             if (!ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
-                                system.get_corpse(body_cursor)->Move(temp_velocity_x, 0.0f, true);
+                                system.get_corpse(body_cursor)->set_last_pos_x(system.get_corpse(body_cursor)->get_pos_x() - temp_velocity_x);
                             }
                             if (!ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
-                                system.get_corpse(body_cursor)->Move(0.0f, temp_velocity_y, true);
+                                system.get_corpse(body_cursor)->set_last_pos_y(system.get_corpse(body_cursor)->get_pos_y() - temp_velocity_y);
+                            }
+
+                            if (!ftn::Equals(system.get_corpse(body_cursor)->get_friction(), temp_friction, sig_pos)) {
+                                system.get_corpse(body_cursor)->set_friction(temp_friction);
+                            }
+                            if (!ftn::Equals(system.get_corpse(body_cursor)->get_mass(), temp_mass, sig_vel)) {
+                                system.get_corpse(body_cursor)->set_mass(temp_mass);
+                            }
+                            if (!ftn::Equals(system.get_corpse(body_cursor)->get_damping(), temp_damping, sig_vel)) {
+                                system.get_corpse(body_cursor)->set_damping(temp_damping);
                             }
 
                             if (update_fixed) {
@@ -642,7 +705,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 system.get_corpse(body_cursor)->set_etherial(temp_etherial);
                             }
                             if (update_tied) {
-                                system.get_corpse(body_cursor)->set_etherial(temp_tied);
+                                system.get_corpse(body_cursor)->set_tied(temp_tied);
                             }
                         } else {
                             for (int i = 0; i < selected_corpses_cursor.size(); i++) {
@@ -659,10 +722,24 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                     system.get_corpse(body_cursor)->Stop();
                                 }
                                 if (!ftn::Equals(0.0f, temp_velocity_x, sig_vel) && !ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
-                                    system.get_corpse(body_cursor)->Move(temp_velocity_x, 0.0f, true);
+                                    system.get_corpse(body_cursor)->set_last_pos_x(system.get_corpse(body_cursor)->get_last_pos_x() + temp_velocity_x);
                                 }
                                 if (!ftn::Equals(0.0f, temp_velocity_y, sig_vel) && !ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
-                                    system.get_corpse(body_cursor)->Move(0.0f, temp_velocity_y, true);
+                                    system.get_corpse(body_cursor)->set_last_pos_y(system.get_corpse(body_cursor)->get_last_pos_y() + temp_velocity_y);
+                                }
+
+                                // Change all the multiple coprses selections like the boolean ones:
+                                // - default = corpse (0) value
+                                // - change with the listener "IsItemEdited"
+
+                                if (!ftn::Equals(system.get_corpse(body_cursor)->get_friction(), temp_friction, sig_pos)) {
+                                    system.get_corpse(body_cursor)->set_friction(temp_friction);
+                                }
+                                if (!ftn::Equals(system.get_corpse(body_cursor)->get_mass(), temp_mass, sig_vel)) {
+                                    system.get_corpse(body_cursor)->set_mass(temp_mass);
+                                }
+                                if (!ftn::Equals(system.get_corpse(body_cursor)->get_damping(), temp_damping, sig_vel)) {
+                                    system.get_corpse(body_cursor)->set_damping(temp_damping);
                                 }
 
                                 if (update_fixed) {
@@ -681,7 +758,9 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     ImGui::TreePop();
                 }
-                ImGui::SetNextTreeNodeOpen(false, ImGuiCond_FirstUseEver);
+
+                /* SPECIFIC PROPERTIES */
+                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
                 if (ImGui::TreeNode("Specific Properties")) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
@@ -695,6 +774,92 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     ImGui::TreePop();
                 }
+
+                /* TRAJECTORY PROPERTIES */
+                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
+                if (ImGui::TreeNode("Trajectory Properties")) {
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                    if (unique_selected) {
+                        std::vector<int> corpses_indexes = {};
+                        for (int i = 0; i < system.get_corpses_size(); i++) {
+                            corpses_indexes.push_back(system.get_corpse(i)->get_id());  // TODO: select only non deleted corpse
+                        }
+
+                        ImGui::Checkbox("Enable the Preview", &trajectory_debug_show);
+                        ImGui::SameLine();
+                        DrawGuiHelp("Trajectory previsualisation occurs only\nwhen the system is paused.");
+                        ImGui::SameLine();
+
+                        ImGui::Checkbox("Preview all bodies", &trajectory_debug_all);
+                        ImGui::SameLine();
+                        DrawGuiHelp("If uncheck, the trajectory displayed\nwill be the selected body one.");
+
+                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                        ImGui::DragInt("Num Steps", &trajectory_debug_step, 1.0f, 0, +INT_MAX, "%d", ImGuiSliderFlags_None);
+                        ImGui::DragInt("Time Steps", &trajectory_debug_time, 1.0f, 0, +INT_MAX, "%d", ImGuiSliderFlags_None);
+
+                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                        char chr_default[30];
+                        ImFormatString(chr_default, IM_ARRAYSIZE(chr_default), "<not relative to a body>");
+                        const char* current_body_item = chr_default;
+                        if (trajectory_debug_relative_index > 0) {
+                            current_body_item = std::to_string(corpses_indexes.at(trajectory_debug_relative_index - 1)).c_str();
+                        }
+                        ImGuiComboFlags flags = ImGuiComboFlags_NoArrowButton;
+
+                        ImGuiStyle& style = ImGui::GetStyle();
+                        float w = ImGui::CalcItemWidth();
+                        float spacing = style.ItemInnerSpacing.x;
+                        float button_sz = ImGui::GetFrameHeight();
+                        ImGui::PushItemWidth(w - spacing * 2.0f - button_sz * 2.0f);
+                        if (ImGui::BeginCombo("##gravity", current_body_item, ImGuiComboFlags_NoArrowButton)) {
+                            bool default_selected = (0 == trajectory_debug_relative_index);
+                            if (ImGui::Selectable(chr_default, default_selected)) {
+                                trajectory_debug_relative_index = 0;
+                            }
+                            if (default_selected) {
+                                ImGui::SetItemDefaultFocus();
+                            }
+
+                            for (int i = 1; i < corpses_indexes.size() + 1; i++) {
+                                const char* chr_index = std::to_string(corpses_indexes.at(i - 1)).c_str();
+
+                                bool is_selected = (i == trajectory_debug_relative_index);
+                                if (ImGui::Selectable(chr_index, is_selected)) {
+                                    trajectory_debug_relative_index = i;
+                                }
+                                if (is_selected) {
+                                    ImGui::SetItemDefaultFocus();
+                                }
+                            }
+                            ImGui::EndCombo();
+                        }
+
+                        ImGui::PopItemWidth();
+                        ImGui::SameLine(0, spacing);
+                        if (ImGui::ArrowButton("##l", ImGuiDir_Left)) {
+                            if (trajectory_debug_relative_index > 0) {
+                                trajectory_debug_relative_index--;
+                            }
+                        }
+                        ImGui::SameLine(0, spacing);
+                        if (ImGui::ArrowButton("##r", ImGuiDir_Right)) {
+                            if (trajectory_debug_relative_index < corpses_indexes.size()) {
+                                trajectory_debug_relative_index++;
+                            }
+                        }
+                    } else {
+                        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+                        ImGui::TextDisabled("Select one object to Preview it's trajectory");
+                        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+                    }
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::TreePop();
+                }
                 ImGui::EndTabItem();
             }
             ImGui::EndTabBar();
@@ -702,65 +867,19 @@ void Renderer::ShowGuiProperties(bool* p_open) {
     }
     ImGui::End();
 }
-/*
-DrawText(ftn::to_string(debug_values[0]), 0, 0, 30, true, C_SUN);
-DrawText("[D] Debug: " + ftn::to_string(debug_values[1]),
-this->window.getSize().x - 150, 0, 24, true, C_SUN);
-
-DrawRectangle(0, this->window.getSize().y - 35, this->window.getSize().x, 35,
-true, C_BLACK);
-
-DrawText("mouse [ " + ftn::to_string(round(debug_values[2])) + " ; " +
-ftn::to_string(round(debug_values[3])) + " ]", 10, this->window.getSize().y -
-30, 18, true, C_SUN); DrawText("[ " + ftn::to_string(round(debug_values[4])) +
-" ; " + ftn::to_string(round(debug_values[5])) + " ]", 180,
-this->window.getSize().y - 30, 18, true, C_SUN); DrawText("camera x" +
-ftn::to_string(debug_values[6]), 380, this->window.getSize().y - 30, 18, true,
-C_SUN); DrawText("[ " + ftn::to_string(debug_values[7]) + " ; " +
-ftn::to_string(debug_values[8]) + " ]", 510, this->window.getSize().y - 30,
-18, true, C_SUN);
-
-DrawText("[r][t] dt: " + ftn::to_string(debug_values[10]),
-this->window.getSize().x - 310, this->window.getSize().y - 30, 18, true,
-C_SUN);
-
-std::string string_paused = "[space] paused: false";
-if (debug_values[9]) { string_paused = "[space] paused: true"; }
-DrawText(string_paused, this->window.getSize().x - 180,
-this->window.getSize().y - 30, 18, true, C_SUN);
-
-std::string string_select = "";
-int select_value = debug_values[11];
-switch (select_value) {
-case S_DEFAULT: { string_select = "[Left/Right] Default selection"; }
-break; case S_SELECT_MULTIPLE: { string_select = "[Right] Multiple selection";
-} break; case S_LAUNCH_CORPSE: { string_select = "[Right] Launch corpse"; }
-break; case S_DRAG_CORPSE: { string_select = "[Left] Drag selection"; } break;
-case S_DRAG_SCREEN: { string_select = "[Left] Drag screen"; } break;
-case S_CREATE_CIRCLE: { string_select = "[Left/Right] Create circle";
-} break; case S_CREATE_POLYGON: { string_select = "[Left/Right] Create
-polygon"; } break;
-}
-DrawText(string_select, 43, 5, 20, true, C_SUN);
-DrawText(ftn::to_string(debug_values[12]) + " bodies",
-this->window.getSize().x - 470, this->window.getSize().y - 30, 18, true,
-C_SUN);
-*/
 
 void Renderer::ShowGuiOverlay(bool* p_open) {
     const float DISTANCE = 5.0f;
     static int corner = 1;
     ImGuiIO& io = ImGui::GetIO();
     ImGui::PushFont(io.Fonts->Fonts[1]);
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings |
-                                    ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
     if (corner != -1) {
         window_flags |= ImGuiWindowFlags_NoMove;
         ImGuiViewport* viewport = ImGui::GetMainViewport();
         ImVec2 work_area_pos = viewport->GetWorkPos();  // Instead of using viewport->Pos we use GetWorkPos() to avoid menu bars, if any!
         ImVec2 work_area_size = viewport->GetWorkSize();
-        ImVec2 window_pos = ImVec2((corner & 1) ? (work_area_pos.x + work_area_size.x - DISTANCE) : (work_area_pos.x + DISTANCE),
-                                   (corner & 2) ? (work_area_pos.y + work_area_size.y - DISTANCE) : (work_area_pos.y + DISTANCE));
+        ImVec2 window_pos = ImVec2((corner & 1) ? (work_area_pos.x + work_area_size.x - DISTANCE) : (work_area_pos.x + DISTANCE), (corner & 2) ? (work_area_pos.y + work_area_size.y - DISTANCE) : (work_area_pos.y + DISTANCE));
         ImVec2 window_pos_pivot = ImVec2((corner & 1) ? 1.0f : 0.0f, (corner & 2) ? 1.0f : 0.0f);
         ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always, window_pos_pivot);
         ImGui::SetNextWindowViewport(viewport->ID);
@@ -1065,6 +1184,7 @@ void Renderer::DrawGuiMenu() {
             ImGui::MenuItem("Console", NULL, &show_gui_console);
             ImGui::MenuItem("Properties", NULL, &show_gui_properties);
             ImGui::MenuItem("Debug Overlay", NULL, &show_gui_overlay);
+            ImGui::MenuItem("ImGui Demo", NULL, &show_gui_imguidemo);
             ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);
             ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);
             ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);

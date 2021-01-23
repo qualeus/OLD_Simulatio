@@ -91,8 +91,15 @@ class Corpse {
     void set_motor_rotation(float motor_rotation);
 
     void set_damping(float damping);
+    float get_damping() const;
     float get_bounce() const;
+
     float get_mass() const;
+    void set_mass(float mass);
+
+    float get_friction() const;
+    void set_friction(float friction);
+
     virtual ftn::Rectangle get_corpse_bounds() const = 0;
 
     bool Equals(const Corpse* other);
