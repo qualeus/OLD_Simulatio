@@ -22,13 +22,13 @@ void BaseDemo() {
 
     // test.Pause();
     base.Render();
-    std::cout << "test" << std::endl;
 }
 
 void GravityDemo() {
     Renderer gravity = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Gravity", true, 0.0f, 0.0f, 10000.0f, 10000.0f);
     gravity.system.addCorpse(phy::Circle(0.0f, 0.0f, 100.0f, 3e+12, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Red));
-    gravity.system.addCorpse(phy::Circle(500.0f, 0.0f, 20.0f, 5e+1, 2, 0.0f, -5.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue));
+    gravity.system.addCorpse(phy::Circle(500.0f, 0.0f, 20.0f, 5e+1, 2, 0.0f, -5.2f, 0.0f, 0.0f, false, false, false, sf::Color::Blue));
+    gravity.system.addCorpse(phy::Circle(800.0f, 0.0f, 20.0f, 5e+1, 2, 0.0f, -3.2f, 0.0f, 0.0f, false, false, false, sf::Color::Cyan));
 
     gravity.Render();
 }

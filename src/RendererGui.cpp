@@ -780,7 +780,24 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                 if (ImGui::TreeNode("Trajectory Properties")) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::Separator();
+                    ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
                     if (unique_selected) {
+                        if (!paused) {
+                            ImGui::TextDisabled("<Pause the System to Enable the Trajectory Preview>");
+                            ImGuiStyle& style = ImGui::GetStyle();
+                            ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+                            ImGui::PushStyleColor(ImGuiCol_FrameBg, style.Colors[ImGuiCol_TableHeaderBg]);
+                            ImGui::PushStyleColor(ImGuiCol_SliderGrab, style.Colors[ImGuiCol_TextDisabled]);
+                            ImGui::PushStyleColor(ImGuiCol_Button, style.Colors[ImGuiCol_TableHeaderBg]);
+                        } else {
+                            ImGui::TextDisabled("<System Paused : Trajectory Preview Enabled>");
+                        }
+
+                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
                         std::vector<int> corpses_indexes = {};
                         for (int i = 0; i < system.get_corpses_size(); i++) {
                             corpses_indexes.push_back(system.get_corpse(i)->get_id());  // TODO: select only non deleted corpse
@@ -798,7 +815,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                         ImGui::DragInt("Num Steps", &trajectory_debug_step, 1.0f, 0, +INT_MAX, "%d", ImGuiSliderFlags_None);
-                        ImGui::DragInt("Time Steps", &trajectory_debug_time, 1.0f, 0, +INT_MAX, "%d", ImGuiSliderFlags_None);
+                        ImGui::DragInt("Time Steps", &trajectory_debug_time, 1.0f, 1, +INT_MAX, "%d", ImGuiSliderFlags_None);
 
                         ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
@@ -851,6 +868,12 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 trajectory_debug_relative_index++;
                             }
                         }
+
+                        if (!paused) {
+                            ImGui::PopItemFlag();
+                            ImGui::PopStyleColor(3);
+                        }
+
                     } else {
                         ImGui::Dummy(ImVec2(0.0f, 10.0f));
                         ImGui::TextDisabled("Select one object to Preview it's trajectory");

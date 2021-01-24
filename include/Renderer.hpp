@@ -72,8 +72,8 @@ class Renderer {
 
     bool trajectory_debug_show = false;
     bool trajectory_debug_all = true;
-    int trajectory_debug_step = 200;
-    int trajectory_debug_time = 1;
+    int trajectory_debug_step = 500;
+    int trajectory_debug_time = 10;
     int trajectory_debug_index = 0;
     int trajectory_debug_relative_index = 0;
 
@@ -133,6 +133,8 @@ class Renderer {
     int screen_height;
     bool paused;
     bool enable_inputs;
+
+    std::vector<std::vector<std::pair<float, float>>> trajectories = {};
 
     const static int DEBUG_LENGTH = 13;
     float debug_values[DEBUG_LENGTH] = {};
@@ -206,6 +208,7 @@ class Renderer {
     void DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair);
     void DrawQuadtree(ftn::Rectangle rect);
     void DrawLimits();
+    void DrawTrajectories();
 
     void Debug();  // Draw the Debug objects
     void DrawInputs();

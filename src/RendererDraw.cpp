@@ -91,6 +91,65 @@ void Renderer::DrawLimits() {
     DrawRectangle(limits.pos.x, limits.pos.y, limits.size.x, limits.size.y, false, C_RED, true);
 }
 
+void Renderer::DrawTrajectories() {
+    // Populate the trajectories arrays
+    trajectories = {};
+    std::vector<std::shared_ptr<phy::Corpse>> temp_corpses = {};
+    std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>> temp_pairs = {};
+
+    // Copy the corpses
+    for (int i = 0; i < system.get_corpses_size(); i++) {
+        // Populate the corpses array
+        std::shared_ptr<phy::Corpse> temp_corpse = system.get_corpse(i);
+        if (phy::Circle *circle = dynamic_cast<phy::Circle *>(temp_corpse.get())) {
+            temp_corpses.push_back(std::make_shared<phy::Circle>(*circle));
+        } else if (phy::Polygon *polygon = dynamic_cast<phy::Polygon *>(temp_corpse.get())) {
+            temp_corpses.push_back(std::make_shared<phy::Polygon>(*polygon));
+        }
+
+        // Populate the pairs array
+        if (system.get_corpses_size() > 1) {
+            for (int j = 0; j < i; j++) {
+                temp_pairs.push_back({temp_corpses.at(i), temp_corpses.at(j)});
+            }
+        }
+    }
+
+    // Initialize the vectors
+    for (int j = 0; j < temp_corpses.size(); j++) {
+        trajectories.push_back({});
+    }
+
+    for (int i = 0; i < trajectory_debug_step; i++) {
+        for (int j = 0; j < trajectory_debug_time; j++) {
+            if (system.get_gravity()) {
+                for (int k = 0; k < temp_pairs.size(); k++) {
+                    system.Forces(temp_pairs.at(k).first, temp_pairs.at(k).second);
+                }
+            }
+
+            for (int j = 0; j < temp_corpses.size(); j++) {
+                temp_corpses.at(j)->Step();
+            }
+        }
+
+        for (int j = 0; j < temp_corpses.size(); j++) {
+            float pos_x = temp_corpses.at(j)->get_pos_x();
+            float pos_y = temp_corpses.at(j)->get_pos_y();
+            trajectories.at(j).push_back({pos_x, pos_y});
+        }
+    }
+
+    // Draw the trajectories arrays
+    for (int i = 0; i < temp_corpses.size(); i++) {
+        for (int j = 0; j < trajectories.at(i).size() - 1; j++) {
+            std::pair<float, float> current = trajectories.at(i).at(j);
+            std::pair<float, float> next = trajectories.at(i).at(j + 1);
+            DrawLine(current.first, current.second, next.first, next.second);
+        }
+    }
+}
+
 void Renderer::Debug() {
     counter_debug++;
 
@@ -101,6 +160,10 @@ void Renderer::Debug() {
 
     DrawInputs();
     DrawTexts();
+
+    if (trajectory_debug_show && paused) {
+        DrawTrajectories();
+    }
 }
 
 void Renderer::DrawInputs() {
