@@ -72,7 +72,7 @@ class Renderer {
 
     bool trajectory_debug_show = false;
     bool trajectory_debug_all = true;
-    int trajectory_debug_step = 500;
+    int trajectory_debug_step = 300;
     int trajectory_debug_time = 10;
     int trajectory_debug_index = 0;
     int trajectory_debug_relative_index = 0;
@@ -135,6 +135,7 @@ class Renderer {
     bool enable_inputs;
 
     std::vector<std::vector<std::pair<float, float>>> trajectories = {};
+    std::vector<std::vector<std::pair<float, float>>> trajectories_previews = {};
 
     const static int DEBUG_LENGTH = 13;
     float debug_values[DEBUG_LENGTH] = {};

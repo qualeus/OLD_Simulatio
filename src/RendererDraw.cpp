@@ -93,7 +93,7 @@ void Renderer::DrawLimits() {
 
 void Renderer::DrawTrajectories() {
     // Populate the trajectories arrays
-    trajectories = {};
+    trajectories_previews = {};
     std::vector<std::shared_ptr<phy::Corpse>> temp_corpses = {};
     std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>> temp_pairs = {};
 
@@ -117,7 +117,8 @@ void Renderer::DrawTrajectories() {
 
     // Initialize the vectors
     for (int j = 0; j < temp_corpses.size(); j++) {
-        trajectories.push_back({});
+        trajectories_previews.push_back({});
+        trajectories_previews.at(j).push_back({temp_corpses.at(j)->get_pos_x(), temp_corpses.at(j)->get_pos_y()});
     }
 
     for (int i = 0; i < trajectory_debug_step; i++) {
@@ -136,16 +137,18 @@ void Renderer::DrawTrajectories() {
         for (int j = 0; j < temp_corpses.size(); j++) {
             float pos_x = temp_corpses.at(j)->get_pos_x();
             float pos_y = temp_corpses.at(j)->get_pos_y();
-            trajectories.at(j).push_back({pos_x, pos_y});
+            trajectories_previews.at(j).push_back({pos_x, pos_y});
         }
     }
 
     // Draw the trajectories arrays
     for (int i = 0; i < temp_corpses.size(); i++) {
-        for (int j = 0; j < trajectories.at(i).size() - 1; j++) {
-            std::pair<float, float> current = trajectories.at(i).at(j);
-            std::pair<float, float> next = trajectories.at(i).at(j + 1);
-            DrawLine(current.first, current.second, next.first, next.second);
+        if (trajectory_debug_all || i == trajectory_debug_index) {
+            for (int j = 0; j < trajectories_previews.at(i).size() - 1; j++) {
+                std::pair<float, float> current = trajectories_previews.at(i).at(j);
+                std::pair<float, float> next = trajectories_previews.at(i).at(j + 1);
+                DrawLine(current.first, current.second, next.first, next.second);  // temp_corpses.at(i)->get_color());
+            }
         }
     }
 }
