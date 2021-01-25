@@ -17,11 +17,11 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
             DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size() + 3, sf::Color::Red, true);
         }
         if (debug_show_velocity) {
-            DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + circle->get_diff_pos_x() * velocity_size, circle->get_pos_y() + circle->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, sf::Color::Red);
+            DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + circle->get_diff_pos_x() * velocity_size, circle->get_pos_y() + circle->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, line_thickness, sf::Color::Red);
         }
         if (debug_show_xyvelocity) {
-            DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + circle->get_diff_pos_x() * velocity_size, circle->get_pos_y(), arrow_size, arrow_size, sf::Color::Blue);
-            DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x(), circle->get_pos_y() + circle->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, sf::Color::Green);
+            DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + circle->get_diff_pos_x() * velocity_size, circle->get_pos_y(), arrow_size, arrow_size, line_thickness, sf::Color::Blue);
+            DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x(), circle->get_pos_y() + circle->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, line_thickness, sf::Color::Green);
         }
 
         /* -------------------------------------- Default Drawing -------------------------------------- */
@@ -40,9 +40,9 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
             for (int i = 0; i < triangles.size(); i++) {
                 std::vector<std::shared_ptr<sf::Vector2f>> triangle = triangles.at(i);
                 for (int j = 0; j < triangle.size() - 1; j++) {
-                    Renderer::DrawLine(triangle.at(j)->x, triangle.at(j)->y, triangle.at(j + 1)->x, triangle.at(j + 1)->y, sf::Color::Red);
+                    Renderer::DrawLine(triangle.at(j)->x, triangle.at(j)->y, triangle.at(j + 1)->x, triangle.at(j + 1)->y, line_thickness, sf::Color::Red);
                 }
-                Renderer::DrawLine(triangle.at(triangle.size() - 1)->x, triangle.at(triangle.size() - 1)->y, triangle.at(0)->x, triangle.at(0)->y, sf::Color::Red);
+                Renderer::DrawLine(triangle.at(triangle.size() - 1)->x, triangle.at(triangle.size() - 1)->y, triangle.at(0)->x, triangle.at(0)->y, line_thickness, sf::Color::Red);
             }
         }
         if (debug_show_normals) {
@@ -50,22 +50,22 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
             for (int i = 0; i < sides.size(); i++) {
                 sf::Vector2f edge_center = (sides.at(i).first + sides.at(i).second) / 2.0f;
                 sf::Vector2f edge_vector = edge_center + ftn::Normalize(ftn::Norme(sides.at(i).first, sides.at(i).second)) * vector_size;
-                Renderer::DrawArrow(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, arrow_size, arrow_size, sf::Color::Red);
+                Renderer::DrawArrow(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, arrow_size, arrow_size, line_thickness, sf::Color::Red);
 
                 std::pair<sf::Vector2f, sf::Vector2f> last_edge = sides.at((i - 1) % sides.size());
                 std::pair<sf::Vector2f, sf::Vector2f> current_edge = sides.at(i);
 
                 sf::Vector2f point_center = last_edge.second;
                 sf::Vector2f point_vector = point_center + ftn::Normalize(ftn::Normalize(ftn::Norme(last_edge.first, last_edge.second)) + ftn::Normalize(ftn::Norme(current_edge.first, current_edge.second))) * vector_size;
-                Renderer::DrawArrow(point_center.x, point_center.y, point_vector.x, point_vector.y, arrow_size, arrow_size, sf::Color::Red);
+                Renderer::DrawArrow(point_center.x, point_center.y, point_vector.x, point_vector.y, arrow_size, arrow_size, line_thickness, sf::Color::Red);
             }
         }
         if (debug_show_velocity) {
-            DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x() + polygon->get_diff_pos_x() * velocity_size, polygon->get_pos_y() + polygon->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, sf::Color::Red);
+            DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x() + polygon->get_diff_pos_x() * velocity_size, polygon->get_pos_y() + polygon->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, line_thickness, sf::Color::Red);
         }
         if (debug_show_xyvelocity) {
-            DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x() + polygon->get_diff_pos_x() * velocity_size, polygon->get_pos_y(), arrow_size, arrow_size, sf::Color::Blue);
-            DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x(), polygon->get_pos_y() + polygon->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, sf::Color::Green);
+            DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x() + polygon->get_diff_pos_x() * velocity_size, polygon->get_pos_y(), arrow_size, arrow_size, line_thickness, sf::Color::Blue);
+            DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x(), polygon->get_pos_y() + polygon->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, line_thickness, sf::Color::Green);
         }
 
         /* -------------------------------------- Default Drawing -------------------------------------- */
@@ -93,12 +93,13 @@ void Renderer::DrawLimits() {
 
 void Renderer::DrawTrajectories() {
     // Populate the trajectories arrays
-    trajectories_previews = {};
     std::vector<std::shared_ptr<phy::Corpse>> temp_corpses = {};
     std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>> temp_pairs = {};
 
     // Copy the corpses
     for (int i = 0; i < system.get_corpses_size(); i++) {
+        // if (system.get_corpse(selected_corpses_cursor.at(i))->get_removed()) { continue; }  // Removed
+
         // Populate the corpses array
         std::shared_ptr<phy::Corpse> temp_corpse = system.get_corpse(i);
         if (phy::Circle *circle = dynamic_cast<phy::Circle *>(temp_corpse.get())) {
@@ -115,39 +116,101 @@ void Renderer::DrawTrajectories() {
         }
     }
 
-    // Initialize the vectors
-    for (int j = 0; j < temp_corpses.size(); j++) {
-        trajectories_previews.push_back({});
-        trajectories_previews.at(j).push_back({temp_corpses.at(j)->get_pos_x(), temp_corpses.at(j)->get_pos_y()});
+    // Check if one body have changed position
+    bool position_changed = false;
+
+    // Check for an update in the display options
+    if (current_trajectory_debug_step != trajectory_debug_step) {
+        position_changed = true;
+        current_trajectory_debug_step = trajectory_debug_step;
+    }
+    if (current_trajectory_debug_time != trajectory_debug_time) {
+        position_changed = true;
+        current_trajectory_debug_time = trajectory_debug_time;
+    }
+    if (current_trajectory_debug_relative_index != trajectory_debug_relative_index) {
+        position_changed = true;
+        current_trajectory_debug_relative_index = trajectory_debug_relative_index;
+    }
+    if (current_trajectory_enable_gravity != system.get_gravity()) {
+        position_changed = true;
+        current_trajectory_enable_gravity = system.get_gravity();
     }
 
-    for (int i = 0; i < trajectory_debug_step; i++) {
-        for (int j = 0; j < trajectory_debug_time; j++) {
-            if (system.get_gravity()) {
-                for (int k = 0; k < temp_pairs.size(); k++) {
-                    system.Forces(temp_pairs.at(k).first, temp_pairs.at(k).second);
+    if (current_trajectory_corpses_pos.size() == system.get_corpses_size()) {
+        for (int i = 0; i < system.get_corpses_size(); i++) {
+            std::shared_ptr<phy::Corpse> temp_corpse = system.get_corpse(i);
+            std::pair<float, float> curr_corpse_pos = {temp_corpse->get_pos_x(), temp_corpse->get_pos_y()};
+            std::pair<float, float> temp_corpse_pos = {current_trajectory_corpses_pos.at(i).first, current_trajectory_corpses_pos.at(i).second};
+
+            if (!ftn::Equals(curr_corpse_pos.first, temp_corpse_pos.first, 1.0f) || !ftn::Equals(curr_corpse_pos.second, temp_corpse_pos.second, 1.0f)) {
+                position_changed = true;
+                current_trajectory_corpses_pos.at(i) = {curr_corpse_pos.first, curr_corpse_pos.second};
+            }
+        }
+    } else {
+        position_changed = true;
+
+        // Reset and Replace the whole array to be sure
+        current_trajectory_corpses_pos = {};
+        for (int i = 0; i < system.get_corpses_size(); i++) {
+            std::shared_ptr<phy::Corpse> temp_corpse = system.get_corpse(i);
+            current_trajectory_corpses_pos.push_back({temp_corpse->get_pos_x(), temp_corpse->get_pos_y()});
+        }
+    }
+
+    // If one body position have changed, recalculate all the trajectories
+    if (position_changed) {
+        // Reset the trajectory array
+        trajectories_previews = {};
+
+        // Enable the trajectory even with the inputs
+        for (int i = 0; i < selected_corpses_fixed.size(); i++) {
+            // if (system.get_corpse(selected_corpses_cursor.at(i))->get_removed()) { continue; }  // Removed*/
+            temp_corpses.at(selected_corpses_cursor.at(i))->set_fixed(selected_corpses_fixed.at(i));  // selected_corpses_fixed.at(i));
+        }
+
+        // Initialize the vectors
+        for (int j = 0; j < temp_corpses.size(); j++) {
+            trajectories_previews.push_back({});
+            trajectories_previews.at(j).push_back({temp_corpses.at(j)->get_pos_x(), temp_corpses.at(j)->get_pos_y()});
+        }
+
+        for (int i = 0; i < trajectory_debug_step; i++) {
+            for (int j = 0; j < trajectory_debug_time; j++) {
+                if (system.get_gravity()) {
+                    for (int k = 0; k < temp_pairs.size(); k++) {
+                        system.Forces(temp_pairs.at(k).first, temp_pairs.at(k).second);
+                        system.Collision(temp_pairs.at(k).first, temp_pairs.at(k).second);
+                    }
+                }
+
+                for (int j = 0; j < temp_corpses.size(); j++) {
+                    temp_corpses.at(j)->Step();
                 }
             }
 
             for (int j = 0; j < temp_corpses.size(); j++) {
-                temp_corpses.at(j)->Step();
+                float pos_x = temp_corpses.at(j)->get_pos_x();
+                float pos_y = temp_corpses.at(j)->get_pos_y();
+                trajectories_previews.at(j).push_back({pos_x, pos_y});
             }
-        }
-
-        for (int j = 0; j < temp_corpses.size(); j++) {
-            float pos_x = temp_corpses.at(j)->get_pos_x();
-            float pos_y = temp_corpses.at(j)->get_pos_y();
-            trajectories_previews.at(j).push_back({pos_x, pos_y});
         }
     }
 
     // Draw the trajectories arrays
     for (int i = 0; i < temp_corpses.size(); i++) {
         if (trajectory_debug_all || i == trajectory_debug_index) {
+            if (trajectories_previews.size() < 1) {
+                continue;
+            }
+
             for (int j = 0; j < trajectories_previews.at(i).size() - 1; j++) {
                 std::pair<float, float> current = trajectories_previews.at(i).at(j);
                 std::pair<float, float> next = trajectories_previews.at(i).at(j + 1);
-                DrawLine(current.first, current.second, next.first, next.second);  // temp_corpses.at(i)->get_color());
+
+                float opacity = 255.0f - (255.0f * ((float)j / (float)trajectories_previews.at(i).size()));
+                DrawLine(current.first, current.second, next.first, next.second, line_thickness, sf::Color(255, 255, 255, (int)opacity));  // temp_corpses.at(i)->get_color());
             }
         }
     }
@@ -194,7 +257,7 @@ void Renderer::DrawInputs() {
         case S_LAUNCH_CORPSE: {
             sf::Vector2f pA = this->selected_area.pos;
             sf::Vector2f pB = this->selected_area.pos + this->selected_area.size;
-            DrawLine(pA.x, pA.y, pB.x, pB.y, sf::Color::White);
+            DrawLine(pA.x, pA.y, pB.x, pB.y, line_thickness, sf::Color::White);
         } break;
         case S_DRAG_CORPSE: {
         } break;
@@ -227,12 +290,12 @@ void Renderer::DrawInputs() {
     }
 }
 
-void Renderer::DrawLine(int x1, int y1, int x2, int y2, sf::Color color) {
+void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Color color) {
     // test if the line is in the screen bounds (TODO test if the line pass by
     // the rect for screen for the zoom)
     if (((x1 > get_real_pos_x(0)) && (x1 < get_real_pos_x(screen_width)) && (y1 > get_real_pos_y(0)) && (y1 < get_real_pos_y(screen_height))) || ((x2 > get_real_pos_x(0)) && (x2 < get_real_pos_x(screen_height)) && (y2 > get_real_pos_y(0)) && (y2 < get_real_pos_y(screen_height)))) {
-        sf::RectangleShape line(sf::Vector2f(ftn::Length(x1, y1, x2, y2), 5));
-        line.setOrigin(0, 2);
+        sf::RectangleShape line(sf::Vector2f(ftn::Length(x1, y1, x2, y2), thickness));
+        line.setOrigin(0, thickness / 2.0f);
         line.setPosition(x2, y2);
         line.rotate(ftn::bearing(x1, y1, x2, y2));
         line.setFillColor(color);
@@ -240,7 +303,7 @@ void Renderer::DrawLine(int x1, int y1, int x2, int y2, sf::Color color) {
     }
 }
 
-void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, sf::Color color) {
+void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness, sf::Color color) {
     float angle = ftn::bearing(x2, y2, x1, y1);
     float length = ftn::Length(x1, y1, x2, y2);
     if (ftn::Equals(length, 0.0f, min_arrow_size)) {
@@ -256,9 +319,9 @@ void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, s
     head.setRotation(angle);
     head.setFillColor(color);
 
-    const sf::Vector2f size = sf::Vector2f(length - (float)xhead, 2.0f);
+    const sf::Vector2f size = sf::Vector2f(length - (float)xhead, thickness);
     sf::RectangleShape tail = sf::RectangleShape(size);
-    tail.setOrigin(0.0f, size.y / 2.0f);
+    tail.setOrigin(0.0f, thickness / 2.0f);
     tail.setPosition(x1, y1);
     tail.setRotation(angle);
     tail.setFillColor(color);

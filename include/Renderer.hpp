@@ -63,7 +63,8 @@ class Renderer {
     float zoom_speed = 0.1f;
 
     int circle_resolution = 60;
-    int outline_thickness = -5;
+    int outline_thickness = -2;
+    float line_thickness = 2.0f;
     float text_resolution = 28.0f;
     float vector_size = 40.0f;
     float velocity_size = 10.0f;
@@ -72,7 +73,7 @@ class Renderer {
 
     bool trajectory_debug_show = false;
     bool trajectory_debug_all = true;
-    int trajectory_debug_step = 300;
+    int trajectory_debug_step = 100;
     int trajectory_debug_time = 10;
     int trajectory_debug_index = 0;
     int trajectory_debug_relative_index = 0;
@@ -133,6 +134,13 @@ class Renderer {
     int screen_height;
     bool paused;
     bool enable_inputs;
+
+    // Check if update the Trajectories previews
+    std::vector<std::pair<float, float>> current_trajectory_corpses_pos = {};
+    int current_trajectory_debug_step;
+    int current_trajectory_debug_time;
+    int current_trajectory_debug_relative_index;
+    int current_trajectory_enable_gravity;
 
     std::vector<std::vector<std::pair<float, float>>> trajectories = {};
     std::vector<std::vector<std::pair<float, float>>> trajectories_previews = {};
@@ -229,8 +237,8 @@ class Renderer {
     void DebugPairs();  // Draw the interactions of the Corpses
     void DebugDrag();   // Draw the inputs on the Corpses
 
-    void DrawLine(int x1, int y1, int x2, int y2, sf::Color color = sf::Color::White);
-    void DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, sf::Color color = sf::Color::White);
+    void DrawLine(int x1, int y1, int x2, int y2, float thickness = 2.0f, sf::Color color = sf::Color::White);
+    void DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness = 2.0f, sf::Color color = sf::Color::White);
     void DrawCircle(int x, int y, int radius, sf::Color color = sf::Color::White, bool outline = false);
     void DrawRectangle(int x, int y, int height, int width, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);
     void DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color = sf::Color::White, bool outline = false);

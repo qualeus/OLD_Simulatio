@@ -22,7 +22,7 @@ System::~System() {}
 void System::Prepare() { InitQuadtree(); }
 
 void System::Step() {
-    CheckLimits();
+    // CheckLimits();
     CorpsesStep();
 
     for (int i = 0; i < collision_accuracy; i++) {
@@ -102,11 +102,13 @@ void System::Collision(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
 void System::Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     if (a->get_removed() || b->get_removed()) {
         return;
-    }  // Removed
+    }  // One Removed
+    if (a->get_fixed() && b->get_fixed()) {
+        return;
+    }  // Both Fixed
 
-    // Gravity
-
-    float dist = ftn::Length(a->get_pos_x(), a->get_pos_y(), b->get_pos_x(), b->get_pos_y()) + 10;
+    // Avoid null distance
+    float dist = ftn::Length(a->get_pos_x(), a->get_pos_y(), b->get_pos_x(), b->get_pos_y());
 
     // G * (ma * mb)/(r^2)
     float force = G * ((a->get_mass() * b->get_mass()) / pow(dist, 2));
@@ -114,22 +116,16 @@ void System::Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     if (force > LS) {
         force = LS;
     }
-    float normal_mass_a;
-    float normal_mass_b;
 
-    if (a->get_fixed() && b->get_fixed()) {
-        normal_mass_a = 0;
-        normal_mass_b = 0;
-    } else if (a->get_fixed()) {
-        float normal_mass = a->get_mass() + b->get_mass();
+    float normal_mass = a->get_mass() + b->get_mass();
+    float normal_mass_a = 0;
+    float normal_mass_b = 0;
+
+    if (a->get_fixed()) {
         normal_mass_a = a->get_mass() / normal_mass;
-        normal_mass_b = 0;
     } else if (b->get_fixed()) {
-        float normal_mass = a->get_mass() + b->get_mass();
-        normal_mass_a = 0;
         normal_mass_b = b->get_mass() / normal_mass;
     } else {
-        float normal_mass = a->get_mass() + b->get_mass();
         normal_mass_a = a->get_mass() / normal_mass;
         normal_mass_b = b->get_mass() / normal_mass;
     }
