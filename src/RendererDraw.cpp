@@ -139,14 +139,11 @@ void Renderer::DrawTrajectories() {
 
     if (current_trajectory_corpses_pos.size() == system.get_corpses_size()) {
         for (int i = 0; i < system.get_corpses_size(); i++) {
-            std::shared_ptr<phy::Corpse> temp_corpse = system.get_corpse(i);
-            std::pair<float, float> curr_corpse_pos = {temp_corpse->get_pos_x(), temp_corpse->get_pos_y()};
-            std::pair<float, float> temp_corpse_pos = {current_trajectory_corpses_pos.at(i).first, current_trajectory_corpses_pos.at(i).second};
-
-            if (!ftn::Equals(curr_corpse_pos.first, temp_corpse_pos.first, 1.0f) || !ftn::Equals(curr_corpse_pos.second, temp_corpse_pos.second, 1.0f)) {
+            if (!ftn::Equals(system.get_corpse(i)->get_pos_x(), current_trajectory_corpses_pos.at(i).first, 1.0f) || !ftn::Equals(system.get_corpse(i)->get_pos_y(), current_trajectory_corpses_pos.at(i).second, 1.0f)) {
                 position_changed = true;
-                current_trajectory_corpses_pos.at(i) = {curr_corpse_pos.first, curr_corpse_pos.second};
+                current_trajectory_corpses_pos.at(i) = {current_trajectory_corpses_pos.at(i).first, current_trajectory_corpses_pos.at(i).second};
             }
+            // current_trajectory_corpses_vel
         }
     } else {
         position_changed = true;
@@ -178,11 +175,11 @@ void Renderer::DrawTrajectories() {
 
         for (int i = 0; i < trajectory_debug_step; i++) {
             for (int j = 0; j < trajectory_debug_time; j++) {
-                if (system.get_gravity()) {
-                    for (int k = 0; k < temp_pairs.size(); k++) {
+                for (int k = 0; k < temp_pairs.size(); k++) {
+                    if (system.get_gravity()) {
                         system.Forces(temp_pairs.at(k).first, temp_pairs.at(k).second);
-                        system.Collision(temp_pairs.at(k).first, temp_pairs.at(k).second);
                     }
+                    system.Collision(temp_pairs.at(k).first, temp_pairs.at(k).second);
                 }
 
                 for (int j = 0; j < temp_corpses.size(); j++) {

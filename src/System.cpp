@@ -112,7 +112,6 @@ void System::Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
 
     // G * (ma * mb)/(r^2)
     float force = G * ((a->get_mass() * b->get_mass()) / pow(dist, 2));
-
     if (force > LS) {
         force = LS;
     }
@@ -130,8 +129,12 @@ void System::Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
         normal_mass_b = b->get_mass() / normal_mass;
     }
 
-    a->Move(sf::Vector2f((b->get_pos_x() - a->get_pos_x()) / dist, (b->get_pos_y() - a->get_pos_y()) / dist) * force * normal_mass_b);
-    b->Move(sf::Vector2f((a->get_pos_x() - b->get_pos_x()) / dist, (a->get_pos_y() - b->get_pos_y()) / dist) * force * normal_mass_a);
+    float temp_la = ftn::Length((sf::Vector2f(b->get_pos_x() - a->get_pos_x(), b->get_pos_y() - a->get_pos_y()) / dist) * force * normal_mass_b);
+    float temp_lb = ftn::Length((sf::Vector2f(a->get_pos_x() - b->get_pos_x(), a->get_pos_y() - b->get_pos_y()) / dist) * force * normal_mass_a);
+
+    // if (!ftn::Equals(temp_la, temp_lb, 0.00f)) { std::cout << "a: " << temp_la << " b: " << temp_lb << " force: " << force << std::endl; }
+    a->Move((sf::Vector2f(b->get_pos_x() - a->get_pos_x(), b->get_pos_y() - a->get_pos_y()) / dist) * force * normal_mass_b);
+    b->Move((sf::Vector2f(a->get_pos_x() - b->get_pos_x(), a->get_pos_y() - b->get_pos_y()) / dist) * force * normal_mass_a);
 }
 
 void System::InitQuadtree() { StepQuadtree(); }

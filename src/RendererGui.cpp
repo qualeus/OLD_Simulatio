@@ -1,6 +1,12 @@
 #include "../include/Renderer.hpp"
 
 void Renderer::SetupGui() {
+    /*
+    sf::Image icon;
+    icon.loadFromFile("../assets/icon/icon.ico");
+    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    */
+
     /* ImGui Initialisation */
     ImGui::SFML::Init(this->window);
 
@@ -687,7 +693,6 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                             if (!ftn::Equals(system.get_corpse(body_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
                                 system.get_corpse(body_cursor)->set_last_pos_y(system.get_corpse(body_cursor)->get_pos_y() - temp_velocity_y);
                             }
-
                             if (!ftn::Equals(system.get_corpse(body_cursor)->get_friction(), temp_friction, sig_pos)) {
                                 system.get_corpse(body_cursor)->set_friction(temp_friction);
                             }

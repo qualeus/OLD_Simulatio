@@ -137,6 +137,7 @@ class Renderer {
 
     // Check if update the Trajectories previews
     std::vector<std::pair<float, float>> current_trajectory_corpses_pos = {};
+    std::vector<std::pair<float, float>> current_trajectory_corpses_vel = {};
     int current_trajectory_debug_step;
     int current_trajectory_debug_time;
     int current_trajectory_debug_relative_index;
