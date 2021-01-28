@@ -22,6 +22,10 @@ The ultimate goal would be to present an easy-to-use and optimized physical engi
 
 ---
 
+<p align="center"><img alt="Icon" src="https://github.com/mlhoutel/Physics/blob/feature/gui_improvement/assets/icon/icon.png"></p>
+
+---
+
 ## Prerequisites
 
 ### CPP compiler
