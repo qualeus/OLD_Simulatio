@@ -21,19 +21,22 @@ protected:
 	bool tied;
 	bool etherial;
 	bool removed;
-	float friction;
-	float mass;
-	float damping;
+
 	sf::Vector2f current_pos;
 	sf::Vector2f last_pos;
 	float current_rotation;
 	float last_rotation;
+	
+	float friction;
+	float mass;
+	float elasticity;
+	
 	float motor_rotation;
 	sf::Color color;
 
 public:
-	explicit Corpse(float x, float y, float mass, float damping, bool fixed, bool tied, bool etherial, sf::Color color); // System Constructor
-	virtual ~Corpse(); // System Destructor
+	explicit Corpse(float mass, float elasticity, bool fixed, bool tied, bool etherial, sf::Color color);
+	virtual ~Corpse();
 
 	int get_id() const;
 	virtual int get_class() const;
@@ -57,7 +60,7 @@ public:
 	virtual void Collision(std::shared_ptr<Corpse> a);
 	sf::Vector2f get_diff_pos() const;
 
-	void CollisionResponse(phy::Corpse* corpse_a, phy::Corpse* corpse_b, const sf::Vector2f& vect_force);
+	void CollisionResponse(phy::Corpse* corpse_a, phy::Corpse* corpse_b, const sf::Vector2f& force);
 
 	sf::Color get_color() const;
 	void set_color(sf::Color color);
@@ -78,15 +81,24 @@ public:
 	void set_last_pos_x(float pos_x);
 	void set_last_pos_y(float pos_y);
 
-	float get_current_rotation() const;
-	void set_current_rotation(float current_rotation);
+	void impulse_vector(sf::Vector2f vector);
+	void transpose_pos(sf::Vector2f pos);
+	sf::Vector2f get_velocity() const;
+	float get_speed() const;
+
+	float get_rotation() const;
+	void set_rotation(float current_rotation);
+
 	float get_last_rotation() const;
 	void set_last_rotation(float last_rotation);
+
 	float get_motor_rotation() const;
 	void set_motor_rotation(float motor_rotation);
 
-	void set_damping(float damping);
-	float get_bounce() const;
+	float get_rotation_speed() const;
+
+	void set_elasticity(float elasticity);
+	float get_elasticity() const;
 	float get_mass() const;
 	virtual ftn::Rectangle get_corpse_bounds() const = 0;
 

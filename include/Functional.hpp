@@ -8,7 +8,7 @@
 #include <sstream>
 #include <iostream>
 
-#define PI 3.141592654
+#define PI 3.141592653589793238463
 
 namespace ftn {
 
@@ -29,11 +29,12 @@ struct Text {
 float Dot(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
 float Dot(float x1, float y1, float x2, float y2);
 
-float Perp_Dot(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
-float Perp_Dot(float x1, float y1, float x2, float y2);
+float Cross(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
+float Cross(float x1, float y1, float x2, float y2);
 
 sf::Vector2f Pow(const sf::Vector2f &vect, int power);
 
+float Squared_Length(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
 float Length(const sf::Vector2f &vect);
 float Length(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
 float Length(float x, float y);
@@ -46,8 +47,9 @@ sf::Vector2f Normalize(const sf::Vector2f &vect);
 sf::Vector2f Norme(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
 sf::Vector2f inverse_Norme(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
 
+float Angle(const sf::Vector2f &pA, const sf::Vector2f &pB, const sf::Vector2f &pC);
 sf::Vector2f Rotate_Point(sf::Vector2f pA, sf::Vector2f pB, float angle);
-void Rotate(sf::Vector2f &vect, int angle);
+void Rotate(sf::Vector2f &vect, float angle);
 void Scale(sf::Vector2f &vect, float scale);
 bool Lines_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const sf::Vector2f &vect_D);
 

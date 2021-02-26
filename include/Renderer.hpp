@@ -29,6 +29,7 @@
 #define C_SILVER sf::Color(189, 195, 199, 255) //rgba(189, 195, 199,1.0)
 #define C_CONCRETE sf::Color(149, 165, 166, 255) //rgba(149, 165, 166,1.0)
 #define C_GREY sf::Color(127, 140, 141, 255) //rgba(127, 140, 141,1.0)
+#define C_BACKGROUND_COLOR sf::Color::Black
 
 #define G_CIRCLE_RESOLUTION 20
 #define G_OUTLINE_THICKNESS 2

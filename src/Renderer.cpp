@@ -51,7 +51,7 @@ void Renderer::Render() {
 		if (!this->Paused()) { this->system.Step(); }
 		
 		// Renderer
-		this->window.clear(sf::Color::Black);
+		this->window.clear(C_BACKGROUND_COLOR);
 		
 		sf::Event event;
 		while (this->window.pollEvent(event)) { Input(event); }
@@ -302,7 +302,6 @@ void Renderer::DragCorpsesStep(sf::Event event) {
 	for (int i=0; i<selected_corpses_cursor.size(); i++ ) {
 		if (system.get_corpse(selected_corpses_cursor.at(i))->get_removed()) { continue; } // Removed
 		system.get_corpse(selected_corpses_cursor.at(i))->Move(get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y)) + selected_corpses_diff.at(i), false);
-		system.CorpseStop(selected_corpses_cursor.at(i));
 	}
 }
 
@@ -313,7 +312,6 @@ void Renderer::DragCorpsesStop(sf::Event event) {
 	for (int i=0; i<selected_corpses_cursor.size(); i++ ) { 
 		if (system.get_corpse(selected_corpses_cursor.at(i))->get_removed()) { continue; } // Removed
 		system.get_corpse(selected_corpses_cursor.at(i))->set_fixed(selected_corpses_fixed.at(i));
-		system.CorpseStop(selected_corpses_cursor.at(i));
 	}
 
 	/* Make sure that the arrays are empty */
@@ -403,6 +401,7 @@ void Renderer::ToggleOnCircle(sf::Event event) {
 	this->selected_corpses_cursor = {};
 	this->selected_corpses_fixed = {};
 	this->selected_corpses_diff = {};
+	this->selected_area = { sf::Vector2f(), sf::Vector2f() };
 }
 
 void Renderer::ToggleOffCircle(sf::Event event) {
@@ -413,6 +412,7 @@ void Renderer::ToggleOffCircle(sf::Event event) {
 	this->selected_corpses_cursor = {};
 	this->selected_corpses_fixed = {};
 	this->selected_corpses_diff = {};
+	this->selected_area = { sf::Vector2f(), sf::Vector2f() };
 }
 
 

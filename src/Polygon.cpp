@@ -2,20 +2,17 @@
 
 namespace phy {
 
-Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float damping, float speed_x, float speed_y, float rotation, float motor, bool fixed, bool tied, bool etherial, sf::Color color):Corpse(0.0f, 0.0f, mass, damping, fixed, tied, etherial, color) {
+Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float damping, float speed_x, float speed_y, float rotation, float motor, bool fixed, bool tied, bool etherial, sf::Color color):Corpse(mass, damping, fixed, tied, etherial, color) {
 	std::vector<sf::Vector2f> vect_points(std::begin(points), std::end(points));
 
-	// Triangulation
-	// std::vector<std::vector<sf::Vector2f>>
-	// 
 	this->points = vect_points;
 	this->relative_points = init_relative_points(vect_points);
 
 	sf::Vector2f computed_center = phy::Polygon::compute_center(vect_points);
 	this->set_pos(computed_center);
-	
+	this->set_last_pos(computed_center-sf::Vector2f(speed_x, speed_y));
+
 	this->points_number = vect_points.size();
-	this->last_pos = computed_center-sf::Vector2f(speed_x, speed_y);
 	this->last_rotation = rotation;
 	this->motor_rotation = motor;
 }
@@ -24,20 +21,56 @@ Polygon::~Polygon() {}
 
 const int Polygon::get_class() { return ID_POLYGON;}
 
+void Polygon::Step() {
+	if (this->fixed)  {
+		this->set_last_pos(this->get_pos());
+	} else {
+		sf::Vector2f diff_pos = this->get_velocity();
+		this->set_last_pos(this->get_pos());
+		this->set_pos(this->get_pos() + diff_pos);
+	}
+
+	if (this->tied) {
+		this->set_last_rotation(this->get_rotation());
+	} else {
+		float diff_rotation = this->get_rotation_speed();
+		this->set_last_rotation(this->get_rotation());
+		this->set_rotation(this->get_rotation() + diff_rotation);
+
+		for (int i=0; i<this->relative_points.size(); i++) { ftn::Rotate(this->relative_points.at(i), diff_rotation); }
+	}
+
+	if (!ftn::decimal_equals(motor_rotation, 0.0f, 0.0001f)) {
+		this->set_rotation(this->get_rotation() + motor_rotation);
+
+		for (int i=0; i<this->relative_points.size(); i++) { ftn::Rotate(this->relative_points.at(i), motor_rotation); }
+	}
+	
+	this->update_points();
+}
+void Polygon::Stop() {
+	this->set_last_pos(this->get_pos());
+	this->set_last_rotation(this->get_rotation());
+}
+
+
 void Polygon::Move(float x, float y, bool relative) { 
 	if (relative) {
-		this->current_pos = this->current_pos+sf::Vector2f(x, y);
+		this->set_pos(this->get_pos() + sf::Vector2f(x, y));
 	} else {
-		this->current_pos = sf::Vector2f(x, y);
+		this->set_pos(sf::Vector2f(x, y));
+		this->Stop();
 	}
+
 	this->update_points();
 }
 void Polygon::Move(sf::Vector2f move, bool relative) {
 	if (relative) {
-		this->current_pos = this->current_pos+move; 
+		this->set_pos(this->get_pos() + move);
 	} else {
-		this->current_pos = move; 
+		this->set_pos(move); 
 	}
+
 	this->update_points();
 }
 
@@ -110,7 +143,6 @@ void Polygon::Collision(std::shared_ptr<Corpse> a) {
 			}
 		}
 
-
 	} else if (Polygon* polygon = dynamic_cast<Polygon*>(a.get())) {
 
 		// Polygon / Polygon collision (Separating axis theorem)
@@ -167,38 +199,6 @@ void Polygon::remove_point(int i) {}
 sf::Vector2f Polygon::compute_center(std::vector<sf::Vector2f> points) {
 	//return ftn::Points_Average(this->points);
 	return ftn::Centroid(this->get_sides());
-}
-
-
-void Polygon::Step() {
-	if (this->fixed)  {
-		this->last_pos = this->current_pos;
-	} else {
-		sf::Vector2f diff_pos = this->current_pos - this->last_pos;
-		this->last_pos = this->current_pos;
-		this->current_pos = this->current_pos + diff_pos;
-	}
-
-	if (this->tied) {
-		this->last_rotation = this->current_rotation;
-	} else {
-		float diff_rotation = this->current_rotation - this->last_rotation;
-		this->last_rotation = this->current_rotation;
-		this->current_rotation = this->current_rotation + diff_rotation;
-		for (int i=0; i<this->relative_points.size(); i++) { ftn::Rotate(this->relative_points.at(i), diff_rotation); }
-	}
-
-	if (!ftn::decimal_equals(motor_rotation, 0.0f, 0.0001f)) {
-		// Add the motor rotation even if the object is tied
-		this->current_rotation = this->current_rotation + motor_rotation;
-		for (int i=0; i<this->relative_points.size(); i++) { ftn::Rotate(this->relative_points.at(i), motor_rotation); }
-	}
-	
-	this->update_points();
-}
-void Polygon::Stop() {
-	this->last_pos = this->current_pos; 
-	this->last_rotation = this->current_rotation;
 }
 
 ftn::Rectangle Polygon::get_corpse_bounds() const {
