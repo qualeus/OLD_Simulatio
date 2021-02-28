@@ -35,9 +35,10 @@ class System {
     float force_y;
     bool gravity;
     float LS = 2.998e+8;  // 2,998 * 10e+8
-    float G = 6.7e-11;    // 6.7 * 10e-11
+    float G = 1.6e-2;     // 6.7 * 10e-11
 
     int dt = 1000;
+
     int collision_accuracy = 10;
     int constraint_accuracy = 10;
 

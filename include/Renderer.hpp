@@ -78,6 +78,9 @@ class Renderer {
     int trajectory_debug_index = 0;
     int trajectory_debug_relative_index = 0;
 
+    int trails_debug_step = 100;
+    int trails_debug_time = 10;
+
     sf::RenderWindow window;
     sf::View view;
     sf::Clock clock;

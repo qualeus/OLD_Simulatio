@@ -18,7 +18,6 @@ System::System(bool gravity, float force_x, float force_y, float limit_x, float 
 }
 
 System& System::operator=(const System& rhs) {
-    std::cout << "Copy of the System performed" << std::endl;
     this->corpses_size = rhs.get_corpses_size();
     this->pairs_size = rhs.get_pairs_size();
 
@@ -133,32 +132,14 @@ void System::Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     if (a->get_removed() || b->get_removed()) { return; }  // One Removed
     if (a->get_fixed() && b->get_fixed()) { return; }      // Both Fixed
 
-    // Avoid null distance
     float dist = ftn::Length(a->get_pos_x(), a->get_pos_y(), b->get_pos_x(), b->get_pos_y());
 
-    // G * (ma * mb)/(r^2)
-    float force = G * ((a->get_mass() * b->get_mass()) / pow(dist, 2));
-    if (force > LS) { force = LS; }
+    float force = G * a->get_mass() * b->get_mass() / (dist * dist);  // G * (ma * mb)/(r^2)
+    if (force > LS) { force = LS; }                                   // Limit with the Light Speed
 
-    float normal_mass = a->get_mass() + b->get_mass();
-    float normal_mass_a = 0;
-    float normal_mass_b = 0;
-
-    if (a->get_fixed()) {
-        normal_mass_a = a->get_mass() / normal_mass;
-    } else if (b->get_fixed()) {
-        normal_mass_b = b->get_mass() / normal_mass;
-    } else {
-        normal_mass_a = a->get_mass() / normal_mass;
-        normal_mass_b = b->get_mass() / normal_mass;
-    }
-
-    float temp_la = ftn::Length((sf::Vector2f(b->get_pos_x() - a->get_pos_x(), b->get_pos_y() - a->get_pos_y()) / dist) * force * normal_mass_b);
-    float temp_lb = ftn::Length((sf::Vector2f(a->get_pos_x() - b->get_pos_x(), a->get_pos_y() - b->get_pos_y()) / dist) * force * normal_mass_a);
-
-    // if (!ftn::Equals(temp_la, temp_lb, 0.00f)) { std::cout << "a: " << temp_la << " b: " << temp_lb << " force: " << force << std::endl; }
-    a->Move((sf::Vector2f(b->get_pos_x() - a->get_pos_x(), b->get_pos_y() - a->get_pos_y()) / dist) * force * normal_mass_b);
-    b->Move((sf::Vector2f(a->get_pos_x() - b->get_pos_x(), a->get_pos_y() - b->get_pos_y()) / dist) * force * normal_mass_a);
+    sf::Vector2f diff = sf::Vector2f(b->get_pos_x() - a->get_pos_x(), b->get_pos_y() - a->get_pos_y()) / dist;
+    if (!a->get_fixed()) { a->Move(diff * (force / a->get_mass())); }
+    if (!b->get_fixed()) { b->Move(-diff * (force / b->get_mass())); }
 }
 
 void System::InitQuadtree() { StepQuadtree(); }

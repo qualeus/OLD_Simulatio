@@ -604,6 +604,15 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                             }
                         }
 
+                        /*
+                            Display
+                            - Velocity
+                            - Acceleration
+                            - Jerk
+
+                            - Energy (Kinetic?)
+                        */
+
                         /* Corpse Position_X */
                         if (ImGui::DragFloat(label_posX, &temp_position_x, 0.5f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None)) {
                             if (unique_selected) {
@@ -769,6 +778,11 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     ImGui::TreePop();
                 }
+                ImGui::EndTabItem();
+            }
+
+            if (ImGui::BeginTabItem("Trajectories")) {
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                 /* TRAJECTORY PROPERTIES */
                 ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
@@ -779,98 +793,103 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Separator();
                     ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-                    if (unique_selected) {
-                        if (!paused) {
-                            ImGui::TextDisabled("<Pause the System to Enable the Trajectory Preview>");
-                            ImGuiStyle& style = ImGui::GetStyle();
-                            ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
-                            ImGui::PushStyleColor(ImGuiCol_FrameBg, style.Colors[ImGuiCol_TableHeaderBg]);
-                            ImGui::PushStyleColor(ImGuiCol_SliderGrab, style.Colors[ImGuiCol_TextDisabled]);
-                            ImGui::PushStyleColor(ImGuiCol_Button, style.Colors[ImGuiCol_TableHeaderBg]);
-                        } else {
-                            ImGui::TextDisabled("<System Paused : Trajectory Preview Enabled>");
-                        }
-
-                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
-
-                        std::vector<int> corpses_indexes = {};
-                        for (int i = 0; i < system.get_corpses_size(); i++) {
-                            corpses_indexes.push_back(system.get_corpse(i)->get_id());  // TODO: select only non deleted corpse
-                        }
-
-                        ImGui::Checkbox("Enable the Preview", &trajectory_debug_show);
-                        if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
-                        ImGui::SameLine();
-                        DrawGuiHelp("Trajectory previsualisation occurs only\nwhen the system is paused.");
-                        ImGui::SameLine();
-
-                        ImGui::Checkbox("Preview all bodies", &trajectory_debug_all);
-                        if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
-                        ImGui::SameLine();
-                        DrawGuiHelp("If uncheck, the trajectory displayed\nwill be the selected body one.");
-
-                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
-
-                        if (ImGui::DragInt("Num Steps", &trajectory_debug_step, 1.0f, 0, +INT_MAX, "%d", ImGuiSliderFlags_None)) { this->debug_system_edited = true; }
-                        if (ImGui::DragInt("Time Steps", &trajectory_debug_time, 1.0f, 1, +INT_MAX, "%d", ImGuiSliderFlags_None)) { this->debug_system_edited = true; }
-
-                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
-
-                        char chr_default[30];
-                        ImFormatString(chr_default, IM_ARRAYSIZE(chr_default), "<not relative to a body>");
-                        const char* current_body_item = chr_default;
-                        if (trajectory_debug_relative_index > 0) { current_body_item = std::to_string(corpses_indexes.at(trajectory_debug_relative_index - 1)).c_str(); }
-                        ImGuiComboFlags flags = ImGuiComboFlags_NoArrowButton;
-
+                    if (!paused) {
+                        ImGui::TextDisabled("<Pause the System to Enable the Trajectory Preview>");
                         ImGuiStyle& style = ImGui::GetStyle();
-                        float w = ImGui::CalcItemWidth();
-                        float spacing = style.ItemInnerSpacing.x;
-                        float button_sz = ImGui::GetFrameHeight();
-                        ImGui::PushItemWidth(w - spacing * 2.0f - button_sz * 2.0f);
-                        if (ImGui::BeginCombo("##gravity", current_body_item, ImGuiComboFlags_NoArrowButton)) {
-                            bool default_selected = (0 == trajectory_debug_relative_index);
-                            if (ImGui::Selectable(chr_default, default_selected)) { trajectory_debug_relative_index = 0; }
-                            if (default_selected) { ImGui::SetItemDefaultFocus(); }
-
-                            for (int i = 1; i < corpses_indexes.size() + 1; i++) {
-                                const char* chr_index = std::to_string(corpses_indexes.at(i - 1)).c_str();
-
-                                bool is_selected = (i == trajectory_debug_relative_index);
-                                if (ImGui::Selectable(chr_index, is_selected)) { trajectory_debug_relative_index = i; }
-                                if (is_selected) { ImGui::SetItemDefaultFocus(); }
-                            }
-                            ImGui::EndCombo();
-                        }
-
-                        ImGui::PopItemWidth();
-                        ImGui::SameLine(0, spacing);
-                        if (ImGui::ArrowButton("##l", ImGuiDir_Left)) {
-                            if (trajectory_debug_relative_index > 0) { trajectory_debug_relative_index--; }
-                        }
-                        ImGui::SameLine(0, spacing);
-                        if (ImGui::ArrowButton("##r", ImGuiDir_Right)) {
-                            if (trajectory_debug_relative_index < corpses_indexes.size()) { trajectory_debug_relative_index++; }
-                        }
-
-                        /*
-                        Recompute Tranjectories on change (bool)
-                        Recompute trajectories (button)
-                        Trajectories precision
-                         => Faster process
-                         - int collision_accuracy = 10;
-                         - int constraint_accuracy = 10;
-                        */
-
-                        if (!paused) {
-                            ImGui::PopItemFlag();
-                            ImGui::PopStyleColor(3);
-                        }
-
+                        ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+                        ImGui::PushStyleColor(ImGuiCol_FrameBg, style.Colors[ImGuiCol_TableHeaderBg]);
+                        ImGui::PushStyleColor(ImGuiCol_SliderGrab, style.Colors[ImGuiCol_TextDisabled]);
+                        ImGui::PushStyleColor(ImGuiCol_Button, style.Colors[ImGuiCol_TableHeaderBg]);
                     } else {
-                        ImGui::Dummy(ImVec2(0.0f, 10.0f));
-                        ImGui::TextDisabled("Select one object to Preview it's trajectory");
-                        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+                        ImGui::TextDisabled("<System Paused : Trajectory Preview Enabled>");
                     }
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                    std::vector<int> corpses_indexes = {};
+                    for (int i = 0; i < system.get_corpses_size(); i++) {
+                        corpses_indexes.push_back(system.get_corpse(i)->get_id());  // TODO: select only non deleted corpse
+                    }
+
+                    ImGui::Checkbox("Enable the Preview", &trajectory_debug_show);
+                    if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
+                    ImGui::SameLine();
+                    DrawGuiHelp("Trajectory previsualisation occurs only\nwhen the system is paused.");
+                    ImGui::SameLine();
+
+                    ImGui::Checkbox("Preview all bodies", &trajectory_debug_all);
+                    if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
+                    ImGui::SameLine();
+                    DrawGuiHelp("If uncheck, the trajectory displayed\nwill be the selected body one.");
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                    if (ImGui::DragInt("Num Steps", &trajectory_debug_step, 1.0f, 0, +INT_MAX, "%d", ImGuiSliderFlags_None)) { this->debug_system_edited = true; }
+                    if (ImGui::DragInt("Time Steps", &trajectory_debug_time, 1.0f, 1, +INT_MAX, "%d", ImGuiSliderFlags_None)) { this->debug_system_edited = true; }
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                    char chr_default[30];
+                    ImFormatString(chr_default, IM_ARRAYSIZE(chr_default), "<not relative to a body>");
+                    const char* current_body_item = chr_default;
+                    if (trajectory_debug_relative_index > 0) { current_body_item = std::to_string(corpses_indexes.at(trajectory_debug_relative_index - 1)).c_str(); }
+                    ImGuiComboFlags flags = ImGuiComboFlags_NoArrowButton;
+
+                    ImGuiStyle& style = ImGui::GetStyle();
+                    float w = ImGui::CalcItemWidth();
+                    float spacing = style.ItemInnerSpacing.x;
+                    float button_sz = ImGui::GetFrameHeight();
+                    ImGui::PushItemWidth(w - spacing * 2.0f - button_sz * 2.0f);
+                    if (ImGui::BeginCombo("##gravity", current_body_item, ImGuiComboFlags_NoArrowButton)) {
+                        bool default_selected = (0 == trajectory_debug_relative_index);
+                        if (ImGui::Selectable(chr_default, default_selected)) { trajectory_debug_relative_index = 0; }
+                        if (default_selected) { ImGui::SetItemDefaultFocus(); }
+
+                        for (int i = 1; i < corpses_indexes.size() + 1; i++) {
+                            const char* chr_index = std::to_string(corpses_indexes.at(i - 1)).c_str();
+
+                            bool is_selected = (i == trajectory_debug_relative_index);
+                            if (ImGui::Selectable(chr_index, is_selected)) { trajectory_debug_relative_index = i; }
+                            if (is_selected) { ImGui::SetItemDefaultFocus(); }
+                        }
+                        ImGui::EndCombo();
+                    }
+
+                    ImGui::PopItemWidth();
+                    ImGui::SameLine(0, spacing);
+                    if (ImGui::ArrowButton("##l", ImGuiDir_Left)) {
+                        if (trajectory_debug_relative_index > 0) { trajectory_debug_relative_index--; }
+                    }
+                    ImGui::SameLine(0, spacing);
+                    if (ImGui::ArrowButton("##r", ImGuiDir_Right)) {
+                        if (trajectory_debug_relative_index < corpses_indexes.size()) { trajectory_debug_relative_index++; }
+                    }
+
+                    /*
+                    Recompute Tranjectories on change (bool)
+                    Recompute trajectories (button)
+                    Trajectories precision
+                     => Faster process
+                     - int collision_accuracy = 10;
+                     - int constraint_accuracy = 10;
+                    */
+
+                    if (!paused) {
+                        ImGui::PopItemFlag();
+                        ImGui::PopStyleColor(3);
+                    }
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::TreePop();
+                }
+
+                /* TRAJECTORY PROPERTIES */
+                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
+                if (ImGui::TreeNode("Trails Properties")) {
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                    if (ImGui::DragInt("Num Steps", &trails_debug_step, 1.0f, 0, +INT_MAX, "%d", ImGuiSliderFlags_None)) {}
+                    if (ImGui::DragInt("Time Steps", &trails_debug_time, 1.0f, 1, +INT_MAX, "%d", ImGuiSliderFlags_None)) {}
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     ImGui::TreePop();
