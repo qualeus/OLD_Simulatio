@@ -33,9 +33,7 @@ float ftn::radian_to_degree(float radian) { return (radian / PI) * 180; }
 sf::Vector2f ftn::Normalize(const sf::Vector2f &vect) {
     sf::Vector2f temp_vect = {vect.x, vect.y};
     float length = ftn::Length(temp_vect);
-    if (length != 0) {
-        temp_vect /= length;
-    }
+    if (length != 0) { temp_vect /= length; }
     return temp_vect;
 }
 /* Return the Norme = [Ay - By, Bx - Ax] */
@@ -80,26 +78,16 @@ bool ftn::Lines_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B
     float det = ABy * CDx - CDy * ABx;
 
     // Parallel Lines
-    if (det == 0) {
-        return false;
-    }
+    if (det == 0) { return false; }
     return true;
 }
 
 /* Given the collinears points A,B and C, check if the point C lies on the line segment [AB] */
 bool ftn::on_segment(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C) {
-    if (vect_C.x > std::max(vect_A.x, vect_B.x)) {
-        return false;
-    }
-    if (vect_C.x < std::min(vect_A.x, vect_B.x)) {
-        return false;
-    }
-    if (vect_C.y > std::max(vect_A.y, vect_B.y)) {
-        return false;
-    }
-    if (vect_C.y < std::min(vect_A.y, vect_B.y)) {
-        return false;
-    }
+    if (vect_C.x > std::max(vect_A.x, vect_B.x)) { return false; }
+    if (vect_C.x < std::min(vect_A.x, vect_B.x)) { return false; }
+    if (vect_C.y > std::max(vect_A.y, vect_B.y)) { return false; }
+    if (vect_C.y < std::min(vect_A.y, vect_B.y)) { return false; }
 
     return true;
 }
@@ -118,12 +106,8 @@ int ftn::line_orientation(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B
         - if slope[AB] < slope[BC], the orientation is counter clockwise
     */
     int sigma = static_cast<int>((vect_B.y - vect_A.y) * (vect_C.x - vect_B.x) - (vect_B.x - vect_A.x) * (vect_C.y - vect_B.y));
-    if (sigma == 0) {
-        return 0;
-    }
-    if (sigma > 0) {
-        return 1;
-    }
+    if (sigma == 0) { return 0; }
+    if (sigma > 0) { return 1; }
     return 2;
 }
 
@@ -135,21 +119,11 @@ bool ftn::Segments_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vec
     int orientationD = ftn::line_orientation(vect_C, vect_D, vect_B);
 
     // General case
-    if (orientationA != orientationB && orientationC != orientationD) {
-        return true;
-    }
-    if (orientationA == 0 && ftn::on_segment(vect_A, vect_B, vect_C)) {
-        return true;
-    }
-    if (orientationB == 0 && ftn::on_segment(vect_A, vect_B, vect_D)) {
-        return true;
-    }
-    if (orientationC == 0 && ftn::on_segment(vect_C, vect_D, vect_A)) {
-        return true;
-    }
-    if (orientationD == 0 && ftn::on_segment(vect_C, vect_D, vect_B)) {
-        return true;
-    }
+    if (orientationA != orientationB && orientationC != orientationD) { return true; }
+    if (orientationA == 0 && ftn::on_segment(vect_A, vect_B, vect_C)) { return true; }
+    if (orientationB == 0 && ftn::on_segment(vect_A, vect_B, vect_D)) { return true; }
+    if (orientationC == 0 && ftn::on_segment(vect_C, vect_D, vect_A)) { return true; }
+    if (orientationD == 0 && ftn::on_segment(vect_C, vect_D, vect_B)) { return true; }
     return false;
 }
 
@@ -166,36 +140,22 @@ bool ftn::Test_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B,
     float det = ABy * CDx - CDy * ABx;
 
     // Parallel Lines
-    if (det == 0) {
-        return false;
-    }
+    if (det == 0) { return false; }
 
     float intersect_x = (CDx * AB - ABx * CD) / det;
     float intersect_y = (ABy * CD - CDy * AB) / det;
 
     // Check that the segments overlap one other (X/Y overlap)
-    if (std::max(vect_A.x, vect_B.x) < std::min(vect_C.x, vect_D.x) || std::min(vect_A.x, vect_B.x) > std::max(vect_C.x, vect_D.x)) {
-        return false;
-    }
-    if (std::max(vect_A.y, vect_B.y) < std::min(vect_C.y, vect_D.y) || std::min(vect_A.y, vect_B.y) > std::max(vect_C.y, vect_D.y)) {
-        return false;
-    }
+    if (std::max(vect_A.x, vect_B.x) < std::min(vect_C.x, vect_D.x) || std::min(vect_A.x, vect_B.x) > std::max(vect_C.x, vect_D.x)) { return false; }
+    if (std::max(vect_A.y, vect_B.y) < std::min(vect_C.y, vect_D.y) || std::min(vect_A.y, vect_B.y) > std::max(vect_C.y, vect_D.y)) { return false; }
 
     // Check that the point is on bounds AB (X/Y in bounds)
-    if (intersect_x < std::min(vect_A.x, vect_B.x) || intersect_x > std::max(vect_A.x, vect_B.x)) {
-        return false;
-    }
-    if (intersect_y < std::min(vect_A.y, vect_B.y) || intersect_y > std::max(vect_A.y, vect_B.y)) {
-        return false;
-    }
+    if (intersect_x < std::min(vect_A.x, vect_B.x) || intersect_x > std::max(vect_A.x, vect_B.x)) { return false; }
+    if (intersect_y < std::min(vect_A.y, vect_B.y) || intersect_y > std::max(vect_A.y, vect_B.y)) { return false; }
 
     // Check that the point is on bounds CD (X/Y in bounds)
-    if (intersect_x < std::min(vect_C.x, vect_D.x) || intersect_x > std::max(vect_C.x, vect_D.x)) {
-        return false;
-    }
-    if (intersect_y < std::min(vect_C.y, vect_D.y) || intersect_y > std::max(vect_C.y, vect_D.y)) {
-        return false;
-    }
+    if (intersect_x < std::min(vect_C.x, vect_D.x) || intersect_x > std::max(vect_C.x, vect_D.x)) { return false; }
+    if (intersect_y < std::min(vect_C.y, vect_D.y) || intersect_y > std::max(vect_C.y, vect_D.y)) { return false; }
 
     return true;
 }
@@ -204,9 +164,7 @@ bool ftn::Test_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B,
 sf::Vector2f ftn::Line_Projection(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b) {
     float dp = ftn::Dot(vect_a, vect_b);  // dot product of A and B
     float bd = ftn::Dot(vect_b, vect_b);  // length of B squared
-    if (bd == 0) {
-        return sf::Vector2f();
-    }
+    if (bd == 0) { return sf::Vector2f(); }
     return vect_b * (dp / bd);  // proj = [(dp/bd)*vect_b.x, (dp/bd)*vect_b.y]
 }
 
@@ -217,9 +175,7 @@ sf::Vector2f ftn::Segment_Projection(const sf::Vector2f &vect_a, const sf::Vecto
 
     float dp = Dot(vect_ab, vect_ac);  // dot product of A and B
     float bd = Dot(vect_ab, vect_ab);  // length of B squared
-    if (bd == 0) {
-        return sf::Vector2f();
-    }
+    if (bd == 0) { return sf::Vector2f(); }
     return vect_a + (dp / bd) * vect_ab;  // proj = [(dp/bd)*vect_b.x, (dp/bd)*vect_b.y]
 }
 
@@ -241,9 +197,7 @@ sf::Vector2f ftn::Centroid(std::vector<std::pair<sf::Vector2f, sf::Vector2f>> ed
         centroid += (pA + pB) * A;
     }
 
-    if (signed_area == 0) {
-        return sf::Vector2f();
-    }
+    if (signed_area == 0) { return sf::Vector2f(); }
     signed_area *= 0.5f;
     centroid /= (6.0f * signed_area);
     return centroid;
@@ -252,13 +206,9 @@ sf::Vector2f ftn::Centroid(std::vector<std::pair<sf::Vector2f, sf::Vector2f>> ed
 /* Compute the averages of the points */
 sf::Vector2f ftn::Points_Average(std::vector<sf::Vector2f> points) {
     sf::Vector2f points_average = sf::Vector2f();
-    if (points.size() == 0) {
-        return points_average;
-    }
+    if (points.size() == 0) { return points_average; }
 
-    for (int i = 0; i < points.size(); i++) {
-        points_average = points_average + points.at(i);
-    }
+    for (int i = 0; i < points.size(); i++) { points_average = points_average + points.at(i); }
     return points_average / (float)points.size();
 }
 
@@ -266,12 +216,8 @@ sf::Vector2f ftn::Points_Average(std::vector<sf::Vector2f> points) {
 std::pair<int, sf::Vector2f> ftn::Line_Circle_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const float &size) {
     // Check if one of the ends of the line segment (side) is inside the circle
 
-    if (ftn::Length(vect_A, vect_C) < size * EDGE_APPROXIMATION) {
-        return {2, sf::Vector2f()};
-    }
-    if (ftn::Length(vect_B, vect_C) < size * EDGE_APPROXIMATION) {
-        return {3, sf::Vector2f()};
-    }
+    if (ftn::Length(vect_A, vect_C) < size * EDGE_APPROXIMATION) { return {2, sf::Vector2f()}; }
+    if (ftn::Length(vect_B, vect_C) < size * EDGE_APPROXIMATION) { return {3, sf::Vector2f()}; }
 
     // Check if the closest point on the line is inside the circle
     /*
@@ -281,12 +227,8 @@ std::pair<int, sf::Vector2f> ftn::Line_Circle_Intersect(const sf::Vector2f &vect
     */
     sf::Vector2f closest = ftn::Segment_Projection(vect_A, vect_B, vect_C);
 
-    if (!ftn::on_segment(vect_A, vect_B, closest)) {
-        return {0, sf::Vector2f()};
-    }
-    if (ftn::Length(closest, vect_C) <= size) {
-        return {1, closest};
-    }
+    if (!ftn::on_segment(vect_A, vect_B, closest)) { return {0, sf::Vector2f()}; }
+    if (ftn::Length(closest, vect_C) <= size) { return {1, closest}; }
 
     return {0, sf::Vector2f()};
 }
@@ -337,22 +279,13 @@ float ftn::angle(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const s
 bool ftn::rect_in_bounds(const ftn::Rectangle &object, const ftn::Rectangle &limits) {
     // One point in bounds
     // p1 (x,y)
-    if (object.pos.x > limits.pos.x && object.pos.x < limits.pos.x + limits.size.x && object.pos.y > limits.pos.y && object.pos.y < limits.pos.y + limits.size.y) {
-        return true;
-    }
+    if (object.pos.x > limits.pos.x && object.pos.x < limits.pos.x + limits.size.x && object.pos.y > limits.pos.y && object.pos.y < limits.pos.y + limits.size.y) { return true; }
     // p2 (x+w,y)
-    if (object.pos.x + object.size.x > limits.pos.x && object.pos.x + object.size.x < limits.pos.x + limits.size.x && object.pos.y > limits.pos.y && object.pos.y < limits.pos.y + limits.size.y) {
-        return true;
-    }
+    if (object.pos.x + object.size.x > limits.pos.x && object.pos.x + object.size.x < limits.pos.x + limits.size.x && object.pos.y > limits.pos.y && object.pos.y < limits.pos.y + limits.size.y) { return true; }
     // p3 (x,y+h)
-    if (object.pos.x > limits.pos.x && object.pos.x < limits.pos.x + limits.size.x && object.pos.y + object.size.y > limits.pos.y && object.pos.y + object.size.y < limits.pos.y + limits.size.y) {
-        return true;
-    }
+    if (object.pos.x > limits.pos.x && object.pos.x < limits.pos.x + limits.size.x && object.pos.y + object.size.y > limits.pos.y && object.pos.y + object.size.y < limits.pos.y + limits.size.y) { return true; }
     // p4 (x+w,y+h)
-    if (object.pos.x + object.size.x > limits.pos.x && object.pos.x + object.size.x < limits.pos.x + limits.size.x && object.pos.y + object.size.y > limits.pos.y &&
-        object.pos.y + object.size.y < limits.pos.y + limits.size.y) {
-        return true;
-    }
+    if (object.pos.x + object.size.x > limits.pos.x && object.pos.x + object.size.x < limits.pos.x + limits.size.x && object.pos.y + object.size.y > limits.pos.y && object.pos.y + object.size.y < limits.pos.y + limits.size.y) { return true; }
 
     return false;
 }
@@ -360,21 +293,13 @@ bool ftn::rect_in_bounds(const ftn::Rectangle &object, const ftn::Rectangle &lim
 bool ftn::rect_out_bounds(const ftn::Rectangle &object, const ftn::Rectangle &limits) {
     // One face out bounds
     // f1
-    if (object.pos.x < limits.pos.x) {
-        return true;
-    }
+    if (object.pos.x < limits.pos.x) { return true; }
     // f2
-    if (object.pos.x + object.size.x > limits.pos.x + limits.size.x) {
-        return true;
-    }
+    if (object.pos.x + object.size.x > limits.pos.x + limits.size.x) { return true; }
     // f3
-    if (object.pos.y < limits.pos.y) {
-        return true;
-    }
+    if (object.pos.y < limits.pos.y) { return true; }
     // f4
-    if (object.pos.y + object.size.y > limits.pos.y + limits.size.y) {
-        return true;
-    }
+    if (object.pos.y + object.size.y > limits.pos.y + limits.size.y) { return true; }
 
     return false;
 }

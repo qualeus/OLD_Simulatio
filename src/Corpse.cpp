@@ -10,16 +10,38 @@ Corpse::Corpse(float x, float y, float mass, float damping, bool fixed, bool tie
     this->tied = tied;
     this->etherial = etherial;
     this->removed = false;
-    this->current_pos = sf::Vector2f(x, y);
 
-    this->current_rotation = 0.0f;
     this->mass = mass;
     this->friction = 1.0f;
-
-    this->color = color;
     set_damping(damping);
-}
+    this->color = color;
 
+    this->current_pos = sf::Vector2f(x, y);
+    this->current_rotation = 0.0f;
+}
+Corpse& Corpse::operator=(const Corpse& rhs) {
+    this->id = rhs.get_id();
+
+    this->fixed = rhs.get_fixed();
+    this->tied = rhs.get_tied();
+    this->etherial = rhs.get_etherial();
+    this->removed = rhs.get_removed();
+
+    this->mass = rhs.get_mass();
+    this->friction = rhs.get_friction();
+    this->damping = rhs.get_damping();
+    this->color = rhs.get_color();
+
+    this->current_pos = rhs.get_pos();
+    this->last_pos = rhs.get_last_pos();
+    this->propulsor_pos = rhs.get_propulsor_pos();
+
+    this->current_rotation = rhs.get_rotation();
+    this->last_rotation = rhs.get_last_rotation();
+    this->motor_rotation = rhs.get_motor_rotation();
+
+    return *this;
+}
 Corpse::~Corpse() = default;
 
 int Corpse::get_id() const { return this->id; }
@@ -44,12 +66,8 @@ void Corpse::Move(sf::Vector2f move, bool relative) {}
 void Corpse::Collision(std::shared_ptr<Corpse> a) {}
 
 void Corpse::CollisionResponse(phy::Corpse* corpse_a, phy::Corpse* corpse_b, const sf::Vector2f& vect_force) {
-    if (corpse_a->get_etherial()) {
-        return;
-    }
-    if (corpse_b->get_etherial()) {
-        return;
-    }
+    if (corpse_a->get_etherial()) { return; }
+    if (corpse_b->get_etherial()) { return; }
     float damping = (corpse_a->get_bounce() + corpse_b->get_bounce()) * 0.5f;  // Damping is evenly distributed among the corpses
 
     /*
@@ -125,10 +143,15 @@ sf::Vector2f Corpse::get_diff_pos() const { return (this->get_pos() - this->get_
 float Corpse::get_diff_pos_x() const { return (this->get_pos_x() - this->get_last_pos_x()); }
 float Corpse::get_diff_pos_y() const { return (this->get_pos_y() - this->get_last_pos_y()); }
 
-float Corpse::get_current_rotation() const { return this->current_rotation; }
-void Corpse::set_current_rotation(float current_rotation) { this->current_rotation = current_rotation; }
+sf::Vector2f Corpse::get_propulsor_pos() const { return this->propulsor_pos; };
+void Corpse::set_propulsor_pos(sf::Vector2f propulsor_pos) { this->propulsor_pos = propulsor_pos; }
+
+float Corpse::get_rotation() const { return this->current_rotation; }
+void Corpse::set_rotation(float current_rotation) { this->current_rotation = current_rotation; }
+
 float Corpse::get_last_rotation() const { return this->last_rotation; }
 void Corpse::set_last_rotation(float last_rotation) { this->last_rotation = last_rotation; }
+
 float Corpse::get_motor_rotation() const { return this->motor_rotation; }
 void Corpse::set_motor_rotation(float motor_rotation) { this->motor_rotation = motor_rotation; }
 
@@ -149,18 +172,10 @@ float Corpse::get_friction() const { return this->friction; }
 void Corpse::set_friction(float friction) { this->friction = friction; }
 
 bool Corpse::Equals(const Corpse* other) {
-    if (this->get_id() != other->get_id()) {
-        return false;
-    }
-    if (this->get_class() != other->get_class()) {
-        return false;
-    }
-    if (this->get_fixed() != other->get_fixed()) {
-        return false;
-    }
-    if (this->get_etherial() != other->get_etherial()) {
-        return false;
-    }
+    if (this->get_id() != other->get_id()) { return false; }
+    if (this->get_class() != other->get_class()) { return false; }
+    if (this->get_fixed() != other->get_fixed()) { return false; }
+    if (this->get_etherial() != other->get_etherial()) { return false; }
     return true;
 }
 

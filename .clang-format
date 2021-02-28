@@ -7,5 +7,7 @@
     AllowAllParametersOfDeclarationOnNextLine: false,
     BreakBeforeBraces: Attach,
     AllowShortFunctionsOnASingleLine: All,
-    AllowShortIfStatementsOnASingleLine : Always,   
+    AllowShortIfStatementsOnASingleLine : Always,
+    AllowShortBlocksOnASingleLine: Always,
+    AllowShortCaseLabelsOnASingleLine: true,
 }

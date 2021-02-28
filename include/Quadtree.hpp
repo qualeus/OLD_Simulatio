@@ -1,11 +1,11 @@
 #ifndef Quadtree_HPP
 #define Quadtree_HPP
 
-#include <vector>
 #include <memory>
+#include <vector>
 
-#include "../include/Functional.hpp"
 #include "../include/Circle.hpp"
+#include "../include/Functional.hpp"
 #include "../include/Polygon.hpp"
 
 namespace phy {
@@ -15,45 +15,50 @@ namespace phy {
 
 #define NUMBER_SUB 4
 
-class Quadtree
-{
-private:
-	int level;
-	struct ftn::Rectangle bounds;
+class Quadtree {
+   private:
+    int level;
+    struct ftn::Rectangle bounds;
 
-	std::shared_ptr<Quadtree> node_A;
-	std::shared_ptr<Quadtree> node_B;
-	std::shared_ptr<Quadtree> node_C;
-	std::shared_ptr<Quadtree> node_D;
+    std::shared_ptr<Quadtree> node_A;
+    std::shared_ptr<Quadtree> node_B;
+    std::shared_ptr<Quadtree> node_C;
+    std::shared_ptr<Quadtree> node_D;
 
-	std::vector<std::shared_ptr<Corpse>> corpses;
-	
-public:
-	Quadtree(ftn::Rectangle bounds = ftn::Rectangle({sf::Vector2f(), sf::Vector2f()}), int level=1);
-	virtual ~Quadtree();
+    std::vector<std::shared_ptr<Corpse>> corpses;
 
-	void clear();
-	void clear_nodes();
-	void split();
-	int get_index(std::shared_ptr<Corpse> corpse);
-	int get_size();
+   public:
+    Quadtree(ftn::Rectangle bounds = ftn::Rectangle({sf::Vector2f(), sf::Vector2f()}), int level = 1);
+    Quadtree& operator=(const Quadtree& rhs);
+    virtual ~Quadtree();
 
-	void insert(std::shared_ptr<Corpse> corpse);
-	bool clear_empty();
-	bool sub_not_null();
+    void clear();
+    void clear_nodes();
+    void split();
+    int get_index(std::shared_ptr<Corpse> corpse);
+    int get_size();
 
-	std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> make_pairs();
+    void insert(std::shared_ptr<Corpse> corpse);
+    bool clear_empty();
+    bool sub_not_null();
 
-	std::vector<std::shared_ptr<Corpse>> get_sub_corpses();
+    int get_level() const;
+    void set_level(int level);
 
-	std::vector<std::shared_ptr<Corpse>> get_all_corpses();
+    ftn::Rectangle get_bounds() const;
+    void set_bounds(ftn::Rectangle bounds);
 
-	std::shared_ptr<Quadtree> get_node(int i);
-	void set_node(int i, std::shared_ptr<Quadtree> node);
+    std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> make_pairs();
 
-	std::vector<ftn::Rectangle> get_all_bounds();
+    std::vector<std::shared_ptr<Corpse>> get_sub_corpses();
+    std::vector<std::shared_ptr<Corpse>> get_all_corpses();
+
+    std::shared_ptr<Quadtree> get_node(int i);
+    void set_node(int i, std::shared_ptr<Quadtree> node);
+
+    std::vector<ftn::Rectangle> get_all_bounds();
 };
 
-}
+}  // namespace phy
 
 #endif

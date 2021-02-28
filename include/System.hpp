@@ -45,6 +45,7 @@ class System {
 
    public:
     System(bool gravity = false, float force_x = 0.0f, float force_y = 0.0f, float limit_x = 4000.0f, float limit_y = 4000.0f);  // System Constructor
+    System& operator=(const System& rhs);                                                                                        // System Copy
     virtual ~System();                                                                                                           // System Destructor
 
     void Prepare();
@@ -63,34 +64,34 @@ class System {
     void StepQuadtree();
     std::shared_ptr<Quadtree> get_quadtree();
 
-    int get_dt();
+    int get_dt() const;
     void set_dt(int dt);
     void add_dt(int dt);
 
-    float get_force_x();
+    float get_force_x() const;
     void set_force_x(float force_x);
 
-    float get_force_y();
+    float get_force_y() const;
     void set_force_y(float force_y);
 
-    bool get_gravity();
+    bool get_gravity() const;
     void set_gravity(bool gravity);
 
-    float get_LS();
+    float get_LS() const;
     void set_LS(float LS);
 
-    float get_G();
+    float get_G() const;
     void set_G(float G);
 
-    int get_collision_accuracy();
+    int get_collision_accuracy() const;
     void set_collision_accuracy(int collision_accuracy);
 
-    int get_constraint_accuracy();
+    int get_constraint_accuracy() const;
     void set_constraint_accuracy(int constraint_accuracy);
 
-    int get_corpses_size();
-    int get_pairs_size();
-    int get_quad_pairs_size();
+    int get_corpses_size() const;
+    int get_pairs_size() const;
+    int get_quad_pairs_size() const;
 
     void addCorpse(Polygon a);
     void addCorpse(Circle a);
@@ -98,18 +99,18 @@ class System {
     void add_corpse(std::shared_ptr<Corpse> a);
     void add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
 
-    ftn::Rectangle get_limits();
+    ftn::Rectangle get_limits() const;
     void set_limits(ftn::Rectangle limits);
 
-    std::vector<std::shared_ptr<Corpse>> get_corpses();
-    std::shared_ptr<Corpse> get_corpse(int index);
+    std::vector<std::shared_ptr<Corpse>> get_corpses() const;
+    std::shared_ptr<Corpse> get_corpse(int index) const;
 
-    std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> get_quad_pair(int index);
+    std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> get_quad_pair(int index) const;
 
-    std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> get_pairs();
-    std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> get_pair(int index);
-    std::shared_ptr<Corpse> get_pair_A(int index);
-    std::shared_ptr<Corpse> get_pair_B(int index);
+    std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> get_pairs() const;
+    std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> get_pair(int index) const;
+    std::shared_ptr<Corpse> get_pair_A(int index) const;
+    std::shared_ptr<Corpse> get_pair_B(int index) const;
 };
 
 }  // namespace phy

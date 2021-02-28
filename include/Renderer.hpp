@@ -108,6 +108,8 @@ class Renderer {
     bool debug_show_contacts = false;
     bool debug_show_collisions = false;
 
+    bool debug_system_edited = false;
+
     ImGuiID dockspace_id;
     ImGuiID dockspace_bottom_id;
     ImGuiID dockspace_left_id;
@@ -134,14 +136,6 @@ class Renderer {
     int screen_height;
     bool paused;
     bool enable_inputs;
-
-    // Check if update the Trajectories previews
-    std::vector<std::pair<float, float>> current_trajectory_corpses_pos = {};
-    std::vector<std::pair<float, float>> current_trajectory_corpses_vel = {};
-    int current_trajectory_debug_step;
-    int current_trajectory_debug_time;
-    int current_trajectory_debug_relative_index;
-    int current_trajectory_enable_gravity;
 
     std::vector<std::vector<std::pair<float, float>>> trajectories = {};
     std::vector<std::vector<std::pair<float, float>>> trajectories_previews = {};
@@ -227,6 +221,7 @@ class Renderer {
     void DrawGuiBar();
     void DrawGuiDocking();
     void DrawGuiHelp(const char* desc);
+    bool DrawGuiCheckBox(const char* label, int* v_tristate);
 
     void ShowGuiConsole(bool* p_open);
     void ShowGuiProperties(bool* p_open);

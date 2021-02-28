@@ -25,6 +25,7 @@ class Corpse {
     float damping;
     sf::Vector2f current_pos;
     sf::Vector2f last_pos;
+    sf::Vector2f propulsor_pos;
     float current_rotation;
     float last_rotation;
     float motor_rotation;
@@ -33,6 +34,8 @@ class Corpse {
    public:
     explicit Corpse(float x, float y, float mass, float damping, bool fixed, bool tied, bool etherial, sf::Color color);  // System Constructor
     virtual ~Corpse();                                                                                                    // System Destructor
+    inline bool operator==(const Corpse* other);
+    Corpse& operator=(const Corpse& rhs);
 
     int get_id() const;
     virtual int get_class() const;
@@ -83,10 +86,15 @@ class Corpse {
     float get_diff_pos_x() const;
     float get_diff_pos_y() const;
 
-    float get_current_rotation() const;
-    void set_current_rotation(float current_rotation);
+    sf::Vector2f get_propulsor_pos() const;
+    void set_propulsor_pos(sf::Vector2f propulsor_pos);
+
+    float get_rotation() const;
+    void set_rotation(float current_rotation);
+
     float get_last_rotation() const;
     void set_last_rotation(float last_rotation);
+
     float get_motor_rotation() const;
     void set_motor_rotation(float motor_rotation);
 
@@ -103,7 +111,6 @@ class Corpse {
     virtual ftn::Rectangle get_corpse_bounds() const = 0;
 
     bool Equals(const Corpse* other);
-    inline bool operator==(const Corpse* other);
 };
 
 }  // namespace phy
