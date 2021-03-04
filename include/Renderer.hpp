@@ -73,10 +73,14 @@ class Renderer {
 
     bool trajectory_debug_show = false;
     bool trajectory_debug_all = true;
+    bool trajectory_compute_on_change = true;
+    bool trajectory_compute_manual = false;
     int trajectory_debug_step = 100;
     int trajectory_debug_time = 10;
     int trajectory_debug_index = 0;
     int trajectory_debug_relative_index = 0;
+    int trajectory_collision_accuracy = 1;
+    int trajectory_constraint_accuracy = 1;
 
     int trails_debug_step = 100;
     int trails_debug_time = 10;

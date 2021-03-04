@@ -76,16 +76,21 @@ void Renderer::DrawLimits() {
 }
 
 void Renderer::DrawTrajectories() {
-    // Make a copy of the current system
-    phy::System temp_system;
-    temp_system = this->system;
-
     // If one body position have changed, recalculate all the trajectories
     if (debug_system_edited) {
         this->debug_system_edited = false;
 
         // Reset the trajectory array
         trajectories_previews = {};
+
+        if (!trajectory_compute_on_change && !trajectory_compute_manual) { return; }
+        this->trajectory_compute_manual = false;
+
+        // Make a copy of the current system
+        phy::System temp_system;
+        temp_system = this->system;
+        temp_system.set_collision_accuracy(trajectory_collision_accuracy);
+        temp_system.set_constraint_accuracy(trajectory_constraint_accuracy);
 
         // Initialize the vectors
         for (int j = 0; j < temp_system.get_corpses_size(); j++) {

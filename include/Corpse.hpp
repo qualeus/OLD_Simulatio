@@ -91,6 +91,7 @@ class Corpse {
 
     float get_rotation() const;
     void set_rotation(float current_rotation);
+    float get_diff_rotation() const;
 
     float get_last_rotation() const;
     void set_last_rotation(float last_rotation);

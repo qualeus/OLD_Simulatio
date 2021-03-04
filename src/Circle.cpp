@@ -27,11 +27,11 @@ void Circle::Step() {
     }
 
     if (this->tied) {
-        this->last_rotation = this->current_rotation;
+        this->last_rotation = std::fmod(this->current_rotation, 360);
     } else {
-        float diff_rotation = this->current_rotation - this->last_rotation;
+        float diff_rotation = std::fmod(this->current_rotation - this->last_rotation, 360);
         this->last_rotation = this->current_rotation;
-        this->current_rotation = this->current_rotation + diff_rotation;
+        this->current_rotation = std::fmod(this->current_rotation + diff_rotation, 360);
     }
 
     if (!ftn::decimal_equals(motor_rotation, 0.0f, 0.0001f)) {

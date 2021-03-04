@@ -53,14 +53,18 @@ Renderer::~Renderer() {}
 void Renderer::Render() {
     /* Main Rendering Loop */
     while (this->window.isOpen()) {
-        if (!this->Paused()) { this->system.Step(); }
+        if (!this->Paused()) {
+            this->system.Step();
+        }
 
         /* Background Color */
         this->window.clear(background_color);
 
         /* Events Handling */
         sf::Event event;
-        while (this->window.pollEvent(event)) { Input(event); }
+        while (this->window.pollEvent(event)) {
+            Input(event);
+        }
 
         this->UpdateCamera();
 
@@ -84,7 +88,9 @@ void Renderer::Render() {
 void Renderer::RenderWindow() { this->window.display(); }
 
 void Renderer::Close() {
-    if (this->window.isOpen()) { this->window.close(); }
+    if (this->window.isOpen()) {
+        this->window.close();
+    }
 }
 
 void Renderer::Pause() { this->paused = !this->paused; }
@@ -111,7 +117,9 @@ void Renderer::UpdateDebug() {
 }
 
 void Renderer::Draw() {
-    for (int i = 0; i < system.get_corpses_size(); i++) { DrawCorpse(system.get_corpse(i)); }
+    for (int i = 0; i < system.get_corpses_size(); i++) {
+        DrawCorpse(system.get_corpse(i));
+    }
     DrawLimits();
 }
 
@@ -165,13 +173,23 @@ float Renderer::get_real_pos_y(float y) { return window.mapPixelToCoords(sf::Vec
 
 bool Renderer::rect_in_screen(ftn::Rectangle rect) {
     // One point in screen
-    if (rect.pos.x > get_real_pos_x(0) && rect.pos.x < get_real_pos_x(screen_width)) { return true; }
-    if (rect.pos.x + rect.size.x > get_real_pos_x(0) && rect.pos.x + rect.size.x < get_real_pos_x(screen_width)) { return true; }
-    if (rect.pos.y > get_real_pos_y(0) && rect.pos.y < get_real_pos_y(screen_height)) { return true; }
-    if (rect.pos.y + rect.size.y > get_real_pos_y(0) && rect.pos.y + rect.size.y < get_real_pos_y(screen_height)) { return true; }
+    if (rect.pos.x > get_real_pos_x(0) && rect.pos.x < get_real_pos_x(screen_width)) {
+        return true;
+    }
+    if (rect.pos.x + rect.size.x > get_real_pos_x(0) && rect.pos.x + rect.size.x < get_real_pos_x(screen_width)) {
+        return true;
+    }
+    if (rect.pos.y > get_real_pos_y(0) && rect.pos.y < get_real_pos_y(screen_height)) {
+        return true;
+    }
+    if (rect.pos.y + rect.size.y > get_real_pos_y(0) && rect.pos.y + rect.size.y < get_real_pos_y(screen_height)) {
+        return true;
+    }
 
     // Or screen in the shape
-    if (rect.pos.x < get_real_pos_x(0) && rect.pos.x + rect.size.x > get_real_pos_x(screen_width) && rect.pos.y < get_real_pos_y(0) && rect.pos.y + rect.size.y > get_real_pos_y(screen_height)) { return true; }
+    if (rect.pos.x < get_real_pos_x(0) && rect.pos.x + rect.size.x > get_real_pos_x(screen_width) && rect.pos.y < get_real_pos_y(0) && rect.pos.y + rect.size.y > get_real_pos_y(screen_height)) {
+        return true;
+    }
 
     return false;  // is it faster to test first for true or for false?
 }

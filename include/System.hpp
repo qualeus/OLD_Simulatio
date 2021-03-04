@@ -37,7 +37,8 @@ class System {
     float LS = 2.998e+8;  // 2,998 * 10e+8
     float G = 1.6e-2;     // 6.7 * 10e-11
 
-    int dt = 1000;
+    float dt = 1.0f;
+    double t = 0.0;
 
     int collision_accuracy = 10;
     int constraint_accuracy = 10;
@@ -52,6 +53,7 @@ class System {
     void Prepare();
 
     void Step();
+    void UpdateTime();
     void CheckLimits();
     void CorpsesStep();
     void CorpseStop(int i);
@@ -65,9 +67,11 @@ class System {
     void StepQuadtree();
     std::shared_ptr<Quadtree> get_quadtree();
 
-    int get_dt() const;
-    void set_dt(int dt);
-    void add_dt(int dt);
+    float get_dt() const;
+    void set_dt(float dt);
+
+    double get_t() const;
+    void set_t(double t);
 
     float get_force_x() const;
     void set_force_x(float force_x);

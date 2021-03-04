@@ -106,14 +106,41 @@ void Corpse::CollisionResponse(phy::Corpse* corpse_a, phy::Corpse* corpse_b, con
         float normal_mass_corpse_a = corpse_a->get_mass() / normal_mass;
         float normal_mass_corpse_b = corpse_b->get_mass() / normal_mass;
 
-        // sf::Vector2f temp_pos_a = corpse_a->get_last_pos();
-        // sf::Vector2f temp_pos_b = corpse_b->get_last_pos();
+        // sf::Vector2f diff_pos_a = corpse_a->get_diff_pos();
+        // sf::Vector2f diff_pos_b = corpse_b->get_diff_pos();
 
         // corpse_a->set_last_pos(corpse_a->get_pos());
         // corpse_b->set_last_pos(corpse_b->get_pos());
 
         corpse_a->Move(vect_force * normal_mass_corpse_b * 0.5f);
         corpse_b->Move(-vect_force * normal_mass_corpse_a * 0.5f);
+        /*
+        // Distance between corpses
+        float fDistance = ftn::Length(corpse_a->get_pos_x(), corpse_a->get_pos_y(), corpse_b->get_pos_x(), corpse_b->get_pos_y());
+
+        // Normal
+        float nx = (corpse_b->get_pos_x() - corpse_a->get_pos_x()) / fDistance;
+        float ny = (corpse_b->get_pos_y() - corpse_a->get_pos_y()) / fDistance;
+
+        // Tangent
+        float tx = -nx;
+        float ty = ny;
+
+        // Dot product Tangent
+        float dpTanA = diff_pos_a.x * tx + diff_pos_a.y * ty;
+        float dpTanB = diff_pos_b.x * tx + diff_pos_b.y * ty;
+
+        // Dot product Normal
+        float dpNormA = diff_pos_a.x * nx + diff_pos_a.y * ny;
+        float dpNormB = diff_pos_b.x * nx + diff_pos_b.y * ny;
+
+        // Conservation of momentum
+        float mA = (dpNormA * (corpse_a->get_mass() - corpse_b->get_mass()) + 2.0f * corpse_b->get_mass() * dpNormB) / (corpse_a->get_mass() + corpse_b->get_mass());
+        float mB = (dpNormB * (corpse_b->get_mass() - corpse_a->get_mass()) + 2.0f * corpse_a->get_mass() * dpNormA) / (corpse_a->get_mass() + corpse_b->get_mass());
+
+        corpse_a->Move(tx * dpTanA + nx * mA, ty * dpTanA + ny * mA);
+        corpse_b->Move(tx * dpTanB + nx * mB, ty * dpTanB + ny * mB);
+        */
 
         // corpse_a->Move(ftn::Mirrored_Point(temp_pos_a - corpse_a->get_pos(), vect_force) * damping);
         // corpse_b->Move(ftn::Mirrored_Point(temp_pos_b - corpse_b->get_pos(), vect_force) * damping);
@@ -148,6 +175,7 @@ void Corpse::set_propulsor_pos(sf::Vector2f propulsor_pos) { this->propulsor_pos
 
 float Corpse::get_rotation() const { return this->current_rotation; }
 void Corpse::set_rotation(float current_rotation) { this->current_rotation = current_rotation; }
+float Corpse::get_diff_rotation() const { return (this->get_rotation() - this->get_last_rotation()); }
 
 float Corpse::get_last_rotation() const { return this->last_rotation; }
 void Corpse::set_last_rotation(float last_rotation) { this->last_rotation = last_rotation; }

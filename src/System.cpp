@@ -65,16 +65,17 @@ System::~System() {}
 void System::Prepare() { InitQuadtree(); }
 
 void System::Step() {
+    UpdateTime();
     // CheckLimits();
     CorpsesStep();
-
     for (int i = 0; i < collision_accuracy; i++) {
         StepQuadtree();
         QuadPairsStep();
     }
-
     PairsStep();
 }
+
+void System::UpdateTime() { this->t += this->dt; }
 
 void System::CheckLimits() {
     for (int i = 0; i < corpses_size; i++) {
@@ -91,7 +92,7 @@ void System::CorpsesStep() {
         if (get_corpse(i)->get_removed()) { continue; }  // Removed
 
         get_corpse(i)->Step();
-        if (!get_corpse(i)->get_fixed()) { get_corpse(i)->Move(sf::Vector2f(this->force_x, this->force_y)); }
+        if (!get_corpse(i)->get_fixed()) { get_corpse(i)->Move(sf::Vector2f(this->force_x, this->force_y) * this->dt * this->dt); }
     }
 }
 
@@ -138,8 +139,11 @@ void System::Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     if (force > LS) { force = LS; }                                   // Limit with the Light Speed
 
     sf::Vector2f diff = sf::Vector2f(b->get_pos_x() - a->get_pos_x(), b->get_pos_y() - a->get_pos_y()) / dist;
-    if (!a->get_fixed()) { a->Move(diff * (force / a->get_mass())); }
-    if (!b->get_fixed()) { b->Move(-diff * (force / b->get_mass())); }
+    sf::Vector2f acceleration_a = diff * force / a->get_mass();
+    sf::Vector2f acceleration_b = -diff * force / b->get_mass();
+
+    if (!a->get_fixed()) { a->Move(acceleration_a * this->dt * this->dt); }
+    if (!b->get_fixed()) { b->Move(acceleration_b * this->dt * this->dt); }
 }
 
 void System::InitQuadtree() { StepQuadtree(); }
@@ -154,9 +158,31 @@ void System::StepQuadtree() {
 
 std::shared_ptr<Quadtree> System::get_quadtree() { return std::make_shared<Quadtree>(this->quadtree); }
 
-int System::get_dt() const { return this->dt; }
-void System::set_dt(int dt) { this->dt = dt; }
-void System::add_dt(int dt) { this->dt += dt; }
+float System::get_dt() const { return this->dt; }
+void System::set_dt(float dt) {
+    // We compute the change in time
+    float dt_diff = dt - this->dt;
+
+    // We need to avoid a dt to close to 0 because
+    // it mess up with the corpses velocities.
+    // It's better to just pass the area around 0.
+    if (ftn::Equals(dt, 0.0f, dt_diff * 0.1f)) {
+        dt = dt + dt_diff;
+        dt_diff = dt_diff * 2.0f;
+    }
+
+    float dt_frac = dt / this->dt;
+    // Update corpses velocities
+    for (int i = 0; i < corpses_size; i++) {
+        if (get_corpse(i)->get_removed()) { continue; }  // Removed
+        get_corpse(i)->set_last_pos(get_corpse(i)->get_pos() - get_corpse(i)->get_diff_pos() * dt_frac);
+    }
+
+    this->dt = dt;
+}
+
+double System::get_t() const { return this->t; }
+void System::set_t(double t) { this->t = t; }
 
 float System::get_force_x() const { return this->force_x; }
 void System::set_force_x(float force_x) { this->force_x = force_x; }

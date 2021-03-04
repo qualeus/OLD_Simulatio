@@ -100,11 +100,11 @@ void Renderer::Input(sf::Event event) {
                 } break;
                 case sf::Keyboard::R: {
                     this->debug_system_edited = true;
-                    this->system.add_dt(-100);
+                    this->system.set_dt(this->system.get_dt() - 0.05f);
                 } break;
                 case sf::Keyboard::T: {
                     this->debug_system_edited = true;
-                    this->system.add_dt(100);
+                    this->system.set_dt(this->system.get_dt() + 0.05f);
                 } break;
                 case sf::Keyboard::Space: {
                     this->debug_system_edited = true;
@@ -168,8 +168,6 @@ void Renderer::DragPositionStop(sf::Event event) {
 bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
     if (this->select_type != S_DEFAULT) { return false; }
 
-    this->debug_system_edited = true;
-
     // If already selected by multiple selection
     if (selected_corpses_cursor.size() > 0) {
         bool one_pointed = false;
@@ -188,6 +186,7 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
                 system.get_corpse(index)->set_fixed(true);
             }
             this->select_type = S_DRAG_CORPSE;
+            this->debug_system_edited = true;
             return true;
         }
 
@@ -207,6 +206,7 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
             system.get_corpse(i)->set_fixed(true);
 
             this->select_type = S_DRAG_CORPSE;
+            this->debug_system_edited = true;
             return true;
         }
     }
@@ -287,7 +287,6 @@ void Renderer::DragCorpsesStop(sf::Event event) {
 
 bool Renderer::LaunchCorpseInit(sf::Event event) {
     if (this->select_type != S_DEFAULT) { return false; }
-    this->debug_system_edited = true;
 
     // If already selected by multiple selection
     if (selected_corpses_cursor.size() > 0) {
@@ -311,6 +310,7 @@ bool Renderer::LaunchCorpseInit(sf::Event event) {
             this->selected_area = {get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)), sf::Vector2f()};
 
             this->select_type = S_LAUNCH_CORPSE;
+            this->debug_system_edited = true;
             return true;
         }
 
@@ -333,6 +333,7 @@ bool Renderer::LaunchCorpseInit(sf::Event event) {
             this->selected_area = {system.get_corpse(i)->get_pos(), sf::Vector2f()};
 
             this->select_type = S_LAUNCH_CORPSE;
+            this->debug_system_edited = true;
             return true;
         }
     }

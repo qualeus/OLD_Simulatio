@@ -8,7 +8,7 @@ float ftn::Dot(float x1, float y1, float x2, float y2) { return x1 * x2 + y1 * y
 float ftn::Cross(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b) { return vect_a.x * vect_b.y - vect_a.y * vect_b.x; }
 float ftn::Cross(float x1, float y1, float x2, float y2) { return x1 * y2 - y1 * x2; }
 
-bool ftn::Equals(float a, float b, float sigma) { return (std::abs(b - a) < sigma); }
+bool ftn::Equals(float a, float b, float sigma) { return (std::abs(b - a) < std::abs(sigma)); }
 
 sf::Vector2f ftn::Pow(const sf::Vector2f &vect, int power) {
     sf::Vector2f pow = vect;
