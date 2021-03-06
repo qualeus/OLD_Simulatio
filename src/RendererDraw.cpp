@@ -10,10 +10,12 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
             DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
         }
         if (debug_show_edges) { DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size() + 3, sf::Color::Red, true); }
-        if (debug_show_velocity) { DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + circle->get_diff_pos_x() * velocity_size, circle->get_pos_y() + circle->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, line_thickness, sf::Color::Red); }
+        if (debug_show_velocity) {
+            DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + (circle->get_diff_pos_x() / system.get_dt()) * velocity_size, circle->get_pos_y() + (circle->get_diff_pos_y() / system.get_dt()) * velocity_size, arrow_size, arrow_size, line_thickness, sf::Color::Red);
+        }
         if (debug_show_xyvelocity) {
-            DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + circle->get_diff_pos_x() * velocity_size, circle->get_pos_y(), arrow_size, arrow_size, line_thickness, sf::Color::Blue);
-            DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x(), circle->get_pos_y() + circle->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, line_thickness, sf::Color::Green);
+            DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x() + (circle->get_diff_pos_x() / system.get_dt()) * velocity_size, circle->get_pos_y(), arrow_size, arrow_size, line_thickness, sf::Color::Blue);
+            DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x(), circle->get_pos_y() + (circle->get_diff_pos_y() / system.get_dt()) * velocity_size, arrow_size, arrow_size, line_thickness, sf::Color::Green);
         }
 
         /* -------------------------------------- Default Drawing -------------------------------------- */
@@ -48,10 +50,12 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
                 Renderer::DrawArrow(point_center.x, point_center.y, point_vector.x, point_vector.y, arrow_size, arrow_size, line_thickness, sf::Color::Red);
             }
         }
-        if (debug_show_velocity) { DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x() + polygon->get_diff_pos_x() * velocity_size, polygon->get_pos_y() + polygon->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, line_thickness, sf::Color::Red); }
+        if (debug_show_velocity) {
+            DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x() + (polygon->get_diff_pos_x() / system.get_dt()) * velocity_size, polygon->get_pos_y() + (polygon->get_diff_pos_y() / system.get_dt()) * velocity_size, arrow_size, arrow_size, line_thickness, sf::Color::Red);
+        }
         if (debug_show_xyvelocity) {
-            DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x() + polygon->get_diff_pos_x() * velocity_size, polygon->get_pos_y(), arrow_size, arrow_size, line_thickness, sf::Color::Blue);
-            DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x(), polygon->get_pos_y() + polygon->get_diff_pos_y() * velocity_size, arrow_size, arrow_size, line_thickness, sf::Color::Green);
+            DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x() + (polygon->get_diff_pos_x() / system.get_dt()) * velocity_size, polygon->get_pos_y(), arrow_size, arrow_size, line_thickness, sf::Color::Blue);
+            DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x(), polygon->get_pos_y() + (polygon->get_diff_pos_y() / system.get_dt()) * velocity_size, arrow_size, arrow_size, line_thickness, sf::Color::Green);
         }
 
         /* -------------------------------------- Default Drawing -------------------------------------- */

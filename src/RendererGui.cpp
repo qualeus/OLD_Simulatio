@@ -145,7 +145,7 @@ void Renderer::DrawGuiBar() {
         // ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.1f, 0.5f, 0.5f, 1.0f));
 
         ImVec2 button_sz(G_TOP_BAR_SIZE, G_TOP_BAR_SIZE);
-        int buttons_count = 20;
+        int buttons_count = 30;
         ImGuiStyle& style = ImGui::GetStyle();
         style.ItemSpacing = ImVec2(5.0f, 0.0f);
         float window_visible_x2 = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
@@ -175,10 +175,10 @@ void Renderer::ShowGuiProperties(bool* p_open) {
         if (ImGui::BeginTabBar("MyTabBar")) {
             /* SYSTEM PROPERTIES */
             if (ImGui::BeginTabItem(system_name)) {
-                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
-                if (ImGui::TreeNode("System Settings")) {
+                ImGui::Dummy(ImVec2(0.0f, 1.2f));
+                ImGui::SetNextTreeNodeOpen(false, ImGuiCond_FirstUseEver);
+                if (ImGui::TreeNode("System Infos")) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-
                     /* System Name */
                     char temp_name[32];
                     ImFormatString(temp_name, IM_ARRAYSIZE(temp_name), name.c_str());
@@ -186,6 +186,34 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     // ImGui::SetKeyboardFocusHere(-1);
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::Text("Units");
+                    ImGui::SameLine();
+                    DrawGuiHelp("");
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                    /* Lenght Unit */
+                    char temp_lenght_unit[32];
+                    ImFormatString(temp_lenght_unit, IM_ARRAYSIZE(temp_lenght_unit), lenght_unit.c_str());
+                    if (ImGui::InputText("Lenght", temp_lenght_unit, IM_ARRAYSIZE(temp_lenght_unit), ImGuiInputTextFlags_EnterReturnsTrue)) { lenght_unit = temp_lenght_unit; }
+
+                    /* Mass Unit */
+                    char temp_mass_unit[32];
+                    ImFormatString(temp_mass_unit, IM_ARRAYSIZE(temp_mass_unit), mass_unit.c_str());
+                    if (ImGui::InputText("Mass", temp_mass_unit, IM_ARRAYSIZE(temp_mass_unit), ImGuiInputTextFlags_EnterReturnsTrue)) { mass_unit = temp_mass_unit; }
+
+                    /* Time Unit */
+                    char temp_time_unit[32];
+                    ImFormatString(temp_time_unit, IM_ARRAYSIZE(temp_time_unit), time_unit.c_str());
+                    if (ImGui::InputText("Time", temp_time_unit, IM_ARRAYSIZE(temp_time_unit), ImGuiInputTextFlags_EnterReturnsTrue)) { time_unit = temp_time_unit; }
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::TreePop();
+                }
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
+                if (ImGui::TreeNode("System Settings")) {
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
                     ImGui::Text("Reference Frame gravity field");
                     ImGui::SameLine();
                     DrawGuiHelp(
@@ -212,8 +240,8 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                     /* System Delta Time */
-                    static int temp_dt = system.get_dt();
-                    if (ImGui::InputInt("dt", &temp_dt)) { system.set_dt(temp_dt); }
+                    static float temp_dt = system.get_dt();
+                    if (ImGui::InputFloat("dt", &temp_dt, 0.001f, 0.1f, "%.3f")) { system.set_dt(temp_dt); }
                     if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
@@ -299,7 +327,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     ImGui::TreePop();
                 }
-
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
                 ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
                 if (ImGui::TreeNode("Inputs Settings")) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
@@ -344,7 +372,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     ImGui::TreePop();
                 }
-
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
                 ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
                 if (ImGui::TreeNode("Graphical Settings")) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
@@ -509,14 +537,13 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     }
                 }
 
-                /* CORPSE PROPERTIES */
-                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
-                if (ImGui::TreeNode("Corpse Properties")) {
+                ImGui::Dummy(ImVec2(0.0f, 1.2f));
+                ImGui::SetNextTreeNodeOpen(false, ImGuiCond_FirstUseEver);
+                if (ImGui::TreeNode("Corpse Infos")) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-
                     if (nothing_selected) {
                         ImGui::Dummy(ImVec2(0.0f, 10.0f));
-                        ImGui::TextDisabled("Select one or more objects to edit it's properties");
+                        ImGui::TextDisabled("Select one or more objects to see it's infos");
                         ImGui::Dummy(ImVec2(0.0f, 10.0f));
                     } else {
                         float props_vel;
@@ -527,6 +554,55 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         float props_ep;
                         float props_em;
 
+                        char label_props[30] = "Body Properties";
+
+                        int body_cursor;
+                        if (unique_selected) {
+                            body_cursor = cursor_selected;
+                        } else {
+                            body_cursor = selected_corpses_cursor.at(0);
+                        }
+
+                        props_vel = ftn::Length(system.get_corpse(body_cursor)->get_diff_pos());  // dp / dt
+                        props_acc = 10.0f;
+                        props_jer = 10.0f;
+
+                        props_ek = 0.5f * system.get_corpse(body_cursor)->get_mass() * props_vel * props_vel;  // Ek = (1/2)mv^2
+                        props_ep = 10.0f;
+                        props_em = system.get_corpse(body_cursor)->get_mass() * system.get_LS() * system.get_LS();  // Em = m.c^2
+
+                        if (!unique_selected) { ImFormatString(label_props, IM_ARRAYSIZE(label_props), "Body Properties <Mean>"); }
+                        ImGui::Text(label_props);
+                        ImGui::SameLine();
+                        DrawGuiHelp("Kinetic Energy = (1/2).m.v^2\nPotential Energy = \nEnergy = m.c^2");
+                        ImGui::Text(
+                            " \n"
+                            " * Velocity: %.f (m.s^-1)\n"
+                            " * Acceleration: %.f (m.s^-2)\n"
+                            " * Jerk: %.f (m.s^-3)\n"
+                            "\n"
+                            " * Ek = %.f (J)\n"
+                            " * Ep = %.f (J)\n"
+                            " * Em = %.f (J)\n"
+                            "\n",
+                            props_vel, props_acc, props_jer, props_ek, props_ep, props_em);
+                    }
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::TreePop();
+                }
+
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                /* CORPSE PROPERTIES */
+                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
+                if (ImGui::TreeNode("Corpse Properties")) {
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+                    if (nothing_selected) {
+                        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+                        ImGui::TextDisabled("Select one or more objects to edit it's properties");
+                        ImGui::Dummy(ImVec2(0.0f, 10.0f));
+                    } else {
                         float temp_position_x;
                         float temp_position_y;
                         float temp_velocity_x;
@@ -543,8 +619,6 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         float temp_rotation;
                         float temp_spin;
                         float temp_motor;
-
-                        char label_props[30] = "Body Properties <Appr>";
 
                         char label_posX[30] = "Position X";
                         char label_posY[30] = "Position Y";
@@ -571,14 +645,6 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                             body_cursor = selected_corpses_cursor.at(0);
                         }
 
-                        props_vel = ftn::Length(system.get_corpse(body_cursor)->get_diff_pos());  // dp / dt
-                        props_acc = 10.0f;
-                        props_jer = 10.0f;
-
-                        props_ek = 0.5f * system.get_corpse(body_cursor)->get_mass() * props_vel * props_vel;  // Ek = (1/2)mv^2
-                        props_ep = 10.0f;
-                        props_em = system.get_corpse(body_cursor)->get_mass() * system.get_LS() * system.get_LS();  // Em = m.c^2
-
                         temp_position_x = system.get_corpse(body_cursor)->get_pos_x();
                         temp_position_y = system.get_corpse(body_cursor)->get_pos_y();
                         temp_velocity_x = system.get_corpse(body_cursor)->get_diff_pos_x();
@@ -597,8 +663,6 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         temp_motor = system.get_corpse(body_cursor)->get_motor_rotation();
 
                         if (!unique_selected) {
-                            ImFormatString(label_props, IM_ARRAYSIZE(label_props), "Body Properties <Mean>");
-
                             for (int i = 1; i < selected_corpses_cursor.size(); i++) {
                                 int temp_cursor = selected_corpses_cursor.at(i);
                                 float sig_pos = 0.1f;
@@ -656,24 +720,6 @@ void Renderer::ShowGuiProperties(bool* p_open) {
 
                         ImGui::Dummy(ImVec2(0.0f, 5.0f));
                         ImGui::Separator();
-                        ImGui::Dummy(ImVec2(0.0f, 5.0f));
-
-                        ImGui::Text(
-                            " \n"
-                            " * Velocity: %.f (m.s^-1)\n"
-                            " * Acceleration: %.f (m.s^-2)\n"
-                            " * Jerk: %.f (m.s^-3)\n"
-                            "\n"
-                            " * Ek = %.f (J)\n"
-                            " * Ep = %.f (J)\n"
-                            " * Em = %.f (J)\n"
-                            "\n",
-                            props_vel, props_acc, props_jer, props_ek, props_ep, props_em);
-
-                        ImGui::Dummy(ImVec2(0.0f, 5.0f));
-                        ImGui::Separator();
-                        ImGui::SameLine();
-                        DrawGuiHelp("Kinetic Energy = (1/2).m.v^2\nPotential Energy = \nEnergy = m.c^2");
                         ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
                         /* Corpse Position_X */

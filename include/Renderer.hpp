@@ -61,6 +61,11 @@ class Renderer {
    private:
     float launch_power = 0.2f;
     float zoom_speed = 0.1f;
+    float dt_step = 0.01f;
+
+    std::string lenght_unit = "m";
+    std::string mass_unit = "kg";
+    std::string time_unit = "s";
 
     int circle_resolution = 60;
     int outline_thickness = -2;

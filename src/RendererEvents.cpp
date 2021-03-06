@@ -100,11 +100,11 @@ void Renderer::Input(sf::Event event) {
                 } break;
                 case sf::Keyboard::R: {
                     this->debug_system_edited = true;
-                    this->system.set_dt(this->system.get_dt() - 0.05f);
+                    this->system.set_dt(this->system.get_dt() - dt_step);
                 } break;
                 case sf::Keyboard::T: {
                     this->debug_system_edited = true;
-                    this->system.set_dt(this->system.get_dt() + 0.05f);
+                    this->system.set_dt(this->system.get_dt() + dt_step);
                 } break;
                 case sf::Keyboard::Space: {
                     this->debug_system_edited = true;

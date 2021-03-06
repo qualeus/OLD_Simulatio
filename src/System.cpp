@@ -65,14 +65,20 @@ System::~System() {}
 void System::Prepare() { InitQuadtree(); }
 
 void System::Step() {
-    UpdateTime();
-    // CheckLimits();
+    // Update Positions
     CorpsesStep();
+    // Update Forces
+    // Update Velocities
+    // Apply Boundaries conditions
     for (int i = 0; i < collision_accuracy; i++) {
         StepQuadtree();
         QuadPairsStep();
     }
     PairsStep();
+    CheckLimits();
+    // Move Global Time
+    UpdateTime();
+    // Calculate the Output
 }
 
 void System::UpdateTime() { this->t += this->dt; }
@@ -130,6 +136,7 @@ void System::Collision(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
 }
 
 void System::Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
+    /* Gravity */
     if (a->get_removed() || b->get_removed()) { return; }  // One Removed
     if (a->get_fixed() && b->get_fixed()) { return; }      // Both Fixed
 
@@ -172,10 +179,11 @@ void System::set_dt(float dt) {
     }
 
     float dt_frac = dt / this->dt;
-    // Update corpses velocities
+    // Update corpses velocities an rotations
     for (int i = 0; i < corpses_size; i++) {
         if (get_corpse(i)->get_removed()) { continue; }  // Removed
         get_corpse(i)->set_last_pos(get_corpse(i)->get_pos() - get_corpse(i)->get_diff_pos() * dt_frac);
+        get_corpse(i)->set_last_rotation(get_corpse(i)->get_rotation() - get_corpse(i)->get_diff_rotation() * dt_frac);
     }
 
     this->dt = dt;
