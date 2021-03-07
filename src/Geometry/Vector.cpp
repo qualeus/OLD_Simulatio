@@ -168,6 +168,44 @@ template int Vector<int>::Cross(const Vector<int>& v1, const Vector<int>& v2);
 template float Vector<float>::Cross(const Vector<float>& v1, const Vector<float>& v2);
 template double Vector<double>::Cross(const Vector<double>& v1, const Vector<double>& v2);
 
+/* Normal of the Angle: [Ay - By, Bx - Ax] (normal from the wall as if vectors were deflected in a mirror) */
+template <typename T>
+Vector<T> Vector<T>::Normal(const Vector<T>& v1, const Vector<T>& v2) {
+    return Vector<T>(v1.y - v2.y, v2.x - v1.x);
+}
+template Vector<int> Vector<int>::Normal(const Vector<int>& v1, const Vector<int>& v2);
+template Vector<float> Vector<float>::Normal(const Vector<float>& v1, const Vector<float>& v2);
+template Vector<double> Vector<double>::Normal(const Vector<double>& v1, const Vector<double>& v2);
+
+/* Inverse Normal of the Angle: [By - Ay, Ax - Bx] (normal towards the wall as if vectors were deflected in a mirror) */
+template <typename T>
+Vector<T> Vector<T>::NormalInverted(const Vector<T>& v1, const Vector<T>& v2) {
+    return Vector<T>(v2.y - v1.y, v1.x - v2.x);
+}
+template Vector<int> Vector<int>::NormalInverted(const Vector<int>& v1, const Vector<int>& v2);
+template Vector<float> Vector<float>::NormalInverted(const Vector<float>& v1, const Vector<float>& v2);
+template Vector<double> Vector<double>::NormalInverted(const Vector<double>& v1, const Vector<double>& v2);
+
+/* Angle from a line: atan2(y, x) = Arg(x+iy) rad <=> atan2(y, x)*(180/3.1415)= Arg(x+iy) deg */
+template <typename T>
+T Vector<T>::Bearing(const Vector<T>& v1, const Vector<T>& v2) {
+    return std::atan2(v1.x - v2.y, v1.x - v2.x) * (180 / PI);
+}
+template int Vector<int>::Bearing(const Vector<int>& v1, const Vector<int>& v2);
+template float Vector<float>::Bearing(const Vector<float>& v1, const Vector<float>& v2);
+template double Vector<double>::Bearing(const Vector<double>& v1, const Vector<double>& v2);
+
+/* Compute the angle formed by 3 points */
+template <typename T>
+T Vector<T>::Angle(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3) {
+    Vector<T> v12 = v2 - v1;
+    Vector<T> v32 = v2 - v3;
+    return std::atan2(Vector<T>::Cross(v12, v32), Vector<T>::Dot(v12, v32)) * (180 / PI);
+}
+template int Vector<int>::Angle(const Vector<int>& v1, const Vector<int>& v2, const Vector<int>& v3);
+template float Vector<float>::Angle(const Vector<float>& v1, const Vector<float>& v2, const Vector<float>& v3);
+template double Vector<double>::Angle(const Vector<double>& v1, const Vector<double>& v2, const Vector<double>& v3);
+
 /* Vector length: ||A|| = size = sqrt(Ax*Ax + Ay*Ay) */
 template <typename T>
 T Vector<T>::Distance(const Vector<T>& v1, const Vector<T>& v2) {
@@ -185,5 +223,144 @@ T Vector<T>::DistanceSquared(const Vector<T>& v1, const Vector<T>& v2) {
 template int Vector<int>::DistanceSquared(const Vector<int>& v1, const Vector<int>& v2);
 template float Vector<float>::DistanceSquared(const Vector<float>& v1, const Vector<float>& v2);
 template double Vector<double>::DistanceSquared(const Vector<double>& v1, const Vector<double>& v2);
+
+/* Rotate the point A around the point B by the angle in degree */
+template <typename T>
+Vector<T> Vector<T>::RotatePoint(const Vector<T>& v1, const Vector<T>& v2, const float& angle) {
+    return ((v2 - v1).Rotate(angle) + v1);  // Rotate then Translate the point back to it's origin
+}
+template Vector<int> Vector<int>::RotatePoint(const Vector<int>& v1, const Vector<int>& v2, const float& angle);
+template Vector<float> Vector<float>::RotatePoint(const Vector<float>& v1, const Vector<float>& v2, const float& angle);
+template Vector<double> Vector<double>::RotatePoint(const Vector<double>& v1, const Vector<double>& v2, const float& angle);
+
+/* Compute the mirrored point from A to the line B */
+template <typename T>
+Vector<T> Vector<T>::MirroredPoint(const Vector<T>& v1, const Vector<T>& v2) {
+    return (Vector<T>::LineProjection(v1, v2) * T(2)) - v1;
+}
+template Vector<int> Vector<int>::MirroredPoint(const Vector<int>& v1, const Vector<int>& v2);
+template Vector<float> Vector<float>::MirroredPoint(const Vector<float>& v1, const Vector<float>& v2);
+template Vector<double> Vector<double>::MirroredPoint(const Vector<double>& v1, const Vector<double>& v2);
+
+/* Given the collinears points A,B and C, check if the point C lies on the line segment [AB] */
+template <typename T>
+bool Vector<T>::PointOnSegment(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3) {
+    if (v3.x > std::max(v1.x, v2.x)) { return false; }
+    if (v3.x < std::min(v1.x, v2.x)) { return false; }
+    if (v3.y > std::max(v1.y, v2.y)) { return false; }
+    if (v3.y < std::min(v1.y, v2.y)) { return false; }
+    return true;
+}
+template bool Vector<int>::PointOnSegment(const Vector<int>& v1, const Vector<int>& v2, const Vector<int>& v3);
+template bool Vector<float>::PointOnSegment(const Vector<float>& v1, const Vector<float>& v2, const Vector<float>& v3);
+template bool Vector<double>::PointOnSegment(const Vector<double>& v1, const Vector<double>& v2, const Vector<double>& v3);
+
+/* Find the orientation of the ordered triplet (A, B, C) */
+/*
+    return 0 => A,B and C Colinear: [AB] // [BC]
+    return 1 => Clockwise Orientation: [BA] => [AC] => [CB]
+    return 2 => Counter Clockwise: [AB] => [BC] => [CA]
+*/
+template <typename T>
+int Vector<T>::LineOrientation(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3) {
+    /*
+        Using the segments slope: (By - Ay)*(Cx - Bx) - (Bx - Ax)*(Cy - By)
+        - if the two slopes are equals, the segments are colinears
+        - if slope[AB] > slope[BC], the orientation is clockwise
+        - if slope[AB] < slope[BC], the orientation is counter clockwise
+    */
+    int sigma = static_cast<int>((v2.y - v1.y) * (v3.x - v2.x) - (v2.x - v1.x) * (v3.y - v2.y));
+    if (sigma == 0) { return 0; }
+    if (sigma > 0) { return 1; }
+    return 2;
+}
+template int Vector<int>::LineOrientation(const Vector<int>& v1, const Vector<int>& v2, const Vector<int>& v3);
+template int Vector<float>::LineOrientation(const Vector<float>& v1, const Vector<float>& v2, const Vector<float>& v3);
+template int Vector<double>::LineOrientation(const Vector<double>& v1, const Vector<double>& v2, const Vector<double>& v3);
+
+/* Search if the segments AB and CD intersect */
+template <typename T>
+bool Vector<T>::SegmentsIntersect(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3, const Vector<T>& v4) {
+    int orientationA = Vector<T>::LineOrientation(v1, v2, v3);
+    int orientationB = Vector<T>::LineOrientation(v1, v2, v4);
+    int orientationC = Vector<T>::LineOrientation(v3, v4, v1);
+    int orientationD = Vector<T>::LineOrientation(v3, v4, v2);
+
+    // General case
+    if (orientationA != orientationB && orientationC != orientationD) { return true; }
+    if (orientationA == 0 && Vector<T>::LineOrientation(v1, v2, v3)) { return true; }
+    if (orientationB == 0 && Vector<T>::LineOrientation(v1, v2, v4)) { return true; }
+    if (orientationC == 0 && Vector<T>::LineOrientation(v3, v4, v1)) { return true; }
+    if (orientationD == 0 && Vector<T>::LineOrientation(v3, v4, v2)) { return true; }
+    return false;
+}
+template bool Vector<int>::SegmentsIntersect(const Vector<int>& v1, const Vector<int>& v2, const Vector<int>& v3, const Vector<int>& v4);
+template bool Vector<float>::SegmentsIntersect(const Vector<float>& v1, const Vector<float>& v2, const Vector<float>& v3, const Vector<float>& v4);
+template bool Vector<double>::SegmentsIntersect(const Vector<double>& v1, const Vector<double>& v2, const Vector<double>& v3, const Vector<double>& v4);
+
+/* Search if the lines AB and CD intersect */
+template <typename T>
+bool Vector<T>::LinesIntersect(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3, const Vector<T>& v4) {
+    T ABx = v1.x - v2.x;
+    T ABy = v2.y - v1.y;
+    T AB = ABy * v1.x + ABx * v1.y;
+
+    T CDx = v3.x - v4.x;
+    T CDy = v4.y - v3.y;
+    T CD = CDy * v3.x + CDx * v3.y;
+
+    // Det = 0 <=> Parallel Lines
+    if (ABy * CDx - CDy * ABx == 0) { return false; }
+    return true;
+}
+template bool Vector<int>::LinesIntersect(const Vector<int>& v1, const Vector<int>& v2, const Vector<int>& v3, const Vector<int>& v4);
+template bool Vector<float>::LinesIntersect(const Vector<float>& v1, const Vector<float>& v2, const Vector<float>& v3, const Vector<float>& v4);
+template bool Vector<double>::LinesIntersect(const Vector<double>& v1, const Vector<double>& v2, const Vector<double>& v3, const Vector<double>& v4);
+
+/* Test if the line segment [AB] intersect with the circle of center C and of radius size. Return true if collide and the collision point */
+template <typename T>
+std::pair<int, Vector<T>> Vector<T>::LineCercleIntersect(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3, const T& size) {
+    // Check if one of the ends of the line segment (side) is inside the circle
+    if (Vector<T>::Distance(v1, v3) < size) { return {2, Vector<T>()}; }
+    if (Vector<T>::Distance(v2, v3) < size) { return {3, Vector<T>()}; }
+
+    // Check if the closest point on the line is inside the circle
+    Vector<T> closest = Vector<T>::SegmentProjection(v1, v2, v3);
+
+    if (!Vector<T>::PointOnSegment(v1, v2, closest)) { return {0, Vector<T>()}; }
+    if (Vector<T>::Distance(closest, v3) <= size) { return {1, closest}; }
+
+    return {0, Vector<T>()};
+}
+template std::pair<int, Vector<int>> Vector<int>::LineCercleIntersect(const Vector<int>& v1, const Vector<int>& v2, const Vector<int>& v3, const int& size);
+template std::pair<int, Vector<float>> Vector<float>::LineCercleIntersect(const Vector<float>& v1, const Vector<float>& v2, const Vector<float>& v3, const float& size);
+template std::pair<int, Vector<double>> Vector<double>::LineCercleIntersect(const Vector<double>& v1, const Vector<double>& v2, const Vector<double>& v3, const double& size);
+
+/* Project point A onto the line B */
+template <typename T>
+Vector<T> Vector<T>::LineProjection(const Vector<T>& v1, const Vector<T>& v2) {
+    float dp = Vector<T>::Dot(v1, v2);
+    float bd = Vector<T>::Dot(v2, v2);
+    if (bd == 0) { return Vector<T>(); }
+    return v2 * static_cast<T>(dp / bd);
+}
+template Vector<int> Vector<int>::LineProjection(const Vector<int>& v1, const Vector<int>& v2);
+template Vector<float> Vector<float>::LineProjection(const Vector<float>& v1, const Vector<float>& v2);
+template Vector<double> Vector<double>::LineProjection(const Vector<double>& v1, const Vector<double>& v2);
+
+/* Projected point A onto the line BC */
+template <typename T>
+Vector<T> Vector<T>::SegmentProjection(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3) {
+    Vector<T> vect_bc = v3 - v2;
+    Vector<T> vect_ba = v1 - v2;
+
+    float dp = Vector<T>::Dot(vect_bc, vect_ba);
+    float bd = Vector<T>::Dot(vect_bc, vect_bc);
+    if (bd == 0) { return Vector<T>(); }
+    return v1 + (vect_bc * static_cast<T>(dp / bd));
+}
+template Vector<int> Vector<int>::SegmentProjection(const Vector<int>& v1, const Vector<int>& v2, const Vector<int>& v3);
+template Vector<float> Vector<float>::SegmentProjection(const Vector<float>& v1, const Vector<float>& v2, const Vector<float>& v3);
+template Vector<double> Vector<double>::SegmentProjection(const Vector<double>& v1, const Vector<double>& v2, const Vector<double>& v3);
 
 }  // namespace gmt

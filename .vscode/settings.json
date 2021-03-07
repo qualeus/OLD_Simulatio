@@ -92,6 +92,7 @@
         "regex": "cpp",
         "unordered_set": "cpp",
         "stack": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "slist": "cpp"
     }
 }

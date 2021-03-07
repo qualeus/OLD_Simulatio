@@ -8,10 +8,19 @@
 #include <sstream>
 #include <vector>
 
+#include "Bounds.hpp"
+#include "Vector.hpp"
+
 #define PI 3.141592654
 #define EDGE_APPROXIMATION 1.00f  // 0.95f
 
 namespace gmt {
+
+template <typename T>
+class Vector;
+
+template <typename T>
+class Bounds;
 
 struct Rectangle {
     sf::Vector2f pos;

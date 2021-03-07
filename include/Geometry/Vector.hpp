@@ -4,8 +4,11 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 
-#include "../../include/Geometry/Geometry.hpp"
+#include "Geometry.hpp"
 namespace gmt {
+
+template <typename T>
+class Bounds;
 
 template <typename T>
 class Vector {
@@ -34,8 +37,27 @@ class Vector {
 
     static T Distance(const Vector<T>& v1, const Vector<T>& v2);
     static T DistanceSquared(const Vector<T>& v1, const Vector<T>& v2);
+
     static T Dot(const Vector<T>& v1, const Vector<T>& v2);
     static T Cross(const Vector<T>& v1, const Vector<T>& v2);
+    static Vector<T> Normal(const Vector<T>& v1, const Vector<T>& v2);
+    static Vector<T> NormalInverted(const Vector<T>& v1, const Vector<T>& v2);
+
+    static T Bearing(const Vector<T>& v1, const Vector<T>& v2);
+    static T Angle(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3);
+
+    static Vector<T> RotatePoint(const Vector<T>& v1, const Vector<T>& v2, const float& angle);
+    static Vector<T> MirroredPoint(const Vector<T>& v1, const Vector<T>& v2);
+
+    static bool PointOnSegment(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3);
+    static int LineOrientation(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3);
+
+    static bool SegmentsIntersect(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3, const Vector<T>& v4);
+    static bool LinesIntersect(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3, const Vector<T>& v4);
+    static std::pair<int, Vector<T>> LineCercleIntersect(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3, const T& size);
+
+    static Vector<T> LineProjection(const Vector<T>& v1, const Vector<T>& v2);
+    static Vector<T> SegmentProjection(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3);
 };
 }  // namespace gmt
 
