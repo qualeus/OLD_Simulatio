@@ -1,4 +1,5 @@
-#include "../include/Renderer.hpp"
+
+#include "../../include/Renderer/Renderer.hpp"
 
 void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
     if (corpse->get_removed()) { return; }  // Removed
@@ -6,7 +7,7 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
     if (phy::Circle *circle = dynamic_cast<phy::Circle *>(corpse.get())) {
         if (debug_show_centroids) { DrawCircle(circle->get_pos_x(), circle->get_pos_y(), 5, sf::Color::Red, true); }
         if (debug_show_rectangles) {
-            ftn::Rectangle bounds = circle->get_corpse_bounds();
+            gmt::Rectangle bounds = circle->get_corpse_bounds();
             DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
         }
         if (debug_show_edges) { DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size() + 3, sf::Color::Red, true); }
@@ -23,7 +24,7 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
 
     } else if (phy::Polygon *polygon = dynamic_cast<phy::Polygon *>(corpse.get())) {
         if (debug_show_rectangles) {
-            ftn::Rectangle bounds = polygon->get_corpse_bounds();
+            gmt::Rectangle bounds = polygon->get_corpse_bounds();
             DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
         }
         if (debug_show_centroids) { DrawCircle(polygon->get_pos_x(), polygon->get_pos_y(), 5, sf::Color::Red, true); }
@@ -39,14 +40,14 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
             std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = polygon->get_sides();
             for (int i = 0; i < sides.size(); i++) {
                 sf::Vector2f edge_center = (sides.at(i).first + sides.at(i).second) / 2.0f;
-                sf::Vector2f edge_vector = edge_center + ftn::Normalize(ftn::Norme(sides.at(i).first, sides.at(i).second)) * vector_size;
+                sf::Vector2f edge_vector = edge_center + gmt::Normalize(gmt::Norme(sides.at(i).first, sides.at(i).second)) * vector_size;
                 Renderer::DrawArrow(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, arrow_size, arrow_size, line_thickness, sf::Color::Red);
 
                 std::pair<sf::Vector2f, sf::Vector2f> last_edge = sides.at((i - 1) % sides.size());
                 std::pair<sf::Vector2f, sf::Vector2f> current_edge = sides.at(i);
 
                 sf::Vector2f point_center = last_edge.second;
-                sf::Vector2f point_vector = point_center + ftn::Normalize(ftn::Normalize(ftn::Norme(last_edge.first, last_edge.second)) + ftn::Normalize(ftn::Norme(current_edge.first, current_edge.second))) * vector_size;
+                sf::Vector2f point_vector = point_center + gmt::Normalize(gmt::Normalize(gmt::Norme(last_edge.first, last_edge.second)) + gmt::Normalize(gmt::Norme(current_edge.first, current_edge.second))) * vector_size;
                 Renderer::DrawArrow(point_center.x, point_center.y, point_vector.x, point_vector.y, arrow_size, arrow_size, line_thickness, sf::Color::Red);
             }
         }
@@ -72,10 +73,10 @@ void Renderer::DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<
     DrawLine(pos_A.x, pos_A.y, pos_B.x, pos_B.y);
 }
 
-void Renderer::DrawQuadtree(ftn::Rectangle rect) { DrawRectangle(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y, false, C_RED, true); }
+void Renderer::DrawQuadtree(gmt::Rectangle rect) { DrawRectangle(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y, false, C_RED, true); }
 
 void Renderer::DrawLimits() {
-    ftn::Rectangle limits = system.get_limits();
+    gmt::Rectangle limits = system.get_limits();
     DrawRectangle(limits.pos.x, limits.pos.y, limits.size.x, limits.size.y, false, C_RED, true);
 }
 
@@ -145,7 +146,7 @@ void Renderer::Debug() {
 
 void Renderer::DrawInputs() {
     if (debug_show_quadtree) {
-        std::vector<ftn::Rectangle> quadtrees = this->system.get_quadtree()->get_all_bounds();
+        std::vector<gmt::Rectangle> quadtrees = this->system.get_quadtree()->get_all_bounds();
         for (int i = 0; i < quadtrees.size(); i++) { DrawQuadtree(quadtrees.at(i)); }
     }
 
@@ -169,7 +170,7 @@ void Renderer::DrawInputs() {
         } break;
         case S_CREATE_CIRCLE: {
             sf::Vector2f temp_pos = this->selected_area.pos;
-            float temp_size = ftn::Length(this->selected_area.size);
+            float temp_size = gmt::Length(this->selected_area.size);
             if (temp_pos != sf::Vector2f()) { DrawCircle(temp_pos.x, temp_pos.y, temp_size, sf::Color::White, true); }
         } break;
         case S_CREATE_POLYGON: {
@@ -194,19 +195,19 @@ void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Col
     // test if the line is in the screen bounds (TODO test if the line pass by
     // the rect for screen for the zoom)
     if (((x1 > get_real_pos_x(0)) && (x1 < get_real_pos_x(screen_width)) && (y1 > get_real_pos_y(0)) && (y1 < get_real_pos_y(screen_height))) || ((x2 > get_real_pos_x(0)) && (x2 < get_real_pos_x(screen_height)) && (y2 > get_real_pos_y(0)) && (y2 < get_real_pos_y(screen_height)))) {
-        sf::RectangleShape line(sf::Vector2f(ftn::Length(x1, y1, x2, y2), thickness));
+        sf::RectangleShape line(sf::Vector2f(gmt::Length(x1, y1, x2, y2), thickness));
         line.setOrigin(0, thickness / 2.0f);
         line.setPosition(x2, y2);
-        line.rotate(ftn::bearing(x1, y1, x2, y2));
+        line.rotate(gmt::bearing(x1, y1, x2, y2));
         line.setFillColor(color);
         this->window.draw(line);
     }
 }
 
 void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness, sf::Color color) {
-    float angle = ftn::bearing(x2, y2, x1, y1);
-    float length = ftn::Length(x1, y1, x2, y2);
-    if (ftn::Equals(length, 0.0f, min_arrow_size)) { return; }  // Dont draw if the vector is null
+    float angle = gmt::bearing(x2, y2, x1, y1);
+    float length = gmt::Length(x1, y1, x2, y2);
+    if (gmt::Equals(length, 0.0f, min_arrow_size)) { return; }  // Dont draw if the vector is null
 
     sf::ConvexShape head = sf::ConvexShape(3);
     head.setPoint(0, {0.0f, 0.0f});

@@ -1,6 +1,7 @@
 #include <iostream>
 
-#include "../include/Renderer.hpp"
+#include "../../include/Geometry/Vector.hpp"
+#include "../../include/Renderer/Renderer.hpp"
 
 void BaseDemo() {
     Renderer base = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Base Demo", false, 0.0f, 1.0f, 2000.0f, 2000.0f);
@@ -36,3 +37,13 @@ int main() {
     GravityDemo();
     return 0;
 }
+
+/*
+https://github.com/liabru/matter-js/blob/master/src/geometry/Vector.js
+http://buildnewgames.com/gamephysics/
+http://cplusplus.com/forum/beginner/89388/
+https://en.wikipedia.org/wiki/Verlet_integration
+https://compphys.go.ro/newtonian-gravity/
+https://femto-physique.fr/omp/methode-de-verlet.php
+https://python.plainenglish.io/molecular-dynamics-velocity-verlet-integration-with-python-5ae66b63a8fd
+*/

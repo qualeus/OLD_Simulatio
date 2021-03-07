@@ -7,11 +7,11 @@
 #include <sstream>
 #include <vector>
 
-#include "../include/Circle.hpp"
-#include "../include/Corpse.hpp"
-#include "../include/Functional.hpp"
-#include "../include/Polygon.hpp"
-#include "../include/Quadtree.hpp"
+#include "Corpses/Circle.hpp"
+#include "Corpses/Corpse.hpp"
+#include "Corpses/Polygon.hpp"
+#include "Geometry/Geometry.hpp"
+#include "Geometry/Quadtree.hpp"
 
 namespace phy {
 
@@ -43,7 +43,7 @@ class System {
     int collision_accuracy = 10;
     int constraint_accuracy = 10;
 
-    ftn::Rectangle limits;
+    gmt::Rectangle limits;
 
    public:
     System(bool gravity = false, float force_x = 0.0f, float force_y = 0.0f, float limit_x = 4000.0f, float limit_y = 4000.0f);  // System Constructor
@@ -61,7 +61,7 @@ class System {
     void QuadPairsStep();
 
     void Collision(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
-    void Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
+    void Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
 
     void InitQuadtree();
     void StepQuadtree();
@@ -104,8 +104,8 @@ class System {
     void add_corpse(std::shared_ptr<Corpse> a);
     void add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
 
-    ftn::Rectangle get_limits() const;
-    void set_limits(ftn::Rectangle limits);
+    gmt::Rectangle get_limits() const;
+    void set_limits(gmt::Rectangle limits);
 
     std::vector<std::shared_ptr<Corpse>> get_corpses() const;
     std::shared_ptr<Corpse> get_corpse(int index) const;

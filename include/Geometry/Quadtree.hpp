@@ -4,9 +4,9 @@
 #include <memory>
 #include <vector>
 
-#include "../include/Circle.hpp"
-#include "../include/Functional.hpp"
-#include "../include/Polygon.hpp"
+#include "Geometry.hpp"
+#include "../Corpses/Circle.hpp"
+#include "../Corpses/Polygon.hpp"
 
 namespace phy {
 
@@ -18,7 +18,7 @@ namespace phy {
 class Quadtree {
    private:
     int level;
-    struct ftn::Rectangle bounds;
+    struct gmt::Rectangle bounds;
 
     std::shared_ptr<Quadtree> node_A;
     std::shared_ptr<Quadtree> node_B;
@@ -28,7 +28,7 @@ class Quadtree {
     std::vector<std::shared_ptr<Corpse>> corpses;
 
    public:
-    Quadtree(ftn::Rectangle bounds = ftn::Rectangle({sf::Vector2f(), sf::Vector2f()}), int level = 1);
+    Quadtree(gmt::Rectangle bounds = gmt::Rectangle({sf::Vector2f(), sf::Vector2f()}), int level = 1);
     Quadtree& operator=(const Quadtree& rhs);
     virtual ~Quadtree();
 
@@ -45,8 +45,8 @@ class Quadtree {
     int get_level() const;
     void set_level(int level);
 
-    ftn::Rectangle get_bounds() const;
-    void set_bounds(ftn::Rectangle bounds);
+    gmt::Rectangle get_bounds() const;
+    void set_bounds(gmt::Rectangle bounds);
 
     std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> make_pairs();
 
@@ -56,7 +56,7 @@ class Quadtree {
     std::shared_ptr<Quadtree> get_node(int i);
     void set_node(int i, std::shared_ptr<Quadtree> node);
 
-    std::vector<ftn::Rectangle> get_all_bounds();
+    std::vector<gmt::Rectangle> get_all_bounds();
 };
 
 }  // namespace phy

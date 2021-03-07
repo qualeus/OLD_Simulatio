@@ -1,4 +1,5 @@
-#include "../include/Renderer.hpp"
+
+#include "../../include/Renderer/Renderer.hpp"
 
 void Renderer::SetupGui() {
     /*
@@ -247,7 +248,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                     /* System Limits */
-                    ftn::Rectangle rect_limits = system.get_limits();
+                    gmt::Rectangle rect_limits = system.get_limits();
                     static float temp_limits[4] = {rect_limits.pos.x, rect_limits.pos.y, rect_limits.size.x, rect_limits.size.y};
                     if (ImGui::DragFloat4("Limits", temp_limits, 1.f, -FLT_MAX, +FLT_MAX, "%.f")) {
                         rect_limits = {sf::Vector2f(temp_limits[0], temp_limits[1]), sf::Vector2f(temp_limits[2], temp_limits[3])};
@@ -563,7 +564,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                             body_cursor = selected_corpses_cursor.at(0);
                         }
 
-                        props_vel = ftn::Length(system.get_corpse(body_cursor)->get_diff_pos());  // dp / dt
+                        props_vel = gmt::Length(system.get_corpse(body_cursor)->get_diff_pos());  // dp / dt
                         props_acc = 10.0f;
                         props_jer = 10.0f;
 
@@ -669,26 +670,26 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 float sig_vel = 0.01f;
                                 float sig_com = 0.001f;
 
-                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
+                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
                                     ImFormatString(label_posX, IM_ARRAYSIZE(label_posX), "Position X <differ>");
                                     temp_position_x = 0.0f;
                                 }
-                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_pos_y(), temp_position_y, sig_pos)) {
+                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_pos_y(), temp_position_y, sig_pos)) {
                                     ImFormatString(label_posY, IM_ARRAYSIZE(label_posY), "Position Y <differ>");
                                     temp_position_y = 0.0f;
                                 }
-                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
+                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
                                     ImFormatString(label_velX, IM_ARRAYSIZE(label_velX), "Velocity X <differ>");
                                     temp_velocity_x = 0.0f;
                                 }
-                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
+                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
                                     ImFormatString(label_velY, IM_ARRAYSIZE(label_velY), "Velocity Y <differ>");
                                     temp_velocity_y = 0.0f;
                                 }
 
-                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_friction(), temp_friction, sig_com)) { ImFormatString(label_fric, IM_ARRAYSIZE(label_fric), "Fricition <differ>"); }
-                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_mass(), temp_mass, sig_com)) { ImFormatString(label_mass, IM_ARRAYSIZE(label_mass), "Mass <differ>"); }
-                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_damping(), temp_damping, sig_com)) { ImFormatString(label_damp, IM_ARRAYSIZE(label_damp), "Damping <differ>"); }
+                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_friction(), temp_friction, sig_com)) { ImFormatString(label_fric, IM_ARRAYSIZE(label_fric), "Fricition <differ>"); }
+                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_mass(), temp_mass, sig_com)) { ImFormatString(label_mass, IM_ARRAYSIZE(label_mass), "Mass <differ>"); }
+                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_damping(), temp_damping, sig_com)) { ImFormatString(label_damp, IM_ARRAYSIZE(label_damp), "Damping <differ>"); }
 
                                 if (!system.get_corpse(temp_cursor)->get_fixed() == temp_fixed) {
                                     ImFormatString(label_fix, IM_ARRAYSIZE(label_fix), "Fixed <differ>");
@@ -703,15 +704,15 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                     temp_tied = -1;
                                 }
 
-                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_rotation(), temp_rotation, sig_pos)) {
+                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_rotation(), temp_rotation, sig_pos)) {
                                     ImFormatString(label_rot, IM_ARRAYSIZE(label_rot), "Rotation <differ>");
                                     temp_rotation = 0.0f;
                                 }
-                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_rotation(), temp_spin, sig_pos)) {
+                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_rotation(), temp_spin, sig_pos)) {
                                     ImFormatString(label_spi, IM_ARRAYSIZE(label_spi), "Spin <differ>");
                                     temp_spin = 0.0f;
                                 }
-                                if (!ftn::Equals(system.get_corpse(temp_cursor)->get_motor_rotation(), temp_motor, sig_pos)) {
+                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_motor_rotation(), temp_motor, sig_pos)) {
                                     ImFormatString(label_mot, IM_ARRAYSIZE(label_mot), "Motor <differ>");
                                     temp_motor = 0.0f;
                                 }
@@ -1146,9 +1147,9 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             if (ImGui::GetTime() - t_mouse > 0.05f) {
                 t_mouse = ImGui::GetTime();
 
-                last_mouse_acc = ftn::Length({io.MousePos.x - last_mouse_pos.x, io.MousePos.y - last_mouse_pos.y}) - last_mouse_vel;
-                last_mouse_vel = ftn::Length({io.MousePos.x - last_mouse_pos.x, io.MousePos.y - last_mouse_pos.y});
-                if (last_mouse_vel > 3.0f) { mouse_angle = ftn::degree_to_radian(ftn::bearing(io.MousePos.x, io.MousePos.y, last_mouse_pos.x, last_mouse_pos.y)); }
+                last_mouse_acc = gmt::Length({io.MousePos.x - last_mouse_pos.x, io.MousePos.y - last_mouse_pos.y}) - last_mouse_vel;
+                last_mouse_vel = gmt::Length({io.MousePos.x - last_mouse_pos.x, io.MousePos.y - last_mouse_pos.y});
+                if (last_mouse_vel > 3.0f) { mouse_angle = gmt::degree_to_radian(gmt::bearing(io.MousePos.x, io.MousePos.y, last_mouse_pos.x, last_mouse_pos.y)); }
                 last_mouse_pos = {io.MousePos.x, io.MousePos.y};
             }
 

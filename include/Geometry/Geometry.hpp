@@ -1,5 +1,5 @@
-#ifndef Functional_HPP
-#define Functional_HPP
+#ifndef Geometry_HPP
+#define Geometry_HPP
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
@@ -11,7 +11,7 @@
 #define PI 3.141592654
 #define EDGE_APPROXIMATION 1.00f  // 0.95f
 
-namespace ftn {
+namespace gmt {
 
 struct Rectangle {
     sf::Vector2f pos;
@@ -67,13 +67,13 @@ sf::Vector2f Points_Average(std::vector<sf::Vector2f> points);
 std::pair<int, sf::Vector2f> Line_Circle_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const float &size);
 
 std::pair<sf::Vector2f, sf::Vector2f> Closest_Edge(std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides, sf::Vector2f point);
-ftn::Rectangle Reorder_Rectangle(ftn::Rectangle rectangle);
+gmt::Rectangle Reorder_Rectangle(gmt::Rectangle rectangle);
 float digits_comma(float number, int digits);
 float bearing(float x1, float y1, float x2, float y2);
 float angle(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C);
 
-bool rect_in_bounds(const ftn::Rectangle &object, const ftn::Rectangle &limits);
-bool rect_out_bounds(const ftn::Rectangle &object, const ftn::Rectangle &limits);
+bool rect_in_bounds(const gmt::Rectangle &object, const gmt::Rectangle &limits);
+bool rect_out_bounds(const gmt::Rectangle &object, const gmt::Rectangle &limits);
 
 sf::Vector2f Mirrored_Point(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
 
@@ -115,5 +115,5 @@ bool decimal_equals(const T &a, const T &b, T epsilon = std::numeric_limits<T>::
     return fabs(a - b) < epsilon;
 }
 
-}  // namespace ftn
+}  // namespace gmt
 #endif

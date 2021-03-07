@@ -1,4 +1,5 @@
-#include "../include/Renderer.hpp"
+
+#include "../../include/Renderer/Renderer.hpp"
 
 void Renderer::Input(sf::Event event) {
     ImGui::SFML::ProcessEvent(event);
@@ -240,17 +241,17 @@ void Renderer::SelectMultipleCorpsesStop(sf::Event event) {
 
     // Reorganize the points in a rectangle ABCD (top left point A / bottom
     // right point C)
-    ftn::Rectangle rectangle = ftn::Reorder_Rectangle(this->selected_area);
+    gmt::Rectangle rectangle = gmt::Reorder_Rectangle(this->selected_area);
 
     for (int i = 0; i < system.get_corpses_size(); i++) {
         if (system.get_corpse(i)->get_removed()) { continue; }  // Removed
         if (phy::Circle *circle = dynamic_cast<phy::Circle *>(system.get_corpse(i).get())) {
-            if (!ftn::rect_out_bounds(circle->get_corpse_bounds(), rectangle)) {
+            if (!gmt::rect_out_bounds(circle->get_corpse_bounds(), rectangle)) {
                 this->selected_corpses_cursor.push_back(i);
                 this->selected_corpses_fixed.push_back(system.get_corpse(i)->get_fixed());
             }
         } else if (phy::Polygon *polygon = dynamic_cast<phy::Polygon *>(system.get_corpse(i).get())) {
-            if (!ftn::rect_out_bounds(polygon->get_corpse_bounds(), rectangle)) { this->selected_corpses_cursor.push_back(i); }
+            if (!gmt::rect_out_bounds(polygon->get_corpse_bounds(), rectangle)) { this->selected_corpses_cursor.push_back(i); }
         }
     }
     this->select_type = S_DEFAULT;
@@ -352,7 +353,7 @@ void Renderer::LaunchCorpseStop(sf::Event event) {
     for (int i = 0; i < selected_corpses_cursor.size(); i++) {
         if (selected_corpses_fixed.at(i)) { continue; }
         sf::Vector2f diff_vector = this->selected_area.pos - (this->selected_area.pos + this->selected_area.size);
-        sf::Vector2f launch_vector = ftn::Normalize(diff_vector) * ftn::Length(diff_vector) * launch_power;
+        sf::Vector2f launch_vector = gmt::Normalize(diff_vector) * gmt::Length(diff_vector) * launch_power;
         system.get_corpse(selected_corpses_cursor.at(i))->Move(launch_vector);
         system.get_corpse(selected_corpses_cursor.at(i))->set_fixed(selected_corpses_fixed.at(i));
     }
@@ -404,7 +405,7 @@ void Renderer::CreateCircleStop(sf::Event event) {
     this->debug_system_edited = true;
 
     sf::Vector2f temp_pos = this->selected_area.pos;
-    float temp_size = ftn::Length(this->selected_area.size);
+    float temp_size = gmt::Length(this->selected_area.size);
     float temp_mass = (temp_size * temp_size) * 0.1f;
     system.addCorpse(phy::Circle(temp_pos.x, temp_pos.y, temp_size, temp_mass, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue));
     this->selected_area = {sf::Vector2f(), sf::Vector2f()};

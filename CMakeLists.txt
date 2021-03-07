@@ -46,29 +46,39 @@ find_package(ImGui-SFML REQUIRED)
 # Compile Target
 
 set(SOURCES
-    src/main.cpp
-    src/Circle.cpp
-    src/Constraint.cpp
-    src/Corpse.cpp
-    src/Dot.cpp
-    src/Functional.cpp
-    src/Polygon.cpp
-    src/Quadtree.cpp
-    src/Renderer.cpp
-    src/RendererDraw.cpp
-    src/RendererEvents.cpp
-    src/RendererGui.cpp
+    src/main/main.cpp
+    src/Corpses/Corpse.cpp
+    src/Corpses/Circle.cpp
+    src/Corpses/Polygon.cpp
+    src/Constraints/Constraint.cpp
+    src/Constraints/Dot.cpp
+    src/Geometry/Geometry.cpp
+    src/Geometry/Vector.cpp
+    src/Geometry/Bounds.cpp
+    src/Geometry/Vertices.cpp
+    src/Geometry/Text.cpp
+    src/Geometry/Maths.cpp
+    src/Geometry/Quadtree.cpp
+    src/Renderer/Renderer.cpp
+    src/Renderer/Draw.cpp
+    src/Renderer/Event.cpp
+    src/Renderer/Gui.cpp
     src/System.cpp  
 )
 set(HEADERS
-    include/Circle.hpp
-    include/Constraint.hpp
-    include/Corpse.hpp
-    include/Dot.hpp
-    include/Functional.hpp
-    include/Polygon.hpp
-    include/Quadtree.hpp
-    include/Renderer.hpp
+    include/Corpses/Corpse.hpp
+    include/Corpses/Circle.hpp
+    include/Corpses/Polygon.hpp
+    include/Constraints/Constraint.hpp
+    include/Constraints/Dot.hpp
+    include/Geometry/Geometry.hpp
+    include/Geometry/Vector.hpp
+    include/Geometry/Bounds.hpp
+    include/Geometry/Quadtree.hpp
+    include/Geometry/Vertices.hpp
+    include/Geometry/Text.hpp
+    include/Geometry/Maths.hpp
+    include/Renderer/Renderer.hpp
     include/System.hpp
 )
 

@@ -1,4 +1,4 @@
-#include "../include/Corpse.hpp"
+#include "../../include/Corpses/Corpse.hpp"
 
 namespace phy {
 
@@ -86,7 +86,7 @@ void Corpse::CollisionResponse(phy::Corpse* corpse_a, phy::Corpse* corpse_b, con
 
             // corpse_a->set_last_pos(corpse_a->get_pos());
             corpse_a->Move(vect_force);
-            // corpse_a->Move(ftn::Mirrored_Point(temp_pos - corpse_a->get_pos(), vect_force) * damping);
+            // corpse_a->Move(gmt::Mirrored_Point(temp_pos - corpse_a->get_pos(), vect_force) * damping);
 
         } else if (!corpse_b->get_fixed()) {
             // corpse_a is Fixed and corpse_b is Not Fixed:
@@ -94,7 +94,7 @@ void Corpse::CollisionResponse(phy::Corpse* corpse_a, phy::Corpse* corpse_b, con
 
             // corpse_b->set_last_pos(corpse_b->get_pos());
             corpse_b->Move(-vect_force);
-            // corpse_b->Move(ftn::Mirrored_Point(temp_pos - corpse_b->get_pos(), vect_force) * damping);
+            // corpse_b->Move(gmt::Mirrored_Point(temp_pos - corpse_b->get_pos(), vect_force) * damping);
         } else {
             // Both corpse_a and corpse_b are Fixed:
             // corpse_a->Move(force*0.5f);
@@ -116,7 +116,7 @@ void Corpse::CollisionResponse(phy::Corpse* corpse_a, phy::Corpse* corpse_b, con
         corpse_b->Move(-vect_force * normal_mass_corpse_a * 0.5f);
         /*
         // Distance between corpses
-        float fDistance = ftn::Length(corpse_a->get_pos_x(), corpse_a->get_pos_y(), corpse_b->get_pos_x(), corpse_b->get_pos_y());
+        float fDistance = gmt::Length(corpse_a->get_pos_x(), corpse_a->get_pos_y(), corpse_b->get_pos_x(), corpse_b->get_pos_y());
 
         // Normal
         float nx = (corpse_b->get_pos_x() - corpse_a->get_pos_x()) / fDistance;
@@ -142,8 +142,8 @@ void Corpse::CollisionResponse(phy::Corpse* corpse_a, phy::Corpse* corpse_b, con
         corpse_b->Move(tx * dpTanB + nx * mB, ty * dpTanB + ny * mB);
         */
 
-        // corpse_a->Move(ftn::Mirrored_Point(temp_pos_a - corpse_a->get_pos(), vect_force) * damping);
-        // corpse_b->Move(ftn::Mirrored_Point(temp_pos_b - corpse_b->get_pos(), vect_force) * damping);
+        // corpse_a->Move(gmt::Mirrored_Point(temp_pos_a - corpse_a->get_pos(), vect_force) * damping);
+        // corpse_b->Move(gmt::Mirrored_Point(temp_pos_b - corpse_b->get_pos(), vect_force) * damping);
     }
 }
 

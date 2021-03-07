@@ -1,4 +1,5 @@
-#include "../include/Renderer.hpp"
+
+#include "../../include/Renderer/Renderer.hpp"
 
 Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_w, float zoom, std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y) {
     /* Initialize the System */
@@ -53,18 +54,14 @@ Renderer::~Renderer() {}
 void Renderer::Render() {
     /* Main Rendering Loop */
     while (this->window.isOpen()) {
-        if (!this->Paused()) {
-            this->system.Step();
-        }
+        if (!this->Paused()) { this->system.Step(); }
 
         /* Background Color */
         this->window.clear(background_color);
 
         /* Events Handling */
         sf::Event event;
-        while (this->window.pollEvent(event)) {
-            Input(event);
-        }
+        while (this->window.pollEvent(event)) { Input(event); }
 
         this->UpdateCamera();
 
@@ -88,9 +85,7 @@ void Renderer::Render() {
 void Renderer::RenderWindow() { this->window.display(); }
 
 void Renderer::Close() {
-    if (this->window.isOpen()) {
-        this->window.close();
-    }
+    if (this->window.isOpen()) { this->window.close(); }
 }
 
 void Renderer::Pause() { this->paused = !this->paused; }
@@ -107,7 +102,7 @@ void Renderer::UpdateDebug() {
     debug_values[3] = this->mouse_y;
     debug_values[4] = this->sys_mouse_x;
     debug_values[5] = this->sys_mouse_y;
-    debug_values[6] = ftn::digits_comma(1 / get_camera_size(), 3);
+    debug_values[6] = gmt::digits_comma(1 / get_camera_size(), 3);
     debug_values[7] = this->camera_x;
     debug_values[8] = this->camera_y;
     debug_values[9] = this->paused;
@@ -117,9 +112,7 @@ void Renderer::UpdateDebug() {
 }
 
 void Renderer::Draw() {
-    for (int i = 0; i < system.get_corpses_size(); i++) {
-        DrawCorpse(system.get_corpse(i));
-    }
+    for (int i = 0; i < system.get_corpses_size(); i++) { DrawCorpse(system.get_corpse(i)); }
     DrawLimits();
 }
 
@@ -171,33 +164,23 @@ sf::Vector2f Renderer::get_real_pos(sf::Vector2i pos) { return window.mapPixelTo
 float Renderer::get_real_pos_x(float x) { return window.mapPixelToCoords(sf::Vector2i(x, 0)).x; }
 float Renderer::get_real_pos_y(float y) { return window.mapPixelToCoords(sf::Vector2i(0, y)).y; }
 
-bool Renderer::rect_in_screen(ftn::Rectangle rect) {
+bool Renderer::rect_in_screen(gmt::Rectangle rect) {
     // One point in screen
-    if (rect.pos.x > get_real_pos_x(0) && rect.pos.x < get_real_pos_x(screen_width)) {
-        return true;
-    }
-    if (rect.pos.x + rect.size.x > get_real_pos_x(0) && rect.pos.x + rect.size.x < get_real_pos_x(screen_width)) {
-        return true;
-    }
-    if (rect.pos.y > get_real_pos_y(0) && rect.pos.y < get_real_pos_y(screen_height)) {
-        return true;
-    }
-    if (rect.pos.y + rect.size.y > get_real_pos_y(0) && rect.pos.y + rect.size.y < get_real_pos_y(screen_height)) {
-        return true;
-    }
+    if (rect.pos.x > get_real_pos_x(0) && rect.pos.x < get_real_pos_x(screen_width)) { return true; }
+    if (rect.pos.x + rect.size.x > get_real_pos_x(0) && rect.pos.x + rect.size.x < get_real_pos_x(screen_width)) { return true; }
+    if (rect.pos.y > get_real_pos_y(0) && rect.pos.y < get_real_pos_y(screen_height)) { return true; }
+    if (rect.pos.y + rect.size.y > get_real_pos_y(0) && rect.pos.y + rect.size.y < get_real_pos_y(screen_height)) { return true; }
 
     // Or screen in the shape
-    if (rect.pos.x < get_real_pos_x(0) && rect.pos.x + rect.size.x > get_real_pos_x(screen_width) && rect.pos.y < get_real_pos_y(0) && rect.pos.y + rect.size.y > get_real_pos_y(screen_height)) {
-        return true;
-    }
+    if (rect.pos.x < get_real_pos_x(0) && rect.pos.x + rect.size.x > get_real_pos_x(screen_width) && rect.pos.y < get_real_pos_y(0) && rect.pos.y + rect.size.y > get_real_pos_y(screen_height)) { return true; }
 
     return false;  // is it faster to test first for true or for false?
 }
 
-void Renderer::addText(ftn::Text txt) { this->texts.push_back(txt); }
+void Renderer::addText(gmt::Text txt) { this->texts.push_back(txt); }
 void Renderer::DrawTexts() {
     for (int i = 0; i < this->texts.size(); i++) {
-        ftn::Text txt = this->texts.at(i);
+        gmt::Text txt = this->texts.at(i);
         DrawText(txt.str, txt.x, txt.y, txt.size, txt.fixed, txt.color);
     }
 }

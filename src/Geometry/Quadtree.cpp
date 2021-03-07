@@ -1,8 +1,8 @@
-#include "../include/Quadtree.hpp"
+#include "../../include/Geometry/Quadtree.hpp"
 
 namespace phy {
 
-Quadtree::Quadtree(ftn::Rectangle bounds, int level) {
+Quadtree::Quadtree(gmt::Rectangle bounds, int level) {
     this->level = level;
     this->bounds = bounds;
 
@@ -65,7 +65,7 @@ int Quadtree::get_index(std::shared_ptr<Corpse> corpse) {
     float mid_x = this->bounds.pos.x + (this->bounds.size.x / 2.0f);
     float mid_y = this->bounds.pos.y + (this->bounds.size.y / 2.0f);
 
-    ftn::Rectangle corpse_bounds;
+    gmt::Rectangle corpse_bounds;
 
     if (Circle* circle = dynamic_cast<Circle*>(corpse.get())) {
         corpse_bounds = circle->get_corpse_bounds();
@@ -139,7 +139,7 @@ void Quadtree::insert(std::shared_ptr<Corpse> corpse) {
         while (i < this->corpses.size()) {
             int index = get_index(this->corpses.at(i));
             if (index != -1) {
-                std::shared_ptr<Corpse> rem = ftn::remove(i, this->corpses);
+                std::shared_ptr<Corpse> rem = gmt::remove(i, this->corpses);
                 get_node(index)->insert(rem);
             } else {
                 i++;
@@ -211,8 +211,8 @@ std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> Quadtre
 int Quadtree::get_level() const { return this->level; }
 void Quadtree::set_level(int level) { this->level = level; }
 
-ftn::Rectangle Quadtree::get_bounds() const { return this->bounds; }
-void Quadtree::set_bounds(ftn::Rectangle bounds) { this->bounds = bounds; }
+gmt::Rectangle Quadtree::get_bounds() const { return this->bounds; }
+void Quadtree::set_bounds(gmt::Rectangle bounds) { this->bounds = bounds; }
 
 std::vector<std::shared_ptr<Corpse>> Quadtree::get_sub_corpses() {
     std::vector<std::shared_ptr<Corpse>> sub_corpses = std::vector<std::shared_ptr<Corpse>>();
@@ -261,14 +261,14 @@ void Quadtree::set_node(int i, std::shared_ptr<Quadtree> node) {
     }
 }
 
-std::vector<ftn::Rectangle> Quadtree::get_all_bounds() {
-    std::vector<ftn::Rectangle> temp = std::vector<ftn::Rectangle>();
+std::vector<gmt::Rectangle> Quadtree::get_all_bounds() {
+    std::vector<gmt::Rectangle> temp = std::vector<gmt::Rectangle>();
 
     temp.push_back(this->bounds);
 
     for (int i = 0; i < NUMBER_SUB; i++) {
         if (get_node(i) != nullptr) {
-            std::vector<ftn::Rectangle> temp_bounds = get_node(i)->get_all_bounds();
+            std::vector<gmt::Rectangle> temp_bounds = get_node(i)->get_all_bounds();
             for (int j = 0; j < temp_bounds.size(); j++) { temp.push_back(temp_bounds.at(j)); }
         }
     }

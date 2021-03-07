@@ -4,8 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-#include "../include/Circle.hpp"
-#include "../include/Corpse.hpp"
+#include "Circle.hpp"
+#include "Corpse.hpp"
 
 namespace phy {
 
@@ -39,7 +39,7 @@ class Polygon : public Corpse {
 
     std::vector<sf::Vector2f> init_relative_points(std::vector<sf::Vector2f> points);
     sf::Vector2f compute_center(std::vector<sf::Vector2f> points);
-    ftn::Rectangle get_corpse_bounds() const;
+    gmt::Rectangle get_corpse_bounds() const;
 
     int get_points_number() const;
     void add_point(sf::Vector2f point);

@@ -5,12 +5,12 @@
 #include <SFML/Main.hpp>
 #include <cmath>
 
-#include "../assets/fonts/IconsForkAwesome.h"
-#include "../assets/fonts/consolas.hpp"
-#include "../assets/fonts/proggy.hpp"
-#include "../assets/fonts/roboto.hpp"
-#include "../include/Functional.hpp"
-#include "../include/System.hpp"
+#include "../../assets/fonts/IconsForkAwesome.h"
+#include "../../assets/fonts/consolas.hpp"
+#include "../../assets/fonts/proggy.hpp"
+#include "../../assets/fonts/roboto.hpp"
+#include "../Geometry/Geometry.hpp"
+#include "../System.hpp"
 #include "imgui-SFML.h"
 #include "imgui.h"
 #include "imgui_internal.h"
@@ -96,7 +96,7 @@ class Renderer {
     sf::Time frame;
 
     sf::Vector2f saved_mouse_pos;
-    ftn::Rectangle selected_area;
+    gmt::Rectangle selected_area;
     std::vector<bool> selected_corpses_fixed;
     std::vector<int> selected_corpses_cursor;
     std::vector<sf::Vector2f> selected_corpses_diff;
@@ -164,7 +164,7 @@ class Renderer {
     const static int DELAY_DEBUG = 3;
     int counter_debug;
 
-    std::vector<ftn::Text> texts = {};
+    std::vector<gmt::Text> texts = {};
 
    public:
     phy::System system;
@@ -222,7 +222,7 @@ class Renderer {
     void Draw();  // Manage the drawing of the Renderer
     void DrawCorpse(std::shared_ptr<phy::Corpse> corpse);
     void DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair);
-    void DrawQuadtree(ftn::Rectangle rect);
+    void DrawQuadtree(gmt::Rectangle rect);
     void DrawLimits();
     void DrawTrajectories();
 
@@ -296,9 +296,9 @@ class Renderer {
     float get_real_pos_x(float x);
     float get_real_pos_y(float y);
 
-    bool rect_in_screen(ftn::Rectangle rect);
+    bool rect_in_screen(gmt::Rectangle rect);
 
-    void addText(ftn::Text txt);
+    void addText(gmt::Text txt);
     void DrawTexts();
 
     bool get_enable_inputs();

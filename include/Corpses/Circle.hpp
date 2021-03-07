@@ -4,8 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-#include "../include/Corpse.hpp"
-#include "../include/Polygon.hpp"
+#include "Corpse.hpp"
+#include "Polygon.hpp"
 
 namespace phy {
 
@@ -32,7 +32,7 @@ class Circle : public Corpse {
     void Collision(std::shared_ptr<Corpse> a);
 
     float get_size() const;
-    ftn::Rectangle get_corpse_bounds() const;
+    gmt::Rectangle get_corpse_bounds() const;
 };
 
 }  // namespace phy

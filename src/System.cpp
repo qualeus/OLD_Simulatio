@@ -31,7 +31,7 @@ System& System::operator=(const System& rhs) {
     this->collision_accuracy = rhs.get_collision_accuracy();
     this->constraint_accuracy = rhs.get_constraint_accuracy();
 
-    ftn::Rectangle limits = rhs.get_limits();
+    gmt::Rectangle limits = rhs.get_limits();
 
     this->corpses = std::vector<std::shared_ptr<Corpse>>();
     this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
@@ -86,9 +86,9 @@ void System::UpdateTime() { this->t += this->dt; }
 void System::CheckLimits() {
     for (int i = 0; i < corpses_size; i++) {
         if (phy::Circle* circle = dynamic_cast<phy::Circle*>(get_corpse(i).get())) {
-            if (ftn::rect_out_bounds(circle->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
+            if (gmt::rect_out_bounds(circle->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
         } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(get_corpse(i).get())) {
-            if (ftn::rect_out_bounds(polygon->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
+            if (gmt::rect_out_bounds(polygon->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
         }
     }
 }
@@ -114,7 +114,7 @@ void System::CorpseStop(int i) {
 
 void System::PairsStep() {
     for (int i = 0; i < pairs_size; i++) {
-        if (this->gravity) { Forces(get_pair_A(i), get_pair_B(i)); }
+        if (this->gravity) { Gravity(get_pair_A(i), get_pair_B(i)); }
         // Collision(get_pair_A(i), get_pair_B(i)); old collision system
     }
 }
@@ -135,12 +135,14 @@ void System::Collision(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     }
 }
 
-void System::Forces(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
-    /* Gravity */
+void System::Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     if (a->get_removed() || b->get_removed()) { return; }  // One Removed
     if (a->get_fixed() && b->get_fixed()) { return; }      // Both Fixed
 
-    float dist = ftn::Length(a->get_pos_x(), a->get_pos_y(), b->get_pos_x(), b->get_pos_y());
+    float dist = gmt::Length(a->get_pos_x(), a->get_pos_y(), b->get_pos_x(), b->get_pos_y());
+
+    // Possible optimisation: Remove the multiplication and divisio, by the mass and
+    // just multiply the force by the other body mass when applying it
 
     float force = G * a->get_mass() * b->get_mass() / (dist * dist);  // G * (ma * mb)/(r^2)
     if (force > LS) { force = LS; }                                   // Limit with the Light Speed
@@ -173,7 +175,7 @@ void System::set_dt(float dt) {
     // We need to avoid a dt to close to 0 because
     // it mess up with the corpses velocities.
     // It's better to just pass the area around 0.
-    if (ftn::Equals(dt, 0.0f, dt_diff * 0.1f)) {
+    if (gmt::Equals(dt, 0.0f, dt_diff * 0.1f)) {
         dt = dt + dt_diff;
         dt_diff = dt_diff * 2.0f;
     }
@@ -239,8 +241,8 @@ void System::add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     this->pairs_size++;  // Update the size of the array = [n(n-1)]/2
 }
 
-ftn::Rectangle System::get_limits() const { return this->limits; }
-void System::set_limits(ftn::Rectangle limits) { this->limits = limits; }
+gmt::Rectangle System::get_limits() const { return this->limits; }
+void System::set_limits(gmt::Rectangle limits) { this->limits = limits; }
 
 std::vector<std::shared_ptr<Corpse>> System::get_corpses() const { return this->corpses; }
 std::shared_ptr<Corpse> System::get_corpse(int index) const {

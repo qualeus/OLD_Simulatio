@@ -7,7 +7,7 @@
 #include <memory>
 #include <vector>
 
-#include "../include/Functional.hpp"
+#include "../Geometry/Geometry.hpp"
 
 namespace phy {
 
@@ -109,7 +109,7 @@ class Corpse {
     float get_friction() const;
     void set_friction(float friction);
 
-    virtual ftn::Rectangle get_corpse_bounds() const = 0;
+    virtual gmt::Rectangle get_corpse_bounds() const = 0;
 
     bool Equals(const Corpse* other);
 };
