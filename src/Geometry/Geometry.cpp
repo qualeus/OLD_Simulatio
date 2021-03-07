@@ -7,7 +7,7 @@ Vector<T> OnSegment(const Vector<T> &v1, const Vector<T> &v2, float angle);
 Vector<T> SegmentsIntersect(const Vector<T> &v1, const Vector<T> &v2, float angle);
 Vector<T> LinesIntersect(const Vector<T> &v1, const Vector<T> &v2, float angle);
 Vector<T> LinesOrientation(const Vector<T> &v1, const Vector<T> &v2, float angle);
-*/
+
 /* Dot product: [Ax Ay].[Bx By] = (Ax)(Bx)+(Ay)(By) = Amag*Bmag*cos(theta) */
 float gmt::Dot(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b) { return vect_a.x * vect_b.x + vect_a.y * vect_b.y; }
 float gmt::Dot(float x1, float y1, float x2, float y2) { return x1 * x2 + y1 * y2; }
