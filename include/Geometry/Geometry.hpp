@@ -28,10 +28,12 @@ using TextI = Text<PHYSICS_PRECISION>;
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
+/*
 struct Rectangle {
     sf::Vector2f pos;
     sf::Vector2f size;
 };
+*/
 /*
 struct Text {
     std::string str = "";
@@ -46,84 +48,84 @@ struct Text {
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
-float Dot(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
-float Dot(float x1, float y1, float x2, float y2);
+// float Dot(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
+// float Dot(float x1, float y1, float x2, float y2);
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
-float Cross(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
-float Cross(float x1, float y1, float x2, float y2);
+// float Cross(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
+// float Cross(float x1, float y1, float x2, float y2);
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
-sf::Vector2f Pow(const sf::Vector2f &vect, int power);
+// sf::Vector2f Pow(const sf::Vector2f &vect, int power);
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
-float Length(const sf::Vector2f &vect);
-float Length(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
-float Length(float x, float y);
-float Length(float x1, float y1, float x2, float y2);
+// float Length(const sf::Vector2f &vect);
+// float Length(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
+// float Length(float x, float y);
+// float Length(float x1, float y1, float x2, float y2);
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
-sf::Vector2f Normalize(const sf::Vector2f &vect);
-sf::Vector2f Norme(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
-sf::Vector2f inverse_Norme(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
+// sf::Vector2f Normalize(const sf::Vector2f &vect);
+// sf::Vector2f Norme(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
+// sf::Vector2f inverse_Norme(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
-sf::Vector2f Rotate_Point(sf::Vector2f pA, sf::Vector2f pB, float angle);
-void Rotate(sf::Vector2f &vect, int angle);
-void Scale(sf::Vector2f &vect, float scale);
-bool Lines_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const sf::Vector2f &vect_D);
+// sf::Vector2f Rotate_Point(sf::Vector2f pA, sf::Vector2f pB, float angle);
+// void Rotate(sf::Vector2f &vect, int angle);
+// void Scale(sf::Vector2f &vect, float scale);
+// bool Lines_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const sf::Vector2f &vect_D);
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
-int line_orientation(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C);
-bool on_segment(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C);
-bool Segments_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const sf::Vector2f &vect_D);
-bool Test_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const sf::Vector2f &vect_D);
+// int line_orientation(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C);
+// bool on_segment(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C);
+// bool Segments_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const sf::Vector2f &vect_D);
+// bool Test_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const sf::Vector2f &vect_D);
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
-sf::Vector2f Line_Projection(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
+// sf::Vector2f Line_Projection(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
 /* /!\ AB => C changé en A => BC /!\ */
-sf::Vector2f Segment_Projection(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b, const sf::Vector2f &vect_c);
+// sf::Vector2f Segment_Projection(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b, const sf::Vector2f &vect_c);
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
-std::pair<int, sf::Vector2f> Line_Circle_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const float &size);
+// std::pair<int, sf::Vector2f> Line_Circle_Intersect(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C, const float &size);
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
-gmt::Rectangle Reorder_Rectangle(gmt::Rectangle rectangle);
+// gmt::Rectangle Reorder_Rectangle(gmt::Rectangle rectangle);
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
-float bearing(float x1, float y1, float x2, float y2);
-float angle(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C);
+// float bearing(float x1, float y1, float x2, float y2);
+// float angle(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const sf::Vector2f &vect_C);
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
-bool rect_in_bounds(const gmt::Rectangle &object, const gmt::Rectangle &limits);
-bool rect_out_bounds(const gmt::Rectangle &object, const gmt::Rectangle &limits);
+// bool rect_in_bounds(const gmt::Rectangle &object, const gmt::Rectangle &limits);
+// bool rect_out_bounds(const gmt::Rectangle &object, const gmt::Rectangle &limits);
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
-sf::Vector2f Mirrored_Point(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
+// sf::Vector2f Mirrored_Point(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
 
 }  // namespace gmt
 #endif
