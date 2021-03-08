@@ -175,7 +175,7 @@ void System::set_dt(float dt) {
     // We need to avoid a dt to close to 0 because
     // it mess up with the corpses velocities.
     // It's better to just pass the area around 0.
-    if (gmt::Equals(dt, 0.0f, dt_diff * 0.1f)) {
+    if (gmt::float_equals(dt, 0.0f, dt_diff * 0.1f)) {
         dt = dt + dt_diff;
         dt_diff = dt_diff * 2.0f;
     }

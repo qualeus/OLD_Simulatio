@@ -207,7 +207,7 @@ void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Col
 void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness, sf::Color color) {
     float angle = gmt::bearing(x2, y2, x1, y1);
     float length = gmt::Length(x1, y1, x2, y2);
-    if (gmt::Equals(length, 0.0f, min_arrow_size)) { return; }  // Dont draw if the vector is null
+    if (gmt::float_equals(length, 0.0f, min_arrow_size)) { return; }  // Dont draw if the vector is null
 
     sf::ConvexShape head = sf::ConvexShape(3);
     head.setPoint(0, {0.0f, 0.0f});

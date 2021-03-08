@@ -670,26 +670,26 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 float sig_vel = 0.01f;
                                 float sig_com = 0.001f;
 
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
                                     ImFormatString(label_posX, IM_ARRAYSIZE(label_posX), "Position X <differ>");
                                     temp_position_x = 0.0f;
                                 }
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_pos_y(), temp_position_y, sig_pos)) {
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_pos_y(), temp_position_y, sig_pos)) {
                                     ImFormatString(label_posY, IM_ARRAYSIZE(label_posY), "Position Y <differ>");
                                     temp_position_y = 0.0f;
                                 }
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
                                     ImFormatString(label_velX, IM_ARRAYSIZE(label_velX), "Velocity X <differ>");
                                     temp_velocity_x = 0.0f;
                                 }
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
                                     ImFormatString(label_velY, IM_ARRAYSIZE(label_velY), "Velocity Y <differ>");
                                     temp_velocity_y = 0.0f;
                                 }
 
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_friction(), temp_friction, sig_com)) { ImFormatString(label_fric, IM_ARRAYSIZE(label_fric), "Fricition <differ>"); }
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_mass(), temp_mass, sig_com)) { ImFormatString(label_mass, IM_ARRAYSIZE(label_mass), "Mass <differ>"); }
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_damping(), temp_damping, sig_com)) { ImFormatString(label_damp, IM_ARRAYSIZE(label_damp), "Damping <differ>"); }
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_friction(), temp_friction, sig_com)) { ImFormatString(label_fric, IM_ARRAYSIZE(label_fric), "Fricition <differ>"); }
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_mass(), temp_mass, sig_com)) { ImFormatString(label_mass, IM_ARRAYSIZE(label_mass), "Mass <differ>"); }
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_damping(), temp_damping, sig_com)) { ImFormatString(label_damp, IM_ARRAYSIZE(label_damp), "Damping <differ>"); }
 
                                 if (!system.get_corpse(temp_cursor)->get_fixed() == temp_fixed) {
                                     ImFormatString(label_fix, IM_ARRAYSIZE(label_fix), "Fixed <differ>");
@@ -704,15 +704,15 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                     temp_tied = -1;
                                 }
 
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_rotation(), temp_rotation, sig_pos)) {
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_rotation(), temp_rotation, sig_pos)) {
                                     ImFormatString(label_rot, IM_ARRAYSIZE(label_rot), "Rotation <differ>");
                                     temp_rotation = 0.0f;
                                 }
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_rotation(), temp_spin, sig_pos)) {
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_rotation(), temp_spin, sig_pos)) {
                                     ImFormatString(label_spi, IM_ARRAYSIZE(label_spi), "Spin <differ>");
                                     temp_spin = 0.0f;
                                 }
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_motor_rotation(), temp_motor, sig_pos)) {
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_motor_rotation(), temp_motor, sig_pos)) {
                                     ImFormatString(label_mot, IM_ARRAYSIZE(label_mot), "Motor <differ>");
                                     temp_motor = 0.0f;
                                 }

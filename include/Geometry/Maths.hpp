@@ -16,10 +16,9 @@
 
 namespace gmt {
 
-bool Equals(float a, float b, float sigma = 0.1f);
+bool float_equals(float a, float b, float sigma = 0.1f);
 float degree_to_radian(float degree);
 float radian_to_degree(float radian);
-
 float digits_comma(float number, int digits);
 
 template <class C>
