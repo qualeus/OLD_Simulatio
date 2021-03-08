@@ -93,6 +93,7 @@
         "unordered_set": "cpp",
         "stack": "cpp",
         "valarray": "cpp",
-        "slist": "cpp"
+        "slist": "cpp",
+        "*.in": "cpp"
     }
 }

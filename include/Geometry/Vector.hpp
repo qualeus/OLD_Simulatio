@@ -8,9 +8,6 @@
 namespace gmt {
 
 template <typename T>
-class Bounds;
-
-template <typename T>
 class Vector {
    public:
     T x;

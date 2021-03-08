@@ -1,13 +1,13 @@
 #include "../../include/Geometry/Quadtree.hpp"
 
-namespace phy {
+namespace gmt {
 
-Quadtree::Quadtree(gmt::Rectangle bounds, int level) {
+Quadtree::Quadtree(Rectangle bounds, int level) {
     this->level = level;
     this->bounds = bounds;
 
     for (int i = 0; i < NUMBER_SUB; i++) { this->get_node(i) = nullptr; }
-    this->corpses = std::vector<std::shared_ptr<Corpse>>();
+    this->corpses = std::vector<std::shared_ptr<phy::Corpse>>();
     // if (level < MAX_LEVELS) { this->corpses.reserve(MAX_OBJECT); } // Problem, if can't allocatoe objects on bounds, keep it (so can be > than max)
 }
 
@@ -16,7 +16,7 @@ Quadtree& Quadtree::operator=(const Quadtree& rhs) {
     this->bounds = rhs.get_bounds();
 
     for (int i = 0; i < NUMBER_SUB; i++) { this->get_node(i) = nullptr; }
-    this->corpses = std::vector<std::shared_ptr<Corpse>>();
+    this->corpses = std::vector<std::shared_ptr<phy::Corpse>>();
     return *this;
 }
 
@@ -24,7 +24,7 @@ Quadtree::~Quadtree() {}
 
 void Quadtree::clear() {
     clear_nodes();
-    std::vector<std::shared_ptr<Corpse>>().swap(this->corpses);
+    std::vector<std::shared_ptr<phy::Corpse>>().swap(this->corpses);
 }
 
 void Quadtree::clear_nodes() {
@@ -60,16 +60,16 @@ void Quadtree::split() {
     Get the node where the object belong
     -1 = none; 0 = A; 1 = B; 2 = C: 3 = D
 */
-int Quadtree::get_index(std::shared_ptr<Corpse> corpse) {
+int Quadtree::get_index(std::shared_ptr<phy::Corpse> corpse) {
     int index = -1;
     float mid_x = this->bounds.pos.x + (this->bounds.size.x / 2.0f);
     float mid_y = this->bounds.pos.y + (this->bounds.size.y / 2.0f);
 
-    gmt::Rectangle corpse_bounds;
+    Rectangle corpse_bounds;
 
-    if (Circle* circle = dynamic_cast<Circle*>(corpse.get())) {
+    if (phy::Circle* circle = dynamic_cast<phy::Circle*>(corpse.get())) {
         corpse_bounds = circle->get_corpse_bounds();
-    } else if (Polygon* polygon = dynamic_cast<Polygon*>(corpse.get())) {
+    } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(corpse.get())) {
         corpse_bounds = polygon->get_corpse_bounds();
     }
 
@@ -102,7 +102,7 @@ int Quadtree::get_size() { return this->corpses.size(); }
     if the node excelm the capacity it will
     split and add all objects to subnodes
 */
-void Quadtree::insert(std::shared_ptr<Corpse> corpse) {
+void Quadtree::insert(std::shared_ptr<phy::Corpse> corpse) {
     /*
     if (get_node(index)==nullptr) {
         float pos_x = this->bounds.pos.x;
@@ -139,7 +139,7 @@ void Quadtree::insert(std::shared_ptr<Corpse> corpse) {
         while (i < this->corpses.size()) {
             int index = get_index(this->corpses.at(i));
             if (index != -1) {
-                std::shared_ptr<Corpse> rem = gmt::remove(i, this->corpses);
+                std::shared_ptr<phy::Corpse> rem = remove(i, this->corpses);
                 get_node(index)->insert(rem);
             } else {
                 i++;
@@ -184,8 +184,8 @@ bool Quadtree::sub_not_null() {
     return false;
 }
 
-std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> Quadtree::make_pairs() {
-    std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
+std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>> Quadtree::make_pairs() {
+    std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>> pairs = std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>>();
     int corpse_size = corpses.size();
     if (this->corpses.size() > 1) {
         for (int a = 0; a < corpse_size; a++) {
@@ -193,14 +193,14 @@ std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> Quadtre
         }
     }
 
-    std::vector<std::shared_ptr<Corpse>> sub_corpses = get_sub_corpses();
+    std::vector<std::shared_ptr<phy::Corpse>> sub_corpses = get_sub_corpses();
     for (int a = 0; a < corpse_size; a++) {
         for (int b = 0; b < sub_corpses.size(); b++) { pairs.push_back({this->corpses.at(a), sub_corpses.at(b)}); }
     }
 
     for (int i = 0; i < NUMBER_SUB; i++) {
         if (get_node(i) != nullptr) {
-            std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> temp_pairs = get_node(i)->make_pairs();
+            std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>> temp_pairs = get_node(i)->make_pairs();
             for (int j = 0; j < temp_pairs.size(); j++) { pairs.push_back(temp_pairs.at(j)); }
         }
     }
@@ -211,29 +211,29 @@ std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> Quadtre
 int Quadtree::get_level() const { return this->level; }
 void Quadtree::set_level(int level) { this->level = level; }
 
-gmt::Rectangle Quadtree::get_bounds() const { return this->bounds; }
-void Quadtree::set_bounds(gmt::Rectangle bounds) { this->bounds = bounds; }
+Rectangle Quadtree::get_bounds() const { return this->bounds; }
+void Quadtree::set_bounds(Rectangle bounds) { this->bounds = bounds; }
 
-std::vector<std::shared_ptr<Corpse>> Quadtree::get_sub_corpses() {
-    std::vector<std::shared_ptr<Corpse>> sub_corpses = std::vector<std::shared_ptr<Corpse>>();
+std::vector<std::shared_ptr<phy::Corpse>> Quadtree::get_sub_corpses() {
+    std::vector<std::shared_ptr<phy::Corpse>> sub_corpses = std::vector<std::shared_ptr<phy::Corpse>>();
 
     for (int i = 0; i < NUMBER_SUB; i++) {
         if (get_node(i) != nullptr) {
-            std::vector<std::shared_ptr<Corpse>> temp_sub_corpses = get_node(i)->get_all_corpses();
+            std::vector<std::shared_ptr<phy::Corpse>> temp_sub_corpses = get_node(i)->get_all_corpses();
             for (int j = 0; j < temp_sub_corpses.size(); j++) { sub_corpses.push_back(temp_sub_corpses.at(j)); }
         }
     }
     return sub_corpses;
 }
 
-std::vector<std::shared_ptr<Corpse>> Quadtree::get_all_corpses() {
-    std::vector<std::shared_ptr<Corpse>> sub_corpses = std::vector<std::shared_ptr<Corpse>>();
+std::vector<std::shared_ptr<phy::Corpse>> Quadtree::get_all_corpses() {
+    std::vector<std::shared_ptr<phy::Corpse>> sub_corpses = std::vector<std::shared_ptr<phy::Corpse>>();
 
     for (int j = 0; j < this->corpses.size(); j++) { sub_corpses.push_back(this->corpses.at(j)); }
 
     for (int i = 0; i < NUMBER_SUB; i++) {
         if (get_node(i) != nullptr) {
-            std::vector<std::shared_ptr<Corpse>> temp_sub_corpses = get_node(i)->get_all_corpses();
+            std::vector<std::shared_ptr<phy::Corpse>> temp_sub_corpses = get_node(i)->get_all_corpses();
             for (int j = 0; j < temp_sub_corpses.size(); j++) { sub_corpses.push_back(temp_sub_corpses.at(j)); }
         }
     }
@@ -261,18 +261,18 @@ void Quadtree::set_node(int i, std::shared_ptr<Quadtree> node) {
     }
 }
 
-std::vector<gmt::Rectangle> Quadtree::get_all_bounds() {
-    std::vector<gmt::Rectangle> temp = std::vector<gmt::Rectangle>();
+std::vector<Rectangle> Quadtree::get_all_bounds() {
+    std::vector<Rectangle> temp = std::vector<Rectangle>();
 
     temp.push_back(this->bounds);
 
     for (int i = 0; i < NUMBER_SUB; i++) {
         if (get_node(i) != nullptr) {
-            std::vector<gmt::Rectangle> temp_bounds = get_node(i)->get_all_bounds();
+            std::vector<Rectangle> temp_bounds = get_node(i)->get_all_bounds();
             for (int j = 0; j < temp_bounds.size(); j++) { temp.push_back(temp_bounds.at(j)); }
         }
     }
     return temp;
 }
 
-}  // namespace phy
+}  // namespace gmt

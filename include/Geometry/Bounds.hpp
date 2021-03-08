@@ -5,11 +5,7 @@
 #include <cmath>
 
 #include "Geometry.hpp"
-#include "Vector.hpp"
 namespace gmt {
-
-template <typename T>
-class Vector;
 
 template <typename T>
 class Bounds {

@@ -11,6 +11,7 @@
 #include "../../assets/fonts/roboto.hpp"
 #include "../Geometry/Geometry.hpp"
 #include "../System.hpp"
+#include "Config.hpp"
 #include "imgui-SFML.h"
 #include "imgui.h"
 #include "imgui_internal.h"
@@ -164,7 +165,7 @@ class Renderer {
     const static int DELAY_DEBUG = 3;
     int counter_debug;
 
-    std::vector<gmt::Text> texts = {};
+    std::vector<gmt::TextI> texts = {};
 
    public:
     phy::System system;
@@ -298,7 +299,7 @@ class Renderer {
 
     bool rect_in_screen(gmt::Rectangle rect);
 
-    void addText(gmt::Text txt);
+    void addText(gmt::TextI txt);
     void DrawTexts();
 
     bool get_enable_inputs();

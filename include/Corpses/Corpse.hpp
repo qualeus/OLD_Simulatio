@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "../Geometry/Geometry.hpp"
+#include "Config.hpp"
 
 namespace phy {
 

@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Circle.hpp"
+#include "Config.hpp"
 #include "Corpse.hpp"
 
 namespace phy {

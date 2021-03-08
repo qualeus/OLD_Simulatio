@@ -7,6 +7,7 @@
 #include <sstream>
 #include <vector>
 
+#include "Config.hpp"
 #include "Corpses/Circle.hpp"
 #include "Corpses/Corpse.hpp"
 #include "Corpses/Polygon.hpp"
@@ -29,7 +30,7 @@ class System {
     std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> pairs;
     std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> quad_pairs;
 
-    Quadtree quadtree;
+    gmt::Quadtree quadtree;
 
     float force_x;
     float force_y;
@@ -65,7 +66,7 @@ class System {
 
     void InitQuadtree();
     void StepQuadtree();
-    std::shared_ptr<Quadtree> get_quadtree();
+    std::shared_ptr<gmt::Quadtree> get_quadtree();
 
     float get_dt() const;
     void set_dt(float dt);

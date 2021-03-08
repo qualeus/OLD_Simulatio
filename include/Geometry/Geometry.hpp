@@ -8,16 +8,31 @@
 #include <sstream>
 #include <vector>
 
-#include "Bounds.hpp"
-#include "Vector.hpp"
+#include "Config.hpp"
 
-#define PI 3.141592653589793 /* Archimede Constant */
-#define E 2.718281828459045  /* Euler Number */
-#define T 6.283185307179586  /* Tau as 2PI */
-#define GR 1.618033988749894 /* Golder Ratio */
-#define PC 1.414213562373095 /* Pythagoras Constant */
+#define PI 3.141592653589793  /* Archimede Constant */
+#define E 2.718281828459045   /* Euler Number */
+#define TAU 6.283185307179586 /* Tau as 2PI */
+#define GR 1.618033988749894  /* Golder Ratio */
+#define PC 1.414213562373095  /* Pythagoras Constant */
+
+#define EDGE_APPROXIMATION 1 /* TO DELETE */
 
 namespace gmt {
+
+template <typename T>
+class Vector;
+
+template <typename T>
+class Bounds;
+
+template <typename T>
+class Text;
+
+using unitI = PHYSICS_PRECISION;
+using VectorI = Vector<PHYSICS_PRECISION>;
+using BoundsI = Bounds<PHYSICS_PRECISION>;
+using TextI = Text<PHYSICS_PRECISION>;
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
@@ -26,7 +41,7 @@ struct Rectangle {
     sf::Vector2f pos;
     sf::Vector2f size;
 };
-
+/*
 struct Text {
     std::string str = "";
     float x = 0.0f;
@@ -35,6 +50,7 @@ struct Text {
     bool fixed = false;
     sf::Color color = sf::Color::White;
 };
+*/
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */

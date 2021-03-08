@@ -11,7 +11,7 @@ System::System(bool gravity, float force_x, float force_y, float limit_x, float 
     this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
     this->quad_pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
 
-    this->quadtree = Quadtree({sf::Vector2f(-limit_x / 2.0f, -limit_y / 2.0f), sf::Vector2f(limit_x, limit_y)}, 1);
+    this->quadtree = gmt::Quadtree({sf::Vector2f(-limit_x / 2.0f, -limit_y / 2.0f), sf::Vector2f(limit_x, limit_y)}, 1);
 
     this->limits = {sf::Vector2f(-(AROUND_QUADTREE + limit_x) / 2.0f, -(AROUND_QUADTREE + limit_y) / 2.0f), sf::Vector2f(limit_x + AROUND_QUADTREE, limit_y + AROUND_QUADTREE)};
     Prepare();
@@ -165,7 +165,7 @@ void System::StepQuadtree() {
     }
 }
 
-std::shared_ptr<Quadtree> System::get_quadtree() { return std::make_shared<Quadtree>(this->quadtree); }
+std::shared_ptr<gmt::Quadtree> System::get_quadtree() { return std::make_shared<gmt::Quadtree>(this->quadtree); }
 
 float System::get_dt() const { return this->dt; }
 void System::set_dt(float dt) {

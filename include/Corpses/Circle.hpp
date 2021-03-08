@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+#include "Config.hpp"
 #include "Corpse.hpp"
 #include "Polygon.hpp"
 

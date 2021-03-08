@@ -1,12 +1,24 @@
 # Set up the minimum version of cmake
 cmake_minimum_required(VERSION 3.0.0)
 
-# Set the project name
-set (PROJECT_NAME "physics")
-project (${PROJECT_NAME})
+# Set the project name and version
+set (PROJECT_NAME "PHYSICS")
+set (PROJECT_VERSION_MAJOR 0)
+set (PROJECT_VERSION_MINOR 5)
+set (PROJECT_VERSION_REVISION 2)
+project (${PROJECT_NAME} VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_REVISION})
+
+message("PROJECT ${PROJECT_NAME} VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_REVISION}")
+
+# Set the project Config variables
+set (ENABLE_DOUBLE_PRECISION OFF)
+add_definitions( -DENABLE_DOUBLE_PRECISION=${ENABLEs_DOUBLE_PRECISION} )
+configure_file("${PROJECT_SOURCE_DIR}/Config.hpp.in" "${PROJECT_BINARY_DIR}/Config.hpp")
+include_directories("${PROJECT_BINARY_DIR}")
 
 # Set the C++ standard to be used
 set (CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add customs Flags
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Werror -Wfatal-errors")
@@ -63,7 +75,7 @@ set(SOURCES
     src/Renderer/Draw.cpp
     src/Renderer/Event.cpp
     src/Renderer/Gui.cpp
-    src/System.cpp  
+    src/System.cpp 
 )
 set(HEADERS
     include/Corpses/Corpse.hpp
