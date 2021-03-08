@@ -50,6 +50,13 @@ template Bounds<int>::Bounds();
 template Bounds<float>::Bounds();
 template Bounds<double>::Bounds();
 
+/* Default Destructor */
+template <typename T>
+Bounds<T>::~Bounds() {}
+template Bounds<int>::~Bounds();
+template Bounds<float>::~Bounds();
+template Bounds<double>::~Bounds();
+
 /* Builder Constructor */
 template <typename T>
 Bounds<T>::Bounds(const T& x1, const T& y1, const T& x2, const T& y2) {

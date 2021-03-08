@@ -177,11 +177,11 @@ bool Renderer::rect_in_screen(gmt::Rectangle rect) {
     return false;  // is it faster to test first for true or for false?
 }
 
-void Renderer::addText(gmt::Text txt) { this->texts.push_back(txt); }
+void Renderer::addText(gmt::TextI text) { this->texts.push_back(text); }
 void Renderer::DrawTexts() {
     for (int i = 0; i < this->texts.size(); i++) {
-        gmt::Text txt = this->texts.at(i);
-        DrawText(txt.str, txt.x, txt.y, txt.size, txt.fixed, txt.color);
+        gmt::TextI text = this->texts.at(i);
+        DrawText(text.text, text.position.x, text.position.y, text.size, text.fixed, text.color);
     }
 }
 

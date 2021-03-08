@@ -10,6 +10,8 @@
 #include "../../assets/fonts/proggy.hpp"
 #include "../../assets/fonts/roboto.hpp"
 #include "../Geometry/Geometry.hpp"
+#include "../Geometry/Text.hpp"
+#include "../Geometry/Vector.hpp"
 #include "../System.hpp"
 #include "Config.hpp"
 #include "imgui-SFML.h"

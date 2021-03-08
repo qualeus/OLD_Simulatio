@@ -4,7 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 
-#include "Geometry.hpp"
+#include "Maths.hpp"
+
 namespace gmt {
 
 template <typename T>
@@ -20,6 +21,7 @@ class Vector {
 
     Vector(const T& x, const T& y);
     Vector();
+    ~Vector();
     T Magnitude() const;
     T MagnitudeSquared() const;
 

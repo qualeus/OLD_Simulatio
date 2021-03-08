@@ -4,7 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 
-#include "Geometry.hpp"
+#include "Maths.hpp"
+#include "Vector.hpp"
+
 namespace gmt {
 
 template <typename T>
@@ -22,6 +24,7 @@ class Bounds {
 
     Bounds(const T& x1, const T& y1, const T& x2, const T& y2);
     Bounds();
+    ~Bounds();
 
     Vector<T> Size() const;
     Bounds<T> Reorder() const;

@@ -1,20 +1,11 @@
 #ifndef Geometry_HPP
 #define Geometry_HPP
 
-#include <SFML/Graphics.hpp>
-#include <cmath>
-#include <iostream>
-#include <memory>
-#include <sstream>
-#include <vector>
-
+#include "Bounds.hpp"
 #include "Config.hpp"
-
-#define PI 3.141592653589793  /* Archimede Constant */
-#define E 2.718281828459045   /* Euler Number */
-#define TAU 6.283185307179586 /* Tau as 2PI */
-#define GR 1.618033988749894  /* Golder Ratio */
-#define PC 1.414213562373095  /* Pythagoras Constant */
+#include "Maths.hpp"
+#include "Text.hpp"
+#include "Vector.hpp"
 
 #define EDGE_APPROXIMATION 1 /* TO DELETE */
 
@@ -29,7 +20,7 @@ class Bounds;
 template <typename T>
 class Text;
 
-using unitI = PHYSICS_PRECISION;
+using UnitI = PHYSICS_PRECISION;
 using VectorI = Vector<PHYSICS_PRECISION>;
 using BoundsI = Bounds<PHYSICS_PRECISION>;
 using TextI = Text<PHYSICS_PRECISION>;
@@ -64,8 +55,6 @@ float Dot(float x1, float y1, float x2, float y2);
 float Cross(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b);
 float Cross(float x1, float y1, float x2, float y2);
 
-bool Equals(float a, float b, float sigma = 0.1f);
-
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
@@ -78,9 +67,6 @@ float Length(const sf::Vector2f &vect);
 float Length(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
 float Length(float x, float y);
 float Length(float x1, float y1, float x2, float y2);
-
-float degree_to_radian(float degree);
-float radian_to_degree(float radian);
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
@@ -127,8 +113,6 @@ std::pair<sf::Vector2f, sf::Vector2f> Closest_Edge(std::vector<std::pair<sf::Vec
 /* ======================================= */
 gmt::Rectangle Reorder_Rectangle(gmt::Rectangle rectangle);
 
-float digits_comma(float number, int digits);
-
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
@@ -145,44 +129,6 @@ bool rect_out_bounds(const gmt::Rectangle &object, const gmt::Rectangle &limits)
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
 sf::Vector2f Mirrored_Point(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B);
-
-template <class C>
-std::shared_ptr<C> remove(int i, std::vector<std::shared_ptr<C>> &vect) {
-    std::shared_ptr<C> corpse = vect.at(i);
-    vect.erase(vect.begin() + i);
-    return corpse;
-}
-
-template <typename T>
-std::string to_string(T value) {
-    std::ostringstream oss;
-    oss << value;
-    return oss.str();
-}
-
-template <typename T>
-std::string to_string(std::vector<T> vector) {
-    std::ostringstream oss;
-    oss << "{";
-    if (!vector.empty()) {
-        std::copy(vector.begin(), vector.end() - 1, std::ostream_iterator<T>(oss, ","));
-        oss << vector.back();
-    }
-    oss << "}";
-    return oss.str();
-}
-
-template <typename T>
-std::string to_string(sf::Vector2<T> vector) {
-    std::ostringstream oss;
-    oss << "{" << vector.x << ";" << vector.y << "}";
-    return oss.str();
-}
-
-template <typename T>
-bool decimal_equals(const T &a, const T &b, T epsilon = std::numeric_limits<T>::epsilon()) {
-    return fabs(a - b) < epsilon;
-}
 
 }  // namespace gmt
 #endif

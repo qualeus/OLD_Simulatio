@@ -16,8 +16,6 @@ float gmt::Dot(float x1, float y1, float x2, float y2) { return x1 * x2 + y1 * y
 float gmt::Cross(const sf::Vector2f &vect_a, const sf::Vector2f &vect_b) { return vect_a.x * vect_b.y - vect_a.y * vect_b.x; }
 float gmt::Cross(float x1, float y1, float x2, float y2) { return x1 * y2 - y1 * x2; }
 
-bool gmt::Equals(float a, float b, float sigma) { return (std::abs(b - a) < std::abs(sigma)); }
-
 sf::Vector2f gmt::Pow(const sf::Vector2f &vect, int power) {
     sf::Vector2f pow = vect;
     for (int i = 0; i < power - 1; i++) {
@@ -32,10 +30,6 @@ float gmt::Length(const sf::Vector2f &vect) { return std::sqrt(Dot(vect, vect));
 float gmt::Length(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B) { return std::sqrt(Dot(vect_B - vect_A, vect_B - vect_A)); }
 float gmt::Length(float x, float y) { return std::sqrt(Dot(x, y, x, y)); }
 float gmt::Length(float x1, float y1, float x2, float y2) { return std::sqrt(Dot(x1 - x2, y1 - y2, x1 - x2, y1 - y2)); }
-
-/* Convert deg rad: (PI/2) * (180/PI) = 90 */
-float gmt::degree_to_radian(float degree) { return (degree / 180) * PI; }
-float gmt::radian_to_degree(float radian) { return (radian / PI) * 180; }
 
 /* Normalize vect = [Ax Ay].(1/size) = [Ax/size Ay/size] */
 sf::Vector2f gmt::Normalize(const sf::Vector2f &vect) {
@@ -232,12 +226,6 @@ gmt::Rectangle gmt::Reorder_Rectangle(gmt::Rectangle rectangle) {
     float max_y = (*min_max_y.second).y;
 
     return {sf::Vector2f(min_x, min_y), sf::Vector2f(max_x - min_x, max_y - min_y)};
-}
-
-/* Return the float with a designed number of digits behind the comma */
-float gmt::digits_comma(float number, int digits) {
-    int d_limit = std::pow(10, digits);
-    return round(number * d_limit) / d_limit;
 }
 
 /* Angle from a line: atan2(y, x) = Arg(x+iy) rad <=> atan2(y, x)*(180/3.1415)= Arg(x+iy) deg */

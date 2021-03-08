@@ -48,6 +48,13 @@ template Vector<int>::Vector();
 template Vector<float>::Vector();
 template Vector<double>::Vector();
 
+/* Default Destructor */
+template <typename T>
+Vector<T>::~Vector() {}
+template Vector<int>::~Vector();
+template Vector<float>::~Vector();
+template Vector<double>::~Vector();
+
 /* Builder Constructor */
 template <typename T>
 Vector<T>::Vector(const T& x, const T& y) {

@@ -4,7 +4,7 @@ namespace gmt {
 
 template <typename T>
 Text<T> Text<T>::operator<<(const Text<T>& other) const {
-    return Text<T>(this->text << other->text, this->position, this->size, this->fixed, this->color);
+    return Text<T>(this->text + other.text, this->position, this->size, this->fixed, this->color);
 }
 template Text<int> Text<int>::operator<<(const Text<int>& other) const;
 template Text<float> Text<float>::operator<<(const Text<float>& other) const;
@@ -14,7 +14,7 @@ template Text<double> Text<double>::operator<<(const Text<double>& other) const;
 template <typename T>
 Text<T>::Text() {
     this->text = "";
-    this->position = &Vector<T>();
+    this->position = this->position.Clone();
     this->size = T(17);
     this->fixed = false;
     this->color = sf::Color();
@@ -22,6 +22,13 @@ Text<T>::Text() {
 template Text<int>::Text();
 template Text<float>::Text();
 template Text<double>::Text();
+
+/* Default Destructor */
+template <typename T>
+Text<T>::~Text() {}
+template Text<int>::~Text();
+template Text<float>::~Text();
+template Text<double>::~Text();
 
 /* Builder Constructor */
 template <typename T>
