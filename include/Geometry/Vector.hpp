@@ -5,7 +5,6 @@
 #include <cmath>
 
 #include "Maths.hpp"
-
 namespace gmt {
 
 template <typename T>
