@@ -164,7 +164,7 @@ sf::Vector2f Renderer::get_real_pos(sf::Vector2i pos) { return window.mapPixelTo
 float Renderer::get_real_pos_x(float x) { return window.mapPixelToCoords(sf::Vector2i(x, 0)).x; }
 float Renderer::get_real_pos_y(float y) { return window.mapPixelToCoords(sf::Vector2i(0, y)).y; }
 
-bool Renderer::rect_in_screen(gmt::Rectangle rect) {
+bool Renderer::rect_in_screen(gmt::BoundsI rect) {
     // One point in screen
     if (rect.pos.x > get_real_pos_x(0) && rect.pos.x < get_real_pos_x(screen_width)) { return true; }
     if (rect.pos.x + rect.size.x > get_real_pos_x(0) && rect.pos.x + rect.size.x < get_real_pos_x(screen_width)) { return true; }
@@ -181,7 +181,7 @@ void Renderer::addText(gmt::TextI text) { this->texts.push_back(text); }
 void Renderer::DrawTexts() {
     for (int i = 0; i < this->texts.size(); i++) {
         gmt::TextI text = this->texts.at(i);
-        DrawText(text.text, text.position.x, text.position.y, text.size, text.fixed, text.color);
+        DrawText(text.text, text.pos.x, text.pos.y, text.size, text.fixed, text.color);
     }
 }
 

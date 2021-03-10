@@ -248,7 +248,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                     /* System Limits */
-                    gmt::Rectangle rect_limits = system.get_limits();
+                    gmt::BoundsI rect_limits = system.get_limits();
                     static float temp_limits[4] = {rect_limits.pos.x, rect_limits.pos.y, rect_limits.size.x, rect_limits.size.y};
                     if (ImGui::DragFloat4("Limits", temp_limits, 1.f, -FLT_MAX, +FLT_MAX, "%.f")) {
                         rect_limits = {sf::Vector2f(temp_limits[0], temp_limits[1]), sf::Vector2f(temp_limits[2], temp_limits[3])};
@@ -661,7 +661,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
 
                         temp_rotation = system.get_corpse(body_cursor)->get_rotation();
                         temp_spin = system.get_corpse(body_cursor)->get_diff_rotation();
-                        temp_motor = system.get_corpse(body_cursor)->get_motor_rotation();
+                        temp_motor = system.get_corpse(body_cursor)->get_motor();
 
                         if (!unique_selected) {
                             for (int i = 1; i < selected_corpses_cursor.size(); i++) {
@@ -712,7 +712,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                     ImFormatString(label_spi, IM_ARRAYSIZE(label_spi), "Spin <differ>");
                                     temp_spin = 0.0f;
                                 }
-                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_motor_rotation(), temp_motor, sig_pos)) {
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_motor(), temp_motor, sig_pos)) {
                                     ImFormatString(label_mot, IM_ARRAYSIZE(label_mot), "Motor <differ>");
                                     temp_motor = 0.0f;
                                 }
@@ -902,11 +902,11 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         /*
                         if (ImGui::DragFloat(label_mot, &temp_motor, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None)) {
                             if (unique_selected) {
-                                system.get_corpse(cursor_selected)->set_motor_rotation(system.get_corpse(cursor_selected)->get_motor_rotation() - temp_motor);
+                                system.get_corpse(cursor_selected)->set_motor(system.get_corpse(cursor_selected)->get_motor() - temp_motor);
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
                                     int body_cursor = selected_corpses_cursor.at(i);
-                                    system.get_corpse(body_cursor)->set_motor_rotation(system.get_corpse(body_cursor)->get_motor_rotation() - temp_motor);
+                                    system.get_corpse(body_cursor)->set_motor(system.get_corpse(body_cursor)->get_motor() - temp_motor);
                                 }
                             }
                         }

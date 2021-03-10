@@ -46,4 +46,11 @@ https://en.wikipedia.org/wiki/Verlet_integration
 https://compphys.go.ro/newtonian-gravity/
 https://femto-physique.fr/omp/methode-de-verlet.php
 https://python.plainenglish.io/molecular-dynamics-velocity-verlet-integration-with-python-5ae66b63a8fd
+
+
+Géometrie
+http://paulbourke.net/geometry/polygonmesh/
+http://paulbourke.net/geometry/
+https://softologyblog.wordpress.com/
+http://geomalgorithms.com/a10-_hull-1.html
 */

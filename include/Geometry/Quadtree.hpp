@@ -4,10 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "../Corpses/Circle.hpp"
-#include "../Corpses/Polygon.hpp"
-#include "Config.hpp"
-#include "Geometry.hpp"
+#include "Maths.hpp"
 
 namespace gmt {
 
@@ -16,48 +13,38 @@ namespace gmt {
 
 #define NUMBER_SUB 4
 
+template <typename T>
 class Quadtree {
-   private:
+   public:
     int level;
-    struct Rectangle bounds;
-
-    std::shared_ptr<Quadtree> node_A;
-    std::shared_ptr<Quadtree> node_B;
-    std::shared_ptr<Quadtree> node_C;
-    std::shared_ptr<Quadtree> node_D;
-
+    struct Bounds<T> bounds;
+    std::shared_ptr<Quadtree<T>> node_A;
+    std::shared_ptr<Quadtree<T>> node_B;
+    std::shared_ptr<Quadtree<T>> node_C;
+    std::shared_ptr<Quadtree<T>> node_D;
     std::vector<std::shared_ptr<phy::Corpse>> corpses;
 
-   public:
-    Quadtree(Rectangle bounds = Rectangle({sf::Vector2f(), sf::Vector2f()}), int level = 1);
-    Quadtree& operator=(const Quadtree& rhs);
-    virtual ~Quadtree();
+    Quadtree<T>& operator=(const Quadtree<T>& rhs);
 
-    void clear();
-    void clear_nodes();
-    void split();
-    int get_index(std::shared_ptr<phy::Corpse> corpse);
-    int get_size();
+    Quadtree(const Bounds<T>& bounds = Bounds<T>(), const int& level = 1);
+    ~Quadtree();
 
-    void insert(std::shared_ptr<phy::Corpse> corpse);
-    bool clear_empty();
-    bool sub_not_null();
+    void Clear();
+    void ClearNodes();
+    void Split();
+    int Index(std::shared_ptr<phy::Corpse> corpse);
+    int Size();
 
-    int get_level() const;
-    void set_level(int level);
-
-    Rectangle get_bounds() const;
-    void set_bounds(Rectangle bounds);
+    void Insert(std::shared_ptr<phy::Corpse> corpse);
+    bool ClearEmpty();
+    bool NotNull();
 
     std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>> make_pairs();
-
     std::vector<std::shared_ptr<phy::Corpse>> get_sub_corpses();
     std::vector<std::shared_ptr<phy::Corpse>> get_all_corpses();
-
-    std::shared_ptr<Quadtree> get_node(int i);
-    void set_node(int i, std::shared_ptr<Quadtree> node);
-
-    std::vector<Rectangle> get_all_bounds();
+    std::shared_ptr<Quadtree<T>> get_node(int i);
+    void set_node(int i, std::shared_ptr<Quadtree<T>> node);
+    std::vector<Bounds<T>> get_all_bounds();
 };
 
 }  // namespace gmt

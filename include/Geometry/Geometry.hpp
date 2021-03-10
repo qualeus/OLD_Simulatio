@@ -4,6 +4,7 @@
 #include "Bounds.hpp"
 #include "Config.hpp"
 #include "Maths.hpp"
+#include "Quadtree.hpp"
 #include "Text.hpp"
 #include "Vector.hpp"
 
@@ -11,18 +12,15 @@
 
 namespace gmt {
 
-template <typename T>
-class Vector;
-
-template <typename T>
-class Bounds;
-
-template <typename T>
-class Text;
+#ifndef PRECISION_SET
+#define PRECISION_SET
+typedef float PHYSICS_PRECISION;
+#endif
 
 using UnitI = PHYSICS_PRECISION;
 using VectorI = Vector<PHYSICS_PRECISION>;
 using BoundsI = Bounds<PHYSICS_PRECISION>;
+using QuadtreeI = Quadtree<PHYSICS_PRECISION>;
 using TextI = Text<PHYSICS_PRECISION>;
 
 /* ======================================= */
@@ -108,7 +106,7 @@ struct Text {
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
-// gmt::Rectangle Reorder_Rectangle(gmt::Rectangle rectangle);
+// gmt::BoundsI Reorder_Rectangle(gmt::BoundsI rectangle);
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
@@ -119,8 +117,8 @@ struct Text {
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */
 /* ======================================= */
-// bool rect_in_bounds(const gmt::Rectangle &object, const gmt::Rectangle &limits);
-// bool rect_out_bounds(const gmt::Rectangle &object, const gmt::Rectangle &limits);
+// bool rect_in_bounds(const gmt::BoundsI &object, const gmt::BoundsI &limits);
+// bool rect_out_bounds(const gmt::BoundsI &object, const gmt::BoundsI &limits);
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */

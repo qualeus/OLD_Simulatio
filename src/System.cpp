@@ -2,7 +2,7 @@
 
 namespace phy {
 
-System::System(bool gravity, float force_x, float force_y, float limit_x, float limit_y) {
+System::System(bool gravity, gmt::UnitI force_x, gmt::UnitI force_y, gmt::UnitI limit_x, gmt::UnitI limit_y) {
     this->gravity = gravity;
     this->force_x = force_x;
     this->force_y = force_y;
@@ -11,9 +11,9 @@ System::System(bool gravity, float force_x, float force_y, float limit_x, float 
     this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
     this->quad_pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
 
-    this->quadtree = gmt::Quadtree({sf::Vector2f(-limit_x / 2.0f, -limit_y / 2.0f), sf::Vector2f(limit_x, limit_y)}, 1);
+    this->quadtree = gmt::Quadtree(-limit_x / gmt::UnitI(2), -limit_y / gmt::UnitI(2)), limit_x / gmt::UnitI(2), limit_y / gmt::UnitI(2), gmt::UnitI(1));
 
-    this->limits = {sf::Vector2f(-(AROUND_QUADTREE + limit_x) / 2.0f, -(AROUND_QUADTREE + limit_y) / 2.0f), sf::Vector2f(limit_x + AROUND_QUADTREE, limit_y + AROUND_QUADTREE)};
+    this->limits = {gmt::VectorI(-(AROUND_QUADTREE + limit_x) / 2.0f, -(AROUND_QUADTREE + limit_y) / 2.0f), gmt::VectorI(limit_x + AROUND_QUADTREE, limit_y + AROUND_QUADTREE)};
     Prepare();
 }
 
@@ -31,7 +31,7 @@ System& System::operator=(const System& rhs) {
     this->collision_accuracy = rhs.get_collision_accuracy();
     this->constraint_accuracy = rhs.get_constraint_accuracy();
 
-    gmt::Rectangle limits = rhs.get_limits();
+    gmt::BoundsI limits = rhs.get_limits();
 
     this->corpses = std::vector<std::shared_ptr<Corpse>>();
     this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
@@ -98,7 +98,7 @@ void System::CorpsesStep() {
         if (get_corpse(i)->get_removed()) { continue; }  // Removed
 
         get_corpse(i)->Step();
-        if (!get_corpse(i)->get_fixed()) { get_corpse(i)->Move(sf::Vector2f(this->force_x, this->force_y) * this->dt * this->dt); }
+        if (!get_corpse(i)->get_fixed()) { get_corpse(i)->Move(gmt::VectorI(this->force_x, this->force_y) * this->dt * this->dt); }
     }
 }
 
@@ -139,17 +139,17 @@ void System::Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     if (a->get_removed() || b->get_removed()) { return; }  // One Removed
     if (a->get_fixed() && b->get_fixed()) { return; }      // Both Fixed
 
-    float dist = gmt::Length(a->get_pos_x(), a->get_pos_y(), b->get_pos_x(), b->get_pos_y());
+    gmt::UnitI dist = gmt::Length(a->get_pos_x(), a->get_pos_y(), b->get_pos_x(), b->get_pos_y());
 
     // Possible optimisation: Remove the multiplication and divisio, by the mass and
     // just multiply the force by the other body mass when applying it
 
-    float force = G * a->get_mass() * b->get_mass() / (dist * dist);  // G * (ma * mb)/(r^2)
-    if (force > LS) { force = LS; }                                   // Limit with the Light Speed
+    gmt::UnitI force = G * a->get_mass() * b->get_mass() / (dist * dist);  // G * (ma * mb)/(r^2)
+    if (force > LS) { force = LS; }                                        // Limit with the Light Speed
 
-    sf::Vector2f diff = sf::Vector2f(b->get_pos_x() - a->get_pos_x(), b->get_pos_y() - a->get_pos_y()) / dist;
-    sf::Vector2f acceleration_a = diff * force / a->get_mass();
-    sf::Vector2f acceleration_b = -diff * force / b->get_mass();
+    gmt::VectorI diff = gmt::VectorI(b->get_pos_x() - a->get_pos_x(), b->get_pos_y() - a->get_pos_y()) / dist;
+    gmt::VectorI acceleration_a = diff * force / a->get_mass();
+    gmt::VectorI acceleration_b = -diff * force / b->get_mass();
 
     if (!a->get_fixed()) { a->Move(acceleration_a * this->dt * this->dt); }
     if (!b->get_fixed()) { b->Move(acceleration_b * this->dt * this->dt); }
@@ -167,20 +167,20 @@ void System::StepQuadtree() {
 
 std::shared_ptr<gmt::Quadtree> System::get_quadtree() { return std::make_shared<gmt::Quadtree>(this->quadtree); }
 
-float System::get_dt() const { return this->dt; }
-void System::set_dt(float dt) {
+gmt::UnitI System::get_dt() const { return this->dt; }
+void System::set_dt(gmt::UnitI dt) {
     // We compute the change in time
-    float dt_diff = dt - this->dt;
+    gmt::UnitI dt_diff = dt - this->dt;
 
     // We need to avoid a dt to close to 0 because
     // it mess up with the corpses velocities.
     // It's better to just pass the area around 0.
-    if (gmt::float_equals(dt, 0.0f, dt_diff * 0.1f)) {
+    if (gmt::gmt::UnitI_equals(dt, 0.0f, dt_diff * 0.1f)) {
         dt = dt + dt_diff;
         dt_diff = dt_diff * 2.0f;
     }
 
-    float dt_frac = dt / this->dt;
+    gmt::UnitI dt_frac = dt / this->dt;
     // Update corpses velocities an rotations
     for (int i = 0; i < corpses_size; i++) {
         if (get_corpse(i)->get_removed()) { continue; }  // Removed
@@ -194,20 +194,20 @@ void System::set_dt(float dt) {
 double System::get_t() const { return this->t; }
 void System::set_t(double t) { this->t = t; }
 
-float System::get_force_x() const { return this->force_x; }
-void System::set_force_x(float force_x) { this->force_x = force_x; }
+gmt::UnitI System::get_force_x() const { return this->force_x; }
+void System::set_force_x(gmt::UnitI force_x) { this->force_x = force_x; }
 
-float System::get_force_y() const { return this->force_y; }
-void System::set_force_y(float force_y) { this->force_y = force_y; }
+gmt::UnitI System::get_force_y() const { return this->force_y; }
+void System::set_force_y(gmt::UnitI force_y) { this->force_y = force_y; }
 
 bool System::get_gravity() const { return this->gravity; }
 void System::set_gravity(bool gravity) { this->gravity = gravity; }
 
-float System::get_LS() const { return this->LS; }
-void System::set_LS(float LS) { this->LS = LS; }
+gmt::UnitI System::get_LS() const { return this->LS; }
+void System::set_LS(gmt::UnitI LS) { this->LS = LS; }
 
-float System::get_G() const { return this->G; }
-void System::set_G(float G) { this->G = G; }
+gmt::UnitI System::get_G() const { return this->G; }
+void System::set_G(gmt::UnitI G) { this->G = G; }
 
 int System::get_collision_accuracy() const { return this->collision_accuracy; }
 void System::set_collision_accuracy(int collision_accuracy) { this->collision_accuracy = collision_accuracy; }
@@ -241,8 +241,8 @@ void System::add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     this->pairs_size++;  // Update the size of the array = [n(n-1)]/2
 }
 
-gmt::Rectangle System::get_limits() const { return this->limits; }
-void System::set_limits(gmt::Rectangle limits) { this->limits = limits; }
+gmt::BoundsI System::get_limits() const { return this->limits; }
+void System::set_limits(gmt::BoundsI limits) { this->limits = limits; }
 
 std::vector<std::shared_ptr<Corpse>> System::get_corpses() const { return this->corpses; }
 std::shared_ptr<Corpse> System::get_corpse(int index) const {

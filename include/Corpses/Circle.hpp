@@ -14,10 +14,11 @@ const static int ID_CIRCLE = 2;
 
 class Circle : public Corpse {
    private:
-    float size;
+    gmt::UnitI size;
 
    public:
-    Circle(float x = 0.0f, float y = 0.0f, float size = 1.0f, float mass = 1.0f, float damping = 1.0f, float speed_x = 0.0f, float speed_y = 0.0f, float rotation = 0.0f, float motor = 0.0f, bool fixed = false, bool tied = false, bool etherial = false, sf::Color color = sf::Color::White);
+    Circle(gmt::UnitI x = gmt::UnitI(0), gmt::UnitI y = gmt::UnitI(0), gmt::UnitI size = gmt::UnitI(1), gmt::UnitI mass = gmt::UnitI(1), gmt::UnitI damping = gmt::UnitI(1), gmt::UnitI speed_x = gmt::UnitI(0), gmt::UnitI speed_y = gmt::UnitI(0), gmt::UnitI rotation = gmt::UnitI(0),
+           gmt::UnitI motor = gmt::UnitI(0), gmt::VectorI propulsor = gmt::VectorI(), bool fixed = false, bool tied = false, bool etherial = false, sf::Color color = sf::Color::White);
     virtual ~Circle();
     Circle& operator=(const Circle& rhs);
 
@@ -25,15 +26,15 @@ class Circle : public Corpse {
 
     void Step();
     void Stop();
-    void Move(float x, float y, bool relative = true);
-    void Move(sf::Vector2f move, bool relative = true);
-    bool inBounds(float x1, float x2, float y1, float y2);
-    bool Pointed(float x, float y);
+    void Move(gmt::UnitI x, gmt::UnitI y, bool relative = true);
+    void Move(gmt::VectorI move, bool relative = true);
+    bool inBounds(gmt::UnitI x1, gmt::UnitI x2, gmt::UnitI y1, gmt::UnitI y2);
+    bool Pointed(gmt::UnitI x, gmt::UnitI y);
 
     void Collision(std::shared_ptr<Corpse> a);
 
-    float get_size() const;
-    gmt::Rectangle get_corpse_bounds() const;
+    gmt::UnitI get_size() const;
+    gmt::BoundsI get_corpse_bounds() const;
 };
 
 }  // namespace phy

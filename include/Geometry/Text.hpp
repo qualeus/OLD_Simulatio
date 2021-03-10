@@ -13,7 +13,7 @@ template <typename T>
 class Text {
    public:
     std::string text;
-    Vector<T> position;
+    Vector<T> pos;
     T size;
     bool fixed;
     sf::Color color;
@@ -24,7 +24,7 @@ class Text {
     ~Text();
 
     Text(const std::string& text, const T& x, const T& y, const T& size, const bool& fixed, const sf::Color& color);
-    Text(const std::string& text, const Vector<T>& position, const T& size, const bool& fixed, const sf::Color& color);
+    Text(const std::string& text, const Vector<T>& pos, const T& size, const bool& fixed, const sf::Color& color);
 };
 }  // namespace gmt
 #endif

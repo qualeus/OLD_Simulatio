@@ -99,7 +99,7 @@ class Renderer {
     sf::Time frame;
 
     sf::Vector2f saved_mouse_pos;
-    gmt::Rectangle selected_area;
+    gmt::BoundsI selected_area;
     std::vector<bool> selected_corpses_fixed;
     std::vector<int> selected_corpses_cursor;
     std::vector<sf::Vector2f> selected_corpses_diff;
@@ -225,7 +225,7 @@ class Renderer {
     void Draw();  // Manage the drawing of the Renderer
     void DrawCorpse(std::shared_ptr<phy::Corpse> corpse);
     void DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair);
-    void DrawQuadtree(gmt::Rectangle rect);
+    void DrawQuadtree(gmt::BoundsI rect);
     void DrawLimits();
     void DrawTrajectories();
 
@@ -299,7 +299,7 @@ class Renderer {
     float get_real_pos_x(float x);
     float get_real_pos_y(float y);
 
-    bool rect_in_screen(gmt::Rectangle rect);
+    bool rect_in_screen(gmt::BoundsI rect);
 
     void addText(gmt::TextI txt);
     void DrawTexts();

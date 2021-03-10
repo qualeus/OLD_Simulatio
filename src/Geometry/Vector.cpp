@@ -2,6 +2,24 @@
 
 namespace gmt {
 
+/* Vectors Operators: +[Ax Ay] = [Ax Ay] */
+template <typename T>
+Vector<T> Vector<T>::operator+() const {
+    return Vector<T>(this->x, this->y);
+}
+template Vector<int> Vector<int>::operator+() const;
+template Vector<float> Vector<float>::operator+() const;
+template Vector<double> Vector<double>::operator+() const;
+
+/* Vectors Operators: -[Ax Ay] = [-Ax -Ay] */
+template <typename T>
+Vector<T> Vector<T>::operator-() const {
+    return Vector<T>(-this->x, -this->y);
+}
+template Vector<int> Vector<int>::operator-() const;
+template Vector<float> Vector<float>::operator-() const;
+template Vector<double> Vector<double>::operator-() const;
+
 /* Vectors Operators: [Ax Ay]+[Bx By] = [Ax+Bx Ay+By] */
 template <typename T>
 Vector<T> Vector<T>::operator+(const Vector<T>& other) const {

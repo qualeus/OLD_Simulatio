@@ -7,7 +7,7 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
     if (phy::Circle *circle = dynamic_cast<phy::Circle *>(corpse.get())) {
         if (debug_show_centroids) { DrawCircle(circle->get_pos_x(), circle->get_pos_y(), 5, sf::Color::Red, true); }
         if (debug_show_rectangles) {
-            gmt::Rectangle bounds = circle->get_corpse_bounds();
+            gmt::BoundsI bounds = circle->get_corpse_bounds();
             DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
         }
         if (debug_show_edges) { DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size() + 3, sf::Color::Red, true); }
@@ -24,7 +24,7 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
 
     } else if (phy::Polygon *polygon = dynamic_cast<phy::Polygon *>(corpse.get())) {
         if (debug_show_rectangles) {
-            gmt::Rectangle bounds = polygon->get_corpse_bounds();
+            gmt::BoundsI bounds = polygon->get_corpse_bounds();
             DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
         }
         if (debug_show_centroids) { DrawCircle(polygon->get_pos_x(), polygon->get_pos_y(), 5, sf::Color::Red, true); }
@@ -73,10 +73,10 @@ void Renderer::DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<
     DrawLine(pos_A.x, pos_A.y, pos_B.x, pos_B.y);
 }
 
-void Renderer::DrawQuadtree(gmt::Rectangle rect) { DrawRectangle(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y, false, C_RED, true); }
+void Renderer::DrawQuadtree(gmt::BoundsI rect) { DrawRectangle(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y, false, C_RED, true); }
 
 void Renderer::DrawLimits() {
-    gmt::Rectangle limits = system.get_limits();
+    gmt::BoundsI limits = system.get_limits();
     DrawRectangle(limits.pos.x, limits.pos.y, limits.size.x, limits.size.y, false, C_RED, true);
 }
 
@@ -146,7 +146,7 @@ void Renderer::Debug() {
 
 void Renderer::DrawInputs() {
     if (debug_show_quadtree) {
-        std::vector<gmt::Rectangle> quadtrees = this->system.get_quadtree()->get_all_bounds();
+        std::vector<gmt::BoundsI> quadtrees = this->system.get_quadtree()->get_all_bounds();
         for (int i = 0; i < quadtrees.size(); i++) { DrawQuadtree(quadtrees.at(i)); }
     }
 

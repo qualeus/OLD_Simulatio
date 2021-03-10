@@ -32,24 +32,24 @@ class System {
 
     gmt::Quadtree quadtree;
 
-    float force_x;
-    float force_y;
+    gmt::UnitI force_x;
+    gmt::UnitI force_y;
     bool gravity;
-    float LS = 2.998e+8;  // 2,998 * 10e+8
-    float G = 1.6e-2;     // 6.7 * 10e-11
+    gmt::UnitI LS = 2.998e+8;  // 2,998 * 10e+8
+    gmt::UnitI G = 1.6e-2;     // 6.7 * 10e-11
 
-    float dt = 1.0f;
+    gmt::UnitI dt = 1.0f;
     double t = 0.0;
 
     int collision_accuracy = 10;
     int constraint_accuracy = 10;
 
-    gmt::Rectangle limits;
+    gmt::BoundsI limits;
 
    public:
-    System(bool gravity = false, float force_x = 0.0f, float force_y = 0.0f, float limit_x = 4000.0f, float limit_y = 4000.0f);  // System Constructor
-    System& operator=(const System& rhs);                                                                                        // System Copy
-    virtual ~System();                                                                                                           // System Destructor
+    System(bool gravity = false, gmt::UnitI force_x = 0.0f, gmt::UnitI force_y = 0.0f, gmt::UnitI limit_x = 4000.0f, gmt::UnitI limit_y = 4000.0f);  // System Constructor
+    System& operator=(const System& rhs);                                                                                                            // System Copy
+    virtual ~System();                                                                                                                               // System Destructor
 
     void Prepare();
 
@@ -68,26 +68,26 @@ class System {
     void StepQuadtree();
     std::shared_ptr<gmt::Quadtree> get_quadtree();
 
-    float get_dt() const;
-    void set_dt(float dt);
+    gmt::UnitI get_dt() const;
+    void set_dt(gmt::UnitI dt);
 
     double get_t() const;
     void set_t(double t);
 
-    float get_force_x() const;
-    void set_force_x(float force_x);
+    gmt::UnitI get_force_x() const;
+    void set_force_x(gmt::UnitI force_x);
 
-    float get_force_y() const;
-    void set_force_y(float force_y);
+    gmt::UnitI get_force_y() const;
+    void set_force_y(gmt::UnitI force_y);
 
     bool get_gravity() const;
     void set_gravity(bool gravity);
 
-    float get_LS() const;
-    void set_LS(float LS);
+    gmt::UnitI get_LS() const;
+    void set_LS(gmt::UnitI LS);
 
-    float get_G() const;
-    void set_G(float G);
+    gmt::UnitI get_G() const;
+    void set_G(gmt::UnitI G);
 
     int get_collision_accuracy() const;
     void set_collision_accuracy(int collision_accuracy);
@@ -105,8 +105,8 @@ class System {
     void add_corpse(std::shared_ptr<Corpse> a);
     void add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
 
-    gmt::Rectangle get_limits() const;
-    void set_limits(gmt::Rectangle limits);
+    gmt::BoundsI get_limits() const;
+    void set_limits(gmt::BoundsI limits);
 
     std::vector<std::shared_ptr<Corpse>> get_corpses() const;
     std::shared_ptr<Corpse> get_corpse(int index) const;

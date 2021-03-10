@@ -241,7 +241,7 @@ void Renderer::SelectMultipleCorpsesStop(sf::Event event) {
 
     // Reorganize the points in a rectangle ABCD (top left point A / bottom
     // right point C)
-    gmt::Rectangle rectangle = gmt::Reorder_Rectangle(this->selected_area);
+    gmt::BoundsI rectangle = gmt::Reorder_Rectangle(this->selected_area);
 
     for (int i = 0; i < system.get_corpses_size(); i++) {
         if (system.get_corpse(i)->get_removed()) { continue; }  // Removed

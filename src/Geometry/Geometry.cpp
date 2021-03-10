@@ -170,7 +170,7 @@ sf::Vector2f closest = vect_A + dot * (vect_B-vect_A);
  return {0, sf::Vector2f()};
 }*/
 /*
-gmt::Rectangle gmt::Reorder_Rectangle(gmt::Rectangle rectangle) {
+gmt::BoundsI gmt::Reorder_Rectangle(gmt::BoundsI rectangle) {
     std::vector<sf::Vector2f> points = {rectangle.pos, rectangle.pos + rectangle.size};
     const auto min_max_x = std::minmax_element(points.begin(), points.end(), [](const sf::Vector2f &lhs, const sf::Vector2f &rhs) { return lhs.x < rhs.x; });
     const auto min_max_y = std::minmax_element(points.begin(), points.end(), [](const sf::Vector2f &lhs, const sf::Vector2f &rhs) { return lhs.y < rhs.y; });
@@ -195,7 +195,7 @@ float gmt::angle(const sf::Vector2f &vect_A, const sf::Vector2f &vect_B, const s
     return atan2(Cross(vect_AB, vect_CB), Dot(vect_AB, vect_CB)) * (180 / PI);
 }*/
 /*
-bool gmt::rect_in_bounds(const gmt::Rectangle &object, const gmt::Rectangle &limits) {
+bool gmt::rect_in_bounds(const gmt::BoundsI &object, const gmt::BoundsI &limits) {
     // One point in bounds
     // p1 (x,y)
     if (object.pos.x > limits.pos.x && object.pos.x < limits.pos.x + limits.size.x && object.pos.y > limits.pos.y && object.pos.y < limits.pos.y + limits.size.y) { return true; }
@@ -209,7 +209,7 @@ bool gmt::rect_in_bounds(const gmt::Rectangle &object, const gmt::Rectangle &lim
     return false;
 }*/
 /*
-bool gmt::rect_out_bounds(const gmt::Rectangle &object, const gmt::Rectangle &limits) {
+bool gmt::rect_out_bounds(const gmt::BoundsI &object, const gmt::BoundsI &limits) {
     // One face out bounds
     // f1
     if (object.pos.x < limits.pos.x) { return true; }

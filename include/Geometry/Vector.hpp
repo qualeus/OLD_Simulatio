@@ -13,6 +13,8 @@ class Vector {
     T x;
     T y;
 
+    Vector<T> operator+() const;
+    Vector<T> operator-() const;
     Vector<T> operator+(const Vector<T>& other) const;
     Vector<T> operator-(const Vector<T>& other) const;
     Vector<T> operator*(const T& other) const;

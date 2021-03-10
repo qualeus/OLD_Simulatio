@@ -14,16 +14,30 @@
 #include <sstream>
 #include <vector>
 
+namespace phy {
+class Circle;
+class Corpse;
+class Polygon;
+}  // namespace phy
+
 namespace gmt {
+
+template <typename T>
+class Vector;
+
+template <typename T>
+class Bounds;
+
+template <typename T>
+class Quadtree;
+
+template <typename T>
+class Text;
 
 bool float_equals(float a, float b, float sigma = 0.1f);
 float degree_to_radian(float degree);
 float radian_to_degree(float radian);
 float digits_comma(float number, int digits);
-
-std::pair<sf::Vector2f, sf::Vector2f> Closest_Edge(std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides, sf::Vector2f point);
-sf::Vector2f Centroid(std::vector<std::pair<sf::Vector2f, sf::Vector2f>> edges);
-sf::Vector2f Points_Average(std::vector<sf::Vector2f> points);
 
 template <class C>
 std::shared_ptr<C> remove(int i, std::vector<std::shared_ptr<C>> &vect) {
