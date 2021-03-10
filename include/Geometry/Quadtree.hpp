@@ -1,9 +1,6 @@
 #ifndef Quadtree_HPP
 #define Quadtree_HPP
 
-#include <memory>
-#include <vector>
-
 #include "Maths.hpp"
 
 namespace gmt {

@@ -23,15 +23,16 @@ class Circle : public Corpse {
     Circle& operator=(const Circle& rhs);
 
     int get_class() const;
+    static int id_class();
 
     void Step();
     void Stop();
-    void Move(gmt::UnitI x, gmt::UnitI y, bool relative = true);
-    void Move(gmt::VectorI move, bool relative = true);
-    bool inBounds(gmt::UnitI x1, gmt::UnitI x2, gmt::UnitI y1, gmt::UnitI y2);
-    bool Pointed(gmt::UnitI x, gmt::UnitI y);
 
-    void Collision(std::shared_ptr<Corpse> a);
+    void Move(const gmt::VectorI& move);
+    void Drag(const gmt::VectorI& drag);
+
+    bool inBounds(const gmt::BoundsI& bounds) const;
+    bool Pointed(const gmt::VectorI& point) const;
 
     gmt::UnitI get_size() const;
     gmt::BoundsI get_corpse_bounds() const;

@@ -32,6 +32,9 @@ template <typename T>
 class Quadtree;
 
 template <typename T>
+class Collision;
+
+template <typename T>
 class Text;
 
 bool float_equals(float a, float b, float sigma = 0.1f);

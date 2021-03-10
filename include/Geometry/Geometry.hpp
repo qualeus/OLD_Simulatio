@@ -2,11 +2,13 @@
 #define Geometry_HPP
 
 #include "Bounds.hpp"
+#include "Collision.hpp"
 #include "Config.hpp"
 #include "Maths.hpp"
 #include "Quadtree.hpp"
 #include "Text.hpp"
 #include "Vector.hpp"
+#include "Vertices.hpp"
 
 #define EDGE_APPROXIMATION 1 /* TO DELETE */
 
@@ -20,7 +22,9 @@ typedef float PHYSICS_PRECISION;
 using UnitI = PHYSICS_PRECISION;
 using VectorI = Vector<PHYSICS_PRECISION>;
 using BoundsI = Bounds<PHYSICS_PRECISION>;
+using VerticesI = Vertices<PHYSICS_PRECISION>;
 using QuadtreeI = Quadtree<PHYSICS_PRECISION>;
+using CollisionI = Collision<PHYSICS_PRECISION>;
 using TextI = Text<PHYSICS_PRECISION>;
 
 /* ======================================= */

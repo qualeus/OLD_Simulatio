@@ -1,11 +1,7 @@
 #ifndef Text_HPP
 #define Text_HPP
 
-#include <SFML/Graphics.hpp>
-#include <iostream>
-
 #include "Maths.hpp"
-#include "Vector.hpp"
 
 namespace gmt {
 

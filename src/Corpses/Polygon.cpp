@@ -35,21 +35,14 @@ Polygon& Polygon::operator=(const Polygon& rhs) {
 Polygon::~Polygon() {}
 
 const int Polygon::get_class() { return ID_POLYGON; }
+int Polygon::id_class() { return ID_POLYGON; }
 
-void Polygon::Move(gmt::UnitI x, gmt::UnitI y, bool relative) {
-    if (relative) {
-        this->current_pos = this->current_pos + gmt::VectorI(x, y);
-    } else {
-        this->current_pos = gmt::VectorI(x, y);
-    }
+void Polygon::Move(gmt::VectorI move) {
+    this->current_pos = move;
     this->update_points();
 }
-void Polygon::Move(gmt::VectorI move, bool relative) {
-    if (relative) {
-        this->current_pos = this->current_pos + move;
-    } else {
-        this->current_pos = move;
-    }
+void Polygon::Drag(gmt::VectorI drag) {
+    this->current_pos = this->current_pos + drag;
     this->update_points();
 }
 
@@ -138,7 +131,7 @@ std::vector<gmt::VectorI> Polygon::init_relative_points(std::vector<gmt::VectorI
     return relative_points;
 }
 
-void Polygon::set_points(std::vector<gmt::VectorI> points) { this->points = points; }
+void Polygon::set_points(gmt::VerticesI points) { this->points = points; }
 
 void Polygon::add_point(gmt::VectorI point) {
     this->points.push_back(point);
@@ -155,8 +148,6 @@ void Polygon::add_point(gmt::VectorI point) {
 }
 
 void Polygon::remove_point(int i) {}
-
-gmt::VectorI Polygon::compute_center(std::vector<gmt::VectorI> points) {}
 
 void Polygon::Step() {
     if (this->fixed) {
@@ -189,40 +180,11 @@ void Polygon::Stop() {
     this->last_rotation = this->current_rotation;
 }
 
-gmt::BoundsI Polygon::get_corpse_bounds() const {}
+gmt::BoundsI Polygon::get_corpse_bounds() const { return this->points.Bounds(); }
 
-int Polygon::get_points_number() const { return this->points_number; }
-std::vector<gmt::VectorI> Polygon::get_points() const { return this->points; }
+gmt::VerticesI Polygon::get_points() const { return this->points; }
+void Polygon::set_points(gmt::VerticesI points) { this->points = points; }
 
-std::vector<gmt::VectorI> Polygon::get_relative_points() const { return this->relative_points; }
-void Polygon::set_relative_points(std::vector<gmt::VectorI> relative_points) { this->relative_points = relative_points; }
-
-std::vector<gmt::UnitI> Polygon::get_sides_size() const {
-    std::vector<gmt::VectorI> sides = this->get_sides_val();
-    std::vector<gmt::UnitI> sizes = std::vector<gmt::UnitI>();
-    for (int i = 0; i < sides.size(); i++) { sizes.push_back(gmt::Length(sides.at(i))); }
-    return sizes;
-}
-std::vector<gmt::VectorI> Polygon::get_sides_val() const {
-    std::vector<gmt::VectorI> sides = std::vector<gmt::VectorI>();
-    if (this->points_number > 1) {
-        for (int i = 0; i < this->points_number - 1; i++) { sides.push_back(this->points.at(i + 1) - this->points.at(i)); }
-        sides.push_back(this->points.at(0) - this->points.at(this->points_number - 1));
-    }
-    return sides;
-}
-
-std::vector<std::pair<gmt::VectorI, gmt::VectorI>> Polygon::get_sides() const {
-    std::vector<std::pair<gmt::VectorI, gmt::VectorI>> pairs = std::vector<std::pair<gmt::VectorI, gmt::VectorI>>();
-    if (this->points.size() > 1) {
-        for (int i = 0; i < this->points.size() - 1; i++) { pairs.push_back({this->points.at(i), this->points.at(i + 1)}); }
-        pairs.push_back({this->points.at(this->points.size() - 1), this->points.at(0)});
-    }
-    return pairs;
-}
-
-std::vector<std::vector<std::shared_ptr<gmt::VectorI>>> Polygon::get_triangulation() const { return this->triangulation; }
-
-bool Polygon::is_convex() const {}
+std::vector<std::pair<std::shared_ptr<gmt::VectorI>, std::shared_ptr<gmt::VectorI>>> Polygon::get_sides() const { return this->points.Pairs(); }
 
 }  // namespace phy

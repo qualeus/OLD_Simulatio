@@ -83,6 +83,16 @@ template Vector<int>::Vector(const int& x, const int& y);
 template Vector<float>::Vector(const float& x, const float& y);
 template Vector<double>::Vector(const double& x, const double& y);
 
+/* SFML Constructor */
+template <typename T>
+Vector<T>::Vector(const sf::Vector2f& v) {
+    this->x = T(v.x);
+    this->y = T(v.y);
+}
+template Vector<int>::Vector(const sf::Vector2f& v);
+template Vector<float>::Vector(const sf::Vector2f& v);
+template Vector<double>::Vector(const sf::Vector2f& v);
+
 /* Vector length: ||A|| = size = sqrt(Ax*Ax + Ay*Ay) */
 template <typename T>
 T Vector<T>::Magnitude() const {
@@ -112,12 +122,12 @@ template Vector<double> Vector<double>::Clone() const;
 
 /* Convert to SFML */
 template <typename T>
-sf::Vector2<T> Vector<T>::CloneSF() const {
-    return sf::Vector2<T>(this->x, this->y);
+sf::Vector2f Vector<T>::CloneSF() const {
+    return sf::Vector2f(static_cast<float>(this->x), static_cast<float>(this->y));
 }
-template sf::Vector2<int> Vector<int>::CloneSF() const;
-template sf::Vector2<float> Vector<float>::CloneSF() const;
-template sf::Vector2<double> Vector<double>::CloneSF() const;
+template sf::Vector2f Vector<int>::CloneSF() const;
+template sf::Vector2f Vector<float>::CloneSF() const;
+template sf::Vector2f Vector<double>::CloneSF() const;
 
 /* Normalize vector = [Ax Ay].(1/size) = [Ax/size Ay/size] */
 template <typename T>

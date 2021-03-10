@@ -1,11 +1,7 @@
 #ifndef Bounds_HPP
 #define Bounds_HPP
 
-#include <SFML/Graphics.hpp>
-#include <cmath>
-
 #include "Maths.hpp"
-#include "Vector.hpp"
 
 namespace gmt {
 

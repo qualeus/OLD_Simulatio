@@ -4,12 +4,12 @@ namespace gmt {
 
 /* Builder Constructor */
 template <typename T>
-Vertices<T>::Vertices(std::vector<Vector<T>>& vertices) {
+Vertices<T>::Vertices(std::vector<std::shared_ptr<Vector<T>>> vertices) {
     this->vertices = vertices;
 }
-template Vertices<int>::Vertices(std::vector<Vector<int>>& vertices);
-template Vertices<float>::Vertices(std::vector<Vector<float>>& vertices);
-template Vertices<double>::Vertices(std::vector<Vector<double>>& vertices);
+template Vertices<int>::Vertices(std::vector<std::shared_ptr<Vector<int>>> vertices);
+template Vertices<float>::Vertices(std::vector<std::shared_ptr<Vector<float>>> vertices);
+template Vertices<double>::Vertices(std::vector<std::shared_ptr<Vector<double>>> vertices);
 
 /* Default Constructor */
 template <typename T>
@@ -39,8 +39,8 @@ Vector<T> Vertices<T>::Centroid() const {
     T A = T(0);
     int vertices_size = this->vertices.size();
     for (int i = 0; i < vertices_size; i++) {
-        Vector<T> pA = this->vertices.at(i);
-        Vector<T> pB = this->vertices.at((i + 1) % vertices_size);
+        Vector<T> pA = &this->vertices.at(i);
+        Vector<T> pB = &this->vertices.at((i + 1) % vertices_size);
         A = pA.x * pB.y - pB.x * pA.y;
         signed_area = signed_area + A;
         centroid = centroid + (pA + pB) * A;
@@ -61,7 +61,7 @@ Vector<T> Vertices<T>::Average() const {
     Vector<T> points_average = Vector<T>();
     if (this->vertices.size() == 0) { return points_average; }
 
-    for (int i = 0; i < this->vertices.size(); i++) { points_average = points_average + this->vertices.at(i); }
+    for (int i = 0; i < this->vertices.size(); i++) { points_average = points_average + &this->vertices.at(i); }
     return points_average / static_cast<T>(this->vertices.size());
 }
 template Vector<int> Vertices<int>::Average() const;
@@ -70,39 +70,39 @@ template Vector<double> Vertices<double>::Average() const;
 
 /* Return the Vectors Pairs in a Clockwise Order */
 template <typename T>
-std::vector<std::pair<Vector<T>, Vector<T>>> Vertices<T>::Pairs() const {
-    std::vector<std::pair<Vector<T>, Vector<T>>> pairs = {};
+std::vector<std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>>> Vertices<T>::Pairs() const {
+    std::vector<std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>>> pairs = {};
     int vertices_size = this->vertices.size();
     for (int i = 0; i < vertices_size; i++) {
-        Vector<T> pA = this->vertices.at(i);
-        Vector<T> pB = this->vertices.at((i + 1) % vertices_size);
+        std::shared_ptr<Vector<T>> pA = this->vertices.at(i);
+        std::shared_ptr<Vector<T>> pB = this->vertices.at((i + 1) % vertices_size);
         pairs.push_back({pA, pB});
     }
     return pairs;
 }
-template std::vector<std::pair<Vector<int>, Vector<int>>> Vertices<int>::Pairs() const;
-template std::vector<std::pair<Vector<float>, Vector<float>>> Vertices<float>::Pairs() const;
-template std::vector<std::pair<Vector<double>, Vector<double>>> Vertices<double>::Pairs() const;
+template std::vector<std::pair<std::shared_ptr<Vector<int>>, std::shared_ptr<Vector<int>>>> Vertices<int>::Pairs() const;
+template std::vector<std::pair<std::shared_ptr<Vector<float>>, std::shared_ptr<Vector<float>>>> Vertices<float>::Pairs() const;
+template std::vector<std::pair<std::shared_ptr<Vector<double>>, std::shared_ptr<Vector<double>>>> Vertices<double>::Pairs() const;
 
 /* Check if the Polygon is Convex */
 template <typename T>
 bool Vertices<T>::Convex() const {
+    std::vector<std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>>> sides = this->Pairs();
     if (sides.size() <= 3) { return true; } /* triangles are always convex */
 
     /* We check for every edges that don't have an edge in common (opposites) if they intersect */
-    std::vector<std::pair<Vector<T>, Vector<T>>> sides = this->Pairs();
     for (int i = 0; i < sides.size() - 2; i++) {
         for (int j = i + 2; j < sides.size() - (i == 0); j++) {
-            std::pair<VectorI, VectorI> sideA = sides.at(i);
-            std::pair<VectorI, VectorI> sideB = sides.at(j);
-            if (Segments_Intersect(sideA.first, sideA.second, sideB.first, sideB.second)) { return false; }
+            std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>> sideA = sides.at(i);
+            std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>> sideB = sides.at(j);
+            if (Segments_Intersect(&sideA.first, &sideA.second, &sideB.first, &sideB.second)) { return false; }
         }
     }
 
     /* We test for each point if the angle is oriented in the same direction*/
-    bool orientation = (Vector<T>::Cross(points.at(points.size() - 1) - points.at(0), points.at(1) - points.at(0))) > T(0));
+    bool orientation = (Vector<T>::Cross(&vertices.at(vertices.size() - 1) - &vertices.at(0), &vertices.at(1) - &vertices.at(0))) > T(0));
     for (int i = 0; i < points.size() - 2; i++) {
-        if ((Vector<T>::Cross(points.at(i) - points.at(i + 1), points.at(i + 2) - points.at(i + 1))) > T(0)) != orientation) { return false; }
+        if ((Vector<T>::Cross(&vertices.at(i) - &vertices.at(i + 1), &vertices.at(i + 2) - &vertices.at(i + 1))) > T(0)) != orientation) { return false; }
     }
     return true;
 }
@@ -121,8 +121,8 @@ T Vertices<T>::Area() const {
     T A = T(0);
     int vertices_size = this->vertices.size();
     for (int i = 0; i < vertices_size; i++) {
-        Vector<T> pA = this->vertices.at(i);
-        Vector<T> pB = this->vertices.at((i + 1) % vertices_size);
+        Vector<T> pA = &this->vertices.at(i);
+        Vector<T> pB = &this->vertices.at((i + 1) % vertices_size);
         A = pA.x * pB.y - pB.x * pA.y;
         signed_area = signed_area + A;
     }
@@ -138,8 +138,8 @@ std::vector<T> Vertices<T>::Sizes() const {
     std::vector<T> sizes = {};
     int vertices_size = this->vertices.size();
     for (int i = 0; i < vertices_size; i++) {
-        Vector<T> pA = this->vertices.at(i);
-        Vector<T> pB = this->vertices.at((i + 1) % vertices_size);
+        Vector<T> pA = &this->vertices.at(i);
+        Vector<T> pB = &this->vertices.at((i + 1) % vertices_size);
         sizes.push_back(Vecror<T>::Distance(pA, pB));
     }
     return sizes;
@@ -151,13 +151,13 @@ template std::vector<double> Vertices<double>::Sizes() const;
 /* Return the bounds of the polygon */
 template <typename T>
 Bounds<T> Vertices<T>::Bounds() const {
-    const auto min_max_x = std::minmax_element(vertices.begin(), vertices.end(), [](const VectorI& lhs, const VectorI& rhs) { return lhs.x < rhs.x; });
-    const auto min_max_y = std::minmax_element(vertices.begin(), vertices.end(), [](const VectorI& lhs, const VectorI& rhs) { return lhs.y < rhs.y; });
+    const auto min_max_x = std::minmax_element(vertices.begin(), vertices.end(), [](const VectorI& lhs, const VectorI& rhs) { return &lhs.x < &rhs.x; });
+    const auto min_max_y = std::minmax_element(vertices.begin(), vertices.end(), [](const VectorI& lhs, const VectorI& rhs) { return &lhs.y < &rhs.y; });
 
-    Vector<T> min_x = (*min_max_x.first).x;
-    Vector<T> max_x = (*min_max_x.second).x;
-    Vector<T> min_y = (*min_max_y.first).y;
-    Vector<T> max_y = (*min_max_y.second).y;
+    T min_x = (&min_max_x.first).x;
+    T max_x = (&min_max_x.second).x;
+    T min_y = (&min_max_y.first).y;
+    T max_y = (&min_max_y.second).y;
 
     return Bounds<T>(min_x, min_y, max_x, max_y);
 }
@@ -168,7 +168,7 @@ template Bounds<double> Vertices<double>::Bounds() const;
 template <typename T>
 Vertices<T> Vertices<T>::Reorder() const {
     // TODO
-    return this->vertices;
+    return Vertice<T>(this->vertices);
 }
 template Vertices<int> Vertices<int>::Reorder() const;
 template Vertices<float> Vertices<float>::Reorder() const;
@@ -176,25 +176,24 @@ template Vertices<double> Vertices<double>::Reorder() const;
 
 /* Rotate the points of the Poilygon from the Centroid */
 template <typename T>
-Vertices<T> Vertices<T>::Rotate(const T& rotation) const {
-    Vector<T> centroid = this->Centroid();
-    std::vector<Vector<T>> temp = {};
+Vertices<T> Vertices<T>::Rotate(const T& rotation, const Vector<T>& centroid) const {
+    std::vector<std::shared_ptr<Vector<T>>> temp = {};
     for (int i = 0; i < this->vertices.size(); i++) {
-        Vector<T> diff = this->vertices.at(i) - centroid;
-        temp.push_back(centroid + diff.Rotate(rotation));
+        Vector<T> diff = &this->vertices.at(i) - centroid;
+        temp.push_back(std::make_shared<Vector<T>>(centroid + diff.Rotate(rotation)));
     }
-    return temp;
+    return Vertice<T>(temp);
 }
-template Vertices<int> Vertices<int>::Rotate(const int& rotation) const;
-template Vertices<float> Vertices<float>::Rotate(const float& rotation) const;
-template Vertices<double> Vertices<double>::Rotate(const double& rotation) const;
+template Vertices<int> Vertices<int>::Rotate(const int& rotation, const Vector<int>& centroid) const;
+template Vertices<float> Vertices<float>::Rotate(const float& rotation, const Vector<float>& centroid) const;
+template Vertices<double> Vertices<double>::Rotate(const double& rotation, const Vector<double>& centroid) const;
 
 /* Translate the points of the Poilygon with a translation vector */
 template <typename T>
 Vertices<T> Vertices<T>::Translate(const Vector<T>& translation) const {
-    std::vector<Vector<T>> temp = {};
-    for (int i = 0; i < this->vertices.size(); i++) { temp.push_back(this->vertices.at(i) + translation); }
-    return temp;
+    std::vector<std::shared_ptr<Vector<T>>> temp = {};
+    for (int i = 0; i < this->vertices.size(); i++) { temp.push_back(std::make_shared<Vector<T>>(&this->vertices.at(i) + translation)); }
+    return Vertice<T>(temp);
 }
 template Vertices<int> Vertices<int>::Translate(const Vector<int>& rotation) const;
 template Vertices<float> Vertices<float>::Translate(const Vector<float>& rotation) const;
@@ -202,24 +201,23 @@ template Vertices<double> Vertices<double>::Translate(const Vector<double>& rota
 
 /* Scale the size of the polygon from the Centroid */
 template <typename T>
-Vertices<T> Vertices<T>::Scale(const T& scale) const {
-    Vector<T> centroid = this->Centroid();
+Vertices<T> Vertices<T>::Scale(const T& scale, const Vector<T>& centroid) const {
     std::vector<Vector<T>> temp = {};
     for (int i = 0; i < this->vertices.size(); i++) {
-        Vector<T> diff = this->vertices.at(i) - centroid;
-        temp.push_back(centroid + diff * scale);
+        Vector<T> diff = &this->vertices.at(i) - centroid;
+        temp.push_back(std::make_shared<Vector<T>>(centroid + diff * scale));
     }
     return temp;
 }
-template Vertices<int> Vertices<int>::Scale(const int& scale) const;
-template Vertices<float> Vertices<float>::Scale(const float& scale) const;
-template Vertices<double> Vertices<double>::Scale(const double& scale) const;
+template Vertices<int> Vertices<int>::Scale(const int& scale, const Vector<int>& centroid) const;
+template Vertices<float> Vertices<float>::Scale(const float& scale, const Vector<float>& centroid) const;
+template Vertices<double> Vertices<double>::Scale(const double& scale, const Vector<double>& centroid) const;
 
 /* Convex Hull */
 template <typename T>
 Vertices<T> Vertices<T>::Hull() const {
     // TODO
-    return this->vertices;
+    return Vertice<T>(this->vertices);
 }
 template Vertices<int> Vertices<int>::Hull() const;
 template Vertices<float> Vertices<float>::Hull() const;
@@ -229,7 +227,7 @@ template Vertices<double> Vertices<double>::Hull() const;
 template <typename T>
 std::vector<Vertices<T>> Vertices<T>::Triangulate() const {
     // TODO
-    return std::vector<Vertices<T>>();
+    return {};
 }
 template std::vector<Vertices<int>> Vertices<int>::Triangulate() const;
 template std::vector<Vertices<float>> Vertices<float>::Triangulate() const;
@@ -279,7 +277,7 @@ template bool Vertices<double>::PointOutShape(const Vertices<double>& vertices, 
 
 /* Find the closest edge to the point by finding the closest projected point */
 template <typename T>
-std::pair<Vector<T>, Vector<T>> Vertices<T>::ClosestEdge(const Vertices<T>& vertices, const Vector<T>& point) {
+std::pair<std::shared_ptr<Vector<T>>>, std::shared_ptr<Vector<T>> Vertices<T>::ClosestEdge(const Vertices<T>& vertices, const Vector<T>& point) {
     std::vector<std::pair<Vector<T>, Vector<T>>> pairs = vertices.Pairs();
     const auto closest = std::min_element(pairs.begin(), pairs.end(), [point](const std::pair<Vector<T>, Vector<T>>& lhs, const std::pair<Vector<T>, Vector<T>>& rhs) {
         Vector<T> pro_lhs = Vector<T>::SegmentProjection(point, lhs.first, lhs.second);
@@ -289,11 +287,11 @@ std::pair<Vector<T>, Vector<T>> Vertices<T>::ClosestEdge(const Vertices<T>& vert
         T dot_dist_rhs = Vector<T>::Distance(pro_rhs, point);
         return dot_dist_lhs < dot_dist_rhs;
     });
-    std::pair<Vector<T>, Vector<T>> closest_side = (*closest);
+    std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>> closest_side = (*closest);
     return closest_side;
 }
-template std::pair<Vector<int>, Vector<int>> Vertices<int>::ClosestEdge(const Vertices<int>& vertices, const Vector<int>& point);
-template std::pair<Vector<float>, Vector<float>> Vertices<float>::ClosestEdge(const Vertices<float>& vertices, const Vector<float>& point);
-template std::pair<Vector<double>, Vector<double>> Vertices<double>::ClosestEdge(const Vertices<double>& vertices, const Vector<double>& point);
+template std::pair<std::shared_ptr<Vector<int>>, std::shared_ptr<Vector<int>>> Vertices<int>::ClosestEdge(const Vertices<int>& vertices, const Vector<int>& point);
+template std::pair<std::shared_ptr<Vector<float>>, std::shared_ptr<Vector<float>>> Vertices<float>::ClosestEdge(const Vertices<float>& vertices, const Vector<float>& point);
+template std::pair<std::shared_ptr<Vector<double>>, std::shared_ptr<Vector<double>>> Vertices<double>::ClosestEdge(const Vertices<double>& vertices, const Vector<double>& point);
 
 }  // namespace gmt

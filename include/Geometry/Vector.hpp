@@ -1,10 +1,8 @@
 #ifndef Vector_HPP
 #define Vector_HPP
 
-#include <SFML/Graphics.hpp>
-#include <cmath>
-
 #include "Maths.hpp"
+
 namespace gmt {
 
 template <typename T>
@@ -21,13 +19,14 @@ class Vector {
     Vector<T> operator/(const T& other) const;
 
     Vector(const T& x, const T& y);
+    Vector(const sf::Vector2f& v);
     Vector();
     ~Vector();
     T Magnitude() const;
     T MagnitudeSquared() const;
 
     Vector<T> Clone() const;
-    sf::Vector2<T> CloneSF() const;
+    sf::Vector2f CloneSF() const;
 
     Vector<T> Normalize() const;
     Vector<T> Scale(const T& scale) const;
