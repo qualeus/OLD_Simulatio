@@ -30,18 +30,19 @@ void Circle::Step() {
     } else {
         gmt::VectorI diff_pos = this->current_pos - this->last_pos;
         this->last_pos = this->current_pos;
-        this->current_pos = this->current_pos + diff_pos;
+        this->Drag(diff_pos);
     }
 
     if (this->tied) {
         this->last_rotation = std::fmod(this->current_rotation, gmt::UnitI(360));
     } else {
-        gmt::UnitI diff_rotation = std::fmod(this->current_rotation - this->last_rotation, gmt::UnitI(360));
+        gmt::UnitI diff_rotation = this->current_rotation - this->last_rotation;
         this->last_rotation = this->current_rotation;
-        this->current_rotation = std::fmod(this->current_rotation + diff_rotation, gmt::UnitI(360));
+        this->Rotate(diff_rotation);
     }
+
     // Add the motor rotation even if the object is tied
-    if (!gmt::decimal_equals(motor, gmt::UnitI(0), gmt::UnitI(0.0001))) { this->current_rotation = this->current_rotation + motor; }
+    // if (!gmt::decimal_equals(motor, gmt::UnitI(0), gmt::UnitI(0.0001))) { this->current_rotation = this->current_rotation + motor; }
 }
 void Circle::Stop() {
     this->last_pos = this->current_pos;
@@ -50,6 +51,9 @@ void Circle::Stop() {
 
 void Circle::Move(const gmt::VectorI& move) { this->current_pos = move; }
 void Circle::Drag(const gmt::VectorI& drag) { this->current_pos = this->current_pos + drag; }
+
+void Circle::Turn(const gmt::UnitI& turn) { this->current_rotation = std::fmod(turn, gmt::UnitI(RO)); }
+void Circle::Rotate(const gmt::UnitI& rotate) { this->current_rotation = std::fmod(this->current_rotation + rotate, gmt::UnitI(RO)); }
 
 bool Circle::inBounds(const gmt::BoundsI& bounds) const { gmt::BoundsI::BoundsInBounds(this->get_corpse_bounds(), bounds); }
 

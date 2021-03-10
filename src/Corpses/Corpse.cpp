@@ -57,11 +57,6 @@ void Corpse::set_tied(bool tied) { this->tied = tied; }
 bool Corpse::get_removed() const { return this->removed; }
 void Corpse::Remove() { this->removed = true; }
 
-void Corpse::Step() {}
-void Corpse::Stop() {}
-void Corpse::Move(const gmt::VectorI& move) {}
-void Corpse::Drag(const gmt::VectorI& drag) {}
-
 sf::Color Corpse::get_color() const { return this->color; }
 void Corpse::set_color(sf::Color color) { this->color = color; }
 

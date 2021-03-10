@@ -58,10 +58,15 @@ class Corpse {
     bool get_removed() const;
     void Remove();
 
-    virtual void Step();
-    virtual void Stop();
-    virtual void Move(const gmt::VectorI& move);
-    virtual void Drag(const gmt::VectorI& drag);
+    virtual void Step() = 0;
+    virtual void Stop() = 0;
+
+    virtual void Move(const gmt::VectorI& move) = 0;
+    virtual void Drag(const gmt::VectorI& drag) = 0;
+
+    virtual void Turn(const gmt::UnitI& turn) = 0;
+    virtual void Rotate(const gmt::UnitI& rotate) = 0;
+
     virtual bool inBounds(const gmt::BoundsI& bounds) const = 0;
     virtual bool Pointed(const gmt::VectorI& point) const = 0;
 

@@ -7,6 +7,8 @@
 #define GR 1.618033988749894  /* Golder Ratio */
 #define PC 1.414213562373095  /* Pythagoras Constant */
 
+#define RO 360 /* Complete rotation */
+
 #include <SFML/Graphics.hpp>  // To delete when the transition to VectorI will be done
 #include <cmath>
 #include <iostream>

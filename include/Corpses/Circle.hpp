@@ -31,6 +31,9 @@ class Circle : public Corpse {
     void Move(const gmt::VectorI& move);
     void Drag(const gmt::VectorI& drag);
 
+    void Turn(const gmt::UnitI& turn);
+    void Rotate(const gmt::UnitI& rotate);
+
     bool inBounds(const gmt::BoundsI& bounds) const;
     bool Pointed(const gmt::VectorI& point) const;
 

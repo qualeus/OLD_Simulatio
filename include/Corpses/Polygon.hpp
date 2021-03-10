@@ -28,8 +28,13 @@ class Polygon : public Corpse {
 
     void Step();
     void Stop();
+
     void Move(const gmt::VectorI& move);
     void Drag(const gmt::VectorI& drag);
+
+    void Turn(const gmt::UnitI& move);
+    void Rotate(const gmt::UnitI& rotate);
+
     bool inBounds(const gmt::BoundsI& bounds);
     bool Pointed(const gmt::VectorI& point);
 
