@@ -23,7 +23,7 @@ Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_
     this->sys_mouse_x = 0;
     this->sys_mouse_y = 0;
     this->saved_mouse_pos = sf::Vector2f();
-    this->selected_area = {sf::Vector2f(), sf::Vector2f()};
+    this->selected_area = gmt::Bounds<float>();
 
     this->select_type = 0;
     this->debug_type = 0;
@@ -160,22 +160,11 @@ void Renderer::set_screen_height(int screen_height) { this->screen_height = scre
 int Renderer::get_max_framerate() { return this->max_framerate; }
 void Renderer::set_max_framerate(int max_framerate) { this->max_framerate = max_framerate; }
 
+gmt::Bounds<float> Renderer::get_screen_bounds() { return gmt::Bounds<float>(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width), get_real_pos_y(screen_height)); }
+
 sf::Vector2f Renderer::get_real_pos(sf::Vector2i pos) { return window.mapPixelToCoords(pos); }
 float Renderer::get_real_pos_x(float x) { return window.mapPixelToCoords(sf::Vector2i(x, 0)).x; }
 float Renderer::get_real_pos_y(float y) { return window.mapPixelToCoords(sf::Vector2i(0, y)).y; }
-
-bool Renderer::rect_in_screen(gmt::BoundsI rect) {
-    // One point in screen
-    if (rect.pos.x > get_real_pos_x(0) && rect.pos.x < get_real_pos_x(screen_width)) { return true; }
-    if (rect.pos.x + rect.size.x > get_real_pos_x(0) && rect.pos.x + rect.size.x < get_real_pos_x(screen_width)) { return true; }
-    if (rect.pos.y > get_real_pos_y(0) && rect.pos.y < get_real_pos_y(screen_height)) { return true; }
-    if (rect.pos.y + rect.size.y > get_real_pos_y(0) && rect.pos.y + rect.size.y < get_real_pos_y(screen_height)) { return true; }
-
-    // Or screen in the shape
-    if (rect.pos.x < get_real_pos_x(0) && rect.pos.x + rect.size.x > get_real_pos_x(screen_width) && rect.pos.y < get_real_pos_y(0) && rect.pos.y + rect.size.y > get_real_pos_y(screen_height)) { return true; }
-
-    return false;  // is it faster to test first for true or for false?
-}
 
 void Renderer::addText(gmt::TextI text) { this->texts.push_back(text); }
 void Renderer::DrawTexts() {
@@ -186,5 +175,4 @@ void Renderer::DrawTexts() {
 }
 
 bool Renderer::get_enable_inputs() { return this->enable_inputs; }
-
 void Renderer::set_enable_inputs(bool enable) { this->enable_inputs = enable; }

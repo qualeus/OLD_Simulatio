@@ -2,8 +2,7 @@
 
 namespace phy {
 
-Circle::Circle(gmt::UnitI x, gmt::UnitI y, gmt::UnitI size, gmt::UnitI mass, gmt::UnitI damping, gmt::UnitI speed_x, gmt::UnitI speed_y, gmt::UnitI rotation, gmt::UnitI motor, gmt::VectorI propulsor, bool fixed, bool tied, bool etherial, sf::Color color)
-    : Corpse(mass, damping, fixed, tied, etherial, color) {
+Circle::Circle(gmt::UnitI x, gmt::UnitI y, gmt::UnitI size, gmt::UnitI mass, gmt::UnitI damping, gmt::UnitI speed_x, gmt::UnitI speed_y, gmt::UnitI rotation, gmt::UnitI motor, bool fixed, bool tied, bool etherial, sf::Color color) : Corpse(mass, damping, fixed, tied, etherial, color) {
     this->current_pos = gmt::VectorI(x, y);
     this->last_pos = gmt::VectorI(x - speed_x, y - speed_y);
 
@@ -56,7 +55,6 @@ void Circle::Turn(const gmt::UnitI& turn) { this->current_rotation = std::fmod(t
 void Circle::Rotate(const gmt::UnitI& rotate) { this->current_rotation = std::fmod(this->current_rotation + rotate, gmt::UnitI(RO)); }
 
 bool Circle::inBounds(const gmt::BoundsI& bounds) const { gmt::BoundsI::BoundsInBounds(this->get_corpse_bounds(), bounds); }
-
 bool Circle::Pointed(const gmt::VectorI& point) const { return (gmt::VectorI::Distance(this->get_pos(), point) <= this->size); }
 
 gmt::UnitI Circle::get_size() const { return this->size; }

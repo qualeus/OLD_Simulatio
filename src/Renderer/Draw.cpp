@@ -8,7 +8,7 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
         if (debug_show_centroids) { DrawCircle(circle->get_pos_x(), circle->get_pos_y(), 5, sf::Color::Red, true); }
         if (debug_show_rectangles) {
             gmt::BoundsI bounds = circle->get_corpse_bounds();
-            DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
+            DrawRectangle(bounds.x1, bounds.y1, bounds.x2, bounds.y2, false, sf::Color::Red, true);
         }
         if (debug_show_edges) { DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size() + 3, sf::Color::Red, true); }
         if (debug_show_velocity) {
@@ -25,30 +25,29 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
     } else if (phy::Polygon *polygon = dynamic_cast<phy::Polygon *>(corpse.get())) {
         if (debug_show_rectangles) {
             gmt::BoundsI bounds = polygon->get_corpse_bounds();
-            DrawRectangle(bounds.pos.x, bounds.pos.y, bounds.size.x, bounds.size.y, false, sf::Color::Red, true);
+            DrawRectangle(bounds.x1, bounds.y1, bounds.x2, bounds.y2, false, sf::Color::Red, true);
         }
         if (debug_show_centroids) { DrawCircle(polygon->get_pos_x(), polygon->get_pos_y(), 5, sf::Color::Red, true); }
         if (debug_show_edges) {
-            std::vector<std::vector<std::shared_ptr<sf::Vector2f>>> triangles = polygon->get_triangulation();
-            for (int i = 0; i < triangles.size(); i++) {
-                std::vector<std::shared_ptr<sf::Vector2f>> triangle = triangles.at(i);
-                for (int j = 0; j < triangle.size() - 1; j++) { Renderer::DrawLine(triangle.at(j)->x, triangle.at(j)->y, triangle.at(j + 1)->x, triangle.at(j + 1)->y, line_thickness, sf::Color::Red); }
-                Renderer::DrawLine(triangle.at(triangle.size() - 1)->x, triangle.at(triangle.size() - 1)->y, triangle.at(0)->x, triangle.at(0)->y, line_thickness, sf::Color::Red);
-            }
+            // TODO
         }
         if (debug_show_normals) {
-            std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = polygon->get_sides();
+            std::vector<std::pair<std::shared_ptr<gmt::VectorI>, std::shared_ptr<gmt::VectorI>>> sides = polygon->get_sides();
             for (int i = 0; i < sides.size(); i++) {
-                sf::Vector2f edge_center = (sides.at(i).first + sides.at(i).second) / 2.0f;
-                sf::Vector2f edge_vector = edge_center + gmt::Normalize(gmt::Norme(sides.at(i).first, sides.at(i).second)) * vector_size;
+                sf::Vector2f side_A = (*sides.at(i).first).CloneSF();
+                sf::Vector2f side_B = (*sides.at(i).second).CloneSF();
+
+                sf::Vector2f edge_center = (side_A + side_B) / 2.0f;
+                sf::Vector2f edge_vector = edge_center + (gmt::Vector<float>::Normal(side_A, side_B)).Normalize().CloneSF() * vector_size;
                 Renderer::DrawArrow(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, arrow_size, arrow_size, line_thickness, sf::Color::Red);
 
-                std::pair<sf::Vector2f, sf::Vector2f> last_edge = sides.at((i - 1) % sides.size());
-                std::pair<sf::Vector2f, sf::Vector2f> current_edge = sides.at(i);
+                sf::Vector2f last_edge_A = (*sides.at((i - 1) % sides.size()).first).CloneSF();
+                sf::Vector2f last_edge_B = (*sides.at((i - 1) % sides.size()).second).CloneSF();
+                sf::Vector2f current_edge_A = (*sides.at(i).first).CloneSF();
+                sf::Vector2f current_edge_B = (*sides.at(i).second).CloneSF();
 
-                sf::Vector2f point_center = last_edge.second;
-                sf::Vector2f point_vector = point_center + gmt::Normalize(gmt::Normalize(gmt::Norme(last_edge.first, last_edge.second)) + gmt::Normalize(gmt::Norme(current_edge.first, current_edge.second))) * vector_size;
-                Renderer::DrawArrow(point_center.x, point_center.y, point_vector.x, point_vector.y, arrow_size, arrow_size, line_thickness, sf::Color::Red);
+                sf::Vector2f point_vector = last_edge_B + ((gmt::Vector<float>::Normal(last_edge_A, last_edge_B)).Normalize() + (gmt::Vector<float>::Normal(current_edge_A, current_edge_B).Normalize())).Normalize().CloneSF() * vector_size;
+                Renderer::DrawArrow(last_edge_B.x, last_edge_B.y, point_vector.x, point_vector.y, arrow_size, arrow_size, line_thickness, sf::Color::Red);
             }
         }
         if (debug_show_velocity) {
@@ -60,24 +59,27 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
         }
 
         /* -------------------------------------- Default Drawing -------------------------------------- */
-        DrawPolygon(polygon->get_points(), polygon->get_color(), true);
+        gmt::VerticesI polygon_vertices = polygon->get_points();
+        std::vector<sf::Vector2f> polygon_points = {};
+        for (int i = 0; i < polygon_vertices.vertices.size(); i++) { polygon_points.push_back((*polygon_vertices.vertices.at(i)).CloneSF()); }
+        DrawPolygon(polygon_points, polygon->get_color(), true);
     }
 }
 
 void Renderer::DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair) {
     if (pair.first->get_removed() || pair.second->get_removed()) { return; }  // Removed
 
-    sf::Vector2f pos_A = pair.first->get_pos();
-    sf::Vector2f pos_B = pair.second->get_pos();
+    sf::Vector2f pos_A = (pair.first->get_pos()).CloneSF();
+    sf::Vector2f pos_B = (pair.second->get_pos()).CloneSF();
 
     DrawLine(pos_A.x, pos_A.y, pos_B.x, pos_B.y);
 }
 
-void Renderer::DrawQuadtree(gmt::BoundsI rect) { DrawRectangle(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y, false, C_RED, true); }
+void Renderer::DrawQuadtree(gmt::BoundsI rect) { DrawRectangle(rect.x1, rect.y1, rect.x2, rect.y2, false, C_RED, true); }
 
 void Renderer::DrawLimits() {
     gmt::BoundsI limits = system.get_limits();
-    DrawRectangle(limits.pos.x, limits.pos.y, limits.size.x, limits.size.y, false, C_RED, true);
+    DrawRectangle(limits.x1, limits.y1, limits.x2, limits.y2, false, C_RED, true);
 }
 
 void Renderer::DrawTrajectories() {
@@ -157,20 +159,17 @@ void Renderer::DrawInputs() {
     switch (this->select_type) {
         case S_DEFAULT: break;
         case S_SELECT_MULTIPLE: {
-            sf::Vector2f temp_pos = this->selected_area.pos;
-            sf::Vector2f temp_size = this->selected_area.size;
-            DrawRectangle(temp_pos.x, temp_pos.y, temp_size.x, temp_size.y, false, sf::Color::White, true);
+            DrawRectangle(this->selected_area.x1, this->selected_area.y1, this->selected_area.x2, this->selected_area.y2, false, sf::Color::White, true);
         } break;
         case S_LAUNCH_CORPSE: {
-            sf::Vector2f pA = this->selected_area.pos;
-            sf::Vector2f pB = this->selected_area.pos + this->selected_area.size;
-            DrawLine(pA.x, pA.y, pB.x, pB.y, line_thickness, sf::Color::White);
+            DrawLine(this->selected_area.x1, this->selected_area.y1, this->selected_area.x2, this->selected_area.y2, line_thickness, sf::Color::White);
         } break;
         case S_DRAG_CORPSE: {
         } break;
         case S_CREATE_CIRCLE: {
-            sf::Vector2f temp_pos = this->selected_area.pos;
-            float temp_size = gmt::Length(this->selected_area.size);
+            sf::Vector2f temp_pos = gmt::Vector<float>(this->selected_area.x1, this->selected_area.y1).CloneSF();
+            float temp_size = gmt::Vector<float>::Distance(gmt::Vector<float>(this->selected_area.x1, this->selected_area.y1), gmt::Vector<float>(this->selected_area.x2, this->selected_area.y2));
+
             if (temp_pos != sf::Vector2f()) { DrawCircle(temp_pos.x, temp_pos.y, temp_size, sf::Color::White, true); }
         } break;
         case S_CREATE_POLYGON: {
@@ -186,27 +185,30 @@ void Renderer::DrawInputs() {
         if (phy::Circle *circle = dynamic_cast<phy::Circle *>(system.get_corpse(cursor).get())) {
             DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), sf::Color::White, true);
         } else if (phy::Polygon *polygon = dynamic_cast<phy::Polygon *>(system.get_corpse(cursor).get())) {
-            DrawPolygon(polygon->get_points(), sf::Color::White, true);
+            gmt::VerticesI polygon_vertices = polygon->get_points();
+            std::vector<sf::Vector2f> polygon_points = {};
+            for (int i = 0; i < polygon_vertices.vertices.size(); i++) { polygon_points.push_back((*polygon_vertices.vertices.at(i)).CloneSF()); }
+            DrawPolygon(polygon_points, sf::Color::White, true);
         }
     }
 }
 
 void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Color color) {
-    // test if the line is in the screen bounds (TODO test if the line pass by
-    // the rect for screen for the zoom)
-    if (((x1 > get_real_pos_x(0)) && (x1 < get_real_pos_x(screen_width)) && (y1 > get_real_pos_y(0)) && (y1 < get_real_pos_y(screen_height))) || ((x2 > get_real_pos_x(0)) && (x2 < get_real_pos_x(screen_height)) && (y2 > get_real_pos_y(0)) && (y2 < get_real_pos_y(screen_height)))) {
-        sf::RectangleShape line(sf::Vector2f(gmt::Length(x1, y1, x2, y2), thickness));
-        line.setOrigin(0, thickness / 2.0f);
-        line.setPosition(x2, y2);
-        line.rotate(gmt::bearing(x1, y1, x2, y2));
-        line.setFillColor(color);
-        this->window.draw(line);
-    }
+    if (!gmt::Bounds<float>::SegmentIntersectBounds(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2), get_screen_bounds())) { return; }
+
+    sf::RectangleShape line(sf::Vector2f(gmt::Vector<float>::Distance(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2)), thickness));
+    line.setOrigin(0, thickness / 2.0f);
+    line.setPosition(x2, y2);
+    line.rotate(gmt::Vector<float>::Bearing(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2)));
+    line.setFillColor(color);
+    this->window.draw(line);
 }
 
 void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness, sf::Color color) {
-    float angle = gmt::bearing(x2, y2, x1, y1);
-    float length = gmt::Length(x1, y1, x2, y2);
+    if (!gmt::Bounds<float>::SegmentIntersectBounds(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2), get_screen_bounds())) { return; }
+
+    float angle = gmt::Vector<float>::Bearing(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2));
+    float length = gmt::Vector<float>::Distance(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2));
     if (gmt::float_equals(length, 0.0f, min_arrow_size)) { return; }  // Dont draw if the vector is null
 
     sf::ConvexShape head = sf::ConvexShape(3);
@@ -250,13 +252,13 @@ void Renderer::DrawCircle(int x, int y, int radius, sf::Color color, bool outlin
     }
 }
 
-void Renderer::DrawRectangle(int x, int y, int width, int height, bool fixed, sf::Color color, bool outline) {
-    sf::RectangleShape rect(sf::Vector2f(width, height));
+void Renderer::DrawRectangle(int x1, int y1, int x2, int y2, bool fixed, sf::Color color, bool outline) {
+    sf::RectangleShape rect(sf::Vector2f(x2 - x1, y2 - y1));
     if (fixed) {
-        rect.setPosition(get_real_pos_x(x), get_real_pos_y(y));
+        rect.setPosition(get_real_pos_x(x1), get_real_pos_y(y1));
         rect.scale(get_camera_size(), get_camera_size());
     } else {
-        rect.setPosition(x, y);
+        rect.setPosition(x1, y1);
     }
 
     if (outline) {
@@ -266,9 +268,7 @@ void Renderer::DrawRectangle(int x, int y, int width, int height, bool fixed, sf
     } else {
         rect.setFillColor(color);
     }
-
-    // To fix: check in screen for only non fixed pos
-    if (rect_in_screen({sf::Vector2f(x, y), sf::Vector2f(width, height)})) { this->window.draw(rect); }
+    this->window.draw(rect);
 }
 
 void Renderer::DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color, bool outline) {

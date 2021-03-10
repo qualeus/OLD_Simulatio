@@ -16,35 +16,29 @@
 
 namespace phy {
 
-#define AROUND_QUADTREE 1000
-#define COLLISION_ACCURACY 10  // 50 // Number of times the collision step is done per frame
+#define AROUND_QUADTREE gmt::UnitI(1000)
 
 class System {
    private:
-    std::vector<Circle> circles;
-    std::vector<Polygon> polygons;
-
-    int corpses_size = 0;
-    int pairs_size = 0;
     std::vector<std::shared_ptr<Corpse>> corpses;
     std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> pairs;
     std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> quad_pairs;
 
-    gmt::Quadtree quadtree;
+    gmt::QuadtreeI quadtree;
+    gmt::BoundsI limits;
 
-    gmt::UnitI force_x;
-    gmt::UnitI force_y;
     bool gravity;
     gmt::UnitI LS = 2.998e+8;  // 2,998 * 10e+8
     gmt::UnitI G = 1.6e-2;     // 6.7 * 10e-11
+
+    gmt::UnitI force_x;
+    gmt::UnitI force_y;
 
     gmt::UnitI dt = 1.0f;
     double t = 0.0;
 
     int collision_accuracy = 10;
     int constraint_accuracy = 10;
-
-    gmt::BoundsI limits;
 
    public:
     System(bool gravity = false, gmt::UnitI force_x = 0.0f, gmt::UnitI force_y = 0.0f, gmt::UnitI limit_x = 4000.0f, gmt::UnitI limit_y = 4000.0f);  // System Constructor
@@ -61,12 +55,11 @@ class System {
     void PairsStep();
     void QuadPairsStep();
 
-    void Collision(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
     void Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
 
     void InitQuadtree();
     void StepQuadtree();
-    std::shared_ptr<gmt::Quadtree> get_quadtree();
+    std::shared_ptr<gmt::QuadtreeI> get_quadtree();
 
     gmt::UnitI get_dt() const;
     void set_dt(gmt::UnitI dt);
@@ -99,11 +92,11 @@ class System {
     int get_pairs_size() const;
     int get_quad_pairs_size() const;
 
-    void addCorpse(Polygon a);
-    void addCorpse(Circle a);
+    void addCorpse(Polygon polygon);
+    void addCorpse(Circle circle);
 
-    void add_corpse(std::shared_ptr<Corpse> a);
-    void add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
+    void add_corpse(std::shared_ptr<Corpse> corpse);
+    void add_pair(std::shared_ptr<Corpse> corpseA, std::shared_ptr<Corpse> corpseB);
 
     gmt::BoundsI get_limits() const;
     void set_limits(gmt::BoundsI limits);

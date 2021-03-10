@@ -173,7 +173,7 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
     if (selected_corpses_cursor.size() > 0) {
         bool one_pointed = false;
         for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-            if (system.get_corpse(selected_corpses_cursor.at(i))->Pointed(this->sys_mouse_x, this->sys_mouse_y)) {
+            if (system.get_corpse(selected_corpses_cursor.at(i))->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {
                 one_pointed = true;
                 break;
             }
@@ -182,7 +182,7 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
         if (one_pointed) {
             for (int i = 0; i < selected_corpses_cursor.size(); i++) {
                 int index = selected_corpses_cursor.at(i);
-                this->selected_corpses_diff.push_back(system.get_corpse(index)->get_pos() - get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)));
+                this->selected_corpses_diff.push_back(system.get_corpse(index)->get_pos().CloneSF() - get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)));
                 this->selected_corpses_fixed.push_back(system.get_corpse(index)->get_fixed());
                 system.get_corpse(index)->set_fixed(true);
             }
@@ -199,9 +199,9 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
 
     for (int i = 0; i < system.get_corpses_size(); i++) {
         if (system.get_corpse(i)->get_removed()) { continue; }  // Removed
-        if (system.get_corpse(i)->Pointed(this->sys_mouse_x, this->sys_mouse_y)) {
+        if (system.get_corpse(i)->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {
             this->selected_corpses_cursor.push_back(i);
-            this->selected_corpses_diff.push_back(system.get_corpse(i)->get_pos() - get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)));
+            this->selected_corpses_diff.push_back(system.get_corpse(i)->get_pos().CloneSF() - get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)));
             // Fix the corpse while holding it
             this->selected_corpses_fixed.push_back(system.get_corpse(i)->get_fixed());
             system.get_corpse(i)->set_fixed(true);
@@ -227,31 +227,33 @@ void Renderer::SelectMultipleCorpsesInit(sf::Event event) {
 
     if (this->select_type != S_DEFAULT) { return; }
 
-    this->selected_area = {get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)), sf::Vector2f()};
+    sf::Vector2f mouse_pos = get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+    this->selected_area = gmt::Bounds<float>(mouse_pos.x, mouse_pos.y, 0.0f, 0.0f);
     this->select_type = S_SELECT_MULTIPLE;
 }
 
 void Renderer::SelectMultipleCorpsesStep(sf::Event event) {
     if (this->select_type != S_SELECT_MULTIPLE) { return; }
-    this->selected_area.size = get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y)) - this->selected_area.pos;
+    sf::Vector2f mouse_real_pos = get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+    this->selected_area.x2 = mouse_real_pos.x;
+    this->selected_area.y2 = mouse_real_pos.y;
 }
 
 void Renderer::SelectMultipleCorpsesStop(sf::Event event) {
     if (this->select_type != S_SELECT_MULTIPLE) { return; }
 
-    // Reorganize the points in a rectangle ABCD (top left point A / bottom
-    // right point C)
-    gmt::BoundsI rectangle = gmt::Reorder_Rectangle(this->selected_area);
+    // Reorganize the points in a rectangle ABCD (top left point A / bottom right point C)
+    gmt::Bounds<float> rectangle = this->selected_area.Reorder();
 
     for (int i = 0; i < system.get_corpses_size(); i++) {
         if (system.get_corpse(i)->get_removed()) { continue; }  // Removed
         if (phy::Circle *circle = dynamic_cast<phy::Circle *>(system.get_corpse(i).get())) {
-            if (!gmt::rect_out_bounds(circle->get_corpse_bounds(), rectangle)) {
+            if (!gmt::Bounds<float>::BoundsOutBounds(circle->get_corpse_bounds(), rectangle)) {
                 this->selected_corpses_cursor.push_back(i);
                 this->selected_corpses_fixed.push_back(system.get_corpse(i)->get_fixed());
             }
         } else if (phy::Polygon *polygon = dynamic_cast<phy::Polygon *>(system.get_corpse(i).get())) {
-            if (!gmt::rect_out_bounds(polygon->get_corpse_bounds(), rectangle)) { this->selected_corpses_cursor.push_back(i); }
+            if (!gmt::Bounds<float>::BoundsOutBounds(polygon->get_corpse_bounds(), rectangle)) { this->selected_corpses_cursor.push_back(i); }
         }
     }
     this->select_type = S_DEFAULT;
@@ -265,7 +267,7 @@ void Renderer::DragCorpsesStep(sf::Event event) {
     for (int i = 0; i < selected_corpses_cursor.size(); i++) {
         if (system.get_corpse(selected_corpses_cursor.at(i))->get_removed()) { continue; }  // Removed
         this->debug_system_edited = true;
-        system.get_corpse(selected_corpses_cursor.at(i))->Move(get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y)) + selected_corpses_diff.at(i), false);
+        system.get_corpse(selected_corpses_cursor.at(i))->Drag(get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y)) + selected_corpses_diff.at(i));
         system.CorpseStop(selected_corpses_cursor.at(i));
     }
 }
@@ -293,7 +295,7 @@ bool Renderer::LaunchCorpseInit(sf::Event event) {
     if (selected_corpses_cursor.size() > 0) {
         bool one_pointed = false;
         for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-            if (system.get_corpse(selected_corpses_cursor.at(i))->Pointed(this->sys_mouse_x, this->sys_mouse_y)) {
+            if (system.get_corpse(selected_corpses_cursor.at(i))->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {
                 one_pointed = true;
                 break;
             }
@@ -308,7 +310,9 @@ bool Renderer::LaunchCorpseInit(sf::Event event) {
                 this->selected_corpses_fixed.push_back(system.get_corpse(index)->get_fixed());
                 system.get_corpse(index)->set_fixed(true);
             }
-            this->selected_area = {get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)), sf::Vector2f()};
+
+            sf::Vector2f mouse_real_pos = get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+            this->selected_area = gmt::Bounds<float>(mouse_real_pos.x, mouse_real_pos.y, 0.0f, 0.0f);
 
             this->select_type = S_LAUNCH_CORPSE;
             this->debug_system_edited = true;
@@ -323,7 +327,7 @@ bool Renderer::LaunchCorpseInit(sf::Event event) {
 
     for (int i = 0; i < system.get_corpses_size(); i++) {
         if (system.get_corpse(i)->get_removed()) { continue; }  // Removed
-        if (system.get_corpse(i)->Pointed(this->sys_mouse_x, this->sys_mouse_y)) {
+        if (system.get_corpse(i)->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {
             this->selected_corpses_cursor.push_back(i);
             // this->selected_corpses_diff.push_back(system.get_corpse(i)->get_pos()
             // - get_real_pos(sf::Vector2i(event.mouseButton.x,
@@ -331,7 +335,8 @@ bool Renderer::LaunchCorpseInit(sf::Event event) {
             this->selected_corpses_fixed.push_back(system.get_corpse(i)->get_fixed());
             system.get_corpse(i)->set_fixed(true);
 
-            this->selected_area = {system.get_corpse(i)->get_pos(), sf::Vector2f()};
+            sf::Vector2f corpse_pos = system.get_corpse(i)->get_pos().CloneSF();
+            this->selected_area = gmt::Bounds<float>(corpse_pos.x, corpse_pos.y, 0.0f, 0.0f);
 
             this->select_type = S_LAUNCH_CORPSE;
             this->debug_system_edited = true;
@@ -343,7 +348,9 @@ bool Renderer::LaunchCorpseInit(sf::Event event) {
 
 void Renderer::LaunchCorpseStep(sf::Event event) {
     if (this->select_type != S_LAUNCH_CORPSE) { return; }
-    this->selected_area.size = get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y)) - this->selected_area.pos;
+    sf::Vector2f mouse_real_pos = get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+    this->selected_area.x2 = mouse_real_pos.x;
+    this->selected_area.y2 = mouse_real_pos.y;
 }
 
 void Renderer::LaunchCorpseStop(sf::Event event) {
@@ -352,8 +359,8 @@ void Renderer::LaunchCorpseStop(sf::Event event) {
 
     for (int i = 0; i < selected_corpses_cursor.size(); i++) {
         if (selected_corpses_fixed.at(i)) { continue; }
-        sf::Vector2f diff_vector = this->selected_area.pos - (this->selected_area.pos + this->selected_area.size);
-        sf::Vector2f launch_vector = gmt::Normalize(diff_vector) * gmt::Length(diff_vector) * launch_power;
+        sf::Vector2f diff_vector = sf::Vector2f(this->selected_area.x2, this->selected_area.y2);
+        sf::Vector2f launch_vector = -diff_vector * launch_power;
         system.get_corpse(selected_corpses_cursor.at(i))->Move(launch_vector);
         system.get_corpse(selected_corpses_cursor.at(i))->set_fixed(selected_corpses_fixed.at(i));
     }
@@ -397,18 +404,24 @@ void Renderer::CreateCircleFast(sf::Event event) {
 void Renderer::CreateCircleInit(sf::Event event) {
     if (this->select_type != S_CREATE_CIRCLE) { return; }
 
-    this->selected_area = {get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)), sf::Vector2f()};
+    sf::Vector2f mouse_real_pos = get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+    this->selected_area = gmt::Bounds<float>(mouse_real_pos.x, mouse_real_pos.y, 0.0f, 0.0f);
 }
-void Renderer::CreateCircleStep(sf::Event event) { this->selected_area.size = get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y)) - this->selected_area.pos; }
+void Renderer::CreateCircleStep(sf::Event event) {
+    sf::Vector2f mouse_real_pos = get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+    this->selected_area.x2 = mouse_real_pos.x;
+    this->selected_area.y2 = mouse_real_pos.y;
+}
+
 void Renderer::CreateCircleStop(sf::Event event) {
     if (this->select_type != S_CREATE_CIRCLE) { return; }
     this->debug_system_edited = true;
 
-    sf::Vector2f temp_pos = this->selected_area.pos;
-    float temp_size = gmt::Length(this->selected_area.size);
+    sf::Vector2f temp_pos = sf::Vector2f(this->selected_area.x1, this->selected_area.y1);
+    float temp_size = gmt::Vector<float>(this->selected_area.x2, this->selected_area.y2).Magnitude();
     float temp_mass = (temp_size * temp_size) * 0.1f;
     system.addCorpse(phy::Circle(temp_pos.x, temp_pos.y, temp_size, temp_mass, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue));
-    this->selected_area = {sf::Vector2f(), sf::Vector2f()};
+    this->selected_area = gmt::Bounds<float>();
 }
 
 void Renderer::ToggleOnPolygon(sf::Event event) {

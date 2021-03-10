@@ -99,7 +99,7 @@ class Renderer {
     sf::Time frame;
 
     sf::Vector2f saved_mouse_pos;
-    gmt::BoundsI selected_area;
+    gmt::Bounds<float> selected_area;
     std::vector<bool> selected_corpses_fixed;
     std::vector<int> selected_corpses_cursor;
     std::vector<sf::Vector2f> selected_corpses_diff;
@@ -225,7 +225,7 @@ class Renderer {
     void Draw();  // Manage the drawing of the Renderer
     void DrawCorpse(std::shared_ptr<phy::Corpse> corpse);
     void DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair);
-    void DrawQuadtree(gmt::BoundsI rect);
+    void DrawQuadtree(gmt::Bounds<float> rect);
     void DrawLimits();
     void DrawTrajectories();
 
@@ -251,7 +251,7 @@ class Renderer {
     void DrawLine(int x1, int y1, int x2, int y2, float thickness = 2.0f, sf::Color color = sf::Color::White);
     void DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness = 2.0f, sf::Color color = sf::Color::White);
     void DrawCircle(int x, int y, int radius, sf::Color color = sf::Color::White, bool outline = false);
-    void DrawRectangle(int x, int y, int height, int width, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);
+    void DrawRectangle(int x1, int y1, int x2, int y2, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);
     void DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color = sf::Color::White, bool outline = false);
     void DrawText(std::string str, int x, int y, int size = 20, bool fixed = false, sf::Color color = sf::Color::White);
 
@@ -294,12 +294,12 @@ class Renderer {
     int get_max_framerate();
     void set_max_framerate(int max_framerate);
 
+    gmt::Bounds<float> get_screen_bounds();
+
     // Return the pos on the plane with the pos on the screen
     sf::Vector2f get_real_pos(sf::Vector2i pos);
     float get_real_pos_x(float x);
     float get_real_pos_y(float y);
-
-    bool rect_in_screen(gmt::BoundsI rect);
 
     void addText(gmt::TextI txt);
     void DrawTexts();

@@ -563,8 +563,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         } else {
                             body_cursor = selected_corpses_cursor.at(0);
                         }
-
-                        props_vel = gmt::Length(system.get_corpse(body_cursor)->get_diff_pos());  // dp / dt
+                        props_vel = system.get_corpse(body_cursor)->get_diff_pos().Magnitude();  // dp / dt
                         props_acc = 10.0f;
                         props_jer = 10.0f;
 
@@ -726,12 +725,12 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         /* Corpse Position_X */
                         if (ImGui::DragFloat(label_posX, &temp_position_x, 0.5f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None)) {
                             if (unique_selected) {
-                                system.get_corpse(cursor_selected)->Move(temp_position_x, system.get_corpse(cursor_selected)->get_pos_y(), false);
+                                system.get_corpse(cursor_selected)->Move(gmt::VectorI(temp_position_x, system.get_corpse(cursor_selected)->get_pos_y()));
                                 system.get_corpse(cursor_selected)->Stop();
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
                                     int body_cursor = selected_corpses_cursor.at(i);
-                                    system.get_corpse(body_cursor)->Move(system.get_corpse(body_cursor)->get_pos_x() + temp_position_x, system.get_corpse(body_cursor)->get_pos_y(), false);
+                                    system.get_corpse(body_cursor)->Move(gmt::VectorI(system.get_corpse(body_cursor)->get_pos_x() + temp_position_x, system.get_corpse(body_cursor)->get_pos_y()));
                                     system.get_corpse(body_cursor)->Stop();
                                 }
                             }
@@ -741,12 +740,12 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         /* Corpse Position_Y */
                         if (ImGui::DragFloat(label_posY, &temp_position_y, 0.5f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None)) {
                             if (unique_selected) {
-                                system.get_corpse(cursor_selected)->Move(system.get_corpse(cursor_selected)->get_pos_x(), temp_position_y, false);
+                                system.get_corpse(cursor_selected)->Move(gmt::VectorI(system.get_corpse(cursor_selected)->get_pos_x(), temp_position_y));
                                 system.get_corpse(cursor_selected)->Stop();
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
                                     int body_cursor = selected_corpses_cursor.at(i);
-                                    system.get_corpse(body_cursor)->Move(system.get_corpse(body_cursor)->get_pos_x(), system.get_corpse(body_cursor)->get_pos_y() + temp_position_y, false);
+                                    system.get_corpse(body_cursor)->Move(gmt::VectorI(system.get_corpse(body_cursor)->get_pos_x(), system.get_corpse(body_cursor)->get_pos_y() + temp_position_y));
                                     system.get_corpse(body_cursor)->Stop();
                                 }
                             }
@@ -1147,9 +1146,10 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             if (ImGui::GetTime() - t_mouse > 0.05f) {
                 t_mouse = ImGui::GetTime();
 
-                last_mouse_acc = gmt::Length({io.MousePos.x - last_mouse_pos.x, io.MousePos.y - last_mouse_pos.y}) - last_mouse_vel;
-                last_mouse_vel = gmt::Length({io.MousePos.x - last_mouse_pos.x, io.MousePos.y - last_mouse_pos.y});
-                if (last_mouse_vel > 3.0f) { mouse_angle = gmt::degree_to_radian(gmt::bearing(io.MousePos.x, io.MousePos.y, last_mouse_pos.x, last_mouse_pos.y)); }
+                last_mouse_acc = gmt::Vector<float>::Distance(gmt::Vector<float>(io.MousePos.x, io.MousePos.y), gmt::Vector<float>(last_mouse_pos.x, last_mouse_pos.y)) - last_mouse_vel;
+                last_mouse_vel = gmt::Vector<float>::Distance(gmt::Vector<float>(io.MousePos.x, io.MousePos.y), gmt::Vector<float>(last_mouse_pos.x, last_mouse_pos.y));
+
+                if (last_mouse_vel > 3.0f) { mouse_angle = gmt::degree_to_radian(gmt::Vector<float>::Bearing(gmt::Vector<float>(io.MousePos.x, io.MousePos.y), gmt::Vector<float>(last_mouse_pos.x, last_mouse_pos.y))); }
                 last_mouse_pos = {io.MousePos.x, io.MousePos.y};
             }
 

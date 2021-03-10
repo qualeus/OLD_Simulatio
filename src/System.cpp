@@ -11,16 +11,13 @@ System::System(bool gravity, gmt::UnitI force_x, gmt::UnitI force_y, gmt::UnitI 
     this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
     this->quad_pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
 
-    this->quadtree = gmt::Quadtree(-limit_x / gmt::UnitI(2), -limit_y / gmt::UnitI(2)), limit_x / gmt::UnitI(2), limit_y / gmt::UnitI(2), gmt::UnitI(1));
+    this->quadtree = gmt::QuadtreeI(gmt::BoundsI(-limit_x / gmt::UnitI(2), -limit_y / gmt::UnitI(2), limit_x / gmt::UnitI(2), limit_y / gmt::UnitI(2)), gmt::UnitI(1));
 
-    this->limits = {gmt::VectorI(-(AROUND_QUADTREE + limit_x) / 2.0f, -(AROUND_QUADTREE + limit_y) / 2.0f), gmt::VectorI(limit_x + AROUND_QUADTREE, limit_y + AROUND_QUADTREE)};
+    this->limits = gmt::BoundsI(-(limit_x + AROUND_QUADTREE) / gmt::UnitI(2), -(limit_y + AROUND_QUADTREE) / gmt::UnitI(2), (limit_x + AROUND_QUADTREE) / gmt::UnitI(2), (limit_y + AROUND_QUADTREE) / gmt::UnitI(2));
     Prepare();
 }
 
 System& System::operator=(const System& rhs) {
-    this->corpses_size = rhs.get_corpses_size();
-    this->pairs_size = rhs.get_pairs_size();
-
     this->force_x = rhs.get_force_x();
     this->force_y = rhs.get_force_y();
     this->gravity = rhs.get_gravity();
@@ -62,8 +59,6 @@ System& System::operator=(const System& rhs) {
 
 System::~System() {}
 
-void System::Prepare() { InitQuadtree(); }
-
 void System::Step() {
     // Update Positions
     CorpsesStep();
@@ -84,64 +79,54 @@ void System::Step() {
 void System::UpdateTime() { this->t += this->dt; }
 
 void System::CheckLimits() {
-    for (int i = 0; i < corpses_size; i++) {
+    for (int i = 0; i < corpses.size(); i++) {
         if (phy::Circle* circle = dynamic_cast<phy::Circle*>(get_corpse(i).get())) {
-            if (gmt::rect_out_bounds(circle->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
+            if (gmt::BoundsI::BoundsInBounds(circle->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
         } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(get_corpse(i).get())) {
-            if (gmt::rect_out_bounds(polygon->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
+            if (gmt::BoundsI::BoundsInBounds(polygon->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
         }
     }
 }
 
 void System::CorpsesStep() {
-    for (int i = 0; i < corpses_size; i++) {
+    for (int i = 0; i < corpses.size(); i++) {
         if (get_corpse(i)->get_removed()) { continue; }  // Removed
 
         get_corpse(i)->Step();
-        if (!get_corpse(i)->get_fixed()) { get_corpse(i)->Move(gmt::VectorI(this->force_x, this->force_y) * this->dt * this->dt); }
+        if (!get_corpse(i)->get_fixed()) { get_corpse(i)->Drag(gmt::VectorI(this->force_x, this->force_y) * this->dt * this->dt); }
     }
 }
 
 void System::CorpseStop(int i) {
-    std::shared_ptr<Corpse> corpse = get_corpse(i);
-
-    if (phy::Circle* circle = dynamic_cast<phy::Circle*>(corpse.get())) {
+    if (phy::Circle* circle = dynamic_cast<phy::Circle*>(get_corpse(i).get())) {
         circle->Stop();
-    } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(corpse.get())) {
+    } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(get_corpse(i).get())) {
         polygon->Stop();
     }
 }
 
 void System::PairsStep() {
-    for (int i = 0; i < pairs_size; i++) {
+    for (int i = 0; i < pairs.size(); i++) {
         if (this->gravity) { Gravity(get_pair_A(i), get_pair_B(i)); }
-        // Collision(get_pair_A(i), get_pair_B(i)); old collision system
     }
 }
 
 void System::QuadPairsStep() {
     std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> quadpairs = this->quadtree.make_pairs();
+
+    // We Store the Quad Pairs before resolving the collisions
     this->quad_pairs = quadpairs;
-    for (int i = 0; i < quadpairs.size(); i++) { Collision(quadpairs.at(i).first, quadpairs.at(i).second); }
-}
 
-void System::Collision(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
-    if (a->get_removed() || b->get_removed()) { return; }  // Removed
-
-    if (phy::Circle* circle = dynamic_cast<phy::Circle*>(a.get())) {
-        circle->Collision(b);
-    } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(a.get())) {
-        polygon->Collision(b);
-    }
+    for (int i = 0; i < quadpairs.size(); i++) { gmt::CollisionI::Resolve(quadpairs.at(i).first, quadpairs.at(i).second); }
 }
 
 void System::Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     if (a->get_removed() || b->get_removed()) { return; }  // One Removed
     if (a->get_fixed() && b->get_fixed()) { return; }      // Both Fixed
 
-    gmt::UnitI dist = gmt::Length(a->get_pos_x(), a->get_pos_y(), b->get_pos_x(), b->get_pos_y());
+    gmt::UnitI dist = gmt::VectorI::Distance(a->get_pos(), b->get_pos());
 
-    // Possible optimisation: Remove the multiplication and divisio, by the mass and
+    // Possible optimisation: Remove the multiplication and division by the mass and
     // just multiply the force by the other body mass when applying it
 
     gmt::UnitI force = G * a->get_mass() * b->get_mass() / (dist * dist);  // G * (ma * mb)/(r^2)
@@ -151,21 +136,19 @@ void System::Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     gmt::VectorI acceleration_a = diff * force / a->get_mass();
     gmt::VectorI acceleration_b = -diff * force / b->get_mass();
 
-    if (!a->get_fixed()) { a->Move(acceleration_a * this->dt * this->dt); }
-    if (!b->get_fixed()) { b->Move(acceleration_b * this->dt * this->dt); }
+    if (!a->get_fixed()) { a->Drag(acceleration_a * this->dt * this->dt); }
+    if (!b->get_fixed()) { b->Drag(acceleration_b * this->dt * this->dt); }
 }
 
-void System::InitQuadtree() { StepQuadtree(); }
-
 void System::StepQuadtree() {
-    this->quadtree.clear();
-    for (int i = 0; i < corpses_size; i++) {
+    this->quadtree.Clear();
+    for (int i = 0; i < corpses.size(); i++) {
         if (get_corpse(i)->get_removed()) { continue; }  // Removed
-        this->quadtree.insert(get_corpse(i));
+        this->quadtree.Insert(get_corpse(i));
     }
 }
 
-std::shared_ptr<gmt::Quadtree> System::get_quadtree() { return std::make_shared<gmt::Quadtree>(this->quadtree); }
+std::shared_ptr<gmt::QuadtreeI> System::get_quadtree() { return std::make_shared<gmt::QuadtreeI>(this->quadtree); }
 
 gmt::UnitI System::get_dt() const { return this->dt; }
 void System::set_dt(gmt::UnitI dt) {
@@ -175,15 +158,17 @@ void System::set_dt(gmt::UnitI dt) {
     // We need to avoid a dt to close to 0 because
     // it mess up with the corpses velocities.
     // It's better to just pass the area around 0.
-    if (gmt::gmt::UnitI_equals(dt, 0.0f, dt_diff * 0.1f)) {
+    if (!gmt::float_equals(dt, gmt::UnitI(0), dt_diff / gmt::UnitI(10))) {
         dt = dt + dt_diff;
-        dt_diff = dt_diff * 2.0f;
+        dt_diff = dt_diff * gmt::UnitI(2);
     }
 
     gmt::UnitI dt_frac = dt / this->dt;
-    // Update corpses velocities an rotations
-    for (int i = 0; i < corpses_size; i++) {
+
+    for (int i = 0; i < corpses.size(); i++) {
         if (get_corpse(i)->get_removed()) { continue; }  // Removed
+
+        // Update corpses velocities an rotations
         get_corpse(i)->set_last_pos(get_corpse(i)->get_pos() - get_corpse(i)->get_diff_pos() * dt_frac);
         get_corpse(i)->set_last_rotation(get_corpse(i)->get_rotation() - get_corpse(i)->get_diff_rotation() * dt_frac);
     }
@@ -215,30 +200,22 @@ void System::set_collision_accuracy(int collision_accuracy) { this->collision_ac
 int System::get_constraint_accuracy() const { return this->constraint_accuracy; }
 void System::set_constraint_accuracy(int constraint_accuracy) { this->constraint_accuracy = constraint_accuracy; }
 
-int System::get_corpses_size() const { return this->corpses_size; }
-int System::get_pairs_size() const { return this->pairs_size; }
+int System::get_corpses_size() const { return this->corpses.size(); }
+int System::get_pairs_size() const { return this->pairs.size(); }
 int System::get_quad_pairs_size() const { return this->quad_pairs.size(); }
 
-void System::addCorpse(Polygon poly) {
-    this->polygons.push_back(poly);
-    add_corpse(std::make_shared<Polygon>(this->polygons.at(this->polygons.size() - 1)));
-}
-void System::addCorpse(Circle circ) {
-    this->circles.push_back(circ);
-    add_corpse(std::make_shared<Circle>(this->circles.at(this->circles.size() - 1)));
-}
+void System::addCorpse(Polygon polygon) { add_corpse(std::make_shared<Polygon>(polygon)); }
+void System::addCorpse(Circle circle) { add_corpse(std::make_shared<Circle>(circle)); }
 
-void System::add_corpse(std::shared_ptr<Corpse> a) {
-    this->corpses.emplace_back(std::move(a));
-    this->corpses_size++;  // Update the size of the array = n
-    if (corpses_size > 1) {
-        for (int b_index = 0; b_index < corpses_size - 1; b_index++) { System::add_pair(get_corpse(this->corpses_size - 1), get_corpse(b_index)); }
+void System::add_corpse(std::shared_ptr<Corpse> corpse) {
+    this->corpses.emplace_back(std::move(corpse));  // size of the array = [n]
+    if (corpses.size() > 1) {
+        for (int b_index = 0; b_index < corpses.size() - 1; b_index++) { System::add_pair(get_corpse(this->corpses.size() - 1), get_corpse(b_index)); }
     }
 }
 
 void System::add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
-    this->pairs.push_back({a, b});
-    this->pairs_size++;  // Update the size of the array = [n(n-1)]/2
+    this->pairs.push_back({a, b});  // size of the array = [n(n-1)]/2
 }
 
 gmt::BoundsI System::get_limits() const { return this->limits; }

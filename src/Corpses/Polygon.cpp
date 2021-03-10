@@ -2,8 +2,7 @@
 
 namespace phy {
 
-Polygon::Polygon(std::initializer_list<gmt::VectorI> points, gmt::UnitI mass, gmt::UnitI damping, gmt::UnitI speed_x, gmt::UnitI speed_y, gmt::UnitI rotation, gmt::UnitI motor, gmt::VectorI propulsor, bool fixed, bool tied, bool etherial, sf::Color color)
-    : Corpse(mass, damping, fixed, tied, etherial, color) {
+Polygon::Polygon(std::initializer_list<gmt::VectorI> points, gmt::UnitI mass, gmt::UnitI damping, gmt::UnitI speed_x, gmt::UnitI speed_y, gmt::UnitI rotation, gmt::UnitI motor, bool fixed, bool tied, bool etherial, sf::Color color) : Corpse(mass, damping, fixed, tied, etherial, color) {
     std::vector<gmt::VectorI> vect_points(std::begin(points), std::end(points));
     std::vector<std::shared_ptr<gmt::VectorI>> shared_points = {};
     for (int i = 0; i < vect_points.size(); i++) { shared_points.push_back(std::make_shared<gmt::VectorI>(vect_points.at(i))); }
@@ -50,8 +49,8 @@ void Polygon::Rotate(const gmt::UnitI& rotate) {
     this->current_rotation = std::fmod(this->current_rotation + rotate, gmt::UnitI(RO));
 }
 
-bool Polygon::inBounds(const gmt::BoundsI& bounds) { gmt::BoundsI::BoundsInBounds(this->get_corpse_bounds(), bounds); }
-bool Polygon::Pointed(const gmt::VectorI& point) { gmt::BoundsI::PointInBounds(point, this->get_corpse_bounds()); }
+bool Polygon::inBounds(const gmt::BoundsI& bounds) const { gmt::BoundsI::BoundsInBounds(this->get_corpse_bounds(), bounds); }
+bool Polygon::Pointed(const gmt::VectorI& point) const { gmt::BoundsI::PointInBounds(point, this->get_corpse_bounds()); }
 
 void Polygon::add_point(gmt::VectorI point) {
     this->points.vertices.push_back(std::make_shared<gmt::VectorI>(point));

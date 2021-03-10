@@ -18,8 +18,8 @@ class Polygon : public Corpse {
     std::vector<gmt::VerticesI> polygons;
 
    public:
-    Polygon(std::initializer_list<gmt::VectorI> points = {}, gmt::UnitI mass = gmt::UnitI(1), gmt::UnitI damping = gmt::UnitI(1), gmt::UnitI speed_x = gmt::UnitI(0), gmt::UnitI speed_y = gmt::UnitI(0), gmt::UnitI rotation = gmt::UnitI(0), gmt::UnitI motor = gmt::UnitI(0),
-            gmt::VectorI propulsor = gmt::VectorI(), bool fixed = false, bool tied = false, bool etherial = false, sf::Color color = sf::Color::White);
+    Polygon(std::initializer_list<gmt::VectorI> points = {}, gmt::UnitI mass = gmt::UnitI(1), gmt::UnitI damping = gmt::UnitI(1), gmt::UnitI speed_x = gmt::UnitI(0), gmt::UnitI speed_y = gmt::UnitI(0), gmt::UnitI rotation = gmt::UnitI(0), gmt::UnitI motor = gmt::UnitI(0), bool fixed = false,
+            bool tied = false, bool etherial = false, sf::Color color = sf::Color::White);
     Polygon& operator=(const Polygon& rhs);
     virtual ~Polygon();
 
@@ -35,8 +35,8 @@ class Polygon : public Corpse {
     void Turn(const gmt::UnitI& move);
     void Rotate(const gmt::UnitI& rotate);
 
-    bool inBounds(const gmt::BoundsI& bounds);
-    bool Pointed(const gmt::VectorI& point);
+    bool inBounds(const gmt::BoundsI& bounds) const;
+    bool Pointed(const gmt::VectorI& point) const;
 
     gmt::BoundsI get_corpse_bounds() const;
 

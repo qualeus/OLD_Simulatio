@@ -18,7 +18,7 @@ class Circle : public Corpse {
 
    public:
     Circle(gmt::UnitI x = gmt::UnitI(0), gmt::UnitI y = gmt::UnitI(0), gmt::UnitI size = gmt::UnitI(1), gmt::UnitI mass = gmt::UnitI(1), gmt::UnitI damping = gmt::UnitI(1), gmt::UnitI speed_x = gmt::UnitI(0), gmt::UnitI speed_y = gmt::UnitI(0), gmt::UnitI rotation = gmt::UnitI(0),
-           gmt::UnitI motor = gmt::UnitI(0), gmt::VectorI propulsor = gmt::VectorI(), bool fixed = false, bool tied = false, bool etherial = false, sf::Color color = sf::Color::White);
+           gmt::UnitI motor = gmt::UnitI(0), bool fixed = false, bool tied = false, bool etherial = false, sf::Color color = sf::Color::White);
     virtual ~Circle();
     Circle& operator=(const Circle& rhs);
 
