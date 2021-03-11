@@ -3,20 +3,18 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Main.hpp>
-#include <cmath>
 
 #include "../../assets/fonts/IconsForkAwesome.h"
 #include "../../assets/fonts/consolas.hpp"
 #include "../../assets/fonts/proggy.hpp"
 #include "../../assets/fonts/roboto.hpp"
 #include "../Geometry/Geometry.hpp"
+#include "../Geometry/Maths.hpp"
 #include "../Geometry/Text.hpp"
 #include "../Geometry/Vector.hpp"
 #include "../System.hpp"
 #include "Config.hpp"
-#include "imgui-SFML.h"
-#include "imgui.h"
-#include "imgui_internal.h"
+#include "GuiModule.hpp"
 
 #define C_TURQUOISE sf::Color(26, 188, 156, 255)  // rgba(26, 188, 156,1.0)
 #define C_GREEN sf::Color(22, 160, 133, 255)      // rgba(22, 160, 133,1.0)
@@ -168,6 +166,7 @@ class Renderer {
     int counter_debug;
 
     std::vector<gmt::TextI> texts = {};
+    ImGui::Console console;
 
    public:
     phy::System system;

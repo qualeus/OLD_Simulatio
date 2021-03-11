@@ -9,7 +9,7 @@
 
 #define RO 360 /* Complete rotation */
 
-#include <SFML/Graphics.hpp>  // To delete when the transition to VectorI will be done
+#include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
 #include <memory>

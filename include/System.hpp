@@ -1,15 +1,10 @@
 #ifndef System_HPP
 #define System_HPP
 
-#include <cmath>
-#include <iostream>
-#include <memory>
-#include <sstream>
-#include <vector>
-
 #include "Config.hpp"
 #include "Geometry/Collision.hpp"
 #include "Geometry/Geometry.hpp"
+#include "Geometry/Maths.hpp"
 #include "Geometry/Quadtree.hpp"
 
 namespace phy {

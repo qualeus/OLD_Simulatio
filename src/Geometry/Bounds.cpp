@@ -60,10 +60,10 @@ template Bounds<double>::~Bounds();
 /* Builder Constructor */
 template <typename T>
 Bounds<T>::Bounds(const T& x1, const T& y1, const T& x2, const T& y2) {
-    this->x1 = T();
-    this->y1 = T();
-    this->x2 = T();
-    this->y2 = T();
+    this->x1 = x1;
+    this->y1 = y1;
+    this->x2 = x2;
+    this->y2 = y2;
 }
 template Bounds<int>::Bounds(const int& x1, const int& y1, const int& x2, const int& y2);
 template Bounds<float>::Bounds(const float& x1, const float& y1, const float& x2, const float& y2);

@@ -76,6 +76,7 @@ set(SOURCES
     src/Renderer/Draw.cpp
     src/Renderer/Event.cpp
     src/Renderer/Gui.cpp
+    src/Renderer/GuiModule.cpp
     src/System.cpp 
 )
 set(HEADERS
@@ -93,6 +94,7 @@ set(HEADERS
     include/Geometry/Text.hpp
     include/Geometry/Maths.hpp
     include/Renderer/Renderer.hpp
+    include/Renderer/GuiModule.hpp
     include/System.hpp
 )
 

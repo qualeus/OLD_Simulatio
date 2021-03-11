@@ -228,7 +228,10 @@ void Renderer::SelectMultipleCorpsesInit(sf::Event event) {
     if (this->select_type != S_DEFAULT) { return; }
 
     sf::Vector2f mouse_pos = get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
-    this->selected_area = gmt::Bounds<float>(mouse_pos.x, mouse_pos.y, 0.0f, 0.0f);
+    this->selected_area = gmt::Bounds<float>(mouse_pos.x, mouse_pos.y, mouse_pos.x, mouse_pos.y);
+
+    console.Log(gmt::to_string(mouse_pos) + "\n" + gmt::to_string(this->selected_area));
+
     this->select_type = S_SELECT_MULTIPLE;
 }
 
@@ -237,7 +240,6 @@ void Renderer::SelectMultipleCorpsesStep(sf::Event event) {
     sf::Vector2f mouse_real_pos = get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
     this->selected_area.x2 = mouse_real_pos.x;
     this->selected_area.y2 = mouse_real_pos.y;
-    std::cout << gmt::to_string(this->selected_area) << std::endl;
 }
 
 void Renderer::SelectMultipleCorpsesStop(sf::Event event) {
@@ -317,7 +319,7 @@ bool Renderer::LaunchCorpseInit(sf::Event event) {
             }
 
             sf::Vector2f mouse_real_pos = get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
-            this->selected_area = gmt::Bounds<float>(mouse_real_pos.x, mouse_real_pos.y, 0.0f, 0.0f);
+            this->selected_area = gmt::Bounds<float>(mouse_real_pos.x, mouse_real_pos.y, mouse_real_pos.x, mouse_real_pos.y);
 
             this->select_type = S_LAUNCH_CORPSE;
             this->debug_system_edited = true;
@@ -341,7 +343,7 @@ bool Renderer::LaunchCorpseInit(sf::Event event) {
             system.get_corpse(i)->set_fixed(true);
 
             sf::Vector2f corpse_pos = system.get_corpse(i)->get_pos().CloneSF();
-            this->selected_area = gmt::Bounds<float>(corpse_pos.x, corpse_pos.y, 0.0f, 0.0f);
+            this->selected_area = gmt::Bounds<float>(corpse_pos.x, corpse_pos.y, corpse_pos.x, corpse_pos.y);
 
             this->select_type = S_LAUNCH_CORPSE;
             this->debug_system_edited = true;
@@ -410,7 +412,7 @@ void Renderer::CreateCircleInit(sf::Event event) {
     if (this->select_type != S_CREATE_CIRCLE) { return; }
 
     sf::Vector2f mouse_real_pos = get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
-    this->selected_area = gmt::Bounds<float>(mouse_real_pos.x, mouse_real_pos.y, 0.0f, 0.0f);
+    this->selected_area = gmt::Bounds<float>(mouse_real_pos.x, mouse_real_pos.y, mouse_real_pos.x, mouse_real_pos.y);
 }
 void Renderer::CreateCircleStep(sf::Event event) {
     sf::Vector2f mouse_real_pos = get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
