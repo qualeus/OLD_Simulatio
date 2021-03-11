@@ -230,7 +230,7 @@ void Renderer::SelectMultipleCorpsesInit(sf::Event event) {
     sf::Vector2f mouse_pos = get_real_pos(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
     this->selected_area = gmt::Bounds<float>(mouse_pos.x, mouse_pos.y, mouse_pos.x, mouse_pos.y);
 
-    console.Log(gmt::to_string(mouse_pos) + "\n" + gmt::to_string(this->selected_area));
+    console.Log(gmt::to_string(this->selected_area));
 
     this->select_type = S_SELECT_MULTIPLE;
 }

@@ -1097,7 +1097,9 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
 
         ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
         if (ImGui::TreeNode("Performances")) {
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Separator();
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
             static int display_frames_size = 170;
             static int update_frame_delay = 10;
@@ -1124,11 +1126,13 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             sprintf(average_text, "-80\n\n-45\n\n-10\nAvg: %.fHz", average);
             ImGui::PlotLines(average_text, debug_frames, display_frames_size, 0, NULL, 10.0f, 80.0f, ImVec2(235.0f, 80.0f));
 
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::TreePop();
         }
 
         ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);  // ImGuiTreeNodeFlags_DefaultOpen
         if (ImGui::TreeNode("Mouse Position")) {
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Separator();
 
             const ImVec2 p = ImGui::GetCursorScreenPos();
@@ -1167,6 +1171,9 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
                 " * Velocity: %.f\n"
                 " * Acceleration: %.f\n ",
                 debug_values[4], debug_values[5], debug_values[2], debug_values[3], io.MousePos.x, io.MousePos.y, last_mouse_vel, last_mouse_acc);
+
+            ImGui::Separator();
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
             ImGui::TreePop();
         }

@@ -60,10 +60,11 @@ System::~System() {}
 
 void System::Step() {
     // Update Positions
-    CorpsesStep();
+    // CorpsesStep();
     // Update Forces
     // Update Velocities
     // Apply Boundaries conditions
+    /*
     for (int i = 0; i < collision_accuracy; i++) {
         StepQuadtree();
         QuadPairsStep();
@@ -71,6 +72,7 @@ void System::Step() {
     PairsStep();
     CheckLimits();
     // Move Global Time
+    */
     UpdateTime();
     // Calculate the Output
 }

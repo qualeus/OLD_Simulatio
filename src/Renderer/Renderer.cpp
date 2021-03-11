@@ -35,7 +35,7 @@ Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_
 
     /* Setup Renderer View */
     this->view.reset(sf::FloatRect(-screen_width / 2, -screen_height / 2, this->screen_width, this->screen_height));
-    this->Camera(sf::Vector2f(camera_x, camera_y), zoom);
+    this->Camera(sf::Vector2f(camera_x, camera_y), std::max(zoom, 0.01f));
 
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
