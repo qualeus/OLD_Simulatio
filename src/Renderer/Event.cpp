@@ -243,17 +243,21 @@ void Renderer::SelectMultipleCorpsesStop(sf::Event event) {
     if (this->select_type != S_SELECT_MULTIPLE) { return; }
 
     // Reorganize the points in a rectangle ABCD (top left point A / bottom right point C)
-    gmt::Bounds<float> rectangle = this->selected_area.Reorder();
+    gmt::Bounds<float> s_rec = this->selected_area.Reorder();
+    gmt::BoundsI rectangle = gmt::BoundsI(s_rec.x1, s_rec.y1, s_rec.x2, s_rec.y2);
 
     for (int i = 0; i < system.get_corpses_size(); i++) {
         if (system.get_corpse(i)->get_removed()) { continue; }  // Removed
         if (phy::Circle *circle = dynamic_cast<phy::Circle *>(system.get_corpse(i).get())) {
-            if (!gmt::Bounds<float>::BoundsOutBounds(circle->get_corpse_bounds(), rectangle)) {
+            if (!gmt::BoundsI::BoundsOutBounds(circle->get_corpse_bounds(), rectangle)) {
                 this->selected_corpses_cursor.push_back(i);
                 this->selected_corpses_fixed.push_back(system.get_corpse(i)->get_fixed());
             }
         } else if (phy::Polygon *polygon = dynamic_cast<phy::Polygon *>(system.get_corpse(i).get())) {
-            if (!gmt::Bounds<float>::BoundsOutBounds(polygon->get_corpse_bounds(), rectangle)) { this->selected_corpses_cursor.push_back(i); }
+            if (!gmt::BoundsI::BoundsOutBounds(polygon->get_corpse_bounds(), rectangle)) {
+                this->selected_corpses_cursor.push_back(i);
+                this->selected_corpses_fixed.push_back(system.get_corpse(i)->get_fixed());
+            }
         }
     }
     this->select_type = S_DEFAULT;

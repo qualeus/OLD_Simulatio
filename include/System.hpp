@@ -8,9 +8,7 @@
 #include <vector>
 
 #include "Config.hpp"
-#include "Corpses/Circle.hpp"
-#include "Corpses/Corpse.hpp"
-#include "Corpses/Polygon.hpp"
+#include "Geometry/Collision.hpp"
 #include "Geometry/Geometry.hpp"
 #include "Geometry/Quadtree.hpp"
 
@@ -43,9 +41,7 @@ class System {
    public:
     System(bool gravity = false, gmt::UnitI force_x = 0.0f, gmt::UnitI force_y = 0.0f, gmt::UnitI limit_x = 4000.0f, gmt::UnitI limit_y = 4000.0f);  // System Constructor
     System& operator=(const System& rhs);                                                                                                            // System Copy
-    virtual ~System();                                                                                                                               // System Destructor
-
-    void Prepare();
+    virtual ~System();
 
     void Step();
     void UpdateTime();

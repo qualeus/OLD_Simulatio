@@ -49,8 +49,8 @@ void Polygon::Rotate(const gmt::UnitI& rotate) {
     this->current_rotation = std::fmod(this->current_rotation + rotate, gmt::UnitI(RO));
 }
 
-bool Polygon::inBounds(const gmt::BoundsI& bounds) const { gmt::BoundsI::BoundsInBounds(this->get_corpse_bounds(), bounds); }
-bool Polygon::Pointed(const gmt::VectorI& point) const { gmt::BoundsI::PointInBounds(point, this->get_corpse_bounds()); }
+bool Polygon::inBounds(const gmt::BoundsI& bounds) const { return gmt::BoundsI::BoundsInBounds(this->get_corpse_bounds(), bounds); }
+bool Polygon::Pointed(const gmt::VectorI& point) const { return gmt::BoundsI::PointInBounds(point, this->get_corpse_bounds()); }
 
 void Polygon::add_point(gmt::VectorI point) {
     this->points.vertices.push_back(std::make_shared<gmt::VectorI>(point));
@@ -95,6 +95,9 @@ gmt::BoundsI Polygon::get_corpse_bounds() const { return this->points.Bounds(); 
 
 gmt::VerticesI Polygon::get_points() const { return this->points; }
 void Polygon::set_points(gmt::VerticesI points) { this->points = points; }
+
+std::vector<gmt::VerticesI> Polygon::get_polygons() const { return this->polygons; }
+void Polygon::set_polygons(std::vector<gmt::VerticesI> polygons) { this->polygons = polygons; }
 
 std::vector<std::pair<std::shared_ptr<gmt::VectorI>, std::shared_ptr<gmt::VectorI>>> Polygon::get_sides() const { return this->points.Pairs(); }
 

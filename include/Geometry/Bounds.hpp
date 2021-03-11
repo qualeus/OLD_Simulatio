@@ -2,6 +2,7 @@
 #define Bounds_HPP
 
 #include "Maths.hpp"
+#include "Vector.hpp"
 
 namespace gmt {
 

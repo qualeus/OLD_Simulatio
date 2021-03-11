@@ -102,7 +102,7 @@ template <typename T>
 int Quadtree<T>::Index(std::shared_ptr<phy::Corpse> corpse) {
     int index = -1;
 
-    Bounds<T> corpse_bounds;
+    BoundsI corpse_bounds;
 
     if (phy::Circle* circle = dynamic_cast<phy::Circle*>(corpse.get())) {
         corpse_bounds = circle->get_corpse_bounds();
@@ -111,12 +111,12 @@ int Quadtree<T>::Index(std::shared_ptr<phy::Corpse> corpse) {
     }
 
     // Determine the SubBounds
-    T x1 = this->bounds.x1;
-    T y1 = this->bounds.y1;
-    T x2 = this->bounds.x2;
-    T y2 = this->bounds.y2;
-    T midx = (x2 - x1) / T(2);
-    T midy = (y2 - y1) / T(2);
+    UnitI x1 = this->bounds.x1;
+    UnitI y1 = this->bounds.y1;
+    UnitI x2 = this->bounds.x2;
+    UnitI y2 = this->bounds.y2;
+    UnitI midx = (x2 - x1) / UnitI(2);
+    UnitI midy = (y2 - y1) / UnitI(2);
 
     bool pos_top = corpse_bounds.y1 < midy && corpse_bounds.y2 < midy;
     bool pos_bot = corpse_bounds.y1 >= midy;
@@ -136,7 +136,6 @@ int Quadtree<T>::Index(std::shared_ptr<phy::Corpse> corpse) {
             index = 3;
         }
     }
-
     return index;
 }
 template int Quadtree<int>::Index(std::shared_ptr<phy::Corpse> corpse);
@@ -209,7 +208,7 @@ bool Quadtree<T>::ClearEmpty() {
 
     // Test after update if it's the smallest
     if (this->node_A == nullptr && this->node_B == nullptr && this->node_C == nullptr && this->node_D == nullptr) {
-        if (this->get_size() == 0) { return true; }
+        if (this->corpses.size() == 0) { return true; }
     }
     return false;
 }

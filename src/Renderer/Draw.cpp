@@ -246,10 +246,7 @@ void Renderer::DrawCircle(int x, int y, int radius, sf::Color color, bool outlin
         circle.setFillColor(color);
     }
 
-    if (((x + radius > get_real_pos_x(0)) && (x - radius < get_real_pos_x(screen_width)) && (y + radius > get_real_pos_y(0)) && (y - radius < get_real_pos_y(screen_height))) ||
-        ((x > get_real_pos_x(0)) && (x < get_real_pos_x(screen_width)) && (y > get_real_pos_y(0)) && (y < get_real_pos_y(screen_height)))) {
-        this->window.draw(circle);
-    }
+    this->window.draw(circle);
 }
 
 void Renderer::DrawRectangle(int x1, int y1, int x2, int y2, bool fixed, sf::Color color, bool outline) {

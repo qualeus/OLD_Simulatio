@@ -1,7 +1,12 @@
 #ifndef Quadtree_HPP
 #define Quadtree_HPP
 
+#include "../Corpses/Circle.hpp"
+#include "../Corpses/Corpse.hpp"
+#include "../Corpses/Polygon.hpp"
+#include "Bounds.hpp"
 #include "Maths.hpp"
+#include "Vector.hpp"
 
 namespace gmt {
 

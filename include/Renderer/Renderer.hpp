@@ -225,7 +225,7 @@ class Renderer {
     void Draw();  // Manage the drawing of the Renderer
     void DrawCorpse(std::shared_ptr<phy::Corpse> corpse);
     void DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair);
-    void DrawQuadtree(gmt::Bounds<float> rect);
+    void DrawQuadtree(gmt::BoundsI rect);
     void DrawLimits();
     void DrawTrajectories();
 

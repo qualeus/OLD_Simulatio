@@ -2,10 +2,8 @@
 #define Geometry_HPP
 
 #include "Bounds.hpp"
-#include "Collision.hpp"
 #include "Config.hpp"
 #include "Maths.hpp"
-#include "Quadtree.hpp"
 #include "Text.hpp"
 #include "Vector.hpp"
 #include "Vertices.hpp"

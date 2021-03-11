@@ -1,7 +1,9 @@
 #ifndef Vertices_HPP
 #define Vertices_HPP
 
+#include "Bounds.hpp"
 #include "Maths.hpp"
+#include "Vector.hpp"
 
 namespace gmt {
 

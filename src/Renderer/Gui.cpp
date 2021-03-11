@@ -249,9 +249,9 @@ void Renderer::ShowGuiProperties(bool* p_open) {
 
                     /* System Limits */
                     gmt::BoundsI rect_limits = system.get_limits();
-                    static float temp_limits[4] = {rect_limits.pos.x, rect_limits.pos.y, rect_limits.size.x, rect_limits.size.y};
+                    static float temp_limits[4] = {static_cast<float>(rect_limits.x1), static_cast<float>(rect_limits.y1), static_cast<float>(rect_limits.x2), static_cast<float>(rect_limits.y2)};
                     if (ImGui::DragFloat4("Limits", temp_limits, 1.f, -FLT_MAX, +FLT_MAX, "%.f")) {
-                        rect_limits = {sf::Vector2f(temp_limits[0], temp_limits[1]), sf::Vector2f(temp_limits[2], temp_limits[3])};
+                        rect_limits = gmt::BoundsI(temp_limits[0], temp_limits[1], temp_limits[2], temp_limits[3]);
                         system.set_limits(rect_limits);
                     }
                     ImGui::SameLine();

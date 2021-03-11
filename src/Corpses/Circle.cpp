@@ -54,7 +54,7 @@ void Circle::Drag(const gmt::VectorI& drag) { this->current_pos = this->current_
 void Circle::Turn(const gmt::UnitI& turn) { this->current_rotation = std::fmod(turn, gmt::UnitI(RO)); }
 void Circle::Rotate(const gmt::UnitI& rotate) { this->current_rotation = std::fmod(this->current_rotation + rotate, gmt::UnitI(RO)); }
 
-bool Circle::inBounds(const gmt::BoundsI& bounds) const { gmt::BoundsI::BoundsInBounds(this->get_corpse_bounds(), bounds); }
+bool Circle::inBounds(const gmt::BoundsI& bounds) const { return gmt::BoundsI::BoundsInBounds(this->get_corpse_bounds(), bounds); }
 bool Circle::Pointed(const gmt::VectorI& point) const { return (gmt::VectorI::Distance(this->get_pos(), point) <= this->size); }
 
 gmt::UnitI Circle::get_size() const { return this->size; }

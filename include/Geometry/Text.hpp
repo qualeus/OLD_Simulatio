@@ -2,6 +2,7 @@
 #define Text_HPP
 
 #include "Maths.hpp"
+#include "Vector.hpp"
 
 namespace gmt {
 
