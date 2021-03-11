@@ -61,21 +61,49 @@ std::string to_string(T value) {
 template <typename T>
 std::string to_string(std::vector<T> vector) {
     std::ostringstream oss;
-    oss << "{";
+    oss << "std::vector { ";
     if (!vector.empty()) {
-        std::copy(vector.begin(), vector.end() - 1, std::ostream_iterator<T>(oss, ","));
+        std::copy(vector.begin(), vector.end() - 1, std::ostream_iterator<T>(oss, ", "));
         oss << vector.back();
     }
-    oss << "}";
+    oss << " }";
     return oss.str();
 }
 
 template <typename T>
 std::string to_string(sf::Vector2<T> vector) {
     std::ostringstream oss;
-    oss << "{" << vector.x << ";" << vector.y << "}";
+    oss << "sf::Vector2 { " << vector.x << " ; " << vector.y << " }";
     return oss.str();
 }
+
+template <typename T>
+std::string to_string(gmt::Vector<T> vector) {
+    std::ostringstream oss;
+    oss << "gmt::Vector { " << vector.x << " ; " << vector.y << " }";
+    return oss.str();
+}
+
+template <typename T>
+std::string to_string(gmt::Bounds<T> bounds) {
+    std::ostringstream oss;
+    oss << "gmt::Bounds { " << bounds.x1 << ", " << bounds.y1 << " ; " << bounds.x2 << ", " << bounds.y2 << " }";
+    return oss.str();
+}
+
+/*
+template <typename T>
+std::string to_string(gmt::Vertices<T> vertices) {
+    std::ostringstream oss;
+    oss << "{";
+    if (!vertices.vertices.empty()) {
+        std::copy(vertices.vertices.begin(), vertices.vertices.end() - 1, std::ostream_iterator<T>(oss, ","));
+        oss << vertices.vertices.back();
+    }
+    oss << "}";
+    return oss.str();
+}
+*/
 
 template <typename T>
 bool decimal_equals(const T &a, const T &b, T epsilon = std::numeric_limits<T>::epsilon()) {

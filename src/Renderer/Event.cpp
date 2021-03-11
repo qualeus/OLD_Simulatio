@@ -237,6 +237,7 @@ void Renderer::SelectMultipleCorpsesStep(sf::Event event) {
     sf::Vector2f mouse_real_pos = get_real_pos(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
     this->selected_area.x2 = mouse_real_pos.x;
     this->selected_area.y2 = mouse_real_pos.y;
+    std::cout << gmt::to_string(this->selected_area) << std::endl;
 }
 
 void Renderer::SelectMultipleCorpsesStop(sf::Event event) {
