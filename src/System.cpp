@@ -70,7 +70,7 @@ void System::Step() {
         QuadPairsStep();
     }
     PairsStep();
-    // CheckLimits();
+    CheckLimits();
     // Move Global Time
     UpdateTime();
     // Calculate the Output
@@ -81,9 +81,9 @@ void System::UpdateTime() { this->t += this->dt; }
 void System::CheckLimits() {
     for (int i = 0; i < corpses.size(); i++) {
         if (phy::Circle* circle = dynamic_cast<phy::Circle*>(get_corpse(i).get())) {
-            if (gmt::BoundsI::BoundsInBounds(circle->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
+            if (gmt::BoundsI::BoundsOutBounds(circle->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
         } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(get_corpse(i).get())) {
-            if (gmt::BoundsI::BoundsInBounds(polygon->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
+            if (gmt::BoundsI::BoundsOutBounds(polygon->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
         }
     }
 }
