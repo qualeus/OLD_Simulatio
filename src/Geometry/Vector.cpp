@@ -224,7 +224,7 @@ template Vector<double> Vector<double>::NormalInverted(const Vector<double>& v1,
 /* Angle from a line: atan2(y, x) = Arg(x+iy) rad <=> atan2(y, x)*(180/PI)= Arg(x+iy) deg */
 template <typename T>
 T Vector<T>::Bearing(const Vector<T>& v1, const Vector<T>& v2) {
-    return std::atan2(v1.x - v2.y, v1.x - v2.x) * (180 / PI);
+    return std::atan2(v1.y - v2.y, v1.x - v2.x) * (180 / PI);
 }
 template int Vector<int>::Bearing(const Vector<int>& v1, const Vector<int>& v2);
 template float Vector<float>::Bearing(const Vector<float>& v1, const Vector<float>& v2);

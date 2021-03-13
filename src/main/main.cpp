@@ -6,7 +6,7 @@
 void BaseDemo() {
     Renderer base = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Base Demo", false, 0.0f, 1.0f, 2000.0f, 2000.0f);
 
-    for (int i = 0; i < 100; ++i) { base.system.addCorpse(phy::Circle(rand() % 500 + 250, rand() % 500, rand() % 20 + 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue)); }
+    for (int i = 0; i < 10; ++i) { base.system.addCorpse(phy::Circle(rand() % 500 + 250, rand() % 500, rand() % 20 + 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue)); }
 
     /* Concave Shape / Simplify? */
     // test.system.addCorpse(phy::Polygon({{850, -350}, {950, -350}, {950, 750}, {-50, 750}, {-50, -350}, {50, -350}, {50, 650}, {850, 650}}, 5, 1, 0.0f, 0.0f, 0.0f, 0.0f, true, true, false, C_NEPHRITIS));
@@ -38,9 +38,9 @@ void TestDemo() {
 }
 
 int main() {
-    // BaseDemo();
+    BaseDemo();
     // GravityDemo();
-    TestDemo();
+    // TestDemo();
     return 0;
 }
 

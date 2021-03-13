@@ -9,7 +9,7 @@
 
 namespace phy {
 
-#define AROUND_QUADTREE gmt::UnitI(1000)
+#define AROUND_QUADTREE gmt::UnitI(0)
 
 class System {
    private:

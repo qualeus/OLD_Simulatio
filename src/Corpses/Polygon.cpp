@@ -50,7 +50,7 @@ void Polygon::Rotate(const gmt::UnitI& rotate) {
 }
 
 bool Polygon::inBounds(const gmt::BoundsI& bounds) const { return gmt::BoundsI::BoundsInBounds(this->get_corpse_bounds(), bounds); }
-bool Polygon::Pointed(const gmt::VectorI& point) const { return gmt::BoundsI::PointInBounds(point, this->get_corpse_bounds()); }
+bool Polygon::Pointed(const gmt::VectorI& point) const { return gmt::VerticesI::PointInShape(this->get_points(), point); }
 
 void Polygon::add_point(gmt::VectorI point) {
     this->points.vertices.push_back(std::make_shared<gmt::VectorI>(point));

@@ -74,9 +74,6 @@ template void Quadtree<double>::ClearNodes();
 */
 template <typename T>
 void Quadtree<T>::Split() {
-    // Reset the Sub Nodes
-    ClearNodes();
-
     // Determine the SubBounds
     T x1 = this->bounds.x1;
     T y1 = this->bounds.y1;
@@ -84,6 +81,9 @@ void Quadtree<T>::Split() {
     T y2 = this->bounds.y2;
     T midx = (x2 - x1) / T(2);
     T midy = (y2 - y1) / T(2);
+
+    // Reset the Sub Nodes
+    ClearNodes();
 
     this->node_A = std::make_shared<Quadtree<T>>(Quadtree<T>(Bounds<T>(x1, y1, x1 + midx, y1 + midy), this->level + 1));
     this->node_B = std::make_shared<Quadtree<T>>(Quadtree<T>(Bounds<T>(x1 + midx, y1, x2, y1 + midy), this->level + 1));

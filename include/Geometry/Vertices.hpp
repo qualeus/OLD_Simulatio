@@ -24,10 +24,10 @@ class Vertices {
     std::vector<T> Sizes() const;
     Bounds<T> Bounds() const;
 
-    Vertices<T> Reorder() const;
-    Vertices<T> Translate(const Vector<T>& translation) const;
-    Vertices<T> Rotate(const T& rotation, const Vector<T>& centroid) const;
-    Vertices<T> Scale(const T& scale, const Vector<T>& centroid) const;
+    void Reorder() const;
+    void Translate(const Vector<T>& translation) const;
+    void Rotate(const T& rotation, const Vector<T>& centroid) const;
+    void Scale(const T& scale, const Vector<T>& centroid) const;
 
     Vertices<T> Hull() const;
     std::vector<Vertices<T>> Triangulate() const;

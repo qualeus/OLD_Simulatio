@@ -196,7 +196,8 @@ void Renderer::DrawInputs() {
 void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Color color) {
     if (!gmt::Bounds<float>::SegmentIntersectBounds(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2), get_screen_bounds())) { return; }
 
-    sf::RectangleShape line(sf::Vector2f(gmt::Vector<float>::Distance(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2)), thickness));
+    float length = gmt::Vector<float>::Distance(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2));
+    sf::RectangleShape line(sf::Vector2f(length, thickness));
     line.setOrigin(0, thickness / 2.0f);
     line.setPosition(x2, y2);
     line.rotate(gmt::Vector<float>::Bearing(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2)));
@@ -207,7 +208,7 @@ void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Col
 void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness, sf::Color color) {
     if (!gmt::Bounds<float>::SegmentIntersectBounds(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2), get_screen_bounds())) { return; }
 
-    float angle = gmt::Vector<float>::Bearing(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2));
+    float angle = gmt::Vector<float>::Bearing(gmt::Vector<float>(x2, y2), gmt::Vector<float>(x1, y1));
     float length = gmt::Vector<float>::Distance(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2));
     if (gmt::float_equals(length, 0.0f, min_arrow_size)) { return; }  // Dont draw if the vector is null
 

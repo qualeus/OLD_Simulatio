@@ -14,6 +14,7 @@ System::System(bool gravity, gmt::UnitI force_x, gmt::UnitI force_y, gmt::UnitI 
     this->quadtree = gmt::QuadtreeI(gmt::BoundsI(-limit_x / gmt::UnitI(2), -limit_y / gmt::UnitI(2), limit_x / gmt::UnitI(2), limit_y / gmt::UnitI(2)), gmt::UnitI(1));
 
     this->limits = gmt::BoundsI(-(limit_x + AROUND_QUADTREE) / gmt::UnitI(2), -(limit_y + AROUND_QUADTREE) / gmt::UnitI(2), (limit_x + AROUND_QUADTREE) / gmt::UnitI(2), (limit_y + AROUND_QUADTREE) / gmt::UnitI(2));
+    StepQuadtree();
 }
 
 System& System::operator=(const System& rhs) {
@@ -60,19 +61,17 @@ System::~System() {}
 
 void System::Step() {
     // Update Positions
-    // CorpsesStep();
+    CorpsesStep();
     // Update Forces
     // Update Velocities
     // Apply Boundaries conditions
-    /*
     for (int i = 0; i < collision_accuracy; i++) {
         StepQuadtree();
         QuadPairsStep();
     }
     PairsStep();
-    CheckLimits();
+    // CheckLimits();
     // Move Global Time
-    */
     UpdateTime();
     // Calculate the Output
 }
