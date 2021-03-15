@@ -170,47 +170,80 @@ template Bounds<int> Vertices<int>::Bounds() const;
 template Bounds<float> Vertices<float>::Bounds() const;
 template Bounds<double> Vertices<double>::Bounds() const;
 
+/* Reorder if not Counter Clockwise */
 template <typename T>
-void Vertices<T>::Reorder() const {
-    // TODO
+void Vertices<T>::Reorder() {
+    if (Vertices<T>::OrientationShape(this->vertices)) { std::reverse(this->vertices.begin(), this->vertices.end()); }
 }
-template void Vertices<int>::Reorder() const;
-template void Vertices<float>::Reorder() const;
-template void Vertices<double>::Reorder() const;
+template void Vertices<int>::Reorder();
+template void Vertices<float>::Reorder();
+template void Vertices<double>::Reorder();
 
 /* Rotate the points of the Poilygon from the Centroid */
 template <typename T>
-void Vertices<T>::Rotate(const T& rotation, const Vector<T>& centroid) const {
+void Vertices<T>::Rotate(const T& rotation, const Vector<T>& centroid) {
     std::vector<std::shared_ptr<Vector<T>>> temp = {};
     for (int i = 0; i < this->vertices.size(); i++) {
         Vector<T> diff = *this->vertices.at(i) - centroid;
         *this->vertices.at(i) = centroid + diff.Rotate(rotation);
     }
 }
-template void Vertices<int>::Rotate(const int& rotation, const Vector<int>& centroid) const;
-template void Vertices<float>::Rotate(const float& rotation, const Vector<float>& centroid) const;
-template void Vertices<double>::Rotate(const double& rotation, const Vector<double>& centroid) const;
+template void Vertices<int>::Rotate(const int& rotation, const Vector<int>& centroid);
+template void Vertices<float>::Rotate(const float& rotation, const Vector<float>& centroid);
+template void Vertices<double>::Rotate(const double& rotation, const Vector<double>& centroid);
 
 /* Translate the points of the Poilygon with a translation vector */
 template <typename T>
-void Vertices<T>::Translate(const Vector<T>& translation) const {
+void Vertices<T>::Translate(const Vector<T>& translation) {
     for (int i = 0; i < this->vertices.size(); i++) { *this->vertices.at(i) = *this->vertices.at(i) + translation; }
 }
-template void Vertices<int>::Translate(const Vector<int>& rotation) const;
-template void Vertices<float>::Translate(const Vector<float>& rotation) const;
-template void Vertices<double>::Translate(const Vector<double>& rotation) const;
+template void Vertices<int>::Translate(const Vector<int>& rotation);
+template void Vertices<float>::Translate(const Vector<float>& rotation);
+template void Vertices<double>::Translate(const Vector<double>& rotation);
 
 /* Scale the size of the polygon from the Centroid */
 template <typename T>
-void Vertices<T>::Scale(const T& scale, const Vector<T>& centroid) const {
+void Vertices<T>::Scale(const T& scale, const Vector<T>& centroid) {
     for (int i = 0; i < this->vertices.size(); i++) {
         Vector<T> diff = *this->vertices.at(i) - centroid;
         *this->vertices.at(i) = centroid + diff * scale;
     }
 }
-template void Vertices<int>::Scale(const int& scale, const Vector<int>& centroid) const;
-template void Vertices<float>::Scale(const float& scale, const Vector<float>& centroid) const;
-template void Vertices<double>::Scale(const double& scale, const Vector<double>& centroid) const;
+template void Vertices<int>::Scale(const int& scale, const Vector<int>& centroid);
+template void Vertices<float>::Scale(const float& scale, const Vector<float>& centroid);
+template void Vertices<double>::Scale(const double& scale, const Vector<double>& centroid);
+
+/* Return True if Counter Clockwise and False if Clockwise / not a triangle */
+template <typename T>
+bool Vertices<T>::OrientationTriangle(const Vertices<T>& vertices) {
+    if (vertices.vertices.size() < 3) { return false; }
+    return (Vector<T>::LineOrientation(*vertices.vertices.at(0), *vertices.vertices.at(1), *vertices.vertices.at(2)) == 1);
+}
+template bool Vertices<int>::OrientationTriangle(const Vertices<int>& vertices);
+template bool Vertices<float>::OrientationTriangle(const Vertices<float>& vertices);
+template bool Vertices<double>::OrientationTriangle(const Vertices<double>& vertices);
+
+/* Compute the Barycenytric coordinates of the triangle */
+template <typename T>
+bool Vertices<T>::PointInTriangle(const Vertices<T>& vertices, const Vector<T>& point) {
+    if (vertices.vertices.size() < 3) { return false; }
+    bool A = Vector<T>::LineOrientation(point, *vertices.vertices.at(0), *vertices.vertices.at(1)) == 1;
+    bool B = Vector<T>::LineOrientation(point, *vertices.vertices.at(1), *vertices.vertices.at(2)) == 1;
+    bool C = Vector<T>::LineOrientation(point, *vertices.vertices.at(2), *vertices.vertices.at(0)) == 1;
+    return A && B && C;
+}
+template bool Vertices<int>::PointInTriangle(const Vertices<int>& vertices, const Vector<int>& point);
+template bool Vertices<float>::PointInTriangle(const Vertices<float>& vertices, const Vector<float>& point);
+template bool Vertices<double>::PointInTriangle(const Vertices<double>& vertices, const Vector<double>& point);
+
+/* Compute the Barycenytric coordinates of the triangle */
+template <typename T>
+bool Vertices<T>::PointOutTriangle(const Vertices<T>& vertices, const Vector<T>& point) {
+    return !Vertices<T>::PointInTriangle(vertices, point);
+}
+template bool Vertices<int>::PointOutTriangle(const Vertices<int>& vertices, const Vector<int>& point);
+template bool Vertices<float>::PointOutTriangle(const Vertices<float>& vertices, const Vector<float>& point);
+template bool Vertices<double>::PointOutTriangle(const Vertices<double>& vertices, const Vector<double>& point);
 
 /* Convex Hull */
 template <typename T>
@@ -225,12 +258,67 @@ template Vertices<double> Vertices<double>::Hull() const;
 /* Ear Clipping */
 template <typename T>
 std::vector<Vertices<T>> Vertices<T>::Triangulate() const {
-    // TODO
-    return {};
+    std::vector<Vertices<T>> triangles = {};
+    Vertices<T> cvertices = Vertices<T>();
+    for (int i = 0; i < this->vertices.size(); i++) { cvertices.vertices.push_back(this->vertices.at(i)); }
+    cvertices.Reorder();
+
+    if (this->vertices.size() < 4) {
+        triangles.push_back(cvertices);
+        return triangles;
+    }
+
+    // Iterate through vertices
+    while (cvertices.vertices.size() >= 3) {
+        const int psize = cvertices.vertices.size();
+        bool removed = false;
+        for (int i = 0; i < psize; i++) {
+            std::shared_ptr<Vector<T>> pA = cvertices.vertices.at(i);
+            std::shared_ptr<Vector<T>> pB = cvertices.vertices.at((i + 1) % psize);
+            std::shared_ptr<Vector<T>> pC = cvertices.vertices.at((i + 2) % psize);
+
+            Vertices<T> triangle = Vertices<T>({pC, pB, pA});
+
+            // If the vertex is concave, skip
+            const bool convex = Vertices<T>::OrientationTriangle(triangle);
+            if (!convex) { continue; }
+
+            bool containspoint = false;
+            for (int j = 0; j < psize; j++) {
+                if (PointInTriangle(triangle, *cvertices.vertices.at(j))) {
+                    containspoint = true;
+                    break;
+                }
+            }
+            if (containspoint) { continue; }  // If the triangle formed by the vertex has other vertices in it, skip
+            removed = true;
+            triangles.push_back(triangle);  // Otherwise, ear found
+            cvertices.vertices.erase(std::begin(cvertices.vertices) + (i + 1) % psize);
+            break;
+        }
+        if (!removed) {
+            // Check here if the polygon is self - intersecting => Convert to Convex Hull?
+            break;
+        }
+    }
+    return triangles;
 }
 template std::vector<Vertices<int>> Vertices<int>::Triangulate() const;
 template std::vector<Vertices<float>> Vertices<float>::Triangulate() const;
 template std::vector<Vertices<double>> Vertices<double>::Triangulate() const;
+
+/* Return True if Counter Clockwise and False if Clockwise  */
+template <typename T>
+bool Vertices<T>::OrientationShape(const Vertices<T>& vertices) {
+    T orientation = T(0);
+    const int vertices_size = vertices.vertices.size();
+    for (int i = 0; i < vertices_size; i++) {
+        Vector<T> pA = *vertices.vertices.at(i);
+        Vector<T> pB = *vertices.vertices.at((i + 1) % vertices_size);
+        orientation += Vector<T>::Cross(pA, pB);
+    }
+    return orientation > T(0);
+}
 
 /* Ray Casting Method - Return true if the point is contained in the shape */
 template <typename T>

@@ -869,11 +869,13 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         /* Corpse Rotation */
                         if (ImGui::DragFloat(label_rot, &temp_rotation, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None)) {
                             if (unique_selected) {
-                                system.get_corpse(cursor_selected)->set_rotation(temp_rotation);
+                                system.get_corpse(cursor_selected)->Turn(temp_rotation);
+                                system.get_corpse(cursor_selected)->Bloc();
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
                                     int body_cursor = selected_corpses_cursor.at(i);
-                                    system.get_corpse(body_cursor)->set_rotation(system.get_corpse(body_cursor)->get_rotation() - temp_rotation);
+                                    system.get_corpse(body_cursor)->Turn(temp_rotation);
+                                    system.get_corpse(body_cursor)->Bloc();
                                 }
                             }
                         }
@@ -884,14 +886,12 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         /* Corpse Spin */
                         if (ImGui::DragFloat(label_spi, &temp_spin, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None)) {
                             if (unique_selected) {
-                                system.get_corpse(cursor_selected)->set_rotation(system.get_corpse(cursor_selected)->get_last_rotation() + temp_spin);
+                                system.get_corpse(cursor_selected)->set_last_rotation(system.get_corpse(cursor_selected)->get_rotation() - temp_spin);
                             } else {
-                                /*
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
                                     int body_cursor = selected_corpses_cursor.at(i);
-                                    system.get_corpse(body_cursor)->set_rotation(system.get_corpse(body_cursor)->get_rotation() - temp_rotation);
+                                    system.get_corpse(body_cursor)->set_last_rotation(system.get_corpse(body_cursor)->get_rotation() - temp_spin);
                                 }
-                                */
                             }
                         }
                         if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }

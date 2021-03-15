@@ -60,6 +60,7 @@ class Corpse {
 
     virtual void Step() = 0;
     virtual void Stop() = 0;
+    virtual void Bloc() = 0;
 
     virtual void Move(const gmt::VectorI& move) = 0;
     virtual void Drag(const gmt::VectorI& drag) = 0;

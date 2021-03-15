@@ -27,6 +27,7 @@ class Circle : public Corpse {
 
     void Step();
     void Stop();
+    void Bloc();
 
     void Move(const gmt::VectorI& move);
     void Drag(const gmt::VectorI& drag);

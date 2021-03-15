@@ -70,7 +70,7 @@ set(SOURCES
     src/Geometry/Vertices.cpp
     src/Geometry/Text.cpp
     src/Geometry/Maths.cpp
-    src/Geometry/Quadtree.cpp
+    src/Structures/OldQuadtree.cpp
     src/Geometry/Collision.cpp
     src/Renderer/Renderer.cpp
     src/Renderer/Draw.cpp
@@ -88,7 +88,7 @@ set(HEADERS
     include/Geometry/Geometry.hpp
     include/Geometry/Vector.hpp
     include/Geometry/Bounds.hpp
-    include/Geometry/Quadtree.hpp
+    include/Structures/OldQuadtree.hpp
     include/Geometry/Collision.hpp
     include/Geometry/Vertices.hpp
     include/Geometry/Text.hpp

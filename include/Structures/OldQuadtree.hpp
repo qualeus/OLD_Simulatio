@@ -4,9 +4,9 @@
 #include "../Corpses/Circle.hpp"
 #include "../Corpses/Corpse.hpp"
 #include "../Corpses/Polygon.hpp"
-#include "Bounds.hpp"
-#include "Maths.hpp"
-#include "Vector.hpp"
+#include "../Geometry/Bounds.hpp"
+#include "../Geometry/Maths.hpp"
+#include "../Geometry/Vector.hpp"
 
 namespace gmt {
 

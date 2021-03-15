@@ -1,7 +1,9 @@
 #include "../../include/Geometry/Maths.hpp"
 
 /* Compare two floats with a given sigma */
-bool gmt::float_equals(float a, float b, float sigma) { return (std::abs(b - a) < std::abs(sigma)); }
+bool gmt::float_equals(float a, float b, float sigma) {
+    return (std::abs(b - a) < std::abs(sigma));  // return a + sigma > b && a - sigma < b;
+}
 
 /* Convert degree to radian: deg = rad * (PI/180) */
 float gmt::degree_to_radian(float degree) { return degree * (PI / 180); }

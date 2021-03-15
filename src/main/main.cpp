@@ -9,7 +9,7 @@ void BaseDemo() {
     for (int i = 0; i < 10; ++i) { base.system.addCorpse(phy::Circle(rand() % 500 + 250, rand() % 500, rand() % 20 + 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue)); }
 
     /* Concave Shape / Simplify? */
-    // test.system.addCorpse(phy::Polygon({{850, -350}, {950, -350}, {950, 750}, {-50, 750}, {-50, -350}, {50, -350}, {50, 650}, {850, 650}}, 5, 1, 0.0f, 0.0f, 0.0f, 0.0f, true, true, false, C_NEPHRITIS));
+    base.system.addCorpse(phy::Polygon({{850, -350}, {950, -350}, {950, 750}, {-50, 750}, {-50, -350}, {50, -350}, {50, 650}, {850, 650}}, 5, 1, 0.0f, 0.0f, 0.0f, 0.0f, true, true, false, C_NEPHRITIS));
 
     base.system.addCorpse(phy::Polygon({{750, 750}, {950, 750}, {950, -350}, {750, -350}}, 5, 1, 0.0f, 0.0f, 0.0f, 0.0f, true, true, false, C_NEPHRITIS));
     base.system.addCorpse(phy::Polygon({{-150, 750}, {50, 750}, {50, -350}, {-150, -350}}, 5, 1, 0.0f, 0.0f, 0.0f, 0.0f, true, true, false, C_NEPHRITIS));
@@ -59,4 +59,9 @@ http://paulbourke.net/geometry/polygonmesh/
 http://paulbourke.net/geometry/
 https://softologyblog.wordpress.com/
 http://geomalgorithms.com/a10-_hull-1.html
+
+
+Quadtree / TRiangulation
+http://zenpandainteractive.blogspot.com/2013/03/yet-another-quad-tree-tutorial.html#more
+http://zenpandainteractive.blogspot.com/2016/03/the-problem-opengl-and-other-low-level.html#more
 */

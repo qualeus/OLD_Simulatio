@@ -194,7 +194,7 @@ template int Vector<int>::Dot(const Vector<int>& v1, const Vector<int>& v2);
 template float Vector<float>::Dot(const Vector<float>& v1, const Vector<float>& v2);
 template double Vector<double>::Dot(const Vector<double>& v1, const Vector<double>& v2);
 
-/* Perp/Cross Dot product: [Ax Ay].[Bx By] = (Ax)(Bx)-(Ay)(By) = Amag*Bmag*sin(theta) */
+/* Perp/Cross Dot product: [Ax Ay].[Bx By] = (Ax)(By)-(Ay)(Bx) = Amag*Bmag*sin(theta) */
 template <typename T>
 T Vector<T>::Cross(const Vector<T>& v1, const Vector<T>& v2) {
     return v1.x * v2.y - v1.y * v2.x;
@@ -304,7 +304,7 @@ int Vector<T>::LineOrientation(const Vector<T>& v1, const Vector<T>& v2, const V
         - if slope[AB] > slope[BC], the orientation is clockwise
         - if slope[AB] < slope[BC], the orientation is counter clockwise
     */
-    int sigma = static_cast<int>((v2.y - v1.y) * (v3.x - v2.x) - (v2.x - v1.x) * (v3.y - v2.y));
+    int sigma = static_cast<int>(Vector<T>::Cross(v2 - v1, v3 - v2));
     if (sigma == 0) { return 0; }
     if (sigma > 0) { return 1; }
     return 2;

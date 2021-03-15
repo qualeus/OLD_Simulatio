@@ -43,10 +43,8 @@ void Circle::Step() {
     // Add the motor rotation even if the object is tied
     // if (!gmt::decimal_equals(motor, gmt::UnitI(0), gmt::UnitI(0.0001))) { this->current_rotation = this->current_rotation + motor; }
 }
-void Circle::Stop() {
-    this->last_pos = this->current_pos;
-    this->last_rotation = this->current_rotation;
-}
+void Circle::Stop() { this->last_pos = this->current_pos; }
+void Circle::Bloc() { this->last_rotation = this->current_rotation; }
 
 void Circle::Move(const gmt::VectorI& move) { this->current_pos = move; }
 void Circle::Drag(const gmt::VectorI& drag) { this->current_pos = this->current_pos + drag; }

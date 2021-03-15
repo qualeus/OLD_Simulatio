@@ -24,16 +24,22 @@ class Vertices {
     std::vector<T> Sizes() const;
     Bounds<T> Bounds() const;
 
-    void Reorder() const;
-    void Translate(const Vector<T>& translation) const;
-    void Rotate(const T& rotation, const Vector<T>& centroid) const;
-    void Scale(const T& scale, const Vector<T>& centroid) const;
+    void Reorder();
+    void Translate(const Vector<T>& translation);
+    void Rotate(const T& rotation, const Vector<T>& centroid);
+    void Scale(const T& scale, const Vector<T>& centroid);
 
     Vertices<T> Hull() const;
     std::vector<Vertices<T>> Triangulate() const;
 
+    static bool OrientationTriangle(const Vertices<T>& vertices);
+    static bool PointInTriangle(const Vertices<T>& vertices, const Vector<T>& point);
+    static bool PointOutTriangle(const Vertices<T>& vertices, const Vector<T>& point);
+
+    static bool OrientationShape(const Vertices<T>& vertices);
     static bool PointInShape(const Vertices<T>& vertices, const Vector<T>& point);
     static bool PointOutShape(const Vertices<T>& vertices, const Vector<T>& point);
+
     static std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>> ClosestEdge(const Vertices<T>& vertices, const Vector<T>& point);
 };
 }  // namespace gmt

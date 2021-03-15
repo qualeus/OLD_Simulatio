@@ -5,11 +5,9 @@
 #include "Geometry/Collision.hpp"
 #include "Geometry/Geometry.hpp"
 #include "Geometry/Maths.hpp"
-#include "Geometry/Quadtree.hpp"
+#include "Structures/OldQuadtree.hpp"
 
 namespace phy {
-
-#define AROUND_QUADTREE gmt::UnitI(0)
 
 class System {
    private:

@@ -8,6 +8,8 @@ Polygon::Polygon(std::initializer_list<gmt::VectorI> points, gmt::UnitI mass, gm
     for (int i = 0; i < vect_points.size(); i++) { shared_points.push_back(std::make_shared<gmt::VectorI>(vect_points.at(i))); }
 
     this->points = gmt::VerticesI(shared_points);
+    this->points.Reorder();
+    this->polygons = this->points.Triangulate();
 
     gmt::VectorI centroid = this->points.Centroid();
 
@@ -54,6 +56,8 @@ bool Polygon::Pointed(const gmt::VectorI& point) const { return gmt::VerticesI::
 
 void Polygon::add_point(gmt::VectorI point) {
     this->points.vertices.push_back(std::make_shared<gmt::VectorI>(point));
+    // this->points.Reorder();
+    this->polygons = this->points.Triangulate();
 
     gmt::VectorI computed_center = this->points.Centroid();
     gmt::VectorI diff_pos = computed_center - this->current_pos;
@@ -63,7 +67,15 @@ void Polygon::add_point(gmt::VectorI point) {
 }
 
 void Polygon::remove_point(int i) {
-    // TODO
+    // this->points.vertices.push_back(std::make_shared<gmt::VectorI>(point));
+    // this->points.Reorder();
+    this->polygons = this->points.Triangulate();
+
+    gmt::VectorI computed_center = this->points.Centroid();
+    gmt::VectorI diff_pos = computed_center - this->current_pos;
+
+    this->current_pos = computed_center;
+    this->last_pos = last_pos + diff_pos;
 }
 
 void Polygon::Step() {
@@ -86,10 +98,8 @@ void Polygon::Step() {
     // Add the motor rotation even if the object is tied
     // if (!gmt::decimal_equals(motor, 0.0f, 0.0001f)) { this->current_rotation = this->current_rotation + motor; }
 }
-void Polygon::Stop() {
-    this->last_pos = this->current_pos;
-    this->last_rotation = this->current_rotation;
-}
+void Polygon::Stop() { this->last_pos = this->current_pos; }
+void Polygon::Bloc() { this->last_rotation = this->current_rotation; }
 
 gmt::BoundsI Polygon::get_corpse_bounds() const { return this->points.Bounds(); }
 

@@ -1,4 +1,4 @@
-#include "../../include/Geometry/Quadtree.hpp"
+#include "../../include/Structures/OldQuadtree.hpp"
 
 namespace gmt {
 
