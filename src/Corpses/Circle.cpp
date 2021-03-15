@@ -33,7 +33,7 @@ void Circle::Step() {
     }
 
     if (this->tied) {
-        this->last_rotation = std::fmod(this->current_rotation, gmt::UnitI(360));
+        this->last_rotation = std::fmod(this->current_rotation, gmt::UnitI(RO));
     } else {
         gmt::UnitI diff_rotation = this->current_rotation - this->last_rotation;
         this->last_rotation = this->current_rotation;

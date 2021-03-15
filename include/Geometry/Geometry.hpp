@@ -8,8 +8,6 @@
 #include "Vector.hpp"
 #include "Vertices.hpp"
 
-#define EDGE_APPROXIMATION 1 /* TO DELETE */
-
 namespace gmt {
 
 #ifndef PRECISION_SET

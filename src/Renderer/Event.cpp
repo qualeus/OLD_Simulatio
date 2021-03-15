@@ -478,8 +478,9 @@ void Renderer::CreatePolygonStop(sf::Event event) {
     this->debug_system_edited = true;
 
     if (this->selected_corpses_diff.size() > 2) {
-        phy::Polygon temp_poly = phy::Polygon({}, 10, 1, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, C_NEPHRITIS);
-        for (int i = 0; i < this->selected_corpses_diff.size(); i++) { temp_poly.add_point(this->selected_corpses_diff.at(i)); }
+        std::vector<gmt::VectorI> points = {};
+        for (int i = 0; i < this->selected_corpses_diff.size(); i++) { points.push_back(gmt::VectorI(this->selected_corpses_diff.at(i))); }
+        phy::Polygon temp_poly = phy::Polygon(points, 10, 1, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, C_NEPHRITIS);
         system.addCorpse(temp_poly);
     }
 

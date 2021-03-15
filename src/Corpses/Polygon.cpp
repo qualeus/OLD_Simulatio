@@ -2,13 +2,13 @@
 
 namespace phy {
 
-Polygon::Polygon(std::initializer_list<gmt::VectorI> points, gmt::UnitI mass, gmt::UnitI damping, gmt::UnitI speed_x, gmt::UnitI speed_y, gmt::UnitI rotation, gmt::UnitI motor, bool fixed, bool tied, bool etherial, sf::Color color) : Corpse(mass, damping, fixed, tied, etherial, color) {
-    std::vector<gmt::VectorI> vect_points(std::begin(points), std::end(points));
+Polygon::Polygon(std::vector<gmt::VectorI> points, gmt::UnitI mass, gmt::UnitI damping, gmt::UnitI speed_x, gmt::UnitI speed_y, gmt::UnitI rotation, gmt::UnitI motor, bool fixed, bool tied, bool etherial, sf::Color color) : Corpse(mass, damping, fixed, tied, etherial, color) {
     std::vector<std::shared_ptr<gmt::VectorI>> shared_points = {};
-    for (int i = 0; i < vect_points.size(); i++) { shared_points.push_back(std::make_shared<gmt::VectorI>(vect_points.at(i))); }
+    for (int i = 0; i < points.size(); i++) { shared_points.push_back(std::make_shared<gmt::VectorI>(points.at(i))); }
 
-    this->points = gmt::VerticesI(shared_points);
-    this->points.Reorder();
+    gmt::VerticesI vertices = gmt::VerticesI(shared_points);
+    vertices.Reorder();
+    this->points = vertices;
     this->polygons = this->points.Triangulate();
 
     gmt::VectorI centroid = this->points.Centroid();
@@ -67,7 +67,7 @@ void Polygon::add_point(gmt::VectorI point) {
 }
 
 void Polygon::remove_point(int i) {
-    // this->points.vertices.push_back(std::make_shared<gmt::VectorI>(point));
+    this->points.vertices.erase(std::begin(this->points.vertices) + (i + 1) % this->points.vertices.size());
     // this->points.Reorder();
     this->polygons = this->points.Triangulate();
 

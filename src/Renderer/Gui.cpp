@@ -176,6 +176,12 @@ void Renderer::ShowGuiProperties(bool* p_open) {
             /* SYSTEM PROPERTIES */
             if (ImGui::BeginTabItem(system_name)) {
                 ImGui::Dummy(ImVec2(0.0f, 1.2f));
+
+                /* PRECISION */
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), ("PHYSICS_PRECISION:" + gmt::to_string(gmt::type_name<PHYSICS_PRECISION>())).c_str());
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
                 ImGui::SetNextTreeNodeOpen(false, ImGuiCond_FirstUseEver);
                 if (ImGui::TreeNode("System Infos")) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));

@@ -11,7 +11,7 @@
 typedef double PHYSICS_PRECISION;
 #else
 typedef float PHYSICS_PRECISION;
-#endif  // ENABLE_DOUBLE_PRECISION
+#endif 
 #define PRECISION_SET
 #endif
 // clang-format on
