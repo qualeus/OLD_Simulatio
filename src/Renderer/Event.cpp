@@ -459,6 +459,23 @@ void Renderer::ToggleOffPolygon(sf::Event event) {
         for (int i = 0; i < this->selected_corpses_diff.size(); i++) { points.push_back(gmt::VectorI(this->selected_corpses_diff.at(i))); }
         phy::Polygon temp_poly = phy::Polygon(points, 10, 1, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, C_NEPHRITIS);
         system.addCorpse(temp_poly);
+    } else {
+        std::vector<gmt::VectorI> points = {};
+        const int number = 10;
+        const int rad = 100;
+        const int vrad = 20;
+        // for (int i = 0; i < number; i++) { points.push_back(gmt::VectorI(100 * std::cos(static_cast<float>(i) * 360 / number), 100 * std::sin(static_cast<float>(i) * 360 / number))); }
+        for (int i = 0; i < number; i++) {
+            float ang = gmt::degree_to_radian(static_cast<float>(i) * 360.0f / number);
+            points.push_back(gmt::VectorI(this->sys_mouse_x + (rad + std::rand() % vrad) * std::cos(ang), this->sys_mouse_y + (rad + std::rand() % vrad) * std::sin(ang)));
+        }
+        const int lpow = 50;
+        const int lrot = 10;
+        const int nobj = 40;
+        for (int i = 0; i < nobj; i++) {
+            phy::Polygon temp_poly = phy::Polygon(points, 10, 1, (std::rand() % lpow) - (lpow / 2), (std::rand() % lpow) - (lpow / 2), (std::rand() % lrot) - (lrot / 2), 0.0f, false, false, false, C_NEPHRITIS);
+            system.addCorpse(temp_poly);
+        }
     }
 
     /* Make sure that the arrays are empty */

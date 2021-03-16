@@ -112,6 +112,37 @@ template bool Bounds<int>::PointOutBounds(const Vector<int>& v1, const Bounds<in
 template bool Bounds<float>::PointOutBounds(const Vector<float>& v1, const Bounds<float>& b2);
 template bool Bounds<double>::PointOutBounds(const Vector<double>& v1, const Bounds<double>& b2);
 
+/* Check if a Circle is in this Boundaries */
+template <typename T>
+bool Bounds<T>::CircleInBounds(const T& r, const Vector<T>& v1, const Bounds<T>& b2) {
+    if (v1.x - r < b2.x1) { return false; }
+    if (v1.x + r > b2.x2) { return false; }
+    if (v1.y - r < b2.y1) { return false; }
+    if (v1.x + r > b2.y2) { return false; }
+    return true;
+}
+template bool Bounds<int>::CircleInBounds(const int& r, const Vector<int>& v1, const Bounds<int>& b2);
+template bool Bounds<float>::CircleInBounds(const float& r, const Vector<float>& v1, const Bounds<float>& b2);
+template bool Bounds<double>::CircleInBounds(const double& r, const Vector<double>& v1, const Bounds<double>& b2);
+
+/* Check if a Circle is out of this Boundaries */
+template <typename T>
+bool Bounds<T>::CircleOutBounds(const T& r, const Vector<T>& v1, const Bounds<T>& b2) {
+    return !Bounds<T>::CircleInBounds(r, v1, b2);
+}
+template bool Bounds<int>::CircleOutBounds(const int& r, const Vector<int>& v1, const Bounds<int>& b2);
+template bool Bounds<float>::CircleOutBounds(const float& r, const Vector<float>& v1, const Bounds<float>& b2);
+template bool Bounds<double>::CircleOutBounds(const double& r, const Vector<double>& v1, const Bounds<double>& b2);
+
+/* Check if a Circle is out of this Boundaries */
+template <typename T>
+bool Bounds<T>::CircleIntersectBounds(const T& r, const Vector<T>& v1, const Bounds<T>& b2) {
+    return Bounds<T>::BoundsIntersectBounds(Bounds<T>(v1.x - r, v1.y - r, v1.x + r, v1.y + r), b2);
+}
+template bool Bounds<int>::CircleIntersectBounds(const int& r, const Vector<int>& v1, const Bounds<int>& b2);
+template bool Bounds<float>::CircleIntersectBounds(const float& r, const Vector<float>& v1, const Bounds<float>& b2);
+template bool Bounds<double>::CircleIntersectBounds(const double& r, const Vector<double>& v1, const Bounds<double>& b2);
+
 /* Check if a Vector is in this Boundaries */
 template <typename T>
 bool Bounds<T>::SegmentInBounds(const Vector<T>& v1, const Vector<T>& v2, const Bounds<T>& b2) {

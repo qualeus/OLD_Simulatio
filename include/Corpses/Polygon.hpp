@@ -41,6 +41,8 @@ class Polygon : public Corpse {
 
     gmt::BoundsI get_corpse_bounds() const;
 
+    void Generate();
+
     int get_points_number() const;
     void add_point(gmt::VectorI point);
     void remove_point(int i);

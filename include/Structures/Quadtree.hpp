@@ -16,7 +16,7 @@ class Quadtree {
    public:
     Quadtree<T>& operator=(const Quadtree<T>& rhs);
 
-    Quadtree();
+    Quadtree(const T& width, const T& height, const int& max_elems, const int& max_depth);
     ~Quadtree();
 };
 

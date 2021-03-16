@@ -7,8 +7,8 @@ Polygon::Polygon(std::vector<gmt::VectorI> points, gmt::UnitI mass, gmt::UnitI d
     for (int i = 0; i < points.size(); i++) { shared_points.push_back(std::make_shared<gmt::VectorI>(points.at(i))); }
 
     this->points = gmt::VerticesI(shared_points);
-    this->points.Reorder();
-    this->polygons = this->points.Triangulate();
+
+    Generate();
 
     gmt::VectorI centroid = this->points.Centroid();
 
@@ -55,8 +55,8 @@ bool Polygon::Pointed(const gmt::VectorI& point) const { return gmt::VerticesI::
 
 void Polygon::add_point(gmt::VectorI point) {
     this->points.vertices.push_back(std::make_shared<gmt::VectorI>(point));
-    // this->points.Reorder();
-    this->polygons = this->points.Triangulate();
+
+    Generate();
 
     gmt::VectorI computed_center = this->points.Centroid();
     gmt::VectorI diff_pos = computed_center - this->current_pos;
@@ -67,8 +67,8 @@ void Polygon::add_point(gmt::VectorI point) {
 
 void Polygon::remove_point(int i) {
     this->points.vertices.erase(std::begin(this->points.vertices) + (i + 1) % this->points.vertices.size());
-    // this->points.Reorder();
-    this->polygons = this->points.Triangulate();
+
+    Generate();
 
     gmt::VectorI computed_center = this->points.Centroid();
     gmt::VectorI diff_pos = computed_center - this->current_pos;
@@ -101,6 +101,17 @@ void Polygon::Stop() { this->last_pos = this->current_pos; }
 void Polygon::Bloc() { this->last_rotation = this->current_rotation; }
 
 gmt::BoundsI Polygon::get_corpse_bounds() const { return this->points.Bounds(); }
+
+void Polygon::Generate() {
+    // Put the vertex in the Counter Clockwise order
+    this->points.Reorder();
+
+    if (this->points.Convex()) {
+        this->polygons = {this->points};  // Convex => Collision shape is the same
+    } else {
+        this->polygons = this->points.Triangulate();  // Concave => Triangulate the collision shape
+    }
+}
 
 gmt::VerticesI Polygon::get_points() const { return this->points; }
 void Polygon::set_points(gmt::VerticesI points) { this->points = points; }

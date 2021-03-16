@@ -5,6 +5,10 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
     if (corpse->get_removed()) { return; }  // Removed
 
     if (phy::Circle *circle = dynamic_cast<phy::Circle *>(corpse.get())) {
+        /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
+        DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), circle->get_color(), true);
+        /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
+
         if (debug_show_centroids) { DrawCircle(circle->get_pos_x(), circle->get_pos_y(), 5, sf::Color::Red, true); }
         if (debug_show_rectangles) {
             gmt::BoundsI bounds = circle->get_corpse_bounds();
@@ -20,25 +24,27 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
             DrawArrow(circle->get_pos_x(), circle->get_pos_y(), circle->get_pos_x(), circle->get_pos_y() + (circle->get_diff_pos_y() / system.get_dt()) * velocity_size, arrow_size, arrow_size, line_thickness, sf::Color::Green);
         }
 
-        /* -------------------------------------- Default Drawing -------------------------------------- */
-        DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), circle->get_color(), true);
-
     } else if (phy::Polygon *polygon = dynamic_cast<phy::Polygon *>(corpse.get())) {
+        /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
+        gmt::VerticesI polygon_vertices = polygon->get_points();
+        std::vector<sf::Vector2f> polygon_points = {};
+        for (int i = 0; i < polygon_vertices.vertices.size(); i++) { polygon_points.push_back((*polygon_vertices.vertices.at(i)).CloneSF()); }
+        // DrawPolygon(polygon_points, polygon->get_color(), true);
+
+        std::vector<gmt::VerticesI> triangles = polygon->get_polygons();
+        for (int i = 0; i < triangles.size(); i++) {
+            gmt::VerticesI triangle_vertices = triangles.at(i);
+            std::vector<sf::Vector2f> triangle_points = {};
+            for (int i = 0; i < triangle_vertices.vertices.size(); i++) { triangle_points.push_back((*triangle_vertices.vertices.at(i)).CloneSF()); }
+            DrawPolygon(triangle_points, polygon->get_color(), false);
+        }
+        /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
+
         if (debug_show_rectangles) {
             gmt::BoundsI bounds = polygon->get_corpse_bounds();
             DrawRectangle(bounds.x1, bounds.y1, bounds.x2, bounds.y2, false, sf::Color::Red, true);
         }
         if (debug_show_centroids) { DrawCircle(polygon->get_pos_x(), polygon->get_pos_y(), 5, sf::Color::Red, true); }
-        if (debug_show_edges) {
-            std::vector<gmt::VerticesI> triangles = polygon->get_polygons();
-            for (int i = 0; i < triangles.size(); i++) {
-                gmt::VerticesI triangle_vertices = triangles.at(i);
-                std::vector<sf::Vector2f> triangle_points = {};
-                for (int i = 0; i < triangle_vertices.vertices.size(); i++) { triangle_points.push_back((*triangle_vertices.vertices.at(i)).CloneSF()); }
-                DrawPolygon(triangle_points, sf::Color::Blue, false);
-                DrawPolygon(triangle_points, sf::Color::Red, true);
-            }
-        }
         if (debug_show_vertices) {
             gmt::VerticesI points = polygon->get_points();
             for (int i = 0; i < points.vertices.size(); i++) {
@@ -72,12 +78,18 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
             DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x() + (polygon->get_diff_pos_x() / system.get_dt()) * velocity_size, polygon->get_pos_y(), arrow_size, arrow_size, line_thickness, sf::Color::Blue);
             DrawArrow(polygon->get_pos_x(), polygon->get_pos_y(), polygon->get_pos_x(), polygon->get_pos_y() + (polygon->get_diff_pos_y() / system.get_dt()) * velocity_size, arrow_size, arrow_size, line_thickness, sf::Color::Green);
         }
-
-        /* -------------------------------------- Default Drawing -------------------------------------- */
-        gmt::VerticesI polygon_vertices = polygon->get_points();
-        std::vector<sf::Vector2f> polygon_points = {};
-        for (int i = 0; i < polygon_vertices.vertices.size(); i++) { polygon_points.push_back((*polygon_vertices.vertices.at(i)).CloneSF()); }
-        DrawPolygon(polygon_points, polygon->get_color(), true);
+        if (debug_show_edges) {
+            std::vector<gmt::VerticesI> triangles = polygon->get_polygons();
+            for (int i = 0; i < triangles.size(); i++) {
+                gmt::VerticesI triangle_vertices = triangles.at(i);
+                std::vector<std::pair<std::shared_ptr<gmt::VectorI>, std::shared_ptr<gmt::VectorI>>> sides = triangle_vertices.Pairs();
+                for (int i = 0; i < sides.size(); i++) {
+                    sf::Vector2f side_A = (*sides.at(i).first).CloneSF();
+                    sf::Vector2f side_B = (*sides.at(i).second).CloneSF();
+                    DrawLine(side_A.x, side_A.y, side_B.x, side_B.y, 1.5f, sf::Color::Red);
+                }
+            }
+        }
     }
 }
 
@@ -248,9 +260,9 @@ void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, f
 }
 
 void Renderer::DrawCircle(int x, int y, int radius, sf::Color color, bool outline) {
-    sf::CircleShape circle(radius, circle_resolution);
+    if (!gmt::Bounds<float>::CircleIntersectBounds(radius, gmt::Vector<float>(x, y), get_screen_bounds())) { return; }
 
-    // test if the circle is in the screen bounds
+    sf::CircleShape circle(radius, circle_resolution);
     circle.setPosition(x, y);
     circle.setOrigin(circle.getRadius(), circle.getRadius());
 
@@ -266,6 +278,8 @@ void Renderer::DrawCircle(int x, int y, int radius, sf::Color color, bool outlin
 }
 
 void Renderer::DrawRectangle(int x1, int y1, int x2, int y2, bool fixed, sf::Color color, bool outline) {
+    if (!gmt::Bounds<float>::BoundsIntersectBounds(gmt::Bounds<float>(x1, y1, x2, y2), get_screen_bounds())) { return; }
+
     sf::RectangleShape rect(sf::Vector2f(x2 - x1, y2 - y1));
     if (fixed) {
         rect.setPosition(get_real_pos_x(x1), get_real_pos_y(y1));
@@ -285,8 +299,18 @@ void Renderer::DrawRectangle(int x1, int y1, int x2, int y2, bool fixed, sf::Col
 }
 
 void Renderer::DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color, bool outline) {
-    sf::ConvexShape convex;
+    bool pt_inbounds = false;
+    for (int i = 0; i < points.size(); i++) {
+        if (gmt::Bounds<float>::PointInBounds(gmt::Vector<float>(points.at(i)), get_screen_bounds())) {
+            pt_inbounds = true;
+            break;
+        }
+    }
+    if (!pt_inbounds) {
+        return;  // If none of the point is in bounds return (TODO test segments intersection)
+    }
 
+    sf::ConvexShape convex;
     convex.setPointCount(points.size());
     for (int i = 0; i < points.size(); i++) { convex.setPoint(i, points.at(i)); }
 

@@ -29,6 +29,10 @@ class Bounds {
     static bool PointInBounds(const Vector<T>& v1, const Bounds<T>& b2);
     static bool PointOutBounds(const Vector<T>& v1, const Bounds<T>& b2);
 
+    static bool CircleInBounds(const T& r, const Vector<T>& v1, const Bounds<T>& b2);
+    static bool CircleOutBounds(const T& r, const Vector<T>& v1, const Bounds<T>& b2);
+    static bool CircleIntersectBounds(const T& r, const Vector<T>& v1, const Bounds<T>& b2);
+
     static bool SegmentInBounds(const Vector<T>& v1, const Vector<T>& v2, const Bounds<T>& b2);
     static bool SegmentOutBounds(const Vector<T>& v1, const Vector<T>& v2, const Bounds<T>& b2);
     static bool SegmentIntersectBounds(const Vector<T>& v1, const Vector<T>& v2, const Bounds<T>& b2);
