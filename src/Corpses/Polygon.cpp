@@ -6,9 +6,8 @@ Polygon::Polygon(std::vector<gmt::VectorI> points, gmt::UnitI mass, gmt::UnitI d
     std::vector<std::shared_ptr<gmt::VectorI>> shared_points = {};
     for (int i = 0; i < points.size(); i++) { shared_points.push_back(std::make_shared<gmt::VectorI>(points.at(i))); }
 
-    gmt::VerticesI vertices = gmt::VerticesI(shared_points);
-    vertices.Reorder();
-    this->points = vertices;
+    this->points = gmt::VerticesI(shared_points);
+    this->points.Reorder();
     this->polygons = this->points.Triangulate();
 
     gmt::VectorI centroid = this->points.Centroid();

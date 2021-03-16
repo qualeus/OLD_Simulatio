@@ -173,7 +173,7 @@ template Bounds<double> Vertices<double>::Bounds() const;
 /* Reorder if not Counter Clockwise */
 template <typename T>
 void Vertices<T>::Reorder() {
-    if (Vertices<T>::OrientationShape(this->vertices)) { std::reverse(this->vertices.begin(), this->vertices.end()); }
+    if (!Vertices<T>::OrientationShape(this->vertices)) { std::reverse(this->vertices.begin(), this->vertices.end()); }
 }
 template void Vertices<int>::Reorder();
 template void Vertices<float>::Reorder();
@@ -261,7 +261,7 @@ std::vector<Vertices<T>> Vertices<T>::Triangulate() const {
     std::vector<Vertices<T>> triangles = {};
     Vertices<T> cvertices = Vertices<T>();
     for (int i = 0; i < this->vertices.size(); i++) { cvertices.vertices.push_back(this->vertices.at(i)); }
-    cvertices.Reorder();
+    // cvertices.Reorder();
 
     if (this->vertices.size() < 4) {
         triangles.push_back(cvertices);
@@ -317,8 +317,12 @@ bool Vertices<T>::OrientationShape(const Vertices<T>& vertices) {
         Vector<T> pB = *vertices.vertices.at((i + 1) % vertices_size);
         orientation += Vector<T>::Cross(pA, pB);
     }
-    return orientation > T(0);
+    return (orientation < T(0));
 }
+
+template bool Vertices<int>::OrientationShape(const Vertices<int>& vertices);
+template bool Vertices<float>::OrientationShape(const Vertices<float>& vertices);
+template bool Vertices<double>::OrientationShape(const Vertices<double>& vertices);
 
 /* Ray Casting Method - Return true if the point is contained in the shape */
 template <typename T>
