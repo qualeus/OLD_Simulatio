@@ -403,6 +403,15 @@ void Renderer::ToggleOffCircle(sf::Event event) {
     if (this->select_type != S_CREATE_CIRCLE) { return; }
     this->select_type = S_DEFAULT;
 
+    if (this->selected_area == gmt::Bounds<float>()) {
+        sf::Vector2f temp_pos = sf::Vector2f(this->selected_area.x1, this->selected_area.y1);
+        float temp_size = gmt::Vector<float>::Distance(gmt::Vector<float>(this->selected_area.x1, this->selected_area.y1), gmt::Vector<float>(this->selected_area.x2, this->selected_area.y2));
+        float temp_mass = (temp_size * temp_size) * 0.1f;
+
+        system.addCorpse(phy::Circle(temp_pos.x, temp_pos.y, temp_size, temp_mass, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue));
+        this->selected_area = gmt::Bounds<float>();
+    }
+
     /* Make sure that the arrays are empty */
     this->selected_corpses_cursor = {};
     this->selected_corpses_fixed = {};

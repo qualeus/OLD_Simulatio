@@ -38,6 +38,19 @@ template Bounds<int> Bounds<int>::operator/(const int& other) const;
 template Bounds<float> Bounds<float>::operator/(const float& other) const;
 template Bounds<double> Bounds<double>::operator/(const double& other) const;
 
+/* Comparison Operators: [Ax1 Ay1 Ax2 Ay2] == [Bx1 By1 Bx2 By2] */
+template <typename T>
+bool Bounds<T>::operator==(const Bounds<T>& other) const {
+    if (this->x1 != other.x1) { return false; }
+    if (this->y1 != other.y1) { return false; }
+    if (this->x2 != other.x2) { return false; }
+    if (this->y2 != other.y2) { return false; }
+    return true;
+}
+template bool Bounds<int>::operator==(const Bounds<int>& other) const;
+template bool Bounds<float>::operator==(const Bounds<float>& other) const;
+template bool Bounds<double>::operator==(const Bounds<double>& other) const;
+
 /* Default Constructor */
 template <typename T>
 Bounds<T>::Bounds() {

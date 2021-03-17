@@ -6,7 +6,7 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
 
     if (phy::Circle *circle = dynamic_cast<phy::Circle *>(corpse.get())) {
         /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
-        DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), circle->get_color(), true);
+        DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), circle->get_color(), false);
         /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
 
         if (debug_show_centroids) { DrawCircle(circle->get_pos_x(), circle->get_pos_y(), 5, sf::Color::Red, true); }

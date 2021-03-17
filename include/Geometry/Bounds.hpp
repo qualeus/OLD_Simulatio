@@ -18,6 +18,7 @@ class Bounds {
     Bounds<T> operator-(const Bounds<T>& other) const;
     Bounds<T> operator*(const T& other) const;
     Bounds<T> operator/(const T& other) const;
+    bool operator==(const Bounds<T>& other) const;
 
     Bounds(const T& x1, const T& y1, const T& x2, const T& y2);
     Bounds();
