@@ -14,6 +14,7 @@ class System {
     std::vector<std::shared_ptr<Corpse>> corpses;
     std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> pairs;
     std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> quad_pairs;
+    std::vector<gmt::CollisionI> collisions;
 
     gmt::QuadtreeI quadtree;
     gmt::BoundsI limits;

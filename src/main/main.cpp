@@ -37,9 +37,9 @@ void TestDemo() {
 }
 
 int main() {
-    BaseDemo();
+    // BaseDemo();
     // GravityDemo();
-    // TestDemo();
+    TestDemo();
     return 0;
 }
 

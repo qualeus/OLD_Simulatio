@@ -13,14 +13,19 @@ namespace gmt {
 template <typename T>
 class Collision {
    private:
-    Collision() {}  // Disallow creating an instance of this object
+    phy::Corpse* lhs;
+    phy::Corpse* rhs;
+    VectorI axis;   // Collision Axis
+    bool resolved;  // If a collision occured
+
+    Collision(phy::Corpse* lhs, phy::Corpse* rhs, gmt::VectorI axis, bool resolved);
 
    public:
-    static void Resolve(std::shared_ptr<phy::Corpse> lhs, std::shared_ptr<phy::Corpse> rhs);
-    static void CircleOnCircle(phy::Circle* circleA, phy::Circle* circleB);
-    static void CircleOnPolygon(phy::Circle* circle, phy::Polygon* polygon);
-    static void PolygonOnPolygon(phy::Polygon* polygonA, phy::Polygon* polygonB);
-    static void Response(phy::Corpse* lhs, phy::Corpse* rhs, const VectorI& normal);
+    static Collision<T> Resolve(std::shared_ptr<phy::Corpse> lhs, std::shared_ptr<phy::Corpse> rhs);
+    static Collision<T> CircleOnCircle(phy::Circle* circleA, phy::Circle* circleB);
+    static Collision<T> CircleOnPolygon(phy::Circle* circle, phy::Polygon* polygon);
+    static Collision<T> PolygonOnPolygon(phy::Polygon* polygonA, phy::Polygon* polygonB);
+    static Collision<T> Response(phy::Corpse* lhs, phy::Corpse* rhs, const VectorI& normal);
 };
 }  // namespace gmt
 #endif

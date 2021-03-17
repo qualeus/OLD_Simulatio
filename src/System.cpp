@@ -10,6 +10,7 @@ System::System(bool gravity, gmt::UnitI force_x, gmt::UnitI force_y, gmt::UnitI 
     this->corpses = std::vector<std::shared_ptr<Corpse>>();
     this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
     this->quad_pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
+    this->collisions = std::vector<gmt::CollisionI>();
 
     this->quadtree = gmt::QuadtreeI(gmt::BoundsI(-limit_x / gmt::UnitI(2), -limit_y / gmt::UnitI(2), limit_x / gmt::UnitI(2), limit_y / gmt::UnitI(2)), gmt::UnitI(1));
 
@@ -36,6 +37,7 @@ System& System::operator=(const System& rhs) {
     this->corpses = std::vector<std::shared_ptr<Corpse>>();
     this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
     this->quad_pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
+    this->collisions = std::vector<gmt::CollisionI>();
     this->quadtree = rhs.quadtree;
 
     for (int i = 0; i < rhs.get_corpses_size(); i++) {
@@ -109,7 +111,10 @@ void System::CorpseStop(int i) {
 }
 
 void System::PairsStep() {
+    this->collisions = {};  // MOVE IN QUAD COLLISION
+
     for (int i = 0; i < pairs.size(); i++) {
+        gmt::CollisionI::Resolve(get_pair_A(i), get_pair_B(i));  // OLD COLLISION
         if (this->gravity) { Gravity(get_pair_A(i), get_pair_B(i)); }
     }
 }
@@ -120,7 +125,7 @@ void System::QuadPairsStep() {
     // We Store the Quad Pairs before resolving the collisions
     this->quad_pairs = quadpairs;
 
-    for (int i = 0; i < quadpairs.size(); i++) { gmt::CollisionI::Resolve(quadpairs.at(i).first, quadpairs.at(i).second); }
+    for (int i = 0; i < quadpairs.size(); i++) { this->collisions.push_back(gmt::CollisionI::Resolve(quadpairs.at(i).first, quadpairs.at(i).second)); }
 }
 
 void System::Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
