@@ -221,7 +221,7 @@ void Renderer::DrawInputs() {
 }
 
 void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Color color) {
-    if (!gmt::Bounds<float>::SegmentIntersectBounds(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2), get_screen_bounds())) { return; }
+    // if (!gmt::Bounds<float>::SegmentIntersectBounds(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2), get_screen_bounds())) { return; }
 
     float length = gmt::Vector<float>::Distance(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2));
     sf::RectangleShape line(sf::Vector2f(length, thickness));

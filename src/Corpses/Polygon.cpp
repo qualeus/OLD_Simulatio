@@ -23,8 +23,10 @@ Polygon::Polygon(std::vector<gmt::VectorI> points, gmt::UnitI mass, gmt::UnitI d
 }
 Polygon& Polygon::operator=(const Polygon& rhs) {
     Corpse::operator=(rhs);
-    this->points = rhs.get_points();
-    this->polygons = rhs.get_polygons();
+    gmt::VerticesI rpoints = rhs.get_points();
+    this->points = gmt::VerticesI();
+    for (int i = 0; i < rpoints.vertices.size(); i++) { this->points.vertices.push_back(std::make_shared<gmt::VectorI>(*rpoints.vertices.at(i))); }
+    Generate();
     return *this;
 }
 Polygon::~Polygon() {}

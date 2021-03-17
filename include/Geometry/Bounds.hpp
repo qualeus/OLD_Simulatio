@@ -18,7 +18,9 @@ class Bounds {
     Bounds<T> operator-(const Bounds<T>& other) const;
     Bounds<T> operator*(const T& other) const;
     Bounds<T> operator/(const T& other) const;
+
     bool operator==(const Bounds<T>& other) const;
+    bool operator!=(const Bounds<T>& other) const;
 
     Bounds(const T& x1, const T& y1, const T& x2, const T& y2);
     Bounds();
@@ -26,6 +28,7 @@ class Bounds {
 
     Vector<T> Size() const;
     Bounds<T> Reorder() const;
+    Bounds<T> Clone() const;
 
     static bool PointInBounds(const Vector<T>& v1, const Bounds<T>& b2);
     static bool PointOutBounds(const Vector<T>& v1, const Bounds<T>& b2);

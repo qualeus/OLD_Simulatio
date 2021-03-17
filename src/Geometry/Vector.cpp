@@ -67,6 +67,15 @@ template bool Vector<int>::operator==(const Vector<int>& other) const;
 template bool Vector<float>::operator==(const Vector<float>& other) const;
 template bool Vector<double>::operator==(const Vector<double>& other) const;
 
+/* Comparison Operators: [Ax Ay] != [Bx By] */
+template <typename T>
+bool Vector<T>::operator!=(const Vector<T>& other) const {
+    return !this->operator==(other);
+}
+template bool Vector<int>::operator!=(const Vector<int>& other) const;
+template bool Vector<float>::operator!=(const Vector<float>& other) const;
+template bool Vector<double>::operator!=(const Vector<double>& other) const;
+
 /* Default Constructor */
 template <typename T>
 Vector<T>::Vector() {

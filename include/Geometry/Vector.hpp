@@ -17,7 +17,9 @@ class Vector {
     Vector<T> operator-(const Vector<T>& other) const;
     Vector<T> operator*(const T& other) const;
     Vector<T> operator/(const T& other) const;
+
     bool operator==(const Vector<T>& other) const;
+    bool operator!=(const Vector<T>& other) const;
 
     Vector(const T& x, const T& y);
     Vector(const sf::Vector2f& v);

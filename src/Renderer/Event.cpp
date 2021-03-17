@@ -394,6 +394,7 @@ void Renderer::ToggleOnCircle(sf::Event event) {
     this->select_type = S_CREATE_CIRCLE;
 
     /* Make sure that the arrays are empty */
+    this->selected_area = gmt::Bounds<float>();
     this->selected_corpses_cursor = {};
     this->selected_corpses_fixed = {};
     this->selected_corpses_diff = {};
@@ -402,8 +403,7 @@ void Renderer::ToggleOnCircle(sf::Event event) {
 void Renderer::ToggleOffCircle(sf::Event event) {
     if (this->select_type != S_CREATE_CIRCLE) { return; }
     this->select_type = S_DEFAULT;
-
-    if (this->selected_area == gmt::Bounds<float>()) {
+    if (this->selected_area != gmt::Bounds<float>()) {
         sf::Vector2f temp_pos = sf::Vector2f(this->selected_area.x1, this->selected_area.y1);
         float temp_size = gmt::Vector<float>::Distance(gmt::Vector<float>(this->selected_area.x1, this->selected_area.y1), gmt::Vector<float>(this->selected_area.x2, this->selected_area.y2));
         float temp_mass = (temp_size * temp_size) * 0.1f;
@@ -433,9 +433,12 @@ void Renderer::CreateCircleInit(sf::Event event) {
     this->selected_area = gmt::Bounds<float>(mouse_real_pos.x, mouse_real_pos.y, mouse_real_pos.x, mouse_real_pos.y);
 }
 void Renderer::CreateCircleStep(sf::Event event) {
-    sf::Vector2f mouse_real_pos = sf::Vector2f(this->sys_mouse_x, this->sys_mouse_y);
-    this->selected_area.x2 = mouse_real_pos.x;
-    this->selected_area.y2 = mouse_real_pos.y;
+    if (this->select_type != S_CREATE_CIRCLE) { return; }
+    if (this->selected_area.x1 != 0.0f || this->selected_area.y1 != 0.0f) {
+        sf::Vector2f mouse_real_pos = sf::Vector2f(this->sys_mouse_x, this->sys_mouse_y);
+        this->selected_area.x2 = mouse_real_pos.x;
+        this->selected_area.y2 = mouse_real_pos.y;
+    }
 }
 
 void Renderer::CreateCircleStop(sf::Event event) {

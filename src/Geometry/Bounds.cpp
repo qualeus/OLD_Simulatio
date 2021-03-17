@@ -51,6 +51,15 @@ template bool Bounds<int>::operator==(const Bounds<int>& other) const;
 template bool Bounds<float>::operator==(const Bounds<float>& other) const;
 template bool Bounds<double>::operator==(const Bounds<double>& other) const;
 
+/* Comparison Operators: [Ax1 Ay1 Ax2 Ay2] == [Bx1 By1 Bx2 By2] */
+template <typename T>
+bool Bounds<T>::operator!=(const Bounds<T>& other) const {
+    return !this->operator==(other);
+}
+template bool Bounds<int>::operator!=(const Bounds<int>& other) const;
+template bool Bounds<float>::operator!=(const Bounds<float>& other) const;
+template bool Bounds<double>::operator!=(const Bounds<double>& other) const;
+
 /* Default Constructor */
 template <typename T>
 Bounds<T>::Bounds() {
@@ -102,6 +111,15 @@ Bounds<T> Bounds<T>::Reorder() const {
 template Bounds<int> Bounds<int>::Reorder() const;
 template Bounds<float> Bounds<float>::Reorder() const;
 template Bounds<double> Bounds<double>::Reorder() const;
+
+/* Duplication Method */
+template <typename T>
+Bounds<T> Bounds<T>::Clone() const {
+    return Bounds<T>(this->x1, this->y1, this->x2, this->y2);
+}
+template Bounds<int> Bounds<int>::Clone() const;
+template Bounds<float> Bounds<float>::Clone() const;
+template Bounds<double> Bounds<double>::Clone() const;
 
 /* Check if a Point is in this Boundaries */
 template <typename T>
