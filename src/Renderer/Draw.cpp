@@ -183,6 +183,27 @@ void Renderer::DrawInputs() {
         for (int i = 0; i < system.get_quad_pairs_size(); i++) { DrawPair(system.get_quad_pair(i)); }
     }
 
+    if (debug_show_contacts) {
+        for (int i = 0; i < this->system.get_collisions_size(); i++) {
+            gmt::CollisionI collision = this->system.get_collision(i);
+            if (collision.resolved) {
+                gmt::VectorI response = collision.normal.Normalize() * 10.0f;
+                DrawLine(collision.origin.x - response.x, collision.origin.y - response.y, collision.origin.x + response.x, collision.origin.y + response.y, 3.0f, sf::Color::Red);
+            }
+        }
+    }
+
+    if (debug_show_collisions) {
+        for (int i = 0; i < this->system.get_collisions_size(); i++) {
+            gmt::CollisionI collision = this->system.get_collision(i);
+            if (collision.resolved) {
+                console.Log(gmt::to_string(collision.origin) + " " + gmt::to_string(collision.normal));
+                gmt::VectorI response = collision.normal * 2.0f;
+                DrawLine(collision.origin.x - response.x, collision.origin.y - response.y, collision.origin.x + response.x, collision.origin.y + response.y, 3.0f, sf::Color::White);
+            }
+        }
+    }
+
     switch (this->select_type) {
         case S_DEFAULT: break;
         case S_SELECT_MULTIPLE: {

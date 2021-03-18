@@ -94,6 +94,10 @@ class System {
     std::vector<std::shared_ptr<Corpse>> get_corpses() const;
     std::shared_ptr<Corpse> get_corpse(int index) const;
 
+    gmt::CollisionI get_collision(int index) const;
+    std::vector<gmt::CollisionI> get_collisions() const;
+    int get_collisions_size() const;
+
     std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> get_quad_pair(int index) const;
 
     std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> get_pairs() const;

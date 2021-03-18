@@ -111,11 +111,12 @@ void System::CorpseStop(int i) {
 }
 
 void System::PairsStep() {
-    this->collisions = {};  // MOVE IN QUAD COLLISION
-
-    for (int i = 0; i < pairs.size(); i++) {
-        gmt::CollisionI::Resolve(get_pair_A(i), get_pair_B(i));  // OLD COLLISION
-        if (this->gravity) { Gravity(get_pair_A(i), get_pair_B(i)); }
+    this->collisions = {};
+    for (int i = 0; i < pairs.size(); i++) {                                                 // MOVE IN QUAD COLLISION
+        this->collisions.push_back(gmt::CollisionI::Resolve(get_pair_A(i), get_pair_B(i)));  // OLD COLLISION
+    }
+    if (this->gravity) {
+        for (int i = 0; i < pairs.size(); i++) { Gravity(get_pair_A(i), get_pair_B(i)); }
     }
 }
 
@@ -125,6 +126,7 @@ void System::QuadPairsStep() {
     // We Store the Quad Pairs before resolving the collisions
     this->quad_pairs = quadpairs;
 
+    this->collisions = {};
     for (int i = 0; i < quadpairs.size(); i++) { this->collisions.push_back(gmt::CollisionI::Resolve(quadpairs.at(i).first, quadpairs.at(i).second)); }
 }
 
@@ -237,6 +239,10 @@ std::shared_ptr<Corpse> System::get_corpse(int index) const {
         return nullptr;
     }
 }
+
+gmt::CollisionI System::get_collision(int index) const { return this->collisions.at(index); }
+std::vector<gmt::CollisionI> System::get_collisions() const { return this->collisions; }
+int System::get_collisions_size() const { return this->collisions.size(); }
 
 std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> System::get_pairs() const { return this->pairs; }
 std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> System::get_pair(int index) const {

@@ -117,9 +117,11 @@ void Polygon::Generate() {
 
 gmt::VerticesI Polygon::get_points() const { return this->points; }
 void Polygon::set_points(gmt::VerticesI points) { this->points = points; }
+int Polygon::get_points_size() const { return this->points.vertices.size(); }
 
 std::vector<gmt::VerticesI> Polygon::get_polygons() const { return this->polygons; }
 void Polygon::set_polygons(std::vector<gmt::VerticesI> polygons) { this->polygons = polygons; }
+int Polygon::get_polygons_size() const { return this->polygons.size(); }
 
 std::vector<std::pair<std::shared_ptr<gmt::VectorI>, std::shared_ptr<gmt::VectorI>>> Polygon::get_sides() const { return this->points.Pairs(); }
 

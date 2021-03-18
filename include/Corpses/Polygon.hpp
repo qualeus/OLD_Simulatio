@@ -49,9 +49,11 @@ class Polygon : public Corpse {
 
     gmt::VerticesI get_points() const;
     void set_points(gmt::VerticesI points);
+    int get_points_size() const;
 
     std::vector<gmt::VerticesI> get_polygons() const;
     void set_polygons(std::vector<gmt::VerticesI> polygons);
+    int get_polygons_size() const;
 
     std::vector<std::pair<std::shared_ptr<gmt::VectorI>, std::shared_ptr<gmt::VectorI>>> get_sides() const;
 };
