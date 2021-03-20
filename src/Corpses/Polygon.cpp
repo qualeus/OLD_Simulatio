@@ -111,8 +111,8 @@ void Polygon::Generate() {
     if (this->points.Convex()) {
         this->polygons = {this->points};  // Convex => Collision shape is the same
     } else {
-        this->polygons = this->points.Triangulate();  // Concave => Triangulate the collision shape
-        // this->polygons = {this->points.Hull()};
+        // this->polygons = this->points.Triangulate();  // Concave => Triangulate the collision shape
+        this->polygons = {this->points.Hull()};
     }
 }
 

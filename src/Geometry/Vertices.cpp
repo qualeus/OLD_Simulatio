@@ -253,32 +253,27 @@ template bool Vertices<int>::PointOutTriangle(const Vertices<int>& vertices, con
 template bool Vertices<float>::PointOutTriangle(const Vertices<float>& vertices, const Vector<float>& point);
 template bool Vertices<double>::PointOutTriangle(const Vertices<double>& vertices, const Vector<double>& point);
 
-/* Convex Hull */
+/* Convex Hull - Jarvis algorithm */
 template <typename T>
 Vertices<T> Vertices<T>::Hull() const {
     Vertices<T> hull = Vertices<T>();
 
-    const auto lowest = std::max_element(vertices.begin(), vertices.end(), [](const std::shared_ptr<Vector<T>>& lhs, const std::shared_ptr<Vector<T>>& rhs) { return (*lhs).y < (*rhs).y; });
-    hull.vertices.push_back(*lowest);
-    std::cout << "lowe " << gmt::to_string(*(*lowest)) << std::endl;
+    int l = 0;  // leftmost
+    for (int i = 0; i < vertices.size(); i++) {
+        if ((*vertices.at(i)).x < (*vertices.at(l)).x) { l = i; }
+    }
 
-    for (int j = 0; j < vertices.size(); j++) {
-        Vector<T> precedent = *hull.vertices.at(j);
+    int p = l;
+    int q = 0;
+    while (true) {
+        hull.vertices.push_back(vertices.at(p));
 
-        Vertices<T> cvertices = Vertices<T>();
+        q = gmt::modulo(p + 1, vertices.size());
         for (int i = 0; i < vertices.size(); i++) {
-            std::cout << "curr " << gmt::to_string(*vertices.at(i)) << std::endl;
-            std::cout << "prec " << gmt::to_string(precedent) << std::endl;
-            std::cout << "equa " << gmt::to_string(*vertices.at(i) == precedent) << std::endl;
-
-            if (*vertices.at(i) != precedent) { cvertices.vertices.push_back(vertices.at(i)); }
+            if (Vector<T>::LineOrientation(*vertices.at(p), *vertices.at(i), *vertices.at(q)) == 2) { q = i; }
         }
-
-        const auto min_ang = std::min_element(cvertices.vertices.begin(), cvertices.vertices.end(), [precedent](const std::shared_ptr<Vector<T>>& lhs, const std::shared_ptr<Vector<T>>& rhs) { return Vector<T>::Bearing(precedent, *lhs) < Vector<T>::Bearing(precedent, *rhs); });
-        std::shared_ptr<Vector<T>> next = *min_ang;
-        std::cout << "next " << gmt::to_string(*next) << std::endl;
-        if (*next == *hull.vertices.at(0)) { break; }  // Complete
-        hull.vertices.push_back(next);                 // Minimum angle
+        p = q;
+        if (p == l) { break; }
     }
     hull.Reorder();
     return gmt::Vertices<T>(hull);

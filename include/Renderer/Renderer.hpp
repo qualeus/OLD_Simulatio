@@ -113,6 +113,7 @@ class Renderer {
     bool debug_show_rectangles = false;
     bool debug_show_centroids = false;
     bool debug_show_edges = false;
+    bool debug_show_projections = false;
     bool debug_show_vertices = false;
     bool debug_show_normals = false;
     bool debug_show_velocity = false;

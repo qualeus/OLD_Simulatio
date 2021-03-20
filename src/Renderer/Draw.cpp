@@ -38,16 +38,17 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
             for (int i = 0; i < triangle_vertices.vertices.size(); i++) { triangle_points.push_back((*triangle_vertices.vertices.at(i)).CloneSF()); }
             DrawPolygon(triangle_points, polygon->get_color(), false);
         }
-
-        std::vector<std::pair<std::shared_ptr<gmt::VectorI>, std::shared_ptr<gmt::VectorI>>> tpairs = polygon_vertices.Pairs();
-        for (int i = 0; i < tpairs.size(); i++) {
-            gmt::VectorI tpoint = gmt::VectorI::SegmentProjection(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y), *tpairs.at(i).first, *tpairs.at(i).second);
-            // DrawLine((*tpairs.at(i).first).x, (*tpairs.at(i).first).y, (*tpairs.at(i).second).x, (*tpairs.at(i).second).y, 1.0f, sf::Color::Yellow);
-            // DrawLine((*tpairs.at(i).first).x, (*tpairs.at(i).first).y, (*tpairs.at(i).second).x, (*tpairs.at(i).second).y, 5.0f, sf::Color(255, i * 255 / tpairs.size(), 0));
-            // DrawCircle(tpoint.x, tpoint.y, 5, sf::Color::Yellow);
-        }
         /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
 
+        if (debug_show_projections) {
+            std::vector<std::pair<std::shared_ptr<gmt::VectorI>, std::shared_ptr<gmt::VectorI>>> tpairs = polygon_vertices.Pairs();
+            for (int i = 0; i < tpairs.size(); i++) {
+                gmt::VectorI tpoint = gmt::VectorI::SegmentProjection(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y), *tpairs.at(i).first, *tpairs.at(i).second);
+                // DrawLine((*tpairs.at(i).first).x, (*tpairs.at(i).first).y, (*tpairs.at(i).second).x, (*tpairs.at(i).second).y, 1.0f, sf::Color::Yellow);
+                DrawLine((*tpairs.at(i).first).x, (*tpairs.at(i).first).y, (*tpairs.at(i).second).x, (*tpairs.at(i).second).y, 5.0f, sf::Color(255, i * 255 / tpairs.size(), 0));
+                DrawCircle(tpoint.x, tpoint.y, 5, sf::Color(255, i * 255 / tpairs.size(), 0));
+            }
+        }
         if (debug_show_rectangles) {
             gmt::BoundsI bounds = polygon->get_corpse_bounds();
             DrawRectangle(bounds.x1, bounds.y1, bounds.x2, bounds.y2, false, sf::Color::Red, true);

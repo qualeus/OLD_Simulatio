@@ -1382,6 +1382,7 @@ void Renderer::DrawGuiMenu() {
             ImGui::MenuItem("Rectangles", NULL, &debug_show_rectangles);
             ImGui::MenuItem("Centroids", NULL, &debug_show_centroids);
             ImGui::MenuItem("Edges", NULL, &debug_show_edges);
+            ImGui::MenuItem("Projections", NULL, &debug_show_projections);
             ImGui::MenuItem("Vertices", NULL, &debug_show_vertices);
             ImGui::MenuItem("Normals", NULL, &debug_show_normals);
             ImGui::MenuItem("Velocity", NULL, &debug_show_velocity);
