@@ -84,6 +84,26 @@ template std::vector<std::pair<std::shared_ptr<Vector<int>>, std::shared_ptr<Vec
 template std::vector<std::pair<std::shared_ptr<Vector<float>>, std::shared_ptr<Vector<float>>>> Vertices<float>::Pairs() const;
 template std::vector<std::pair<std::shared_ptr<Vector<double>>, std::shared_ptr<Vector<double>>>> Vertices<double>::Pairs() const;
 
+/* Check if the Polygon is Self Intersecting */
+template <typename T>
+bool Vertices<T>::Intersect() const {
+    std::vector<std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>>> sides = this->Pairs();
+    if (sides.size() <= 3) { return false; } /* triangles are always convex */
+
+    /* We check for every edges that don't have an edge in common (opposites) if they intersect */
+    for (int i = 0; i < sides.size() - 2; i++) {
+        for (int j = i + 2; j < sides.size() - (i == 0); j++) {
+            std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>> sideA = sides.at(i);
+            std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>> sideB = sides.at(j);
+            if (Vector<T>::SegmentsIntersect(*sideA.first, *sideA.second, *sideB.first, *sideB.second)) { return true; }
+        }
+    }
+    return false;
+}
+template bool Vertices<int>::Intersect() const;
+template bool Vertices<float>::Intersect() const;
+template bool Vertices<double>::Intersect() const;
+
 /* Check if the Polygon is Convex */
 template <typename T>
 bool Vertices<T>::Convex() const {

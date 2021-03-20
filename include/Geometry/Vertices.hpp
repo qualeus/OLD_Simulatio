@@ -19,6 +19,7 @@ class Vertices {
     Vector<T> Average() const;
     std::vector<std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>>> Pairs() const;
 
+    bool Intersect() const;
     bool Convex() const;
     T Area() const;
     std::vector<T> Sizes() const;

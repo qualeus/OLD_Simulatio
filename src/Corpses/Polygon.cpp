@@ -111,8 +111,15 @@ void Polygon::Generate() {
     if (this->points.Convex()) {
         this->polygons = {this->points};  // Convex => Collision shape is the same
     } else {
-        // this->polygons = this->points.Triangulate();  // Concave => Triangulate the collision shape
-        this->polygons = {this->points.Hull()};
+        if (this->points.Intersect()) {
+            // If the polygon is self-intersecting, we redefine the shape
+            gmt::VerticesI hull = this->points.Hull();
+            this->polygons = {hull};
+            this->points = hull;
+        } else {
+            // Else we can just triangulate it
+            this->polygons = this->points.Triangulate();
+        }
     }
 }
 
