@@ -65,17 +65,18 @@ set(HEADERS
 )
 
 
+set (SFML_LIBRARIES sfml-graphics sfml-window sfml-system )
+link_directories(SFML_LIBRARY_DIR)
+include_directories(SFML_INCLUDE_DIR)
+
+find_package(SFML 2.5 COMPONENTS graphics system window)
+
 foreach(test ${TESTS_DIR})
         get_filename_component(testName ${test} NAME_WE)
         add_executable(${testName} ${test} ${SOURCES} ${HEADERS})
 
-        set (SFML_LIBRARIES sfml-graphics sfml-window sfml-system )
         set_target_properties(${testName} PROPERTIES RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
-        link_directories(SFML_LIBRARY_DIR)
-        include_directories(SFML_INCLUDE_DIR)
-
-        find_package(SFML 2.5 COMPONENTS graphics system window)
         target_link_libraries(${testName} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
 
         add_test(${testName} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${testName})
