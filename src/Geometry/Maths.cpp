@@ -16,3 +16,10 @@ float gmt::digits_comma(float number, int digits) {
     int d_limit = std::pow(10, digits);
     return round(number * d_limit) / d_limit;
 }
+
+/* Retunr the positive modulo for a int */
+unsigned gmt::modulo(int value, unsigned m) {
+    int mod = value % (int)m;
+    if (mod < 0) { mod += m; }
+    return mod;
+}

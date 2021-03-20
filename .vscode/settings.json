@@ -95,6 +95,7 @@
         "valarray": "cpp",
         "slist": "cpp",
         "*.in": "cpp",
-        "hash_map": "cpp"
+        "hash_map": "cpp",
+        "*.impl": "cpp"
     }
 }

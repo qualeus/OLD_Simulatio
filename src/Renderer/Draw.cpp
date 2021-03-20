@@ -36,7 +36,15 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
             gmt::VerticesI triangle_vertices = triangles.at(i);
             std::vector<sf::Vector2f> triangle_points = {};
             for (int i = 0; i < triangle_vertices.vertices.size(); i++) { triangle_points.push_back((*triangle_vertices.vertices.at(i)).CloneSF()); }
-            DrawPolygon(triangle_points, polygon->get_color(), false);
+            // DrawPolygon(triangle_points, polygon->get_color(), false);
+        }
+
+        std::vector<std::pair<std::shared_ptr<gmt::VectorI>, std::shared_ptr<gmt::VectorI>>> tpairs = polygon_vertices.Pairs();
+        for (int i = 0; i < tpairs.size(); i++) {
+            gmt::VectorI tpoint = gmt::VectorI::SegmentProjection(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y), *tpairs.at(i).first, *tpairs.at(i).second);
+            // DrawLine((*tpairs.at(i).first).x, (*tpairs.at(i).first).y, (*tpairs.at(i).second).x, (*tpairs.at(i).second).y, 1.0f, sf::Color::Yellow);
+            // DrawLine((*tpairs.at(i).first).x, (*tpairs.at(i).first).y, (*tpairs.at(i).second).x, (*tpairs.at(i).second).y, 5.0f, sf::Color(255, i * 255 / tpairs.size(), 0));
+            // DrawCircle(tpoint.x, tpoint.y, 5, sf::Color::Yellow);
         }
         /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
 
@@ -62,8 +70,8 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
                 sf::Vector2f edge_vector = edge_center + (gmt::Vector<float>::Normal(side_A, side_B)).Normalize().CloneSF() * vector_size;
                 Renderer::DrawArrow(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, arrow_size, arrow_size, line_thickness, sf::Color::Red);
 
-                sf::Vector2f last_edge_A = (*sides.at((i - 1) % sides.size()).first).CloneSF();
-                sf::Vector2f last_edge_B = (*sides.at((i - 1) % sides.size()).second).CloneSF();
+                sf::Vector2f last_edge_A = (*sides.at(gmt::modulo(i - 1, sides.size())).first).CloneSF();
+                sf::Vector2f last_edge_B = (*sides.at(gmt::modulo(i - 1, sides.size())).second).CloneSF();
                 sf::Vector2f current_edge_A = (*sides.at(i).first).CloneSF();
                 sf::Vector2f current_edge_B = (*sides.at(i).second).CloneSF();
 
@@ -186,21 +194,17 @@ void Renderer::DrawInputs() {
     if (debug_show_contacts) {
         for (int i = 0; i < this->system.get_collisions_size(); i++) {
             gmt::CollisionI collision = this->system.get_collision(i);
-            if (collision.resolved) {
-                gmt::VectorI response = collision.normal.Normalize() * 10.0f;
-                DrawLine(collision.origin.x - response.x, collision.origin.y - response.y, collision.origin.x + response.x, collision.origin.y + response.y, 3.0f, sf::Color::Red);
-            }
+            gmt::VectorI response = collision.normal.Normalize() * 10.0f;
+            DrawLine(collision.origin.x - response.x, collision.origin.y - response.y, collision.origin.x + response.x, collision.origin.y + response.y, 3.0f, sf::Color::Red);
         }
     }
 
     if (debug_show_collisions) {
         for (int i = 0; i < this->system.get_collisions_size(); i++) {
             gmt::CollisionI collision = this->system.get_collision(i);
-            if (collision.resolved) {
-                console.Log(gmt::to_string(collision.origin) + " " + gmt::to_string(collision.normal));
-                gmt::VectorI response = collision.normal * 2.0f;
-                DrawLine(collision.origin.x - response.x, collision.origin.y - response.y, collision.origin.x + response.x, collision.origin.y + response.y, 3.0f, sf::Color::White);
-            }
+            console.Log(gmt::to_string(collision.origin) + " " + gmt::to_string(collision.normal));
+            gmt::VectorI response = collision.normal * 2.0f;
+            DrawLine(collision.origin.x - response.x, collision.origin.y - response.y, collision.origin.x + response.x, collision.origin.y + response.y, 3.0f, sf::Color::White);
         }
     }
 
