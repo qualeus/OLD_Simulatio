@@ -71,7 +71,7 @@ cd build\Tests
 cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../../src/tests && cmake --build .
 mingw32-make CTEST_OUTPUT_ON_FAILURE=TRUE test
 pause
-cd ..\..\
+cd ..\..
 goto menu
 
 :build_wrapper

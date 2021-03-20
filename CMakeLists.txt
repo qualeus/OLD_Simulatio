@@ -15,6 +15,7 @@ set (ENABLE_DOUBLE_PRECISION ON)
 # add_definitions( -DENABLE_DOUBLE_PRECISION=${ENABLEs_DOUBLE_PRECISION} )
 
 configure_file("${PROJECT_SOURCE_DIR}/Config.hpp.in" "${PROJECT_BINARY_DIR}/Config.hpp")
+include_directories("${PROJECT_BINARY_DIR}")
 
 # Set the C++ standard to be used
 set (CMAKE_CXX_STANDARD 17)
@@ -116,12 +117,6 @@ if(WIN32)
     target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} ${IMGUI_LIBRARIES} -lmingw32 -lm -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid)
 else()
     target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} ${IMGUI_LIBRARIES})
-endif()
-
-# Build tests only in Debug mode
-if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-    ENABLE_TESTING()
-    ADD_SUBDIRECTORY(src/tests)
 endif()
 # Copy assets
 #file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
