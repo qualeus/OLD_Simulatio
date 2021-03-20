@@ -2,81 +2,97 @@
 #include "../../include/tests/test.hpp"
 
 template <typename T>
-void OperatorPlus() {
-    gmt::Vector<T> lhs = gmt::Vector<T>(1, 2);
-    gmt::Vector<T> rhs = gmt::Vector<T>(1, 3);
+void FunctionCentroid() {
+    gmt::Vertices<T> ver = gmt::Vertices<T>({std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(0, 0)), std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(4, 0)), std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(4, 4)), std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(0, 4))});
 
-    gmt::Vector<T> test_result = lhs + rhs;
-    gmt::Vector<T> true_result = gmt::Vector<T>(2, 5);
-    ASSERT_EQUAL(true_result, test_result);
-
-    test_result = rhs + lhs;
-    true_result = gmt::Vector<T>(2, 5);
-    ASSERT_EQUAL(true_result, test_result);
-
-    test_result = rhs + rhs;
-    true_result = gmt::Vector<T>(2, 6);
+    gmt::Vector<T> test_result = ver.Centroid();
+    gmt::Vector<T> true_result = gmt::Vector<T>(2, 2);
     ASSERT_EQUAL(true_result, test_result);
 }
 
 template <typename T>
-void OperatorMinus() {
-    gmt::Vector<T> lhs = gmt::Vector<T>(1, 2);
-    gmt::Vector<T> rhs = gmt::Vector<T>(1, 3);
+void FunctionAverage() {
+    gmt::Vertices<T> ver = gmt::Vertices<T>({std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(0, 0)), std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(4, 0)), std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(4, 4)), std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(0, 4))});
 
-    gmt::Vector<T> test_result = lhs - rhs;
-    gmt::Vector<T> true_result = gmt::Vector<T>(0, -1);
-    ASSERT_EQUAL(true_result, test_result);
-
-    test_result = rhs - lhs;
-    true_result = gmt::Vector<T>(0, 1);
-    ASSERT_EQUAL(true_result, test_result);
-
-    test_result = rhs - rhs;
-    true_result = gmt::Vector<T>(0, 0);
+    gmt::Vector<T> test_result = ver.Average();
+    gmt::Vector<T> true_result = gmt::Vector<T>(2, 2);
     ASSERT_EQUAL(true_result, test_result);
 }
 
 template <typename T>
-void FunctionDot() {
-    T test_result = gmt::Vector<T>::Dot(gmt::Vector<T>(), gmt::Vector<T>());
-    T true_result = T(0);
-    ASSERT_EQUAL(true_result, test_result);
+void FunctionConvex() {
+    gmt::Vertices<T> ver = gmt::Vertices<T>({std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(0, 0)), std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(4, 0)), std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(4, 4)), std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(0, 4))});
 
-    test_result = gmt::Vector<T>::Dot(gmt::Vector<T>(15, 7), gmt::Vector<T>(4, 78));
-    true_result = T(606);
-    ASSERT_EQUAL(true_result, test_result);
-
-    test_result = gmt::Vector<T>::Dot(gmt::Vector<T>(84, 14), gmt::Vector<T>(878, 1105));
-    true_result = T(89222);
-    ASSERT_EQUAL(true_result, test_result);
-
-    test_result = gmt::Vector<T>::Dot(gmt::Vector<T>(-15, -45), gmt::Vector<T>(-12, 0));
-    true_result = T(180);
+    bool test_result = ver.Convex();
+    bool true_result = true;
     ASSERT_EQUAL(true_result, test_result);
 }
 
 template <typename T>
-void FunctionSegmentProjection() {
-    gmt::Vector<T> test_result = gmt::Vector<T>::SegmentProjection(gmt::Vector<T>(4, 3), gmt::Vector<T>(0, 0), gmt::Vector<T>(4, 0));
-    gmt::Vector<T> true_result = gmt::Vector<T>(4, 0);
+void FunctionArea() {
+    gmt::Vertices<T> ver = gmt::Vertices<T>({std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(3, 5)), std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(0, 0)), std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(5, 2)), std::make_shared<gmt::Vector<T>>(gmt::Vector<T>(1, 1))});
+
+    bool test_result = ver.Convex();
+    bool true_result = false;
     ASSERT_EQUAL(true_result, test_result);
 }
+
+template <typename T>
+void FunctionSizes() {}
+
+template <typename T>
+void FunctionBounds() {}
+
+template <typename T>
+void FunctionReorder() {}
+
+template <typename T>
+void FunctionTranslate() {}
+
+template <typename T>
+void FunctionRotate() {}
+
+template <typename T>
+void FunctionScale() {}
 
 int main(int, char**) {
-    OperatorPlus<int>();
-    OperatorPlus<float>();
-    OperatorPlus<double>();
+    FunctionCentroid<int>();
+    FunctionCentroid<float>();
+    FunctionCentroid<double>();
 
-    OperatorMinus<int>();
-    OperatorMinus<float>();
-    OperatorMinus<double>();
+    FunctionAverage<int>();
+    FunctionAverage<float>();
+    FunctionAverage<double>();
 
-    FunctionDot<int>();
-    FunctionDot<float>();
-    FunctionDot<double>();
+    FunctionConvex<int>();
+    FunctionConvex<float>();
+    FunctionConvex<double>();
 
-    FunctionSegmentProjection<int>();
-    FunctionSegmentProjection<float>();
-    FunctionSegmentProjection<double>();
+    FunctionArea<int>();
+    FunctionArea<float>();
+    FunctionArea<double>();
+
+    FunctionSizes<int>();
+    FunctionSizes<float>();
+    FunctionSizes<double>();
+
+    FunctionBounds<int>();
+    FunctionBounds<float>();
+    FunctionBounds<double>();
+
+    FunctionReorder<int>();
+    FunctionReorder<float>();
+    FunctionReorder<double>();
+
+    FunctionTranslate<int>();
+    FunctionTranslate<float>();
+    FunctionTranslate<double>();
+
+    FunctionRotate<int>();
+    FunctionRotate<float>();
+    FunctionRotate<double>();
+
+    FunctionScale<int>();
+    FunctionScale<float>();
+    FunctionScale<double>();
 }

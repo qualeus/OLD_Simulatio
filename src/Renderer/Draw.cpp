@@ -36,7 +36,7 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
             gmt::VerticesI triangle_vertices = triangles.at(i);
             std::vector<sf::Vector2f> triangle_points = {};
             for (int i = 0; i < triangle_vertices.vertices.size(); i++) { triangle_points.push_back((*triangle_vertices.vertices.at(i)).CloneSF()); }
-            // DrawPolygon(triangle_points, polygon->get_color(), false);
+            DrawPolygon(triangle_points, polygon->get_color(), false);
         }
 
         std::vector<std::pair<std::shared_ptr<gmt::VectorI>, std::shared_ptr<gmt::VectorI>>> tpairs = polygon_vertices.Pairs();

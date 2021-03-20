@@ -57,6 +57,25 @@ void FunctionDot() {
 }
 
 template <typename T>
+void FunctionCross() {
+    T test_result = gmt::Vector<T>::Cross(gmt::Vector<T>(), gmt::Vector<T>());
+    T true_result = T(0);
+    ASSERT_EQUAL(true_result, test_result);
+
+    test_result = gmt::Vector<T>::Cross(gmt::Vector<T>(15, 7), gmt::Vector<T>(4, 78));
+    true_result = T(1142);
+    ASSERT_EQUAL(true_result, test_result);
+
+    test_result = gmt::Vector<T>::Cross(gmt::Vector<T>(84, 14), gmt::Vector<T>(878, 1105));
+    true_result = T(80528);
+    ASSERT_EQUAL(true_result, test_result);
+
+    test_result = gmt::Vector<T>::Cross(gmt::Vector<T>(-15, -45), gmt::Vector<T>(-12, 0));
+    true_result = T(-540);
+    ASSERT_EQUAL(true_result, test_result);
+}
+
+template <typename T>
 void FunctionSegmentProjection() {
     gmt::Vector<T> test_result = gmt::Vector<T>::SegmentProjection(gmt::Vector<T>(4, 3), gmt::Vector<T>(0, 0), gmt::Vector<T>(4, 0));
     gmt::Vector<T> true_result = gmt::Vector<T>(4, 0);
@@ -75,6 +94,10 @@ int main(int, char**) {
     FunctionDot<int>();
     FunctionDot<float>();
     FunctionDot<double>();
+
+    FunctionCross<int>();
+    FunctionCross<float>();
+    FunctionCross<double>();
 
     FunctionSegmentProjection<int>();
     FunctionSegmentProjection<float>();

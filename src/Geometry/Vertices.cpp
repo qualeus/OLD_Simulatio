@@ -100,9 +100,17 @@ bool Vertices<T>::Convex() const {
     }
 
     /* We test for each point if the angle is oriented in the same direction*/
-    bool orientation = ((Vector<T>::Cross(*vertices.at(vertices.size() - 1) - *vertices.at(0), *vertices.at(1) - *vertices.at(0))) > T(0));
-    for (int i = 0; i < vertices.size() - 2; i++) {
-        if (((Vector<T>::Cross(*vertices.at(i) - *vertices.at(i + 1), *vertices.at(i + 2) - *vertices.at(i + 1))) > T(0)) != orientation) { return false; }
+    Vector<T> last = *sides.at(sides.size() - 1).first - *sides.at(sides.size() - 1).second;
+    Vector<T> curr = *sides.at(0).second - *sides.at(0).first;
+
+    bool orientation = Vector<T>::Cross(last, curr) > T(0);
+
+    for (int i = 1; i < sides.size(); i++) {
+        last = *sides.at(i - 1).first - *sides.at(i - 1).second;
+        curr = *sides.at(i).second - *sides.at(i).first;
+        bool corientation = Vector<T>::Cross(last, curr) > T(0);
+
+        if (orientation != corientation) { return false; }
     }
     return true;
 }
