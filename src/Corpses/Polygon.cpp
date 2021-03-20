@@ -68,7 +68,7 @@ void Polygon::add_point(gmt::VectorI point) {
 }
 
 void Polygon::remove_point(int i) {
-    this->points.vertices.erase(std::begin(this->points.vertices) + (i + 1) % this->points.vertices.size());
+    this->points.vertices.erase(std::begin(this->points.vertices) + gmt::modulo(i + 1, this->points.vertices.size()));
 
     Generate();
 
@@ -111,7 +111,8 @@ void Polygon::Generate() {
     if (this->points.Convex()) {
         this->polygons = {this->points};  // Convex => Collision shape is the same
     } else {
-        this->polygons = this->points.Triangulate();  // Concave => Triangulate the collision shape
+        // this->polygons = this->points.Triangulate();  // Concave => Triangulate the collision shape
+        this->polygons = {this->points.Hull()};
     }
 }
 

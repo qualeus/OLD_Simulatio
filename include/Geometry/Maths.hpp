@@ -44,6 +44,7 @@ bool float_equals(float a, float b, float sigma = 0.1f);
 float degree_to_radian(float degree);
 float radian_to_degree(float radian);
 float digits_comma(float number, int digits);
+unsigned modulo(int value, unsigned m);
 
 template <class C>
 std::shared_ptr<C> remove(int i, std::vector<std::shared_ptr<C>> &vect) {

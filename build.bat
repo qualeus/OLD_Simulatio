@@ -7,7 +7,7 @@ echo [1] Run Debug
 echo [2] Build/Run Release
 echo [3] Run Release
 echo [4] Build Demos
-echo [5] Build Tests
+echo [5] Build/Run Tests
 echo [6] Commit/Push Git
 echo [7] Build Wrapper
 echo [8] Sonar Scanner
@@ -64,6 +64,14 @@ goto menu
 goto menu
 
 :build_tests
+if not exist "build/Tests/" mkdir "build/Tests/"
+cls
+echo Compiling Tests...
+cd build\Tests
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../../src/tests && cmake --build .
+mingw32-make CTEST_OUTPUT_ON_FAILURE=TRUE test
+pause
+cd ..\..
 goto menu
 
 :build_wrapper

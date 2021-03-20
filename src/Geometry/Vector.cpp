@@ -376,12 +376,11 @@ template bool Vector<double>::LinesIntersect(const Vector<double>& v1, const Vec
 template <typename T>
 std::pair<int, Vector<T>> Vector<T>::LineCercleIntersect(const Vector<T>& v1, const Vector<T>& v2, const Vector<T>& v3, const T& size) {
     // Check if one of the ends of the line segment (side) is inside the circle
-    if (Vector<T>::Distance(v1, v3) < size) { return {2, Vector<T>()}; }
-    if (Vector<T>::Distance(v2, v3) < size) { return {3, Vector<T>()}; }
+    if (Vector<T>::Distance(v1, v3) < size) { return {2, v1}; }
+    if (Vector<T>::Distance(v2, v3) < size) { return {3, v2}; }
 
     // Check if the closest point on the line is inside the circle
-    Vector<T> closest = Vector<T>::SegmentProjection(v1, v2, v3);
-
+    Vector<T> closest = Vector<T>::SegmentProjection(v3, v1, v2);
     if (!Vector<T>::PointOnSegment(v1, v2, closest)) { return {0, Vector<T>()}; }
     if (Vector<T>::Distance(closest, v3) <= size) { return {1, closest}; }
 
@@ -394,10 +393,10 @@ template std::pair<int, Vector<double>> Vector<double>::LineCercleIntersect(cons
 /* Project point A onto the line B */
 template <typename T>
 Vector<T> Vector<T>::LineProjection(const Vector<T>& v1, const Vector<T>& v2) {
-    float dp = Vector<T>::Dot(v1, v2);
-    float bd = Vector<T>::Dot(v2, v2);
+    T dp = Vector<T>::Dot(v1, v2);
+    T bd = Vector<T>::Dot(v2, v2);
     if (bd == 0) { return Vector<T>(); }
-    return v2 * static_cast<T>(dp / bd);
+    return v2 * (dp / bd);
 }
 template Vector<int> Vector<int>::LineProjection(const Vector<int>& v1, const Vector<int>& v2);
 template Vector<float> Vector<float>::LineProjection(const Vector<float>& v1, const Vector<float>& v2);
@@ -409,10 +408,10 @@ Vector<T> Vector<T>::SegmentProjection(const Vector<T>& v1, const Vector<T>& v2,
     Vector<T> vect_bc = v3 - v2;
     Vector<T> vect_ba = v1 - v2;
 
-    float dp = Vector<T>::Dot(vect_bc, vect_ba);
-    float bd = Vector<T>::Dot(vect_bc, vect_bc);
-    if (bd == 0) { return Vector<T>(); }
-    return v1 + (vect_bc * static_cast<T>(dp / bd));
+    T dp = Vector<T>::Dot(vect_bc, vect_ba);
+    T bd = Vector<T>::Dot(vect_bc, vect_bc);
+    if (bd == T(0)) { return Vector<T>(); }
+    return v2 + vect_bc * (dp / bd);
 }
 template Vector<int> Vector<int>::SegmentProjection(const Vector<int>& v1, const Vector<int>& v2, const Vector<int>& v3);
 template Vector<float> Vector<float>::SegmentProjection(const Vector<float>& v1, const Vector<float>& v2, const Vector<float>& v3);

@@ -479,7 +479,7 @@ void Renderer::ToggleOffPolygon(sf::Event event) {
         // for (int i = 0; i < number; i++) { points.push_back(gmt::VectorI(100 * std::cos(static_cast<float>(i) * 360 / number), 100 * std::sin(static_cast<float>(i) * 360 / number))); }
         for (int i = 0; i < number; i++) {
             float ang = gmt::degree_to_radian(static_cast<float>(i) * 360.0f / number);
-            points.push_back(gmt::VectorI(this->sys_mouse_x + (rad + std::rand() % vrad) * std::cos(ang), this->sys_mouse_y + (rad + std::rand() % vrad) * std::sin(ang)));
+            points.push_back(gmt::VectorI(this->sys_mouse_x + (rad + (std::rand() % vrad)) * std::cos(ang), this->sys_mouse_y + (rad + (std::rand() % vrad)) * std::sin(ang)));
         }
         const int lpow = 50;
         const int lrot = 10;
