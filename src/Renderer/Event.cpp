@@ -203,7 +203,6 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
 
     /* If Selection is currently Empty */
     for (int i = 0; i < system.get_corpses_size(); i++) {
-        if (system.get_corpse(i)->get_removed()) { continue; }                                                                                                                                                               // Removed
         if (!gmt::BoundsI::BoundsIntersectBounds(system.get_corpse(i)->get_corpse_bounds(), gmt::BoundsI(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width), get_real_pos_y(screen_height)))) { continue; }  // Out Screen
 
         if (system.get_corpse(i)->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {
@@ -255,7 +254,6 @@ void Renderer::SelectMultipleCorpsesStop(sf::Event event) {
     gmt::BoundsI rectangle = gmt::BoundsI(s_rec.x1, s_rec.y1, s_rec.x2, s_rec.y2);
 
     for (int i = 0; i < system.get_corpses_size(); i++) {
-        if (system.get_corpse(i)->get_removed()) { continue; }  // Removed
         if (phy::Circle *circle = dynamic_cast<phy::Circle *>(system.get_corpse(i).get())) {
             if (!gmt::BoundsI::BoundsOutBounds(circle->get_corpse_bounds(), rectangle)) {
                 this->selected_corpses_cursor.push_back(i);
@@ -277,7 +275,6 @@ void Renderer::SelectMultipleCorpsesStop(sf::Event event) {
 
 void Renderer::DragCorpsesStep(sf::Event event) {
     for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-        if (system.get_corpse(selected_corpses_cursor.at(i))->get_removed()) { continue; }  // Removed
         this->debug_system_edited = true;
         system.get_corpse(selected_corpses_cursor.at(i))->Move(sf::Vector2f(this->sys_mouse_x, this->sys_mouse_y) + selected_corpses_diff.at(i));
         system.CorpseStop(selected_corpses_cursor.at(i));
@@ -290,7 +287,6 @@ void Renderer::DragCorpsesStop(sf::Event event) {
     this->select_type = S_DEFAULT;
 
     for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-        if (system.get_corpse(selected_corpses_cursor.at(i))->get_removed()) { continue; }  // Removed
         system.get_corpse(selected_corpses_cursor.at(i))->set_fixed(selected_corpses_fixed.at(i));
         system.CorpseStop(selected_corpses_cursor.at(i));
     }
@@ -340,7 +336,6 @@ bool Renderer::LaunchCorpseInit(sf::Event event) {
     }
 
     for (int i = 0; i < system.get_corpses_size(); i++) {
-        if (system.get_corpse(i)->get_removed()) { continue; }                                                                                                                                                               // Removed
         if (!gmt::BoundsI::BoundsIntersectBounds(system.get_corpse(i)->get_corpse_bounds(), gmt::BoundsI(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width), get_real_pos_y(screen_height)))) { continue; }  // Out Screen
 
         if (system.get_corpse(i)->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {

@@ -44,6 +44,7 @@ bool float_equals(float a, float b, float sigma = 0.1f);
 float degree_to_radian(float degree);
 float radian_to_degree(float radian);
 float digits_comma(float number, int digits);
+std::vector<int> cyclic_indexes(int min, int max, int size);
 unsigned modulo(int value, unsigned m);
 
 template <class C>

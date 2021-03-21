@@ -91,12 +91,11 @@ std::vector<Collision<T>> Collision<T>::CircleOnPolygon(phy::Circle* circle, phy
         return {Collision<T>::Response(polygon, circle, vector_origin, vector_response)};
     }*/
 
-    const int triangles_size = polygon->get_polygons_size();
     const std::vector<gmt::VerticesI> triangles = polygon->get_polygons();
 
     std::vector<Collision<T>> collisions = {};
 
-    for (int i = 0; i < triangles_size; i++) {
+    for (int i = 0; i < triangles.size(); i++) {
         gmt::VerticesI triangle = triangles.at(i);
 
         // Collide if the center of the circle is in the polygon
@@ -130,7 +129,7 @@ std::vector<Collision<T>> Collision<T>::CircleOnPolygon(phy::Circle* circle, phy
                 gmt::VectorI normals_average = gmt::VectorI::Normal(*pairs.at(last_edge).first, *pairs.at(last_edge).second).Normalize() + gmt::VectorI::Normal(*pairs.at(i).first, *pairs.at(i).second).Normalize();
                 gmt::VectorI vector_response = normals_average.Normalize() * (gmt::VectorI::Distance(circle->get_pos(), *pairs.at(i).first) - circle->get_size());
 
-                collisions.push_back(Collision<T>::Response(polygon, circle, test_intersect.second, vector_response));
+                collisions.push_back(Collision<T>::Response(polygon, circle, test_intersect.second, -vector_response));
                 break;
 
             } else if (test_intersect.first == 3) {
@@ -138,7 +137,7 @@ std::vector<Collision<T>> Collision<T>::CircleOnPolygon(phy::Circle* circle, phy
                 int next_edge = gmt::modulo(i + 1, pairs.size());
                 gmt::VectorI normals_average = gmt::VectorI::Normal(*pairs.at(i).first, *pairs.at(i).second).Normalize() + gmt::VectorI::Normal(*pairs.at(next_edge).first, *pairs.at(next_edge).second).Normalize();
                 gmt::VectorI vector_response = normals_average.Normalize() * (gmt::VectorI::Distance(circle->get_pos(), *pairs.at(i).second) - circle->get_size());
-                collisions.push_back(Collision<T>::Response(polygon, circle, test_intersect.second, vector_response));
+                collisions.push_back(Collision<T>::Response(polygon, circle, test_intersect.second, -vector_response));
                 break;
             }
         }
@@ -153,10 +152,125 @@ template std::vector<Collision<int>> Collision<int>::CircleOnPolygon(phy::Circle
 template std::vector<Collision<float>> Collision<float>::CircleOnPolygon(phy::Circle* circle, phy::Polygon* polygon);
 template std::vector<Collision<double>> Collision<double>::CircleOnPolygon(phy::Circle* circle, phy::Polygon* polygon);
 
+/* Polygon / Polygon collision */
 template <typename T>
 std::vector<Collision<T>> Collision<T>::PolygonOnPolygon(phy::Polygon* polygonA, phy::Polygon* polygonB) {
-    // TODO
-    return {};  // Not colliding
+    // SAT algorithm
+    const std::vector<gmt::VerticesI> trianglesA = polygonA->get_polygons();
+    const std::vector<gmt::VerticesI> trianglesB = polygonB->get_polygons();
+
+    std::vector<Collision<T>> collisions = {};
+
+    for (int a = 0; a < trianglesA.size(); a++) {
+        gmt::VerticesI triangleA = trianglesA.at(a);
+
+        // Compute the normals of the Sub-PolygonA
+        std::vector<VectorI> normalsA = {};
+        for (int i = 0; i < triangleA.vertices.size(); i++) { normalsA.push_back(VectorI::Normal(*triangleA.vertices.at(i))); }
+
+        for (int b = 0; b < trianglesB.size(); b++) {
+            gmt::VerticesI triangleB = trianglesB.at(b);
+
+            // Add the normals of the Sub-PolygonB
+            std::vector<VectorI> normalsAB = normalsA;
+            for (int i = 0; i < triangleB.vertices.size(); i++) { normalsAB.push_back(VectorI::Normal(*triangleB.vertices.at(i))); }
+
+            // Resolve
+            for (int i = 0; i < normalsAB.size(); i++) {
+                VectorI normal = normalsAB.at(i);
+
+                std::vector<UnitI> dotsA = {};
+                std::vector<UnitI> dotsB = {};
+
+                for (int j = 0; j < triangleA.vertices.size(); j++) { dotsA.push_back(VectorI::Dot(*triangleA.vertices.at(j), normal)); }
+                for (int j = 0; j < triangleB.vertices.size(); j++) { dotsB.push_back(VectorI::Dot(*triangleB.vertices.at(j), normal)); }
+
+                const auto minmax_A = std::minmax_element(dotsA.begin(), dotsA.end());
+                const auto minmax_B = std::minmax_element(dotsB.begin(), dotsB.end());
+
+                UnitI min_A = *minmax_A.first;
+                UnitI max_A = *minmax_A.second;
+                UnitI min_B = *minmax_B.first;
+                UnitI max_B = *minmax_B.second;
+
+                if (min_A < max_B && min_A > min_B) { continue; }
+                if (min_B < max_A && min_B > min_A) { continue; }
+                return {};  // Not colliding
+            }
+
+            // A collision is occuring
+            VectorI centroidA = triangleA.Centroid();
+            VectorI centroidB = triangleB.Centroid();
+
+            // Compute the normal between the two shapes
+            VectorI normal = VectorI::Normal(centroidB - centroidA);
+
+            // Project the points of each shape the normal
+            std::vector<UnitI> dotsA = {};
+            std::vector<UnitI> dotsB = {};
+
+            // Determine the forward hull min and max index
+            for (int j = 0; j < triangleA.vertices.size(); j++) { dotsA.push_back(VectorI::Dot(*triangleA.vertices.at(j), normal)); }
+            for (int j = 0; j < triangleB.vertices.size(); j++) { dotsB.push_back(VectorI::Dot(*triangleB.vertices.at(j), normal)); }
+
+            const auto minmax_A = std::minmax_element(dotsA.begin(), dotsA.end());
+            const auto minmax_B = std::minmax_element(dotsB.begin(), dotsB.end());
+
+            UnitI min_idA = std::distance(dotsA.begin(), minmax_A.first);
+            UnitI max_idA = std::distance(dotsA.begin(), minmax_A.second);
+            UnitI min_idB = std::distance(dotsB.begin(), minmax_B.first);
+            UnitI max_idB = std::distance(dotsB.begin(), minmax_B.second);
+
+            // For each point of both hull, project it on each edge of the other polygon and find the minimum distance
+            UnitI min_dist = UnitI(1000000);
+            VectorI collision_origin = VectorI();
+            VectorI collision_normal = VectorI();
+
+            std::vector<int> fwdhull_A = gmt::cyclic_indexes(max_idA, min_idA, dotsA.size());
+            std::vector<int> fwdhull_B = gmt::cyclic_indexes(min_idB, max_idB, dotsB.size());
+
+            // Projection of the shape A
+            for (int i = 0; i < fwdhull_A.size(); i++) {
+                VectorI vectA = *triangleA.vertices.at(fwdhull_A.at(i));
+
+                for (int i = 0; i < fwdhull_B.size() - 1; i++) {
+                    VectorI vectB1 = *triangleB.vertices.at(fwdhull_B.at(i));
+                    VectorI vectB2 = *triangleB.vertices.at(fwdhull_B.at(i + 1));
+                    VectorI vectB = VectorI::SegmentProjection(vectA, vectB1, vectB2);
+                    if (VectorI::PointOnSegment(vectB1, vectB2, vectA)) {
+                        UnitI dist = VectorI::Distance(vectA, vectB);
+                        if (dist < min_dist) {
+                            min_dist = dist;
+                            collision_origin = vectB;
+                            collision_normal = vectA - vectB;
+                        }
+                    }
+                }
+            }
+
+            // Projection of the shape B
+            for (int i = 0; i < fwdhull_B.size(); i++) {
+                VectorI vectB = *triangleB.vertices.at(fwdhull_B.at(i));
+
+                for (int i = 0; i < fwdhull_A.size() - 1; i++) {
+                    VectorI vectA1 = *triangleA.vertices.at(fwdhull_A.at(i));
+                    VectorI vectA2 = *triangleA.vertices.at(fwdhull_A.at(i + 1));
+                    VectorI vectA = VectorI::SegmentProjection(vectB, vectA1, vectA2);
+                    if (VectorI::PointOnSegment(vectA1, vectA2, vectB)) {
+                        UnitI dist = VectorI::Distance(vectB, vectA);
+                        if (dist < min_dist) {
+                            min_dist = dist;
+                            collision_origin = vectA;
+                            collision_normal = vectA - vectB;
+                        }
+                    }
+                }
+            }
+
+            collisions.push_back(Collision<T>::Response(polygonA, polygonB, collision_origin, collision_normal));
+        }
+    }
+    return collisions;
 }
 template std::vector<Collision<int>> Collision<int>::PolygonOnPolygon(phy::Polygon* polygonA, phy::Polygon* polygonB);
 template std::vector<Collision<float>> Collision<float>::PolygonOnPolygon(phy::Polygon* polygonA, phy::Polygon* polygonB);

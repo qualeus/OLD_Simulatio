@@ -17,9 +17,26 @@ float gmt::digits_comma(float number, int digits) {
     return round(number * d_limit) / d_limit;
 }
 
-/* Retunr the positive modulo for a int */
+/* Return the positive modulo for a int */
 unsigned gmt::modulo(int value, unsigned m) {
     int mod = value % (int)m;
     if (mod < 0) { mod += m; }
     return mod;
+}
+
+/* Return the cyclic interval in indexes */
+/*
+    ex: [1, 2, 3, 4, 5]
+    [1, 3] => [1, 2, 3]
+    [3, 1] => [3, 4, 5, 1]
+*/
+std::vector<int> gmt::cyclic_indexes(int min, int max, int size) {
+    std::vector<int> indexes = {};
+    if (min < max) {
+        for (int i = min; i < max + 1; i++) { indexes.push_back(i); }
+    } else {
+        for (int i = min; i < size; i++) { indexes.push_back(i); }
+        for (int i = 0; i < max + 1; i++) { indexes.push_back(i); }
+    }
+    return indexes;
 }

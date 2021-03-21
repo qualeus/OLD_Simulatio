@@ -223,6 +223,24 @@ template int Vector<int>::Cross(const Vector<int>& v1, const Vector<int>& v2);
 template float Vector<float>::Cross(const Vector<float>& v1, const Vector<float>& v2);
 template double Vector<double>::Cross(const Vector<double>& v1, const Vector<double>& v2);
 
+/* Normal of the Vector: [-Ay, Ax] */
+template <typename T>
+Vector<T> Vector<T>::Normal(const Vector<T>& v1) {
+    return Vector<T>(-v1.y, v1.x);
+}
+template Vector<int> Vector<int>::Normal(const Vector<int>& v1);
+template Vector<float> Vector<float>::Normal(const Vector<float>& v1);
+template Vector<double> Vector<double>::Normal(const Vector<double>& v1);
+
+/* Inverted Normal of the Vector: [Ay, -Ax] */
+template <typename T>
+Vector<T> Vector<T>::NormalInverted(const Vector<T>& v1) {
+    return Vector<T>(v1.y, -v1.x);
+}
+template Vector<int> Vector<int>::NormalInverted(const Vector<int>& v1);
+template Vector<float> Vector<float>::NormalInverted(const Vector<float>& v1);
+template Vector<double> Vector<double>::NormalInverted(const Vector<double>& v1);
+
 /* Normal of the Angle: [Ay - By, Bx - Ax] (normal from the wall as if vectors were deflected in a mirror) */
 template <typename T>
 Vector<T> Vector<T>::Normal(const Vector<T>& v1, const Vector<T>& v2) {

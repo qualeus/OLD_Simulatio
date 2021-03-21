@@ -9,7 +9,6 @@ Corpse::Corpse(gmt::UnitI mass, gmt::UnitI damping, bool fixed, bool tied, bool 
     this->fixed = fixed;
     this->tied = tied;
     this->etherial = etherial;
-    this->removed = false;
 
     this->mass = mass;
     this->friction = gmt::UnitI(1);
@@ -22,7 +21,6 @@ Corpse& Corpse::operator=(const Corpse& rhs) {
     this->fixed = rhs.get_fixed();
     this->tied = rhs.get_tied();
     this->etherial = rhs.get_etherial();
-    this->removed = rhs.get_removed();
 
     this->mass = rhs.get_mass();
     this->friction = rhs.get_friction();
@@ -53,9 +51,6 @@ void Corpse::set_etherial(bool etherial) { this->etherial = etherial; }
 
 bool Corpse::get_tied() const { return this->tied; }
 void Corpse::set_tied(bool tied) { this->tied = tied; }
-
-bool Corpse::get_removed() const { return this->removed; }
-void Corpse::Remove() { this->removed = true; }
 
 sf::Color Corpse::get_color() const { return this->color; }
 void Corpse::set_color(sf::Color color) { this->color = color; }

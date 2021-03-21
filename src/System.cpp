@@ -73,8 +73,9 @@ void System::Step() {
     for (int i = 0; i < collision_accuracy; i++) {
         // StepQuadtree();
         // QuadPairsStep();
+        PairsStep();
     }
-    PairsStep();
+    // PairsStep();
     CheckLimits();
     // Move Global Time
     UpdateTime();
@@ -86,17 +87,15 @@ void System::UpdateTime() { this->t += this->dt; }
 void System::CheckLimits() {
     for (int i = 0; i < corpses.size(); i++) {
         if (phy::Circle* circle = dynamic_cast<phy::Circle*>(get_corpse(i).get())) {
-            if (gmt::BoundsI::BoundsOutBounds(circle->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
+            if (gmt::BoundsI::BoundsOutBounds(circle->get_corpse_bounds(), get_limits())) {}
         } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(get_corpse(i).get())) {
-            if (gmt::BoundsI::BoundsOutBounds(polygon->get_corpse_bounds(), get_limits())) { get_corpse(i)->Remove(); }
+            if (gmt::BoundsI::BoundsOutBounds(polygon->get_corpse_bounds(), get_limits())) {}
         }
     }
 }
 
 void System::CorpsesStep() {
     for (int i = 0; i < corpses.size(); i++) {
-        if (get_corpse(i)->get_removed()) { continue; }  // Removed
-
         get_corpse(i)->Step();
         if (!get_corpse(i)->get_fixed()) { get_corpse(i)->Drag(gmt::VectorI(this->force_x, this->force_y) * this->dt * this->dt); }
     }
@@ -135,8 +134,7 @@ void System::QuadPairsStep() {
 }
 
 void System::Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
-    if (a->get_removed() || b->get_removed()) { return; }  // One Removed
-    if (a->get_fixed() && b->get_fixed()) { return; }      // Both Fixed
+    if (a->get_fixed() && b->get_fixed()) { return; }  // Both Fixed
 
     gmt::UnitI dist = gmt::VectorI::Distance(a->get_pos(), b->get_pos());
 
@@ -156,10 +154,7 @@ void System::Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
 
 void System::StepQuadtree() {
     this->quadtree.Clear();
-    for (int i = 0; i < corpses.size(); i++) {
-        if (get_corpse(i)->get_removed()) { continue; }  // Removed
-        this->quadtree.Insert(get_corpse(i));
-    }
+    for (int i = 0; i < corpses.size(); i++) { this->quadtree.Insert(get_corpse(i)); }
 }
 
 std::shared_ptr<gmt::QuadtreeI> System::get_quadtree() { return std::make_shared<gmt::QuadtreeI>(this->quadtree); }
@@ -180,8 +175,6 @@ void System::set_dt(gmt::UnitI dt) {
     gmt::UnitI dt_frac = dt / this->dt;
 
     for (int i = 0; i < corpses.size(); i++) {
-        if (get_corpse(i)->get_removed()) { continue; }  // Removed
-
         // Update corpses velocities an rotations
         get_corpse(i)->set_last_pos(get_corpse(i)->get_pos() - get_corpse(i)->get_diff_pos() * dt_frac);
         get_corpse(i)->set_last_rotation(get_corpse(i)->get_rotation() - get_corpse(i)->get_diff_rotation() * dt_frac);

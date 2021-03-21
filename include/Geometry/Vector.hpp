@@ -42,6 +42,8 @@ class Vector {
 
     static T Dot(const Vector<T>& v1, const Vector<T>& v2);
     static T Cross(const Vector<T>& v1, const Vector<T>& v2);
+    static Vector<T> Normal(const Vector<T>& v1);
+    static Vector<T> NormalInverted(const Vector<T>& v1);
     static Vector<T> Normal(const Vector<T>& v1, const Vector<T>& v2);
     static Vector<T> NormalInverted(const Vector<T>& v1, const Vector<T>& v2);
 

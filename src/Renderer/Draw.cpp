@@ -2,8 +2,6 @@
 #include "../../include/Renderer/Renderer.hpp"
 
 void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
-    if (corpse->get_removed()) { return; }  // Removed
-
     if (phy::Circle *circle = dynamic_cast<phy::Circle *>(corpse.get())) {
         /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
         DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), circle->get_color(), false);
@@ -103,8 +101,6 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
 }
 
 void Renderer::DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair) {
-    if (pair.first->get_removed() || pair.second->get_removed()) { return; }  // Removed
-
     sf::Vector2f pos_A = (pair.first->get_pos()).CloneSF();
     sf::Vector2f pos_B = (pair.second->get_pos()).CloneSF();
 
@@ -233,7 +229,6 @@ void Renderer::DrawInputs() {
     // Outline the selected bodies
     for (int i = 0; i < selected_corpses_cursor.size(); i++) {
         int cursor = selected_corpses_cursor.at(i);
-        if (system.get_corpse(cursor)->get_removed()) { continue; }  // Removed
 
         if (phy::Circle *circle = dynamic_cast<phy::Circle *>(system.get_corpse(cursor).get())) {
             DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), sf::Color::White, true);

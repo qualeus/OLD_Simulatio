@@ -20,7 +20,6 @@ class Corpse {
     bool fixed;
     bool tied;
     bool etherial;
-    bool removed;
 
     gmt::UnitI friction;
     gmt::UnitI mass;
@@ -54,9 +53,6 @@ class Corpse {
 
     bool get_tied() const;
     void set_tied(bool tied);
-
-    bool get_removed() const;
-    void Remove();
 
     virtual void Step() = 0;
     virtual void Stop() = 0;
