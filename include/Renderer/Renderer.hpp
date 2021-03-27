@@ -10,6 +10,7 @@
 #include "../../assets/fonts/roboto.hpp"
 #include "../Geometry/Geometry.hpp"
 #include "../Geometry/Maths.hpp"
+#include "../Geometry/String.hpp"
 #include "../Geometry/Text.hpp"
 #include "../Geometry/Vector.hpp"
 #include "../System.hpp"
@@ -39,7 +40,7 @@
 #define C_GREY sf::Color(127, 140, 141, 255)      // rgba(127, 140, 141,1.0)
 
 #define G_DEBUG_FRAME_SIZE 300    // Size of framerate array
-#define G_TOP_BAR_SIZE 50         // Size in Px
+#define G_TOP_BAR_SIZE 20         // Size in Px
 #define G_UP_DOCK_SIZE 0.10f      // 100% <=> 1.0f
 #define G_BOTTOM_DOCK_SIZE 0.20f  // 100% <=> 1.0f
 #define G_LEFT_DOCK_SIZE 0.25f    // 100% <=> 1.0f
@@ -119,6 +120,7 @@ class Renderer {
     bool debug_show_velocity = false;
     bool debug_show_xyvelocity = false;
     bool debug_show_pairs = false;
+    bool debug_show_quadpairs = false;
     bool debug_show_contacts = false;
     bool debug_show_collisions = false;
 
@@ -143,8 +145,8 @@ class Renderer {
     int select_type;
     int debug_type;
 
-    float camera_x;
-    float camera_y;
+    float camera_x = 0.0f;
+    float camera_y = 0.0f;
     float camera_zoom;
     int screen_width;
     int screen_height;
@@ -154,7 +156,7 @@ class Renderer {
     std::vector<std::vector<std::pair<float, float>>> trajectories = {};
     std::vector<std::vector<std::pair<float, float>>> trajectories_previews = {};
 
-    const static int DEBUG_LENGTH = 13;
+    const static int DEBUG_LENGTH = 50;
     float debug_values[DEBUG_LENGTH] = {};
     float debug_frames[G_DEBUG_FRAME_SIZE] = {};
 
@@ -172,7 +174,7 @@ class Renderer {
    public:
     phy::System system;
 
-    Renderer(float camera_x = 0.0f, float camera_y = 0.0f, float camera_h = 800.0f, float camera_w = 1200.0f, float zoom = 1.0f, std::string p_name = "Default", bool gravity = false, float force_x = 0.0f, float force_y = 0.0f, float limit_x = 4000.0f, float limit_y = 4000.0f);
+    Renderer(float camera_x, float camera_y, float camera_h, float camera_w, float zoom, std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y);
     void SetupGui();
     void SetupGuiBaseLayout();
     virtual ~Renderer();

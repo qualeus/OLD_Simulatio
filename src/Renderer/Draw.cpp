@@ -185,6 +185,10 @@ void Renderer::DrawInputs() {
     }
 
     if (debug_show_pairs) {
+        for (int i = 0; i < system.get_pairs_size(); i++) { DrawPair(system.get_pair(i)); }
+    }
+
+    if (debug_show_quadpairs) {
         for (int i = 0; i < system.get_quad_pairs_size(); i++) { DrawPair(system.get_quad_pair(i)); }
     }
 

@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <string>
 #include "../Geometry/Maths.hpp"
+#include "../Geometry/String.hpp"
 
 #define ASSERT_THROW(condition) { if (!(condition)) { throw std::runtime_error(std::string("\n") + std::string(__FILE__) + std::string(":") + std::to_string(__LINE__) + std::string(" in ") + std::string(__PRETTY_FUNCTION__)); } }
 

@@ -17,6 +17,7 @@ void Renderer::SetupGui() {
     /* ImGui Enable Docking */
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // CTRL + TAB
     io.ConfigFlags |= ImGuiDockNodeFlags_PassthruCentralNode;
 
     // io.ConfigDockingWithShift = true;
@@ -147,7 +148,7 @@ void Renderer::DrawGuiBar() {
         ImVec2 button_sz(G_TOP_BAR_SIZE, G_TOP_BAR_SIZE);
         int buttons_count = 30;
         ImGuiStyle& style = ImGui::GetStyle();
-        style.ItemSpacing = ImVec2(5.0f, 0.0f);
+        style.ItemSpacing = ImVec2(G_TOP_BAR_SIZE / 10.0f, 0.0f);
         float window_visible_x2 = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
         for (int n = 0; n < buttons_count; n++) {
             ImGui::PushID(n);
@@ -1180,19 +1181,25 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
 
             ImGui::Separator();
             ImGui::Dummy(ImVec2(0.0f, 7.0f));
-
             ImGui::TreePop();
         }
 
         if (ImGui::TreeNode("User Inputs")) {
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Separator();
             ImGui::Text(" ");
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::TreePop();
         }
 
         if (ImGui::TreeNode("Global Informations")) {
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Separator();
-            ImGui::Text("%.f corpses\n ", debug_values[12]);
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::Text("%.f corpses", debug_values[12]);
+            ImGui::Text("%.f pairs", debug_values[13]);
+            ImGui::Text("%.f quadpairs", debug_values[14]);
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::TreePop();
         }
 
@@ -1388,6 +1395,7 @@ void Renderer::DrawGuiMenu() {
             ImGui::MenuItem("Velocity", NULL, &debug_show_velocity);
             ImGui::MenuItem("XYVelocity", NULL, &debug_show_xyvelocity);
             ImGui::MenuItem("Pairs", NULL, &debug_show_pairs);
+            ImGui::MenuItem("QuadPairs", NULL, &debug_show_quadpairs);
             ImGui::MenuItem("Contacts", NULL, &debug_show_contacts);
             ImGui::MenuItem("Collisions", NULL, &debug_show_collisions);
             ImGui::PopItemFlag();

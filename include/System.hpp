@@ -7,6 +7,8 @@
 #include "Geometry/Maths.hpp"
 #include "Structures/OldQuadtree.hpp"
 
+#define MAX_GRAVITY_DISTANCE 1000000000 /* To avoid strange behaviours when comparing big numbers */
+
 namespace phy {
 
 class System {
@@ -33,8 +35,8 @@ class System {
     int constraint_accuracy = 10;
 
    public:
-    System(bool gravity = false, gmt::UnitI force_x = 0.0f, gmt::UnitI force_y = 0.0f, gmt::UnitI limit_x = 4000.0f, gmt::UnitI limit_y = 4000.0f);  // System Constructor
-    System& operator=(const System& rhs);                                                                                                            // System Copy
+    System(bool gravity = false, gmt::UnitI force_x = gmt::UnitI(0), gmt::UnitI force_y = gmt::UnitI(0), gmt::UnitI limit_x = gmt::UnitI(10000), gmt::UnitI limit_y = gmt::UnitI(10000));  // System Constructor
+    System& operator=(const System& rhs);                                                                                                                                                  // System Copy
     virtual ~System();
 
     void Step();
@@ -44,6 +46,7 @@ class System {
     void CorpseStop(int i);
     void PairsStep();
     void QuadPairsStep();
+    void Remove(int i);
 
     void Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
 

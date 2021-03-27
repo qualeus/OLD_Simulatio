@@ -37,7 +37,7 @@ class Corpse {
 
    public:
     explicit Corpse(gmt::UnitI mass, gmt::UnitI damping, bool fixed, bool tied, bool etherial, sf::Color color);
-    virtual ~Corpse();
+    // virtual ~Corpse();
     inline bool operator==(const Corpse* other);
     Corpse& operator=(const Corpse& rhs);
 

@@ -1,9 +1,9 @@
 
 #include "../../include/Renderer/Renderer.hpp"
 
-Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_w, float zoom, std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y) {
+Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_w, float zoom, std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y) : system(gravity, force_x, force_y, limit_x, limit_y) {
     /* Initialize the System */
-    this->system = phy::System(gravity, force_x, force_y, limit_x, limit_y);
+    // this->system = phy::System(gravity, force_x, force_y, limit_x, limit_y);
 
     /* Setup Renderer Settings */
     this->name = p_name;
@@ -62,7 +62,6 @@ void Renderer::Render() {
         /* Events Handling */
         sf::Event event;
         while (this->window.pollEvent(event)) { Input(event); }
-
         this->UpdateCamera();
 
         /* Delta Time Clock */
@@ -94,7 +93,7 @@ void Renderer::UpdateMaxFramerate(int max_framerate) {
     this->window.setFramerateLimit(max_framerate);
 }
 
-int Renderer::Framerate() { return (1000 / this->frame.asMilliseconds()); }
+int Renderer::Framerate() { return (1000 / (this->frame.asMilliseconds() + 0.00001f)); }
 void Renderer::UpdateDebug() {
     debug_values[0] = Framerate();
     debug_values[1] = this->debug_type;
@@ -109,6 +108,8 @@ void Renderer::UpdateDebug() {
     debug_values[10] = this->system.get_dt();
     debug_values[11] = this->select_type;
     debug_values[12] = this->system.get_corpses_size();
+    debug_values[13] = this->system.get_pairs_size();
+    debug_values[14] = this->system.get_quad_pairs_size();
 }
 
 void Renderer::Draw() {

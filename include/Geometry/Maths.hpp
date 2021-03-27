@@ -49,85 +49,53 @@ unsigned modulo(int value, unsigned m);
 
 template <class C>
 std::shared_ptr<C> remove(int i, std::vector<std::shared_ptr<C>> &vect) {
-    std::shared_ptr<C> corpse = vect.at(i);
+    std::shared_ptr<C> ptr = vect.at(i);
     vect.erase(vect.begin() + i);
-    return corpse;
+    return ptr;
 }
 
-template <typename T>
-std::string to_string(T value) {
-    std::ostringstream oss;
-    oss << value;
-    return oss.str();
+template <class C>
+std::pair<std::shared_ptr<C>, std::shared_ptr<C>> remove(int i, std::vector<std::pair<std::shared_ptr<C>, std::shared_ptr<C>>> &vect) {
+    std::pair<std::shared_ptr<C>, std::shared_ptr<C>> ptr = vect.at(i);
+    vect.erase(vect.begin() + i);
+    return ptr;
 }
 
-template <typename T>
-std::string to_string(std::vector<T> vector) {
-    std::ostringstream oss;
-    oss << "std::vector { ";
-    if (!vector.empty()) {
-        std::copy(vector.begin(), vector.end() - 1, std::ostream_iterator<T>(oss, ", "));
-        oss << vector.back();
+template <class C>
+void remove_pairs(int i, std::vector<std::shared_ptr<C>> &vect, std::vector<std::pair<std::shared_ptr<C>, std::shared_ptr<C>>> &pairs) {
+    vect.erase(vect.begin() + i);  // Remove the object from the vector
+
+    int first_pair = ((i - 1) * i) / 2;
+    pairs.erase(pairs.begin() + first_pair, pairs.begin() + first_pair + i);  // Remove the first interval from pairs
+
+    int next_pair = first_pair + i;
+    int step = i;
+    while (next_pair < pairs.size()) {
+        pairs.erase(pairs.begin() + next_pair);  // Remove the rest from pairs
+        next_pair = next_pair + step;
+        step++;
     }
-    oss << " }";
-    return oss.str();
 }
 
-template <typename T>
-std::string to_string(sf::Vector2<T> vector) {
-    std::ostringstream oss;
-    oss << "sf::Vector2 { " << vector.x << " ; " << vector.y << " }";
-    return oss.str();
-}
+/* Avoid linear complexity of the erase but do not keep the order */
+template <class C>
+void remove_pairs_unordered(int i, std::vector<std::shared_ptr<C>> &vect, std::vector<std::pair<std::shared_ptr<C>, std::shared_ptr<C>>> &pairs) {
+    if (i > pairs.size() - 1) { return; }
+    std::shared_ptr<C> ptr = vect.at(i);  // Keep the pointer to the object for comparison
+    vect.erase(vect.begin() + i);         // Remove the object from the vector
 
-template <typename T>
-std::string to_string(gmt::Vector<T> vector) {
-    std::ostringstream oss;
-    oss << "gmt::Vector { " << vector.x << " ; " << vector.y << " }";
-    return oss.str();
-}
-
-template <typename T>
-std::string to_string(gmt::Bounds<T> bounds) {
-    std::ostringstream oss;
-    oss << "gmt::Bounds { " << bounds.x1 << ", " << bounds.y1 << " ; " << bounds.x2 << ", " << bounds.y2 << " }";
-    return oss.str();
-}
-
-/* Usage example: gmt::to_string(gmt::type_name<PHYSICS_PRECISION>())*/
-template <typename T>
-constexpr auto type_name() noexcept {
-    std::string_view name = "Error: unsupported compiler", prefix, suffix;
-#ifdef __clang__
-    name = __PRETTY_FUNCTION__;
-    prefix = "auto type_name() [T = ";
-    suffix = "]";
-#elif defined(__GNUC__)
-    name = __PRETTY_FUNCTION__;
-    prefix = "constexpr auto type_name() [with T = ";
-    suffix = "]";
-#elif defined(_MSC_VER)
-    name = __FUNCSIG__;
-    prefix = "auto __cdecl type_name<";
-    suffix = ">(void) noexcept";
-#endif
-    name.remove_prefix(prefix.size());
-    name.remove_suffix(suffix.size());
-    return name;
-}
-/*
-template <typename T>
-std::string to_string(gmt::Vertices<T> vertices) {
-    std::ostringstream oss;
-    oss << "{";
-    if (!vertices.vertices.empty()) {
-        std::copy(vertices.vertices.begin(), vertices.vertices.end() - 1, std::ostream_iterator<T>(oss, ","));
-        oss << vertices.vertices.back();
+    int j = 0;
+    int size = pairs.size();
+    while (j < size) {
+        if (pairs.at(j).first == ptr || pairs.at(j).second == ptr) {
+            if (j != pairs.size() - 1) { pairs.at(j) = std::move(pairs.back()); }
+            pairs.pop_back();
+            size = pairs.size();
+        } else {
+            j++;
+        }
     }
-    oss << "}";
-    return oss.str();
 }
-*/
 
 template <typename T>
 bool decimal_equals(const T &a, const T &b, T epsilon = std::numeric_limits<T>::epsilon()) {

@@ -17,12 +17,12 @@ set (ENABLE_DOUBLE_PRECISION ON)
 configure_file("${PROJECT_SOURCE_DIR}/Config.hpp.in" "${PROJECT_BINARY_DIR}/Config.hpp")
 include_directories("${PROJECT_BINARY_DIR}")
 
-# Set the C++ standard to be used
+# Set the C++ standard to be usedzz
 set (CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add customs Flags
-set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Werror -Wfatal-errors")
+set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Werror -Wfatal-errors -O0 -g -rdynamic")
 set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Werror -Wfatal-errors -O3 -s -fexpensive-optimizations")
 
 #set(LIBRARIES_PATH "Windows/g++/Release/")
@@ -71,6 +71,7 @@ set(SOURCES
     src/Geometry/Vertices.cpp
     src/Geometry/Text.cpp
     src/Geometry/Maths.cpp
+    src/Geometry/String.cpp
     src/Structures/OldQuadtree.cpp
     src/Geometry/Collision.cpp
     src/Renderer/Renderer.cpp
@@ -94,6 +95,7 @@ set(HEADERS
     include/Geometry/Vertices.hpp
     include/Geometry/Text.hpp
     include/Geometry/Maths.hpp
+    include/Geometry/String.hpp
     include/Renderer/Renderer.hpp
     include/Renderer/GuiModule.hpp
     include/System.hpp

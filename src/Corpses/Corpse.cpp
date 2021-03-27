@@ -37,7 +37,7 @@ Corpse& Corpse::operator=(const Corpse& rhs) {
 
     return *this;
 }
-Corpse::~Corpse() = default;
+// Corpse::~Corpse() = default;
 
 int Corpse::get_id() const { return this->id; }
 int Corpse::get_class() const { return ID_CORPSE; }

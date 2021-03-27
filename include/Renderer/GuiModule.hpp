@@ -10,6 +10,7 @@ namespace ImGui {
 
 void Help(const char* desc);
 bool TriCheckBox(const char* label, int* v_tristate);
+void ToggleButton(const char* str_id, bool* v);
 
 /* Console Struct */
 struct Console {

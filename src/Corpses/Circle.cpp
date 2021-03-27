@@ -18,7 +18,7 @@ Circle& Circle::operator=(const Circle& rhs) {
     this->size = rhs.get_size();
     return *this;
 }
-Circle::~Circle() {}
+// Circle::~Circle() {}
 
 int Circle::get_class() const { return ID_CIRCLE; }
 int Circle::id_class() { return ID_CIRCLE; }

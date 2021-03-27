@@ -21,7 +21,7 @@ class Polygon : public Corpse {
     Polygon(std::vector<gmt::VectorI> points = {}, gmt::UnitI mass = gmt::UnitI(1), gmt::UnitI damping = gmt::UnitI(1), gmt::UnitI speed_x = gmt::UnitI(0), gmt::UnitI speed_y = gmt::UnitI(0), gmt::UnitI rotation = gmt::UnitI(0), gmt::UnitI motor = gmt::UnitI(0), bool fixed = false,
             bool tied = false, bool etherial = false, sf::Color color = sf::Color::White);
     Polygon& operator=(const Polygon& rhs);
-    virtual ~Polygon();
+    // virtual ~Polygon();
 
     const int get_class();
     static int id_class();

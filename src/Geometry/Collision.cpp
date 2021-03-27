@@ -22,6 +22,7 @@ std::vector<Collision<T>> Collision<T>::Resolve(std::shared_ptr<phy::Corpse> lhs
     /* Right Hand Side pointer classes */
     phy::Circle* rcircle = nullptr;
     phy::Polygon* rpolygon = nullptr;
+
     /* Id classes */
     int lhs_class = -1;
     int rhs_class = -1;
@@ -59,17 +60,16 @@ template std::vector<Collision<double>> Collision<double>::Resolve(std::shared_p
 /* Circle / Circle Collision */
 template <typename T>
 std::vector<Collision<T>> Collision<T>::CircleOnCircle(phy::Circle* circleA, phy::Circle* circleB) {
-    T distance = static_cast<T>(gmt::VectorI::Distance(circleA->get_pos(), circleB->get_pos()));
-    T overlap = static_cast<T>(circleA->get_size() + circleB->get_size()) - distance;
+    UnitI distance = gmt::VectorI::Distance(circleA->get_pos(), circleB->get_pos()) + gmt::UnitI(1);
+    UnitI overlap = (circleA->get_size() + circleB->get_size()) - distance;
 
     if (overlap < 0) { return {}; }  // Not colliding
 
-    T x_diff = circleA->get_pos_x() - circleB->get_pos_x();
-    T y_diff = circleA->get_pos_y() - circleB->get_pos_y();
+    UnitI x_diff = circleA->get_pos_x() - circleB->get_pos_x();
+    UnitI y_diff = circleA->get_pos_y() - circleB->get_pos_y();
 
     VectorI vector_response = gmt::VectorI(x_diff / distance, y_diff / distance) * overlap;
     VectorI vector_origin = circleA->get_pos() - vector_response.Normalize() * circleA->get_size();
-
     return {Collision<T>::Response(circleA, circleB, vector_origin, vector_response)};
 }
 template std::vector<Collision<int>> Collision<int>::CircleOnCircle(phy::Circle* circleA, phy::Circle* circleB);
@@ -175,7 +175,7 @@ std::vector<Collision<T>> Collision<T>::PolygonOnPolygon(phy::Polygon* polygonA,
             std::vector<VectorI> normalsAB = normalsA;
             for (int i = 0; i < triangleB.vertices.size(); i++) { normalsAB.push_back(VectorI::Normal(*triangleB.vertices.at(i))); }
 
-            // Resolve
+            // Check if the intervals overlap
             for (int i = 0; i < normalsAB.size(); i++) {
                 VectorI normal = normalsAB.at(i);
 

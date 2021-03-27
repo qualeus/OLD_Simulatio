@@ -478,7 +478,7 @@ void Renderer::ToggleOffPolygon(sf::Event event) {
         }
         const int lpow = 50;
         const int lrot = 10;
-        const int nobj = 40;
+        const int nobj = 100;
         for (int i = 0; i < nobj; i++) {
             phy::Polygon temp_poly = phy::Polygon(points, 10, 1, (std::rand() % lpow) - (lpow / 2), (std::rand() % lpow) - (lpow / 2), (std::rand() % lrot) - (lrot / 2), 0.0f, false, false, false, C_NEPHRITIS);
             system.addCorpse(temp_poly);

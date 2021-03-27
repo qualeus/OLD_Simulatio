@@ -29,7 +29,7 @@ Polygon& Polygon::operator=(const Polygon& rhs) {
     Generate();
     return *this;
 }
-Polygon::~Polygon() {}
+// Polygon::~Polygon() {}
 
 const int Polygon::get_class() { return ID_POLYGON; }
 int Polygon::id_class() { return ID_POLYGON; }
