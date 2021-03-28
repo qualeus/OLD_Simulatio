@@ -28,10 +28,9 @@ void Renderer::Input(sf::Event event) {
                 case sf::Mouse::Left: {
                     bool select_unique = SelectUniqueCorpseInit(event);
 
-                    /* If the mouse is not on an Corpse, Drag screen */
+                    /* If the mouse is not on an Corpse, Drag 0screen */
                     if (!select_unique) { DragPositionInit(event); }
                     DragPositionInit(event);
-
                     CreatePolygonStop(event);
                     CreateCircleInit(event);
                 } break;
@@ -197,6 +196,7 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
 
         /* Make sure that the arrays are empty */
         this->selected_corpses_cursor = {};
+        this->selected_corpses_index = {};
         this->selected_corpses_fixed = {};
         this->selected_corpses_diff = {};
     }
@@ -207,6 +207,7 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
 
         if (system.get_corpse(i)->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {
             this->selected_corpses_cursor.push_back(i);
+            this->selected_corpses_index.push_back(system.get_corpse(i)->get_id());
             this->selected_corpses_diff.push_back(system.get_corpse(i)->get_pos().CloneSF() - sf::Vector2f(this->sys_mouse_x, this->sys_mouse_y));
             // Fix the corpse while holding it
             this->selected_corpses_fixed.push_back(system.get_corpse(i)->get_fixed());
@@ -220,6 +221,7 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
 
     /* Make sure that the arrays are empty */
     this->selected_corpses_cursor = {};
+    this->selected_corpses_index = {};
     this->selected_corpses_fixed = {};
     this->selected_corpses_diff = {};
     return false;
@@ -228,6 +230,7 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
 void Renderer::SelectMultipleCorpsesInit(sf::Event event) {
     /* Make sure that the arrays are empty */
     this->selected_corpses_cursor = {};
+    this->selected_corpses_index = {};
     this->selected_corpses_fixed = {};
     // this->selected_corpses_diff = {};
 
@@ -257,11 +260,13 @@ void Renderer::SelectMultipleCorpsesStop(sf::Event event) {
         if (phy::Circle *circle = dynamic_cast<phy::Circle *>(system.get_corpse(i).get())) {
             if (!gmt::BoundsI::BoundsOutBounds(circle->get_corpse_bounds(), rectangle)) {
                 this->selected_corpses_cursor.push_back(i);
+                this->selected_corpses_index.push_back(system.get_corpse(i)->get_id());
                 this->selected_corpses_fixed.push_back(system.get_corpse(i)->get_fixed());
             }
         } else if (phy::Polygon *polygon = dynamic_cast<phy::Polygon *>(system.get_corpse(i).get())) {
             if (!gmt::BoundsI::BoundsOutBounds(polygon->get_corpse_bounds(), rectangle)) {
                 this->selected_corpses_cursor.push_back(i);
+                this->selected_corpses_index.push_back(system.get_corpse(i)->get_id());
                 this->selected_corpses_fixed.push_back(system.get_corpse(i)->get_fixed());
             }
         }
@@ -331,6 +336,7 @@ bool Renderer::LaunchCorpseInit(sf::Event event) {
 
         /* Make sure that the arrays are empty */
         this->selected_corpses_cursor = {};
+        this->selected_corpses_index = {};
         this->selected_corpses_fixed = {};
         this->selected_corpses_diff = {};
     }
@@ -379,7 +385,6 @@ void Renderer::LaunchCorpseStop(sf::Event event) {
     this->select_type = S_DEFAULT;
 
     /* Make sure that the arrays are empty */
-    // this->selected_corpses_cursor = {};
     this->selected_corpses_fixed = {};
     this->selected_corpses_diff = {};
 }
@@ -391,6 +396,7 @@ void Renderer::ToggleOnCircle(sf::Event event) {
     /* Make sure that the arrays are empty */
     this->selected_area = gmt::Bounds<float>();
     this->selected_corpses_cursor = {};
+    this->selected_corpses_index = {};
     this->selected_corpses_fixed = {};
     this->selected_corpses_diff = {};
 }
@@ -409,6 +415,7 @@ void Renderer::ToggleOffCircle(sf::Event event) {
 
     /* Make sure that the arrays are empty */
     this->selected_corpses_cursor = {};
+    this->selected_corpses_index = {};
     this->selected_corpses_fixed = {};
     this->selected_corpses_diff = {};
 }
@@ -470,17 +477,23 @@ void Renderer::ToggleOffPolygon(sf::Event event) {
         std::vector<gmt::VectorI> points = {};
         const int number = 10;
         const int rad = 100;
-        const int vrad = 20;
+        const int vrad = 1;
         // for (int i = 0; i < number; i++) { points.push_back(gmt::VectorI(100 * std::cos(static_cast<float>(i) * 360 / number), 100 * std::sin(static_cast<float>(i) * 360 / number))); }
         for (int i = 0; i < number; i++) {
             float ang = gmt::degree_to_radian(static_cast<float>(i) * 360.0f / number);
             points.push_back(gmt::VectorI(this->sys_mouse_x + (rad + (std::rand() % vrad)) * std::cos(ang), this->sys_mouse_y + (rad + (std::rand() % vrad)) * std::sin(ang)));
         }
+        const int dpow = 100;
         const int lpow = 50;
         const int lrot = 10;
         const int nobj = 100;
         for (int i = 0; i < nobj; i++) {
-            phy::Polygon temp_poly = phy::Polygon(points, 10, 1, (std::rand() % lpow) - (lpow / 2), (std::rand() % lpow) - (lpow / 2), (std::rand() % lrot) - (lrot / 2), 0.0f, false, false, false, C_NEPHRITIS);
+            std::vector<gmt::VectorI> tpoints = points;
+            int randx = (std::rand() % dpow) - (dpow / 2);
+            int randy = (std::rand() % dpow) - (dpow / 2);
+            for (int j = 0; j < tpoints.size(); j++) { tpoints.at(j) = tpoints.at(j) + gmt::VectorI(randx, randy); }
+
+            phy::Polygon temp_poly = phy::Polygon(tpoints, 10, 1, (std::rand() % lpow) - (lpow / 2), (std::rand() % lpow) - (lpow / 2), (std::rand() % lrot) - (lrot / 2), 0.0f, false, false, false, C_NEPHRITIS);
             system.addCorpse(temp_poly);
         }
     }

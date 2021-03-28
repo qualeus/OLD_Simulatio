@@ -31,6 +31,7 @@ Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_
 
     this->selected_corpses_fixed = {};
     this->selected_corpses_cursor = {};
+    this->selected_corpses_index = {};
     this->selected_corpses_diff = {};
 
     /* Setup Renderer View */
@@ -54,7 +55,10 @@ Renderer::~Renderer() {}
 void Renderer::Render() {
     /* Main Rendering Loop */
     while (this->window.isOpen()) {
-        if (!this->Paused()) { this->system.Step(); }
+        if (!this->Paused()) {
+            this->system.Step();
+            this->UpdateSelection();
+        }
 
         /* Background Color */
         this->window.clear(background_color);
@@ -94,6 +98,25 @@ void Renderer::UpdateMaxFramerate(int max_framerate) {
 }
 
 int Renderer::Framerate() { return (1000 / (this->frame.asMilliseconds() + 0.00001f)); }
+
+void Renderer::UpdateSelection() {
+    for (int i = 0; i < this->selected_corpses_cursor.size(); i++) {
+        int curr_id = system.get_corpse(this->selected_corpses_cursor.at(i))->get_id();
+        int real_id = this->selected_corpses_index.at(i);
+        console.Log(gmt::to_string(curr_id) + "==" + gmt::to_string(real_id));
+        if (curr_id != real_id) {
+            this->select_type = S_DEFAULT;
+            this->selected_corpses_cursor = {};
+            this->selected_corpses_index = {};
+            this->selected_corpses_fixed = {};
+            this->selected_corpses_diff = {};
+
+            /* TODO: repopulate the slections array with the id stored in the array of index when the corpse still exist */
+            return;
+        }
+    }
+}
+
 void Renderer::UpdateDebug() {
     debug_values[0] = Framerate();
     debug_values[1] = this->debug_type;

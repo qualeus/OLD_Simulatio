@@ -97,6 +97,7 @@
         "*.in": "cpp",
         "hash_map": "cpp",
         "*.impl": "cpp",
-        "*.todo": "cpp"
+        "*.todo": "cpp",
+        "hash_set": "cpp"
     }
 }

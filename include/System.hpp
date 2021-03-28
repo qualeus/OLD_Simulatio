@@ -5,7 +5,7 @@
 #include "Geometry/Collision.hpp"
 #include "Geometry/Geometry.hpp"
 #include "Geometry/Maths.hpp"
-#include "Structures/OldQuadtree.hpp"
+#include "Structures/QuadTree.hpp"
 
 #define MAX_GRAVITY_DISTANCE 1000000000 /* To avoid strange behaviours when comparing big numbers */
 
@@ -18,7 +18,7 @@ class System {
     std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> quad_pairs;
     std::vector<gmt::CollisionI> collisions;
 
-    gmt::QuadtreeI quadtree;
+    gmt::QuadTreeI quadtree;
     gmt::BoundsI limits;
 
     bool gravity;
@@ -50,9 +50,9 @@ class System {
 
     void Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
 
-    void InitQuadtree();
-    void StepQuadtree();
-    std::shared_ptr<gmt::QuadtreeI> get_quadtree();
+    void InitQuadTree();
+    void StepQuadTree();
+    std::shared_ptr<gmt::QuadTreeI> get_quadtree();
 
     gmt::UnitI get_dt() const;
     void set_dt(gmt::UnitI dt);

@@ -40,7 +40,7 @@
 #define C_GREY sf::Color(127, 140, 141, 255)      // rgba(127, 140, 141,1.0)
 
 #define G_DEBUG_FRAME_SIZE 300    // Size of framerate array
-#define G_TOP_BAR_SIZE 20         // Size in Px
+#define G_TOP_BAR_SIZE 30         // Size in Px
 #define G_UP_DOCK_SIZE 0.10f      // 100% <=> 1.0f
 #define G_BOTTOM_DOCK_SIZE 0.20f  // 100% <=> 1.0f
 #define G_LEFT_DOCK_SIZE 0.25f    // 100% <=> 1.0f
@@ -101,6 +101,7 @@ class Renderer {
     gmt::Bounds<float> selected_area;
     std::vector<bool> selected_corpses_fixed;
     std::vector<int> selected_corpses_cursor;
+    std::vector<int> selected_corpses_index;
     std::vector<sf::Vector2f> selected_corpses_diff;
 
     bool reset_base_layout = false;
@@ -186,6 +187,7 @@ class Renderer {
 
     void Input(sf::Event event);  // Handle Input events
     void UpdateMouse();           // Upate the Mouse position
+    void UpdateSelection();       // Check if the corpses in the selection still exists
     void Pause();                 // Toggle the pause of the System
 
     bool DragPositionInit(sf::Event event);  // Initialize the draggig of the Position
@@ -227,7 +229,7 @@ class Renderer {
     void Draw();  // Manage the drawing of the Renderer
     void DrawCorpse(std::shared_ptr<phy::Corpse> corpse);
     void DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair);
-    void DrawQuadtree(gmt::BoundsI rect);
+    void DrawQuadTree(gmt::BoundsI rect);
     void DrawLimits();
     void DrawTrajectories();
 

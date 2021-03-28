@@ -32,7 +32,10 @@ template <typename T>
 class Bounds;
 
 template <typename T>
-class Quadtree;
+class QuadTree;
+
+template <typename T>
+class QuadNode;
 
 template <typename T>
 class Collision;
@@ -48,21 +51,32 @@ std::vector<int> cyclic_indexes(int min, int max, int size);
 unsigned modulo(int value, unsigned m);
 
 template <class C>
-std::shared_ptr<C> remove(int i, std::vector<std::shared_ptr<C>> &vect) {
-    std::shared_ptr<C> ptr = vect.at(i);
+void remove(int i, std::vector<C> &vect) {
     vect.erase(vect.begin() + i);
+}
+
+template <class C>
+C remove_return(int i, std::vector<C> &vect) {
+    C ptr = vect.at(i);
+    gmt::remove(i, vect);
     return ptr;
 }
 
 template <class C>
-std::pair<std::shared_ptr<C>, std::shared_ptr<C>> remove(int i, std::vector<std::pair<std::shared_ptr<C>, std::shared_ptr<C>>> &vect) {
-    std::pair<std::shared_ptr<C>, std::shared_ptr<C>> ptr = vect.at(i);
-    vect.erase(vect.begin() + i);
+void remove_unordered(int i, std::vector<C> &vect) {
+    if (i != vect.size() - 1) { vect.at(i) = std::move(vect.back()); }
+    vect.pop_back();
+}
+
+template <class C>
+C remove_unordered_return(int i, std::vector<C> &vect) {
+    C ptr = vect.at(i);
+    gmt::remove_unordered(i, vect);
     return ptr;
 }
 
 template <class C>
-void remove_pairs(int i, std::vector<std::shared_ptr<C>> &vect, std::vector<std::pair<std::shared_ptr<C>, std::shared_ptr<C>>> &pairs) {
+void remove_pairs(int i, std::vector<C> &vect, std::vector<std::pair<C, C>> &pairs) {
     vect.erase(vect.begin() + i);  // Remove the object from the vector
 
     int first_pair = ((i - 1) * i) / 2;
@@ -79,10 +93,10 @@ void remove_pairs(int i, std::vector<std::shared_ptr<C>> &vect, std::vector<std:
 
 /* Avoid linear complexity of the erase but do not keep the order */
 template <class C>
-void remove_pairs_unordered(int i, std::vector<std::shared_ptr<C>> &vect, std::vector<std::pair<std::shared_ptr<C>, std::shared_ptr<C>>> &pairs) {
+void remove_pairs_unordered(int i, std::vector<C> &vect, std::vector<std::pair<C, C>> &pairs) {
     if (i > pairs.size() - 1) { return; }
-    std::shared_ptr<C> ptr = vect.at(i);  // Keep the pointer to the object for comparison
-    vect.erase(vect.begin() + i);         // Remove the object from the vector
+    C ptr = vect.at(i);            // Keep the pointer to the object for comparison
+    vect.erase(vect.begin() + i);  // Remove the object from the vector
 
     int j = 0;
     int size = pairs.size();

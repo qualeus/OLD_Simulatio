@@ -90,8 +90,7 @@ void Renderer::DrawGuiDocking() {
     ImGui::SetNextWindowViewport(viewport->ID);
 
     ImGuiWindowFlags host_window_flags = 0;
-    host_window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDocking;
-    host_window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoBackground;
+    host_window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoBackground;
 
     char label[32];
     ImFormatString(label, IM_ARRAYSIZE(label), "DockSpaceViewport", viewport->ID);
@@ -143,6 +142,7 @@ void Renderer::DrawGuiBar() {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
     // ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(1.0f, 0.5f, 0.5f, 1.0f));
     if (ImGui::Begin("Bar", &always_show, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove)) {
+        // ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove
         // ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.1f, 0.5f, 0.5f, 1.0f));
 
         ImVec2 button_sz(G_TOP_BAR_SIZE, G_TOP_BAR_SIZE);
@@ -397,12 +397,6 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     const char* items[] = {"30 Hz", "60 Hz", "120 Hz", "No Limit"};
                     static int item_current = 1;
 
-                    switch (temp_max_framerate) {
-                        case 30: item_current = 0; break;
-                        case 60: item_current = 1; break;
-                        case 120: item_current = 2; break;
-                        default: item_current = 3;
-                    }
                     if (ImGui::Combo("Framerate", &item_current, items, IM_ARRAYSIZE(items))) {
                         switch (item_current) {
                             case 0: set_max_framerate(30); break;

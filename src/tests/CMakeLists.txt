@@ -45,7 +45,8 @@ set(SOURCES
     ../Geometry/Text.cpp
     ../Geometry/String.cpp
     ../Geometry/Maths.cpp
-    ../Structures/OldQuadtree.cpp
+    ../Structures/QuadTree.cpp
+    ../Structures/QuadNode.cpp
     ../Geometry/Collision.cpp
 )
 set(HEADERS
@@ -57,7 +58,8 @@ set(HEADERS
     ../../include/Geometry/Geometry.hpp
     ../../include/Geometry/Vector.hpp
     ../../include/Geometry/Bounds.hpp
-    ../../include/Structures/OldQuadtree.hpp
+    ../../include/Structures/QuadTree.hpp
+    ../../include/Structures/QuadNode.hpp
     ../../include/Geometry/Collision.hpp
     ../../include/Geometry/Vertices.hpp
     ../../include/Geometry/Text.hpp

@@ -11,13 +11,13 @@ System::System(bool gravity, gmt::UnitI force_x, gmt::UnitI force_y, gmt::UnitI 
     this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
     this->quad_pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
     this->collisions = std::vector<gmt::CollisionI>();
-    this->quadtree = gmt::QuadtreeI(gmt::BoundsI(-limit_x / gmt::UnitI(2), -limit_y / gmt::UnitI(2), limit_x / gmt::UnitI(2), limit_y / gmt::UnitI(2)), gmt::UnitI(1));
+    this->quadtree = gmt::QuadTreeI(gmt::BoundsI(-limit_x / gmt::UnitI(2), -limit_y / gmt::UnitI(2), limit_x / gmt::UnitI(2), limit_y / gmt::UnitI(2)), gmt::UnitI(1));
 
     gmt::UnitI mid_limx = limit_x / gmt::UnitI(2);
     gmt::UnitI mid_limy = limit_y / gmt::UnitI(2);
 
     this->limits = gmt::BoundsI(-mid_limx, -mid_limy, mid_limx, mid_limy);
-    StepQuadtree();
+    StepQuadTree();
 }
 
 System& System::operator=(const System& rhs) {
@@ -75,11 +75,11 @@ void System::Step() {
     // Update Velocities
     // Apply Boundaries conditions
     for (int i = 0; i < collision_accuracy; i++) {
-        // StepQuadtree();
+        // StepQuadTree();
         // QuadPairsStep();
         // PairsStep();
     }
-    // PairsStep();
+    PairsStep();
     // Move Global Time
     UpdateTime();
 }
@@ -111,10 +111,12 @@ void System::CorpseStop(int i) {
 }
 
 void System::PairsStep() {
+    /*
     for (int i = 0; i < pairs.size(); i++) {
         std::vector<gmt::CollisionI> resolved = gmt::CollisionI::Resolve(get_pair_A(i), get_pair_B(i));
         for (int j = 0; j < resolved.size(); j++) { this->collisions.push_back(resolved.at(j)); }
     }
+    */
     if (this->gravity) {
         for (int i = 0; i < pairs.size(); i++) { Gravity(get_pair_A(i), get_pair_B(i)); }
     }
@@ -156,12 +158,12 @@ void System::Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     if (!b->get_fixed()) { b->Drag(acceleration_b * this->dt * this->dt); }
 }
 
-void System::StepQuadtree() {
+void System::StepQuadTree() {
     this->quadtree.Clear();
-    for (int i = 0; i < corpses.size(); i++) { this->quadtree.Insert(get_corpse(i)); }
+    for (int i = 0; i < corpses.size(); i++) { this->quadtree.AddCorpse(get_corpse(i)); }
 }
 
-std::shared_ptr<gmt::QuadtreeI> System::get_quadtree() { return std::make_shared<gmt::QuadtreeI>(this->quadtree); }
+std::shared_ptr<gmt::QuadTreeI> System::get_quadtree() { return std::make_shared<gmt::QuadTreeI>(this->quadtree); }
 
 gmt::UnitI System::get_dt() const { return this->dt; }
 void System::set_dt(gmt::UnitI dt) {

@@ -175,7 +175,7 @@ void Quadtree<T>::Insert(std::shared_ptr<phy::Corpse> corpse) {
         while (i < this->corpses.size()) {
             int index = Index(this->corpses.at(i));
             if (index != -1) {
-                std::shared_ptr<phy::Corpse> rem = remove<phy::Corpse>(i, this->corpses);
+                std::shared_ptr<phy::Corpse> rem = remove_return(i, this->corpses);
                 get_node(index)->Insert(rem);
             } else {
                 i++;
