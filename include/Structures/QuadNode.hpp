@@ -10,15 +10,14 @@
 
 namespace gmt {
 
-template <typename T>
 class QuadNode {
    public:
-    std::array<std::unique_ptr<QuadNode>, 4> childs;
-    std::vector<std::shared_ptr<phy::Corpse>> corpses;
-    QuadNode<T>& operator=(const QuadNode<T>& rhs);
     QuadNode();
     //~QuadNode();
     bool Leaf();
+    std::array<std::unique_ptr<QuadNode>, 4> childs;
+    std::vector<std::shared_ptr<phy::Corpse>> corpses;
+    QuadNode& operator=(const QuadNode& rhs);
 };
 
 }  // namespace gmt

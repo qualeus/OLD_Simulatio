@@ -19,8 +19,6 @@ using UnitI = PHYSICS_PRECISION;
 using VectorI = Vector<PHYSICS_PRECISION>;
 using BoundsI = Bounds<PHYSICS_PRECISION>;
 using VerticesI = Vertices<PHYSICS_PRECISION>;
-using QuadTreeI = QuadTree<PHYSICS_PRECISION>;
-using QuadNodeI = QuadNode<PHYSICS_PRECISION>;
 using CollisionI = Collision<PHYSICS_PRECISION>;
 using TextI = Text<PHYSICS_PRECISION>;
 

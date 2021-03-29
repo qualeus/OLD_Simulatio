@@ -107,7 +107,7 @@ void Renderer::DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<
     DrawLine(pos_A.x, pos_A.y, pos_B.x, pos_B.y);
 }
 
-void Renderer::DrawQuadTree(gmt::BoundsI rect) { DrawRectangle(rect.x1, rect.y1, rect.x2, rect.y2, false, C_RED, true); }
+void Renderer::DrawQuadTree(gmt::BoundsI rect) { DrawRectangle(rect.x1, rect.y1, rect.x2, rect.y2, false, C_CARROT, true); }
 
 void Renderer::DrawLimits() {
     gmt::BoundsI limits = system.get_limits();
@@ -180,8 +180,8 @@ void Renderer::Debug() {
 
 void Renderer::DrawInputs() {
     if (debug_show_quadtree) {
-        std::vector<gmt::BoundsI> quadtrees = this->system.get_quadtree()->ComputeBounds();
-        for (int i = 0; i < quadtrees.size(); i++) { DrawQuadTree(quadtrees.at(i)); }
+        std::vector<gmt::BoundsI> quadbounds = this->system.get_quadtree()->ComputeBounds();
+        for (int i = 0; i < quadbounds.size(); i++) { DrawQuadTree(quadbounds.at(i)); }
     }
 
     if (debug_show_pairs) {

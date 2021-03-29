@@ -6,36 +6,36 @@
 #include "../Corpses/Polygon.hpp"
 #include "../Geometry/Bounds.hpp"
 #include "../Geometry/Maths.hpp"
+#include "../Geometry/String.hpp"
 #include "../Geometry/Vector.hpp"
 #include "QuadNode.hpp"
 
 namespace gmt {
 
-template <typename T>
 class QuadTree {
    private:
-    int max_count;
-    int max_depth;
-    Bounds<T> bounds;
-    std::unique_ptr<QuadNode<T>> root;
+    void SplitNode(QuadNode* node, const BoundsI& bounds);
+    BoundsI NodeBounds(const BoundsI& bounds, int index) const;
+    int Quadrant(const BoundsI& node_bounds, const BoundsI& corpse_bounds) const;
 
-    void SplitNode(const std::unique_ptr<QuadNode<T>>& node, const Bounds<T>& bounds);
-    Bounds<T> NodeBounds(const Bounds<T>& bounds, int index);
-    int Quadrant(const Bounds<T>& node_bounds, const Bounds<T>& corpse_bounds);
+    void Add(int depth, QuadNode* node, const BoundsI& node_bounds, std::shared_ptr<phy::Corpse> corpse, const BoundsI& corpse_bounds);
+    void Remove(QuadNode* node, const BoundsI& node_bounds, std::shared_ptr<phy::Corpse> corpse, const BoundsI& corpse_bounds);
+    void SearchRemove(QuadNode* node, std::shared_ptr<phy::Corpse> corpse);
+    void CleanupNode(QuadNode* node);
+    void ClearNode(QuadNode* node);
 
-    void Add(int depth, const std::unique_ptr<QuadNode<T>>& node, const Bounds<T>& node_bounds, std::shared_ptr<phy::Corpse> corpse, const Bounds<T>& corpse_bounds);
-    void Remove(const std::unique_ptr<QuadNode<T>>& node, const Bounds<T>& node_bounds, std::shared_ptr<phy::Corpse> corpse, const Bounds<T>& corpse_bounds);
-    void SearchRemove(const std::unique_ptr<QuadNode<T>>& node, std::shared_ptr<phy::Corpse> corpse);
-    void CleanupNode(const std::unique_ptr<QuadNode<T>>& node);
-    void ClearNode(const std::unique_ptr<QuadNode<T>>& node);
-
-    void FindPairs(const std::unique_ptr<QuadNode<T>>& node, std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>>& pairs) const;
-    void ChildsPairs(const std::vector<std::shared_ptr<phy::Corpse>>& corpses, const std::unique_ptr<QuadNode<T>>& node, std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>>& pairs) const;
-    void FindBounds(const std::unique_ptr<QuadNode<T>>& node, const Bounds<T>& node_bounds, std::vector<Bounds<T>> bounds) const;
+    void FindPairs(QuadNode* node, std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>>& pairs) const;
+    void ChildsPairs(const std::vector<std::shared_ptr<phy::Corpse>>& corpses, QuadNode* node, std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>>& pairs) const;
+    void FindBounds(QuadNode* node, const BoundsI& node_bounds, std::vector<BoundsI>& bounds) const;
 
    public:
-    QuadTree<T>& operator=(const QuadTree<T>& rhs);
-    QuadTree(const Bounds<T>& bounds, const int& max_count, const int& max_depth);
+    int max_count;
+    int max_depth;
+    BoundsI bounds;
+    std::unique_ptr<QuadNode> root;
+    QuadTree& operator=(const QuadTree& rhs);
+    QuadTree(const BoundsI& bounds = BoundsI(), const int& max_count = 12, const int& max_depth = 10);
+    QuadTree(const QuadTree& quadtree);
     // ~QuadTree();
 
     void Update();
@@ -46,9 +46,8 @@ class QuadTree {
     void RemoveCorpse(std::shared_ptr<phy::Corpse> corpse);
     void UpdateCorpse(const int& index);
 
-    std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>> ComputePairs();
-
-    std::vector<Bounds<T>> ComputeBounds();
+    std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>> ComputePairs() const;
+    std::vector<BoundsI> ComputeBounds() const;
 };
 
 }  // namespace gmt

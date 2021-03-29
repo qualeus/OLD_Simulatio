@@ -10,6 +10,7 @@
 #define RO 360 /* Complete rotation */
 
 #include <SFML/Graphics.hpp>
+#include <array>
 #include <cmath>
 #include <iostream>
 #include <memory>
@@ -32,16 +33,13 @@ template <typename T>
 class Bounds;
 
 template <typename T>
-class QuadTree;
-
-template <typename T>
-class QuadNode;
-
-template <typename T>
 class Collision;
 
 template <typename T>
 class Text;
+
+class QuadTree;
+class QuadNode;
 
 bool float_equals(float a, float b, float sigma = 0.1f);
 float degree_to_radian(float degree);

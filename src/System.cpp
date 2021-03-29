@@ -2,7 +2,7 @@
 
 namespace phy {
 
-System::System(bool gravity, gmt::UnitI force_x, gmt::UnitI force_y, gmt::UnitI limit_x, gmt::UnitI limit_y) {
+System::System(bool gravity, gmt::UnitI force_x, gmt::UnitI force_y, gmt::UnitI limit_x, gmt::UnitI limit_y) : quadtree(gmt::BoundsI(-limit_x / gmt::UnitI(2), -limit_y / gmt::UnitI(2), limit_x / gmt::UnitI(2), limit_y / gmt::UnitI(2)), 10, 20) {
     this->gravity = gravity;
     this->force_x = force_x;
     this->force_y = force_y;
@@ -11,13 +11,11 @@ System::System(bool gravity, gmt::UnitI force_x, gmt::UnitI force_y, gmt::UnitI 
     this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
     this->quad_pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
     this->collisions = std::vector<gmt::CollisionI>();
-    this->quadtree = gmt::QuadTreeI(gmt::BoundsI(-limit_x / gmt::UnitI(2), -limit_y / gmt::UnitI(2), limit_x / gmt::UnitI(2), limit_y / gmt::UnitI(2)), gmt::UnitI(1));
 
     gmt::UnitI mid_limx = limit_x / gmt::UnitI(2);
     gmt::UnitI mid_limy = limit_y / gmt::UnitI(2);
 
     this->limits = gmt::BoundsI(-mid_limx, -mid_limy, mid_limx, mid_limy);
-    StepQuadTree();
 }
 
 System& System::operator=(const System& rhs) {
@@ -74,11 +72,13 @@ void System::Step() {
     // Update Forces
     // Update Velocities
     // Apply Boundaries conditions
+    StepQuadTree();
     for (int i = 0; i < collision_accuracy; i++) {
         // StepQuadTree();
         // QuadPairsStep();
         // PairsStep();
     }
+
     PairsStep();
     // Move Global Time
     UpdateTime();
@@ -123,17 +123,15 @@ void System::PairsStep() {
 }
 
 void System::QuadPairsStep() {
-    std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> quadpairs = this->quadtree.make_pairs();
+    std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> quadpairs = this->quadtree.ComputePairs();
 
     // We Store the Quad Pairs before resolving the collisions
-    /*
     this->quad_pairs = quadpairs;
 
     for (int i = 0; i < quadpairs.size(); i++) {
         std::vector<gmt::CollisionI> resolved = gmt::CollisionI::Resolve(quadpairs.at(i).first, quadpairs.at(i).second);
         for (int j = 0; j < resolved.size(); j++) { this->collisions.push_back(resolved.at(j)); }
     }
-    */
 }
 
 void System::Remove(int i) { gmt::remove_pairs_unordered(i, this->corpses, this->pairs); }
@@ -163,7 +161,7 @@ void System::StepQuadTree() {
     for (int i = 0; i < corpses.size(); i++) { this->quadtree.AddCorpse(get_corpse(i)); }
 }
 
-std::shared_ptr<gmt::QuadTreeI> System::get_quadtree() { return std::make_shared<gmt::QuadTreeI>(this->quadtree); }
+gmt::QuadTree* System::get_quadtree() { return &this->quadtree; }
 
 gmt::UnitI System::get_dt() const { return this->dt; }
 void System::set_dt(gmt::UnitI dt) {

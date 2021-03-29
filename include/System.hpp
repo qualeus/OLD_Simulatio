@@ -18,7 +18,7 @@ class System {
     std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> quad_pairs;
     std::vector<gmt::CollisionI> collisions;
 
-    gmt::QuadTreeI quadtree;
+    gmt::QuadTree quadtree;
     gmt::BoundsI limits;
 
     bool gravity;
@@ -52,7 +52,7 @@ class System {
 
     void InitQuadTree();
     void StepQuadTree();
-    std::shared_ptr<gmt::QuadTreeI> get_quadtree();
+    gmt::QuadTree* get_quadtree();
 
     gmt::UnitI get_dt() const;
     void set_dt(gmt::UnitI dt);
