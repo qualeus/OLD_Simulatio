@@ -174,7 +174,7 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
     if (selected_corpses_cursor.size() > 0) {
         bool one_pointed = false;
         for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-            if (!gmt::BoundsI::BoundsIntersectBounds(system.get_corpse(i)->get_corpse_bounds(), gmt::BoundsI(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width), get_real_pos_y(screen_height)))) { continue; }  // Out Screen
+            if (!gmt::BoundsI::BoundsIntersectBounds(system.get_corpse(i)->get_bounds(), gmt::BoundsI(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width), get_real_pos_y(screen_height)))) { continue; }  // Out Screen
 
             if (system.get_corpse(selected_corpses_cursor.at(i))->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {
                 one_pointed = true;
@@ -203,7 +203,7 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
 
     /* If Selection is currently Empty */
     for (int i = 0; i < system.get_corpses_size(); i++) {
-        if (!gmt::BoundsI::BoundsIntersectBounds(system.get_corpse(i)->get_corpse_bounds(), gmt::BoundsI(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width), get_real_pos_y(screen_height)))) { continue; }  // Out Screen
+        if (!gmt::BoundsI::BoundsIntersectBounds(system.get_corpse(i)->get_bounds(), gmt::BoundsI(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width), get_real_pos_y(screen_height)))) { continue; }  // Out Screen
 
         if (system.get_corpse(i)->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {
             this->selected_corpses_cursor.push_back(i);
@@ -258,13 +258,13 @@ void Renderer::SelectMultipleCorpsesStop(sf::Event event) {
 
     for (int i = 0; i < system.get_corpses_size(); i++) {
         if (phy::Circle *circle = dynamic_cast<phy::Circle *>(system.get_corpse(i).get())) {
-            if (!gmt::BoundsI::BoundsOutBounds(circle->get_corpse_bounds(), rectangle)) {
+            if (!gmt::BoundsI::BoundsOutBounds(circle->get_bounds(), rectangle)) {
                 this->selected_corpses_cursor.push_back(i);
                 this->selected_corpses_index.push_back(system.get_corpse(i)->get_id());
                 this->selected_corpses_fixed.push_back(system.get_corpse(i)->get_fixed());
             }
         } else if (phy::Polygon *polygon = dynamic_cast<phy::Polygon *>(system.get_corpse(i).get())) {
-            if (!gmt::BoundsI::BoundsOutBounds(polygon->get_corpse_bounds(), rectangle)) {
+            if (!gmt::BoundsI::BoundsOutBounds(polygon->get_bounds(), rectangle)) {
                 this->selected_corpses_cursor.push_back(i);
                 this->selected_corpses_index.push_back(system.get_corpse(i)->get_id());
                 this->selected_corpses_fixed.push_back(system.get_corpse(i)->get_fixed());
@@ -308,7 +308,7 @@ bool Renderer::LaunchCorpseInit(sf::Event event) {
     if (selected_corpses_cursor.size() > 0) {
         bool one_pointed = false;
         for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-            if (!gmt::BoundsI::BoundsIntersectBounds(system.get_corpse(i)->get_corpse_bounds(), gmt::BoundsI(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width), get_real_pos_y(screen_height)))) { continue; }  // Out Screen
+            if (!gmt::BoundsI::BoundsIntersectBounds(system.get_corpse(i)->get_bounds(), gmt::BoundsI(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width), get_real_pos_y(screen_height)))) { continue; }  // Out Screen
 
             if (system.get_corpse(selected_corpses_cursor.at(i))->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {
                 one_pointed = true;
@@ -342,7 +342,7 @@ bool Renderer::LaunchCorpseInit(sf::Event event) {
     }
 
     for (int i = 0; i < system.get_corpses_size(); i++) {
-        if (!gmt::BoundsI::BoundsIntersectBounds(system.get_corpse(i)->get_corpse_bounds(), gmt::BoundsI(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width), get_real_pos_y(screen_height)))) { continue; }  // Out Screen
+        if (!gmt::BoundsI::BoundsIntersectBounds(system.get_corpse(i)->get_bounds(), gmt::BoundsI(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width), get_real_pos_y(screen_height)))) { continue; }  // Out Screen
 
         if (system.get_corpse(i)->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {
             this->selected_corpses_cursor.push_back(i);

@@ -1380,7 +1380,7 @@ void Renderer::DrawGuiMenu() {
         if (ImGui::BeginMenu("Debug")) {
             ImGui::PushItemFlag(ImGuiItemFlags_SelectableDontClosePopup, true);
             ImGui::MenuItem("Quadtree", NULL, &debug_show_quadtree);
-            ImGui::MenuItem("Rectangles", NULL, &debug_show_rectangles);
+            ImGui::MenuItem("Bounds", NULL, &debug_show_bounds);
             ImGui::MenuItem("Centroids", NULL, &debug_show_centroids);
             ImGui::MenuItem("Edges", NULL, &debug_show_edges);
             ImGui::MenuItem("Projections", NULL, &debug_show_projections);

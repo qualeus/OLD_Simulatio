@@ -20,6 +20,8 @@ Polygon::Polygon(std::vector<gmt::VectorI> points, gmt::UnitI mass, gmt::UnitI d
 
     this->motor = motor;
     this->propulsor = propulsor;
+
+    this->bounds = this->points.Bounds();
 }
 Polygon& Polygon::operator=(const Polygon& rhs) {
     Corpse::operator=(rhs);
@@ -52,7 +54,7 @@ void Polygon::Rotate(const gmt::UnitI& rotate) {
     this->current_rotation = std::fmod(this->current_rotation + rotate, gmt::UnitI(RO));
 }
 
-bool Polygon::inBounds(const gmt::BoundsI& bounds) const { return gmt::BoundsI::BoundsInBounds(this->get_corpse_bounds(), bounds); }
+bool Polygon::inBounds(const gmt::BoundsI& bounds) const { return gmt::BoundsI::BoundsInBounds(this->get_bounds(), bounds); }
 bool Polygon::Pointed(const gmt::VectorI& point) const { return gmt::VerticesI::PointInShape(this->get_points(), point); }
 
 void Polygon::add_point(gmt::VectorI point) {
@@ -96,13 +98,14 @@ void Polygon::Step() {
         this->Rotate(diff_rotation);
     }
 
+    // Update bounds
+    this->bounds = this->points.Bounds();
+
     // Add the motor rotation even if the object is tied
     // if (!gmt::decimal_equals(motor, 0.0f, 0.0001f)) { this->current_rotation = this->current_rotation + motor; }
 }
 void Polygon::Stop() { this->last_pos = this->current_pos; }
 void Polygon::Bloc() { this->last_rotation = this->current_rotation; }
-
-gmt::BoundsI Polygon::get_corpse_bounds() const { return this->points.Bounds(); }
 
 void Polygon::Generate() {
     // Put the vertex in the Counter Clockwise order

@@ -13,6 +13,8 @@ Corpse::Corpse(gmt::UnitI mass, gmt::UnitI damping, bool fixed, bool tied, bool 
     this->mass = mass;
     this->friction = gmt::UnitI(1);
     this->damping = std::min(damping, gmt::UnitI(MIN_DAMPING));
+
+    this->bounds = gmt::BoundsI();
     this->color = color;
 }
 Corpse& Corpse::operator=(const Corpse& rhs) {
@@ -25,7 +27,6 @@ Corpse& Corpse::operator=(const Corpse& rhs) {
     this->mass = rhs.get_mass();
     this->friction = rhs.get_friction();
     this->damping = rhs.get_damping();
-    this->color = rhs.get_color();
 
     this->current_pos = rhs.get_pos();
     this->last_pos = rhs.get_last_pos();
@@ -34,6 +35,9 @@ Corpse& Corpse::operator=(const Corpse& rhs) {
     this->current_rotation = rhs.get_rotation();
     this->last_rotation = rhs.get_last_rotation();
     this->motor = rhs.get_motor();
+
+    this->bounds = rhs.get_bounds();
+    this->color = rhs.get_color();
 
     return *this;
 }
@@ -97,6 +101,8 @@ void Corpse::set_mass(const gmt::UnitI& mass) { this->mass = mass; }
 
 gmt::UnitI Corpse::get_friction() const { return this->friction; }
 void Corpse::set_friction(const gmt::UnitI& friction) { this->friction = friction; }
+
+gmt::BoundsI Corpse::get_bounds() const { return this->bounds; }
 
 bool Corpse::Equals(const Corpse* other) { return (this->get_id() == other->get_id()); }
 

@@ -39,7 +39,6 @@ class Circle : public Corpse {
     bool Pointed(const gmt::VectorI& point) const;
 
     gmt::UnitI get_size() const;
-    gmt::BoundsI get_corpse_bounds() const;
 };
 
 }  // namespace phy

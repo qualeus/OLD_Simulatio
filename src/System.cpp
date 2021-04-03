@@ -2,7 +2,7 @@
 
 namespace phy {
 
-System::System(bool gravity, gmt::UnitI force_x, gmt::UnitI force_y, gmt::UnitI limit_x, gmt::UnitI limit_y) : quadtree(gmt::BoundsI(-limit_x / gmt::UnitI(2), -limit_y / gmt::UnitI(2), limit_x / gmt::UnitI(2), limit_y / gmt::UnitI(2)), 10, 20) {
+System::System(bool gravity, gmt::UnitI force_x, gmt::UnitI force_y, gmt::UnitI limit_x, gmt::UnitI limit_y) : quadtree(gmt::BoundsI(-limit_x / gmt::UnitI(2), -limit_y / gmt::UnitI(2), limit_x / gmt::UnitI(2), limit_y / gmt::UnitI(2)), 1, 20) {
     this->gravity = gravity;
     this->force_x = force_x;
     this->force_y = force_y;
@@ -75,8 +75,8 @@ void System::Step() {
     StepQuadTree();
     for (int i = 0; i < collision_accuracy; i++) {
         // StepQuadTree();
-        // QuadPairsStep();
         // PairsStep();
+        // QuadPairsStep();
     }
 
     PairsStep();
@@ -87,11 +87,7 @@ void System::UpdateTime() { this->t += this->dt; }
 
 void System::CheckLimits() {
     for (int i = 0; i < corpses.size(); i++) {
-        if (phy::Circle* circle = dynamic_cast<phy::Circle*>(get_corpse(i).get())) {
-            if (gmt::BoundsI::BoundsOutBounds(circle->get_corpse_bounds(), get_limits())) { Remove(i); }
-        } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(get_corpse(i).get())) {
-            if (gmt::BoundsI::BoundsOutBounds(polygon->get_corpse_bounds(), get_limits())) { Remove(i); }
-        }
+        if (gmt::BoundsI::BoundsOutBounds(get_corpse(i)->get_bounds(), get_limits())) { Remove(i); }
     }
 }
 
@@ -123,13 +119,8 @@ void System::PairsStep() {
 }
 
 void System::QuadPairsStep() {
-    std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> quadpairs = this->quadtree.ComputePairs();
-
-    // We Store the Quad Pairs before resolving the collisions
-    this->quad_pairs = quadpairs;
-
-    for (int i = 0; i < quadpairs.size(); i++) {
-        std::vector<gmt::CollisionI> resolved = gmt::CollisionI::Resolve(quadpairs.at(i).first, quadpairs.at(i).second);
+    for (int i = 0; i < this->quad_pairs.size(); i++) {
+        std::vector<gmt::CollisionI> resolved = gmt::CollisionI::Resolve(this->quad_pairs.at(i).first, this->quad_pairs.at(i).second);
         for (int j = 0; j < resolved.size(); j++) { this->collisions.push_back(resolved.at(j)); }
     }
 }
@@ -159,6 +150,8 @@ void System::Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
 void System::StepQuadTree() {
     this->quadtree.Clear();
     for (int i = 0; i < corpses.size(); i++) { this->quadtree.AddCorpse(get_corpse(i)); }
+    this->quad_pairs = this->quadtree.ComputePairs();
+    // this->quadtree.Update();
 }
 
 gmt::QuadTree* System::get_quadtree() { return &this->quadtree; }
@@ -220,8 +213,11 @@ void System::addCorpse(Circle circle) { add_corpse(std::make_shared<Circle>(circ
 
 void System::add_corpse(std::shared_ptr<Corpse> corpse) {
     this->corpses.emplace_back(std::move(corpse));  // size of the array = [n]
+
     const int a_index = this->corpses.size() - 1;
     for (int b_index = 0; b_index < a_index; b_index++) { System::add_pair(get_corpse(a_index), get_corpse(b_index)); }
+
+    // this->quadtree.AddCorpse(get_corpse(a_index));
 }
 
 void System::add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {

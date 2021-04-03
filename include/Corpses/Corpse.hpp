@@ -33,6 +33,7 @@ class Corpse {
     gmt::UnitI last_rotation;
     gmt::UnitI motor;
 
+    gmt::BoundsI bounds;
     sf::Color color;
 
    public:
@@ -113,7 +114,7 @@ class Corpse {
     gmt::UnitI get_friction() const;
     void set_friction(const gmt::UnitI& friction);
 
-    virtual gmt::BoundsI get_corpse_bounds() const = 0;
+    gmt::BoundsI get_bounds() const;
 
     bool Equals(const Corpse* other);
 };

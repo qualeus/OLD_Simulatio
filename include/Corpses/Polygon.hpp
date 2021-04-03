@@ -39,8 +39,6 @@ class Polygon : public Corpse {
     bool inBounds(const gmt::BoundsI& bounds) const;
     bool Pointed(const gmt::VectorI& point) const;
 
-    gmt::BoundsI get_corpse_bounds() const;
-
     void Generate();
 
     int get_points_number() const;

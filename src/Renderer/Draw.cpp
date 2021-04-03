@@ -8,8 +8,8 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
         /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
 
         if (debug_show_centroids) { DrawCircle(circle->get_pos_x(), circle->get_pos_y(), 5, sf::Color::Red, true); }
-        if (debug_show_rectangles) {
-            gmt::BoundsI bounds = circle->get_corpse_bounds();
+        if (debug_show_bounds) {
+            gmt::BoundsI bounds = circle->get_bounds();
             DrawRectangle(bounds.x1, bounds.y1, bounds.x2, bounds.y2, false, sf::Color::Red, true);
         }
         if (debug_show_edges) { DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size() + 3, sf::Color::Red, true); }
@@ -47,8 +47,8 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
                 DrawCircle(tpoint.x, tpoint.y, 5, sf::Color(255, i * 255 / tpairs.size(), 0));
             }
         }
-        if (debug_show_rectangles) {
-            gmt::BoundsI bounds = polygon->get_corpse_bounds();
+        if (debug_show_bounds) {
+            gmt::BoundsI bounds = polygon->get_bounds();
             DrawRectangle(bounds.x1, bounds.y1, bounds.x2, bounds.y2, false, sf::Color::Red, true);
         }
         if (debug_show_centroids) { DrawCircle(polygon->get_pos_x(), polygon->get_pos_y(), 5, sf::Color::Red, true); }

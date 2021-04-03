@@ -113,5 +113,14 @@ template <typename T>
 bool decimal_equals(const T &a, const T &b, T epsilon = std::numeric_limits<T>::epsilon()) {
     return fabs(a - b) < epsilon;
 }
+
+template <typename T>
+std::vector<T> concatenate(std::vector<T> vect_a, std::vector<T> vect_b) {
+    std::vector<T> vect_ab;
+    vect_ab.reserve(vect_a.size() + vect_b.size());  // preallocate memory
+    vect_ab.insert(vect_ab.end(), vect_a.begin(), vect_a.end());
+    vect_ab.insert(vect_ab.end(), vect_b.begin(), vect_b.end());
+    return vect_ab;
+}
 }  // namespace gmt
 #endif

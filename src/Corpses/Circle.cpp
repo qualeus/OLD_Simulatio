@@ -12,6 +12,8 @@ Circle::Circle(gmt::UnitI x, gmt::UnitI y, gmt::UnitI size, gmt::UnitI mass, gmt
     this->size = size;
     this->motor = motor;
     this->propulsor = propulsor;
+
+    this->bounds = gmt::BoundsI(this->get_pos_x() - this->get_size(), this->get_pos_y() - this->get_size(), this->get_pos_x() + this->get_size(), this->get_pos_y() + this->get_size());
 }
 Circle& Circle::operator=(const Circle& rhs) {
     Corpse::operator=(rhs);
@@ -40,6 +42,9 @@ void Circle::Step() {
         this->Rotate(diff_rotation);
     }
 
+    // Update bounds
+    this->bounds = gmt::BoundsI(this->get_pos_x() - this->get_size(), this->get_pos_y() - this->get_size(), this->get_pos_x() + this->get_size(), this->get_pos_y() + this->get_size());
+
     // Add the motor rotation even if the object is tied
     // if (!gmt::decimal_equals(motor, gmt::UnitI(0), gmt::UnitI(0.0001))) { this->current_rotation = this->current_rotation + motor; }
 }
@@ -52,10 +57,9 @@ void Circle::Drag(const gmt::VectorI& drag) { this->current_pos = this->current_
 void Circle::Turn(const gmt::UnitI& turn) { this->current_rotation = std::fmod(turn, gmt::UnitI(RO)); }
 void Circle::Rotate(const gmt::UnitI& rotate) { this->current_rotation = std::fmod(this->current_rotation + rotate, gmt::UnitI(RO)); }
 
-bool Circle::inBounds(const gmt::BoundsI& bounds) const { return gmt::BoundsI::BoundsInBounds(this->get_corpse_bounds(), bounds); }
+bool Circle::inBounds(const gmt::BoundsI& bounds) const { return gmt::BoundsI::BoundsInBounds(this->get_bounds(), bounds); }
 bool Circle::Pointed(const gmt::VectorI& point) const { return (gmt::VectorI::Distance(this->get_pos(), point) <= this->size); }
 
 gmt::UnitI Circle::get_size() const { return this->size; }
-gmt::BoundsI Circle::get_corpse_bounds() const { return gmt::BoundsI(this->get_pos_x() - this->get_size(), this->get_pos_y() - this->get_size(), this->get_pos_x() + this->get_size(), this->get_pos_y() + this->get_size()); }
 
 }  // namespace phy

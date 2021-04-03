@@ -33,7 +33,7 @@ void GravityDemo() {
 }
 
 void TestDemo() {
-    Renderer test = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Test", false, 0.0f, 0.0f, 100000.0f, 100000.0f);
+    Renderer test = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Test", false, 0.0f, 0.0f, 1000.0f, 1000.0f);
     test.Render();
 }
 

@@ -16,6 +16,7 @@ class QuadTree {
    private:
     void SplitNode(QuadNode* node, const BoundsI& bounds);
     BoundsI NodeBounds(const BoundsI& bounds, int index) const;
+    BoundsI CorpseBounds(const std::shared_ptr<phy::Corpse>& corpse) const;
     int Quadrant(const BoundsI& node_bounds, const BoundsI& corpse_bounds) const;
 
     void Add(int depth, QuadNode* node, const BoundsI& node_bounds, std::shared_ptr<phy::Corpse> corpse, const BoundsI& corpse_bounds);
@@ -39,12 +40,15 @@ class QuadTree {
     // ~QuadTree();
 
     void Update();
+    std::vector<gmt::BoundsI> AscendingUpdate(QuadNode* node, QuadNode* parent, const gmt::BoundsI& bounds);
     void Cleanup();
     void Clear();
 
+    void DescendingUpdate(int depth, QuadNode* node, const gmt::BoundsI& node_bounds);
+
     void AddCorpse(std::shared_ptr<phy::Corpse> corpse);
     void RemoveCorpse(std::shared_ptr<phy::Corpse> corpse);
-    void UpdateCorpse(const int& index);
+    void UpdateCorpse(std::shared_ptr<phy::Corpse> corpse);
 
     std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>> ComputePairs() const;
     std::vector<BoundsI> ComputeBounds() const;

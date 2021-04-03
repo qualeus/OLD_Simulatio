@@ -102,13 +102,7 @@ template <typename T>
 int Quadtree<T>::Index(std::shared_ptr<phy::Corpse> corpse) {
     int index = -1;
 
-    BoundsI corpse_bounds;
-
-    if (phy::Circle* circle = dynamic_cast<phy::Circle*>(corpse.get())) {
-        corpse_bounds = circle->get_corpse_bounds();
-    } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(corpse.get())) {
-        corpse_bounds = polygon->get_corpse_bounds();
-    }
+    BoundsI corpse_bounds = corpse->get_bounds();
 
     // Determine the SubBounds
     UnitI x1 = this->bounds.x1;

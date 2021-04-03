@@ -112,7 +112,7 @@ class Renderer {
     bool show_gui_imguidemo = false;
 
     bool debug_show_quadtree = false;
-    bool debug_show_rectangles = false;
+    bool debug_show_bounds = false;
     bool debug_show_centroids = false;
     bool debug_show_edges = false;
     bool debug_show_projections = false;

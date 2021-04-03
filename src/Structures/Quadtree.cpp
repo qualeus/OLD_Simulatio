@@ -38,15 +38,8 @@ void QuadTree::SplitNode(QuadNode* node, const BoundsI& bounds) {
     std::vector<std::shared_ptr<phy::Corpse>> new_corpses = {};
 
     for (int i = 0; i < node->corpses.size(); i++) {
-        BoundsI corpse_bounds;
-
         const std::shared_ptr<phy::Corpse> corpse = node->corpses.at(i);
-
-        if (phy::Circle* circle = dynamic_cast<phy::Circle*>(corpse.get())) {
-            corpse_bounds = circle->get_corpse_bounds();
-        } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(corpse.get())) {
-            corpse_bounds = polygon->get_corpse_bounds();
-        }
+        const BoundsI corpse_bounds = CorpseBounds(corpse);
 
         int index = Quadrant(bounds, corpse_bounds);
 
@@ -71,6 +64,8 @@ BoundsI QuadTree::NodeBounds(const BoundsI& bounds, int index) const {
     }
     throw std::out_of_range("Only 4 Sub-Nodes");
 }
+
+BoundsI QuadTree::CorpseBounds(const std::shared_ptr<phy::Corpse>& corpse) const { return corpse->get_bounds(); }
 
 int QuadTree::Quadrant(const BoundsI& node_bounds, const BoundsI& corpse_bounds) const {
     UnitI midx = node_bounds.x1 + (node_bounds.x2 - node_bounds.x1) / UnitI(2);
@@ -100,17 +95,7 @@ int QuadTree::Quadrant(const BoundsI& node_bounds, const BoundsI& corpse_bounds)
     return index;
 }
 
-void QuadTree::AddCorpse(std::shared_ptr<phy::Corpse> corpse) {
-    BoundsI corpse_bounds;
-
-    if (phy::Circle* circle = dynamic_cast<phy::Circle*>(corpse.get())) {
-        corpse_bounds = circle->get_corpse_bounds();
-    } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(corpse.get())) {
-        corpse_bounds = polygon->get_corpse_bounds();
-    }
-
-    Add(0, root.get(), bounds, corpse, corpse_bounds);
-}
+void QuadTree::AddCorpse(std::shared_ptr<phy::Corpse> corpse) { Add(0, root.get(), bounds, corpse, CorpseBounds(corpse)); }
 
 void QuadTree::Add(int depth, QuadNode* node, const BoundsI& node_bounds, std::shared_ptr<phy::Corpse> corpse, const BoundsI& corpse_bounds) {
     // if (node == nullptr) { throw std::bad_weak_ptr(); }
@@ -161,7 +146,7 @@ void QuadTree::CleanupNode(QuadNode* node) {
     if (!node->Leaf()) {
         int leaf_count = 0;
         for (int i = 0; i < 4; i++) {
-            if (node->childs[i]->Leaf()) {
+            if (node->childs[i]->Leaf() && node->corpses.size() == 0) {
                 leaf_count++;
             } else {
                 CleanupNode(node->childs[i].get());
@@ -213,9 +198,10 @@ void QuadTree::ChildsPairs(const std::vector<std::shared_ptr<phy::Corpse>>& corp
             for (int b = 0; b < corpse_size; b++) { pairs.push_back({corpses.at(a), node->corpses.at(b)}); }
         }
     }
-}
-void QuadTree::UpdateCorpse(const int& index) {
-    // TODO
+
+    if (!node->Leaf()) {
+        for (int i = 0; i < 4; i++) { ChildsPairs(gmt::concatenate(corpses, node->corpses), node->childs[i].get(), pairs); }
+    }
 }
 
 void QuadTree::RemoveCorpse(std::shared_ptr<phy::Corpse> corpse) {
@@ -223,7 +209,72 @@ void QuadTree::RemoveCorpse(std::shared_ptr<phy::Corpse> corpse) {
 }
 
 void QuadTree::Update() {
-    // TODO
+    // Move up all the corpses that moved / are overflowing (ascending)
+    if (!root->Leaf()) {
+        for (int i = 0; i < 4; i++) { AscendingUpdate(root->childs[i].get(), root.get(), NodeBounds(this->bounds, i)); }
+    }
+
+    // When we have pushed up all the corpses that could be, we test if we can push back
+    DescendingUpdate(0, root.get(), bounds);
+
+    Cleanup();
+}
+
+std::vector<gmt::BoundsI> QuadTree::AscendingUpdate(QuadNode* node, QuadNode* parent, const gmt::BoundsI& bounds) {
+    std::vector<gmt::BoundsI> corpses_bounds;
+
+    // Push up corpses that are moving to another node and compute their bounds
+    if (!node->Leaf()) {
+        for (int i = 0; i < 4; i++) {
+            std::vector<gmt::BoundsI> node_corpses_bounds = AscendingUpdate(node->childs[i].get(), node, NodeBounds(bounds, i));
+            std::vector<gmt::BoundsI> temp_bounds = gmt::concatenate(corpses_bounds, node_corpses_bounds);
+            corpses_bounds = temp_bounds;
+        }
+    }
+
+    // Compute the bounds for the corpses that were already in that node
+    std::vector<gmt::BoundsI> node_corpses_bounds;
+    for (int i = 0; i < node->corpses.size() - corpses_bounds.size(); i++) {
+        const std::shared_ptr<phy::Corpse> corpse = node->corpses.at(i);
+        BoundsI corpse_bounds = CorpseBounds(corpse);
+        node_corpses_bounds.push_back(corpse_bounds);
+    }
+
+    // Put the compute bounds in the right order (current :: childs)
+    std::vector<gmt::BoundsI> temp_bounds = gmt::concatenate(node_corpses_bounds, corpses_bounds);
+    corpses_bounds = temp_bounds;
+
+    // Check the corpses that are still moving to another node
+    std::vector<int> to_push_up = {};
+    for (int i = 0; i < corpses_bounds.size(); i++) {
+        if (!gmt::BoundsI::BoundsInBounds(corpses_bounds.at(i), bounds)) { to_push_up.push_back(i); }
+    }
+
+    // Push the corpses in the parent node and record their bounds
+    std::vector<gmt::BoundsI> moving_bounds = {};
+    for (int i = 0; i < to_push_up.size(); i++) {
+        moving_bounds.push_back(corpses_bounds.at(i));
+
+        // TO ADAPT? easely with erase but seems harder to keep trace of ids with move_back...
+        std::shared_ptr<phy::Corpse> push_up_corpse = remove_return(to_push_up.at(i) - i, node->corpses);  // -i is because we remove one each time
+
+        // Push into parent corpses
+        parent->corpses.push_back(push_up_corpse);
+    }
+
+    // Return the bounds of the objects that were pushed up
+    return moving_bounds;
+}
+
+void QuadTree::DescendingUpdate(int depth, QuadNode* node, const gmt::BoundsI& node_bounds) {
+    if (!node->Leaf()) {
+        // for (int i = 0; i < 4; i++) { DescendingUpdate(depth + 1, node->childs[i].get(), NodeBounds(node_bounds, i)); }
+    }
+
+    for (int i = 0; i < node->corpses.size(); i++) {
+        // BoundsI corpse_bounds = CorpseBounds(node->corpses.at(i));
+        // Add(depth, node, node_bounds, node->corpses.at(i), corpse_bounds);
+    }
 }
 
 void QuadTree::Cleanup() { CleanupNode(root.get()); }
