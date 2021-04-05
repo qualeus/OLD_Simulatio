@@ -167,40 +167,10 @@ void QuadTree::ClearNode(QuadNode* node) {
     }
 }
 
-void QuadTree::FindPairs(QuadNode* node, std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>>& pairs) const {
-    const int corpse_size = node->corpses.size();
-    if (corpse_size > 1) {
-        for (int a = 0; a < corpse_size; a++) {
-            for (int b = a + 1; b < corpse_size; b++) { pairs.push_back({node->corpses.at(a), node->corpses.at(b)}); }
-        }
-    }
-
-    if (!node->Leaf()) {
-        for (int i = 0; i < 4; i++) {
-            FindPairs(node->childs[i].get(), pairs);                   // Find pairs between the Child corpses
-            ChildsPairs(node->corpses, node->childs[i].get(), pairs);  // Find pairs between the Child corpses and this node corpses
-        }
-    }
-}
-
 void QuadTree::FindBounds(QuadNode* node, const BoundsI& node_bounds, std::vector<BoundsI>& bounds) const {
     bounds.push_back(node_bounds);
     if (!node->Leaf()) {
         for (int i = 0; i < 4; i++) { FindBounds(node->childs[i].get(), NodeBounds(node_bounds, i), bounds); }
-    }
-}
-
-void QuadTree::ChildsPairs(const std::vector<std::shared_ptr<phy::Corpse>>& corpses, QuadNode* node, std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>>& pairs) const {
-    const int parent_size = corpses.size();
-    const int corpse_size = node->corpses.size();
-    if (parent_size > 0 && corpse_size > 0) {
-        for (int a = 0; a < parent_size; a++) {
-            for (int b = 0; b < corpse_size; b++) { pairs.push_back({corpses.at(a), node->corpses.at(b)}); }
-        }
-    }
-
-    if (!node->Leaf()) {
-        for (int i = 0; i < 4; i++) { ChildsPairs(gmt::concatenate(corpses, node->corpses), node->childs[i].get(), pairs); }
     }
 }
 
@@ -281,10 +251,54 @@ void QuadTree::Cleanup() { CleanupNode(root.get()); }
 
 void QuadTree::Clear() { ClearNode(root.get()); }
 
-std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>> QuadTree::ComputePairs() const {
-    std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>> pairs = {};
-    FindPairs(root.get(), pairs);
+std::vector<gmt::NodePairs> QuadTree::ComputePairs() const {
+    std::vector<gmt::NodePairs> pairs = {{{}, {}}};
+    FindPairs(root.get(), pairs, 0);
     return pairs;
+}
+
+void QuadTree::FindPairs(QuadNode* node, std::vector<gmt::NodePairs>& pairs, int depth) const {
+    const int corpse_size = node->corpses.size();
+    if (corpse_size > 1) {
+        int pairs_size = 0;
+        for (int a = 0; a < corpse_size; a++) {
+            for (int b = a + 1; b < corpse_size; b++) {
+                pairs.at(0).first.push_back({node->corpses.at(a), node->corpses.at(b)});  // Internal pairs
+                pairs_size++;
+            }
+        }
+        pairs.at(0).second.push_back(pairs_size);  // Node Internal pairs size
+    }
+
+    if (!node->Leaf()) {
+        for (int i = 0; i < 4; i++) {
+            FindPairs(node->childs[i].get(), pairs, depth + 1);                   // Find Internals pairs between the Child nodes corpses
+            ChildsPairs(node->corpses, node->childs[i].get(), pairs, depth + 1);  // Find pairs between this nodes corpses and child corpses
+        }
+    }
+}
+
+void QuadTree::ChildsPairs(const std::vector<std::shared_ptr<phy::Corpse>>& corpses, QuadNode* node, std::vector<gmt::NodePairs>& pairs, int depth) const {
+    const int parent_size = corpses.size();
+    const int corpse_size = node->corpses.size();
+
+    while (pairs.size() < depth + 1) { pairs.push_back({{}, {}}); }
+
+    if (!node->Leaf()) {
+        for (int i = 0; i < 4; i++) { ChildsPairs(gmt::concatenate(corpses, node->corpses), node->childs[i].get(), pairs, depth + 1); }
+    }
+
+    // PROBLEM : pairs duplication
+    if (parent_size > 0 && corpse_size > 0) {
+        int pairs_size = 0;
+        for (int a = 0; a < parent_size; a++) {
+            for (int b = 0; b < corpse_size; b++) {
+                pairs.at(depth).first.push_back({corpses.at(a), node->corpses.at(b)});  // Get the pair
+                pairs_size++;
+            }
+        }
+        pairs.at(depth).second.push_back(pairs_size);  // save the size of pairs for this depth
+    }
 }
 
 std::vector<BoundsI> QuadTree::ComputeBounds() const {

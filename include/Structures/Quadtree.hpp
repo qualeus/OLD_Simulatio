@@ -12,6 +12,15 @@
 
 namespace gmt {
 
+/*
+    To parallelize the quadtree, we need to decompose the layers in subcells that we are sure don't interact with each others
+     * for the lowest levels (leafs) we know only the inside objects can interact so we save for each node the number of pairs
+     * for the uppers levels, we have to care that the pairs with sub-levels don't interact n the same object, we can keep the
+       same logic by decomposing the pairs by levels with the depths and recording the number of pairs in this current node...
+     * then we only have to climb these layers while parallelizing the nodes...
+*/
+using NodePairs = std::pair<std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>>, std::vector<int>>;
+
 class QuadTree {
    private:
     void SplitNode(QuadNode* node, const BoundsI& bounds);
@@ -24,10 +33,6 @@ class QuadTree {
     void SearchRemove(QuadNode* node, std::shared_ptr<phy::Corpse> corpse);
     void CleanupNode(QuadNode* node);
     void ClearNode(QuadNode* node);
-
-    void FindPairs(QuadNode* node, std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>>& pairs) const;
-    void ChildsPairs(const std::vector<std::shared_ptr<phy::Corpse>>& corpses, QuadNode* node, std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>>& pairs) const;
-    void FindBounds(QuadNode* node, const BoundsI& node_bounds, std::vector<BoundsI>& bounds) const;
 
    public:
     int max_count;
@@ -50,7 +55,11 @@ class QuadTree {
     void RemoveCorpse(std::shared_ptr<phy::Corpse> corpse);
     void UpdateCorpse(std::shared_ptr<phy::Corpse> corpse);
 
-    std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>> ComputePairs() const;
+    void FindPairs(QuadNode* node, std::vector<gmt::NodePairs>& pairs, int depth) const;
+    void ChildsPairs(const std::vector<std::shared_ptr<phy::Corpse>>& corpses, QuadNode* node, std::vector<gmt::NodePairs>& pairs, int depth) const;
+    std::vector<gmt::NodePairs> ComputePairs() const;
+
+    void FindBounds(QuadNode* node, const BoundsI& node_bounds, std::vector<BoundsI>& bounds) const;
     std::vector<BoundsI> ComputeBounds() const;
 };
 

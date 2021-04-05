@@ -1192,7 +1192,12 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Text("%.f corpses", debug_values[12]);
             ImGui::Text("%.f pairs", debug_values[13]);
-            ImGui::Text("%.f quadpairs", debug_values[14]);
+            ImGui::Text("%.f quadpairs [depth: %.f]", debug_values[14], debug_values[15]);
+            ImGui::Text(" * Reduction ratio: %.f %% (%f %%)", debug_values[14] / debug_values[13] * 100.0f, (debug_values[14] - debug_values[13]) / debug_values[13] * 100.0f);
+            ImGui::Text(" * In cell pairs: %.f/%.f (%.f %%)", debug_values[16], debug_values[14], debug_values[16] / debug_values[14] * 100.0f);
+            ImGui::Text("%.f collisions [pairs: %.f%%]", debug_values[17], debug_values[17] / debug_values[14] * 100.0f);
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::Separator();
             ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::TreePop();
         }

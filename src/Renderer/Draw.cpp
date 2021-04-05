@@ -100,13 +100,6 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
     }
 }
 
-void Renderer::DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair) {
-    sf::Vector2f pos_A = (pair.first->get_pos()).CloneSF();
-    sf::Vector2f pos_B = (pair.second->get_pos()).CloneSF();
-
-    DrawLine(pos_A.x, pos_A.y, pos_B.x, pos_B.y);
-}
-
 void Renderer::DrawQuadTree(gmt::BoundsI rect) { DrawRectangle(rect.x1, rect.y1, rect.x2, rect.y2, false, C_CARROT, true); }
 
 void Renderer::DrawLimits() {
@@ -185,11 +178,26 @@ void Renderer::DrawInputs() {
     }
 
     if (debug_show_pairs) {
-        for (int i = 0; i < system.get_pairs_size(); i++) { DrawPair(system.get_pair(i)); }
+        for (int i = 0; i < system.get_pairs_size(); i++) {
+            const std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair = system.get_pair(i);
+
+            sf::Vector2f pos_A = (pair.first->get_pos()).CloneSF();
+            sf::Vector2f pos_B = (pair.second->get_pos()).CloneSF();
+            DrawLine(pos_A.x, pos_A.y, pos_B.x, pos_B.y);
+        }
     }
 
     if (debug_show_quadpairs) {
-        for (int i = 0; i < system.get_quad_pairs_size(); i++) { DrawPair(system.get_quad_pair(i)); }
+        for (int j = 0; j < system.get_quad_pairs_depth(); j++) {
+            for (int i = 0; i < system.get_quad_pairs_size(j); i++) {
+                const std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair = system.get_quad_pair(i, j);
+
+                sf::Vector2f pos_A = (pair.first->get_pos()).CloneSF();
+                sf::Vector2f pos_B = (pair.second->get_pos()).CloneSF();
+
+                DrawLine(pos_A.x, pos_A.y, pos_B.x, pos_B.y, 2.0f, sf::Color(255 - (225.0f / system.get_quad_pairs_depth() * j), 70, 0));
+            }
+        }
     }
 
     if (debug_show_contacts) {

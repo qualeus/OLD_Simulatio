@@ -15,7 +15,7 @@ class System {
    private:
     std::vector<std::shared_ptr<Corpse>> corpses;
     std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> pairs;
-    std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> quad_pairs;
+    std::vector<gmt::NodePairs> quad_pairs;
     std::vector<gmt::CollisionI> collisions;
 
     gmt::QuadTree quadtree;
@@ -35,8 +35,8 @@ class System {
     int constraint_accuracy = 10;
 
    public:
-    System(bool gravity = false, gmt::UnitI force_x = gmt::UnitI(0), gmt::UnitI force_y = gmt::UnitI(0), gmt::UnitI limit_x = gmt::UnitI(10000), gmt::UnitI limit_y = gmt::UnitI(10000));  // System Constructor
-    System& operator=(const System& rhs);                                                                                                                                                  // System Copy
+    System(bool gravity = false, gmt::UnitI force_x = gmt::UnitI(0), gmt::UnitI force_y = gmt::UnitI(0), gmt::UnitI limit_x = gmt::UnitI(10000), gmt::UnitI limit_y = gmt::UnitI(10000), int quadtree_max_count = 10, int quadtree_max_depth = 10);  // System Constructor
+    System& operator=(const System& rhs);                                                                                                                                                                                                            // System Copy
     virtual ~System();
 
     void Step();
@@ -46,6 +46,7 @@ class System {
     void CorpseStop(int i);
     void PairsStep();
     void QuadPairsStep();
+    void ThreadPairsStep(int depth, int begin, int end);
     void Remove(int i);
 
     void Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
@@ -83,7 +84,9 @@ class System {
 
     int get_corpses_size() const;
     int get_pairs_size() const;
+    int get_quad_pairs_depth() const;
     int get_quad_pairs_size() const;
+    int get_quad_pairs_size(int depth) const;
 
     void addCorpse(Polygon polygon);
     void addCorpse(Circle circle);
@@ -101,7 +104,7 @@ class System {
     std::vector<gmt::CollisionI> get_collisions() const;
     int get_collisions_size() const;
 
-    std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> get_quad_pair(int index) const;
+    std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> get_quad_pair(int index, int depth) const;
 
     std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> get_pairs() const;
     std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> get_pair(int index) const;

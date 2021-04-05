@@ -5,7 +5,7 @@
 #include "../../include/Renderer/Renderer.hpp"
 
 void BaseDemo() {
-    Renderer base = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Base Demo", false, 0.0f, 1.0f, 2000.0f, 2000.0f);
+    Renderer base = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Base Demo", false, 0.0f, 1.0f, 2000.0f, 2000.0f, 10, 10);
 
     for (int i = 0; i < 100; ++i) { base.system.addCorpse(phy::Circle(rand() % 500 + 250, rand() % 500, rand() % 20 + 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, C_SUN)); }
 
@@ -24,7 +24,7 @@ void BaseDemo() {
 }
 
 void GravityDemo() {
-    Renderer gravity = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Gravity", true, 0.0f, 0.0f, 10000.0f, 10000.0f);
+    Renderer gravity = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Gravity", true, 0.0f, 0.0f, 10000.0f, 10000.0f, 10, 10);
     gravity.system.addCorpse(phy::Circle(0.0f, 0.0f, 100.0f, 1e+6, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Red));
     gravity.system.addCorpse(phy::Circle(500.0f, 0.0f, 20.0f, 5e+1, 2, 0.0f, -5.2f, 0.0f, 0.0f, false, false, false, sf::Color::Blue));
     // gravity.system.addCorpse(phy::Circle(800.0f, 0.0f, 20.0f, 5e+1, 2, 0.0f, -3.2f, 0.0f, 0.0f, false, false, false, sf::Color::Cyan));
@@ -33,7 +33,7 @@ void GravityDemo() {
 }
 
 void TestDemo() {
-    Renderer test = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Test", false, 0.0f, 0.0f, 1000.0f, 1000.0f);
+    Renderer test = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Test", false, 0.0f, 0.0f, 100000.0f, 100000.0f, 10, 20);
     test.Render();
 }
 

@@ -175,7 +175,7 @@ class Renderer {
    public:
     phy::System system;
 
-    Renderer(float camera_x, float camera_y, float camera_h, float camera_w, float zoom, std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y);
+    Renderer(float camera_x, float camera_y, float camera_h, float camera_w, float zoom, std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y, int quadtree_max_count, int quadtree_max_depth);
     void SetupGui();
     void SetupGuiBaseLayout();
     virtual ~Renderer();

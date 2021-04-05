@@ -1,7 +1,8 @@
 
 #include "../../include/Renderer/Renderer.hpp"
 
-Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_w, float zoom, std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y) : system(gravity, force_x, force_y, limit_x, limit_y) {
+Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_w, float zoom, std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y, int quadtree_max_count, int quadtree_max_depth)
+    : system(gravity, force_x, force_y, limit_x, limit_y, quadtree_max_count, quadtree_max_depth) {
     /* Initialize the System */
     // this->system = phy::System(gravity, force_x, force_y, limit_x, limit_y);
 
@@ -133,6 +134,9 @@ void Renderer::UpdateDebug() {
     debug_values[12] = this->system.get_corpses_size();
     debug_values[13] = this->system.get_pairs_size();
     debug_values[14] = this->system.get_quad_pairs_size();
+    debug_values[15] = this->system.get_quad_pairs_depth();
+    debug_values[16] = this->system.get_quad_pairs_size(0);
+    debug_values[17] = this->system.get_collisions_size();
 }
 
 void Renderer::Draw() {

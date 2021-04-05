@@ -2,14 +2,15 @@
 
 namespace phy {
 
-System::System(bool gravity, gmt::UnitI force_x, gmt::UnitI force_y, gmt::UnitI limit_x, gmt::UnitI limit_y) : quadtree(gmt::BoundsI(-limit_x / gmt::UnitI(2), -limit_y / gmt::UnitI(2), limit_x / gmt::UnitI(2), limit_y / gmt::UnitI(2)), 1, 20) {
+System::System(bool gravity, gmt::UnitI force_x, gmt::UnitI force_y, gmt::UnitI limit_x, gmt::UnitI limit_y, int quadtree_max_count, int quadtree_max_depth)
+    : quadtree(gmt::BoundsI(-limit_x / gmt::UnitI(2), -limit_y / gmt::UnitI(2), limit_x / gmt::UnitI(2), limit_y / gmt::UnitI(2)), quadtree_max_count, quadtree_max_depth) {
     this->gravity = gravity;
     this->force_x = force_x;
     this->force_y = force_y;
 
     this->corpses = std::vector<std::shared_ptr<Corpse>>();
     this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
-    this->quad_pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
+    this->quad_pairs = std::vector<gmt::NodePairs>();
     this->collisions = std::vector<gmt::CollisionI>();
 
     gmt::UnitI mid_limx = limit_x / gmt::UnitI(2);
@@ -33,7 +34,7 @@ System& System::operator=(const System& rhs) {
 
     this->corpses = std::vector<std::shared_ptr<Corpse>>();
     this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
-    this->quad_pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
+    this->quad_pairs = std::vector<gmt::NodePairs>();
     this->collisions = std::vector<gmt::CollisionI>();
     this->quadtree = rhs.quadtree;
 
@@ -76,7 +77,7 @@ void System::Step() {
     for (int i = 0; i < collision_accuracy; i++) {
         // StepQuadTree();
         // PairsStep();
-        // QuadPairsStep();
+        QuadPairsStep();
     }
 
     PairsStep();
@@ -119,8 +120,19 @@ void System::PairsStep() {
 }
 
 void System::QuadPairsStep() {
-    for (int i = 0; i < this->quad_pairs.size(); i++) {
-        std::vector<gmt::CollisionI> resolved = gmt::CollisionI::Resolve(this->quad_pairs.at(i).first, this->quad_pairs.at(i).second);
+    for (int i = 0; i < get_quad_pairs_depth(); i++) {
+        int k = 0;
+        for (int j = 0; j < quad_pairs.at(i).second.size(); j++) {
+            int node_pairs_size = quad_pairs.at(i).second.at(j);
+            ThreadPairsStep(i, k, k + node_pairs_size);
+            k += node_pairs_size;
+        }
+    }
+}
+
+void System::ThreadPairsStep(int depth, int begin, int end) {
+    for (int i = begin; i < end; i++) {
+        std::vector<gmt::CollisionI> resolved = gmt::CollisionI::Resolve(this->quad_pairs.at(depth).first.at(i).first, this->quad_pairs.at(depth).first.at(i).second);
         for (int j = 0; j < resolved.size(); j++) { this->collisions.push_back(resolved.at(j)); }
     }
 }
@@ -149,7 +161,9 @@ void System::Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
 
 void System::StepQuadTree() {
     this->quadtree.Clear();
-    for (int i = 0; i < corpses.size(); i++) { this->quadtree.AddCorpse(get_corpse(i)); }
+    for (int i = 0; i < corpses.size(); i++) {
+        if (!get_corpse(i)->get_etherial()) { this->quadtree.AddCorpse(get_corpse(i)); }
+    }
     this->quad_pairs = this->quadtree.ComputePairs();
     // this->quadtree.Update();
 }
@@ -206,7 +220,17 @@ void System::set_constraint_accuracy(int constraint_accuracy) { this->constraint
 
 int System::get_corpses_size() const { return this->corpses.size(); }
 int System::get_pairs_size() const { return this->pairs.size(); }
-int System::get_quad_pairs_size() const { return this->quad_pairs.size(); }
+int System::get_quad_pairs_depth() const { return this->quad_pairs.size(); }
+int System::get_quad_pairs_size() const {
+    int size = 0;
+    for (int i = 0; i < get_quad_pairs_depth(); i++) { size += this->quad_pairs.at(i).first.size(); }
+    return size;
+}
+int System::get_quad_pairs_size(int depth) const {
+    if (this->quad_pairs.size() < depth + 1) { return 0; }
+    return this->quad_pairs.at(depth).first.size();
+}
+std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> System::get_quad_pair(int index, int depth) const { return this->quad_pairs.at(depth).first.at(index); }
 
 void System::addCorpse(Polygon polygon) { add_corpse(std::make_shared<Polygon>(polygon)); }
 void System::addCorpse(Circle circle) { add_corpse(std::make_shared<Circle>(circle)); }
@@ -225,7 +249,10 @@ void System::add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
 }
 
 gmt::BoundsI System::get_limits() const { return this->limits; }
-void System::set_limits(gmt::BoundsI limits) { this->limits = limits; }
+void System::set_limits(gmt::BoundsI limits) {
+    this->limits = limits;
+    this->quadtree.bounds = limits;
+}
 
 std::vector<std::shared_ptr<Corpse>> System::get_corpses() const { return this->corpses; }
 std::shared_ptr<Corpse> System::get_corpse(int index) const {
@@ -244,7 +271,5 @@ std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> System:
 std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> System::get_pair(int index) const { return this->pairs.at(index); }
 std::shared_ptr<Corpse> System::get_pair_A(int index) const { return this->pairs.at(index).first; }
 std::shared_ptr<Corpse> System::get_pair_B(int index) const { return this->pairs.at(index).second; }
-
-std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> System::get_quad_pair(int index) const { return this->quad_pairs.at(index); }
 
 }  // namespace phy
