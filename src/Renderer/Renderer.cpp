@@ -35,6 +35,9 @@ Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_
     this->selected_corpses_index = {};
     this->selected_corpses_diff = {};
 
+    this->input_spawner = {};
+    this->spawners = {};
+
     /* Setup Renderer View */
     this->view.reset(sf::FloatRect(-screen_width / 2, -screen_height / 2, this->screen_width, this->screen_height));
     this->Camera(sf::Vector2f(camera_x, camera_y), std::max(zoom, 0.01f));
@@ -59,6 +62,7 @@ void Renderer::Render() {
         if (!this->Paused()) {
             this->system.Step();
             this->UpdateSelection();
+            this->UpdateSpawners();
         }
 
         /* Background Color */
@@ -136,7 +140,7 @@ void Renderer::UpdateDebug() {
     debug_values[14] = this->system.get_quad_pairs_size();
     debug_values[15] = this->system.get_quad_pairs_depth();
     debug_values[16] = this->system.get_quad_pairs_size(0);
-    debug_values[17] = this->system.get_collisions_size();
+    debug_values[17] = this->collision_number / DELAY_DEBUG;
 }
 
 void Renderer::Draw() {

@@ -24,6 +24,10 @@ unsigned gmt::modulo(int value, unsigned m) {
     return mod;
 }
 
+int gmt::rand_interval(int value) { return gmt::modulo(std::rand(), value); }
+
+int gmt::rand_interval_centered(int value) { return gmt::modulo(std::rand(), value) - static_cast<int>(value / 2.0f); }
+
 /* Return the cyclic interval in indexes */
 /*
     ex: [1, 2, 3, 4, 5]

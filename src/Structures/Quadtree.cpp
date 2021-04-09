@@ -12,8 +12,6 @@ QuadTree::QuadTree(const BoundsI& bounds, const int& max_count, const int& max_d
     this->max_depth = max_depth;
 
     this->root = std::make_unique<QuadNode>();
-
-    std::cout << " bounds: " << gmt::to_string(this->bounds) << " max_count: " << gmt::to_string(this->max_count) << " max_depth: " << gmt::to_string(this->max_depth) << " root: " << gmt::to_string(this->root.get()) << std::endl;
 }
 
 QuadTree::QuadTree(const QuadTree& quadtree) {

@@ -47,7 +47,8 @@ float radian_to_degree(float radian);
 float digits_comma(float number, int digits);
 std::vector<int> cyclic_indexes(int min, int max, int size);
 unsigned modulo(int value, unsigned m);
-
+int rand_interval(int value);
+int rand_interval_centered(int value);
 template <class C>
 void remove(int i, std::vector<C> &vect) {
     vect.erase(vect.begin() + i);

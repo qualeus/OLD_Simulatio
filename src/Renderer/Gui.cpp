@@ -131,6 +131,7 @@ void Renderer::DrawGui() {
     if (show_gui_properties) { ShowGuiProperties(&show_gui_properties); }
     if (show_gui_overlay) { ShowGuiOverlay(&show_gui_overlay); }
     if (show_gui_settings) { ShowGuiSettings(&show_gui_settings); }
+    if (show_gui_spawner) { ShowGuiSpawner(&show_gui_spawner); }
 }
 
 void Renderer::DrawGuiBar() {
@@ -164,6 +165,132 @@ void Renderer::DrawGuiBar() {
 
     ImGui::PopStyleVar(2);
     // ImGui::PopStyleColor();
+}
+
+void Renderer::ShowGuiSpawner(bool* p_open) {
+    ImGui::SetNextWindowSize({400, 370}, ImGuiCond_Appearing);
+    if (ImGui::Begin("Spawner", p_open, ImGuiWindowFlags_NoFocusOnAppearing)) {
+        if (ImGui::BeginTabBar("MyTabBar")) {
+            if (ImGui::BeginTabItem("Corpses")) {
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                const char* input_corpse_items[] = {"Circle", "Regular Polygon", "Oval Polygon"};
+                static const char* input_corpse_current_item = "Circle";
+
+                const char* input_spawn_items[] = {"Custom", "Explosion", "Conglomerate"};
+                static const char* input_spawn_current_item = "Custom";
+
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
+                if (ImGui::TreeNode("Spawner Properties")) {
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::BeginCombo("##combocorpse", input_corpse_current_item)) {
+                        for (int n = 0; n < IM_ARRAYSIZE(input_corpse_items); n++) {
+                            bool is_selected = (input_corpse_current_item == input_corpse_items[n]);
+                            if (ImGui::Selectable(input_corpse_items[n], is_selected)) {
+                                input_corpse_current_item = input_corpse_items[n];
+                                input_spawner.corpse_type = n;
+                            }
+                            if (is_selected) { ImGui::SetItemDefaultFocus(); }
+                        }
+                        ImGui::EndCombo();
+                    }
+                    ImGui::SameLine();
+                    ImGui::Text("Corpse Type");
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::BeginCombo("##combospawn", input_spawn_current_item)) {
+                        for (int n = 0; n < IM_ARRAYSIZE(input_spawn_items); n++) {
+                            bool is_selected = (input_spawn_current_item == input_spawn_items[n]);
+                            if (ImGui::Selectable(input_spawn_items[n], is_selected)) {
+                                input_spawn_current_item = input_spawn_items[n];
+                                input_spawner.spawn_type = n;
+                            }
+                            if (is_selected) { ImGui::SetItemDefaultFocus(); }
+                        }
+                        ImGui::EndCombo();
+                    }
+                    ImGui::SameLine();
+                    ImGui::Text("Spawner Type");
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::Separator();
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    float input_spawner_position[2] = {input_spawner.positionX, input_spawner.positionY};
+                    if (ImGui::DragFloat2("Spawner position", input_spawner_position)) {
+                        input_spawner.positionX = input_spawner_position[0];
+                        input_spawner.positionY = input_spawner_position[1];
+                    }
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::Separator();
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragInt("corpses number", &input_spawner.corpse_number, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragInt("spawner duration", &input_spawner.duration, 0.1, -1, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragInt("spawner interval", &input_spawner.interval, 0.1, 0, +INT_MAX)) {}
+                    ImGui::TreePop();
+                }
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                if (ImGui::TreeNode("Corpse Properties")) {
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::Checkbox("Fixed", &input_spawner.corpse_fixed);
+                    ImGui::SameLine();
+                    ImGui::Checkbox("Etherial", &input_spawner.corpse_etherial);
+                    ImGui::SameLine();
+                    ImGui::Checkbox("Tied", &input_spawner.corpse_tied);
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    static ImVec4 temp_spawner_color = ImVec4(input_spawner.corpse_color[0], input_spawner.corpse_color[1], input_spawner.corpse_color[2], input_spawner.corpse_color[3]);
+                    if (ImGui::ColorEdit3("Color", (float*)&temp_spawner_color)) {
+                        input_spawner.corpse_color[0] = temp_spawner_color.x * 255.0f;
+                        input_spawner.corpse_color[1] = temp_spawner_color.y * 255.0f;
+                        input_spawner.corpse_color[2] = temp_spawner_color.z * 255.0f;
+                        input_spawner.corpse_color[3] = temp_spawner_color.w;
+                    }
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragInt("points number", &input_spawner.corpse_points_number, 0.1, 3, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("corpses randiusX", &input_spawner.corpse_radiusX, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("corpses randiusY", &input_spawner.corpse_radiusY, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("radius randomX", &input_spawner.corpse_radius_randomX, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("radius randomY", &input_spawner.corpse_radius_randomY, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("positionX random", &input_spawner.corpse_position_randomX, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("positionY random", &input_spawner.corpse_position_randomY, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("corpse rotation", &input_spawner.corpse_rotation, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("rotation random", &input_spawner.corpse_rotation_random, 0.1, 0, +INT_MAX)) {}
+                    ImGui::TreePop();
+                }
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                if (ImGui::TreeNode("Launch Properties")) {
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("launch power", &input_spawner.launch_power, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("launch random", &input_spawner.launch_random, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("launch direction", &input_spawner.launch_direction, 0.1, 0, 360)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("direction random", &input_spawner.launch_direction_random, 0.1, 0, 360)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("launch rotation", &input_spawner.launch_rotation_power, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("rotation random", &input_spawner.launch_rotation_random, 0.1, 0, +INT_MAX)) {}
+                    ImGui::TreePop();
+                }
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                if (ImGui::Button("Create Spawner", {-1, 23})) { this->spawners.push_back(this->input_spawner); }
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                ImGui::EndTabItem();
+            }
+            ImGui::Dummy(ImVec2(0.0f, 1.0f));
+            if (ImGui::BeginTabItem("Particules")) { ImGui::EndTabItem(); }
+            ImGui::EndTabBar();
+        }
+    }
+    ImGui::End();
 }
 
 void Renderer::ShowGuiProperties(bool* p_open) {
@@ -395,7 +522,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     /* Renderer Framerate */
                     static int temp_max_framerate = get_max_framerate();
                     const char* items[] = {"30 Hz", "60 Hz", "120 Hz", "No Limit"};
-                    static int item_current = 1;
+                    static int item_current = 0;
 
                     if (ImGui::Combo("Framerate", &item_current, items, IM_ARRAYSIZE(items))) {
                         switch (item_current) {
@@ -1374,11 +1501,6 @@ void Renderer::DrawGuiMenu() {
             ImGui::MenuItem("Properties", NULL, &show_gui_properties);
             ImGui::MenuItem("Debug Overlay", NULL, &show_gui_overlay);
             ImGui::MenuItem("ImGui Demo", NULL, &show_gui_imguidemo);
-            ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);
-            ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);
-            ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);
-            ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);
-            ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);
             ImGui::PopItemFlag();
             ImGui::EndMenu();
         }

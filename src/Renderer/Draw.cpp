@@ -160,9 +160,11 @@ void Renderer::DrawTrajectories() {
 void Renderer::Debug() {
     counter_debug++;
 
+    this->collision_number += this->system.get_collisions_size() / this->system.get_collision_accuracy();
     if (counter_debug > DELAY_DEBUG) {
-        counter_debug = 0;
         UpdateDebug();
+        counter_debug = 0;
+        this->collision_number = 0;
     }
 
     DrawInputs();

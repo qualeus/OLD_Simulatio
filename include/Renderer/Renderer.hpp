@@ -16,6 +16,7 @@
 #include "../System.hpp"
 #include "Config.hpp"
 #include "GuiModule.hpp"
+#include "Structures.hpp"
 
 #define C_TURQUOISE sf::Color(26, 188, 156, 255)  // rgba(26, 188, 156,1.0)
 #define C_GREEN sf::Color(22, 160, 133, 255)      // rgba(22, 160, 133,1.0)
@@ -110,6 +111,7 @@ class Renderer {
     bool show_gui_overlay = true;
     bool show_gui_settings = false;
     bool show_gui_imguidemo = false;
+    bool show_gui_spawner = true;
 
     bool debug_show_quadtree = false;
     bool debug_show_bounds = false;
@@ -139,12 +141,13 @@ class Renderer {
 
     float mouse_x;
     float mouse_y;
-
     float sys_mouse_x;
     float sys_mouse_y;
-
     int select_type;
     int debug_type;
+
+    Spawner input_spawner;
+    std::vector<Spawner> spawners;
 
     float camera_x = 0.0f;
     float camera_y = 0.0f;
@@ -168,6 +171,7 @@ class Renderer {
 
     const static int DELAY_DEBUG = 3;
     int counter_debug;
+    int collision_number;
 
     std::vector<gmt::TextI> texts = {};
     ImGui::Console console;
@@ -195,6 +199,9 @@ class Renderer {
     void DragPositionStop(sf::Event event);  // Stop the dragging of the Position
 
     bool SelectUniqueCorpseInit(sf::Event event);  // Initialize the selection of a unique corpse to Drag
+
+    void UpdateSpawners();
+    void StepSpawner(Spawner* spawner);
 
     void SelectMultipleCorpsesInit(sf::Event event);  // Initialize the selecting of multiple corpses to Drag
     void SelectMultipleCorpsesStep(sf::Event event);  // Drag the selection rectangle until release
@@ -244,6 +251,7 @@ class Renderer {
 
     void ShowGuiConsole(bool* p_open);
     void ShowGuiProperties(bool* p_open);
+    void ShowGuiSpawner(bool* p_open);
     void ShowGuiOverlay(bool* p_open);
     void ShowGuiSettings(bool* p_open);
     void ShowGuiSettingsInterface();

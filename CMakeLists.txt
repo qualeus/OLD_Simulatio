@@ -99,6 +99,7 @@ set(HEADERS
     include/Geometry/Maths.hpp
     include/Geometry/String.hpp
     include/Renderer/Renderer.hpp
+    include/Renderer/Structures.hpp
     include/Renderer/GuiModule.hpp
     include/System.hpp
 )

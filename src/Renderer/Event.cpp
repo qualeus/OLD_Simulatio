@@ -1,6 +1,126 @@
 
 #include "../../include/Renderer/Renderer.hpp"
 
+void Renderer::UpdateSpawners() {
+    int i = 0;
+    while (i < this->spawners.size()) {
+        if (this->spawners.at(i).interval_counter < this->spawners.at(i).interval) {
+            this->spawners.at(i).interval_counter++;
+        } else {
+            StepSpawner(&this->spawners.at(i));
+            this->spawners.at(i).duration--;
+            this->spawners.at(i).interval_counter = 0;
+        }
+
+        if (this->spawners.at(i).duration != 0) {
+            i++;
+        } else {
+            gmt::remove_unordered(i, this->spawners);
+        }
+    }
+}
+
+void Renderer::StepSpawner(Spawner *spawner) {
+    std::vector<std::shared_ptr<phy::Corpse>> spawner_corpses = {};
+
+    switch (spawner->corpse_type) {
+        case 0: {
+            for (int i = 0; i < spawner->corpse_number; i++) {
+                spawner_corpses.push_back(
+                    std::make_shared<phy::Circle>(phy::Circle(spawner->positionX, spawner->positionY, spawner->corpse_radiusX, spawner->corpse_mass, spawner->corpse_damping, 0.0f, 0.0f, 0.0f, 0.0f, spawner->corpse_fixed, spawner->corpse_tied, spawner->corpse_etherial,
+                                                              {static_cast<unsigned char>(spawner->corpse_color[0]), static_cast<unsigned char>(spawner->corpse_color[1]), static_cast<unsigned char>(spawner->corpse_color[2]), static_cast<unsigned char>(spawner->corpse_color[3])})));
+            }
+        } break;
+        case 1: {
+            for (int i = 0; i < spawner->corpse_number; i++) {
+                std::vector<gmt::VectorI> points = {};
+                for (int j = 0; j < spawner->corpse_points_number; j++) {
+                    float angle = gmt::degree_to_radian(static_cast<float>(j) * 360.0f / spawner->corpse_points_number);
+                    if (gmt::float_equals(spawner->corpse_radius_randomX, 0.0f, 0.1f) && gmt::float_equals(spawner->corpse_radius_randomX, 0.0f, 0.1f)) {
+                        points.push_back(gmt::VectorI(spawner->positionX + spawner->corpse_radiusX * std::cos(angle), spawner->positionY + spawner->corpse_radiusX * std::sin(angle)));
+                    } else {
+                        points.push_back(gmt::VectorI(spawner->positionX + (spawner->corpse_radiusX + gmt::rand_interval(static_cast<int>(spawner->corpse_radius_randomX))) * std::cos(angle),
+                                                      spawner->positionY + (spawner->corpse_radiusX + gmt::rand_interval(static_cast<int>(spawner->corpse_radius_randomX))) * std::sin(angle)));
+                    }
+                }
+                spawner_corpses.push_back(
+                    std::make_shared<phy::Polygon>(phy::Polygon(points, spawner->corpse_mass, spawner->corpse_damping, 0.0f, 0.0f, 0.0f, 0.0f, spawner->corpse_fixed, spawner->corpse_tied, spawner->corpse_etherial,
+                                                                {static_cast<unsigned char>(spawner->corpse_color[0]), static_cast<unsigned char>(spawner->corpse_color[1]), static_cast<unsigned char>(spawner->corpse_color[2]), static_cast<unsigned char>(spawner->corpse_color[3])})));
+            }
+        } break;
+        case 2: {
+            for (int i = 0; i < spawner->corpse_number; i++) {
+                std::vector<gmt::VectorI> points = {};
+                for (int j = 0; j < spawner->corpse_points_number; j++) {
+                    float angle = gmt::degree_to_radian(static_cast<float>(j) * 360.0f / spawner->corpse_points_number);
+                    if (gmt::float_equals(spawner->corpse_radius_randomX, 0.0f, 0.1f) && gmt::float_equals(spawner->corpse_radius_randomY, 0.0f, 0.1f)) {
+                        points.push_back(gmt::VectorI(spawner->positionX + spawner->corpse_radiusX * std::cos(angle), spawner->positionY + spawner->corpse_radiusY * std::sin(angle)));
+                    } else {
+                        points.push_back(gmt::VectorI(spawner->positionX + (spawner->corpse_radiusX + gmt::rand_interval(static_cast<int>(spawner->corpse_radius_randomX))) * std::cos(angle),
+                                                      spawner->positionY + (spawner->corpse_radiusY + gmt::rand_interval(static_cast<int>(spawner->corpse_radius_randomY))) * std::sin(angle)));
+                    }
+                }
+                spawner_corpses.push_back(
+                    std::make_shared<phy::Polygon>(phy::Polygon(points, spawner->corpse_mass, spawner->corpse_damping, 0.0f, 0.0f, 0.0f, 0.0f, spawner->corpse_fixed, spawner->corpse_tied, spawner->corpse_etherial,
+                                                                {static_cast<unsigned char>(spawner->corpse_color[0]), static_cast<unsigned char>(spawner->corpse_color[1]), static_cast<unsigned char>(spawner->corpse_color[2]), static_cast<unsigned char>(spawner->corpse_color[3])})));
+            }
+        } break;
+        default: {
+        }
+    }
+
+    for (int i = 0; i < spawner->corpse_number; i++) {
+        float random_rotation = 0.0f;
+        float random_turn = 0.0f;
+        if (!gmt::float_equals(spawner->launch_rotation_random, 0.0f, 0.1f)) { random_turn += gmt::rand_interval(static_cast<int>(spawner->launch_rotation_random)); }
+        if (!gmt::float_equals(spawner->corpse_rotation_random, 0.0f, 0.1f)) { random_rotation += gmt::rand_interval(static_cast<int>(spawner->corpse_rotation_random)); }
+        spawner_corpses.at(i)->Rotate(spawner->corpse_rotation + random_rotation);
+        spawner_corpses.at(i)->Bloc();
+        spawner_corpses.at(i)->Rotate(spawner->launch_rotation_power + random_turn);
+    }
+
+    switch (spawner->spawn_type) {
+        case 0: {
+            for (int i = 0; i < spawner->corpse_number; i++) {
+                float randomX = 0.0f;
+                float randomY = 0.0f;
+
+                if (!gmt::float_equals(spawner->corpse_position_randomX, 0.0f, 0.1f)) { randomX += gmt::rand_interval_centered(static_cast<int>(spawner->corpse_position_randomX)); }
+                if (!gmt::float_equals(spawner->corpse_position_randomY, 0.0f, 0.1f)) { randomY += gmt::rand_interval_centered(static_cast<int>(spawner->corpse_position_randomY)); }
+
+                spawner_corpses.at(i)->Drag({randomX, randomY});
+                spawner_corpses.at(i)->Stop();
+
+                float angle = gmt::degree_to_radian(spawner->launch_direction);
+                if (!gmt::float_equals(spawner->launch_direction_random, 0.0f, 0.1f)) { angle += gmt::rand_interval_centered(static_cast<int>(spawner->launch_direction_random)); }
+
+                float power = spawner->launch_power;
+                if (!gmt::float_equals(spawner->launch_random, 0.0f, 0.1f)) { power += gmt::rand_interval_centered(static_cast<int>(spawner->launch_random)); }
+
+                spawner_corpses.at(i)->Drag({power * std::cos(angle), power * std::sin(angle)});
+            }
+        } break;
+        case 1: {
+            for (int i = 0; i < spawner->corpse_number; i++) {
+                float angle = gmt::degree_to_radian(spawner->launch_direction);
+                if (!gmt::float_equals(spawner->launch_direction_random, 0.0f, 0.1f)) { angle += gmt::rand_interval_centered(static_cast<int>(spawner->launch_direction_random)); }
+
+                float power = spawner->launch_power;
+                if (!gmt::float_equals(spawner->launch_random, 0.0f, 0.1f)) { power += gmt::rand_interval_centered(static_cast<int>(spawner->launch_random)); }
+
+                spawner_corpses.at(i)->Drag({power * std::cos(angle), power * std::sin(angle)});
+            }
+        } break;
+        case 2: {
+            for (int i = 0; i < spawner->corpse_number; i++) { spawner_corpses.at(i); }
+        } break;
+        default: {
+        }
+    }
+
+    for (int i = 0; i < spawner->corpse_number; i++) { system.add_corpse(spawner_corpses.at(i)); }
+}
+
 void Renderer::Input(sf::Event event) {
     ImGui::SFML::ProcessEvent(event);
 
@@ -474,28 +594,9 @@ void Renderer::ToggleOffPolygon(sf::Event event) {
         phy::Polygon temp_poly = phy::Polygon(points, 10, 1, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, C_NEPHRITIS);
         system.addCorpse(temp_poly);
     } else {
-        std::vector<gmt::VectorI> points = {};
-        const int number = 10;
-        const int rad = 100;
-        const int vrad = 1;
-        // for (int i = 0; i < number; i++) { points.push_back(gmt::VectorI(100 * std::cos(static_cast<float>(i) * 360 / number), 100 * std::sin(static_cast<float>(i) * 360 / number))); }
-        for (int i = 0; i < number; i++) {
-            float ang = gmt::degree_to_radian(static_cast<float>(i) * 360.0f / number);
-            points.push_back(gmt::VectorI(this->sys_mouse_x + (rad + (std::rand() % vrad)) * std::cos(ang), this->sys_mouse_y + (rad + (std::rand() % vrad)) * std::sin(ang)));
-        }
-        const int dpow = 100;
-        const int lpow = 50;
-        const int lrot = 10;
-        const int nobj = 100;
-        for (int i = 0; i < nobj; i++) {
-            std::vector<gmt::VectorI> tpoints = points;
-            int randx = (std::rand() % dpow) - (dpow / 2);
-            int randy = (std::rand() % dpow) - (dpow / 2);
-            for (int j = 0; j < tpoints.size(); j++) { tpoints.at(j) = tpoints.at(j) + gmt::VectorI(randx, randy); }
-
-            phy::Polygon temp_poly = phy::Polygon(tpoints, 10, 1, (std::rand() % lpow) - (lpow / 2), (std::rand() % lpow) - (lpow / 2), (std::rand() % lrot) - (lrot / 2), 0.0f, false, false, false, C_NEPHRITIS);
-            system.addCorpse(temp_poly);
-        }
+        this->input_spawner.positionX = this->sys_mouse_x;
+        this->input_spawner.positionY = this->sys_mouse_y;
+        this->spawners.push_back(this->input_spawner);
     }
 
     /* Make sure that the arrays are empty */
