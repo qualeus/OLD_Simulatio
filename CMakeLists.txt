@@ -104,6 +104,10 @@ set(HEADERS
     include/System.hpp
 )
 
+set(RESSOURCES 
+    ../../assets/icon/ricon.o
+)
+
 set(FONTS
     assets/fonts/roboto.hpp
     assets/fonts/proggy.hpp
@@ -112,7 +116,7 @@ set(FONTS
     assets/fonts/IconsForkAwesome.h
 )
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${FONTS})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${FONTS} ${RESSOURCES})
 set (SFML_LIBRARIES sfml-graphics sfml-window sfml-system )
 set (IMGUI_LIBRARIES ImGui-SFML::ImGui-SFML)
 

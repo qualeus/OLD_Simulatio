@@ -8,6 +8,7 @@
 #include "../../assets/fonts/consolas.hpp"
 #include "../../assets/fonts/proggy.hpp"
 #include "../../assets/fonts/roboto.hpp"
+#include "../../assets/icon/ricon.hpp"
 #include "../Geometry/Geometry.hpp"
 #include "../Geometry/Maths.hpp"
 #include "../Geometry/String.hpp"

@@ -50,6 +50,10 @@ Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_
     this->window.setView(this->view);
     this->window.setFramerateLimit(max_framerate);
 
+    sf::Image icon;
+    icon.loadFromMemory(Ricon_compressed_data, Ricon_compressed_size);
+    this->window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
     /* Setup the Gui */
     this->SetupGui();
 }
