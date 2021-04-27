@@ -12,8 +12,6 @@ The goal was to learn more about the functioning of these topics, such as:
 - **Fluids** (IN DEV)
 - **Electromagnetic fields** (IN DEV)
 
-<img align="right" width="180" src="./assets/icon/icon.png">
-
 This project also allows me to familiarize myself with several areas of programming, like:
 - **Graph Theory** and advanced **Data structures** like Quadtrees
 - **C++ programs/libraries** compilation (Mingw batch/ CMake)
@@ -21,11 +19,11 @@ This project also allows me to familiarize myself with several areas of programm
 - **Optimisation** 
 - **Threads** and Graphical acceleration with CUDA (IN DEV)
 
+<img align="right" width="180" src="./assets/icon/icon.png">
 
-> To summarize this is an introduction to the basic concepts and functions of 2D physical simulation (applicable to 3D thereafter).
+To summarize this is an introduction to the basic concepts and functions of 2D physical simulation (applicable to 3D thereafter).
 
 The ultimate goal would be to present an easy-to-use and optimized physical engine, a bit like a simplified "Algodoo".
-
 
 ## Examples
 
