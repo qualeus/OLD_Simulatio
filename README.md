@@ -19,11 +19,17 @@ This project also allows me to familiarize myself with several areas of programm
 - **Optimisation** 
 - **Threads** and Graphical acceleration with CUDA (IN DEV)
 
+-----
+
 <img align="left" width="160" src="./assets/icon/icon.png">
 
 To summarize this is an introduction to the basic concepts and functions of 2D physical simulation (applicable to 3D thereafter).
 
 The ultimate goal would be to present an easy-to-use and optimized physical engine, a bit like a simplified "Algodoo".
+
+ Currently in dev, you can see a very messy roadmap [here](https://github.com/users/mlhoutel/projects/3)
+
+-----
 
 ## Examples
 
