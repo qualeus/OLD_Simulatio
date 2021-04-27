@@ -20,11 +20,9 @@ This project also allows me to familiarize myself with several areas of programm
 
 The ultimate goal would be to present an easy-to-use and optimized physical engine, a bit like a simplified "Algodoo".
 
----
 
-<p align="center"><img alt="Icon" src="https://github.com/mlhoutel/Physics/blob/feature/gui_improvement/assets/icon/icon.png"></p>
+<p align="center"><img alt="Icon" src="./assets/icon/icon.png"></p>
 
----
 
 ## Prerequisites
 
@@ -147,6 +145,16 @@ cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build .
 * [SFML](https://github.com/SFML/SFML) - The Graphical library
 * [ImGui](https://github.com/ocornut/imgui) - The GUI library
 * [ImGui::SFML](https://github.com/eliasdaler/imgui-sfml) - The Binder library
+
+## Examples
+
+Few demos...
+
+<p align="center"><img alt="Conglomerate" src="./doc/ScreenShots/Conglomerate.gif"></p>
+
+<p align="center"><img alt="Gravity" src="./doc/ScreenShots/Gravity.gif"></p>
+
+<p align="center"><img alt="Trajectory" src="./doc/ScreenShots/Trajectory.gif"></p>
 
 ## Contributing
 
