@@ -1,3 +1,6 @@
+
+<p align="center"><img alt="Icon" src="./assets/icon/ricon.png"></p>
+
 # Physics
 
 This project started from the personal challenge of recreating physical phenomena in a simulation running in real time.
@@ -16,7 +19,7 @@ This project also allows me to familiarize myself with several areas of programm
 - **Optimisation** 
 - **Threads** and Graphical acceleration with CUDA (IN DEV)
 
-<p align="center"><img alt="Icon" src="./assets/icon/ricon.png"></p>
+<p align="center"><img alt="Icon" width="200" src="./assets/icon/icon.png"></p>
 
 > To summarize this is an introduction to the basic concepts and functions of 2D physical simulation (applicable to 3D thereafter).
 
