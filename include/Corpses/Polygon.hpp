@@ -53,6 +53,8 @@ class Polygon : public Corpse {
     void set_polygons(std::vector<gmt::VerticesI> polygons);
     int get_polygons_size() const;
 
+    void UpdateBounds();
+
     std::vector<std::pair<std::shared_ptr<gmt::VectorI>, std::shared_ptr<gmt::VectorI>>> get_sides() const;
 };
 

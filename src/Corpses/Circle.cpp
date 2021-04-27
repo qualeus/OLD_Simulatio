@@ -43,11 +43,12 @@ void Circle::Step() {
     }
 
     // Update bounds
-    this->bounds = gmt::BoundsI(this->get_pos_x() - this->get_size(), this->get_pos_y() - this->get_size(), this->get_pos_x() + this->get_size(), this->get_pos_y() + this->get_size());
+    this->UpdateBounds();
 
     // Add the motor rotation even if the object is tied
     // if (!gmt::decimal_equals(motor, gmt::UnitI(0), gmt::UnitI(0.0001))) { this->current_rotation = this->current_rotation + motor; }
 }
+void Circle::UpdateBounds() { this->bounds = gmt::BoundsI(this->get_pos_x() - this->get_size(), this->get_pos_y() - this->get_size(), this->get_pos_x() + this->get_size(), this->get_pos_y() + this->get_size()); }
 void Circle::Stop() { this->last_pos = this->current_pos; }
 void Circle::Bloc() { this->last_rotation = this->current_rotation; }
 

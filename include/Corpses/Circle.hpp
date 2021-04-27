@@ -38,6 +38,7 @@ class Circle : public Corpse {
     bool inBounds(const gmt::BoundsI& bounds) const;
     bool Pointed(const gmt::VectorI& point) const;
 
+    void UpdateBounds();
     gmt::UnitI get_size() const;
 };
 

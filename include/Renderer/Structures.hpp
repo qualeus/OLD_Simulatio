@@ -39,8 +39,8 @@ struct Spawner {
         corpse_color[1] = 174.0f;
         corpse_color[2] = 96.0f;
         corpse_color[3] = 255.0f;
-        spawn_type = 1;
-        corpse_type = 1;
+        spawn_type = 2;
+        corpse_type = 0;
         positionX = 0.0f;
         positionY = 0.0f;
         corpse_number = 20;
@@ -51,7 +51,7 @@ struct Spawner {
         duration = 1;
         interval = 1;
         corpse_fixed = false;
-        corpse_etherial = true;
+        corpse_etherial = false;
         corpse_tied = false;
         corpse_radiusX = 100.0f;
         corpse_radiusY = 100.0f;

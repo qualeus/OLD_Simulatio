@@ -99,11 +99,11 @@ void Polygon::Step() {
     }
 
     // Update bounds
-    this->bounds = this->points.Bounds();
-
+    this->UpdateBounds();
     // Add the motor rotation even if the object is tied
     // if (!gmt::decimal_equals(motor, 0.0f, 0.0001f)) { this->current_rotation = this->current_rotation + motor; }
 }
+void Polygon::UpdateBounds() { this->bounds = this->points.Bounds(); }
 void Polygon::Stop() { this->last_pos = this->current_pos; }
 void Polygon::Bloc() { this->last_rotation = this->current_rotation; }
 

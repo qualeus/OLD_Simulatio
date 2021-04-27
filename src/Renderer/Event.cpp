@@ -112,7 +112,71 @@ void Renderer::StepSpawner(Spawner *spawner) {
             }
         } break;
         case 2: {
-            for (int i = 0; i < spawner->corpse_number; i++) { spawner_corpses.at(i); }
+            gmt::UnitI bounds_max_x = 0.0f;
+            gmt::UnitI bounds_max_y = 0.0f;
+            for (int i = 1; i < spawner->corpse_number; i++) {
+                gmt::BoundsI corpse_bounds = spawner_corpses.at(i)->get_bounds();
+
+                gmt::UnitI bounds_x = std::abs(corpse_bounds.x1 - corpse_bounds.x2);
+                gmt::UnitI bounds_y = std::abs(corpse_bounds.y1 - corpse_bounds.y2);
+
+                if (bounds_x > bounds_max_x) { bounds_max_x = bounds_x; }
+                if (bounds_y > bounds_max_y) { bounds_max_y = bounds_y; }
+            }
+
+            gmt::UnitI semi_bounds_max_x = bounds_max_x / 2;
+            gmt::UnitI semi_bounds_max_y = bounds_max_y / 2;
+
+            spawner_corpses.at(0)->Move({spawner->positionX, spawner->positionY});
+            spawner_corpses.at(0)->Stop();
+
+            int corpse_index = 1;
+            int ring_index = 0;  // index (6 lines)
+            int ring_count = 1;  // width (line lenght)
+            int line_count = 0;  // line
+
+            gmt::VectorI last_pos = {spawner->positionX += bounds_max_x, spawner->positionY};
+
+            while (corpse_index < spawner->corpse_number) {
+                if (line_count >= ring_count) {
+                    line_count = 0;
+                    ring_index++;
+                }
+                if (ring_index > 5) {
+                    ring_index = 0;
+                    ring_count++;
+                    last_pos.x += bounds_max_x;
+                }
+
+                gmt::VectorI current_pos = {last_pos.x, last_pos.y};
+                switch (ring_index) {
+                    case 0: {
+                        current_pos = {current_pos.x - semi_bounds_max_x, current_pos.y - bounds_max_y};  // <\>
+                    } break;
+                    case 1: {
+                        current_pos = {current_pos.x - bounds_max_x, current_pos.y};  // <->
+                    } break;
+                    case 2: {
+                        current_pos = {current_pos.x - semi_bounds_max_x, current_pos.y + bounds_max_y};  // </>
+                    } break;
+                    case 3: {
+                        current_pos = {current_pos.x + semi_bounds_max_x, current_pos.y + bounds_max_y};  // <\>
+                    } break;
+                    case 4: {
+                        current_pos = {current_pos.x + bounds_max_x, current_pos.y};  // <->
+                    } break;
+                    case 5: {
+                        current_pos = {current_pos.x + semi_bounds_max_x, current_pos.y - bounds_max_y};  // </>
+                    } break;
+                }
+
+                spawner_corpses.at(corpse_index)->Move(current_pos);  // TODO diff between bounds pos and real pos (poly)
+                spawner_corpses.at(corpse_index)->Stop();
+
+                line_count++;
+                corpse_index++;
+                last_pos = current_pos;
+            }
         } break;
         default: {
         }

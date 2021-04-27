@@ -174,10 +174,10 @@ void Renderer::ShowGuiSpawner(bool* p_open) {
             if (ImGui::BeginTabItem("Corpses")) {
                 ImGui::Dummy(ImVec2(0.0f, 7.0f));
                 const char* input_corpse_items[] = {"Circle", "Regular Polygon", "Oval Polygon"};
-                static const char* input_corpse_current_item = "Circle";
+                static const char* input_corpse_current_item = input_corpse_items[input_spawner.corpse_type];
 
                 const char* input_spawn_items[] = {"Custom", "Explosion", "Conglomerate"};
-                static const char* input_spawn_current_item = "Custom";
+                static const char* input_spawn_current_item = input_spawn_items[input_spawner.spawn_type];
 
                 ImGui::Dummy(ImVec2(0.0f, 7.0f));
                 ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
@@ -244,20 +244,35 @@ void Renderer::ShowGuiSpawner(bool* p_open) {
                         input_spawner.corpse_color[2] = temp_spawner_color.z * 255.0f;
                         input_spawner.corpse_color[3] = temp_spawner_color.w;
                     }
-                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragInt("points number", &input_spawner.corpse_points_number, 0.1, 3, +INT_MAX)) {}
+
+                    if (input_spawner.corpse_type != 0) {
+                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                        if (ImGui::DragInt("points number", &input_spawner.corpse_points_number, 0.1, 3, +INT_MAX)) {}
+                    }
+
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     if (ImGui::DragFloat("corpses randiusX", &input_spawner.corpse_radiusX, 0.1, 0, +INT_MAX)) {}
-                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragFloat("corpses randiusY", &input_spawner.corpse_radiusY, 0.1, 0, +INT_MAX)) {}
+
+                    if (input_spawner.corpse_type == 2) {
+                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                        if (ImGui::DragFloat("corpses randiusY", &input_spawner.corpse_radiusY, 0.1, 0, +INT_MAX)) {}
+                    }
+
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     if (ImGui::DragFloat("radius randomX", &input_spawner.corpse_radius_randomX, 0.1, 0, +INT_MAX)) {}
-                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragFloat("radius randomY", &input_spawner.corpse_radius_randomY, 0.1, 0, +INT_MAX)) {}
-                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragFloat("positionX random", &input_spawner.corpse_position_randomX, 0.1, 0, +INT_MAX)) {}
-                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragFloat("positionY random", &input_spawner.corpse_position_randomY, 0.1, 0, +INT_MAX)) {}
+
+                    if (input_spawner.corpse_type == 2) {
+                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                        if (ImGui::DragFloat("radius randomY", &input_spawner.corpse_radius_randomY, 0.1, 0, +INT_MAX)) {}
+                    }
+
+                    if (input_spawner.spawn_type != 1) {
+                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                        if (ImGui::DragFloat("positionX random", &input_spawner.corpse_position_randomX, 0.1, 0, +INT_MAX)) {}
+                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                        if (ImGui::DragFloat("positionY random", &input_spawner.corpse_position_randomY, 0.1, 0, +INT_MAX)) {}
+                    }
+
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     if (ImGui::DragFloat("corpse rotation", &input_spawner.corpse_rotation, 0.1, 0, +INT_MAX)) {}
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
@@ -1499,6 +1514,7 @@ void Renderer::DrawGuiMenu() {
             ImGui::PushItemFlag(ImGuiItemFlags_SelectableDontClosePopup, true);
             ImGui::MenuItem("Console", NULL, &show_gui_console);
             ImGui::MenuItem("Properties", NULL, &show_gui_properties);
+            ImGui::MenuItem("Spawner", NULL, &show_gui_spawner);
             ImGui::MenuItem("Debug Overlay", NULL, &show_gui_overlay);
             ImGui::MenuItem("ImGui Demo", NULL, &show_gui_imguidemo);
             ImGui::PopItemFlag();
