@@ -177,6 +177,25 @@ void Renderer::StepSpawner(Spawner *spawner) {
                 corpse_index++;
                 last_pos = current_pos;
             }
+
+            for (int i = 0; i < spawner->corpse_number; i++) {
+                float randomX = 0.0f;
+                float randomY = 0.0f;
+
+                if (!gmt::float_equals(spawner->corpse_position_randomX, 0.0f, 0.1f)) { randomX += gmt::rand_interval_centered(static_cast<int>(spawner->corpse_position_randomX)); }
+                if (!gmt::float_equals(spawner->corpse_position_randomY, 0.0f, 0.1f)) { randomY += gmt::rand_interval_centered(static_cast<int>(spawner->corpse_position_randomY)); }
+
+                spawner_corpses.at(i)->Drag({randomX, randomY});
+                spawner_corpses.at(i)->Stop();
+
+                float angle = gmt::degree_to_radian(spawner->launch_direction);
+                if (!gmt::float_equals(spawner->launch_direction_random, 0.0f, 0.1f)) { angle += gmt::rand_interval_centered(static_cast<int>(spawner->launch_direction_random)); }
+
+                float power = spawner->launch_power;
+                if (!gmt::float_equals(spawner->launch_random, 0.0f, 0.1f)) { power += gmt::rand_interval_centered(static_cast<int>(spawner->launch_random)); }
+
+                spawner_corpses.at(i)->Drag({power * std::cos(angle), power * std::sin(angle)});
+            }
         } break;
         default: {
         }

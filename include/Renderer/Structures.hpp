@@ -56,18 +56,18 @@ struct Spawner {
         corpse_radiusX = 100.0f;
         corpse_radiusY = 100.0f;
         corpse_rotation = 0.0f;
-        corpse_rotation_random = 360.0f;
+        corpse_rotation_random = 0.0f;
         corpse_points_number = 10;
-        corpse_radius_randomX = 10.0f;
-        corpse_radius_randomY = 10.0f;
-        corpse_position_randomX = 200.0f;
-        corpse_position_randomY = 200.0f;
-        launch_power = 30.0f;
-        launch_random = 60.0f;
+        corpse_radius_randomX = 0.0f;
+        corpse_radius_randomY = 0.0f;
+        corpse_position_randomX = 0.0f;
+        corpse_position_randomY = 0.0f;
+        launch_power = 0.0f;
+        launch_random = 0.0f;
         launch_direction = 0.0f;
-        launch_direction_random = 360.0f;
+        launch_direction_random = 0.0f;
         launch_rotation_power = 0.0f;
-        launch_rotation_random = 20.0f;
+        launch_rotation_random = 0.0f;
         interval_counter = interval;
     }
 };
