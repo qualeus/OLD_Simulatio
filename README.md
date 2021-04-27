@@ -16,7 +16,7 @@ This project also allows me to familiarize myself with several areas of programm
 - **Optimisation** 
 - **Threads** and Graphical acceleration with CUDA (IN DEV)
 
-<p align="center"><img alt="Icon" src="./assets/icon/icon.png"></p>
+<p align="center"><img alt="Icon" src="./assets/icon/ricon.png"></p>
 
 > To summarize this is an introduction to the basic concepts and functions of 2D physical simulation (applicable to 3D thereafter).
 
