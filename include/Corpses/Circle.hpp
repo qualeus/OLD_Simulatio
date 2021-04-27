@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+#include "Config.hpp"
 #include "Corpse.hpp"
 #include "Polygon.hpp"
 
@@ -13,26 +14,32 @@ const static int ID_CIRCLE = 2;
 
 class Circle : public Corpse {
    private:
-    float size;
+    gmt::UnitI size;
 
    public:
-    Circle(float x = 0.0f, float y = 0.0f, float size = 1.0f, float mass = 1.0f, float damping = 1.0f, float speed_x = 0.0f, float speed_y = 0.0f, float rotation = 0.0f, float motor = 0.0f, bool fixed = false, bool tied = false, bool etherial = false, sf::Color color = sf::Color::White);
-    virtual ~Circle();
+    Circle(gmt::UnitI x = gmt::UnitI(0), gmt::UnitI y = gmt::UnitI(0), gmt::UnitI size = gmt::UnitI(1), gmt::UnitI mass = gmt::UnitI(1), gmt::UnitI damping = gmt::UnitI(1), gmt::UnitI speed_x = gmt::UnitI(0), gmt::UnitI speed_y = gmt::UnitI(0), gmt::UnitI rotation = gmt::UnitI(0),
+           gmt::UnitI motor = gmt::UnitI(0), bool fixed = false, bool tied = false, bool etherial = false, sf::Color color = sf::Color::White);
+    // virtual ~Circle();
     Circle& operator=(const Circle& rhs);
 
     int get_class() const;
+    static int id_class();
 
     void Step();
     void Stop();
-    void Move(float x, float y, bool relative = true);
-    void Move(sf::Vector2f move, bool relative = true);
-    bool inBounds(float x1, float x2, float y1, float y2);
-    bool Pointed(float x, float y);
+    void Bloc();
 
-    void Collision(std::shared_ptr<Corpse> a);
+    void Move(const gmt::VectorI& move);
+    void Drag(const gmt::VectorI& drag);
 
-    float get_size() const;
-    gmt::Rectangle get_corpse_bounds() const;
+    void Turn(const gmt::UnitI& turn);
+    void Rotate(const gmt::UnitI& rotate);
+
+    bool inBounds(const gmt::BoundsI& bounds) const;
+    bool Pointed(const gmt::VectorI& point) const;
+
+    void UpdateBounds();
+    gmt::UnitI get_size() const;
 };
 
 }  // namespace phy

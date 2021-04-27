@@ -1,9 +1,10 @@
 
 #include "../../include/Renderer/Renderer.hpp"
 
-Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_w, float zoom, std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y) {
+Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_w, float zoom, std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y, int quadtree_max_count, int quadtree_max_depth)
+    : system(gravity, force_x, force_y, limit_x, limit_y, quadtree_max_count, quadtree_max_depth) {
     /* Initialize the System */
-    this->system = phy::System(gravity, force_x, force_y, limit_x, limit_y);
+    // this->system = phy::System(gravity, force_x, force_y, limit_x, limit_y);
 
     /* Setup Renderer Settings */
     this->name = p_name;
@@ -23,7 +24,7 @@ Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_
     this->sys_mouse_x = 0;
     this->sys_mouse_y = 0;
     this->saved_mouse_pos = sf::Vector2f();
-    this->selected_area = {sf::Vector2f(), sf::Vector2f()};
+    this->selected_area = gmt::Bounds<float>();
 
     this->select_type = 0;
     this->debug_type = 0;
@@ -31,11 +32,15 @@ Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_
 
     this->selected_corpses_fixed = {};
     this->selected_corpses_cursor = {};
+    this->selected_corpses_index = {};
     this->selected_corpses_diff = {};
+
+    this->input_spawner = {};
+    this->spawners = {};
 
     /* Setup Renderer View */
     this->view.reset(sf::FloatRect(-screen_width / 2, -screen_height / 2, this->screen_width, this->screen_height));
-    this->Camera(sf::Vector2f(camera_x, camera_y), zoom);
+    this->Camera(sf::Vector2f(camera_x, camera_y), std::max(zoom, 0.01f));
 
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
@@ -54,7 +59,11 @@ Renderer::~Renderer() {}
 void Renderer::Render() {
     /* Main Rendering Loop */
     while (this->window.isOpen()) {
-        if (!this->Paused()) { this->system.Step(); }
+        if (!this->Paused()) {
+            this->system.Step();
+            this->UpdateSelection();
+            this->UpdateSpawners();
+        }
 
         /* Background Color */
         this->window.clear(background_color);
@@ -62,7 +71,6 @@ void Renderer::Render() {
         /* Events Handling */
         sf::Event event;
         while (this->window.pollEvent(event)) { Input(event); }
-
         this->UpdateCamera();
 
         /* Delta Time Clock */
@@ -94,7 +102,26 @@ void Renderer::UpdateMaxFramerate(int max_framerate) {
     this->window.setFramerateLimit(max_framerate);
 }
 
-int Renderer::Framerate() { return (1000 / this->frame.asMilliseconds()); }
+int Renderer::Framerate() { return (1000 / (this->frame.asMilliseconds() + 0.00001f)); }
+
+void Renderer::UpdateSelection() {
+    for (int i = 0; i < this->selected_corpses_cursor.size(); i++) {
+        int curr_id = system.get_corpse(this->selected_corpses_cursor.at(i))->get_id();
+        int real_id = this->selected_corpses_index.at(i);
+        console.Log(gmt::to_string(curr_id) + "==" + gmt::to_string(real_id));
+        if (curr_id != real_id) {
+            this->select_type = S_DEFAULT;
+            this->selected_corpses_cursor = {};
+            this->selected_corpses_index = {};
+            this->selected_corpses_fixed = {};
+            this->selected_corpses_diff = {};
+
+            /* TODO: repopulate the slections array with the id stored in the array of index when the corpse still exist */
+            return;
+        }
+    }
+}
+
 void Renderer::UpdateDebug() {
     debug_values[0] = Framerate();
     debug_values[1] = this->debug_type;
@@ -109,6 +136,11 @@ void Renderer::UpdateDebug() {
     debug_values[10] = this->system.get_dt();
     debug_values[11] = this->select_type;
     debug_values[12] = this->system.get_corpses_size();
+    debug_values[13] = this->system.get_pairs_size();
+    debug_values[14] = this->system.get_quad_pairs_size();
+    debug_values[15] = this->system.get_quad_pairs_depth();
+    debug_values[16] = this->system.get_quad_pairs_size(0);
+    debug_values[17] = this->collision_number / DELAY_DEBUG;
 }
 
 void Renderer::Draw() {
@@ -160,31 +192,19 @@ void Renderer::set_screen_height(int screen_height) { this->screen_height = scre
 int Renderer::get_max_framerate() { return this->max_framerate; }
 void Renderer::set_max_framerate(int max_framerate) { this->max_framerate = max_framerate; }
 
+gmt::Bounds<float> Renderer::get_screen_bounds() { return gmt::Bounds<float>(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width), get_real_pos_y(screen_height)); }
+
 sf::Vector2f Renderer::get_real_pos(sf::Vector2i pos) { return window.mapPixelToCoords(pos); }
 float Renderer::get_real_pos_x(float x) { return window.mapPixelToCoords(sf::Vector2i(x, 0)).x; }
 float Renderer::get_real_pos_y(float y) { return window.mapPixelToCoords(sf::Vector2i(0, y)).y; }
 
-bool Renderer::rect_in_screen(gmt::Rectangle rect) {
-    // One point in screen
-    if (rect.pos.x > get_real_pos_x(0) && rect.pos.x < get_real_pos_x(screen_width)) { return true; }
-    if (rect.pos.x + rect.size.x > get_real_pos_x(0) && rect.pos.x + rect.size.x < get_real_pos_x(screen_width)) { return true; }
-    if (rect.pos.y > get_real_pos_y(0) && rect.pos.y < get_real_pos_y(screen_height)) { return true; }
-    if (rect.pos.y + rect.size.y > get_real_pos_y(0) && rect.pos.y + rect.size.y < get_real_pos_y(screen_height)) { return true; }
-
-    // Or screen in the shape
-    if (rect.pos.x < get_real_pos_x(0) && rect.pos.x + rect.size.x > get_real_pos_x(screen_width) && rect.pos.y < get_real_pos_y(0) && rect.pos.y + rect.size.y > get_real_pos_y(screen_height)) { return true; }
-
-    return false;  // is it faster to test first for true or for false?
-}
-
-void Renderer::addText(gmt::Text txt) { this->texts.push_back(txt); }
+void Renderer::addText(gmt::TextI text) { this->texts.push_back(text); }
 void Renderer::DrawTexts() {
     for (int i = 0; i < this->texts.size(); i++) {
-        gmt::Text txt = this->texts.at(i);
-        DrawText(txt.str, txt.x, txt.y, txt.size, txt.fixed, txt.color);
+        gmt::TextI text = this->texts.at(i);
+        DrawText(text.text, text.pos.x, text.pos.y, text.size, text.fixed, text.color);
     }
 }
 
 bool Renderer::get_enable_inputs() { return this->enable_inputs; }
-
 void Renderer::set_enable_inputs(bool enable) { this->enable_inputs = enable; }

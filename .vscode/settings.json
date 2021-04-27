@@ -92,6 +92,12 @@
         "regex": "cpp",
         "unordered_set": "cpp",
         "stack": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "slist": "cpp",
+        "*.in": "cpp",
+        "hash_map": "cpp",
+        "*.impl": "cpp",
+        "*.todo": "cpp",
+        "hash_set": "cpp"
     }
 }

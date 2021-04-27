@@ -2,303 +2,138 @@
 
 namespace phy {
 
-Polygon::Polygon(std::initializer_list<sf::Vector2f> points, float mass, float damping, float speed_x, float speed_y, float rotation, float motor, bool fixed, bool tied, bool etherial, sf::Color color) : Corpse(0.0f, 0.0f, mass, damping, fixed, tied, etherial, color) {
-    std::vector<sf::Vector2f> vect_points(std::begin(points), std::end(points));
-    // this->points = vect_points;
-    this->set_points(vect_points);
+Polygon::Polygon(std::vector<gmt::VectorI> points, gmt::UnitI mass, gmt::UnitI damping, gmt::UnitI speed_x, gmt::UnitI speed_y, gmt::UnitI rotation, gmt::UnitI motor, bool fixed, bool tied, bool etherial, sf::Color color) : Corpse(mass, damping, fixed, tied, etherial, color) {
+    std::vector<std::shared_ptr<gmt::VectorI>> shared_points = {};
+    for (int i = 0; i < points.size(); i++) { shared_points.push_back(std::make_shared<gmt::VectorI>(points.at(i))); }
 
-    /* Put all this in set_points in case of using it alone... */
-    this->relative_points = init_relative_points(vect_points);
+    this->points = gmt::VerticesI(shared_points);
 
-    sf::Vector2f computed_center = phy::Polygon::compute_center(vect_points);
-    this->set_pos(computed_center);
+    Generate();
 
-    this->points_number = vect_points.size();
-    this->last_pos = computed_center - sf::Vector2f(speed_x, speed_y);
+    gmt::VectorI centroid = this->points.Centroid();
+
+    this->current_pos = centroid;
+    this->last_pos = gmt::VectorI(centroid.x - speed_x, centroid.y - speed_y);
+
+    this->current_rotation = gmt::UnitI(0);
     this->last_rotation = rotation;
-    this->motor_rotation = motor;
 
-    this->triangulate();
+    this->motor = motor;
+    this->propulsor = propulsor;
+
+    this->bounds = this->points.Bounds();
 }
 Polygon& Polygon::operator=(const Polygon& rhs) {
     Corpse::operator=(rhs);
-    this->points_number = rhs.get_points_number();
-    this->points = rhs.get_points();
-    this->relative_points = rhs.get_relative_points();
-    // TODO COPY Triangulation!!!
-    // this->triangulation =
-    // std::vector<std::vector<std::shared_ptr<sf::Vector2f>>> triangulation;
+    gmt::VerticesI rpoints = rhs.get_points();
+    this->points = gmt::VerticesI();
+    for (int i = 0; i < rpoints.vertices.size(); i++) { this->points.vertices.push_back(std::make_shared<gmt::VectorI>(*rpoints.vertices.at(i))); }
+    Generate();
     return *this;
 }
-Polygon::~Polygon() {}
+// Polygon::~Polygon() {}
 
 const int Polygon::get_class() { return ID_POLYGON; }
+int Polygon::id_class() { return ID_POLYGON; }
 
-void Polygon::Move(float x, float y, bool relative) {
-    if (relative) {
-        this->current_pos = this->current_pos + sf::Vector2f(x, y);
-    } else {
-        this->current_pos = sf::Vector2f(x, y);
-    }
-    this->update_points();
+void Polygon::Move(const gmt::VectorI& move) {
+    this->points.Translate(move - this->current_pos);
+    this->current_pos = move;
 }
-void Polygon::Move(sf::Vector2f move, bool relative) {
-    if (relative) {
-        this->current_pos = this->current_pos + move;
-    } else {
-        this->current_pos = move;
-    }
-    this->update_points();
+void Polygon::Drag(const gmt::VectorI& drag) {
+    this->points.Translate(drag);
+    this->current_pos = this->current_pos + drag;
 }
 
-bool Polygon::inBounds(float x1, float x2, float y1, float y2) { return true; }
-bool Polygon::Pointed(float x, float y) {
-    // Ray Casting Algorithm
-    std::vector<float> sizes = this->get_sides_size();
-    float ray_lenght = gmt::Length(this->get_pos() - sf::Vector2f(x, y)) + *std::max_element(std::begin(sizes), std::end(sizes));
-
-    sf::Vector2f rayA = {x, y};
-    sf::Vector2f rayB = {x + ray_lenght, y};  // gmt::Normalize(this->get_pos()-sf::Vector2f(x, y))*ray_lenght;
-    std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = this->get_sides();
-    int intersections = 0;
-    for (int i = 0; i < sides.size(); i++) {
-        if (gmt::Segments_Intersect(rayA, rayB, sides.at(i).first, sides.at(i).second)) { intersections++; }
-    }
-    if ((intersections & 1) == 1) { return true; }
-    return false;
+void Polygon::Turn(const gmt::UnitI& turn) {
+    this->points.Rotate(this->current_rotation - turn, this->current_pos);
+    this->current_rotation = std::fmod(turn, gmt::UnitI(RO));
+}
+void Polygon::Rotate(const gmt::UnitI& rotate) {
+    this->points.Rotate(rotate, this->current_pos);
+    this->current_rotation = std::fmod(this->current_rotation + rotate, gmt::UnitI(RO));
 }
 
-void Polygon::Collision(std::shared_ptr<Corpse> a) {
-    if (Circle* circle = dynamic_cast<Circle*>(a.get())) {
-        // Polygon / Circle collision
-        std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = this->get_sides();
+bool Polygon::inBounds(const gmt::BoundsI& bounds) const { return gmt::BoundsI::BoundsInBounds(this->get_bounds(), bounds); }
+bool Polygon::Pointed(const gmt::VectorI& point) const { return gmt::VerticesI::PointInShape(this->get_points(), point); }
 
-        // Collide if the center of the circle is in the polygon
-        if (this->Pointed(circle->get_pos().x, circle->get_pos().y)) {
-            // Find the closest point on edges
-            std::pair<sf::Vector2f, sf::Vector2f> closest_side = gmt::Closest_Edge(sides, circle->get_pos());
+void Polygon::add_point(gmt::VectorI point) {
+    this->points.vertices.push_back(std::make_shared<gmt::VectorI>(point));
 
-            sf::Vector2f closest_projection = gmt::Segment_Projection(closest_side.first, closest_side.second, circle->get_pos());
-            sf::Vector2f vector_response = gmt::Normalize(gmt::Norme(closest_side.second, closest_side.first)) * (gmt::Length(circle->get_pos(), closest_projection) + circle->get_size());
-            Corpse::CollisionResponse(this, circle, vector_response);
-            return;
-        }
+    Generate();
 
-        for (int i = 0; i < sides.size(); i++) {
-            auto test_intersect = gmt::Line_Circle_Intersect(sides.at(i).first, sides.at(i).second, circle->get_pos(), circle->get_size());
+    gmt::VectorI computed_center = this->points.Centroid();
+    gmt::VectorI diff_pos = computed_center - this->current_pos;
 
-            // Don't collide with any edge
-            if (test_intersect.first == 0) { continue; }
-            if (test_intersect.first == 1) {
-                // Collide at the middle of an edge
-                sf::Vector2f vector_response = gmt::Normalize(circle->get_pos() - test_intersect.second) * (gmt::Length(circle->get_pos(), test_intersect.second) - circle->get_size());
-                Corpse::CollisionResponse(this, circle, vector_response);
-                return;
-
-            } else if (test_intersect.first == 2) {
-                // Collide with the first point of the edge (current edge + last edge)
-                int last_edge = (i - 1) % sides.size();
-                sf::Vector2f normals_average = circle->get_pos() - sides.at(last_edge).second;
-                sf::Vector2f vector_response = gmt::Normalize(normals_average) * (gmt::Length(circle->get_pos(), sides.at(i).first) - circle->get_size());
-                Corpse::CollisionResponse(this, circle, vector_response);
-                return;
-
-            } else if (test_intersect.first == 3) {
-                // Collide with the second point of the edge (current edge + next edge)
-                int next_edge = (i + 1) % sides.size();
-                sf::Vector2f normals_average = circle->get_pos() - sides.at(i).second;
-                sf::Vector2f vector_response = gmt::Normalize(normals_average) * (gmt::Length(circle->get_pos(), sides.at(i).second) - circle->get_size());
-                Corpse::CollisionResponse(this, circle, vector_response);
-                return;
-            }
-        }
-
-    } else if (Polygon* polygon = dynamic_cast<Polygon*>(a.get())) {
-        // Polygon / Polygon collision (Separating axis theorem)
-
-        // Make separating axis (perpendicular to the line that pass by the two objects center)
-        sf::Vector2f axis = gmt::Norme(this->get_pos(), polygon->get_pos());  // sf::Vector2f axis = gmt::Norme(this->get_diff_pos(), polygon->get_diff_pos());
-
-        // Find the two farthest points of the projection points on the separator axis
-        std::vector<float> self_projections = std::vector<float>();
-        std::vector<float> other_projections = std::vector<float>();
-
-        for (int i = 0; i < this->get_points_number(); i++) { self_projections.push_back(gmt::Dot(this->get_points().at(i), axis)); }
-        for (int i = 0; i < polygon->get_points_number(); i++) { other_projections.push_back(gmt::Dot(polygon->get_points().at(i), axis)); }
-
-        const auto self_minmax = std::minmax_element(self_projections.begin(), self_projections.end());
-        const auto other_minmax = std::minmax_element(other_projections.begin(), other_projections.end());
-
-        float self_min = *self_minmax.first;
-        float self_max = *self_minmax.second;
-        float other_min = *other_minmax.first;
-        float other_max = *other_minmax.second;
-    }
+    this->current_pos = computed_center;
+    this->last_pos = last_pos + diff_pos;
 }
 
-void Polygon::update_points() {
-    for (int i = 0; i < this->points_number; i++) { this->points.at(i) = this->get_pos() + this->relative_points.at(i); }
-}
+void Polygon::remove_point(int i) {
+    this->points.vertices.erase(std::begin(this->points.vertices) + gmt::modulo(i + 1, this->points.vertices.size()));
 
-void Polygon::triangulate() {
-    /* Reset the triangulation shape */
-    this->triangulation = std::vector<std::vector<std::shared_ptr<sf::Vector2f>>>();
+    Generate();
 
-    if (this->is_convex()) {
-        /* If the polygon is convex, no need to decompose it for the collision to work properly */
-        std::vector<std::shared_ptr<sf::Vector2f>> triangle = std::vector<std::shared_ptr<sf::Vector2f>>();
-        for (int i = 0; i < this->points_number; i++) {
-            /* /!\ IT COPY THE POINTS INSTEAD OF LINKING THEM... */
-            triangle.push_back(std::make_shared<sf::Vector2f>(std::forward<sf::Vector2f>(this->points.at(i))));
-        }
-        this->triangulation.push_back(triangle);
-    } else {
-        std::vector<std::shared_ptr<sf::Vector2f>> triangle = std::vector<std::shared_ptr<sf::Vector2f>>();
+    gmt::VectorI computed_center = this->points.Centroid();
+    gmt::VectorI diff_pos = computed_center - this->current_pos;
 
-        /* Ear clipping / Triangulation */
-        // TODO
-
-        this->triangulation.push_back(triangle);
-    }
-}
-
-std::vector<sf::Vector2f> Polygon::init_relative_points(std::vector<sf::Vector2f> points) {
-    sf::Vector2f pos = phy::Polygon::compute_center(points);
-    this->set_pos(pos);
-    std::vector<sf::Vector2f> relative_points = std::vector<sf::Vector2f>();
-    for (int i = 0; i < points.size(); i++) { relative_points.push_back(points.at(i) - pos); }
-    return relative_points;
-}
-
-void Polygon::set_points(std::vector<sf::Vector2f> points) { this->points = points; }
-
-void Polygon::add_point(sf::Vector2f point) {
-    this->points.push_back(point);
-    this->points_number++;
-
-    sf::Vector2f diff_pos = this->current_pos - this->last_pos;
-    sf::Vector2f computed_center = phy::Polygon::compute_center(this->points);
-
-    this->set_pos(computed_center);
-    this->last_pos = computed_center - diff_pos;
-    this->relative_points = init_relative_points(this->points);
-    this->update_points();
-    this->triangulate();
-}
-
-void Polygon::remove_point(int i) {}
-
-sf::Vector2f Polygon::compute_center(std::vector<sf::Vector2f> points) {
-    // return gmt::Points_Average(this->points);
-    return gmt::Centroid(this->get_sides());
+    this->current_pos = computed_center;
+    this->last_pos = last_pos + diff_pos;
 }
 
 void Polygon::Step() {
     if (this->fixed) {
         this->last_pos = this->current_pos;
     } else {
-        sf::Vector2f diff_pos = this->current_pos - this->last_pos;
+        gmt::VectorI diff_pos = this->current_pos - this->last_pos;
         this->last_pos = this->current_pos;
-        this->current_pos = this->current_pos + diff_pos;
+        this->Drag(diff_pos);
     }
 
     if (this->tied) {
-        this->last_rotation = std::fmod(this->current_rotation, 360);
+        this->last_rotation = std::fmod(this->current_rotation, gmt::UnitI(RO));
     } else {
-        float diff_rotation = std::fmod(this->current_rotation - this->last_rotation, 360);
+        gmt::UnitI diff_rotation = this->current_rotation - this->last_rotation;
         this->last_rotation = this->current_rotation;
-        this->current_rotation = std::fmod(this->current_rotation + diff_rotation, 360);
-        for (int i = 0; i < this->relative_points.size(); i++) { gmt::Rotate(this->relative_points.at(i), current_rotation); }
+        this->Rotate(diff_rotation);
     }
 
-    if (!gmt::decimal_equals(motor_rotation, 0.0f, 0.0001f)) {
-        // Add the motor rotation even if the object is tied
-        this->current_rotation = this->current_rotation + motor_rotation;
-        for (int i = 0; i < this->relative_points.size(); i++) { gmt::Rotate(this->relative_points.at(i), motor_rotation); }
-    }
-
-    this->update_points();
+    // Update bounds
+    this->UpdateBounds();
+    // Add the motor rotation even if the object is tied
+    // if (!gmt::decimal_equals(motor, 0.0f, 0.0001f)) { this->current_rotation = this->current_rotation + motor; }
 }
-void Polygon::Stop() {
-    this->last_pos = this->current_pos;
-    this->last_rotation = this->current_rotation;
-}
+void Polygon::UpdateBounds() { this->bounds = this->points.Bounds(); }
+void Polygon::Stop() { this->last_pos = this->current_pos; }
+void Polygon::Bloc() { this->last_rotation = this->current_rotation; }
 
-gmt::Rectangle Polygon::get_corpse_bounds() const {
-    const std::vector<sf::Vector2f> points = this->points;
-    const auto min_max_x = std::minmax_element(points.begin(), points.end(), [](const sf::Vector2f& lhs, const sf::Vector2f& rhs) { return lhs.x < rhs.x; });
-    const auto min_max_y = std::minmax_element(points.begin(), points.end(), [](const sf::Vector2f& lhs, const sf::Vector2f& rhs) { return lhs.y < rhs.y; });
+void Polygon::Generate() {
+    // Put the vertex in the Counter Clockwise order
+    this->points.Reorder();
 
-    float min_x = (*min_max_x.first).x;
-    float max_x = (*min_max_x.second).x;
-    float min_y = (*min_max_y.first).y;
-    float max_y = (*min_max_y.second).y;
-
-    return {sf::Vector2f(min_x, min_y), sf::Vector2f(max_x - min_x, max_y - min_y)};
-}
-
-int Polygon::get_points_number() const { return this->points_number; }
-std::vector<sf::Vector2f> Polygon::get_points() const { return this->points; }
-
-std::vector<sf::Vector2f> Polygon::get_relative_points() const { return this->relative_points; }
-void Polygon::set_relative_points(std::vector<sf::Vector2f> relative_points) { this->relative_points = relative_points; }
-
-std::vector<float> Polygon::get_sides_size() const {
-    std::vector<sf::Vector2f> sides = this->get_sides_val();
-    std::vector<float> sizes = std::vector<float>();
-    for (int i = 0; i < sides.size(); i++) { sizes.push_back(gmt::Length(sides.at(i))); }
-    return sizes;
-}
-std::vector<sf::Vector2f> Polygon::get_sides_val() const {
-    std::vector<sf::Vector2f> sides = std::vector<sf::Vector2f>();
-    if (this->points_number > 1) {
-        for (int i = 0; i < this->points_number - 1; i++) { sides.push_back(this->points.at(i + 1) - this->points.at(i)); }
-        sides.push_back(this->points.at(0) - this->points.at(this->points_number - 1));
-    }
-    return sides;
-}
-
-std::vector<std::pair<sf::Vector2f, sf::Vector2f>> Polygon::get_sides() const {
-    std::vector<std::pair<sf::Vector2f, sf::Vector2f>> pairs = std::vector<std::pair<sf::Vector2f, sf::Vector2f>>();
-    if (this->points.size() > 1) {
-        for (int i = 0; i < this->points.size() - 1; i++) { pairs.push_back({this->points.at(i), this->points.at(i + 1)}); }
-        pairs.push_back({this->points.at(this->points.size() - 1), this->points.at(0)});
-    }
-    return pairs;
-}
-
-std::vector<std::vector<std::shared_ptr<sf::Vector2f>>> Polygon::get_triangulation() const { return this->triangulation; }
-
-bool Polygon::is_convex() const {
-    /*
-        Check if the polygon is not convex
-        - Check if 2 edges intersect ?
-        - Check for all angles if they are > 180°/2PI
-    */
-
-    std::vector<std::pair<sf::Vector2f, sf::Vector2f>> sides = this->get_sides();
-
-    /* We check for every edges that don't have an edge in common (opposites) if they intersect */
-    if (sides.size() <= 3) { return true; } /* triangles are always convex */
-
-    for (int i = 0; i < sides.size() - 2; i++) {
-        for (int j = i + 2; j < sides.size() - (i == 0); j++) {
-            std::pair<sf::Vector2f, sf::Vector2f> sideA = sides.at(i);
-            std::pair<sf::Vector2f, sf::Vector2f> sideB = sides.at(j);
-            if (gmt::Segments_Intersect(sideA.first, sideA.second, sideB.first, sideB.second)) { return false; }
+    if (this->points.Convex()) {
+        this->polygons = {this->points};  // Convex => Collision shape is the same
+    } else {
+        if (this->points.Intersect()) {
+            // If the polygon is self-intersecting, we redefine the shape
+            gmt::VerticesI hull = this->points.Hull();
+            this->polygons = {hull};
+            this->points = hull;
+        } else {
+            // Else we can just triangulate it
+            this->polygons = this->points.Triangulate();
         }
     }
-
-    std::vector<sf::Vector2f> points = this->get_points();
-
-    // tests angles <= 2PI...
-    for (int i = 0; i < points.size() - 2; i++) {
-        if (gmt::angle(points.at(i), points.at(i + 1), points.at(i + 2)) > 180.0f) { return false; }
-    }
-
-    if (gmt::angle(points.at(points.size() - 1), points.at(0), points.at(1)) > 180.0f) { return false; }
-
-    return true;
 }
+
+gmt::VerticesI Polygon::get_points() const { return this->points; }
+void Polygon::set_points(gmt::VerticesI points) { this->points = points; }
+int Polygon::get_points_size() const { return this->points.vertices.size(); }
+
+std::vector<gmt::VerticesI> Polygon::get_polygons() const { return this->polygons; }
+void Polygon::set_polygons(std::vector<gmt::VerticesI> polygons) { this->polygons = polygons; }
+int Polygon::get_polygons_size() const { return this->polygons.size(); }
+
+std::vector<std::pair<std::shared_ptr<gmt::VectorI>, std::shared_ptr<gmt::VectorI>>> Polygon::get_sides() const { return this->points.Pairs(); }
 
 }  // namespace phy

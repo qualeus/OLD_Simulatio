@@ -1,4 +1,3 @@
-
 #include "../../include/Renderer/Renderer.hpp"
 
 void Renderer::SetupGui() {
@@ -18,6 +17,7 @@ void Renderer::SetupGui() {
     /* ImGui Enable Docking */
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // CTRL + TAB
     io.ConfigFlags |= ImGuiDockNodeFlags_PassthruCentralNode;
 
     // io.ConfigDockingWithShift = true;
@@ -90,8 +90,7 @@ void Renderer::DrawGuiDocking() {
     ImGui::SetNextWindowViewport(viewport->ID);
 
     ImGuiWindowFlags host_window_flags = 0;
-    host_window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDocking;
-    host_window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoBackground;
+    host_window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoBackground;
 
     char label[32];
     ImFormatString(label, IM_ARRAYSIZE(label), "DockSpaceViewport", viewport->ID);
@@ -132,6 +131,7 @@ void Renderer::DrawGui() {
     if (show_gui_properties) { ShowGuiProperties(&show_gui_properties); }
     if (show_gui_overlay) { ShowGuiOverlay(&show_gui_overlay); }
     if (show_gui_settings) { ShowGuiSettings(&show_gui_settings); }
+    if (show_gui_spawner) { ShowGuiSpawner(&show_gui_spawner); }
 }
 
 void Renderer::DrawGuiBar() {
@@ -143,12 +143,13 @@ void Renderer::DrawGuiBar() {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
     // ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(1.0f, 0.5f, 0.5f, 1.0f));
     if (ImGui::Begin("Bar", &always_show, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove)) {
+        // ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove
         // ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.1f, 0.5f, 0.5f, 1.0f));
 
         ImVec2 button_sz(G_TOP_BAR_SIZE, G_TOP_BAR_SIZE);
         int buttons_count = 30;
         ImGuiStyle& style = ImGui::GetStyle();
-        style.ItemSpacing = ImVec2(5.0f, 0.0f);
+        style.ItemSpacing = ImVec2(G_TOP_BAR_SIZE / 10.0f, 0.0f);
         float window_visible_x2 = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
         for (int n = 0; n < buttons_count; n++) {
             ImGui::PushID(n);
@@ -166,6 +167,147 @@ void Renderer::DrawGuiBar() {
     // ImGui::PopStyleColor();
 }
 
+void Renderer::ShowGuiSpawner(bool* p_open) {
+    ImGui::SetNextWindowSize({400, 370}, ImGuiCond_Appearing);
+    if (ImGui::Begin("Spawner", p_open, ImGuiWindowFlags_NoFocusOnAppearing)) {
+        if (ImGui::BeginTabBar("MyTabBar")) {
+            if (ImGui::BeginTabItem("Corpses")) {
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                const char* input_corpse_items[] = {"Circle", "Regular Polygon", "Oval Polygon"};
+                static const char* input_corpse_current_item = input_corpse_items[input_spawner.corpse_type];
+
+                const char* input_spawn_items[] = {"Custom", "Explosion", "Conglomerate"};
+                static const char* input_spawn_current_item = input_spawn_items[input_spawner.spawn_type];
+
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
+                if (ImGui::TreeNode("Spawner Properties")) {
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::BeginCombo("##combocorpse", input_corpse_current_item)) {
+                        for (int n = 0; n < IM_ARRAYSIZE(input_corpse_items); n++) {
+                            bool is_selected = (input_corpse_current_item == input_corpse_items[n]);
+                            if (ImGui::Selectable(input_corpse_items[n], is_selected)) {
+                                input_corpse_current_item = input_corpse_items[n];
+                                input_spawner.corpse_type = n;
+                            }
+                            if (is_selected) { ImGui::SetItemDefaultFocus(); }
+                        }
+                        ImGui::EndCombo();
+                    }
+                    ImGui::SameLine();
+                    ImGui::Text("Corpse Type");
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::BeginCombo("##combospawn", input_spawn_current_item)) {
+                        for (int n = 0; n < IM_ARRAYSIZE(input_spawn_items); n++) {
+                            bool is_selected = (input_spawn_current_item == input_spawn_items[n]);
+                            if (ImGui::Selectable(input_spawn_items[n], is_selected)) {
+                                input_spawn_current_item = input_spawn_items[n];
+                                input_spawner.spawn_type = n;
+                            }
+                            if (is_selected) { ImGui::SetItemDefaultFocus(); }
+                        }
+                        ImGui::EndCombo();
+                    }
+                    ImGui::SameLine();
+                    ImGui::Text("Spawner Type");
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::Separator();
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    float input_spawner_position[2] = {input_spawner.positionX, input_spawner.positionY};
+                    if (ImGui::DragFloat2("Spawner position", input_spawner_position)) {
+                        input_spawner.positionX = input_spawner_position[0];
+                        input_spawner.positionY = input_spawner_position[1];
+                    }
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::Separator();
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragInt("corpses number", &input_spawner.corpse_number, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragInt("spawner duration", &input_spawner.duration, 0.1, -1, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragInt("spawner interval", &input_spawner.interval, 0.1, 0, +INT_MAX)) {}
+                    ImGui::TreePop();
+                }
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                if (ImGui::TreeNode("Corpse Properties")) {
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    ImGui::Checkbox("Fixed", &input_spawner.corpse_fixed);
+                    ImGui::SameLine();
+                    ImGui::Checkbox("Etherial", &input_spawner.corpse_etherial);
+                    ImGui::SameLine();
+                    ImGui::Checkbox("Tied", &input_spawner.corpse_tied);
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    static ImVec4 temp_spawner_color = ImVec4(input_spawner.corpse_color[0], input_spawner.corpse_color[1], input_spawner.corpse_color[2], input_spawner.corpse_color[3]);
+                    if (ImGui::ColorEdit3("Color", (float*)&temp_spawner_color)) {
+                        input_spawner.corpse_color[0] = temp_spawner_color.x * 255.0f;
+                        input_spawner.corpse_color[1] = temp_spawner_color.y * 255.0f;
+                        input_spawner.corpse_color[2] = temp_spawner_color.z * 255.0f;
+                        input_spawner.corpse_color[3] = temp_spawner_color.w;
+                    }
+
+                    if (input_spawner.corpse_type != 0) {
+                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                        if (ImGui::DragInt("points number", &input_spawner.corpse_points_number, 0.1, 3, +INT_MAX)) {}
+                    }
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("corpses randiusX", &input_spawner.corpse_radiusX, 0.1, 0, +INT_MAX)) {}
+
+                    if (input_spawner.corpse_type == 2) {
+                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                        if (ImGui::DragFloat("corpses randiusY", &input_spawner.corpse_radiusY, 0.1, 0, +INT_MAX)) {}
+                    }
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("radius randomX", &input_spawner.corpse_radius_randomX, 0.1, 0, +INT_MAX)) {}
+
+                    if (input_spawner.corpse_type == 2) {
+                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                        if (ImGui::DragFloat("radius randomY", &input_spawner.corpse_radius_randomY, 0.1, 0, +INT_MAX)) {}
+                    }
+
+                    if (input_spawner.spawn_type != 1) {
+                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                        if (ImGui::DragFloat("positionX random", &input_spawner.corpse_position_randomX, 0.1, 0, +INT_MAX)) {}
+                        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                        if (ImGui::DragFloat("positionY random", &input_spawner.corpse_position_randomY, 0.1, 0, +INT_MAX)) {}
+                    }
+
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("corpse rotation", &input_spawner.corpse_rotation, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("rotation random", &input_spawner.corpse_rotation_random, 0.1, 0, +INT_MAX)) {}
+                    ImGui::TreePop();
+                }
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                if (ImGui::TreeNode("Launch Properties")) {
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("launch power", &input_spawner.launch_power, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("launch random", &input_spawner.launch_random, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("launch direction", &input_spawner.launch_direction, 0.1, 0, 360)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("direction random", &input_spawner.launch_direction_random, 0.1, 0, 360)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("launch rotation", &input_spawner.launch_rotation_power, 0.1, 0, +INT_MAX)) {}
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::DragFloat("rotation random", &input_spawner.launch_rotation_random, 0.1, 0, +INT_MAX)) {}
+                    ImGui::TreePop();
+                }
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                if (ImGui::Button("Create Spawner", {-1, 23})) { this->spawners.push_back(this->input_spawner); }
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                ImGui::EndTabItem();
+            }
+            ImGui::Dummy(ImVec2(0.0f, 1.0f));
+            if (ImGui::BeginTabItem("Particules")) { ImGui::EndTabItem(); }
+            ImGui::EndTabBar();
+        }
+    }
+    ImGui::End();
+}
+
 void Renderer::ShowGuiProperties(bool* p_open) {
     if (ImGui::Begin("Properties", p_open, ImGuiWindowFlags_NoFocusOnAppearing)) {
         char system_name[32];
@@ -177,6 +319,12 @@ void Renderer::ShowGuiProperties(bool* p_open) {
             /* SYSTEM PROPERTIES */
             if (ImGui::BeginTabItem(system_name)) {
                 ImGui::Dummy(ImVec2(0.0f, 1.2f));
+
+                /* PRECISION */
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), ("PHYSICS_PRECISION:" + gmt::to_string(gmt::type_name<PHYSICS_PRECISION>())).c_str());
+                ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
                 ImGui::SetNextTreeNodeOpen(false, ImGuiCond_FirstUseEver);
                 if (ImGui::TreeNode("System Infos")) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
@@ -189,7 +337,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     ImGui::Text("Units");
                     ImGui::SameLine();
-                    DrawGuiHelp("");
+                    ImGui::Help("");
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                     /* Lenght Unit */
@@ -217,7 +365,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
 
                     ImGui::Text("Reference Frame gravity field");
                     ImGui::SameLine();
-                    DrawGuiHelp(
+                    ImGui::Help(
                         "The calculated forces do not take into\n"
                         "account the mass of the objects on which\n"
                         "they are applied (as on the Earth).\n\n"
@@ -248,14 +396,14 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                     /* System Limits */
-                    gmt::Rectangle rect_limits = system.get_limits();
-                    static float temp_limits[4] = {rect_limits.pos.x, rect_limits.pos.y, rect_limits.size.x, rect_limits.size.y};
+                    gmt::BoundsI rect_limits = system.get_limits();
+                    static float temp_limits[4] = {static_cast<float>(rect_limits.x1), static_cast<float>(rect_limits.y1), static_cast<float>(rect_limits.x2), static_cast<float>(rect_limits.y2)};
                     if (ImGui::DragFloat4("Limits", temp_limits, 1.f, -FLT_MAX, +FLT_MAX, "%.f")) {
-                        rect_limits = {sf::Vector2f(temp_limits[0], temp_limits[1]), sf::Vector2f(temp_limits[2], temp_limits[3])};
+                        rect_limits = gmt::BoundsI(temp_limits[0], temp_limits[1], temp_limits[2], temp_limits[3]);
                         system.set_limits(rect_limits);
                     }
                     ImGui::SameLine();
-                    DrawGuiHelp("Pos (x,y) => center of the rectangle\nSize (x,y) => size of the rectangle");
+                    ImGui::Help("Pos (x,y) => center of the rectangle\nSize (x,y) => size of the rectangle");
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     ImGui::Separator();
@@ -273,7 +421,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     if (ImGui::InputFloat("LS", &temp_LS, temp_LS / 1000.0f, temp_LS / 10.0f, "%e")) { system.set_LS(temp_LS); }
                     if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
                     ImGui::SameLine();
-                    DrawGuiHelp(
+                    ImGui::Help(
                         "The speed of light in vacuum, commonly denoted c.\n"
                         "Its exact value is defined as 299 792 458 m.s-1\n"
                         "(approximately 300 000 km.s-1)");
@@ -285,7 +433,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     if (ImGui::InputFloat("G", &temp_G, temp_G / 1000.0f, temp_G / 10.0f, "%e")) { system.set_G(temp_G); }
                     if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
                     ImGui::SameLine();
-                    DrawGuiHelp(
+                    ImGui::Help(
                         "The gravitational constant (also known as the\n"
                         "Newtonian constant of gravitation). Its value\n"
                         "is approximately 6.674×10-11 m3.kg-1.s-2");
@@ -297,7 +445,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     static bool locked_accuracy = true;
                     ImGui::Checkbox("Lock Accuracy", &locked_accuracy);
                     ImGui::SameLine();
-                    DrawGuiHelp("Warning: Accuracy greatly impact the performances");
+                    ImGui::Help("Warning: Accuracy greatly impact the performances");
 
                     if (locked_accuracy) {
                         ImGuiStyle& style = ImGui::GetStyle();
@@ -346,7 +494,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         set_camera_y(temp_camera_pos[1]);
                     }
                     ImGui::SameLine();
-                    DrawGuiHelp("Camera Position (x,y) => center of the screen");
+                    ImGui::Help("Camera Position (x,y) => center of the screen");
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
@@ -354,7 +502,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     float temp_camera_zoom = 100.0f * (100.0f / get_camera_zoom());
                     if (ImGui::DragFloat("Zoom", &temp_camera_zoom, 0.5f, -FLT_MAX, +FLT_MAX, "%.1f%%")) { set_camera_zoom(100.0f * (100.0f / temp_camera_zoom)); }
                     ImGui::SameLine();
-                    DrawGuiHelp("Camera Zoom =>  100.0f * (100.0f / Scale)");
+                    ImGui::Help("Camera Zoom =>  100.0f * (100.0f / Scale)");
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
@@ -382,21 +530,15 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     static ImVec4 temp_background_color = ImVec4(background_color.r, background_color.g, background_color.b, 255);
                     if (ImGui::ColorEdit3("Background", (float*)&temp_background_color)) { background_color = sf::Color(temp_background_color.x * 255.0f, temp_background_color.y * 255.0f, temp_background_color.z * 255.0f, 255.0f); }
                     ImGui::SameLine();
-                    DrawGuiHelp("Right click on the color picker\nto change its format, or even\nexport the color.");
+                    ImGui::Help("Right click on the color picker\nto change its format, or even\nexport the color.");
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                     /* Renderer Framerate */
                     static int temp_max_framerate = get_max_framerate();
                     const char* items[] = {"30 Hz", "60 Hz", "120 Hz", "No Limit"};
-                    static int item_current = 1;
+                    static int item_current = 0;
 
-                    switch (temp_max_framerate) {
-                        case 30: item_current = 0; break;
-                        case 60: item_current = 1; break;
-                        case 120: item_current = 2; break;
-                        default: item_current = 3;
-                    }
                     if (ImGui::Combo("Framerate", &item_current, items, IM_ARRAYSIZE(items))) {
                         switch (item_current) {
                             case 0: set_max_framerate(30); break;
@@ -563,8 +705,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         } else {
                             body_cursor = selected_corpses_cursor.at(0);
                         }
-
-                        props_vel = gmt::Length(system.get_corpse(body_cursor)->get_diff_pos());  // dp / dt
+                        props_vel = system.get_corpse(body_cursor)->get_diff_pos().Magnitude();  // dp / dt
                         props_acc = 10.0f;
                         props_jer = 10.0f;
 
@@ -575,7 +716,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         if (!unique_selected) { ImFormatString(label_props, IM_ARRAYSIZE(label_props), "Body Properties <Mean>"); }
                         ImGui::Text(label_props);
                         ImGui::SameLine();
-                        DrawGuiHelp("Kinetic Energy = (1/2).m.v^2\nPotential Energy = \nEnergy = m.c^2");
+                        ImGui::Help("Kinetic Energy = (1/2).m.v^2\nPotential Energy = \nEnergy = m.c^2");
                         ImGui::Text(
                             " \n"
                             " * Velocity: %.f (m.s^-1)\n"
@@ -661,7 +802,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
 
                         temp_rotation = system.get_corpse(body_cursor)->get_rotation();
                         temp_spin = system.get_corpse(body_cursor)->get_diff_rotation();
-                        temp_motor = system.get_corpse(body_cursor)->get_motor_rotation();
+                        temp_motor = system.get_corpse(body_cursor)->get_motor();
 
                         if (!unique_selected) {
                             for (int i = 1; i < selected_corpses_cursor.size(); i++) {
@@ -670,26 +811,26 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 float sig_vel = 0.01f;
                                 float sig_com = 0.001f;
 
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_pos_x(), temp_position_x, sig_pos)) {
                                     ImFormatString(label_posX, IM_ARRAYSIZE(label_posX), "Position X <differ>");
                                     temp_position_x = 0.0f;
                                 }
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_pos_y(), temp_position_y, sig_pos)) {
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_pos_y(), temp_position_y, sig_pos)) {
                                     ImFormatString(label_posY, IM_ARRAYSIZE(label_posY), "Position Y <differ>");
                                     temp_position_y = 0.0f;
                                 }
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_diff_pos_x(), temp_velocity_x, sig_vel)) {
                                     ImFormatString(label_velX, IM_ARRAYSIZE(label_velX), "Velocity X <differ>");
                                     temp_velocity_x = 0.0f;
                                 }
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_diff_pos_y(), temp_velocity_y, sig_vel)) {
                                     ImFormatString(label_velY, IM_ARRAYSIZE(label_velY), "Velocity Y <differ>");
                                     temp_velocity_y = 0.0f;
                                 }
 
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_friction(), temp_friction, sig_com)) { ImFormatString(label_fric, IM_ARRAYSIZE(label_fric), "Fricition <differ>"); }
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_mass(), temp_mass, sig_com)) { ImFormatString(label_mass, IM_ARRAYSIZE(label_mass), "Mass <differ>"); }
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_damping(), temp_damping, sig_com)) { ImFormatString(label_damp, IM_ARRAYSIZE(label_damp), "Damping <differ>"); }
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_friction(), temp_friction, sig_com)) { ImFormatString(label_fric, IM_ARRAYSIZE(label_fric), "Fricition <differ>"); }
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_mass(), temp_mass, sig_com)) { ImFormatString(label_mass, IM_ARRAYSIZE(label_mass), "Mass <differ>"); }
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_damping(), temp_damping, sig_com)) { ImFormatString(label_damp, IM_ARRAYSIZE(label_damp), "Damping <differ>"); }
 
                                 if (!system.get_corpse(temp_cursor)->get_fixed() == temp_fixed) {
                                     ImFormatString(label_fix, IM_ARRAYSIZE(label_fix), "Fixed <differ>");
@@ -704,15 +845,15 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                     temp_tied = -1;
                                 }
 
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_rotation(), temp_rotation, sig_pos)) {
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_rotation(), temp_rotation, sig_pos)) {
                                     ImFormatString(label_rot, IM_ARRAYSIZE(label_rot), "Rotation <differ>");
                                     temp_rotation = 0.0f;
                                 }
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_rotation(), temp_spin, sig_pos)) {
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_rotation(), temp_spin, sig_pos)) {
                                     ImFormatString(label_spi, IM_ARRAYSIZE(label_spi), "Spin <differ>");
                                     temp_spin = 0.0f;
                                 }
-                                if (!gmt::Equals(system.get_corpse(temp_cursor)->get_motor_rotation(), temp_motor, sig_pos)) {
+                                if (!gmt::float_equals(system.get_corpse(temp_cursor)->get_motor(), temp_motor, sig_pos)) {
                                     ImFormatString(label_mot, IM_ARRAYSIZE(label_mot), "Motor <differ>");
                                     temp_motor = 0.0f;
                                 }
@@ -726,12 +867,12 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         /* Corpse Position_X */
                         if (ImGui::DragFloat(label_posX, &temp_position_x, 0.5f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None)) {
                             if (unique_selected) {
-                                system.get_corpse(cursor_selected)->Move(temp_position_x, system.get_corpse(cursor_selected)->get_pos_y(), false);
+                                system.get_corpse(cursor_selected)->Move(gmt::VectorI(temp_position_x, system.get_corpse(cursor_selected)->get_pos_y()));
                                 system.get_corpse(cursor_selected)->Stop();
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
                                     int body_cursor = selected_corpses_cursor.at(i);
-                                    system.get_corpse(body_cursor)->Move(system.get_corpse(body_cursor)->get_pos_x() + temp_position_x, system.get_corpse(body_cursor)->get_pos_y(), false);
+                                    system.get_corpse(body_cursor)->Move(gmt::VectorI(system.get_corpse(body_cursor)->get_pos_x() + temp_position_x, system.get_corpse(body_cursor)->get_pos_y()));
                                     system.get_corpse(body_cursor)->Stop();
                                 }
                             }
@@ -741,12 +882,12 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         /* Corpse Position_Y */
                         if (ImGui::DragFloat(label_posY, &temp_position_y, 0.5f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None)) {
                             if (unique_selected) {
-                                system.get_corpse(cursor_selected)->Move(system.get_corpse(cursor_selected)->get_pos_x(), temp_position_y, false);
+                                system.get_corpse(cursor_selected)->Move(gmt::VectorI(system.get_corpse(cursor_selected)->get_pos_x(), temp_position_y));
                                 system.get_corpse(cursor_selected)->Stop();
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
                                     int body_cursor = selected_corpses_cursor.at(i);
-                                    system.get_corpse(body_cursor)->Move(system.get_corpse(body_cursor)->get_pos_x(), system.get_corpse(body_cursor)->get_pos_y() + temp_position_y, false);
+                                    system.get_corpse(body_cursor)->Move(gmt::VectorI(system.get_corpse(body_cursor)->get_pos_x(), system.get_corpse(body_cursor)->get_pos_y() + temp_position_y));
                                     system.get_corpse(body_cursor)->Stop();
                                 }
                             }
@@ -825,7 +966,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
                         /* Corpse Fixed */
-                        if (DrawGuiCheckBox(label_fix, &temp_fixed)) {
+                        if (ImGui::TriCheckBox(label_fix, &temp_fixed)) {
                             if (unique_selected) {
                                 system.get_corpse(cursor_selected)->set_fixed(temp_fixed != 0);
                             } else {
@@ -840,7 +981,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         ImGui::SameLine();
 
                         /* Corpse Etherial */
-                        if (DrawGuiCheckBox(label_eth, &temp_etherial)) {
+                        if (ImGui::TriCheckBox(label_eth, &temp_etherial)) {
                             if (unique_selected) {
                                 system.get_corpse(cursor_selected)->set_etherial(temp_etherial != 0);
                             } else {
@@ -855,7 +996,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         ImGui::SameLine();
 
                         /* Corpse Tied */
-                        if (DrawGuiCheckBox(label_tie, &temp_tied)) {
+                        if (ImGui::TriCheckBox(label_tie, &temp_tied)) {
                             if (unique_selected) {
                                 system.get_corpse(cursor_selected)->set_tied(temp_tied != 0);
                             } else {
@@ -871,11 +1012,13 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         /* Corpse Rotation */
                         if (ImGui::DragFloat(label_rot, &temp_rotation, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None)) {
                             if (unique_selected) {
-                                system.get_corpse(cursor_selected)->set_rotation(temp_rotation);
+                                system.get_corpse(cursor_selected)->Turn(temp_rotation);
+                                system.get_corpse(cursor_selected)->Bloc();
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
                                     int body_cursor = selected_corpses_cursor.at(i);
-                                    system.get_corpse(body_cursor)->set_rotation(system.get_corpse(body_cursor)->get_rotation() - temp_rotation);
+                                    system.get_corpse(body_cursor)->Turn(temp_rotation);
+                                    system.get_corpse(body_cursor)->Bloc();
                                 }
                             }
                         }
@@ -886,14 +1029,12 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         /* Corpse Spin */
                         if (ImGui::DragFloat(label_spi, &temp_spin, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None)) {
                             if (unique_selected) {
-                                system.get_corpse(cursor_selected)->set_rotation(system.get_corpse(cursor_selected)->get_last_rotation() + temp_spin);
+                                system.get_corpse(cursor_selected)->set_last_rotation(system.get_corpse(cursor_selected)->get_rotation() - temp_spin);
                             } else {
-                                /*
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
                                     int body_cursor = selected_corpses_cursor.at(i);
-                                    system.get_corpse(body_cursor)->set_rotation(system.get_corpse(body_cursor)->get_rotation() - temp_rotation);
+                                    system.get_corpse(body_cursor)->set_last_rotation(system.get_corpse(body_cursor)->get_rotation() - temp_spin);
                                 }
-                                */
                             }
                         }
                         if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
@@ -902,11 +1043,11 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         /*
                         if (ImGui::DragFloat(label_mot, &temp_motor, 0.1f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None)) {
                             if (unique_selected) {
-                                system.get_corpse(cursor_selected)->set_motor_rotation(system.get_corpse(cursor_selected)->get_motor_rotation() - temp_motor);
+                                system.get_corpse(cursor_selected)->set_motor(system.get_corpse(cursor_selected)->get_motor() - temp_motor);
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
                                     int body_cursor = selected_corpses_cursor.at(i);
-                                    system.get_corpse(body_cursor)->set_motor_rotation(system.get_corpse(body_cursor)->get_motor_rotation() - temp_motor);
+                                    system.get_corpse(body_cursor)->set_motor(system.get_corpse(body_cursor)->get_motor() - temp_motor);
                                 }
                             }
                         }
@@ -972,13 +1113,13 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Checkbox("Enable the Preview", &trajectory_debug_show);
                     if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
                     ImGui::SameLine();
-                    DrawGuiHelp("Trajectory previsualisation occurs only\nwhen the system is paused.");
+                    ImGui::Help("Trajectory previsualisation occurs only\nwhen the system is paused.");
                     ImGui::SameLine();
 
                     ImGui::Checkbox("Preview all bodies", &trajectory_debug_all);
                     if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
                     ImGui::SameLine();
-                    DrawGuiHelp("If uncheck, the trajectory displayed\nwill be the selected body one.");
+                    ImGui::Help("If uncheck, the trajectory displayed\nwill be the selected body one.");
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
@@ -1032,7 +1173,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::SameLine();
                     if (ImGui::Checkbox("On change", &trajectory_compute_on_change)) { this->debug_system_edited = true; }
                     ImGui::SameLine();
-                    DrawGuiHelp("The computation is performed\nevery time a change occurs on the\npaused system.");
+                    ImGui::Help("The computation is performed\nevery time a change occurs on the\npaused system.");
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
@@ -1092,14 +1233,16 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
     if (ImGui::Begin("Debug Overlay", p_open, window_flags)) {
         ImGui::Text("--- Debug Overlay ----------------------------");
         ImGui::SameLine();
-        DrawGuiHelp("right-click to change position.");
+        ImGui::Help("right-click to change position.");
         ImGui::Text("%.1f Frames/s (%.1f Ms/frame)", debug_values[0], (1.0f / debug_values[0]) * 10.0f);
         ImGui::Text("%.1fs since beginning - dt: %.3f", ImGui::GetTime(), debug_values[10]);
         ImGui::Text("");
 
         ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
         if (ImGui::TreeNode("Performances")) {
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Separator();
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
             static int display_frames_size = 170;
             static int update_frame_delay = 10;
@@ -1126,11 +1269,13 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             sprintf(average_text, "-80\n\n-45\n\n-10\nAvg: %.fHz", average);
             ImGui::PlotLines(average_text, debug_frames, display_frames_size, 0, NULL, 10.0f, 80.0f, ImVec2(235.0f, 80.0f));
 
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::TreePop();
         }
 
         ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);  // ImGuiTreeNodeFlags_DefaultOpen
         if (ImGui::TreeNode("Mouse Position")) {
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Separator();
 
             const ImVec2 p = ImGui::GetCursorScreenPos();
@@ -1147,9 +1292,10 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             if (ImGui::GetTime() - t_mouse > 0.05f) {
                 t_mouse = ImGui::GetTime();
 
-                last_mouse_acc = gmt::Length({io.MousePos.x - last_mouse_pos.x, io.MousePos.y - last_mouse_pos.y}) - last_mouse_vel;
-                last_mouse_vel = gmt::Length({io.MousePos.x - last_mouse_pos.x, io.MousePos.y - last_mouse_pos.y});
-                if (last_mouse_vel > 3.0f) { mouse_angle = gmt::degree_to_radian(gmt::bearing(io.MousePos.x, io.MousePos.y, last_mouse_pos.x, last_mouse_pos.y)); }
+                last_mouse_acc = gmt::Vector<float>::Distance(gmt::Vector<float>(io.MousePos.x, io.MousePos.y), gmt::Vector<float>(last_mouse_pos.x, last_mouse_pos.y)) - last_mouse_vel;
+                last_mouse_vel = gmt::Vector<float>::Distance(gmt::Vector<float>(io.MousePos.x, io.MousePos.y), gmt::Vector<float>(last_mouse_pos.x, last_mouse_pos.y));
+
+                if (last_mouse_vel > 3.0f) { mouse_angle = gmt::degree_to_radian(gmt::Vector<float>::Bearing(gmt::Vector<float>(io.MousePos.x, io.MousePos.y), gmt::Vector<float>(last_mouse_pos.x, last_mouse_pos.y))); }
                 last_mouse_pos = {io.MousePos.x, io.MousePos.y};
             }
 
@@ -1169,18 +1315,32 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
                 " * Acceleration: %.f\n ",
                 debug_values[4], debug_values[5], debug_values[2], debug_values[3], io.MousePos.x, io.MousePos.y, last_mouse_vel, last_mouse_acc);
 
+            ImGui::Separator();
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::TreePop();
         }
 
         if (ImGui::TreeNode("User Inputs")) {
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Separator();
             ImGui::Text(" ");
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::TreePop();
         }
 
         if (ImGui::TreeNode("Global Informations")) {
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Separator();
-            ImGui::Text("%.f corpses\n ", debug_values[12]);
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::Text("%.f corpses", debug_values[12]);
+            ImGui::Text("%.f pairs", debug_values[13]);
+            ImGui::Text("%.f quadpairs [depth: %.f]", debug_values[14], debug_values[15]);
+            ImGui::Text(" * Reduction ratio: %.f %% (%f %%)", debug_values[14] / debug_values[13] * 100.0f, (debug_values[14] - debug_values[13]) / debug_values[13] * 100.0f);
+            ImGui::Text(" * In cell pairs: %.f/%.f (%.f %%)", debug_values[16], debug_values[14], debug_values[16] / debug_values[14] * 100.0f);
+            ImGui::Text("%.f collisions [pairs: %.f%%]", debug_values[17], debug_values[17] / debug_values[14] * 100.0f);
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::Separator();
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::TreePop();
         }
 
@@ -1354,27 +1514,25 @@ void Renderer::DrawGuiMenu() {
             ImGui::PushItemFlag(ImGuiItemFlags_SelectableDontClosePopup, true);
             ImGui::MenuItem("Console", NULL, &show_gui_console);
             ImGui::MenuItem("Properties", NULL, &show_gui_properties);
+            ImGui::MenuItem("Spawner", NULL, &show_gui_spawner);
             ImGui::MenuItem("Debug Overlay", NULL, &show_gui_overlay);
             ImGui::MenuItem("ImGui Demo", NULL, &show_gui_imguidemo);
-            ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);
-            ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);
-            ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);
-            ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);
-            ImGui::MenuItem("Main menu bar", NULL, &reset_base_layout);
             ImGui::PopItemFlag();
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Debug")) {
             ImGui::PushItemFlag(ImGuiItemFlags_SelectableDontClosePopup, true);
             ImGui::MenuItem("Quadtree", NULL, &debug_show_quadtree);
-            ImGui::MenuItem("Rectangles", NULL, &debug_show_rectangles);
+            ImGui::MenuItem("Bounds", NULL, &debug_show_bounds);
             ImGui::MenuItem("Centroids", NULL, &debug_show_centroids);
             ImGui::MenuItem("Edges", NULL, &debug_show_edges);
+            ImGui::MenuItem("Projections", NULL, &debug_show_projections);
             ImGui::MenuItem("Vertices", NULL, &debug_show_vertices);
             ImGui::MenuItem("Normals", NULL, &debug_show_normals);
             ImGui::MenuItem("Velocity", NULL, &debug_show_velocity);
             ImGui::MenuItem("XYVelocity", NULL, &debug_show_xyvelocity);
             ImGui::MenuItem("Pairs", NULL, &debug_show_pairs);
+            ImGui::MenuItem("QuadPairs", NULL, &debug_show_quadpairs);
             ImGui::MenuItem("Contacts", NULL, &debug_show_contacts);
             ImGui::MenuItem("Collisions", NULL, &debug_show_collisions);
             ImGui::PopItemFlag();
@@ -1391,311 +1549,4 @@ void Renderer::DrawGuiMenu() {
     }
 }
 
-struct Console {
-    char InputBuf[256];
-    ImVector<char*> Items;
-    ImVector<const char*> Commands;
-    ImVector<char*> History;
-    int HistoryPos;  // -1: new line, 0..History.Size-1 browsing history.
-    ImGuiTextFilter Filter;
-    bool AutoScroll;
-    bool ScrollToBottom;
-    const std::vector<std::pair<const ImVec4, const char*> > ColorSyntax = {{ImVec4(1.0f, 0.8f, 0.6f, 1.0f), "> "}, {ImVec4(1.0f, 0.4f, 0.4f, 1.0f), "[error]"}};
-
-    Console() {
-        ClearLog();
-        memset(InputBuf, 0, sizeof(InputBuf));
-        HistoryPos = -1;
-        // "CLASSIFY" is here to provide the test case where "C"+[tab] completes to "CL" and display multiple matches.
-        AddLog("Console Initialisation...");
-        Commands.push_back("HELP");
-        Commands.push_back("HISTORY");
-        Commands.push_back("CLEAR");
-        Commands.push_back("CLASSIFY");
-        AutoScroll = true;
-        ScrollToBottom = false;
-        AddLog("Done");
-    }
-
-    ~Console() {
-        ClearLog();
-        for (int i = 0; i < History.Size; i++) free(History[i]);
-    }
-
-    // Portable helpers
-    static int Stricmp(const char* s1, const char* s2) {
-        int d;
-        while ((d = toupper(*s2) - toupper(*s1)) == 0 && *s1) {
-            s1++;
-            s2++;
-        }
-        return d;
-    }
-
-    static int Strnicmp(const char* s1, const char* s2, int n) {
-        int d = 0;
-        while (n > 0 && (d = toupper(*s2) - toupper(*s1)) == 0 && *s1) {
-            s1++;
-            s2++;
-            n--;
-        }
-        return d;
-    }
-
-    static char* Strdup(const char* s) {
-        size_t len = strlen(s) + 1;
-        void* buf = malloc(len);
-        IM_ASSERT(buf);
-        return (char*)memcpy(buf, (const void*)s, len);
-    }
-
-    static void Strtrim(char* s) {
-        char* str_end = s + strlen(s);
-        while (str_end > s && str_end[-1] == ' ') str_end--;
-        *str_end = 0;
-    }
-
-    void ClearLog() {
-        for (int i = 0; i < Items.Size; i++) free(Items[i]);
-        Items.clear();
-    }
-
-    void AddLog(const char* fmt, ...) IM_FMTARGS(2) {
-        // FIXME-OPT
-        char buf[1024];
-        va_list args;
-        va_start(args, fmt);
-        vsnprintf(buf, IM_ARRAYSIZE(buf), fmt, args);
-        buf[IM_ARRAYSIZE(buf) - 1] = 0;
-        va_end(args);
-        Items.push_back(Strdup(buf));
-    }
-
-    void Draw(const char* title, bool* p_open) {
-        ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[1]);
-        ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
-        if (ImGui::Begin(title, p_open, ImGuiWindowFlags_None)) {  // ImGuiWindowFlags_NoFocusOnAppearing
-            if (ImGui::BeginPopupContextItem()) {
-                if (ImGui::MenuItem("Close Console")) *p_open = false;
-                ImGui::EndPopup();
-            }
-
-            ImGui::TextWrapped("Enter 'HELP' for help.");
-
-            if (ImGui::SmallButton("Add Debug Text")) { AddLog("%d some text", Items.Size); }
-
-            ImGui::SameLine();
-            if (ImGui::SmallButton("Add Debug Error")) { AddLog("[error] something went wrong"); }
-
-            ImGui::SameLine();
-            if (ImGui::SmallButton("Clear")) { ClearLog(); }
-
-            ImGui::SameLine();
-            bool copy_to_clipboard = ImGui::SmallButton("Copy");
-            ImGui::Separator();
-
-            // Options menu
-            if (ImGui::BeginPopup("Options")) {
-                ImGui::Checkbox("Auto-scroll", &AutoScroll);
-                ImGui::EndPopup();
-            }
-
-            // Options, Filter
-            if (ImGui::Button("Options")) ImGui::OpenPopup("Options");
-            ImGui::SameLine();
-            Filter.Draw("Filter: ('-' before sentences to exclude)", 180);
-            ImGui::Separator();
-            const float footer_height_to_reserve = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
-            ImGui::BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar);
-            if (ImGui::BeginPopupContextWindow()) {
-                if (ImGui::Selectable("Clear")) ClearLog();
-                ImGui::EndPopup();
-            }
-
-            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1));
-            if (copy_to_clipboard) ImGui::LogToClipboard();
-            for (int i = 0; i < Items.Size; i++) {
-                const char* item = Items[i];
-                if (!Filter.PassFilter(item)) continue;
-                ImVec4 color;
-                bool has_color = false;
-                for (int j = 0; j < ColorSyntax.size(); j++) {
-                    if (strncmp(item, ColorSyntax[j].second, 2) == 0) {
-                        has_color = true;
-                        color = ColorSyntax[j].first;
-                        break;
-                    }
-                }
-                if (has_color) ImGui::PushStyleColor(ImGuiCol_Text, color);
-                ImGui::TextUnformatted(item);
-                if (has_color) ImGui::PopStyleColor();
-            }
-            if (copy_to_clipboard) ImGui::LogFinish();
-            if (ScrollToBottom || (AutoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY())) ImGui::SetScrollHereY(1.0f);
-            ScrollToBottom = false;
-            ImGui::PopStyleVar();
-            ImGui::EndChild();
-            ImGui::Separator();
-
-            // Command-line
-            bool reclaim_focus = false;
-            ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
-            if (ImGui::InputText(" ", InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &TextEditCallbackStub, (void*)this)) {
-                char* s = InputBuf;
-                Strtrim(s);
-                if (s[0]) ExecCommand(s);
-                strcpy(s, "");
-                reclaim_focus = true;
-            }
-            ImGui::SameLine();
-            if (ImGui::Button("Validate")) {
-                char* s = InputBuf;
-                Strtrim(s);
-                if (s[0]) ExecCommand(s);
-                strcpy(s, "");
-            }
-
-            // Auto-focus on window apparition
-            // ImGui::SetItemDefaultFocus();
-            // if (reclaim_focus) ImGui::SetKeyboardFocusHere(-1);  // Auto focus previous widget
-            ImGui::PopFont();
-            ImGui::End();
-        }
-    }
-
-    void ExecCommand(const char* command_line) {
-        AddLog("> %s\n", command_line);
-        // Insert into history. First find match and delete it so it can be pushed to the back.
-        // This isn't trying to be smart or optimal.
-        HistoryPos = -1;
-        for (int i = History.Size - 1; i >= 0; i--)
-            if (Stricmp(History[i], command_line) == 0) {
-                free(History[i]);
-                History.erase(History.begin() + i);
-                break;
-            }
-        History.push_back(Strdup(command_line));
-        // Process command
-        if (Stricmp(command_line, "CLEAR") == 0) {
-            ClearLog();
-        } else if (Stricmp(command_line, "HELP") == 0) {
-            AddLog("Commands:");
-            for (int i = 0; i < Commands.Size; i++) AddLog("- %s", Commands[i]);
-        } else if (Stricmp(command_line, "HISTORY") == 0) {
-            int first = History.Size - 10;
-            for (int i = first > 0 ? first : 0; i < History.Size; i++) AddLog("%3d: %s\n", i, History[i]);
-        } else {
-            AddLog("Unknown command: '%s'\n", command_line);
-        }
-        // On command input, we scroll to bottom even if AutoScroll==false
-        ScrollToBottom = true;
-    }
-
-    static int TextEditCallbackStub(ImGuiInputTextCallbackData* data) {
-        Console* console = (Console*)data->UserData;
-        return console->TextEditCallback(data);
-    }
-
-    int TextEditCallback(ImGuiInputTextCallbackData* data) {
-        switch (data->EventFlag) {
-            case ImGuiInputTextFlags_CallbackCompletion: {
-                // Example of TEXT COMPLETION - Locate beginning of current word
-                const char* word_end = data->Buf + data->CursorPos;
-                const char* word_start = word_end;
-                while (word_start > data->Buf) {
-                    const char c = word_start[-1];
-                    if (c == ' ' || c == '\t' || c == ',' || c == ';') break;
-                    word_start--;
-                }
-                // Build a list of candidates
-                ImVector<const char*> candidates;
-                for (int i = 0; i < Commands.Size; i++)
-                    if (Strnicmp(Commands[i], word_start, (int)(word_end - word_start)) == 0) candidates.push_back(Commands[i]);
-                if (candidates.Size == 0) {
-                    // No match
-                    AddLog("No match for \"%.*s\"!\n", (int)(word_end - word_start), word_start);
-                } else if (candidates.Size == 1) {
-                    // Single match. Delete the beginning of the word and replace it entirely so we've got nice casing.
-                    data->DeleteChars((int)(word_start - data->Buf), (int)(word_end - word_start));
-                    data->InsertChars(data->CursorPos, candidates[0]);
-                    data->InsertChars(data->CursorPos, " ");
-                } else {
-                    // Multiple matches. Complete as much as we can..
-                    // So inputing "C"+Tab will complete to "CL" then display "CLEAR" and "CLASSIFY" as matches.
-                    int match_len = (int)(word_end - word_start);
-                    for (;;) {
-                        int c = 0;
-                        bool all_candidates_matches = true;
-                        for (int i = 0; i < candidates.Size && all_candidates_matches; i++)
-                            if (i == 0) c = toupper(candidates[i][match_len]);
-                            else if (c == 0 || c != toupper(candidates[i][match_len]))
-                                all_candidates_matches = false;
-                        if (!all_candidates_matches) break;
-                        match_len++;
-                    }
-                    if (match_len > 0) {
-                        data->DeleteChars((int)(word_start - data->Buf), (int)(word_end - word_start));
-                        data->InsertChars(data->CursorPos, candidates[0], candidates[0] + match_len);
-                    }
-                    // List matches
-                    AddLog("Possible matches:\n");
-                    for (int i = 0; i < candidates.Size; i++) AddLog("- %s\n", candidates[i]);
-                }
-                break;
-            }
-            case ImGuiInputTextFlags_CallbackHistory: {
-                // Example of HISTORY
-                const int prev_history_pos = HistoryPos;
-                if (data->EventKey == ImGuiKey_UpArrow) {
-                    if (HistoryPos == -1) HistoryPos = History.Size - 1;
-                    else if (HistoryPos > 0)
-                        HistoryPos--;
-                } else if (data->EventKey == ImGuiKey_DownArrow) {
-                    if (HistoryPos != -1)
-                        if (++HistoryPos >= History.Size) HistoryPos = -1;
-                }
-                // A better implementation would preserve the data on the current input line along with cursor position.
-                if (prev_history_pos != HistoryPos) {
-                    const char* history_str = (HistoryPos >= 0) ? History[HistoryPos] : "";
-                    data->DeleteChars(0, data->BufTextLen);
-                    data->InsertChars(0, history_str);
-                }
-            }
-        }
-        return 0;
-    }
-};
-
-void Renderer::ShowGuiConsole(bool* p_open) {
-    static Console console;
-    console.Draw("Console", p_open);
-}
-
-/* Helper Hover */
-void Renderer::DrawGuiHelp(const char* desc) {
-    ImGui::TextDisabled("(?)");
-    if (ImGui::IsItemHovered()) {
-        ImGui::BeginTooltip();
-        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
-        ImGui::TextUnformatted(desc);
-        ImGui::PopTextWrapPos();
-        ImGui::EndTooltip();
-    }
-}
-
-/* Tri-State CheckBox */
-bool Renderer::DrawGuiCheckBox(const char* label, int* v_tristate) {
-    bool ret;
-    if (*v_tristate == -1) {
-        ImGui::PushItemFlag(ImGuiItemFlags_MixedValue, true);
-        bool b = false;
-        ret = ImGui::Checkbox(label, &b);
-        if (ret) { *v_tristate = 1; }
-        ImGui::PopItemFlag();
-    } else {
-        bool b = (*v_tristate != 0);
-        ret = ImGui::Checkbox(label, &b);
-        if (ret) { *v_tristate = (int)b; }
-    }
-    return ret;
-}
+void Renderer::ShowGuiConsole(bool* p_open) { this->console.Draw("Console", p_open); }

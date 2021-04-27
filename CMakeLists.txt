@@ -1,15 +1,28 @@
 # Set up the minimum version of cmake
 cmake_minimum_required(VERSION 3.0.0)
 
-# Set the project name
-set (PROJECT_NAME "physics")
-project (${PROJECT_NAME})
+# Set the project name and version
+set (PROJECT_NAME "PHYSICS")
+set (PROJECT_VERSION_MAJOR 0)
+set (PROJECT_VERSION_MINOR 5)
+set (PROJECT_VERSION_REVISION 2)
+project (${PROJECT_NAME} VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_REVISION})
 
-# Set the C++ standard to be used
+message("PROJECT ${PROJECT_NAME} VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_REVISION}")
+
+# Set the project Config variables
+set (ENABLE_DOUBLE_PRECISION ON)
+# add_definitions( -DENABLE_DOUBLE_PRECISION=${ENABLEs_DOUBLE_PRECISION} )
+
+configure_file("${PROJECT_SOURCE_DIR}/Config.hpp.in" "${PROJECT_BINARY_DIR}/Config.hpp")
+include_directories("${PROJECT_BINARY_DIR}")
+
+# Set the C++ standard to be usedzz
 set (CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add customs Flags
-set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Werror -Wfatal-errors")
+set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Werror -Wfatal-errors -O0 -g -rdynamic")
 set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Werror -Wfatal-errors -O3 -s -fexpensive-optimizations")
 
 #set(LIBRARIES_PATH "Windows/g++/Release/")
@@ -58,12 +71,16 @@ set(SOURCES
     src/Geometry/Vertices.cpp
     src/Geometry/Text.cpp
     src/Geometry/Maths.cpp
-    src/Geometry/Quadtree.cpp
+    src/Geometry/String.cpp
+    src/Structures/QuadTree.cpp
+    src/Structures/QuadNode.cpp
+    src/Geometry/Collision.cpp
     src/Renderer/Renderer.cpp
     src/Renderer/Draw.cpp
     src/Renderer/Event.cpp
     src/Renderer/Gui.cpp
-    src/System.cpp  
+    src/Renderer/GuiModule.cpp
+    src/System.cpp 
 )
 set(HEADERS
     include/Corpses/Corpse.hpp
@@ -74,11 +91,16 @@ set(HEADERS
     include/Geometry/Geometry.hpp
     include/Geometry/Vector.hpp
     include/Geometry/Bounds.hpp
-    include/Geometry/Quadtree.hpp
+    include/Structures/QuadTree.hpp
+    include/Structures/QuadNode.hpp
+    include/Geometry/Collision.hpp
     include/Geometry/Vertices.hpp
     include/Geometry/Text.hpp
     include/Geometry/Maths.hpp
+    include/Geometry/String.hpp
     include/Renderer/Renderer.hpp
+    include/Renderer/Structures.hpp
+    include/Renderer/GuiModule.hpp
     include/System.hpp
 )
 

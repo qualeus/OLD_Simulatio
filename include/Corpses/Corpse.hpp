@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "../Geometry/Geometry.hpp"
+#include "Config.hpp"
 
 namespace phy {
 
@@ -19,26 +20,31 @@ class Corpse {
     bool fixed;
     bool tied;
     bool etherial;
-    bool removed;
-    float friction;
-    float mass;
-    float damping;
-    sf::Vector2f current_pos;
-    sf::Vector2f last_pos;
-    sf::Vector2f propulsor_pos;
-    float current_rotation;
-    float last_rotation;
-    float motor_rotation;
+
+    gmt::UnitI friction;
+    gmt::UnitI mass;
+    gmt::UnitI damping;
+
+    gmt::VectorI current_pos;
+    gmt::VectorI last_pos;
+    gmt::VectorI propulsor;
+
+    gmt::UnitI current_rotation;
+    gmt::UnitI last_rotation;
+    gmt::UnitI motor;
+
+    gmt::BoundsI bounds;
     sf::Color color;
 
    public:
-    explicit Corpse(float x, float y, float mass, float damping, bool fixed, bool tied, bool etherial, sf::Color color);  // System Constructor
-    virtual ~Corpse();                                                                                                    // System Destructor
+    explicit Corpse(gmt::UnitI mass, gmt::UnitI damping, bool fixed, bool tied, bool etherial, sf::Color color);
+    // virtual ~Corpse();
     inline bool operator==(const Corpse* other);
     Corpse& operator=(const Corpse& rhs);
 
     int get_id() const;
     virtual int get_class() const;
+    static int id_class();
 
     bool get_fixed() const;
     void set_fixed(bool fixed);
@@ -49,67 +55,66 @@ class Corpse {
     bool get_tied() const;
     void set_tied(bool tied);
 
-    bool get_removed() const;
-    void Remove();
+    virtual void Step() = 0;
+    virtual void Stop() = 0;
+    virtual void Bloc() = 0;
 
-    virtual void Step();
-    virtual void Stop();
-    virtual void Move(float x, float y, bool relative = true);
-    virtual void Move(sf::Vector2f move, bool relative = true);
-    virtual bool inBounds(float x1, float x2, float y1, float y2) = 0;
-    virtual bool Pointed(float x, float y) = 0;
+    virtual void Move(const gmt::VectorI& move) = 0;
+    virtual void Drag(const gmt::VectorI& drag) = 0;
 
-    virtual void Collision(std::shared_ptr<Corpse> a);
+    virtual void Turn(const gmt::UnitI& turn) = 0;
+    virtual void Rotate(const gmt::UnitI& rotate) = 0;
 
-    void CollisionResponse(phy::Corpse* corpse_a, phy::Corpse* corpse_b, const sf::Vector2f& vect_force);
+    virtual bool inBounds(const gmt::BoundsI& bounds) const = 0;
+    virtual bool Pointed(const gmt::VectorI& point) const = 0;
 
     sf::Color get_color() const;
     void set_color(sf::Color color);
 
-    sf::Vector2f get_pos() const;
-    float get_pos_x() const;
-    float get_pos_y() const;
+    gmt::VectorI get_pos() const;
+    gmt::UnitI get_pos_x() const;
+    gmt::UnitI get_pos_y() const;
 
-    void set_pos(sf::Vector2f pos);
-    void set_pos_x(float pos_x);
-    void set_pos_y(float pos_y);
+    void set_pos(const gmt::VectorI& pos);
+    void set_pos_x(const gmt::UnitI& pos_x);
+    void set_pos_y(const gmt::UnitI& pos_y);
 
-    sf::Vector2f get_last_pos() const;
-    float get_last_pos_x() const;
-    float get_last_pos_y() const;
+    gmt::VectorI get_last_pos() const;
+    gmt::UnitI get_last_pos_x() const;
+    gmt::UnitI get_last_pos_y() const;
 
-    void set_last_pos(sf::Vector2f pos);
-    void set_last_pos_x(float pos_x);
-    void set_last_pos_y(float pos_y);
+    void set_last_pos(const gmt::VectorI& pos);
+    void set_last_pos_x(const gmt::UnitI& pos_x);
+    void set_last_pos_y(const gmt::UnitI& pos_y);
 
-    sf::Vector2f get_diff_pos() const;
-    float get_diff_pos_x() const;
-    float get_diff_pos_y() const;
+    gmt::VectorI get_diff_pos() const;
+    gmt::UnitI get_diff_pos_x() const;
+    gmt::UnitI get_diff_pos_y() const;
 
-    sf::Vector2f get_propulsor_pos() const;
-    void set_propulsor_pos(sf::Vector2f propulsor_pos);
+    gmt::VectorI get_propulsor() const;
+    void set_propulsor(const gmt::VectorI& propulsor);
 
-    float get_rotation() const;
-    void set_rotation(float current_rotation);
-    float get_diff_rotation() const;
+    gmt::UnitI get_rotation() const;
+    void set_rotation(const gmt::UnitI& current_rotation);
+    gmt::UnitI get_diff_rotation() const;
 
-    float get_last_rotation() const;
-    void set_last_rotation(float last_rotation);
+    gmt::UnitI get_last_rotation() const;
+    void set_last_rotation(const gmt::UnitI& last_rotation);
 
-    float get_motor_rotation() const;
-    void set_motor_rotation(float motor_rotation);
+    gmt::UnitI get_motor() const;
+    void set_motor(const gmt::UnitI& motor);
 
-    void set_damping(float damping);
-    float get_damping() const;
-    float get_bounce() const;
+    void set_damping(const gmt::UnitI& damping);
+    gmt::UnitI get_damping() const;
+    gmt::UnitI get_bounce() const;
 
-    float get_mass() const;
-    void set_mass(float mass);
+    gmt::UnitI get_mass() const;
+    void set_mass(const gmt::UnitI& mass);
 
-    float get_friction() const;
-    void set_friction(float friction);
+    gmt::UnitI get_friction() const;
+    void set_friction(const gmt::UnitI& friction);
 
-    virtual gmt::Rectangle get_corpse_bounds() const = 0;
+    gmt::BoundsI get_bounds() const;
 
     bool Equals(const Corpse* other);
 };
