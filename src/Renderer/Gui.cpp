@@ -46,7 +46,7 @@ void Renderer::SetupGui() {
     ImFontConfig config;
     config.MergeMode = true;
     config.GlyphMinAdvanceX = 13.0f;  // Use if you want to make the icon monospaced
-    static const ImWchar icon_ranges[] = {ICON_MIN_FK, ICON_MAX_FK, 0};
+     const ImWchar icon_ranges[] = {ICON_MIN_FK, ICON_MAX_FK, 0};
     // io.Fonts->AddFontFromMemoryCompressedTTF(IconsForkAwersome_compressed_data, IconsForkAwersome_compressed_size, 16);
     io.Fonts->AddFontFromFileTTF("../assets/fonts/forkawesome-webfont.ttf", 13.0f, &config, icon_ranges);
     */
@@ -174,10 +174,10 @@ void Renderer::ShowGuiSpawner(bool* p_open) {
             if (ImGui::BeginTabItem("Corpses")) {
                 ImGui::Dummy(ImVec2(0.0f, 7.0f));
                 const char* input_corpse_items[] = {"Circle", "Regular Polygon", "Oval Polygon"};
-                static const char* input_corpse_current_item = input_corpse_items[input_spawner.corpse_type];
+                const char* input_corpse_current_item = input_corpse_items[input_spawner.corpse_type];
 
                 const char* input_spawn_items[] = {"Custom", "Explosion", "Conglomerate"};
-                static const char* input_spawn_current_item = input_spawn_items[input_spawner.spawn_type];
+                const char* input_spawn_current_item = input_spawn_items[input_spawner.spawn_type];
 
                 ImGui::Dummy(ImVec2(0.0f, 7.0f));
                 ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
@@ -237,7 +237,7 @@ void Renderer::ShowGuiSpawner(bool* p_open) {
                     ImGui::SameLine();
                     ImGui::Checkbox("Tied", &input_spawner.corpse_tied);
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    static ImVec4 temp_spawner_color = ImVec4(input_spawner.corpse_color[0], input_spawner.corpse_color[1], input_spawner.corpse_color[2], input_spawner.corpse_color[3]);
+                    ImVec4 temp_spawner_color = ImVec4(input_spawner.corpse_color[0], input_spawner.corpse_color[1], input_spawner.corpse_color[2], input_spawner.corpse_color[3]);
                     if (ImGui::ColorEdit3("Color", (float*)&temp_spawner_color)) {
                         input_spawner.corpse_color[0] = temp_spawner_color.x * 255.0f;
                         input_spawner.corpse_color[1] = temp_spawner_color.y * 255.0f;
@@ -377,19 +377,19 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                     /* System Force_X */
-                    static float temp_force_x = system.get_force_x();
+                    float temp_force_x = system.get_force_x();
                     if (ImGui::DragFloat("Force X", &temp_force_x, 0.005f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None)) { system.set_force_x(temp_force_x); }
                     if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
 
                     /* System Force_Y */
-                    static float temp_force_y = system.get_force_y();
+                    float temp_force_y = system.get_force_y();
                     if (ImGui::DragFloat("Force Y", &temp_force_y, 0.005f, -FLT_MAX, +FLT_MAX, "%.3f", ImGuiSliderFlags_None)) { system.set_force_y(temp_force_y); }
                     if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                     /* System Delta Time */
-                    static float temp_dt = system.get_dt();
+                    float temp_dt = system.get_dt();
                     if (ImGui::InputFloat("dt", &temp_dt, 0.001f, 0.1f, "%.3f")) { system.set_dt(temp_dt); }
                     if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
 
@@ -397,7 +397,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
 
                     /* System Limits */
                     gmt::BoundsI rect_limits = system.get_limits();
-                    static float temp_limits[4] = {static_cast<float>(rect_limits.x1), static_cast<float>(rect_limits.y1), static_cast<float>(rect_limits.x2), static_cast<float>(rect_limits.y2)};
+                    float temp_limits[4] = {static_cast<float>(rect_limits.x1), static_cast<float>(rect_limits.y1), static_cast<float>(rect_limits.x2), static_cast<float>(rect_limits.y2)};
                     if (ImGui::DragFloat4("Limits", temp_limits, 1.f, -FLT_MAX, +FLT_MAX, "%.f")) {
                         rect_limits = gmt::BoundsI(temp_limits[0], temp_limits[1], temp_limits[2], temp_limits[3]);
                         system.set_limits(rect_limits);
@@ -410,14 +410,14 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
                     /* System Enable Gravity */
-                    static bool temp_gravity = system.get_gravity();
+                    bool temp_gravity = system.get_gravity();
                     if (ImGui::Checkbox("Enable Gravity", &temp_gravity)) { system.set_gravity(temp_gravity); }
                     if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                     /* System Light Speed */
-                    static float temp_LS = system.get_LS();
+                    float temp_LS = system.get_LS();
                     if (ImGui::InputFloat("LS", &temp_LS, temp_LS / 1000.0f, temp_LS / 10.0f, "%e")) { system.set_LS(temp_LS); }
                     if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
                     ImGui::SameLine();
@@ -429,7 +429,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                     /* System Gravity */
-                    static float temp_G = system.get_G();
+                    float temp_G = system.get_G();
                     if (ImGui::InputFloat("G", &temp_G, temp_G / 1000.0f, temp_G / 10.0f, "%e")) { system.set_G(temp_G); }
                     if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
                     ImGui::SameLine();
@@ -442,7 +442,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Separator();
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
-                    static bool locked_accuracy = true;
+                    bool locked_accuracy = true;
                     ImGui::Checkbox("Lock Accuracy", &locked_accuracy);
                     ImGui::SameLine();
                     ImGui::Help("Warning: Accuracy greatly impact the performances");
@@ -457,14 +457,14 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                     /* System Collisions Accuracy */
-                    static int temp_collision_accuracy = system.get_collision_accuracy();
+                    int temp_collision_accuracy = system.get_collision_accuracy();
                     if (ImGui::SliderInt("Collisions", &temp_collision_accuracy, 1, 100, "x%d")) { system.set_collision_accuracy(temp_collision_accuracy); }
                     if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                     /* System Constraints Accuracy */
-                    static int temp_constraint_accuracy = system.get_constraint_accuracy();
+                    int temp_constraint_accuracy = system.get_constraint_accuracy();
                     if (ImGui::SliderInt("Constraints", &temp_constraint_accuracy, 1, 100, "x%d")) { system.set_constraint_accuracy(temp_constraint_accuracy); }
                     if (ImGui::IsItemDeactivatedAfterChange()) { this->debug_system_edited = true; }
 
@@ -527,7 +527,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                     /* Renderer Background Color */
-                    static ImVec4 temp_background_color = ImVec4(background_color.r, background_color.g, background_color.b, 255);
+                    ImVec4 temp_background_color = ImVec4(background_color.r, background_color.g, background_color.b, 255);
                     if (ImGui::ColorEdit3("Background", (float*)&temp_background_color)) { background_color = sf::Color(temp_background_color.x * 255.0f, temp_background_color.y * 255.0f, temp_background_color.z * 255.0f, 255.0f); }
                     ImGui::SameLine();
                     ImGui::Help("Right click on the color picker\nto change its format, or even\nexport the color.");
@@ -535,9 +535,9 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                     /* Renderer Framerate */
-                    static int temp_max_framerate = get_max_framerate();
+                    int temp_max_framerate = get_max_framerate();
                     const char* items[] = {"30 Hz", "60 Hz", "120 Hz", "No Limit"};
-                    static int item_current = 0;
+                    int item_current = 0;
 
                     if (ImGui::Combo("Framerate", &item_current, items, IM_ARRAYSIZE(items))) {
                         switch (item_current) {
@@ -603,7 +603,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                 ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
                 /* Type de selection */
-                static char selection_label[30];
+                char selection_label[30];
                 if (selected_corpses_cursor.size() == 0) {
                     ImFormatString(selection_label, IM_ARRAYSIZE(selection_label), "Selection <%s>", "empty");
                 } else if (selected_corpses_cursor.size() == 1) {
@@ -612,7 +612,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImFormatString(selection_label, IM_ARRAYSIZE(selection_label), "Selection <%i bodies>", selected_corpses_cursor.size());
                 }
                 ImGui::Text(selection_label);
-                static int selected_index = 0;
+                int selected_index = 0;
 
                 /* Selection Multiple */
                 if (selected_corpses_cursor.size() > 1) {
@@ -1214,7 +1214,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
 
 void Renderer::ShowGuiOverlay(bool* p_open) {
     const float DISTANCE = 5.0f;
-    static int corner = 1;
+    int corner = 1;
     ImGuiIO& io = ImGui::GetIO();
     ImGui::PushFont(io.Fonts->Fonts[1]);
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
@@ -1244,15 +1244,15 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             ImGui::Separator();
             ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
-            static int display_frames_size = 170;
-            static int update_frame_delay = 10;
+            int display_frames_size = 170;
+            int update_frame_delay = 10;
             ImGui::SetNextItemWidth(80);
             ImGui::InputInt("ms", &update_frame_delay);
             ImGui::SameLine();
             ImGui::SetNextItemWidth(130);
             ImGui::SliderInt("count", &display_frames_size, 10, G_DEBUG_FRAME_SIZE);
 
-            static float t_perf = 0.0f;
+            float t_perf = 0.0f;
             if (ImGui::GetTime() - t_perf > (update_frame_delay / 1000.0f)) {
                 t_perf = ImGui::GetTime();
 
@@ -1261,7 +1261,7 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             }
 
             float average = 0.0f;
-            static float last_limit_average = 50.0f;
+            float last_limit_average = 50.0f;
             for (int n = 0; n < last_limit_average; n++) average += debug_frames[n];
             average /= last_limit_average;
 
@@ -1281,14 +1281,14 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             const ImVec2 p = ImGui::GetCursorScreenPos();
             float x = p.x + 240.0f;
             float y = p.y + 14.0f;
-            static float sz = 84.0f;
-            static float rad = sz * 0.5f;
-            static ImU32 color = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-            static ImU32 color_sec = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+            float sz = 84.0f;
+            float rad = sz * 0.5f;
+            ImU32 color = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+            ImU32 color_sec = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
             ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
             // Update mouse values
-            static float t_mouse = 0.0f;
+            float t_mouse = 0.0f;
             if (ImGui::GetTime() - t_mouse > 0.05f) {
                 t_mouse = ImGui::GetTime();
 
@@ -1367,7 +1367,7 @@ void Renderer::ShowGuiSettingsInterface() {
     ImGui::Separator();
     ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
-    static int style_idx = 0;
+    int style_idx = 0;
     if (ImGui::Combo("Theme", &style_idx, "Dark\0Classic\0Light\0")) {
         switch (style_idx) {
             case 0: ImGui::StyleColorsDark(); break;
@@ -1389,9 +1389,9 @@ void Renderer::ShowGuiSettings(bool* p_open) {
         ImGui::Separator();
         ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
-        static int selected_menu = 0;
-        static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_SpanFullWidth;
-        static ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_None;
+        int selected_menu = 0;
+        ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_SpanFullWidth;
+        ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_None;
 
         ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
         if (ImGui::TreeNode("WorkBench")) {

@@ -80,7 +80,7 @@ class Renderer {
     float min_arrow_size = 10.0f;
     int arrow_size = 12;
 
-    bool trajectory_debug_show = false;
+    bool trajectory_debug_show = false;  //
     bool trajectory_debug_all = true;
     bool trajectory_compute_on_change = true;
     bool trajectory_compute_manual = false;
