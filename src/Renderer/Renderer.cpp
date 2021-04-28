@@ -149,7 +149,8 @@ void Renderer::UpdateDebug() {
 
 void Renderer::Draw() {
     for (int i = 0; i < system.get_corpses_size(); i++) { DrawCorpse(system.get_corpse(i)); }
-    DrawLimits();
+
+    if (system.get_enable_limits()) { DrawLimits(); }
 }
 
 void Renderer::Camera(sf::Vector2f move, float zoom) {

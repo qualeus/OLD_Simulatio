@@ -405,7 +405,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     gmt::BoundsI rect_limits = system.get_limits();
                     float temp_limits[4] = {static_cast<float>(rect_limits.x1), static_cast<float>(rect_limits.y1), static_cast<float>(rect_limits.x2), static_cast<float>(rect_limits.y2)};
 
-                    if (locked_accuracy) {
+                    if (!system.get_enable_limits()) {
                         ImGuiStyle& style = ImGui::GetStyle();
                         ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
                         ImGui::PushStyleColor(ImGuiCol_FrameBg, style.Colors[ImGuiCol_TableHeaderBg]);
@@ -417,13 +417,14 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         system.set_limits(rect_limits);
                     }
 
-                    if (locked_accuracy) {
+                    if (!system.get_enable_limits()) {
                         ImGui::PopItemFlag();
                         ImGui::PopStyleColor(2);
                     }
 
                     ImGui::SameLine();
-                    ImGui::Checkbox("Limits", &locked_accuracy);
+                    bool temp_enable_limits = system.get_enable_limits();
+                    if (ImGui::Checkbox("Limits", &temp_enable_limits)) { system.set_enable_limits(temp_enable_limits); }
                     ImGui::SameLine();
                     ImGui::Help("Pos (x,y) => center of the rectangle\nSize (x,y) => size of the rectangle");
 

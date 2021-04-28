@@ -22,6 +22,7 @@ class System {
     gmt::BoundsI limits;
 
     bool gravity;
+    bool enable_limits;
     gmt::UnitI LS = 2.998e+8;  // 2,998 * 10e+8
     gmt::UnitI G = 1.6e-2;     // 6.7 * 10e-11
 
@@ -110,6 +111,9 @@ class System {
     std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> get_pair(int index) const;
     std::shared_ptr<Corpse> get_pair_A(int index) const;
     std::shared_ptr<Corpse> get_pair_B(int index) const;
+
+    bool get_enable_limits() const;
+    void set_enable_limits(bool enable_limits);
 };
 
 }  // namespace phy

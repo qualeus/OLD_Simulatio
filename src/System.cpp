@@ -17,6 +17,7 @@ System::System(bool gravity, gmt::UnitI force_x, gmt::UnitI force_y, gmt::UnitI 
     gmt::UnitI mid_limy = limit_y / gmt::UnitI(2);
 
     this->limits = gmt::BoundsI(-mid_limx, -mid_limy, mid_limx, mid_limy);
+    this->enable_limits = true;
 }
 
 System& System::operator=(const System& rhs) {
@@ -37,6 +38,7 @@ System& System::operator=(const System& rhs) {
     this->quad_pairs = std::vector<gmt::NodePairs>();
     this->collisions = std::vector<gmt::CollisionI>();
     this->quadtree = rhs.quadtree;
+    this->enable_limits = rhs.enable_limits;
 
     for (int i = 0; i < rhs.get_corpses_size(); i++) {
         // Populate the corpses array
@@ -69,7 +71,8 @@ void System::Step() {
     CorpsesStep();
 
     // Check the limits
-    CheckLimits();
+    if (this->enable_limits) { CheckLimits(); }
+
     // Update Forces
     // Update Velocities
     // Apply Boundaries conditions
@@ -271,5 +274,8 @@ std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> System:
 std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> System::get_pair(int index) const { return this->pairs.at(index); }
 std::shared_ptr<Corpse> System::get_pair_A(int index) const { return this->pairs.at(index).first; }
 std::shared_ptr<Corpse> System::get_pair_B(int index) const { return this->pairs.at(index).second; }
+
+bool System::get_enable_limits() const { return this->enable_limits; }
+void System::set_enable_limits(bool enable_limits) { this->enable_limits = enable_limits; }
 
 }  // namespace phy
