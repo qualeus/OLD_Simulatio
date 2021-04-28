@@ -170,6 +170,8 @@ void Renderer::DrawGuiBar() {
 void Renderer::ShowGuiSpawner(bool* p_open) {
     ImGui::SetNextWindowSize({400, 370}, ImGuiCond_Appearing);
     if (ImGui::Begin("Spawner", p_open, ImGuiWindowFlags_NoFocusOnAppearing)) {
+        ImGui::PushItemWidth((ImGui::GetWindowWidth() > G_WINDOW_LABEL_MIN) ? -G_WINDOW_LABEL_SPACE : G_WINDOW_LABEL_MIN - G_WINDOW_LABEL_SPACE - G_WINDOW_BORDER);
+
         if (ImGui::BeginTabBar("MyTabBar")) {
             if (ImGui::BeginTabItem("Corpses")) {
                 ImGui::Dummy(ImVec2(0.0f, 7.0f));
@@ -183,20 +185,6 @@ void Renderer::ShowGuiSpawner(bool* p_open) {
                 ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);
                 if (ImGui::TreeNode("Spawner Properties")) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::BeginCombo("##combocorpse", input_corpse_current_item)) {
-                        for (int n = 0; n < IM_ARRAYSIZE(input_corpse_items); n++) {
-                            bool is_selected = (input_corpse_current_item == input_corpse_items[n]);
-                            if (ImGui::Selectable(input_corpse_items[n], is_selected)) {
-                                input_corpse_current_item = input_corpse_items[n];
-                                input_spawner.corpse_type = n;
-                            }
-                            if (is_selected) { ImGui::SetItemDefaultFocus(); }
-                        }
-                        ImGui::EndCombo();
-                    }
-                    ImGui::SameLine();
-                    ImGui::Text("Corpse Type");
-                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     if (ImGui::BeginCombo("##combospawn", input_spawn_current_item)) {
                         for (int n = 0; n < IM_ARRAYSIZE(input_spawn_items); n++) {
                             bool is_selected = (input_spawn_current_item == input_spawn_items[n]);
@@ -209,23 +197,37 @@ void Renderer::ShowGuiSpawner(bool* p_open) {
                         ImGui::EndCombo();
                     }
                     ImGui::SameLine();
-                    ImGui::Text("Spawner Type");
+                    ImGui::Text("Spawner");
+                    ImGui::Dummy(ImVec2(0.0f, 7.0f));
+                    if (ImGui::BeginCombo("##combocorpse", input_corpse_current_item)) {
+                        for (int n = 0; n < IM_ARRAYSIZE(input_corpse_items); n++) {
+                            bool is_selected = (input_corpse_current_item == input_corpse_items[n]);
+                            if (ImGui::Selectable(input_corpse_items[n], is_selected)) {
+                                input_corpse_current_item = input_corpse_items[n];
+                                input_spawner.corpse_type = n;
+                            }
+                            if (is_selected) { ImGui::SetItemDefaultFocus(); }
+                        }
+                        ImGui::EndCombo();
+                    }
+                    ImGui::SameLine();
+                    ImGui::Text("Corpse");
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     ImGui::Separator();
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     float input_spawner_position[2] = {input_spawner.positionX, input_spawner.positionY};
-                    if (ImGui::DragFloat2("Spawner position", input_spawner_position)) {
+                    if (ImGui::DragFloat2("Position", input_spawner_position)) {
                         input_spawner.positionX = input_spawner_position[0];
                         input_spawner.positionY = input_spawner_position[1];
                     }
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
                     ImGui::Separator();
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragInt("corpses number", &input_spawner.corpse_number, 0.1, 0, +INT_MAX)) {}
+                    if (ImGui::DragInt("Number", &input_spawner.corpse_number, 0.1, 0, +INT_MAX)) {}
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragInt("spawner duration", &input_spawner.duration, 0.1, -1, +INT_MAX)) {}
+                    if (ImGui::DragInt("Duration", &input_spawner.duration, 0.1, -1, +INT_MAX)) {}
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragInt("spawner interval", &input_spawner.interval, 0.1, 0, +INT_MAX)) {}
+                    if (ImGui::DragInt("Interval", &input_spawner.interval, 0.1, 0, +INT_MAX)) {}
                     ImGui::TreePop();
                 }
                 ImGui::Dummy(ImVec2(0.0f, 7.0f));
@@ -237,62 +239,62 @@ void Renderer::ShowGuiSpawner(bool* p_open) {
                     ImGui::SameLine();
                     ImGui::Checkbox("Tied", &input_spawner.corpse_tied);
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    ImVec4 temp_spawner_color = ImVec4(input_spawner.corpse_color[0], input_spawner.corpse_color[1], input_spawner.corpse_color[2], input_spawner.corpse_color[3]);
-                    if (ImGui::ColorEdit3("Color", (float*)&temp_spawner_color)) {
+                    ImVec4 temp_spawner_color = ImVec4(input_spawner.corpse_color[0] / 255.0f, input_spawner.corpse_color[1] / 255.0f, input_spawner.corpse_color[2] / 255.0f, input_spawner.corpse_color[3] / 255.0f);
+                    if (ImGui::ColorEdit4("Color", (float*)&temp_spawner_color)) {
                         input_spawner.corpse_color[0] = temp_spawner_color.x * 255.0f;
                         input_spawner.corpse_color[1] = temp_spawner_color.y * 255.0f;
                         input_spawner.corpse_color[2] = temp_spawner_color.z * 255.0f;
-                        input_spawner.corpse_color[3] = temp_spawner_color.w;
+                        input_spawner.corpse_color[3] = temp_spawner_color.w * 255.0f;
                     }
 
                     if (input_spawner.corpse_type != 0) {
                         ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                        if (ImGui::DragInt("points number", &input_spawner.corpse_points_number, 0.1, 3, +INT_MAX)) {}
+                        if (ImGui::DragInt("Points num", &input_spawner.corpse_points_number, 0.1, 3, +INT_MAX)) {}
                     }
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragFloat("corpses randiusX", &input_spawner.corpse_radiusX, 0.1, 0, +INT_MAX)) {}
+                    if (ImGui::DragFloat("RadiusX", &input_spawner.corpse_radiusX, 0.1, 0, +INT_MAX)) {}
 
                     if (input_spawner.corpse_type == 2) {
                         ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                        if (ImGui::DragFloat("corpses randiusY", &input_spawner.corpse_radiusY, 0.1, 0, +INT_MAX)) {}
+                        if (ImGui::DragFloat("RadiusY", &input_spawner.corpse_radiusY, 0.1, 0, +INT_MAX)) {}
                     }
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragFloat("radius randomX", &input_spawner.corpse_radius_randomX, 0.1, 0, +INT_MAX)) {}
+                    if (ImGui::DragFloat("Rad randX", &input_spawner.corpse_radius_randomX, 0.1, 0, +INT_MAX)) {}
 
                     if (input_spawner.corpse_type == 2) {
                         ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                        if (ImGui::DragFloat("radius randomY", &input_spawner.corpse_radius_randomY, 0.1, 0, +INT_MAX)) {}
+                        if (ImGui::DragFloat("Rad randY", &input_spawner.corpse_radius_randomY, 0.1, 0, +INT_MAX)) {}
                     }
 
                     if (input_spawner.spawn_type != 1) {
                         ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                        if (ImGui::DragFloat("positionX random", &input_spawner.corpse_position_randomX, 0.1, 0, +INT_MAX)) {}
+                        if (ImGui::DragFloat("Pos randX", &input_spawner.corpse_position_randomX, 0.1, 0, +INT_MAX)) {}
                         ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                        if (ImGui::DragFloat("positionY random", &input_spawner.corpse_position_randomY, 0.1, 0, +INT_MAX)) {}
+                        if (ImGui::DragFloat("Pos randY", &input_spawner.corpse_position_randomY, 0.1, 0, +INT_MAX)) {}
                     }
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragFloat("corpse rotation", &input_spawner.corpse_rotation, 0.1, 0, +INT_MAX)) {}
+                    if (ImGui::DragFloat("Rotation", &input_spawner.corpse_rotation, 0.1, 0, +INT_MAX)) {}
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragFloat("rotation random", &input_spawner.corpse_rotation_random, 0.1, 0, +INT_MAX)) {}
+                    if (ImGui::DragFloat("Rot rand", &input_spawner.corpse_rotation_random, 0.1, 0, +INT_MAX)) {}
                     ImGui::TreePop();
                 }
                 ImGui::Dummy(ImVec2(0.0f, 7.0f));
                 if (ImGui::TreeNode("Launch Properties")) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragFloat("launch power", &input_spawner.launch_power, 0.1, 0, +INT_MAX)) {}
+                    if (ImGui::DragFloat("Power", &input_spawner.launch_power, 0.1, 0, +INT_MAX)) {}
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragFloat("launch random", &input_spawner.launch_random, 0.1, 0, +INT_MAX)) {}
+                    if (ImGui::DragFloat("Pow rand", &input_spawner.launch_random, 0.1, 0, +INT_MAX)) {}
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragFloat("launch direction", &input_spawner.launch_direction, 0.1, 0, 360)) {}
+                    if (ImGui::DragFloat("Direction", &input_spawner.launch_direction, 0.1, 0, 360)) {}
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragFloat("direction random", &input_spawner.launch_direction_random, 0.1, 0, 360)) {}
+                    if (ImGui::DragFloat("Dir rand", &input_spawner.launch_direction_random, 0.1, 0, 360)) {}
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragFloat("launch rotation", &input_spawner.launch_rotation_power, 0.1, 0, +INT_MAX)) {}
+                    if (ImGui::DragFloat("Rotation", &input_spawner.launch_rotation_power, 0.1, 0, +INT_MAX)) {}
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                    if (ImGui::DragFloat("rotation random", &input_spawner.launch_rotation_random, 0.1, 0, +INT_MAX)) {}
+                    if (ImGui::DragFloat("Rot rand", &input_spawner.launch_rotation_random, 0.1, 0, +INT_MAX)) {}
                     ImGui::TreePop();
                 }
                 ImGui::Dummy(ImVec2(0.0f, 7.0f));
@@ -304,6 +306,8 @@ void Renderer::ShowGuiSpawner(bool* p_open) {
             if (ImGui::BeginTabItem("Particules")) { ImGui::EndTabItem(); }
             ImGui::EndTabBar();
         }
+
+        ImGui::PopItemWidth();
     }
     ImGui::End();
 }
@@ -314,6 +318,8 @@ void Renderer::ShowGuiProperties(bool* p_open) {
         char selection_name[32];
         ImFormatString(system_name, IM_ARRAYSIZE(system_name), "System");  //"System <%s>", name.c_str());
         ImFormatString(selection_name, IM_ARRAYSIZE(selection_name), "Selection");
+
+        ImGui::PushItemWidth((ImGui::GetWindowWidth() > G_WINDOW_LABEL_MIN) ? -G_WINDOW_LABEL_SPACE : G_WINDOW_LABEL_MIN - G_WINDOW_LABEL_SPACE - G_WINDOW_BORDER);
 
         if (ImGui::BeginTabBar("MyTabBar")) {
             /* SYSTEM PROPERTIES */
@@ -398,10 +404,26 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     /* System Limits */
                     gmt::BoundsI rect_limits = system.get_limits();
                     float temp_limits[4] = {static_cast<float>(rect_limits.x1), static_cast<float>(rect_limits.y1), static_cast<float>(rect_limits.x2), static_cast<float>(rect_limits.y2)};
-                    if (ImGui::DragFloat4("Limits", temp_limits, 1.f, -FLT_MAX, +FLT_MAX, "%.f")) {
+
+                    if (locked_accuracy) {
+                        ImGuiStyle& style = ImGui::GetStyle();
+                        ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+                        ImGui::PushStyleColor(ImGuiCol_FrameBg, style.Colors[ImGuiCol_TableHeaderBg]);
+                        ImGui::PushStyleColor(ImGuiCol_SliderGrab, style.Colors[ImGuiCol_TextDisabled]);
+                    }
+
+                    if (ImGui::DragFloat4("##label", temp_limits, 1.f, -FLT_MAX, +FLT_MAX, "%.f")) {
                         rect_limits = gmt::BoundsI(temp_limits[0], temp_limits[1], temp_limits[2], temp_limits[3]);
                         system.set_limits(rect_limits);
                     }
+
+                    if (locked_accuracy) {
+                        ImGui::PopItemFlag();
+                        ImGui::PopStyleColor(2);
+                    }
+
+                    ImGui::SameLine();
+                    ImGui::Checkbox("Limits", &locked_accuracy);
                     ImGui::SameLine();
                     ImGui::Help("Pos (x,y) => center of the rectangle\nSize (x,y) => size of the rectangle");
 
@@ -442,7 +464,6 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Separator();
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
-                    static bool locked_accuracy = true;
                     ImGui::Checkbox("Lock Accuracy", &locked_accuracy);
                     ImGui::SameLine();
                     ImGui::Help("Warning: Accuracy greatly impact the performances");
@@ -527,8 +548,8 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                     /* Renderer Background Color */
-                    ImVec4 temp_background_color = ImVec4(background_color.r, background_color.g, background_color.b, 255);
-                    if (ImGui::ColorEdit3("Background", (float*)&temp_background_color)) { background_color = sf::Color(temp_background_color.x * 255.0f, temp_background_color.y * 255.0f, temp_background_color.z * 255.0f, 255.0f); }
+                    ImVec4 temp_background_color = ImVec4(background_color.r / 255.0f, background_color.g / 255.0f, background_color.b / 255.0f, background_color.a / 255.0f);
+                    if (ImGui::ColorEdit4("Background", (float*)&temp_background_color)) { background_color = sf::Color(temp_background_color.x * 255.0f, temp_background_color.y * 255.0f, temp_background_color.z * 255.0f, temp_background_color.w * 255.0f); }
                     ImGui::SameLine();
                     ImGui::Help("Right click on the color picker\nto change its format, or even\nexport the color.");
 
@@ -1208,13 +1229,15 @@ void Renderer::ShowGuiProperties(bool* p_open) {
             }
             ImGui::EndTabBar();
         }
+
+        ImGui::PopItemWidth();
     }
     ImGui::End();
 }
 
 void Renderer::ShowGuiOverlay(bool* p_open) {
     const float DISTANCE = 5.0f;
-    int corner = 1;
+    static int corner = 1;
     ImGuiIO& io = ImGui::GetIO();
     ImGui::PushFont(io.Fonts->Fonts[1]);
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
@@ -1283,8 +1306,8 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             float y = p.y + 14.0f;
             float sz = 84.0f;
             float rad = sz * 0.5f;
-            ImU32 color = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-            ImU32 color_sec = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+            ImU32 color = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 1.0f, 1.0f, 1.0f));      // white
+            ImU32 color_sec = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 0.0f, 0.0f, 1.0f));  // red
             ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
             // Update mouse values

@@ -48,6 +48,10 @@
 #define G_LEFT_DOCK_SIZE 0.25f    // 100% <=> 1.0f
 #define G_RIGHT_DOCK_SIZE 0.25f   // 100% <=> 1.0f
 
+#define G_WINDOW_LABEL_SPACE 100  // remaining space for the label
+#define G_WINDOW_LABEL_MIN 400    // minimum width of the widow for the label resize
+#define G_WINDOW_BORDER 50        // right border of the window
+
 #define S_SIZE 7 /* Size of the array of Selections values */
 #define S_DEFAULT 0
 #define S_SELECT_MULTIPLE 1
@@ -129,6 +133,7 @@ class Renderer {
     bool debug_show_collisions = false;
 
     bool debug_system_edited = false;
+    bool locked_accuracy = true;
 
     ImGuiID dockspace_id;
     ImGuiID dockspace_bottom_id;
