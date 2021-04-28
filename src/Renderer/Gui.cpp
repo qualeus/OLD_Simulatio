@@ -442,7 +442,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Separator();
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
-                    bool locked_accuracy = true;
+                    static bool locked_accuracy = true;
                     ImGui::Checkbox("Lock Accuracy", &locked_accuracy);
                     ImGui::SameLine();
                     ImGui::Help("Warning: Accuracy greatly impact the performances");
