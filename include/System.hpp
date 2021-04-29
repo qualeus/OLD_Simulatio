@@ -58,6 +58,7 @@ class System {
 
     gmt::UnitI get_dt() const;
     void set_dt(gmt::UnitI dt);
+    void invert_dt();
 
     double get_t() const;
     void set_t(double t);

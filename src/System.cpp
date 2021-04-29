@@ -196,6 +196,7 @@ void System::set_dt(gmt::UnitI dt) {
 
     this->dt = dt;
 }
+void System::invert_dt() { this->set_dt(-this->dt); }
 
 double System::get_t() const { return this->t; }
 void System::set_t(double t) { this->t = t; }

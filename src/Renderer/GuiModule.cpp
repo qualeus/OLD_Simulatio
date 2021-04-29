@@ -2,6 +2,9 @@
 
 namespace ImGui {
 
+float AnimationLinear(bool direction, float value, float min, float max, float speed) { return direction ? std::min(value + speed, max) : std::max(value - speed, min); }
+float AnimationSpeed(bool direction, float value, float min, float max, float speed) { return direction ? std::min(value + speed, max) : std::max(value - speed, min); }
+
 /* Helper Hover */
 void Help(const char* desc) {
     ImGui::TextDisabled("(?)");

@@ -45,11 +45,15 @@
 
 #define G_DEBUG_FRAME_SIZE 300    // Size of framerate array
 #define G_SIDE_BAR_SIZE 60        // Size in Px
+#define G_TIME_BAR_SIZE 30        // Size in Px
+#define G_HANDLE_SIZE 20          // Size in Px
 #define G_OPENED_BAR_SIZE 400     // Size in Px
 #define G_UP_DOCK_SIZE 0.10f      // 100% <=> 1.0f
 #define G_BOTTOM_DOCK_SIZE 0.20f  // 100% <=> 1.0f
 #define G_LEFT_DOCK_SIZE 0.25f    // 100% <=> 1.0f
 #define G_RIGHT_DOCK_SIZE 0.25f   // 100% <=> 1.0f
+
+#define G_ANIMATION_SPEED 5.0f
 
 #define G_WINDOW_LABEL_SPACE 100  // remaining space for the label
 #define G_WINDOW_LABEL_MIN 400    // minimum width of the widow for the label resize
@@ -146,6 +150,7 @@ class Renderer {
     bool show_time_bar = true;
 
     float side_bar_size = G_SIDE_BAR_SIZE;
+    float time_bar_size = G_TIME_BAR_SIZE;
 
     bool debug_show_quadtree = false;
     bool debug_show_bounds = false;

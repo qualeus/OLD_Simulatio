@@ -154,25 +154,64 @@ void Renderer::DrawGui() {
 }
 
 void Renderer::DrawGuiTimeBar() {
-    ImGuiViewport* viewport = ImGui::GetMainViewport();
-    const float center_windows = (side_bar_size * 5.0f) / 2.0f;
-    ImVec2 buttons_size = ImVec2(side_bar_size, side_bar_size * 0.5f);
+    bool always_show = true;
 
-    ImGui::SetNextWindowPos(ImVec2(viewport->GetCenter().x - center_windows, viewport->GetWorkPos().y));
+    ImGuiViewport* viewport = ImGui::GetMainViewport();
+    const float center_windows = (G_SIDE_BAR_SIZE * 5.0f) / 2.0f;
+    ImVec2 buttons_size = ImVec2(G_SIDE_BAR_SIZE, G_TIME_BAR_SIZE);
+
+    time_bar_size = ImGui::AnimationLinear(show_time_bar, time_bar_size, 0.0f, G_TIME_BAR_SIZE, G_ANIMATION_SPEED);
+
+    const float diff_size = G_TIME_BAR_SIZE - time_bar_size;
+
+    ImGui::SetNextWindowPos(ImVec2(viewport->GetCenter().x - center_windows, viewport->GetWorkPos().y - diff_size));
     ImGui::SetNextWindowSize(ImVec2(0.0f, buttons_size.y));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-    if (ImGui::Begin("##TimeWindow", &show_time_bar, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking)) {
-        if (ImGui::Button(ICON_FK_FAST_BACKWARD, buttons_size)) {}
+
+    if (ImGui::Begin("##TimeWindow", &always_show, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking)) {
+        ImGui::Button(ICON_FK_FAST_BACKWARD, buttons_size);
+        if (ImGui::IsItemActive()) {
+            this->debug_system_edited = true;
+            this->system.set_dt(this->system.get_dt() - dt_step);
+        }
         ImGui::SameLine(0.0f, 0.0f);
-        if (ImGui::Button(ICON_FK_BACKWARD, buttons_size)) {}
+        if (ImGui::Button(ICON_FK_BACKWARD, buttons_size)) {
+            this->system.invert_dt();
+            this->system.Step();
+            this->system.invert_dt();
+            this->UpdateSelection();
+            this->UpdateSpawners();
+        }
         ImGui::SameLine(0.0f, 0.0f);
-        if (ImGui::Button(paused ? ICON_FK_PLAY : ICON_FK_PAUSE, buttons_size)) { Pause(); }
+        if (ImGui::Button(paused ? ICON_FK_PLAY : ICON_FK_PAUSE, buttons_size)) {
+            this->debug_system_edited = true;
+            Pause();
+        }
         ImGui::SameLine(0.0f, 0.0f);
-        if (ImGui::Button(ICON_FK_FORWARD, buttons_size)) {}
+        if (ImGui::Button(ICON_FK_FORWARD, buttons_size)) {
+            this->system.Step();
+            this->UpdateSelection();
+            this->UpdateSpawners();
+        }
         ImGui::SameLine(0.0f, 0.0f);
-        if (ImGui::Button(ICON_FK_FAST_FORWARD, buttons_size)) {}
+        ImGui::Button(ICON_FK_FAST_FORWARD, buttons_size);
+        if (ImGui::IsItemActive()) {
+            this->debug_system_edited = true;
+            this->system.set_dt(this->system.get_dt() + dt_step);
+        }
+        ImGui::End();
+    }
+
+    const float center_handle = G_SIDE_BAR_SIZE / 2.0f;
+    ImVec2 handle_size = ImVec2(G_SIDE_BAR_SIZE, G_HANDLE_SIZE);
+
+    ImGui::SetNextWindowPos(ImVec2(viewport->GetCenter().x - center_handle, viewport->GetWorkPos().y + buttons_size.y - diff_size));
+    ImGui::SetNextWindowSize(handle_size);
+
+    if (ImGui::Begin("##TimeWindowHandle", &always_show, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking)) {
+        if (ImGui::Button(show_time_bar ? ICON_FK_CARET_UP : ICON_FK_CARET_DOWN, handle_size)) { show_time_bar = !show_time_bar; }
         ImGui::End();
     }
     ImGui::PopStyleVar(3);
@@ -180,20 +219,25 @@ void Renderer::DrawGuiTimeBar() {
 
 void Renderer::DrawGuiSideBar() {
     bool always_show = true;
+
+    side_bar_size = ImGui::AnimationLinear(show_side_bar, side_bar_size, 0.0f, G_SIDE_BAR_SIZE, G_ANIMATION_SPEED);
+
+    const float diff_size = G_SIDE_BAR_SIZE - side_bar_size;
+
     ImGuiViewport* viewport = ImGui::GetMainViewport();
-    ImGui::SetNextWindowPos(viewport->GetWorkPos());
-    ImGui::SetNextWindowSize(ImVec2(side_bar_size, viewport->GetWorkSize().y));
+    ImVec2 buttons_size = ImVec2(G_SIDE_BAR_SIZE, G_SIDE_BAR_SIZE * 0.8f);
+
+    ImGui::SetNextWindowPos(ImVec2(viewport->GetWorkPos().x - diff_size, viewport->GetWorkPos().y));
+    ImGui::SetNextWindowSize(ImVec2(G_SIDE_BAR_SIZE, viewport->GetWorkSize().y));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-    // ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(1.0f, 0.5f, 0.5f, 1.0f));
 
     ImGuiIO& io = ImGui::GetIO();
     ImGui::PushFont(io.Fonts->Fonts[F_ROBOTO_MEDIUM]);
     if (ImGui::Begin("SideBar", &always_show, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove)) {
-        ImVec2 buttons_size = ImVec2(side_bar_size, side_bar_size * 0.8f);
         ImGuiStyle& style = ImGui::GetStyle();
-        style.ItemSpacing = ImVec2(side_bar_size / 10.0f, 0.0f);
+        style.ItemSpacing = ImVec2(G_SIDE_BAR_SIZE / 10.0f, 0.0f);
 
         if (ImGui::Button(ICON_FK_BARS, buttons_size)) {}
 
@@ -234,14 +278,19 @@ void Renderer::DrawGuiSideBar() {
         ImGui::End();
     }
     ImGui::PopFont();
-    if (ImGui::BeginPopupContextWindow()) {
-        if (ImGui::MenuItem("New camera")) {}
 
-        ImGui::EndPopup();
+    const float center_handle = buttons_size.y / 2.0f;
+    ImVec2 handle_size = ImVec2(G_HANDLE_SIZE, G_SIDE_BAR_SIZE);
+
+    ImGui::SetNextWindowPos(ImVec2(viewport->GetWorkPos().x - diff_size + buttons_size.x, viewport->GetCenter().y - center_handle));
+    ImGui::SetNextWindowSize(handle_size);
+
+    if (ImGui::Begin("##SideWindowHandle", &always_show, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking)) {
+        if (ImGui::Button(show_side_bar ? ICON_FK_CARET_LEFT : ICON_FK_CARET_RIGHT, handle_size)) { show_side_bar = !show_side_bar; }
+        ImGui::End();
     }
 
     ImGui::PopStyleVar(3);
-    // ImGui::PopStyleColor();
 }
 
 void Renderer::ShowGuiSpawner(bool* p_open) {
@@ -1265,7 +1314,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
 
                     ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
-                    if (ImGui::Button("Recompute Tranjectories", {200, 23})) {
+                    if (ImGui::Button("Recompute Trajectories", {200, 23})) {
                         this->trajectory_compute_manual = true;
                         this->debug_system_edited = true;
                     }

@@ -8,6 +8,9 @@
 
 namespace ImGui {
 
+float AnimationLinear(bool direction, float value, float min, float max, float speed);
+float AnimationSpeed(bool direction, float value, float min, float max, float speed);
+
 void Help(const char* desc);
 bool TriCheckBox(const char* label, int* v_tristate);
 bool PushButton(const char* str_id, bool* v);
