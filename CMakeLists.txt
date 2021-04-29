@@ -80,6 +80,7 @@ set(SOURCES
     src/Renderer/Event.cpp
     src/Renderer/Gui.cpp
     src/Renderer/GuiModule.cpp
+    src/Renderer/EditorColorScheme.cpp
     src/System.cpp 
 )
 set(HEADERS
@@ -100,6 +101,7 @@ set(HEADERS
     include/Geometry/String.hpp
     include/Renderer/Renderer.hpp
     include/Renderer/Structures.hpp
+    include/Renderer/EditorColorScheme.hpp
     include/Renderer/GuiModule.hpp
     include/System.hpp
 )
@@ -112,8 +114,8 @@ set(FONTS
     assets/fonts/roboto.hpp
     assets/fonts/proggy.hpp
     assets/fonts/consolas.hpp
-    assets/fonts/iconsforkawesome.cpp
-    assets/fonts/IconsForkAwesome.h
+    assets/fonts/forkawersome.hpp
+    assets/fonts/icons.hpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${FONTS} ${RESSOURCES})

@@ -1,12 +1,6 @@
 #include "../../include/Renderer/Renderer.hpp"
 
 void Renderer::SetupGui() {
-    /*
-    sf::Image icon;
-    icon.loadFromFile("../assets/icon/icon.ico");
-    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-    */
-
     /* ImGui Initialisation */
     ImGui::SFML::Init(this->window);
 
@@ -28,28 +22,50 @@ void Renderer::SetupGui() {
 
     /* ImGui Setup Font */
     io.Fonts->Clear();
-    ImFontConfig roboto_cfg = ImFontConfig();
-    ImFormatString(roboto_cfg.Name, IM_ARRAYSIZE(roboto_cfg.Name), "RobotoMedium.ttf, 16px");
-    io.Fonts->AddFontFromMemoryCompressedTTF(Roboto_compressed_data, Roboto_compressed_size, 16.0f, &roboto_cfg);
 
-    ImFontConfig consolas_cfg = ImFontConfig();
-    ImFormatString(consolas_cfg.Name, IM_ARRAYSIZE(consolas_cfg.Name), "Consolas.ttf, 14px");
-    io.Fonts->AddFontFromMemoryCompressedTTF(Consolas_compressed_data, Consolas_compressed_size, 14.0f, &consolas_cfg);
+    /* Setup Icons  */
+    static const ImWchar icons_ranges[] = {ICON_MIN_FK, ICON_MAX_FK, 0};
+    ImFontConfig icons_cfg;
+    icons_cfg.MergeMode = true;
+    icons_cfg.PixelSnapH = true;
+    icons_cfg.GlyphMinAdvanceX = 13.0f;  // Use if you want to make the icon monospaced
 
-    ImFontConfig proggy_cfg = ImFontConfig();
-    ImFormatString(proggy_cfg.Name, IM_ARRAYSIZE(proggy_cfg.Name), "ProggyClean.ttf, 14px");
-    io.Fonts->AddFontFromMemoryCompressedTTF(Proggy_compressed_data, Proggy_compressed_size, 14.0f, &proggy_cfg);
+    /* Add the Roboto font [DEFAULT] */
+    ImFontConfig roboto_default_cfg;
+    ImFormatString(roboto_default_cfg.Name, IM_ARRAYSIZE(roboto_default_cfg.Name), "RobotoMedium.ttf, %spx", gmt::to_string(F_DEFAULT_SIZE).c_str());
+    io.Fonts->AddFontFromMemoryCompressedTTF(Roboto_compressed_data, Roboto_compressed_size, F_DEFAULT_SIZE, &roboto_default_cfg);
+    io.Fonts->AddFontFromMemoryCompressedTTF(IconsForkAwersome_compressed_data, IconsForkAwersome_compressed_size, I_DEFAULT_SIZE, &icons_cfg, icons_ranges);
+
+    /* Add the Roboto font [MEDIUM] */
+    ImFontConfig roboto_medium_cfg;
+    ImFormatString(roboto_medium_cfg.Name, IM_ARRAYSIZE(roboto_medium_cfg.Name), "RobotoMedium.ttf, %spx", gmt::to_string(F_MEDIUM_SIZE).c_str());
+    io.Fonts->AddFontFromMemoryCompressedTTF(Roboto_compressed_data, Roboto_compressed_size, F_MEDIUM_SIZE, &roboto_medium_cfg);
+    io.Fonts->AddFontFromMemoryCompressedTTF(IconsForkAwersome_compressed_data, IconsForkAwersome_compressed_size, I_MEDIUM_SIZE, &icons_cfg, icons_ranges);
+
+    /* Add the Roboto font [BIGGER] */
+    ImFontConfig roboto_bigger_cfg;
+    ImFormatString(roboto_bigger_cfg.Name, IM_ARRAYSIZE(roboto_bigger_cfg.Name), "RobotoMedium.ttf, %spx", gmt::to_string(F_BIGGER_SIZE).c_str());
+    io.Fonts->AddFontFromMemoryCompressedTTF(Roboto_compressed_data, Roboto_compressed_size, F_BIGGER_SIZE, &roboto_bigger_cfg);
+    io.Fonts->AddFontFromMemoryCompressedTTF(IconsForkAwersome_compressed_data, IconsForkAwersome_compressed_size, I_BIGGER_SIZE, &icons_cfg, icons_ranges);
+
+    /* Add the Consolas font [SMALLER] */
+    ImFontConfig consolas_smaller_cfg;
+    ImFormatString(consolas_smaller_cfg.Name, IM_ARRAYSIZE(consolas_smaller_cfg.Name), "Consolas.ttf, %spx", gmt::to_string(F_SMALLER_SIZE).c_str());
+    io.Fonts->AddFontFromMemoryCompressedTTF(Consolas_compressed_data, Consolas_compressed_size, F_SMALLER_SIZE, &consolas_smaller_cfg);
+    io.Fonts->AddFontFromMemoryCompressedTTF(IconsForkAwersome_compressed_data, IconsForkAwersome_compressed_size, I_SMALLER_SIZE, &icons_cfg, icons_ranges);
+
+    /* Add the Proggy font [SMALLER] */
+    ImFontConfig proggy_smaller_cfg;
+    ImFormatString(proggy_smaller_cfg.Name, IM_ARRAYSIZE(proggy_smaller_cfg.Name), "ProggyClean.ttf, %spx", gmt::to_string(F_SMALLER_SIZE).c_str());
+    io.Fonts->AddFontFromMemoryCompressedTTF(Proggy_compressed_data, Proggy_compressed_size, F_SMALLER_SIZE, &proggy_smaller_cfg);
+    io.Fonts->AddFontFromMemoryCompressedTTF(IconsForkAwersome_compressed_data, IconsForkAwersome_compressed_size, I_SMALLER_SIZE, &icons_cfg, icons_ranges);
+
+    /* Update Fonts */
     ImGui::SFML::UpdateFontTexture();
 
-    /* Add icons to the Font */
-    /*
-    ImFontConfig config;
-    config.MergeMode = true;
-    config.GlyphMinAdvanceX = 13.0f;  // Use if you want to make the icon monospaced
-     const ImWchar icon_ranges[] = {ICON_MIN_FK, ICON_MAX_FK, 0};
-    // io.Fonts->AddFontFromMemoryCompressedTTF(IconsForkAwersome_compressed_data, IconsForkAwersome_compressed_size, 16);
-    io.Fonts->AddFontFromFileTTF("../assets/fonts/forkawesome-webfont.ttf", 13.0f, &config, icon_ranges);
-    */
+    // Theme
+    EditorColorScheme::ApplyTheme();
+    // From https://coolors.co/1f2421-725ac1-8d86c9-eca400-dce1de ; EditorColorScheme::SetColors(0x1F2421FF /* Background */, 0xDCE1DEFF /* Text */, 0x725AC1FF /* MainColor */, 0x8D86C9FF /* MainAccent */, 0xECA400FF /* Highlight */ );
 }
 
 void Renderer::SetupGuiBaseLayout() {
@@ -85,8 +101,8 @@ void Renderer::RenderGui() {
 void Renderer::DrawGuiDocking() {
     /* Create the Docking Space */
     ImGuiViewport* viewport = ImGui::GetMainViewport();
-    ImGui::SetNextWindowPos(ImVec2(viewport->GetWorkPos().x, viewport->GetWorkPos().y + G_TOP_BAR_SIZE));
-    ImGui::SetNextWindowSize(ImVec2(viewport->GetWorkSize().x, viewport->GetWorkSize().y - G_TOP_BAR_SIZE));
+    ImGui::SetNextWindowPos(ImVec2(viewport->GetWorkPos().x + side_bar_size, viewport->GetWorkPos().y));
+    ImGui::SetNextWindowSize(ImVec2(viewport->GetWorkSize().x - side_bar_size, viewport->GetWorkSize().y));
     ImGui::SetNextWindowViewport(viewport->ID);
 
     ImGuiWindowFlags host_window_flags = 0;
@@ -120,8 +136,11 @@ void Renderer::DrawGuiDocking() {
 void Renderer::DrawGui() {
     DrawGuiMenu();
 
-    /* We draw the top bar as an independant Window*/
-    DrawGuiBar();
+    /* We draw the Time bar */
+    DrawGuiTimeBar();
+
+    /* We draw the side bar as an independant Window*/
+    DrawGuiSideBar();
 
     /* The Docking must be Before all the sub Windows*/
     DrawGuiDocking();
@@ -134,36 +153,94 @@ void Renderer::DrawGui() {
     if (show_gui_spawner) { ShowGuiSpawner(&show_gui_spawner); }
 }
 
-void Renderer::DrawGuiBar() {
+void Renderer::DrawGuiTimeBar() {
+    ImGuiViewport* viewport = ImGui::GetMainViewport();
+    const float center_windows = (side_bar_size * 5.0f) / 2.0f;
+    ImVec2 buttons_size = ImVec2(side_bar_size, side_bar_size * 0.5f);
+
+    ImGui::SetNextWindowPos(ImVec2(viewport->GetCenter().x - center_windows, viewport->GetWorkPos().y));
+    ImGui::SetNextWindowSize(ImVec2(0.0f, buttons_size.y));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+    if (ImGui::Begin("##TimeWindow", &show_time_bar, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking)) {
+        if (ImGui::Button(ICON_FK_FAST_BACKWARD, buttons_size)) {}
+        ImGui::SameLine(0.0f, 0.0f);
+        if (ImGui::Button(ICON_FK_BACKWARD, buttons_size)) {}
+        ImGui::SameLine(0.0f, 0.0f);
+        if (ImGui::Button(paused ? ICON_FK_PLAY : ICON_FK_PAUSE, buttons_size)) { Pause(); }
+        ImGui::SameLine(0.0f, 0.0f);
+        if (ImGui::Button(ICON_FK_FORWARD, buttons_size)) {}
+        ImGui::SameLine(0.0f, 0.0f);
+        if (ImGui::Button(ICON_FK_FAST_FORWARD, buttons_size)) {}
+        ImGui::End();
+    }
+    ImGui::PopStyleVar(3);
+}
+
+void Renderer::DrawGuiSideBar() {
     bool always_show = true;
     ImGuiViewport* viewport = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(viewport->GetWorkPos());
-    ImGui::SetNextWindowSize(ImVec2(viewport->GetWorkSize().x, G_TOP_BAR_SIZE));
+    ImGui::SetNextWindowSize(ImVec2(side_bar_size, viewport->GetWorkSize().y));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
     // ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(1.0f, 0.5f, 0.5f, 1.0f));
-    if (ImGui::Begin("Bar", &always_show, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove)) {
-        // ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove
-        // ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.1f, 0.5f, 0.5f, 1.0f));
 
-        ImVec2 button_sz(G_TOP_BAR_SIZE, G_TOP_BAR_SIZE);
-        int buttons_count = 30;
+    ImGuiIO& io = ImGui::GetIO();
+    ImGui::PushFont(io.Fonts->Fonts[F_ROBOTO_MEDIUM]);
+    if (ImGui::Begin("SideBar", &always_show, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove)) {
+        ImVec2 buttons_size = ImVec2(side_bar_size, side_bar_size * 0.8f);
         ImGuiStyle& style = ImGui::GetStyle();
-        style.ItemSpacing = ImVec2(G_TOP_BAR_SIZE / 10.0f, 0.0f);
-        float window_visible_x2 = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
-        for (int n = 0; n < buttons_count; n++) {
-            ImGui::PushID(n);
-            ImGui::Button("", button_sz);
-            float last_button_x2 = ImGui::GetItemRectMax().x;
-            float next_button_x2 = last_button_x2 + style.ItemSpacing.x + button_sz.x;  // Expected position if next button was on same line
-            if (n + 1 < buttons_count && next_button_x2 < window_visible_x2) ImGui::SameLine();
-            ImGui::PopID();
+        style.ItemSpacing = ImVec2(side_bar_size / 10.0f, 0.0f);
+
+        if (ImGui::Button(ICON_FK_BARS, buttons_size)) {}
+
+        // MOUSE MENU
+        std::vector<const char*> array_icons_input_mouse = {ICON_FK_MOUSE_POINTER, ICON_FK_ARROWS, ICON_FK_CROP};
+        const bool mouse_selector_opened = ImGui::IsPopupOpen("##MouseSelectorWindow");
+        if (mouse_selector_opened) { ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]); }
+        if (ImGui::Button(array_icons_input_mouse[input_mouse_type], buttons_size)) { ImGui::OpenPopup("##MouseSelectorWindow"); }
+        if (mouse_selector_opened) { ImGui::PopStyleColor(); }
+
+        ImGui::PushStyleVar(ImGuiStyleVar_PopupBorderSize, 0.0f);
+        ImGuiViewport* viewport = ImGui::GetMainViewport();
+        ImGui::SetNextWindowPos(ImVec2(viewport->GetWorkPos().x + buttons_size.x, viewport->GetWorkPos().y + buttons_size.y));
+        if (ImGui::BeginPopup("##MouseSelectorWindow", ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar)) {
+            ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_PopupBg]);
+            for (int i = 0; i < array_icons_input_mouse.size(); i++) {
+                ImGui::SameLine(0.0f, 0.0f);
+                const bool selected_button = i == input_mouse_type;
+                if (selected_button) { ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_ButtonHovered]); }
+                if (ImGui::Button(array_icons_input_mouse[i], buttons_size)) {
+                    input_mouse_type = i;
+                    ImGui::CloseCurrentPopup();
+                }
+                if (selected_button) { ImGui::PopStyleColor(); }
+            }
+            ImGui::PopStyleColor();
+            ImGui::EndPopup();
         }
-        // ImGui::PopStyleColor(1);
+        ImGui::PopStyleVar();
+
+        // MINIMISE
+        if (ImGui::Button(ICON_FK_CARET_LEFT, buttons_size)) {}
+        if (ImGui::Button(ICON_FK_CARET_RIGHT, buttons_size)) {}
+
+        //
+        if (ImGui::Button(ICON_FK_CIRCLE, buttons_size)) {}
+        if (ImGui::Button(ICON_FK_SQUARE, buttons_size)) {}
         ImGui::End();
     }
+    ImGui::PopFont();
+    if (ImGui::BeginPopupContextWindow()) {
+        if (ImGui::MenuItem("New camera")) {}
 
-    ImGui::PopStyleVar(2);
+        ImGui::EndPopup();
+    }
+
+    ImGui::PopStyleVar(3);
     // ImGui::PopStyleColor();
 }
 
@@ -412,7 +489,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         ImGui::PushStyleColor(ImGuiCol_SliderGrab, style.Colors[ImGuiCol_TextDisabled]);
                     }
 
-                    if (ImGui::DragFloat4("##label", temp_limits, 1.f, -FLT_MAX, +FLT_MAX, "%.f")) {
+                    if (ImGui::DragFloat4("##label", temp_limits, 20.f, -FLT_MAX, +FLT_MAX, "%.f")) {
                         rect_limits = gmt::BoundsI(temp_limits[0], temp_limits[1], temp_limits[2], temp_limits[3]);
                         system.set_limits(rect_limits);
                     }
@@ -1240,7 +1317,7 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
     const float DISTANCE = 5.0f;
     static int corner = 1;
     ImGuiIO& io = ImGui::GetIO();
-    ImGui::PushFont(io.Fonts->Fonts[1]);
+    ImGui::PushFont(io.Fonts->Fonts[F_CONSOLAS_SMALLER]);
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
     if (corner != -1) {
         window_flags |= ImGuiWindowFlags_NoMove;
@@ -1297,7 +1374,7 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             ImGui::TreePop();
         }
 
-        ImGui::SetNextTreeNodeOpen(true, ImGuiCond_FirstUseEver);  // ImGuiTreeNodeFlags_DefaultOpen
+        ImGui::SetNextTreeNodeOpen(false, ImGuiCond_FirstUseEver);  // ImGuiTreeNodeFlags_DefaultOpen
         if (ImGui::TreeNode("Mouse Position")) {
             ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Separator();
@@ -1413,7 +1490,7 @@ void Renderer::ShowGuiSettings(bool* p_open) {
         ImGui::Separator();
         ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
-        int selected_menu = 0;
+        static int selected_menu = 0;
         ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_SpanFullWidth;
         ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_None;
 

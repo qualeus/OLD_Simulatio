@@ -4,8 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Main.hpp>
 
-#include "../../assets/fonts/IconsForkAwesome.h"
 #include "../../assets/fonts/consolas.hpp"
+#include "../../assets/fonts/forkawersome.hpp"
+#include "../../assets/fonts/icons.hpp"
 #include "../../assets/fonts/proggy.hpp"
 #include "../../assets/fonts/roboto.hpp"
 #include "../../assets/icon/ricon.hpp"
@@ -16,6 +17,7 @@
 #include "../Geometry/Vector.hpp"
 #include "../System.hpp"
 #include "Config.hpp"
+#include "EditorColorScheme.hpp"
 #include "GuiModule.hpp"
 #include "Structures.hpp"
 
@@ -42,7 +44,8 @@
 #define C_GREY sf::Color(127, 140, 141, 255)      // rgba(127, 140, 141,1.0)
 
 #define G_DEBUG_FRAME_SIZE 300    // Size of framerate array
-#define G_TOP_BAR_SIZE 30         // Size in Px
+#define G_SIDE_BAR_SIZE 60        // Size in Px
+#define G_OPENED_BAR_SIZE 400     // Size in Px
 #define G_UP_DOCK_SIZE 0.10f      // 100% <=> 1.0f
 #define G_BOTTOM_DOCK_SIZE 0.20f  // 100% <=> 1.0f
 #define G_LEFT_DOCK_SIZE 0.25f    // 100% <=> 1.0f
@@ -65,8 +68,30 @@
 #define S_MENU_SIMULATION 2
 #define S_MENU_CONSOLE 3
 
+#define F_SMALLER_SIZE 14
+#define F_DEFAULT_SIZE 16
+#define F_MEDIUM_SIZE 26
+#define F_BIGGER_SIZE 36
+
+#define I_SMALLER_SIZE 16
+#define I_DEFAULT_SIZE 20
+#define I_MEDIUM_SIZE 30
+#define I_BIGGER_SIZE 40
+
+#define F_ROBOTO_DEFAULT 0
+#define F_ROBOTO_MEDIUM 1
+#define F_ROBOTO_BIGGER 2
+#define F_CONSOLAS_SMALLER 3
+#define F_PROGGY_SMALLER 4
+
+#define I_MOUSE_TYPE_CURSOR 0;
+#define I_MOUSE_TYPE_MOVE 1;
+#define I_MOUSE_TYPE_RESIZE 2;
+
 class Renderer {
    private:
+    int input_mouse_type = 0;
+
     float launch_power = 0.2f;
     float zoom_speed = 0.1f;
     float dt_step = 0.01f;
@@ -111,12 +136,16 @@ class Renderer {
     std::vector<sf::Vector2f> selected_corpses_diff;
 
     bool reset_base_layout = false;
-    bool show_gui_console = true;
+    bool show_gui_console = false;
     bool show_gui_properties = true;
     bool show_gui_overlay = true;
     bool show_gui_settings = false;
     bool show_gui_imguidemo = false;
-    bool show_gui_spawner = true;
+    bool show_gui_spawner = false;
+    bool show_side_bar = true;
+    bool show_time_bar = true;
+
+    float side_bar_size = G_SIDE_BAR_SIZE;
 
     bool debug_show_quadtree = false;
     bool debug_show_bounds = false;
@@ -250,7 +279,8 @@ class Renderer {
     void DrawInputs();
     void DrawGui();  // Draw the renderer interface
     void DrawGuiMenu();
-    void DrawGuiBar();
+    void DrawGuiSideBar();
+    void DrawGuiTimeBar();
     void DrawGuiDocking();
     void DrawGuiHelp(const char* desc);
     bool DrawGuiCheckBox(const char* label, int* v_tristate);
