@@ -1493,8 +1493,6 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             ImGui::Separator();
             ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
-            int display_frames_size = 170;
-            int update_frame_delay = 10;
             ImGui::SetNextItemWidth(80);
             ImGui::InputInt("ms", &update_frame_delay);
             ImGui::SameLine();

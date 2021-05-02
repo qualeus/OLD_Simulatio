@@ -102,6 +102,14 @@ void System::CorpsesStep() {
     }
 }
 
+void System::CorpseUpdateBounds(int i) {
+    if (phy::Circle* circle = dynamic_cast<phy::Circle*>(get_corpse(i).get())) {
+        circle->UpdateBounds();
+    } else if (phy::Polygon* polygon = dynamic_cast<phy::Polygon*>(get_corpse(i).get())) {
+        polygon->UpdateBounds();
+    }
+}
+
 void System::CorpseStop(int i) {
     if (phy::Circle* circle = dynamic_cast<phy::Circle*>(get_corpse(i).get())) {
         circle->Stop();

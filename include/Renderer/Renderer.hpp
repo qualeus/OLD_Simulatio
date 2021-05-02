@@ -102,6 +102,9 @@ class Renderer {
     int input_mouse_type = I_MOUSE_TYPE_MOVE;
     int input_side_menu = I_SIDE_MENU_DEFAULT;
 
+    int display_frames_size = 170;
+    int update_frame_delay = 10;
+
     float launch_power = 0.2f;
     float zoom_speed = 0.1f;
     float dt_step = 0.01f;

@@ -486,6 +486,7 @@ void Renderer::DragCorpsesStep(sf::Event event) {
         this->debug_system_edited = true;
         system.get_corpse(selected_corpses_cursor.at(i))->Move(sf::Vector2f(this->sys_mouse_x, this->sys_mouse_y) + selected_corpses_diff.at(i));
         system.CorpseStop(selected_corpses_cursor.at(i));
+        system.CorpseUpdateBounds(selected_corpses_cursor.at(i));
     }
 }
 
@@ -583,6 +584,7 @@ void Renderer::LaunchCorpseStop(sf::Event event) {
         sf::Vector2f launch_vector = -diff_vector * launch_power;
         system.get_corpse(selected_corpses_cursor.at(i))->Drag(launch_vector);
         system.get_corpse(selected_corpses_cursor.at(i))->set_fixed(selected_corpses_fixed.at(i));
+        system.CorpseUpdateBounds(selected_corpses_cursor.at(i));
     }
 
     this->select_type = S_DEFAULT;

@@ -45,6 +45,7 @@ class System {
     void CheckLimits();
     void CorpsesStep();
     void CorpseStop(int i);
+    void CorpseUpdateBounds(int i);
     void PairsStep();
     void QuadPairsStep();
     void ThreadPairsStep(int depth, int begin, int end);
