@@ -2,8 +2,21 @@
 
 namespace ImGui {
 
-float AnimationLinear(bool direction, float value, float min, float max, float speed) { return direction ? std::min(value + speed, max) : std::max(value - speed, min); }
-float AnimationSpeed(bool direction, float value, float min, float max, float speed) { return direction ? std::min(value + speed, max) : std::max(value - speed, min); }
+float AnimationLinear(bool direction, float value, float min, float max, float speed) {
+    float diff = (max - min) / 100.0f;
+    return direction ? std::min(value + diff * speed, max) : std::max(value - diff * speed, min);
+}
+float AnimationEaseInOut(bool direction, float value, float min, float max, float speed) {
+    float difference_border = 0.1f + std::min(std::abs(value - max), std::abs(min - value)) / 10.0f;
+    return direction ? std::min(value + difference_border * speed, max) : std::max(value - difference_border * speed, min);
+}
+
+void TextCenter(std::string text) {
+    float font_size = ImGui::GetFontSize() * text.size() / 2;
+    ImGui::SameLine(ImGui::GetWindowSize().x / 2 - font_size + (font_size / 2));
+
+    ImGui::Text(text.c_str());
+}
 
 /* Helper Hover */
 void Help(const char* desc) {

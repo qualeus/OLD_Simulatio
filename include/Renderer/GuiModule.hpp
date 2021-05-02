@@ -9,7 +9,8 @@
 namespace ImGui {
 
 float AnimationLinear(bool direction, float value, float min, float max, float speed);
-float AnimationSpeed(bool direction, float value, float min, float max, float speed);
+float AnimationEaseInOut(bool direction, float value, float min, float max, float speed);
+void TextCenter(std::string text); 
 
 void Help(const char* desc);
 bool TriCheckBox(const char* label, int* v_tristate);

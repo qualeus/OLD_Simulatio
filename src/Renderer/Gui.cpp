@@ -24,6 +24,7 @@ void Renderer::SetupGui() {
     io.Fonts->Clear();
 
     /* Setup Icons  */
+    // See: https://forkaweso.me/Fork-Awesome/icons/
     static const ImWchar icons_ranges[] = {ICON_MIN_FK, ICON_MAX_FK, 0};
     ImFontConfig icons_cfg;
     icons_cfg.MergeMode = true;
@@ -101,8 +102,8 @@ void Renderer::RenderGui() {
 void Renderer::DrawGuiDocking() {
     /* Create the Docking Space */
     ImGuiViewport* viewport = ImGui::GetMainViewport();
-    ImGui::SetNextWindowPos(ImVec2(viewport->GetWorkPos().x + side_bar_size, viewport->GetWorkPos().y));
-    ImGui::SetNextWindowSize(ImVec2(viewport->GetWorkSize().x - side_bar_size, viewport->GetWorkSize().y));
+    ImGui::SetNextWindowPos(ImVec2(viewport->GetWorkPos().x + side_bar_size + side_content_size, viewport->GetWorkPos().y));
+    ImGui::SetNextWindowSize(ImVec2(viewport->GetWorkSize().x - side_bar_size - side_content_size, viewport->GetWorkSize().y));
     ImGui::SetNextWindowViewport(viewport->ID);
 
     ImGuiWindowFlags host_window_flags = 0;
@@ -141,6 +142,7 @@ void Renderer::DrawGui() {
 
     /* We draw the side bar as an independant Window*/
     DrawGuiSideBar();
+    DrawGuiSideContent();
 
     /* The Docking must be Before all the sub Windows*/
     DrawGuiDocking();
@@ -239,19 +241,50 @@ void Renderer::DrawGuiSideBar() {
         ImGuiStyle& style = ImGui::GetStyle();
         style.ItemSpacing = ImVec2(G_SIDE_BAR_SIZE / 10.0f, 0.0f);
 
-        if (ImGui::Button(ICON_FK_BARS, buttons_size)) {}
+        bool content_opened = show_side_content;
+        if (content_opened) { ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]); }
+        if (ImGui::Button(content_opened ? ICON_FK_LONG_ARROW_LEFT : ICON_FK_BARS, buttons_size)) { show_side_content = !show_side_content; }
+        if (content_opened) { ImGui::PopStyleColor(); }
 
-        // MOUSE MENU
+        bool shape_selected = input_side_menu == I_SIDE_MENU_SHAPE;
+        if (shape_selected) { ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_WindowBg]); }
+        if (ImGui::Button(ICON_FK_OBJECT_UNGROUP, buttons_size)) { input_side_menu = shape_selected ? I_SIDE_MENU_DEFAULT : I_SIDE_MENU_SHAPE; }
+        if (shape_selected) { ImGui::PopStyleColor(); }
+
+        bool spawner_selected = input_side_menu == I_SIDE_MENU_SPAWNER;
+        if (spawner_selected) { ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_WindowBg]); }
+        if (ImGui::Button(ICON_FK_ASTERISK, buttons_size)) { input_side_menu = spawner_selected ? I_SIDE_MENU_DEFAULT : I_SIDE_MENU_SPAWNER; }
+        if (spawner_selected) { ImGui::PopStyleColor(); }
+
+        if (ImGui::Button(ICON_FK_CIRCLE, buttons_size)) {}
+        if (ImGui::Button(ICON_FK_SQUARE, buttons_size)) {}
+
+        // BOTTOM MENU
+        ImGui::SetCursorPos(ImVec2(0.0f, viewport->GetWorkSize().y - buttons_size.y * 3));
+
+        // MOUSE CURSOR
         std::vector<const char*> array_icons_input_mouse = {ICON_FK_MOUSE_POINTER, ICON_FK_ARROWS, ICON_FK_CROP};
         const bool mouse_selector_opened = ImGui::IsPopupOpen("##MouseSelectorWindow");
         if (mouse_selector_opened) { ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]); }
         if (ImGui::Button(array_icons_input_mouse[input_mouse_type], buttons_size)) { ImGui::OpenPopup("##MouseSelectorWindow"); }
         if (mouse_selector_opened) { ImGui::PopStyleColor(); }
 
+        // ZOOM LEVEL
+        const bool zoom_level_opened = ImGui::IsPopupOpen("##ZoomLevelWindow");
+        if (zoom_level_opened) { ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]); }
+        if (ImGui::Button(ICON_FK_SEARCH, buttons_size)) { ImGui::OpenPopup("##ZoomLevelWindow"); }
+        if (zoom_level_opened) { ImGui::PopStyleColor(); }
+
+        // SETTINGS
+        if (ImGui::Button(ICON_FK_COG, buttons_size)) {}
+
+        // BOTTOM MENU POPUPS
         ImGui::PushStyleVar(ImGuiStyleVar_PopupBorderSize, 0.0f);
-        ImGuiViewport* viewport = ImGui::GetMainViewport();
-        ImGui::SetNextWindowPos(ImVec2(viewport->GetWorkPos().x + buttons_size.x, viewport->GetWorkPos().y + buttons_size.y));
-        if (ImGui::BeginPopup("##MouseSelectorWindow", ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar)) {
+
+        // MOUSE CURSOR
+        ImGui::SetNextWindowSize(ImVec2(0.0f, buttons_size.y));
+        ImGui::SetNextWindowPos(ImVec2(viewport->GetWorkPos().x + buttons_size.x, viewport->GetWorkPos().y + viewport->GetWorkSize().y - buttons_size.y * 3));
+        if (ImGui::BeginPopup("##MouseSelectorWindow", ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar)) {
             ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_PopupBg]);
             for (int i = 0; i < array_icons_input_mouse.size(); i++) {
                 ImGui::SameLine(0.0f, 0.0f);
@@ -266,15 +299,30 @@ void Renderer::DrawGuiSideBar() {
             ImGui::PopStyleColor();
             ImGui::EndPopup();
         }
+
+        // ZOOM LEVEL
+        ImGui::SetNextWindowSize(ImVec2(0.0f, buttons_size.y));
+        ImGui::SetNextWindowPos(ImVec2(viewport->GetWorkPos().x + buttons_size.x, viewport->GetWorkPos().y + viewport->GetWorkSize().y - buttons_size.y * 2));
+        if (ImGui::BeginPopup("##ZoomLevelWindow", ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar)) {
+            ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_PopupBg]);
+            if (ImGui::Button(ICON_FK_SEARCH_MINUS, buttons_size)) {
+                if (get_camera_size() > 0.1f) { set_camera_size(get_camera_size() + 0.1f); }
+            }
+            ImGui::SameLine(0.0f, 0.0f);
+            float temp_camera_zoom = 100.0f * (100.0f / get_camera_zoom());
+            ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.0f);
+            ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.65f);
+            if (ImGui::SliderFloat("##SliderFloatZoom", &temp_camera_zoom, 0.1f, 1000.0f, "%.1f%%")) { set_camera_zoom(100.0f * (100.0f / temp_camera_zoom)); }
+            ImGui::SameLine(0.0f, 0.0f);
+            ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 10.0f);
+            if (ImGui::Button(ICON_FK_SEARCH_PLUS, buttons_size)) {
+                if (get_camera_size() < 1000.0f) { set_camera_size(get_camera_size() - 0.1f); }
+            }
+            ImGui::PopStyleColor();
+            ImGui::EndPopup();
+        }
+
         ImGui::PopStyleVar();
-
-        // MINIMISE
-        if (ImGui::Button(ICON_FK_CARET_LEFT, buttons_size)) {}
-        if (ImGui::Button(ICON_FK_CARET_RIGHT, buttons_size)) {}
-
-        //
-        if (ImGui::Button(ICON_FK_CIRCLE, buttons_size)) {}
-        if (ImGui::Button(ICON_FK_SQUARE, buttons_size)) {}
         ImGui::End();
     }
     ImGui::PopFont();
@@ -285,13 +333,64 @@ void Renderer::DrawGuiSideBar() {
     ImGui::SetNextWindowPos(ImVec2(viewport->GetWorkPos().x - diff_size + buttons_size.x, viewport->GetCenter().y - center_handle));
     ImGui::SetNextWindowSize(handle_size);
 
-    if (ImGui::Begin("##SideWindowHandle", &always_show, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking)) {
-        if (ImGui::Button(show_side_bar ? ICON_FK_CARET_LEFT : ICON_FK_CARET_RIGHT, handle_size)) { show_side_bar = !show_side_bar; }
-        ImGui::End();
+    if (side_content_size == 0.0f) {
+        if (ImGui::Begin("##SideWindowHandle", &always_show, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking)) {
+            if (ImGui::Button(show_side_bar ? ICON_FK_CARET_LEFT : ICON_FK_CARET_RIGHT, handle_size)) { show_side_bar = !show_side_bar; }
+            ImGui::End();
+        }
     }
 
     ImGui::PopStyleVar(3);
 }
+
+void Renderer::DrawGuiSideContent() {
+    bool always_show = true;
+
+    side_content_size = ImGui::AnimationLinear(show_side_content, side_content_size, 0.0f, G_SIDE_CONTENT_SIZE, G_ANIMATION_SPEED);
+
+    const float diff_size = G_SIDE_CONTENT_SIZE - side_content_size;
+
+    ImGuiViewport* viewport = ImGui::GetMainViewport();
+
+    ImGui::SetNextWindowPos(ImVec2(viewport->GetWorkPos().x - diff_size + side_bar_size, viewport->GetWorkPos().y));
+    ImGui::SetNextWindowSize(ImVec2(G_SIDE_CONTENT_SIZE, viewport->GetWorkSize().y + side_bar_size));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+
+    ImGuiIO& io = ImGui::GetIO();
+    ImGui::PushFont(io.Fonts->Fonts[F_ROBOTO_MEDIUM]);
+    if (ImGui::Begin("SideContent", &always_show, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove)) {
+        ImGui::PushFont(io.Fonts->Fonts[F_ROBOTO_DEFAULT]);
+        if (side_content_size != 0.0f) {
+            switch (input_side_menu) {
+                case I_SIDE_MENU_DEFAULT: {
+                    DrawGuiSideDefault();
+                } break;
+                case I_SIDE_MENU_SHAPE: {
+                    DrawGuiSideShape();
+                } break;
+                case I_SIDE_MENU_SPAWNER: {
+                    DrawGuiSideSpawner();
+                } break;
+                default: {
+                }
+            }
+        }
+        ImGui::PopFont();
+        ImGui::End();
+    }
+    ImGui::PopFont();
+    ImGui::PopStyleVar(3);
+}
+
+void Renderer::DrawGuiSideDefault() {
+    std::string text = "Select something to access it's menu.";
+    ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x / 2.0f - (ImGui::GetFontSize() * text.size() / 4.0f) + 25.0f, ImGui::GetWindowSize().y * 0.5f - (ImGui::GetFontSize() * text.size() / 16.0f)));
+    ImGui::Text(text.c_str());
+}
+void Renderer::DrawGuiSideShape() {}
+void Renderer::DrawGuiSideSpawner() {}
 
 void Renderer::ShowGuiSpawner(bool* p_open) {
     ImGui::SetNextWindowSize({400, 370}, ImGuiCond_Appearing);
