@@ -148,6 +148,11 @@ void System::ThreadPairsStep(int depth, int begin, int end) {
     }
 }
 
+void System::Clear() {
+    this->corpses = {};
+    this->pairs = {};
+}
+
 void System::Remove(int i) { gmt::remove_pairs_unordered(i, this->corpses, this->pairs); }
 
 void System::Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {

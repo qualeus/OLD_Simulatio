@@ -136,6 +136,7 @@ void Renderer::DrawGuiDocking() {
 
 void Renderer::DrawGui() {
     DrawGuiMenu();
+    ShowPopupClearSystem();
 
     /* We draw the Time bar */
     DrawGuiTimeBar();
@@ -255,9 +256,6 @@ void Renderer::DrawGuiSideBar() {
         if (spawner_selected) { ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_WindowBg]); }
         if (ImGui::Button(ICON_FK_ASTERISK, buttons_size)) { input_side_menu = spawner_selected ? I_SIDE_MENU_DEFAULT : I_SIDE_MENU_SPAWNER; }
         if (spawner_selected) { ImGui::PopStyleColor(); }
-
-        if (ImGui::Button(ICON_FK_CIRCLE, buttons_size)) {}
-        if (ImGui::Button(ICON_FK_SQUARE, buttons_size)) {}
 
         // BOTTOM MENU
         ImGui::SetCursorPos(ImVec2(0.0f, viewport->GetWorkSize().y - buttons_size.y * 3));
@@ -1730,6 +1728,12 @@ void Renderer::DrawGuiMenu() {
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Edit")) {
+            if (ImGui::MenuItem("Clear", "Ctrl+R")) { show_popup_clear_system = true; }
+
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::Separator();
+            ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
             if (ImGui::MenuItem("Undo", "Ctrl+Z")) { /* Do stuff */
             }
             if (ImGui::MenuItem("Redo", "Ctrl+Y")) { /* Do stuff */
@@ -1794,6 +1798,15 @@ void Renderer::DrawGuiMenu() {
         }
         ImGui::EndMainMenuBar();
     }
+}
+
+void Renderer::ShowPopupClearSystem() {
+    if (show_popup_clear_system) {
+        ImGui::OpenPopup("##PopupClearSystem");
+        show_popup_clear_system = false;
+    }
+
+    if (ImGui::ValidationPopup("##PopupClearSystem", "Validate the clear of the system corpses ?")) { ClearSystem(); }
 }
 
 void Renderer::ShowGuiConsole(bool* p_open) { this->console.Draw("Console", p_open); }

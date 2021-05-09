@@ -50,6 +50,7 @@ class System {
     void QuadPairsStep();
     void ThreadPairsStep(int depth, int begin, int end);
     void Remove(int i);
+    void Clear();
 
     void Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b);
 

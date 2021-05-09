@@ -1,6 +1,14 @@
 
 #include "../../include/Renderer/Renderer.hpp"
 
+void Renderer::ClearSystem() {
+    /* Make sure that the arrays are empty */
+    this->selected_corpses_cursor = {};
+    this->selected_corpses_index = {};
+    this->selected_corpses_fixed = {};
+    this->selected_corpses_diff = {};
+    system.Clear();
+}
 void Renderer::UpdateSpawners() {
     int i = 0;
     while (i < this->spawners.size()) {

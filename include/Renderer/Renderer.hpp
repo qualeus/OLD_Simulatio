@@ -158,6 +158,7 @@ class Renderer {
     bool show_side_bar = true;
     bool show_side_content = false;
     bool show_time_bar = true;
+    bool show_popup_clear_system = false;
 
     float side_bar_size = show_side_bar ? G_SIDE_BAR_SIZE : 0.0f;
     float side_content_size = show_side_content ? G_SIDE_CONTENT_SIZE : 0.0f;
@@ -245,6 +246,8 @@ class Renderer {
     void UpdateSelection();       // Check if the corpses in the selection still exists
     void Pause();                 // Toggle the pause of the System
 
+    void ClearSystem();
+
     bool DragPositionInit(sf::Event event);  // Initialize the draggig of the Position
     void DragPositionStep(sf::Event event);  // Drag the position until the Release
     void DragPositionStop(sf::Event event);  // Stop the dragging of the Position
@@ -311,6 +314,7 @@ class Renderer {
     void ShowGuiOverlay(bool* p_open);
     void ShowGuiSettings(bool* p_open);
     void ShowGuiSettingsInterface();
+    void ShowPopupClearSystem();
 
     void DebugSpeed();  // Draw the speed of the Corpses
     void DebugPairs();  // Draw the interactions of the Corpses

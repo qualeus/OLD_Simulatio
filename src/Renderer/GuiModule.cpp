@@ -18,6 +18,22 @@ void TextCenter(std::string text) {
     ImGui::Text(text.c_str());
 }
 
+bool ValidationPopup(std::string title, std::string content) {
+    bool always_open = true;
+    bool validated = false;
+    if (ImGui::BeginPopupModal(title.c_str(), &always_open, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar)) {
+        ImGui::Text(content.c_str());
+        if (ImGui::Button("Validate")) {
+            validated = true;
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel")) { ImGui::CloseCurrentPopup(); }
+        ImGui::EndPopup();
+    }
+    return validated;
+}
+
 /* Helper Hover */
 void Help(const char* desc) {
     ImGui::TextDisabled("(?)");
