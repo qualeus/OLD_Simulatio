@@ -37,6 +37,7 @@ Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_
 
     this->input_spawner = {};
     this->spawners = {};
+    this->corpses_colors = {};
 
     /* Setup Renderer View */
     this->view.reset(sf::FloatRect(-screen_width / 2, -screen_height / 2, this->screen_width, this->screen_height));
@@ -65,7 +66,7 @@ void Renderer::Render() {
     while (this->window.isOpen()) {
         if (!this->Paused()) {
             this->system.Step();
-            this->UpdateSelection();
+            this->UpdateCorpseDatas();
             this->UpdateSpawners();
         }
 
@@ -108,7 +109,8 @@ void Renderer::UpdateMaxFramerate(int max_framerate) {
 
 int Renderer::Framerate() { return (1000 / (this->frame.asMilliseconds() + 0.00001f)); }
 
-void Renderer::UpdateSelection() {
+void Renderer::UpdateCorpseDatas() {
+    // TODO delete colors in the map when object are also deleted
     for (int i = 0; i < this->selected_corpses_cursor.size(); i++) {
         int curr_id = system.get_corpse(this->selected_corpses_cursor.at(i))->get_id();
         int real_id = this->selected_corpses_index.at(i);
@@ -148,7 +150,7 @@ void Renderer::UpdateDebug() {
 }
 
 void Renderer::Draw() {
-    for (int i = 0; i < system.get_corpses_size(); i++) { DrawCorpse(system.get_corpse(i)); }
+    for (int i = 0; i < system.get_corpses_size(); i++) { DrawCorpse(system.get_corpse(i), corpses_colors.at(system.get_corpse(i)->get_id())); }
 
     if (system.get_enable_limits()) { DrawLimits(); }
 }
@@ -168,6 +170,15 @@ void Renderer::UpdateCamera() {
 }
 
 bool Renderer::Paused() { return this->paused; }
+
+void Renderer::addCorpse(phy::Polygon polygon, sf::Color color) {
+    this->corpses_colors[polygon.get_id()] = color;
+    this->system.addCorpse(polygon);
+}
+void Renderer::addCorpse(phy::Circle circle, sf::Color color) {
+    this->corpses_colors[circle.get_id()] = color;
+    this->system.addCorpse(circle);
+}
 
 float Renderer::get_mouse_x() { return this->mouse_x; }
 float Renderer::get_mouse_y() { return this->mouse_y; }

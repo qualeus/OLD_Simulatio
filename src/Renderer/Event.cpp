@@ -30,13 +30,13 @@ void Renderer::UpdateSpawners() {
 
 void Renderer::StepSpawner(Spawner *spawner) {
     std::vector<std::shared_ptr<phy::Corpse>> spawner_corpses = {};
+    std::vector<sf::Color> spawner_corpses_colors = {};
 
     switch (spawner->corpse_type) {
         case 0: {
             for (int i = 0; i < spawner->corpse_number; i++) {
-                spawner_corpses.push_back(
-                    std::make_shared<phy::Circle>(phy::Circle(spawner->positionX, spawner->positionY, spawner->corpse_radiusX, spawner->corpse_mass, spawner->corpse_damping, 0.0f, 0.0f, 0.0f, 0.0f, spawner->corpse_fixed, spawner->corpse_tied, spawner->corpse_etherial,
-                                                              {static_cast<unsigned char>(spawner->corpse_color[0]), static_cast<unsigned char>(spawner->corpse_color[1]), static_cast<unsigned char>(spawner->corpse_color[2]), static_cast<unsigned char>(spawner->corpse_color[3])})));
+                spawner_corpses.push_back(std::make_shared<phy::Circle>(phy::Circle(spawner->positionX, spawner->positionY, spawner->corpse_radiusX, spawner->corpse_mass, spawner->corpse_damping, 0.0f, 0.0f, 0.0f, 0.0f, spawner->corpse_fixed, spawner->corpse_tied, spawner->corpse_etherial)));
+                spawner_corpses_colors.push_back({static_cast<unsigned char>(spawner->corpse_color[0]), static_cast<unsigned char>(spawner->corpse_color[1]), static_cast<unsigned char>(spawner->corpse_color[2]), static_cast<unsigned char>(spawner->corpse_color[3])});
             }
         } break;
         case 1: {
@@ -51,9 +51,8 @@ void Renderer::StepSpawner(Spawner *spawner) {
                                                       spawner->positionY + (spawner->corpse_radiusX + gmt::rand_interval(static_cast<int>(spawner->corpse_radius_randomX))) * std::sin(angle)));
                     }
                 }
-                spawner_corpses.push_back(
-                    std::make_shared<phy::Polygon>(phy::Polygon(points, spawner->corpse_mass, spawner->corpse_damping, 0.0f, 0.0f, 0.0f, 0.0f, spawner->corpse_fixed, spawner->corpse_tied, spawner->corpse_etherial,
-                                                                {static_cast<unsigned char>(spawner->corpse_color[0]), static_cast<unsigned char>(spawner->corpse_color[1]), static_cast<unsigned char>(spawner->corpse_color[2]), static_cast<unsigned char>(spawner->corpse_color[3])})));
+                spawner_corpses.push_back(std::make_shared<phy::Polygon>(phy::Polygon(points, spawner->corpse_mass, spawner->corpse_damping, 0.0f, 0.0f, 0.0f, 0.0f, spawner->corpse_fixed, spawner->corpse_tied, spawner->corpse_etherial)));
+                spawner_corpses_colors.push_back({static_cast<unsigned char>(spawner->corpse_color[0]), static_cast<unsigned char>(spawner->corpse_color[1]), static_cast<unsigned char>(spawner->corpse_color[2]), static_cast<unsigned char>(spawner->corpse_color[3])});
             }
         } break;
         case 2: {
@@ -68,9 +67,8 @@ void Renderer::StepSpawner(Spawner *spawner) {
                                                       spawner->positionY + (spawner->corpse_radiusY + gmt::rand_interval(static_cast<int>(spawner->corpse_radius_randomY))) * std::sin(angle)));
                     }
                 }
-                spawner_corpses.push_back(
-                    std::make_shared<phy::Polygon>(phy::Polygon(points, spawner->corpse_mass, spawner->corpse_damping, 0.0f, 0.0f, 0.0f, 0.0f, spawner->corpse_fixed, spawner->corpse_tied, spawner->corpse_etherial,
-                                                                {static_cast<unsigned char>(spawner->corpse_color[0]), static_cast<unsigned char>(spawner->corpse_color[1]), static_cast<unsigned char>(spawner->corpse_color[2]), static_cast<unsigned char>(spawner->corpse_color[3])})));
+                spawner_corpses.push_back(std::make_shared<phy::Polygon>(phy::Polygon(points, spawner->corpse_mass, spawner->corpse_damping, 0.0f, 0.0f, 0.0f, 0.0f, spawner->corpse_fixed, spawner->corpse_tied, spawner->corpse_etherial)));
+                spawner_corpses_colors.push_back({static_cast<unsigned char>(spawner->corpse_color[0]), static_cast<unsigned char>(spawner->corpse_color[1]), static_cast<unsigned char>(spawner->corpse_color[2]), static_cast<unsigned char>(spawner->corpse_color[3])});
             }
         } break;
         default: {
@@ -209,7 +207,10 @@ void Renderer::StepSpawner(Spawner *spawner) {
         }
     }
 
-    for (int i = 0; i < spawner->corpse_number; i++) { system.add_corpse(spawner_corpses.at(i)); }
+    for (int i = 0; i < spawner->corpse_number; i++) {
+        this->corpses_colors[spawner_corpses.at(i)->get_id()] = spawner_corpses_colors.at(i);
+        system.add_corpse(spawner_corpses.at(i));
+    }
 }
 
 void Renderer::Input(sf::Event event) {
@@ -622,7 +623,7 @@ void Renderer::ToggleOffCircle(sf::Event event) {
         float temp_size = gmt::Vector<float>::Distance(gmt::Vector<float>(this->selected_area.x1, this->selected_area.y1), gmt::Vector<float>(this->selected_area.x2, this->selected_area.y2));
         float temp_mass = (temp_size * temp_size) * 0.1f;
 
-        system.addCorpse(phy::Circle(temp_pos.x, temp_pos.y, temp_size, temp_mass, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue));
+        this->addCorpse(phy::Circle(temp_pos.x, temp_pos.y, temp_size, temp_mass, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false), sf::Color::Blue);
         this->selected_area = gmt::Bounds<float>();
     }
 
@@ -638,7 +639,7 @@ void Renderer::CreateCircleFast(sf::Event event) {
     this->debug_system_edited = true;
 
     sf::Vector2f temp_pos = sf::Vector2f(this->sys_mouse_x, this->sys_mouse_y);
-    system.addCorpse(phy::Circle(temp_pos.x, temp_pos.y, 40, 40, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue));
+    this->addCorpse(phy::Circle(temp_pos.x, temp_pos.y, 40, 40, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false), sf::Color::Blue);
 }
 
 void Renderer::CreateCircleInit(sf::Event event) {
@@ -664,7 +665,7 @@ void Renderer::CreateCircleStop(sf::Event event) {
     float temp_size = gmt::Vector<float>::Distance(gmt::Vector<float>(this->selected_area.x1, this->selected_area.y1), gmt::Vector<float>(this->selected_area.x2, this->selected_area.y2));
     float temp_mass = (temp_size * temp_size) * 0.1f;
 
-    system.addCorpse(phy::Circle(temp_pos.x, temp_pos.y, temp_size, temp_mass, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, sf::Color::Blue));
+    this->addCorpse(phy::Circle(temp_pos.x, temp_pos.y, temp_size, temp_mass, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false), sf::Color::Blue);
     this->selected_area = gmt::Bounds<float>();
 }
 
@@ -684,8 +685,8 @@ void Renderer::ToggleOffPolygon(sf::Event event) {
     if (this->selected_corpses_diff.size() > 2) {
         std::vector<gmt::VectorI> points = {};
         for (int i = 0; i < this->selected_corpses_diff.size(); i++) { points.push_back(gmt::VectorI(this->selected_corpses_diff.at(i))); }
-        phy::Polygon temp_poly = phy::Polygon(points, 10, 1, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, C_NEPHRITIS);
-        system.addCorpse(temp_poly);
+        phy::Polygon temp_poly = phy::Polygon(points, 10, 1, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false);
+        this->addCorpse(temp_poly, C_NEPHRITIS);
     } else {
         this->input_spawner.positionX = this->sys_mouse_x;
         this->input_spawner.positionY = this->sys_mouse_y;
@@ -712,8 +713,8 @@ void Renderer::CreatePolygonStop(sf::Event event) {
     if (this->selected_corpses_diff.size() > 2) {
         std::vector<gmt::VectorI> points = {};
         for (int i = 0; i < this->selected_corpses_diff.size(); i++) { points.push_back(gmt::VectorI(this->selected_corpses_diff.at(i))); }
-        phy::Polygon temp_poly = phy::Polygon(points, 10, 1, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false, C_NEPHRITIS);
-        system.addCorpse(temp_poly);
+        phy::Polygon temp_poly = phy::Polygon(points, 10, 1, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false);
+        this->addCorpse(temp_poly, C_NEPHRITIS);
     }
 
     /* Make sure that the arrays are empty */

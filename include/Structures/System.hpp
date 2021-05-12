@@ -1,11 +1,11 @@
 #ifndef System_HPP
 #define System_HPP
 
+#include "../Geometry/Collision.hpp"
+#include "../Geometry/Geometry.hpp"
+#include "../Geometry/Maths.hpp"
 #include "Config.hpp"
-#include "Geometry/Collision.hpp"
-#include "Geometry/Geometry.hpp"
-#include "Geometry/Maths.hpp"
-#include "Structures/QuadTree.hpp"
+#include "QuadTree.hpp"
 
 #define MAX_GRAVITY_DISTANCE 1000000000 /* To avoid strange behaviours when comparing big numbers */
 

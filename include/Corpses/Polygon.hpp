@@ -1,7 +1,6 @@
 #ifndef Polygon_HPP
 #define Polygon_HPP
 
-#include <SFML/Graphics.hpp>
 #include <vector>
 
 #include "Circle.hpp"
@@ -19,7 +18,7 @@ class Polygon : public Corpse {
 
    public:
     Polygon(std::vector<gmt::VectorI> points = {}, gmt::UnitI mass = gmt::UnitI(1), gmt::UnitI damping = gmt::UnitI(1), gmt::UnitI speed_x = gmt::UnitI(0), gmt::UnitI speed_y = gmt::UnitI(0), gmt::UnitI rotation = gmt::UnitI(0), gmt::UnitI motor = gmt::UnitI(0), bool fixed = false,
-            bool tied = false, bool etherial = false, sf::Color color = sf::Color::White);
+            bool tied = false, bool etherial = false);
     Polygon& operator=(const Polygon& rhs);
     // virtual ~Polygon();
 

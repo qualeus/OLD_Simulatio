@@ -65,6 +65,7 @@ void Renderer::SetupGui() {
     ImGui::SFML::UpdateFontTexture();
 
     // Theme
+    // EditorColorScheme::SetColors(0xA99F96FF /* Background */, 0x37123CFF /* Text */, DDA77B /* MainColor */, 0xBBADA0FF /* MainAccent */, 0xD1C6ADFF /* Highlight */);
     EditorColorScheme::ApplyTheme();
     // From https://coolors.co/1f2421-725ac1-8d86c9-eca400-dce1de ; EditorColorScheme::SetColors(0x1F2421FF /* Background */, 0xDCE1DEFF /* Text */, 0x725AC1FF /* MainColor */, 0x8D86C9FF /* MainAccent */, 0xECA400FF /* Highlight */ );
 }
@@ -184,7 +185,7 @@ void Renderer::DrawGuiTimeBar() {
             this->system.invert_dt();
             this->system.Step();
             this->system.invert_dt();
-            this->UpdateSelection();
+            this->UpdateCorpseDatas();
             this->UpdateSpawners();
         }
         ImGui::SameLine(0.0f, 0.0f);
@@ -195,7 +196,7 @@ void Renderer::DrawGuiTimeBar() {
         ImGui::SameLine(0.0f, 0.0f);
         if (ImGui::Button(ICON_FK_FORWARD, buttons_size)) {
             this->system.Step();
-            this->UpdateSelection();
+            this->UpdateCorpseDatas();
             this->UpdateSpawners();
         }
         ImGui::SameLine(0.0f, 0.0f);

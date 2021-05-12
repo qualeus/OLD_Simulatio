@@ -1,10 +1,10 @@
 
 #include "../../include/Renderer/Renderer.hpp"
 
-void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
+void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse, sf::Color color) {
     if (phy::Circle *circle = dynamic_cast<phy::Circle *>(corpse.get())) {
         /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
-        DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), circle->get_color(), false);
+        DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), color, false);
         /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
 
         if (debug_show_centroids) { DrawCircle(circle->get_pos_x(), circle->get_pos_y(), 5, sf::Color::Red, true); }
@@ -27,14 +27,14 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse) {
         gmt::VerticesI polygon_vertices = polygon->get_points();
         std::vector<sf::Vector2f> polygon_points = {};
         for (int i = 0; i < polygon_vertices.vertices.size(); i++) { polygon_points.push_back((*polygon_vertices.vertices.at(i)).CloneSF()); }
-        // DrawPolygon(polygon_points, polygon->get_color(), true);
+        // DrawPolygon(polygon_points, color, true);
 
         std::vector<gmt::VerticesI> triangles = polygon->get_polygons();
         for (int i = 0; i < triangles.size(); i++) {
             gmt::VerticesI triangle_vertices = triangles.at(i);
             std::vector<sf::Vector2f> triangle_points = {};
             for (int i = 0; i < triangle_vertices.vertices.size(); i++) { triangle_points.push_back((*triangle_vertices.vertices.at(i)).CloneSF()); }
-            DrawPolygon(triangle_points, polygon->get_color(), false);
+            DrawPolygon(triangle_points, color, false);
         }
         /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
 
@@ -151,7 +151,7 @@ void Renderer::DrawTrajectories() {
                 std::pair<float, float> next = trajectories_previews.at(i).at(j + 1);
 
                 float opacity = 255.0f - (255.0f * ((float)j / (float)trajectories_previews.at(i).size()));
-                DrawLine(current.first, current.second, next.first, next.second, line_thickness, sf::Color(255, 255, 255, (int)opacity));  // temp_corpses.at(i)->get_color());
+                DrawLine(current.first, current.second, next.first, next.second, line_thickness, sf::Color(255, 255, 255, (int)opacity));
             }
         }
     }

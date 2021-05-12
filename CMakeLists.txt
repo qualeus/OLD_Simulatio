@@ -74,6 +74,7 @@ set(SOURCES
     src/Geometry/String.cpp
     src/Structures/QuadTree.cpp
     src/Structures/QuadNode.cpp
+    src/Structures/System.cpp 
     src/Geometry/Collision.cpp
     src/Renderer/Renderer.cpp
     src/Renderer/Draw.cpp
@@ -81,7 +82,6 @@ set(SOURCES
     src/Renderer/Gui.cpp
     src/Renderer/GuiModule.cpp
     src/Renderer/EditorColorScheme.cpp
-    src/System.cpp 
 )
 set(HEADERS
     include/Corpses/Corpse.hpp
@@ -94,6 +94,7 @@ set(HEADERS
     include/Geometry/Bounds.hpp
     include/Structures/QuadTree.hpp
     include/Structures/QuadNode.hpp
+    include/Structures/System.hpp
     include/Geometry/Collision.hpp
     include/Geometry/Vertices.hpp
     include/Geometry/Text.hpp
@@ -103,7 +104,6 @@ set(HEADERS
     include/Renderer/Structures.hpp
     include/Renderer/EditorColorScheme.hpp
     include/Renderer/GuiModule.hpp
-    include/System.hpp
 )
 
 set(RESSOURCES 

@@ -15,7 +15,7 @@
 #include "../Geometry/String.hpp"
 #include "../Geometry/Text.hpp"
 #include "../Geometry/Vector.hpp"
-#include "../System.hpp"
+#include "../Structures/System.hpp"
 #include "Config.hpp"
 #include "EditorColorScheme.hpp"
 #include "GuiModule.hpp"
@@ -228,6 +228,8 @@ class Renderer {
     std::vector<gmt::TextI> texts = {};
     ImGui::Console console;
 
+    std::unordered_map<int, sf::Color> corpses_colors;
+
    public:
     phy::System system;
 
@@ -243,10 +245,13 @@ class Renderer {
 
     void Input(sf::Event event);  // Handle Input events
     void UpdateMouse();           // Upate the Mouse position
-    void UpdateSelection();       // Check if the corpses in the selection still exists
+    void UpdateCorpseDatas();     // Check if the corpses in the selection still exists
     void Pause();                 // Toggle the pause of the System
 
     void ClearSystem();
+
+    void addCorpse(phy::Polygon polygon, sf::Color color);
+    void addCorpse(phy::Circle circle, sf::Color color);
 
     bool DragPositionInit(sf::Event event);  // Initialize the draggig of the Position
     void DragPositionStep(sf::Event event);  // Drag the position until the Release
@@ -288,7 +293,7 @@ class Renderer {
     void UpdateDebug();  // Update the Debug Values
 
     void Draw();  // Manage the drawing of the Renderer
-    void DrawCorpse(std::shared_ptr<phy::Corpse> corpse);
+    void DrawCorpse(std::shared_ptr<phy::Corpse> corpse, sf::Color color);
     void DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair);
     void DrawQuadTree(gmt::BoundsI rect);
     void DrawLimits();

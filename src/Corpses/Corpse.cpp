@@ -2,7 +2,7 @@
 #define MIN_DAMPING 0.1
 namespace phy {
 
-Corpse::Corpse(gmt::UnitI mass, gmt::UnitI damping, bool fixed, bool tied, bool etherial, sf::Color color) {
+Corpse::Corpse(gmt::UnitI mass, gmt::UnitI damping, bool fixed, bool tied, bool etherial) {
     static int global_corpse_id = 0;
     this->id = global_corpse_id++;
 
@@ -15,7 +15,6 @@ Corpse::Corpse(gmt::UnitI mass, gmt::UnitI damping, bool fixed, bool tied, bool 
     this->damping = std::min(damping, gmt::UnitI(MIN_DAMPING));
 
     this->bounds = gmt::BoundsI();
-    this->color = color;
 }
 Corpse& Corpse::operator=(const Corpse& rhs) {
     this->id = rhs.get_id();
@@ -37,7 +36,6 @@ Corpse& Corpse::operator=(const Corpse& rhs) {
     this->motor = rhs.get_motor();
 
     this->bounds = rhs.get_bounds();
-    this->color = rhs.get_color();
 
     return *this;
 }
@@ -55,9 +53,6 @@ void Corpse::set_etherial(bool etherial) { this->etherial = etherial; }
 
 bool Corpse::get_tied() const { return this->tied; }
 void Corpse::set_tied(bool tied) { this->tied = tied; }
-
-sf::Color Corpse::get_color() const { return this->color; }
-void Corpse::set_color(sf::Color color) { this->color = color; }
 
 gmt::VectorI Corpse::get_pos() const { return this->current_pos; }
 gmt::UnitI Corpse::get_pos_x() const { return this->current_pos.x; }

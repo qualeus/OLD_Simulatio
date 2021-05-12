@@ -1,7 +1,6 @@
 #ifndef Corpse_HPP
 #define Corpse_HPP
 
-#include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
 #include <memory>
@@ -34,10 +33,9 @@ class Corpse {
     gmt::UnitI motor;
 
     gmt::BoundsI bounds;
-    sf::Color color;
 
    public:
-    explicit Corpse(gmt::UnitI mass, gmt::UnitI damping, bool fixed, bool tied, bool etherial, sf::Color color);
+    explicit Corpse(gmt::UnitI mass, gmt::UnitI damping, bool fixed, bool tied, bool etherial);
     // virtual ~Corpse();
     inline bool operator==(const Corpse* other);
     Corpse& operator=(const Corpse& rhs);
@@ -67,9 +65,6 @@ class Corpse {
 
     virtual bool inBounds(const gmt::BoundsI& bounds) const = 0;
     virtual bool Pointed(const gmt::VectorI& point) const = 0;
-
-    sf::Color get_color() const;
-    void set_color(sf::Color color);
 
     gmt::VectorI get_pos() const;
     gmt::UnitI get_pos_x() const;
