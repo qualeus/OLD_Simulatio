@@ -111,10 +111,10 @@ void Renderer::DrawConstraint(std::shared_ptr<phy::Constraint> constraint, sf::C
     } else if (phy::Spring *spring = dynamic_cast<phy::Spring *>(constraint.get())) {
         int number_wave = static_cast<int>(spring->get_size() / spring_resolution);
 
-        std::shared_ptr<phy::Corpse> corpse_a = link->get_corpse_a();
-        std::shared_ptr<phy::Corpse> corpse_b = link->get_corpse_b();
-        gmt::VectorI relative_pos_a = link->get_relative_pos_a().Rotate(link->get_relative_angle_a() - corpse_a->get_rotation());
-        gmt::VectorI relative_pos_b = link->get_relative_pos_b().Rotate(link->get_relative_angle_b() - corpse_b->get_rotation());
+        std::shared_ptr<phy::Corpse> corpse_a = spring->get_corpse_a();
+        std::shared_ptr<phy::Corpse> corpse_b = spring->get_corpse_b();
+        gmt::VectorI relative_pos_a = spring->get_relative_pos_a().Rotate(spring->get_relative_angle_a() - corpse_a->get_rotation());
+        gmt::VectorI relative_pos_b = spring->get_relative_pos_b().Rotate(spring->get_relative_angle_b() - corpse_b->get_rotation());
 
         DrawSpring(corpse_a->get_pos_x() + relative_pos_a.x, corpse_a->get_pos_y() + relative_pos_a.y, corpse_b->get_pos_x() + relative_pos_b.x, corpse_b->get_pos_y() + relative_pos_b.y, spring_resolution, number_wave, color);
     }
