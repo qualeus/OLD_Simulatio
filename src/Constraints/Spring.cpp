@@ -3,10 +3,10 @@
 namespace phy {
 
 Spring::Spring(std::shared_ptr<phy::Corpse> corpse_a, std::shared_ptr<phy::Corpse> corpse_b, gmt::VectorI relative_pos_a, gmt::VectorI relative_pos_b, gmt::UnitI relative_angle_a, gmt::UnitI relative_angle_b, bool rotation_a, bool rotation_b, gmt::UnitI friction_a, gmt::UnitI friction_b,
-               gmt::UnitI size, gmt::UnitI damping, gmt::UnitI max_size, gmt::UnitI min_size, bool breaking)
+               gmt::UnitI size, gmt::UnitI damping, gmt::UnitI resolution, gmt::UnitI max_size, gmt::UnitI min_size, bool breaking)
     : Constraint(corpse_a, corpse_b, relative_pos_a, relative_pos_b, relative_angle_a, relative_angle_b, rotation_a, rotation_b, friction_a, friction_b, breaking) {
     this->damping = gmt::minmax_filter(damping, gmt::UnitI(MIN_DAMPING), gmt::UnitI(MAX_DAMPING));
-
+    this->resolution = std::max(resolution, gmt::UnitI(1));
     this->size = (size < gmt::UnitI()) ? gmt::VectorI::Distance(corpse_a->get_pos(), corpse_b->get_pos()) : size;
     this->max_size = (max_size < gmt::UnitI()) ? this->size - max_size : max_size;
     this->min_size = (min_size < gmt::UnitI()) ? this->size + min_size : min_size;
@@ -64,6 +64,9 @@ void Spring::set_size(gmt::UnitI size) { this->size = size; }
 
 gmt::UnitI Spring::get_damping() { return this->damping; }
 void Spring::set_damping(gmt::UnitI damping) { this->damping = damping; }
+
+gmt::UnitI Spring::get_resolution() { return this->resolution; }
+void Spring::set_resolution(gmt::UnitI resolution) { this->resolution = resolution; }
 
 gmt::UnitI Spring::get_max_size() { return this->max_size; }
 void Spring::set_max_size(gmt::UnitI max_size) { this->max_size = max_size; }

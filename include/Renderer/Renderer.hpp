@@ -121,7 +121,6 @@ class Renderer {
     float velocity_size = 10.0f;
     float min_arrow_size = 10.0f;
     int arrow_size = 12;
-    float spring_resolution = 100;
 
     bool trajectory_debug_show = false;  //
     bool trajectory_debug_all = true;

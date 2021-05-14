@@ -12,12 +12,14 @@ class Spring : public Constraint {
    private:
     gmt::UnitI size;
     gmt::UnitI damping;
+    gmt::UnitI resolution;
     gmt::UnitI max_size;
     gmt::UnitI min_size;
 
    public:
     Spring(std::shared_ptr<phy::Corpse> corpse_a, std::shared_ptr<phy::Corpse> corpse_b, gmt::VectorI relative_pos_a = gmt::VectorI(), gmt::VectorI relative_pos_b = gmt::VectorI(), gmt::UnitI relative_angle_a = gmt::UnitI(), gmt::UnitI relative_angle_b = gmt::UnitI(), bool rotation_a = true,
-           bool rotation_b = true, gmt::UnitI friction_a = gmt::UnitI(), gmt::UnitI friction_b = gmt::UnitI(), gmt::UnitI size = gmt::UnitI(-1), gmt::UnitI damping = gmt::UnitI(1), gmt::UnitI max_size = gmt::UnitI(-1), gmt::UnitI min_size = gmt::UnitI(-1), bool breaking = false);
+           bool rotation_b = true, gmt::UnitI friction_a = gmt::UnitI(), gmt::UnitI friction_b = gmt::UnitI(), gmt::UnitI size = gmt::UnitI(-1), gmt::UnitI damping = gmt::UnitI(1), gmt::UnitI resolution = gmt::UnitI(10), gmt::UnitI max_size = gmt::UnitI(-1), gmt::UnitI min_size = gmt::UnitI(-1),
+           bool breaking = false);
     Spring& operator=(const Spring& rhs);
 
     int get_class() const;
@@ -30,6 +32,9 @@ class Spring : public Constraint {
 
     gmt::UnitI get_damping();
     void set_damping(gmt::UnitI damping);
+
+    gmt::UnitI get_resolution();
+    void set_resolution(gmt::UnitI resolution);
 
     gmt::UnitI get_max_size();
     void set_max_size(gmt::UnitI max_size);
