@@ -34,11 +34,11 @@ Few demos...
 
 <p align="center"><img alt="Conglomerate" src="./doc/ScreenShots/Conglomerate.gif"></p>
 
-<p align="center"><img alt="Gravity" src="./doc/ScreenShots/Gravity.gif"></p>
+<p align="center"><img alt="Clothes" src="./doc/ScreenShots/Clothes.gif"></p>
 
 <p align="center"><img alt="Trajectory" src="./doc/ScreenShots/Trajectory.gif"></p>
 
-<p align="center"><img alt="Clothes" src="./doc/ScreenShots/Clothes.gif"></p>
+<p align="center"><img alt="Gravity" src="./doc/ScreenShots/Gravity.gif"></p>
 
 ## Prerequisites
 
