@@ -1,4 +1,3 @@
-
 <p align="center"><img alt="Icon" src="./assets/icon/ricon.png"></p>
 
 # Physics
@@ -6,6 +5,7 @@
 This project started from the personal challenge of recreating physical phenomena in a simulation running in real time.
 
 The goal was to learn more about the functioning of these topics, such as:
+
 - **Gravity** (My goal was not to model objects at the molecular level so I used the classical mecanics one)
 - **Collisions** (3rd law of Newton/Reciprocal force between two bodies)
 - **Friction** (Approximation with dissipation in heat)
@@ -13,10 +13,11 @@ The goal was to learn more about the functioning of these topics, such as:
 - **Electromagnetic fields** (IN DEV)
 
 This project also allows me to familiarize myself with several areas of programming, like:
+
 - **Graph Theory** and advanced **Data structures** like Quadtrees
 - **C++ programs/libraries** compilation (Mingw batch/ CMake)
 - **Memory allocation** and **Classes Inheritances**
-- **Optimisation** 
+- **Optimisation**
 - **Threads** and Graphical acceleration with CUDA (IN DEV)
 
 <img align="left" width="160" src="./assets/icon/icon.png">
@@ -37,42 +38,49 @@ Few demos...
 
 <p align="center"><img alt="Trajectory" src="./doc/ScreenShots/Trajectory.gif"></p>
 
+<p align="center"><img alt="Clothes" src="./doc/ScreenShots/Clothes.gif"></p>
 
 ## Prerequisites
 
 ### CPP compiler
 
 **MINGW 32**
- * Download with [MinGW 32 bits](https://osdn.net/projects/mingw/downloads/68260/mingw-get-setup.exe/). 
- * After the download is complete, launch the program and wait for the download to finish. 
- * When you get to the **MinGW Installation Manager** page, check all the boxes.
- * Then click on the **Installation** button then **Apply Changes**.
+
+- Download with [MinGW 32 bits](https://osdn.net/projects/mingw/downloads/68260/mingw-get-setup.exe/).
+- After the download is complete, launch the program and wait for the download to finish.
+- When you get to the **MinGW Installation Manager** page, check all the boxes.
+- Then click on the **Installation** button then **Apply Changes**.
 
 **MINGW 64**
-* Download with [MinGW 64 bits](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe/download). 
- * Select the architecture **x86_64** and the treads to **posix**
- * Then click on the **Next** and wait until it's downloaded.
+
+- Download with [MinGW 64 bits](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe/download).
+- Select the architecture **x86_64** and the treads to **posix**
+- Then click on the **Next** and wait until it's downloaded.
 
 ---
 
 You must then add the **environment variable** to your compiler:
- * Type **env** in the windows search bar and open **Edit the environment variables**.
- * Then click on **Environment variables** in **Avanced System Parameters**. 
- * Click on the **Path** field then on **Edit**. 
- * **Add** the path to the emplacement of the compiler: ```...\Mingw\bin```
+
+- Type **env** in the windows search bar and open **Edit the environment variables**.
+- Then click on **Environment variables** in **Avanced System Parameters**.
+- Click on the **Path** field then on **Edit**.
+- **Add** the path to the emplacement of the compiler: `...\Mingw\bin`
 
 Check if it works by opening a new command line and typing:
+
 ```
 > gcc
 
 gcc: fatal error: no input files
 compilation terminated.
 ```
+
 ### CMAKE
 
 Install the cmake software that I use to controll the build process, and also build the libraries:
- * Go to http://www.cmake.org/download/ and click on the **Download button**.
- * Add it's path to then environment variables: ```...\CMake\bin```
+
+- Go to http://www.cmake.org/download/ and click on the **Download button**.
+- Add it's path to then environment variables: `...\CMake\bin`
 
 ---
 
@@ -86,25 +94,25 @@ Download precompiled library from https://www.sfml-dev.org/download/sfml/2.5.1/i
 
 Compile it yourself:
 
-* Open a **new cmd** and type ```git clone https://github.com/SFML/SFML.git```
-* Open **CMake** and put the path to the **SFML source code** into the **Where is the source code** field. 
-* Create a **new folder** where to compile SFML 
-* Put it's path into the **Where to build the binaries** field.
-* Click on the **Configure** button and select your c/c++ compiler
-* Click on **finish**.
+- Open a **new cmd** and type `git clone https://github.com/SFML/SFML.git`
+- Open **CMake** and put the path to the **SFML source code** into the **Where is the source code** field.
+- Create a **new folder** where to compile SFML
+- Put it's path into the **Where to build the binaries** field.
+- Click on the **Configure** button and select your c/c++ compiler
+- Click on **finish**.
 
-*To compile SFML in static (all in once, don't need the .dll for the .exe to work)*
+_To compile SFML in static (all in once, don't need the .dll for the .exe to work)_
 
-* Uncheck **BUILD_SHARED_LIBS**
-* Check **SFML_USE_STATIC_STD_LIBS**
-* Edit the **CMake_INSTALL_PREFIX** to be the path of a new folder.
+- Uncheck **BUILD_SHARED_LIBS**
+- Check **SFML_USE_STATIC_STD_LIBS**
+- Edit the **CMake_INSTALL_PREFIX** to be the path of a new folder.
 
-* Click the **Configure** button once more to check there is no problem.
-* Then click on the **Generate** button.
+- Click the **Configure** button once more to check there is no problem.
+- Then click on the **Generate** button.
 
 Then open a new command in the folder where SFML was built.
 
- * Run the following command: ```mingw32-make install```
+- Run the following command: `mingw32-make install`
 
 ### IMGUI
 
@@ -120,15 +128,16 @@ cmake D:\Librairies\imgui-sfml -DIMGUI_DIR=D:\Librairies\imgui -DSFML_DIR=D:\Lib
 
 Then open a new command in the folder where IMGUI was built.
 
- * Run the following command: ```mingw32-make install```
+- Run the following command: `mingw32-make install`
 
 ## Installing
 
-Download this repo with ```git clone https://github.com/mlhoutel/Physics.git```
+Download this repo with `git clone https://github.com/mlhoutel/Physics.git`
 
-*(or just click on the download button and extract the file where you want.)*
+_(or just click on the download button and extract the file where you want.)_
 
 It should contain these files:
+
 ```
 ├───.git
 ├───bin             # All binaries files
@@ -143,7 +152,7 @@ It should contain these files:
     └───Tests       # Tests files
 ```
 
-~~If you want to use the automatic compilation by command, open the "build.bat" file in a text editor like Notepad and edit this line to match your SMFL compilated folder: ``` set lib_path="D:\Projets\Physics\ressources\Libraries"```.
+~~If you want to use the automatic compilation by command, open the "build.bat" file in a text editor like Notepad and edit this line to match your SMFL compilated folder: ` set lib_path="D:\Projets\Physics\ressources\Libraries"`.
 You can now run the build.bat file and press 5 to compile and run the demo code.~~
 
 ```
@@ -156,9 +165,9 @@ cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build .
 
 ## Built With
 
-* [SFML](https://github.com/SFML/SFML) - The Graphical library
-* [ImGui](https://github.com/ocornut/imgui) - The GUI library
-* [ImGui::SFML](https://github.com/eliasdaler/imgui-sfml) - The Binder library
+- [SFML](https://github.com/SFML/SFML) - The Graphical library
+- [ImGui](https://github.com/ocornut/imgui) - The GUI library
+- [ImGui::SFML](https://github.com/eliasdaler/imgui-sfml) - The Binder library
 
 ## Contributing
 
@@ -166,9 +175,8 @@ Please read [CONTRIBUTING.md](CONSTRIBUTING.md) for details on our code of condu
 
 ## Authors
 
-* **LHOUTELLIER Maël** - *Initial work* - [mlhoutel](https://github.com/mlhoutel)
+- **LHOUTELLIER Maël** - _Initial work_ - [mlhoutel](https://github.com/mlhoutel)
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
