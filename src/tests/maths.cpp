@@ -58,6 +58,7 @@ void RemovePairs(int index_delete, std::vector<T> values) {
 
     std::pair<SVect<int>, SPair<int>> test_result = CreatePairs(values);
 
+    gmt::remove_unordered(index_delete, test_result.first);
     gmt::remove_pairs(index_delete, test_result.first, test_result.second);
     std::cout << "\nRemoving Pair [" << gmt::to_string(index_delete) << "]... => test_result" << std::endl;
 
@@ -102,7 +103,8 @@ void RemovePairsUnordered(int index_delete, std::vector<T> values) {
 
     std::pair<SVect<int>, SPair<int>> test_result = CreatePairs(values);
 
-    gmt::remove_pairs_unordered(index_delete, test_result.first, test_result.second);
+    auto ptr = gmt::remove_unordered_return(index_delete, test_result.first);
+    gmt::remove_pairs_unordered(ptr, test_result.second);
     std::cout << "\nRemoving Pair [" << gmt::to_string(index_delete) << "]... => test_result" << std::endl;
 
     values.erase(values.begin() + index_delete);

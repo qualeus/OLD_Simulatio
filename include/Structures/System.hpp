@@ -3,6 +3,7 @@
 
 #include "../Constraints/Constraint.hpp"
 #include "../Constraints/Link.hpp"
+#include "../Constraints/Spring.hpp"
 #include "../Corpses/Circle.hpp"
 #include "../Corpses/Corpse.hpp"
 #include "../Corpses/Polygon.hpp"
@@ -106,6 +107,7 @@ class System {
     void addCorpse(Circle circle);
 
     void addConstraint(Link link);
+    void addConstraint(Spring spring);
 
     void add_constraint(std::shared_ptr<Constraint> constraint);
 

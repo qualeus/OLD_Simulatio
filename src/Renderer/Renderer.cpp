@@ -151,7 +151,7 @@ void Renderer::UpdateDebug() {
 
 void Renderer::Draw() {
     for (int i = 0; i < system.get_corpses_size(); i++) { DrawCorpse(system.get_corpse(i), corpses_colors.at(system.get_corpse(i)->get_id())); }
-    
+
     for (int i = 0; i < system.get_constraints_size(); i++) { DrawConstraint(system.get_constraint(i), constraints_colors.at(system.get_constraint(i)->get_id())); }
 
     if (system.get_enable_limits()) { DrawLimits(); }
@@ -183,18 +183,19 @@ void Renderer::addCorpse(phy::Circle circle, sf::Color color) {
     this->system.addCorpse(circle);
 }
 
-std::shared_ptr<phy::Corpse> Renderer::getCorpse(int index) const {
-    return this->system.get_corpse(index);
-}
+std::shared_ptr<phy::Corpse> Renderer::getCorpse(int index) const { return this->system.get_corpse(index); }
 
 void Renderer::addConstraint(phy::Link link, sf::Color color) {
     this->constraints_colors[link.get_id()] = color;
     this->system.addConstraint(link);
 }
 
-std::shared_ptr<phy::Constraint> Renderer::getConstraint(int index) const {
-   return this->system.get_constraint(index);
+void Renderer::addConstraint(phy::Spring spring, sf::Color color) {
+    this->constraints_colors[spring.get_id()] = color;
+    this->system.addConstraint(spring);
 }
+
+std::shared_ptr<phy::Constraint> Renderer::getConstraint(int index) const { return this->system.get_constraint(index); }
 
 float Renderer::get_mouse_x() { return this->mouse_x; }
 float Renderer::get_mouse_y() { return this->mouse_y; }

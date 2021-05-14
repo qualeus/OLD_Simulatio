@@ -101,17 +101,24 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse, sf::Color color) 
 }
 
 void Renderer::DrawConstraint(std::shared_ptr<phy::Constraint> constraint, sf::Color color) {
-    
-    if (phy::Link* link = dynamic_cast<phy::Link*>(constraint.get())) {
+    if (phy::Link *link = dynamic_cast<phy::Link *>(constraint.get())) {
         std::shared_ptr<phy::Corpse> corpse_a = link->get_corpse_a();
         std::shared_ptr<phy::Corpse> corpse_b = link->get_corpse_b();
         gmt::VectorI relative_pos_a = link->get_relative_pos_a().Rotate(link->get_relative_angle_a() - corpse_a->get_rotation());
         gmt::VectorI relative_pos_b = link->get_relative_pos_b().Rotate(link->get_relative_angle_b() - corpse_b->get_rotation());
 
         DrawLine(corpse_a->get_pos_x() + relative_pos_a.x, corpse_a->get_pos_y() + relative_pos_a.y, corpse_b->get_pos_x() + relative_pos_b.x, corpse_b->get_pos_y() + relative_pos_b.y, 5.0f, color);
+    } else if (phy::Spring *spring = dynamic_cast<phy::Spring *>(constraint.get())) {
+        int number_wave = static_cast<int>(spring->get_size() / spring_resolution);
+
+        std::shared_ptr<phy::Corpse> corpse_a = link->get_corpse_a();
+        std::shared_ptr<phy::Corpse> corpse_b = link->get_corpse_b();
+        gmt::VectorI relative_pos_a = link->get_relative_pos_a().Rotate(link->get_relative_angle_a() - corpse_a->get_rotation());
+        gmt::VectorI relative_pos_b = link->get_relative_pos_b().Rotate(link->get_relative_angle_b() - corpse_b->get_rotation());
+
+        DrawSpring(corpse_a->get_pos_x() + relative_pos_a.x, corpse_a->get_pos_y() + relative_pos_a.y, corpse_b->get_pos_x() + relative_pos_b.x, corpse_b->get_pos_y() + relative_pos_b.y, spring_resolution, number_wave, color);
     }
 }
-    
 
 void Renderer::DrawQuadTree(gmt::BoundsI rect) { DrawRectangle(rect.x1, rect.y1, rect.x2, rect.y2, false, C_CARROT, true); }
 
@@ -278,6 +285,26 @@ void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Col
     line.rotate(gmt::Vector<float>::Bearing(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2)));
     line.setFillColor(color);
     this->window.draw(line);
+}
+
+void Renderer::DrawSpring(int x1, int y1, int x2, int y2, float thickness, int number_wave, sf::Color color) {
+    float inv = number_wave / 4;
+    float dx = (x2 - x1) * inv;
+    float dy = (y2 - y1) * inv;
+
+    float inv2 = thickness / gmt::Vector<float>(dx, dy).Magnitude();
+    float px = dy * inv2;
+    float py = -dy * inv2;
+
+    float x = x1;
+    float y = y1;
+    for (int i = 0; i < number_wave; i++) {
+        DrawLine(x, y, x + dx + px, y + dx + py);
+        DrawLine(x + dx + px, y + dx + py, x + 3.0f * dx - px, y + 3.0f * dx - py);
+        DrawLine(x + 3.0f * dx - px, y + 3.0f * dx - py, x + 4.0f * dx, y + 4.0f * dx);
+        x += 4.0f * dx;
+        y += 4.0f * dy;
+    }
 }
 
 void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness, sf::Color color) {

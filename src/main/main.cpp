@@ -51,10 +51,10 @@ void ClothDemo() {
     float pos_x = -500;
     float pos_y = -500;
     float rigidity = 1;
-    bool breaking = false;
-    float limit_breaking = -1;
+    bool breaking = true;
+    float limit_breaking = -1000;
     bool etherial = true;
-    int point_size = 5;
+    int point_size = 30;
 
     auto cloth_color = [&](int i, int j) {
         std::vector<int> interpolated = gmt::interpolate_array({C_ALIZARIN.r, C_ALIZARIN.g, C_ALIZARIN.b}, {C_AMETHYST.r, C_AMETHYST.g, C_AMETHYST.b}, static_cast<float>(i) / static_cast<float>(height));
@@ -79,6 +79,14 @@ void ClothDemo() {
     cloth.Render();
 }
 
+void SpringDemo() {
+    Renderer spring = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Spring", false, 0.0f, 0.0f, 100000.0f, 100000.0f, 10, 20);
+    int number = 10;
+    for (int i = 0; i < number; ++i) { spring.addCorpse(phy::Circle(rand() % (number * 50), rand() % (number * 50), rand() % 20 + 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false), C_SUN); }
+    spring.addConstraint(phy::Spring(spring.getCorpse(0), spring.getCorpse(1)), C_SUN);
+    spring.Render();
+}
+
 void TestDemo() {
     Renderer test = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Test", false, 0.0f, 0.0f, 100000.0f, 100000.0f, 10, 20);
     test.Render();
@@ -88,7 +96,8 @@ int main() {
     // BaseDemo();
     // GravityDemo();
     // ConstraintDemo();
-    ClothDemo();
+    // ClothDemo();
+    SpringDemo();
     // TestDemo();
     return 0;
 }

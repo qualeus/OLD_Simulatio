@@ -162,7 +162,11 @@ void System::Clear() {
     this->pairs = {};
 }
 
-void System::Remove(int i) { gmt::remove_pairs_unordered(i, this->corpses, this->pairs); }
+void System::Remove(int i) {
+    std::shared_ptr<Corpse> ptr = gmt::remove_unordered_return(i, this->corpses);
+    gmt::remove_pairs_unordered(ptr, this->pairs);
+    // gmt::remove_lambda(this->constraints, [ptr](std::shared_ptr<phy::Constraint> constraint) { return constraint->get_corpse_a() == ptr || constraint->get_corpse_b() == ptr; });
+}
 
 void System::Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     if (a->get_fixed() && b->get_fixed()) { return; }  // Both Fixed
@@ -265,6 +269,7 @@ void System::addCorpse(Polygon polygon) { add_corpse(std::make_shared<Polygon>(p
 void System::addCorpse(Circle circle) { add_corpse(std::make_shared<Circle>(circle)); }
 
 void System::addConstraint(Link link) { add_constraint(std::make_shared<Link>(link)); }
+void System::addConstraint(Spring spring) { add_constraint(std::make_shared<Spring>(spring)); }
 
 void System::add_corpse(std::shared_ptr<Corpse> corpse) {
     this->corpses.emplace_back(std::move(corpse));  // size of the array = [n]

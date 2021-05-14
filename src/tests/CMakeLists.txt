@@ -38,6 +38,7 @@ set(SOURCES
     ../Corpses/Polygon.cpp
     ../Constraints/Constraint.cpp
     ../Constraints/Link.cpp
+    ../Constraints/Spring.cpp
     ../Constraints/Dot.cpp
     ../Geometry/Geometry.cpp
     ../Geometry/Vector.cpp
@@ -57,6 +58,7 @@ set(HEADERS
     ../../include/Corpses/Polygon.hpp
     ../../include/Constraints/Constraint.hpp
     ../../include/Constraints/Link.hpp
+    ../../include/Constraints/Spring.hpp
     ../../include/Constraints/Dot.hpp
     ../../include/Geometry/Geometry.hpp
     ../../include/Geometry/Vector.hpp
