@@ -51,6 +51,9 @@ std::vector<int> cyclic_indexes(int min, int max, int size);
 unsigned modulo(int value, unsigned m);
 int rand_interval(int value);
 int rand_interval_centered(int value);
+
+std::vector<int> interpolate_array(const std::vector<int> &array_a, const std::vector<int> &array_b, const float &rate);
+
 template <class C>
 void remove(int i, std::vector<C> &vect) {
     vect.erase(vect.begin() + i);
@@ -115,6 +118,11 @@ void remove_pairs_unordered(int i, std::vector<C> &vect, std::vector<std::pair<C
 template <typename T>
 bool decimal_equals(const T &a, const T &b, T epsilon = std::numeric_limits<T>::epsilon()) {
     return fabs(a - b) < epsilon;
+}
+
+template <typename T>
+T minmax_filter(const T &value, const T &min, const T &max) {
+    return std::max(std::min(value, max), min);
 }
 
 template <typename T>

@@ -70,7 +70,7 @@ void System::Step() {
     // Update Positions
     CorpsesStep();
     ForcesStep();
-    ConstraintsStep();
+    for (int i = 0; i < constraint_accuracy; i++) { ConstraintsStep(); }
 
     // Check the limits
     if (this->enable_limits) { CheckLimits(); }
@@ -79,11 +79,7 @@ void System::Step() {
     // Update Velocities
     // Apply Boundaries conditions
     StepQuadTree();
-    for (int i = 0; i < collision_accuracy; i++) {
-        // StepQuadTree();
-        // PairsStep();
-        QuadPairsStep();
-    }
+    for (int i = 0; i < collision_accuracy; i++) { QuadPairsStep(); }
 
     PairsStep();
     // Move Global Time
@@ -98,9 +94,7 @@ void System::CheckLimits() {
 }
 
 void System::CorpsesStep() {
-    for (int i = 0; i < corpses.size(); i++) {
-        get_corpse(i)->Step();
-    }
+    for (int i = 0; i < corpses.size(); i++) { get_corpse(i)->Step(); }
 }
 
 void System::ForcesStep() {
@@ -112,6 +106,7 @@ void System::ForcesStep() {
 void System::ConstraintsStep() {
     for (int i = 0; i < constraints.size(); i++) {
         get_constraint(i)->Step();
+        if (get_constraint(i)->get_broken()) { gmt::remove_unordered(i, this->constraints); }
     }
 }
 
@@ -163,6 +158,7 @@ void System::ThreadPairsStep(int depth, int begin, int end) {
 
 void System::Clear() {
     this->corpses = {};
+    this->constraints = {};
     this->pairs = {};
 }
 
@@ -279,9 +275,7 @@ void System::add_corpse(std::shared_ptr<Corpse> corpse) {
     // this->quadtree.AddCorpse(get_corpse(a_index));
 }
 
-void System::add_constraint(std::shared_ptr<Constraint> constraint) {
-    this->constraints.emplace_back(std::move(constraint));
-}
+void System::add_constraint(std::shared_ptr<Constraint> constraint) { this->constraints.emplace_back(std::move(constraint)); }
 
 void System::add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     this->pairs.push_back({a, b});  // size of the array = [n(n-1)]/2

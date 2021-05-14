@@ -15,6 +15,10 @@ namespace gmt {
 typedef float PHYSICS_PRECISION;
 #endif
 
+#define MIN_DAMPING 0.001
+#define MAX_DAMPING 100
+#define MAX_GRAVITY_DISTANCE 1000000000 /* To avoid strange behaviours when comparing big numbers */
+
 using UnitI = PHYSICS_PRECISION;
 using VectorI = Vector<PHYSICS_PRECISION>;
 using BoundsI = Bounds<PHYSICS_PRECISION>;

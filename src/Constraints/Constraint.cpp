@@ -1,6 +1,7 @@
 #include "../../include/Constraints/Constraint.hpp"
 namespace phy {
-Constraint::Constraint(std::shared_ptr<phy::Corpse> corpse_a, std::shared_ptr<phy::Corpse> corpse_b, gmt::VectorI relative_pos_a, gmt::VectorI relative_pos_b, gmt::UnitI relative_angle_a, gmt::UnitI relative_angle_b, bool rotation_a, bool rotation_b, gmt::UnitI friction_a, gmt::UnitI friction_b) {
+Constraint::Constraint(std::shared_ptr<phy::Corpse> corpse_a, std::shared_ptr<phy::Corpse> corpse_b, gmt::VectorI relative_pos_a, gmt::VectorI relative_pos_b, gmt::UnitI relative_angle_a, gmt::UnitI relative_angle_b, bool rotation_a, bool rotation_b, gmt::UnitI friction_a, gmt::UnitI friction_b,
+                       bool breaking) {
     static int global_constraint_id = 0;
     this->id = global_constraint_id++;
 
@@ -18,6 +19,9 @@ Constraint::Constraint(std::shared_ptr<phy::Corpse> corpse_a, std::shared_ptr<ph
 
     this->friction_a = friction_a;
     this->friction_b = friction_b;
+
+    this->breaking = breaking;
+    this->broken = false;
 }
 
 int Constraint::get_id() const { return this->id; }
@@ -57,4 +61,9 @@ void Constraint::set_friction_a(gmt::UnitI friction_a) { this->friction_a = fric
 gmt::UnitI Constraint::get_friction_b() { return this->friction_b; }
 void Constraint::set_friction_b(gmt::UnitI friction_b) { this->friction_a = friction_b; }
 
+bool Constraint::get_breaking() { return this->breaking; }
+void Constraint::set_breaking(bool breaking) { this->breaking = breaking; }
+
+bool Constraint::get_broken() { return this->broken; }
+void Constraint::set_broken(bool broken) { this->broken = broken; }
 }  // namespace phy

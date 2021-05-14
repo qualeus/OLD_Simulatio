@@ -99,5 +99,8 @@
         "*.impl": "cpp",
         "*.todo": "cpp",
         "hash_set": "cpp"
-    }
+    },
+    "colorize.languages": [
+        "cpp",
+    ]
 }

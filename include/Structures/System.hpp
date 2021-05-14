@@ -1,18 +1,16 @@
 #ifndef System_HPP
 #define System_HPP
 
-#include "../Geometry/Collision.hpp"
-#include "../Geometry/Geometry.hpp"
-#include "../Geometry/Maths.hpp"
+#include "../Constraints/Constraint.hpp"
+#include "../Constraints/Link.hpp"
 #include "../Corpses/Circle.hpp"
 #include "../Corpses/Corpse.hpp"
 #include "../Corpses/Polygon.hpp"
-#include "../Constraints/Constraint.hpp"
-#include "../Constraints/Link.hpp"
+#include "../Geometry/Collision.hpp"
+#include "../Geometry/Geometry.hpp"
+#include "../Geometry/Maths.hpp"
 #include "Config.hpp"
 #include "QuadTree.hpp"
-
-#define MAX_GRAVITY_DISTANCE 1000000000 /* To avoid strange behaviours when comparing big numbers */
 
 namespace phy {
 
@@ -40,7 +38,7 @@ class System {
     double t = 0.0;
 
     int collision_accuracy = 10;
-    int constraint_accuracy = 10;
+    int constraint_accuracy = 1;
 
    public:
     System(bool gravity = false, gmt::UnitI force_x = gmt::UnitI(0), gmt::UnitI force_y = gmt::UnitI(0), gmt::UnitI limit_x = gmt::UnitI(10000), gmt::UnitI limit_y = gmt::UnitI(10000), int quadtree_max_count = 10, int quadtree_max_depth = 10);  // System Constructor

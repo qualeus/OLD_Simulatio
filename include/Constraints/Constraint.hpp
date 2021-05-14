@@ -1,11 +1,11 @@
 #ifndef Contraint_HPP
 #define Contraint_HPP
 
-#include "../Geometry/Geometry.hpp"
-#include "../Geometry/Maths.hpp"
 #include "../Corpses/Circle.hpp"
 #include "../Corpses/Corpse.hpp"
 #include "../Corpses/Polygon.hpp"
+#include "../Geometry/Geometry.hpp"
+#include "../Geometry/Maths.hpp"
 #include "Config.hpp"
 
 namespace phy {
@@ -31,8 +31,12 @@ class Constraint {
     gmt::UnitI friction_a;
     gmt::UnitI friction_b;
 
+    bool breaking;
+    bool broken;
+
    public:
-    explicit Constraint(std::shared_ptr<phy::Corpse> corpse_a, std::shared_ptr<phy::Corpse> corpse_b, gmt::VectorI relative_pos_a , gmt::VectorI relative_pos_b , gmt::UnitI relative_angle_a , gmt::UnitI relative_angle_b, bool rotation_a, bool rotation_b, gmt::UnitI friction_a, gmt::UnitI friction_b);
+    explicit Constraint(std::shared_ptr<phy::Corpse> corpse_a, std::shared_ptr<phy::Corpse> corpse_b, gmt::VectorI relative_pos_a, gmt::VectorI relative_pos_b, gmt::UnitI relative_angle_a, gmt::UnitI relative_angle_b, bool rotation_a, bool rotation_b, gmt::UnitI friction_a, gmt::UnitI friction_b,
+                        bool breaking);
     inline bool operator==(const Constraint* other);
     Constraint& operator=(const Constraint& rhs);
 
@@ -43,7 +47,7 @@ class Constraint {
     virtual void Step() = 0;
 
     bool Equals(const Constraint* other);
-    
+
     std::shared_ptr<phy::Corpse> get_corpse_a();
     void set_corpse_a(std::shared_ptr<phy::Corpse> corpse_a);
 
@@ -73,6 +77,12 @@ class Constraint {
 
     gmt::UnitI get_friction_b();
     void set_friction_b(gmt::UnitI friction_b);
+
+    bool get_breaking();
+    void set_breaking(bool breaking);
+
+    bool get_broken();
+    void set_broken(bool broken);
 };
 }  // namespace phy
 

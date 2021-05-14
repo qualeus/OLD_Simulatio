@@ -44,3 +44,10 @@ std::vector<int> gmt::cyclic_indexes(int min, int max, int size) {
     }
     return indexes;
 }
+
+std::vector<int> gmt::interpolate_array(const std::vector<int>& array_a, const std::vector<int>& array_b, const float& rate) {
+    int size = std::min(array_a.size(), array_b.size());
+    std::vector<int> array = {0, 0, 0, 0};
+    for (int i = 0; i < size; i++) { array[i] = array_a[i] + (array_b[i] - array_a[i]) * rate; }
+    return array;
+}

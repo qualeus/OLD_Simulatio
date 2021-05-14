@@ -1,5 +1,4 @@
 #include "../../include/Corpses/Corpse.hpp"
-#define MIN_DAMPING 0.1
 namespace phy {
 
 Corpse::Corpse(gmt::UnitI mass, gmt::UnitI damping, bool fixed, bool tied, bool etherial) {
@@ -12,7 +11,7 @@ Corpse::Corpse(gmt::UnitI mass, gmt::UnitI damping, bool fixed, bool tied, bool 
 
     this->mass = mass;
     this->friction = gmt::UnitI(1);
-    this->damping = std::min(damping, gmt::UnitI(MIN_DAMPING));
+    this->damping = gmt::minmax_filter(damping, gmt::UnitI(MIN_DAMPING), gmt::UnitI(MAX_DAMPING));
 
     this->bounds = gmt::BoundsI();
 }
@@ -87,7 +86,7 @@ void Corpse::set_last_rotation(const gmt::UnitI& last_rotation) { this->last_rot
 gmt::UnitI Corpse::get_motor() const { return this->motor; }
 void Corpse::set_motor(const gmt::UnitI& motor) { this->motor = motor; }
 
-void Corpse::set_damping(const gmt::UnitI& damping) { this->damping = std::min(damping, gmt::UnitI(MIN_DAMPING)); }
+void Corpse::set_damping(const gmt::UnitI& damping) { this->damping = gmt::minmax_filter(damping, gmt::UnitI(MIN_DAMPING), gmt::UnitI(MAX_DAMPING)); }
 gmt::UnitI Corpse::get_damping() const { return this->damping; }
 gmt::UnitI Corpse::get_bounce() const { return gmt::UnitI(1) / this->damping; }
 
