@@ -100,6 +100,19 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse, sf::Color color) 
     }
 }
 
+void Renderer::DrawConstraint(std::shared_ptr<phy::Constraint> constraint, sf::Color color) {
+    
+    if (phy::Link* link = dynamic_cast<phy::Link*>(constraint.get())) {
+        std::shared_ptr<phy::Corpse> corpse_a = link->get_corpse_a();
+        std::shared_ptr<phy::Corpse> corpse_b = link->get_corpse_b();
+        gmt::VectorI relative_pos_a = link->get_relative_pos_a().Rotate(link->get_relative_angle_a() - corpse_a->get_rotation());
+        gmt::VectorI relative_pos_b = link->get_relative_pos_b().Rotate(link->get_relative_angle_b() - corpse_b->get_rotation());
+
+        DrawLine(corpse_a->get_pos_x() + relative_pos_a.x, corpse_a->get_pos_y() + relative_pos_a.y, corpse_b->get_pos_x() + relative_pos_b.x, corpse_b->get_pos_y() + relative_pos_b.y, 5.0f, color);
+    }
+}
+    
+
 void Renderer::DrawQuadTree(gmt::BoundsI rect) { DrawRectangle(rect.x1, rect.y1, rect.x2, rect.y2, false, C_CARROT, true); }
 
 void Renderer::DrawLimits() {

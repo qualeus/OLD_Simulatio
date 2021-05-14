@@ -229,6 +229,7 @@ class Renderer {
     ImGui::Console console;
 
     std::unordered_map<int, sf::Color> corpses_colors;
+    std::unordered_map<int, sf::Color> constraints_colors;
 
    public:
     phy::System system;
@@ -252,6 +253,10 @@ class Renderer {
 
     void addCorpse(phy::Polygon polygon, sf::Color color);
     void addCorpse(phy::Circle circle, sf::Color color);
+    std::shared_ptr<phy::Corpse> getCorpse(int index) const;
+
+    void addConstraint(phy::Link link, sf::Color color);
+    std::shared_ptr<phy::Constraint> getConstraint(int index) const;
 
     bool DragPositionInit(sf::Event event);  // Initialize the draggig of the Position
     void DragPositionStep(sf::Event event);  // Drag the position until the Release
@@ -294,6 +299,7 @@ class Renderer {
 
     void Draw();  // Manage the drawing of the Renderer
     void DrawCorpse(std::shared_ptr<phy::Corpse> corpse, sf::Color color);
+    void DrawConstraint(std::shared_ptr<phy::Constraint> constraint, sf::Color color);
     void DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair);
     void DrawQuadTree(gmt::BoundsI rect);
     void DrawLimits();

@@ -69,6 +69,8 @@ void System::Step() {
     this->quad_pairs = {};
     // Update Positions
     CorpsesStep();
+    ForcesStep();
+    ConstraintsStep();
 
     // Check the limits
     if (this->enable_limits) { CheckLimits(); }
@@ -98,7 +100,18 @@ void System::CheckLimits() {
 void System::CorpsesStep() {
     for (int i = 0; i < corpses.size(); i++) {
         get_corpse(i)->Step();
+    }
+}
+
+void System::ForcesStep() {
+    for (int i = 0; i < corpses.size(); i++) {
         if (!get_corpse(i)->get_fixed()) { get_corpse(i)->Drag(gmt::VectorI(this->force_x, this->force_y) * this->dt * this->dt); }
+    }
+}
+
+void System::ConstraintsStep() {
+    for (int i = 0; i < constraints.size(); i++) {
+        get_constraint(i)->Step();
     }
 }
 
@@ -236,7 +249,10 @@ int System::get_constraint_accuracy() const { return this->constraint_accuracy; 
 void System::set_constraint_accuracy(int constraint_accuracy) { this->constraint_accuracy = constraint_accuracy; }
 
 int System::get_corpses_size() const { return this->corpses.size(); }
+int System::get_constraints_size() const { return this->constraints.size(); }
+
 int System::get_pairs_size() const { return this->pairs.size(); }
+
 int System::get_quad_pairs_depth() const { return this->quad_pairs.size(); }
 int System::get_quad_pairs_size() const {
     int size = 0;
@@ -252,6 +268,8 @@ std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> System::get_quad_pai
 void System::addCorpse(Polygon polygon) { add_corpse(std::make_shared<Polygon>(polygon)); }
 void System::addCorpse(Circle circle) { add_corpse(std::make_shared<Circle>(circle)); }
 
+void System::addConstraint(Link link) { add_constraint(std::make_shared<Link>(link)); }
+
 void System::add_corpse(std::shared_ptr<Corpse> corpse) {
     this->corpses.emplace_back(std::move(corpse));  // size of the array = [n]
 
@@ -259,6 +277,10 @@ void System::add_corpse(std::shared_ptr<Corpse> corpse) {
     for (int b_index = 0; b_index < a_index; b_index++) { System::add_pair(get_corpse(a_index), get_corpse(b_index)); }
 
     // this->quadtree.AddCorpse(get_corpse(a_index));
+}
+
+void System::add_constraint(std::shared_ptr<Constraint> constraint) {
+    this->constraints.emplace_back(std::move(constraint));
 }
 
 void System::add_pair(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
@@ -272,13 +294,10 @@ void System::set_limits(gmt::BoundsI limits) {
 }
 
 std::vector<std::shared_ptr<Corpse>> System::get_corpses() const { return this->corpses; }
-std::shared_ptr<Corpse> System::get_corpse(int index) const {
-    if (index >= 0 && index < get_corpses_size()) {
-        return this->corpses.at(index);
-    } else {
-        return nullptr;
-    }
-}
+std::vector<std::shared_ptr<Constraint>> System::get_constraints() const { return this->constraints; }
+
+std::shared_ptr<Corpse> System::get_corpse(int index) const { return this->corpses.at(index); }
+std::shared_ptr<Constraint> System::get_constraint(int index) const { return this->constraints.at(index); }
 
 gmt::CollisionI System::get_collision(int index) const { return this->collisions.at(index); }
 std::vector<gmt::CollisionI> System::get_collisions() const { return this->collisions; }

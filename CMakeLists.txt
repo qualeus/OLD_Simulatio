@@ -64,6 +64,7 @@ set(SOURCES
     src/Corpses/Circle.cpp
     src/Corpses/Polygon.cpp
     src/Constraints/Constraint.cpp
+    src/Constraints/Link.cpp
     src/Constraints/Dot.cpp
     src/Geometry/Geometry.cpp
     src/Geometry/Vector.cpp
@@ -88,6 +89,7 @@ set(HEADERS
     include/Corpses/Circle.hpp
     include/Corpses/Polygon.hpp
     include/Constraints/Constraint.hpp
+    include/Constraints/Link.hpp
     include/Constraints/Dot.hpp
     include/Geometry/Geometry.hpp
     include/Geometry/Vector.hpp

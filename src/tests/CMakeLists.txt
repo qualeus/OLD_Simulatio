@@ -37,16 +37,18 @@ set(SOURCES
     ../Corpses/Circle.cpp
     ../Corpses/Polygon.cpp
     ../Constraints/Constraint.cpp
+    ../Constraints/Link.cpp
     ../Constraints/Dot.cpp
     ../Geometry/Geometry.cpp
     ../Geometry/Vector.cpp
     ../Geometry/Bounds.cpp
     ../Geometry/Vertices.cpp
     ../Geometry/Text.cpp
-    ../Geometry/String.cpp
     ../Geometry/Maths.cpp
+    ../Geometry/String.cpp
     ../Structures/QuadTree.cpp
     ../Structures/QuadNode.cpp
+    ../Structures/System.cpp 
     ../Geometry/Collision.cpp
 )
 set(HEADERS
@@ -54,20 +56,20 @@ set(HEADERS
     ../../include/Corpses/Circle.hpp
     ../../include/Corpses/Polygon.hpp
     ../../include/Constraints/Constraint.hpp
+    ../../include/Constraints/Link.hpp
     ../../include/Constraints/Dot.hpp
     ../../include/Geometry/Geometry.hpp
     ../../include/Geometry/Vector.hpp
     ../../include/Geometry/Bounds.hpp
     ../../include/Structures/QuadTree.hpp
     ../../include/Structures/QuadNode.hpp
+    ../../include/Structures/System.hpp
     ../../include/Geometry/Collision.hpp
     ../../include/Geometry/Vertices.hpp
     ../../include/Geometry/Text.hpp
     ../../include/Geometry/Maths.hpp
     ../../include/Geometry/String.hpp
-    ../../include/System.hpp
 )
-
 
 set (SFML_LIBRARIES sfml-graphics sfml-window sfml-system )
 link_directories(SFML_LIBRARY_DIR)

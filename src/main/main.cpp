@@ -32,15 +32,26 @@ void GravityDemo() {
     gravity.Render();
 }
 
+void ConstraintDemo() {
+    Renderer constraint = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Constraint", false, 0.0f, 0.0f, 100000.0f, 100000.0f, 10, 20);
+    int number = 10;
+    for (int i = 0; i < number; ++i) { constraint.addCorpse(phy::Circle(rand() % (number * 50), rand() % (number * 50), rand() % 20 + 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false), C_SUN); }
+    constraint.addConstraint(phy::Link(constraint.getCorpse(0), constraint.getCorpse(1), {10, 10}, {10, 10}), C_SUN);
+    constraint.Render();
+}
+
 void TestDemo() {
     Renderer test = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Test", false, 0.0f, 0.0f, 100000.0f, 100000.0f, 10, 20);
     test.Render();
 }
 
+
+
 int main() {
     // BaseDemo();
     // GravityDemo();
-    TestDemo();
+    ConstraintDemo();
+    // TestDemo();
     return 0;
 }
 

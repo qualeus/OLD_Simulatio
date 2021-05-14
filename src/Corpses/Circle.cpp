@@ -15,6 +15,7 @@ Circle::Circle(gmt::UnitI x, gmt::UnitI y, gmt::UnitI size, gmt::UnitI mass, gmt
 
     this->bounds = gmt::BoundsI(this->get_pos_x() - this->get_size(), this->get_pos_y() - this->get_size(), this->get_pos_x() + this->get_size(), this->get_pos_y() + this->get_size());
 }
+
 Circle& Circle::operator=(const Circle& rhs) {
     Corpse::operator=(rhs);
     this->size = rhs.get_size();

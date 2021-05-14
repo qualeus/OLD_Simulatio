@@ -99,7 +99,7 @@ void Corpse::set_friction(const gmt::UnitI& friction) { this->friction = frictio
 
 gmt::BoundsI Corpse::get_bounds() const { return this->bounds; }
 
-bool Corpse::Equals(const Corpse* other) { return (this->get_id() == other->get_id()); }
+bool Corpse::Equals(const Corpse* other) { return this->get_id() == other->get_id(); }
 
 inline bool Corpse::operator==(const Corpse* other) { return this->Equals(other); }
 

@@ -4,6 +4,11 @@
 #include "../Geometry/Collision.hpp"
 #include "../Geometry/Geometry.hpp"
 #include "../Geometry/Maths.hpp"
+#include "../Corpses/Circle.hpp"
+#include "../Corpses/Corpse.hpp"
+#include "../Corpses/Polygon.hpp"
+#include "../Constraints/Constraint.hpp"
+#include "../Constraints/Link.hpp"
 #include "Config.hpp"
 #include "QuadTree.hpp"
 
@@ -14,6 +19,8 @@ namespace phy {
 class System {
    private:
     std::vector<std::shared_ptr<Corpse>> corpses;
+    std::vector<std::shared_ptr<Constraint>> constraints;
+
     std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> pairs;
     std::vector<gmt::NodePairs> quad_pairs;
     std::vector<gmt::CollisionI> collisions;
@@ -44,6 +51,8 @@ class System {
     void UpdateTime();
     void CheckLimits();
     void CorpsesStep();
+    void ForcesStep();
+    void ConstraintsStep();
     void CorpseStop(int i);
     void CorpseUpdateBounds(int i);
     void PairsStep();
@@ -87,13 +96,20 @@ class System {
     void set_constraint_accuracy(int constraint_accuracy);
 
     int get_corpses_size() const;
+    int get_constraints_size() const;
+
     int get_pairs_size() const;
+
     int get_quad_pairs_depth() const;
     int get_quad_pairs_size() const;
     int get_quad_pairs_size(int depth) const;
 
     void addCorpse(Polygon polygon);
     void addCorpse(Circle circle);
+
+    void addConstraint(Link link);
+
+    void add_constraint(std::shared_ptr<Constraint> constraint);
 
     void add_corpse(std::shared_ptr<Corpse> corpse);
     void add_pair(std::shared_ptr<Corpse> corpseA, std::shared_ptr<Corpse> corpseB);
@@ -102,7 +118,10 @@ class System {
     void set_limits(gmt::BoundsI limits);
 
     std::vector<std::shared_ptr<Corpse>> get_corpses() const;
+    std::vector<std::shared_ptr<Constraint>> get_constraints() const;
+
     std::shared_ptr<Corpse> get_corpse(int index) const;
+    std::shared_ptr<Constraint> get_constraint(int index) const;
 
     gmt::CollisionI get_collision(int index) const;
     std::vector<gmt::CollisionI> get_collisions() const;
