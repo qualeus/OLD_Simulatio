@@ -135,8 +135,6 @@ void Renderer::DrawLimits() {
 }
 
 void Renderer::DrawTrajectories() {
-    std::vector<int> indexes = {};  // we save the indexes of the trajectories bodies
-
     // If one body position have changed, recalculate all the trajectories
     if (debug_system_edited) {
         this->debug_system_edited = false;
@@ -161,7 +159,6 @@ void Renderer::DrawTrajectories() {
         // Initialize the vectors
         for (int j = 0; j < temp_system.get_corpses_size(); j++) {
             int index = temp_system.get_corpse(j)->get_id();
-            indexes.push_back(index);
             trajectories_previews[index] = {};
             trajectories_previews[index].push_back({temp_system.get_corpse(j)->get_pos_x(), temp_system.get_corpse(j)->get_pos_y()});
         }
@@ -179,10 +176,10 @@ void Renderer::DrawTrajectories() {
     }
 
     // Draw the trajectories arrays
-    for (int i = 0; i < trajectories_previews.size(); i++) {
-        if (trajectory_debug_all || i == trajectory_debug_index) {
+    for (auto &it : trajectories_previews) {
+        int index = it.first;
+        if (trajectory_debug_all || index == trajectory_debug_index) {
             if (trajectories_previews.size() < 1) { continue; }
-            int index = indexes[i];
             for (int j = 0; j < trajectories_previews[index].size() - 1; j++) {
                 std::pair<float, float> current = trajectories_previews[index].at(j);
                 std::pair<float, float> next = trajectories_previews[index].at(j + 1);

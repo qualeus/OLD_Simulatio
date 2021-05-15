@@ -126,8 +126,8 @@ int main() {
     // BaseDemo();
     // GravityDemo();
     // ConstraintDemo();
-    ClothDemo();
-    // SliderDemo();
+    // ClothDemo();
+    SliderDemo();
     // SpringDemo();
     // BalloonDemo();
     // TestDemo();

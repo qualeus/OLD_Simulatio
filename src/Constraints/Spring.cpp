@@ -7,7 +7,11 @@ Spring::Spring(std::shared_ptr<phy::Corpse> corpse_a, std::shared_ptr<phy::Corps
     : Constraint(corpse_a, corpse_b, relative_pos_a, relative_pos_b, relative_angle_a, relative_angle_b, rotation_a, rotation_b, friction_a, friction_b, breaking) {
     this->damping = gmt::minmax_filter(damping, gmt::UnitI(MIN_DAMPING), gmt::UnitI(MAX_DAMPING));
     this->resolution = std::max(resolution, gmt::UnitI(1));
-    this->size = (size < gmt::UnitI()) ? gmt::VectorI::Distance(corpse_a->get_pos(), corpse_b->get_pos()) : size;
+
+    gmt::VectorI position_a = corpse_a == nullptr ? relative_pos_a : corpse_a->get_pos() + relative_pos_a;
+    gmt::VectorI position_b = corpse_b == nullptr ? relative_pos_b : corpse_b->get_pos() + relative_pos_b;
+
+    this->size = (size < gmt::UnitI()) ? gmt::VectorI::Distance(position_a, position_b) : size;
     this->max_size = (max_size < gmt::UnitI()) ? this->size - max_size : max_size;
     this->min_size = (min_size < gmt::UnitI()) ? this->size + min_size : min_size;
 }
