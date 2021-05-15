@@ -135,6 +135,8 @@ void Renderer::DrawLimits() {
 }
 
 void Renderer::DrawTrajectories() {
+    std::vector<int> indexes = {};  // we save the indexes of the trajectories bodies
+
     // If one body position have changed, recalculate all the trajectories
     if (debug_system_edited) {
         this->debug_system_edited = false;
@@ -158,17 +160,20 @@ void Renderer::DrawTrajectories() {
 
         // Initialize the vectors
         for (int j = 0; j < temp_system.get_corpses_size(); j++) {
-            trajectories_previews.push_back({});
-            trajectories_previews.at(j).push_back({temp_system.get_corpse(j)->get_pos_x(), temp_system.get_corpse(j)->get_pos_y()});
+            int index = temp_system.get_corpse(j)->get_id();
+            indexes.push_back(index);
+            trajectories_previews[index] = {};
+            trajectories_previews[index].push_back({temp_system.get_corpse(j)->get_pos_x(), temp_system.get_corpse(j)->get_pos_y()});
         }
 
         for (int i = 0; i < trajectory_debug_step; i++) {
             for (int j = 0; j < trajectory_debug_time; j++) { temp_system.Step(); }
 
             for (int j = 0; j < temp_system.get_corpses_size(); j++) {
+                int index = temp_system.get_corpse(j)->get_id();
                 float pos_x = temp_system.get_corpse(j)->get_pos_x();
                 float pos_y = temp_system.get_corpse(j)->get_pos_y();
-                trajectories_previews.at(j).push_back({pos_x, pos_y});
+                trajectories_previews[index].push_back({pos_x, pos_y});
             }
         }
     }
@@ -177,12 +182,12 @@ void Renderer::DrawTrajectories() {
     for (int i = 0; i < trajectories_previews.size(); i++) {
         if (trajectory_debug_all || i == trajectory_debug_index) {
             if (trajectories_previews.size() < 1) { continue; }
+            int index = indexes[i];
+            for (int j = 0; j < trajectories_previews[index].size() - 1; j++) {
+                std::pair<float, float> current = trajectories_previews[index].at(j);
+                std::pair<float, float> next = trajectories_previews[index].at(j + 1);
 
-            for (int j = 0; j < trajectories_previews.at(i).size() - 1; j++) {
-                std::pair<float, float> current = trajectories_previews.at(i).at(j);
-                std::pair<float, float> next = trajectories_previews.at(i).at(j + 1);
-
-                float opacity = 255.0f - (255.0f * ((float)j / (float)trajectories_previews.at(i).size()));
+                float opacity = 255.0f - (255.0f * ((float)j / (float)trajectories_previews[index].size()));
                 DrawLine(current.first, current.second, next.first, next.second, line_thickness, sf::Color(255, 255, 255, (int)opacity));
             }
         }

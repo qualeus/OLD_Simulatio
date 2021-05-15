@@ -184,7 +184,7 @@ void System::Clear() {
 void System::Remove(int i) {
     std::shared_ptr<Corpse> ptr = gmt::remove_unordered_return(i, this->corpses);
     gmt::remove_pairs_unordered(ptr, this->pairs);
-    // gmt::remove_lambda(this->constraints, [ptr](std::shared_ptr<phy::Constraint> constraint) { return constraint->get_corpse_a() == ptr || constraint->get_corpse_b() == ptr; });
+    gmt::remove_lambda(this->constraints, [ptr](std::shared_ptr<phy::Constraint> constraint) { return constraint->get_corpse_a() == ptr || constraint->get_corpse_b() == ptr; });
 }
 
 void System::Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {

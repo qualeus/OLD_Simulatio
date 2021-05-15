@@ -127,8 +127,8 @@ int main() {
     // GravityDemo();
     // ConstraintDemo();
     ClothDemo();
-    SliderDemo();
-    SpringDemo();
+    // SliderDemo();
+    // SpringDemo();
     // BalloonDemo();
     // TestDemo();
     return 0;

@@ -209,8 +209,8 @@ class Renderer {
     bool paused;
     bool enable_inputs;
 
-    std::vector<std::vector<std::pair<float, float>>> trajectories = {};
-    std::vector<std::vector<std::pair<float, float>>> trajectories_previews = {};
+    std::unordered_map<int, std::vector<std::pair<float, float>>> trajectories;
+    std::unordered_map<int, std::vector<std::pair<float, float>>> trajectories_previews;
 
     const static int DEBUG_LENGTH = 50;
     float debug_values[DEBUG_LENGTH] = {};
