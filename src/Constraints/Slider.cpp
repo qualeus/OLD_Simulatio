@@ -78,6 +78,9 @@ void Slider::set_max_distance(gmt::UnitI max_distance) { this->max_distance = ma
 
 std::vector<std::shared_ptr<phy::Corpse>> Slider::get_slider_corpses() const { return this->slider_corpses; }
 void Slider::set_slider_corpses(std::vector<std::shared_ptr<phy::Corpse>> slider_corpses) { this->slider_corpses = slider_corpses; }
+int Slider::get_slider_corpses_size() const { return this->slider_corpses.size(); }
+std::shared_ptr<phy::Corpse> Slider::get_slider_corpse(int index) const { return this->slider_corpses.at(index); }
+void Slider::set_slider_corpse(int index, std::shared_ptr<phy::Corpse> corpse) { this->slider_corpses.at(index) = corpse; }
 
 std::vector<gmt::VectorI> Slider::get_slider_relative_pos() const { return this->slider_relative_pos; }
 void Slider::set_slider_relative_pos(std::vector<gmt::VectorI> slider_relative_pos) { this->slider_relative_pos = slider_relative_pos; }

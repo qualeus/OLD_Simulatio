@@ -123,6 +123,7 @@ class System {
     std::vector<std::shared_ptr<Constraint>> get_constraints() const;
 
     std::shared_ptr<Corpse> get_corpse(int index) const;
+    std::shared_ptr<Corpse> get_corpse_by_id(int index) const;
     std::shared_ptr<Constraint> get_constraint(int index) const;
 
     gmt::CollisionI get_collision(int index) const;

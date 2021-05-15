@@ -31,7 +31,7 @@ System& System::operator=(const System& rhs) {
     this->collision_accuracy = rhs.get_collision_accuracy();
     this->constraint_accuracy = rhs.get_constraint_accuracy();
 
-    gmt::BoundsI limits = rhs.get_limits();
+    this->limits = rhs.get_limits();
 
     this->corpses = std::vector<std::shared_ptr<Corpse>>();
     this->constraints = std::vector<std::shared_ptr<Constraint>>();
@@ -66,14 +66,28 @@ System& System::operator=(const System& rhs) {
         if (phy::Link* link = dynamic_cast<phy::Link*>(temp_constraint.get())) {
             Link link_copy;
             link_copy = *link;
+
+            link_copy.set_corpse_a(this->get_corpse_by_id(link_copy.get_corpse_a()->get_id()));
+            link_copy.set_corpse_b(this->get_corpse_by_id(link_copy.get_corpse_b()->get_id()));
+
             this->constraints.push_back(std::make_shared<phy::Link>(link_copy));
         } else if (phy::Spring* spring = dynamic_cast<phy::Spring*>(temp_constraint.get())) {
             Spring spring_copy;
             spring_copy = *spring;
+
+            spring_copy.set_corpse_a(this->get_corpse_by_id(spring_copy.get_corpse_a()->get_id()));
+            spring_copy.set_corpse_b(this->get_corpse_by_id(spring_copy.get_corpse_b()->get_id()));
+
             this->constraints.push_back(std::make_shared<phy::Spring>(spring_copy));
         } else if (phy::Slider* slider = dynamic_cast<phy::Slider*>(temp_constraint.get())) {
             Slider slider_copy;
             slider_copy = *slider;
+
+            slider_copy.set_corpse_a(this->get_corpse_by_id(slider_copy.get_corpse_a()->get_id()));
+            slider_copy.set_corpse_b(this->get_corpse_by_id(slider_copy.get_corpse_b()->get_id()));
+
+            for (int i = 0; i < slider_copy.get_slider_corpses_size(); i++) { slider_copy.set_slider_corpse(i, this->get_corpse_by_id(slider_copy.get_slider_corpse(i)->get_id())); }
+
             this->constraints.push_back(std::make_shared<phy::Slider>(slider_copy));
         }
     }
@@ -316,6 +330,12 @@ std::vector<std::shared_ptr<Corpse>> System::get_corpses() const { return this->
 std::vector<std::shared_ptr<Constraint>> System::get_constraints() const { return this->constraints; }
 
 std::shared_ptr<Corpse> System::get_corpse(int index) const { return this->corpses.at(index); }
+std::shared_ptr<Corpse> System::get_corpse_by_id(int index) const {
+    for (int i = 0; i < this->corpses.size(); i++) {
+        if (this->corpses.at(i)->get_id() == index) { return this->corpses.at(i); }
+    }
+    return nullptr;
+}
 std::shared_ptr<Constraint> System::get_constraint(int index) const { return this->constraints.at(index); }
 
 gmt::CollisionI System::get_collision(int index) const { return this->collisions.at(index); }

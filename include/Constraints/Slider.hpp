@@ -38,6 +38,9 @@ class Slider : public Constraint {
 
     std::vector<std::shared_ptr<phy::Corpse>> get_slider_corpses() const;
     void set_slider_corpses(std::vector<std::shared_ptr<phy::Corpse>> slider_corpses);
+    int get_slider_corpses_size() const;
+    std::shared_ptr<phy::Corpse> get_slider_corpse(int index) const;
+    void set_slider_corpse(int index, std::shared_ptr<phy::Corpse> corpse);
 
     std::vector<gmt::VectorI> get_slider_relative_pos() const;
     void set_slider_relative_pos(std::vector<gmt::VectorI> slider_relative_pos);
