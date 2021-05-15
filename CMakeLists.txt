@@ -66,6 +66,7 @@ set(SOURCES
     src/Constraints/Constraint.cpp
     src/Constraints/Link.cpp
     src/Constraints/Spring.cpp
+    src/Constraints/Slider.cpp
     src/Constraints/Dot.cpp
     src/Geometry/Geometry.cpp
     src/Geometry/Vector.cpp
@@ -92,6 +93,7 @@ set(HEADERS
     include/Constraints/Constraint.hpp
     include/Constraints/Link.hpp
     include/Constraints/Spring.hpp
+    include/Constraints/Slider.hpp
     include/Constraints/Dot.hpp
     include/Geometry/Geometry.hpp
     include/Geometry/Vector.hpp

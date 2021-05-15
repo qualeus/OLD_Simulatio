@@ -270,6 +270,7 @@ void System::addCorpse(Circle circle) { add_corpse(std::make_shared<Circle>(circ
 
 void System::addConstraint(Link link) { add_constraint(std::make_shared<Link>(link)); }
 void System::addConstraint(Spring spring) { add_constraint(std::make_shared<Spring>(spring)); }
+void System::addConstraint(Slider slider) { add_constraint(std::make_shared<Slider>(slider)); }
 
 void System::add_corpse(std::shared_ptr<Corpse> corpse) {
     this->corpses.emplace_back(std::move(corpse));  // size of the array = [n]

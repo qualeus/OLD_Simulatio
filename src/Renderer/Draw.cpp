@@ -117,6 +117,13 @@ void Renderer::DrawConstraint(std::shared_ptr<phy::Constraint> constraint, sf::C
         gmt::VectorI relative_pos_b = spring->get_relative_pos_b().Rotate(spring->get_relative_angle_b() - corpse_b->get_rotation());
 
         DrawSpring(corpse_a->get_pos_x() + relative_pos_a.x, corpse_a->get_pos_y() + relative_pos_a.y, corpse_b->get_pos_x() + relative_pos_b.x, corpse_b->get_pos_y() + relative_pos_b.y, spring->get_resolution(), number_wave, color);
+    } else if (phy::Slider *slider = dynamic_cast<phy::Slider *>(constraint.get())) {
+        std::shared_ptr<phy::Corpse> corpse_a = slider->get_corpse_a();
+        std::shared_ptr<phy::Corpse> corpse_b = slider->get_corpse_b();
+        gmt::VectorI relative_pos_a = slider->get_relative_pos_a().Rotate(slider->get_relative_angle_a() - corpse_a->get_rotation());
+        gmt::VectorI relative_pos_b = slider->get_relative_pos_b().Rotate(slider->get_relative_angle_b() - corpse_b->get_rotation());
+
+        DrawLine(corpse_a->get_pos_x() + relative_pos_a.x, corpse_a->get_pos_y() + relative_pos_a.y, corpse_b->get_pos_x() + relative_pos_b.x, corpse_b->get_pos_y() + relative_pos_b.y, 5.0f, color);
     }
 }
 

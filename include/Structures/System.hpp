@@ -3,6 +3,7 @@
 
 #include "../Constraints/Constraint.hpp"
 #include "../Constraints/Link.hpp"
+#include "../Constraints/Slider.hpp"
 #include "../Constraints/Spring.hpp"
 #include "../Corpses/Circle.hpp"
 #include "../Corpses/Corpse.hpp"
@@ -108,6 +109,7 @@ class System {
 
     void addConstraint(Link link);
     void addConstraint(Spring spring);
+    void addConstraint(Slider slider);
 
     void add_constraint(std::shared_ptr<Constraint> constraint);
 

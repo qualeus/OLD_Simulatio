@@ -195,6 +195,11 @@ void Renderer::addConstraint(phy::Spring spring, sf::Color color) {
     this->system.addConstraint(spring);
 }
 
+void Renderer::addConstraint(phy::Slider slider, sf::Color color) {
+    this->constraints_colors[slider.get_id()] = color;
+    this->system.addConstraint(slider);
+}
+
 std::shared_ptr<phy::Constraint> Renderer::getConstraint(int index) const { return this->system.get_constraint(index); }
 
 float Renderer::get_mouse_x() { return this->mouse_x; }

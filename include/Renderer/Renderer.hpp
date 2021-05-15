@@ -257,6 +257,7 @@ class Renderer {
 
     void addConstraint(phy::Link link, sf::Color color);
     void addConstraint(phy::Spring spring, sf::Color color);
+    void addConstraint(phy::Slider slider, sf::Color color);
     std::shared_ptr<phy::Constraint> getConstraint(int index) const;
 
     bool DragPositionInit(sf::Event event);  // Initialize the draggig of the Position
