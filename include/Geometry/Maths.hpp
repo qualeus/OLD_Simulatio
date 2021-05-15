@@ -80,9 +80,7 @@ C remove_unordered_return(int i, std::vector<C> &vect) {
 }
 
 template <class C>
-void remove_pairs(int i, std::vector<C> &vect, std::vector<std::pair<C, C>> &pairs) {
-    vect.erase(vect.begin() + i);  // Remove the object from the vector
-
+void remove_pairs(int i, std::vector<std::pair<C, C>> &pairs) {
     int first_pair = ((i - 1) * i) / 2;
     pairs.erase(pairs.begin() + first_pair, pairs.begin() + first_pair + i);  // Remove the first interval from pairs
 
@@ -97,11 +95,7 @@ void remove_pairs(int i, std::vector<C> &vect, std::vector<std::pair<C, C>> &pai
 
 /* Avoid linear complexity of the erase but do not keep the order */
 template <class C>
-void remove_pairs_unordered(int i, std::vector<C> &vect, std::vector<std::pair<C, C>> &pairs) {
-    if (i > pairs.size() - 1) { return; }
-    C ptr = vect.at(i);            // Keep the pointer to the object for comparison
-    vect.erase(vect.begin() + i);  // Remove the object from the vector
-
+void remove_pairs_unordered(const C &ptr, std::vector<std::pair<C, C>> &pairs) {
     int j = 0;
     int size = pairs.size();
     while (j < size) {
@@ -111,6 +105,21 @@ void remove_pairs_unordered(int i, std::vector<C> &vect, std::vector<std::pair<C
             size = pairs.size();
         } else {
             j++;
+        }
+    }
+}
+
+template <class C, typename Func>
+void remove_lambda(std::vector<C> &vect, Func lambda) {
+    int i = 0;
+    int size = vect.size();
+    while (i < size) {
+        if (lambda(vect.at(i))) {
+            if (i != vect.size() - 1) { vect.at(i) = std::move(vect.back()); }
+            vect.pop_back();
+            size = vect.size();
+        } else {
+            i++;
         }
     }
 }
@@ -132,6 +141,27 @@ std::vector<T> concatenate(std::vector<T> vect_a, std::vector<T> vect_b) {
     vect_ab.insert(vect_ab.end(), vect_a.begin(), vect_a.end());
     vect_ab.insert(vect_ab.end(), vect_b.begin(), vect_b.end());
     return vect_ab;
+}
+
+template <class C>
+std::vector<std::pair<C, C>> non_touching_pairs(std::vector<C> vector) {
+    std::vector<std::pair<C, C>> pairs = {};
+    int n = vector.size();
+    for (int i = 0; i < n - 2; i++) {
+        for (int j = i + 2; j < n - (i == 0); j++) { pairs.push_back({i, j}); }
+    }
+    return pairs;
+}
+
+template <class C, typename Func>
+std::vector<C> create_vector(C init, int number, Func next) {
+    std::vector<C> vector = {};
+    C pred = init;
+    for (int i = 0; i < number; i++) {
+        vector.push_back(pred);
+        pred = next(pred);
+    }
+    return vector;
 }
 }  // namespace gmt
 #endif

@@ -38,7 +38,13 @@ Few demos...
 
 <p align="center"><img alt="Trajectory" src="./doc/ScreenShots/Trajectory.gif"></p>
 
-<p align="center"><img alt="Gravity" src="./doc/ScreenShots/Gravity.gif"></p>
+<p align="center"><img alt="Clothes2" src="./doc/ScreenShots/Clothes2.gif"></p>
+
+<p align="center"><img alt="Balloon" src="./doc/ScreenShots/Balloon.gif"></p>
+
+<p align="center"><img alt="Slider" src="./doc/ScreenShots/Slider.gif"></p>
+
+<p align="center"><img alt="Spring" src="./doc/ScreenShots/Spring.gif"></p>
 
 ## Prerequisites
 

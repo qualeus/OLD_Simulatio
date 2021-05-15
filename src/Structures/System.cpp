@@ -34,6 +34,7 @@ System& System::operator=(const System& rhs) {
     gmt::BoundsI limits = rhs.get_limits();
 
     this->corpses = std::vector<std::shared_ptr<Corpse>>();
+    this->constraints = std::vector<std::shared_ptr<Constraint>>();
     this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
     this->quad_pairs = std::vector<gmt::NodePairs>();
     this->collisions = std::vector<gmt::CollisionI>();
@@ -56,6 +57,24 @@ System& System::operator=(const System& rhs) {
         // Populate the pairs array
         if (rhs.get_corpses_size() > 1) {
             for (int j = 0; j < i; j++) { this->pairs.push_back({this->corpses.at(i), this->corpses.at(j)}); }
+        }
+    }
+
+    for (int i = 0; i < rhs.get_constraints_size(); i++) {
+        // Populate the constraints array
+        std::shared_ptr<phy::Constraint> temp_constraint = rhs.get_constraint(i);
+        if (phy::Link* link = dynamic_cast<phy::Link*>(temp_constraint.get())) {
+            Link link_copy;
+            link_copy = *link;
+            this->constraints.push_back(std::make_shared<phy::Link>(link_copy));
+        } else if (phy::Spring* spring = dynamic_cast<phy::Spring*>(temp_constraint.get())) {
+            Spring spring_copy;
+            spring_copy = *spring;
+            this->constraints.push_back(std::make_shared<phy::Spring>(spring_copy));
+        } else if (phy::Slider* slider = dynamic_cast<phy::Slider*>(temp_constraint.get())) {
+            Slider slider_copy;
+            slider_copy = *slider;
+            this->constraints.push_back(std::make_shared<phy::Slider>(slider_copy));
         }
     }
 
@@ -162,7 +181,11 @@ void System::Clear() {
     this->pairs = {};
 }
 
-void System::Remove(int i) { gmt::remove_pairs_unordered(i, this->corpses, this->pairs); }
+void System::Remove(int i) {
+    std::shared_ptr<Corpse> ptr = gmt::remove_unordered_return(i, this->corpses);
+    gmt::remove_pairs_unordered(ptr, this->pairs);
+    // gmt::remove_lambda(this->constraints, [ptr](std::shared_ptr<phy::Constraint> constraint) { return constraint->get_corpse_a() == ptr || constraint->get_corpse_b() == ptr; });
+}
 
 void System::Gravity(std::shared_ptr<Corpse> a, std::shared_ptr<Corpse> b) {
     if (a->get_fixed() && b->get_fixed()) { return; }  // Both Fixed
@@ -265,6 +288,8 @@ void System::addCorpse(Polygon polygon) { add_corpse(std::make_shared<Polygon>(p
 void System::addCorpse(Circle circle) { add_corpse(std::make_shared<Circle>(circle)); }
 
 void System::addConstraint(Link link) { add_constraint(std::make_shared<Link>(link)); }
+void System::addConstraint(Spring spring) { add_constraint(std::make_shared<Spring>(spring)); }
+void System::addConstraint(Slider slider) { add_constraint(std::make_shared<Slider>(slider)); }
 
 void System::add_corpse(std::shared_ptr<Corpse> corpse) {
     this->corpses.emplace_back(std::move(corpse));  // size of the array = [n]

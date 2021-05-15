@@ -256,6 +256,8 @@ class Renderer {
     std::shared_ptr<phy::Corpse> getCorpse(int index) const;
 
     void addConstraint(phy::Link link, sf::Color color);
+    void addConstraint(phy::Spring spring, sf::Color color);
+    void addConstraint(phy::Slider slider, sf::Color color);
     std::shared_ptr<phy::Constraint> getConstraint(int index) const;
 
     bool DragPositionInit(sf::Event event);  // Initialize the draggig of the Position
@@ -332,6 +334,7 @@ class Renderer {
     void DebugDrag();   // Draw the inputs on the Corpses
 
     void DrawLine(int x1, int y1, int x2, int y2, float thickness = 2.0f, sf::Color color = sf::Color::White);
+    void DrawSpring(int x1, int y1, int x2, int y2, float thickness, int number_wave, sf::Color color);
     void DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness = 2.0f, sf::Color color = sf::Color::White);
     void DrawCircle(int x, int y, int radius, sf::Color color = sf::Color::White, bool outline = false);
     void DrawRectangle(int x1, int y1, int x2, int y2, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);

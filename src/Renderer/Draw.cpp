@@ -101,17 +101,31 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse, sf::Color color) 
 }
 
 void Renderer::DrawConstraint(std::shared_ptr<phy::Constraint> constraint, sf::Color color) {
-    
-    if (phy::Link* link = dynamic_cast<phy::Link*>(constraint.get())) {
+    if (phy::Link *link = dynamic_cast<phy::Link *>(constraint.get())) {
         std::shared_ptr<phy::Corpse> corpse_a = link->get_corpse_a();
         std::shared_ptr<phy::Corpse> corpse_b = link->get_corpse_b();
         gmt::VectorI relative_pos_a = link->get_relative_pos_a().Rotate(link->get_relative_angle_a() - corpse_a->get_rotation());
         gmt::VectorI relative_pos_b = link->get_relative_pos_b().Rotate(link->get_relative_angle_b() - corpse_b->get_rotation());
 
         DrawLine(corpse_a->get_pos_x() + relative_pos_a.x, corpse_a->get_pos_y() + relative_pos_a.y, corpse_b->get_pos_x() + relative_pos_b.x, corpse_b->get_pos_y() + relative_pos_b.y, 5.0f, color);
+    } else if (phy::Spring *spring = dynamic_cast<phy::Spring *>(constraint.get())) {
+        int number_wave = static_cast<int>(spring->get_size() / spring->get_resolution());
+
+        std::shared_ptr<phy::Corpse> corpse_a = spring->get_corpse_a();
+        std::shared_ptr<phy::Corpse> corpse_b = spring->get_corpse_b();
+        gmt::VectorI relative_pos_a = spring->get_relative_pos_a().Rotate(spring->get_relative_angle_a() - corpse_a->get_rotation());
+        gmt::VectorI relative_pos_b = spring->get_relative_pos_b().Rotate(spring->get_relative_angle_b() - corpse_b->get_rotation());
+
+        DrawSpring(corpse_a->get_pos_x() + relative_pos_a.x, corpse_a->get_pos_y() + relative_pos_a.y, corpse_b->get_pos_x() + relative_pos_b.x, corpse_b->get_pos_y() + relative_pos_b.y, spring->get_resolution(), number_wave, color);
+    } else if (phy::Slider *slider = dynamic_cast<phy::Slider *>(constraint.get())) {
+        std::shared_ptr<phy::Corpse> corpse_a = slider->get_corpse_a();
+        std::shared_ptr<phy::Corpse> corpse_b = slider->get_corpse_b();
+        gmt::VectorI relative_pos_a = slider->get_relative_pos_a().Rotate(slider->get_relative_angle_a() - corpse_a->get_rotation());
+        gmt::VectorI relative_pos_b = slider->get_relative_pos_b().Rotate(slider->get_relative_angle_b() - corpse_b->get_rotation());
+
+        DrawLine(corpse_a->get_pos_x() + relative_pos_a.x, corpse_a->get_pos_y() + relative_pos_a.y, corpse_b->get_pos_x() + relative_pos_b.x, corpse_b->get_pos_y() + relative_pos_b.y, 5.0f, color);
     }
 }
-    
 
 void Renderer::DrawQuadTree(gmt::BoundsI rect) { DrawRectangle(rect.x1, rect.y1, rect.x2, rect.y2, false, C_CARROT, true); }
 
@@ -136,6 +150,11 @@ void Renderer::DrawTrajectories() {
         temp_system = this->system;
         temp_system.set_collision_accuracy(trajectory_collision_accuracy);
         temp_system.set_constraint_accuracy(trajectory_constraint_accuracy);
+
+        // TODO Manage the corpses deletion:
+        // Care also for teh reorder when the bodies
+        // swap place with delete => use body id for
+        // the array id (preview trajectories)
 
         // Initialize the vectors
         for (int j = 0; j < temp_system.get_corpses_size(); j++) {
@@ -269,7 +288,7 @@ void Renderer::DrawInputs() {
 }
 
 void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Color color) {
-    // if (!gmt::Bounds<float>::SegmentIntersectBounds(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2), get_screen_bounds())) { return; }
+    if (!gmt::Bounds<float>::SegmentIntersectBounds(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2), get_screen_bounds())) { return; }
 
     float length = gmt::Vector<float>::Distance(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2));
     sf::RectangleShape line(sf::Vector2f(length, thickness));
@@ -278,6 +297,28 @@ void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Col
     line.rotate(gmt::Vector<float>::Bearing(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2)));
     line.setFillColor(color);
     this->window.draw(line);
+}
+
+void Renderer::DrawSpring(int x1, int y1, int x2, int y2, float thickness, int number_wave, sf::Color color) {
+    if (!gmt::Bounds<float>::SegmentIntersectBounds(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2), get_screen_bounds())) { return; }
+
+    float inv = 0.25f / number_wave;
+    float dx = (x2 - x1) * inv;
+    float dy = (y2 - y1) * inv;
+
+    float inv2 = thickness / std::sqrt(dx * dx + dy * dy);
+    float px = dy * inv2;
+    float py = -dx * inv2;
+
+    float x = x1;
+    float y = y1;
+    for (int i = 0; i < number_wave; i++) {
+        DrawLine(x, y, x + dx + px, y + dy + py, 2.0f, color);
+        DrawLine(x + dx + px, y + dy + py, x + 3.0f * dx - px, y + 3.0f * dy - py, 2.0f, color);
+        DrawLine(x + 3.0f * dx - px, y + 3.0f * dy - py, x + 4.0f * dx, y + 4.0f * dy, 2.0f, color);
+        x += 4.0f * dx;
+        y += 4.0f * dy;
+    }
 }
 
 void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness, sf::Color color) {

@@ -51,10 +51,10 @@ void ClothDemo() {
     float pos_x = -500;
     float pos_y = -500;
     float rigidity = 1;
-    bool breaking = false;
-    float limit_breaking = -1;
+    bool breaking = true;
+    float limit_breaking = -1000;
     bool etherial = true;
-    int point_size = 5;
+    int point_size = 30;
 
     auto cloth_color = [&](int i, int j) {
         std::vector<int> interpolated = gmt::interpolate_array({C_ALIZARIN.r, C_ALIZARIN.g, C_ALIZARIN.b}, {C_AMETHYST.r, C_AMETHYST.g, C_AMETHYST.b}, static_cast<float>(i) / static_cast<float>(height));
@@ -79,6 +79,44 @@ void ClothDemo() {
     cloth.Render();
 }
 
+void SpringDemo() {
+    Renderer spring = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Spring", false, 0.0f, 0.0f, 100000.0f, 100000.0f, 10, 20);
+    int number = 50;
+    for (int i = 0; i < number; ++i) { spring.addCorpse(phy::Circle(rand() % (number * 30), rand() % (number * 30), rand() % number + 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false), C_SUN); }
+    for (int i = 1; i < number; ++i) { spring.addConstraint(phy::Spring(spring.getCorpse(i - 1), spring.getCorpse(i), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, -1, 0.1, 30, 0, -1000, false), C_SUN); }
+    spring.Render();
+}
+
+void SliderDemo() {
+    Renderer spring = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Spring", false, 0.0f, 0.0f, 100000.0f, 100000.0f, 10, 20);
+    int number = 20;
+    spring.addCorpse(phy::Circle(rand() % (number * 30), rand() % (number * 30), rand() % number + 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, true, false, false), C_SUN);
+    spring.addCorpse(phy::Circle(rand() % (number * 30), rand() % (number * 30), rand() % number + 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, true, false, false), C_SUN);
+    for (int i = 2; i < number; ++i) { spring.addCorpse(phy::Circle(rand() % (number * 30), rand() % (number * 30), rand() % number + 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false), C_ASPHALT); }
+    phy::Slider slider = phy::Slider(spring.getCorpse(0), spring.getCorpse(1), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, 1, 0, {}, {}, {}, {}, {}, false);
+    for (int i = 2; i < number; i++) { slider.addCorpse(spring.getCorpse(i), {0, 0}, true, 0, 0); }
+    spring.addConstraint(slider, C_SUN);
+    spring.Render();
+}
+
+void BalloonDemo() {
+    Renderer balloon = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Balloon", false, 0.0f, 0.0f, 100000.0f, 100000.0f, 10, 20);
+    int number = 20;
+    int radius = 400;
+    for (int i = 0; i < number; i++) {
+        float angle = static_cast<float>(i) * 2.0f * PI / static_cast<float>(number);
+        balloon.addCorpse(phy::Circle(std::cos(angle) * radius, std::sin(angle) * radius, 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false), C_RED);
+    }
+
+    for (int i = 0; i < number; i++) { balloon.addConstraint(phy::Link(balloon.getCorpse(i), balloon.getCorpse((i + 1) % number), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, -1, 1, 0, 0, false), C_RED); }
+
+    std::vector<std::pair<int, int>> inside = gmt::non_touching_pairs(gmt::create_vector(0, number, [](int i) { return i++; }));
+
+    for (int i = 0; i < inside.size(); i++) { balloon.addConstraint(phy::Link(balloon.getCorpse(inside.at(i).first), balloon.getCorpse(inside.at(i).second), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, -1, 0.2, 0, 0, false), sf::Color(255, 255, 255, 10)); }
+
+    balloon.Render();
+}
+
 void TestDemo() {
     Renderer test = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Test", false, 0.0f, 0.0f, 100000.0f, 100000.0f, 10, 20);
     test.Render();
@@ -89,6 +127,9 @@ int main() {
     // GravityDemo();
     // ConstraintDemo();
     ClothDemo();
+    SliderDemo();
+    SpringDemo();
+    // BalloonDemo();
     // TestDemo();
     return 0;
 }

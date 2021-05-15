@@ -46,42 +46,42 @@ class Constraint {
 
     virtual void Step() = 0;
 
-    bool Equals(const Constraint* other);
+    bool Equals(const Constraint* other) const;
 
-    std::shared_ptr<phy::Corpse> get_corpse_a();
+    std::shared_ptr<phy::Corpse> get_corpse_a() const;
     void set_corpse_a(std::shared_ptr<phy::Corpse> corpse_a);
 
-    std::shared_ptr<phy::Corpse> get_corpse_b();
+    std::shared_ptr<phy::Corpse> get_corpse_b() const;
     void set_corpse_b(std::shared_ptr<phy::Corpse> corpse_b);
 
-    gmt::VectorI get_relative_pos_a();
+    gmt::VectorI get_relative_pos_a() const;
     void set_relative_pos_a(gmt::VectorI relative_pos_a);
 
-    gmt::VectorI get_relative_pos_b();
+    gmt::VectorI get_relative_pos_b() const;
     void set_relative_pos_b(gmt::VectorI relative_pos_b);
 
-    bool get_rotation_a();
+    bool get_rotation_a() const;
     void set_rotation_a(bool rotation_a);
 
-    bool get_rotation_b();
+    bool get_rotation_b() const;
     void set_rotation_b(bool rotation_b);
 
-    gmt::UnitI get_relative_angle_a();
+    gmt::UnitI get_relative_angle_a() const;
     void set_relative_angle_a(gmt::UnitI angle_a);
 
-    gmt::UnitI get_relative_angle_b();
+    gmt::UnitI get_relative_angle_b() const;
     void set_relative_angle_b(gmt::UnitI angle_b);
 
-    gmt::UnitI get_friction_a();
+    gmt::UnitI get_friction_a() const;
     void set_friction_a(gmt::UnitI friction_a);
 
-    gmt::UnitI get_friction_b();
+    gmt::UnitI get_friction_b() const;
     void set_friction_b(gmt::UnitI friction_b);
 
-    bool get_breaking();
+    bool get_breaking() const;
     void set_breaking(bool breaking);
 
-    bool get_broken();
+    bool get_broken() const;
     void set_broken(bool broken);
 };
 }  // namespace phy
