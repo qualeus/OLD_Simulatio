@@ -151,6 +151,11 @@ void Renderer::DrawTrajectories() {
         temp_system.set_collision_accuracy(trajectory_collision_accuracy);
         temp_system.set_constraint_accuracy(trajectory_constraint_accuracy);
 
+        // TODO Manage the corpses deletion:
+        // Care also for teh reorder when the bodies
+        // swap place with delete => use body id for
+        // the array id (preview trajectories)
+
         // Initialize the vectors
         for (int j = 0; j < temp_system.get_corpses_size(); j++) {
             trajectories_previews.push_back({});

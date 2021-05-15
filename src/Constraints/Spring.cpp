@@ -10,14 +10,20 @@ Spring::Spring(std::shared_ptr<phy::Corpse> corpse_a, std::shared_ptr<phy::Corps
     this->size = (size < gmt::UnitI()) ? gmt::VectorI::Distance(corpse_a->get_pos(), corpse_b->get_pos()) : size;
     this->max_size = (max_size < gmt::UnitI()) ? this->size - max_size : max_size;
     this->min_size = (min_size < gmt::UnitI()) ? this->size + min_size : min_size;
-
-    this->breaking = breaking;
-    this->broken = false;
 }
 // Link& Link::operator=(const Link& rhs) {}
 
 int Spring::get_class() const { return ID_SPRING; }
 static int id_class() { return ID_SPRING; }
+Spring& Spring::operator=(const Spring& rhs) {
+    Constraint::operator=(rhs);
+    this->damping = rhs.get_damping();
+    this->resolution = rhs.get_resolution();
+    this->size = rhs.get_size();
+    this->max_size = rhs.get_max_size();
+    this->min_size = rhs.get_min_size();
+    return *this;
+}
 
 void Spring::Step() {
     gmt::VectorI diff = get_corpse_a()->get_pos() - get_corpse_b()->get_pos();
@@ -59,19 +65,19 @@ void Spring::Step() {
     }
 }
 
-gmt::UnitI Spring::get_size() { return this->size; }
+gmt::UnitI Spring::get_size() const { return this->size; }
 void Spring::set_size(gmt::UnitI size) { this->size = size; }
 
-gmt::UnitI Spring::get_damping() { return this->damping; }
+gmt::UnitI Spring::get_damping() const { return this->damping; }
 void Spring::set_damping(gmt::UnitI damping) { this->damping = damping; }
 
-gmt::UnitI Spring::get_resolution() { return this->resolution; }
+gmt::UnitI Spring::get_resolution() const { return this->resolution; }
 void Spring::set_resolution(gmt::UnitI resolution) { this->resolution = resolution; }
 
-gmt::UnitI Spring::get_max_size() { return this->max_size; }
+gmt::UnitI Spring::get_max_size() const { return this->max_size; }
 void Spring::set_max_size(gmt::UnitI max_size) { this->max_size = max_size; }
 
-gmt::UnitI Spring::get_min_size() { return this->min_size; }
+gmt::UnitI Spring::get_min_size() const { return this->min_size; }
 void Spring::set_min_size(gmt::UnitI min_size) { this->min_size = min_size; }
 
 }  // namespace phy

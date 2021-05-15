@@ -34,6 +34,7 @@ System& System::operator=(const System& rhs) {
     gmt::BoundsI limits = rhs.get_limits();
 
     this->corpses = std::vector<std::shared_ptr<Corpse>>();
+    this->constraints = std::vector<std::shared_ptr<Constraint>>();
     this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
     this->quad_pairs = std::vector<gmt::NodePairs>();
     this->collisions = std::vector<gmt::CollisionI>();
@@ -56,6 +57,24 @@ System& System::operator=(const System& rhs) {
         // Populate the pairs array
         if (rhs.get_corpses_size() > 1) {
             for (int j = 0; j < i; j++) { this->pairs.push_back({this->corpses.at(i), this->corpses.at(j)}); }
+        }
+    }
+
+    for (int i = 0; i < rhs.get_constraints_size(); i++) {
+        // Populate the constraints array
+        std::shared_ptr<phy::Constraint> temp_constraint = rhs.get_constraint(i);
+        if (phy::Link* link = dynamic_cast<phy::Link*>(temp_constraint.get())) {
+            Link link_copy;
+            link_copy = *link;
+            this->constraints.push_back(std::make_shared<phy::Link>(link_copy));
+        } else if (phy::Spring* spring = dynamic_cast<phy::Spring*>(temp_constraint.get())) {
+            Spring spring_copy;
+            spring_copy = *spring;
+            this->constraints.push_back(std::make_shared<phy::Spring>(spring_copy));
+        } else if (phy::Slider* slider = dynamic_cast<phy::Slider*>(temp_constraint.get())) {
+            Slider slider_copy;
+            slider_copy = *slider;
+            this->constraints.push_back(std::make_shared<phy::Slider>(slider_copy));
         }
     }
 

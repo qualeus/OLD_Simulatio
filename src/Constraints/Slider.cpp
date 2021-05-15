@@ -13,7 +13,6 @@ Slider::Slider(std::shared_ptr<phy::Corpse> corpse_a, std::shared_ptr<phy::Corps
     this->slider_rotations = slider_rotations;
     this->slider_relative_angles = slider_relative_angles;
     this->slider_frictions = slider_frictions;
-    this->broken = false;
 }
 // Link& Link::operator=(const Link& rhs) {}
 
@@ -59,25 +58,37 @@ void Slider::Step() {
     }
 }
 
-gmt::UnitI Slider::get_damping() { return this->damping; }
+Slider& Slider::operator=(const Slider& rhs) {
+    Constraint::operator=(rhs);
+    this->damping = rhs.get_damping();
+    this->max_distance = rhs.get_max_distance();
+    this->slider_corpses = rhs.get_slider_corpses();                  // TODO Manage vector copy objects
+    this->slider_relative_pos = rhs.get_slider_relative_pos();        // TODO Manage vector copy objects
+    this->slider_rotations = rhs.get_slider_rotations();              // TODO Manage vector copy objects
+    this->slider_relative_angles = rhs.get_slider_relative_angles();  // TODO Manage vector copy objects
+    this->slider_frictions = rhs.get_slider_frictions();              // TODO Manage vector copy objects
+    return *this;
+}
+
+gmt::UnitI Slider::get_damping() const { return this->damping; }
 void Slider::set_damping(gmt::UnitI damping) { this->damping = damping; }
 
-gmt::UnitI Slider::get_max_distance() { return this->max_distance; }
+gmt::UnitI Slider::get_max_distance() const { return this->max_distance; }
 void Slider::set_max_distance(gmt::UnitI max_distance) { this->max_distance = max_distance; }
 
-std::vector<std::shared_ptr<phy::Corpse>> Slider::get_slider_corpses() { return this->slider_corpses; }
+std::vector<std::shared_ptr<phy::Corpse>> Slider::get_slider_corpses() const { return this->slider_corpses; }
 void Slider::set_slider_corpses(std::vector<std::shared_ptr<phy::Corpse>> slider_corpses) { this->slider_corpses = slider_corpses; }
 
-std::vector<gmt::VectorI> Slider::get_slider_relative_pos() { return this->slider_relative_pos; }
+std::vector<gmt::VectorI> Slider::get_slider_relative_pos() const { return this->slider_relative_pos; }
 void Slider::set_slider_relative_pos(std::vector<gmt::VectorI> slider_relative_pos) { this->slider_relative_pos = slider_relative_pos; }
 
-std::vector<bool> Slider::get_slider_rotations() { return this->slider_rotations; }
+std::vector<bool> Slider::get_slider_rotations() const { return this->slider_rotations; }
 void Slider::set_slider_rotations(std::vector<bool> slider_rotations) { this->slider_rotations = slider_rotations; }
 
-std::vector<gmt::UnitI> Slider::get_slider_relative_angles() { return this->slider_relative_angles; }
+std::vector<gmt::UnitI> Slider::get_slider_relative_angles() const { return this->slider_relative_angles; }
 void Slider::set_slider_relative_angles(std::vector<gmt::UnitI> slider_relative_angles) { this->slider_relative_angles = slider_relative_angles; }
 
-std::vector<gmt::UnitI> Slider::get_slider_frictions() { return this->slider_frictions; }
+std::vector<gmt::UnitI> Slider::get_slider_frictions() const { return this->slider_frictions; }
 void Slider::set_slider_frictions(std::vector<gmt::UnitI> slider_frictions) { this->slider_frictions = slider_frictions; }
 
 void Slider::addCorpse(std::shared_ptr<phy::Corpse> corpse, gmt::VectorI relative_pos, bool rotation, gmt::UnitI relative_angle, gmt::UnitI friction) {

@@ -109,8 +109,8 @@ void remove_pairs_unordered(const C &ptr, std::vector<std::pair<C, C>> &pairs) {
     }
 }
 
-template <class C>
-void remove_lambda(std::vector<C> &vect, std::function<bool(C)> lambda) {
+template <class C, typename Func>
+void remove_lambda(std::vector<C> &vect, Func lambda) {
     int i = 0;
     int size = vect.size();
     while (i < size) {
@@ -141,6 +141,27 @@ std::vector<T> concatenate(std::vector<T> vect_a, std::vector<T> vect_b) {
     vect_ab.insert(vect_ab.end(), vect_a.begin(), vect_a.end());
     vect_ab.insert(vect_ab.end(), vect_b.begin(), vect_b.end());
     return vect_ab;
+}
+
+template <class C>
+std::vector<std::pair<C, C>> non_touching_pairs(std::vector<C> vector) {
+    std::vector<std::pair<C, C>> pairs = {};
+    int n = vector.size();
+    for (int i = 0; i < n - 2; i++) {
+        for (int j = i + 2; j < n - (i == 0); j++) { pairs.push_back({i, j}); }
+    }
+    return pairs;
+}
+
+template <class C, typename Func>
+std::vector<C> create_vector(C init, int number, Func next) {
+    std::vector<C> vector = {};
+    C pred = init;
+    for (int i = 0; i < number; i++) {
+        vector.push_back(pred);
+        pred = next(pred);
+    }
+    return vector;
 }
 }  // namespace gmt
 #endif

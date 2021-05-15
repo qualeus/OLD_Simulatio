@@ -10,11 +10,16 @@ Link::Link(std::shared_ptr<phy::Corpse> corpse_a, std::shared_ptr<phy::Corpse> c
     this->size = (size < gmt::UnitI()) ? gmt::VectorI::Distance(corpse_a->get_pos(), corpse_b->get_pos()) : size;
     this->max_size = (max_size < gmt::UnitI()) ? this->size - max_size : max_size;
     this->min_size = (min_size < gmt::UnitI()) ? this->size + min_size : min_size;
-
-    this->breaking = breaking;
-    this->broken = false;
 }
-// Link& Link::operator=(const Link& rhs) {}
+
+Link& Link::operator=(const Link& rhs) {
+    Constraint::operator=(rhs);
+    this->damping = rhs.get_damping();
+    this->size = rhs.get_size();
+    this->max_size = rhs.get_size();
+    this->min_size = rhs.get_size();
+    return *this;
+}
 
 int Link::get_class() const { return ID_LINK; }
 static int id_class() { return ID_LINK; }
@@ -59,16 +64,16 @@ void Link::Step() {
     }
 }
 
-gmt::UnitI Link::get_size() { return this->size; }
+gmt::UnitI Link::get_size() const { return this->size; }
 void Link::set_size(gmt::UnitI size) { this->size = size; }
 
-gmt::UnitI Link::get_damping() { return this->damping; }
+gmt::UnitI Link::get_damping() const { return this->damping; }
 void Link::set_damping(gmt::UnitI damping) { this->damping = damping; }
 
-gmt::UnitI Link::get_max_size() { return this->max_size; }
+gmt::UnitI Link::get_max_size() const { return this->max_size; }
 void Link::set_max_size(gmt::UnitI max_size) { this->max_size = max_size; }
 
-gmt::UnitI Link::get_min_size() { return this->min_size; }
+gmt::UnitI Link::get_min_size() const { return this->min_size; }
 void Link::set_min_size(gmt::UnitI min_size) { this->min_size = min_size; }
 
 }  // namespace phy
