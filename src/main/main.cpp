@@ -99,22 +99,61 @@ void SliderDemo() {
     spring.Render();
 }
 
-void BalloonDemo() {
+void BaloonDemo() {
     Renderer balloon = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Balloon", false, 0.0f, 0.0f, 100000.0f, 100000.0f, 10, 20);
-    int number = 20;
+    int number = 10;
     int radius = 400;
+    bool breaking = true;
+    float rigidity_outside = 1.0f;
+    float rigidity_inside = 0.3f;
+    float limit_breaking_outside = -1000.0f;
+    float limit_breaking_inside = -300.0f;
+
     for (int i = 0; i < number; i++) {
         float angle = static_cast<float>(i) * 2.0f * PI / static_cast<float>(number);
         balloon.addCorpse(phy::Circle(std::cos(angle) * radius, std::sin(angle) * radius, 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false), C_RED);
     }
 
-    for (int i = 0; i < number; i++) { balloon.addConstraint(phy::Link(balloon.getCorpse(i), balloon.getCorpse((i + 1) % number), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, -1, 1, 0, 0, false), C_RED); }
+    for (int i = 0; i < number; i++) { balloon.addConstraint(phy::Link(balloon.getCorpse(i), balloon.getCorpse((i + 1) % number), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, -1, rigidity_outside, limit_breaking_outside, limit_breaking_outside, breaking), C_RED); }
 
     std::vector<std::pair<int, int>> inside = gmt::non_touching_pairs(gmt::create_vector(0, number, [](int i) { return i++; }));
 
-    for (int i = 0; i < inside.size(); i++) { balloon.addConstraint(phy::Link(balloon.getCorpse(inside.at(i).first), balloon.getCorpse(inside.at(i).second), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, -1, 0.2, 0, 0, false), sf::Color(255, 255, 255, 10)); }
+    for (int i = 0; i < inside.size(); i++) {
+        balloon.addConstraint(phy::Link(balloon.getCorpse(inside.at(i).first), balloon.getCorpse(inside.at(i).second), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, -1, rigidity_inside, limit_breaking_inside, limit_breaking_inside, breaking), sf::Color(255, 255, 255, 10));
+    }
 
     balloon.Render();
+}
+void SpongeDemo() {
+    Renderer sponge = Renderer(0.0f, 0.0f, 900.0f, 1600.0f, 1.0f, "Solf", false, 0.0f, 0.0f, 100000.0f, 100000.0f, 10, 20);
+    int width = 10;
+    int height = 10;
+    int pos_x = 0;
+    int pos_y = 0;
+    float spacing = 100;
+    int point_size = 45;
+    float rigidity = 0.6f;
+    bool breaking = true;
+    float limit_breaking = -600;
+
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) { sponge.addCorpse(phy::Circle(pos_x + j * spacing, pos_y + i * spacing, point_size, 1, 1, 0, 0, 0, 0, false, false, false), C_SUN); }
+    }
+
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width - 1; j++) { sponge.addConstraint(phy::Link(sponge.getCorpse(j + i * width), sponge.getCorpse(j + i * width + 1), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, -1, rigidity, limit_breaking, limit_breaking, breaking), C_SUN); }
+    }
+
+    for (int i = 0; i < height - 1; i++) {
+        for (int j = 0; j < width; j++) { sponge.addConstraint(phy::Link(sponge.getCorpse(j + i * width), sponge.getCorpse(j + (i + 1) * width), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, -1, rigidity, limit_breaking, limit_breaking, breaking), C_SUN); }
+    }
+    for (int i = 0; i < height - 1; i++) {
+        for (int j = 0; j < width - 1; j++) {
+            sponge.addConstraint(phy::Link(sponge.getCorpse(j + i * width), sponge.getCorpse(j + 1 + (i + 1) * width), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, -1, rigidity, limit_breaking, limit_breaking, breaking), C_SUN);
+            sponge.addConstraint(phy::Link(sponge.getCorpse(j + 1 + i * width), sponge.getCorpse(j + (i + 1) * width), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, -1, rigidity, limit_breaking, limit_breaking, breaking), C_SUN);
+        }
+    }
+    sponge.Render();
 }
 
 void TestDemo() {
@@ -124,12 +163,13 @@ void TestDemo() {
 
 int main() {
     // BaseDemo();
-    GravityDemo();
+    // GravityDemo();
     // ConstraintDemo();
     // ClothDemo();
     // SliderDemo();
     //  SpringDemo();
-    // BalloonDemo();
+    // BaloonDemo();
+    SpongeDemo();
     // TestDemo();
     return 0;
 }
