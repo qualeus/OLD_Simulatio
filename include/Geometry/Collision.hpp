@@ -1,5 +1,5 @@
 #ifndef Collision_HPP
-#define Collision_HPPs
+#define Collision_HPP
 
 #include "../Corpses/Circle.hpp"
 #include "../Corpses/Corpse.hpp"

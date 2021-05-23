@@ -13,7 +13,6 @@
 #include "../Geometry/Geometry.hpp"
 #include "../Geometry/Maths.hpp"
 #include "../Geometry/String.hpp"
-#include "../Geometry/Text.hpp"
 #include "../Geometry/Vector.hpp"
 #include "../Structures/System.hpp"
 #include "Config.hpp"
@@ -122,7 +121,7 @@ class Renderer {
     float min_arrow_size = 10.0f;
     int arrow_size = 12;
 
-    bool trajectory_debug_show = false;  //
+    bool trajectory_debug_show = false;
     bool trajectory_debug_all = true;
     bool trajectory_compute_on_change = true;
     bool trajectory_compute_manual = false;
@@ -155,6 +154,7 @@ class Renderer {
     bool show_gui_settings = false;
     bool show_gui_imguidemo = false;
     bool show_gui_spawner = false;
+    bool show_gui_benchmark = true;
     bool show_side_bar = true;
     bool show_side_content = false;
     bool show_time_bar = true;
@@ -225,7 +225,6 @@ class Renderer {
     int counter_debug;
     int collision_number;
 
-    std::vector<gmt::TextI> texts = {};
     ImGui::Console console;
 
     std::unordered_map<int, sf::Color> corpses_colors;
@@ -307,9 +306,9 @@ class Renderer {
     void DrawLimits();
     void DrawTrajectories();
 
-    void Debug();  // Draw the Debug objects
+    void Debug();
     void DrawInputs();
-    void DrawGui();  // Draw the renderer interface
+    void DrawGui();
     void DrawGuiMenu();
     void DrawGuiSideBar();
     void DrawGuiSideContent();
@@ -320,12 +319,14 @@ class Renderer {
     void DrawGuiDocking();
     void DrawGuiHelp(const char* desc);
     bool DrawGuiCheckBox(const char* label, int* v_tristate);
+    void DrawPerf(bmk::Performance* root, double time_scale, size_t count = 0);
 
     void ShowGuiConsole(bool* p_open);
     void ShowGuiProperties(bool* p_open);
     void ShowGuiSpawner(bool* p_open);
     void ShowGuiOverlay(bool* p_open);
     void ShowGuiSettings(bool* p_open);
+    void ShowGuiBenchmark(bool* p_open);
     void ShowGuiSettingsInterface();
     void ShowPopupClearSystem();
 
@@ -386,9 +387,6 @@ class Renderer {
     sf::Vector2f get_real_pos(sf::Vector2i pos);
     float get_real_pos_x(float x);
     float get_real_pos_y(float y);
-
-    void addText(gmt::TextI txt);
-    void DrawTexts();
 
     bool get_enable_inputs();
     void set_enable_inputs(bool enable);

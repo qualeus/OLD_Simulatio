@@ -202,7 +202,6 @@ void Renderer::Debug() {
     }
 
     DrawInputs();
-    DrawTexts();
 
     if (trajectory_debug_show && paused) { DrawTrajectories(); }
 }
@@ -414,27 +413,4 @@ void Renderer::DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color, bo
     }
 
     this->window.draw(convex);
-}
-
-void Renderer::DrawText(std::string str, int x, int y, int size, bool fixed, sf::Color color) {
-    sf::Font font;
-    sf::Text text;
-
-    if (font.loadFromFile("../assets/fonts/arial.ttf")) {
-        text.setCharacterSize(text_resolution);
-        float resolution_resize = size / text_resolution;
-
-        if (fixed) {
-            text.scale(get_camera_size() * resolution_resize, get_camera_size() * resolution_resize);
-            text.setPosition(get_real_pos_x(x), get_real_pos_y(y));
-        } else {
-            text.scale(resolution_resize, resolution_resize);
-            text.setPosition(x, y);
-        }
-
-        text.setFont(font);
-        text.setString(str);
-        text.setFillColor(color);
-        this->window.draw(text);
-    }
 }

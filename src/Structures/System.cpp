@@ -38,6 +38,7 @@ System& System::operator=(const System& rhs) {
     this->pairs = std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>>();
     this->quad_pairs = std::vector<gmt::NodePairs>();
     this->collisions = std::vector<gmt::CollisionI>();
+
     this->quadtree = rhs.quadtree;
     this->enable_limits = rhs.enable_limits;
 
@@ -98,25 +99,53 @@ System& System::operator=(const System& rhs) {
 System::~System() {}
 
 void System::Step() {
+    bmk::Record("Step");
+
     this->collisions = {};
     this->quad_pairs = {};
-    // Update Positions
-    CorpsesStep();
-    ForcesStep();
-    for (int i = 0; i < constraint_accuracy; i++) { ConstraintsStep(); }
 
-    // Check the limits
-    if (this->enable_limits) { CheckLimits(); }
+    // Update Positions
+    {
+        bmk::Record("Corpses");
+        CorpsesStep();
+    }
+    {
+        bmk::Record("Forces");
+        ForcesStep();
+    }
+    {
+        bmk::Record("Constraints");
+        for (int i = 0; i < constraint_accuracy; i++) { ConstraintsStep(); }
+    }
+
+    // Check the Limits
+    if (this->enable_limits) {
+        CheckLimits();
+        bmk::Record("Limits");
+    }
 
     // Update Forces
     // Update Velocities
     // Apply Boundaries conditions
-    StepQuadTree();
-    for (int i = 0; i < collision_accuracy; i++) { QuadPairsStep(); }
+    {
+        bmk::Record("QuadTree");
+        StepQuadTree();
+    }
 
-    PairsStep();
+    {
+        bmk::Record("Collisions");
+        for (int i = 0; i < collision_accuracy; i++) { QuadPairsStep(); }
+    }
+    {
+        bmk::Record("Pairs");
+        PairsStep();
+    }
+
     // Move Global Time
-    UpdateTime();
+    {
+        bmk::Record("Time");
+        UpdateTime();
+    }
 }
 void System::UpdateTime() { this->t += this->dt; }
 

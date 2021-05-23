@@ -40,12 +40,13 @@ set(SOURCES
     ../Constraints/Link.cpp
     ../Constraints/Spring.cpp
     ../Constraints/Slider.cpp
-    ../Constraints/Dot.cpp
+    ../Constraints/Loose.cpp
+    ../Constraints/Propulsor.cpp
+    ../Constraints/Motor.cpp
     ../Geometry/Geometry.cpp
     ../Geometry/Vector.cpp
     ../Geometry/Bounds.cpp
     ../Geometry/Vertices.cpp
-    ../Geometry/Text.cpp
     ../Geometry/Maths.cpp
     ../Geometry/String.cpp
     ../Structures/QuadTree.cpp
@@ -61,7 +62,9 @@ set(HEADERS
     ../../include/Constraints/Link.hpp
     ../../include/Constraints/Spring.hpp
     ../../include/Constraints/Slider.hpp
-    ../../include/Constraints/Dot.hpp
+    ../../include/Constraints/Loose.hpp
+    ../../include/Constraints/Propulsor.hpp
+    ../../include/Constraints/Motor.hpp
     ../../include/Geometry/Geometry.hpp
     ../../include/Geometry/Vector.hpp
     ../../include/Geometry/Bounds.hpp
@@ -70,7 +73,6 @@ set(HEADERS
     ../../include/Structures/System.hpp
     ../../include/Geometry/Collision.hpp
     ../../include/Geometry/Vertices.hpp
-    ../../include/Geometry/Text.hpp
     ../../include/Geometry/Maths.hpp
     ../../include/Geometry/String.hpp
 )

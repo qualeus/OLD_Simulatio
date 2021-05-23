@@ -169,8 +169,8 @@ int main() {
     // SliderDemo();
     //  SpringDemo();
     // BaloonDemo();
-    SpongeDemo();
-    // TestDemo();
+    // SpongeDemo();
+    TestDemo();
     return 0;
 }
 

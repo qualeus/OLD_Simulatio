@@ -6,7 +6,7 @@
 
 namespace phy {
 
-const static int ID_SLIDER = 3;
+const static int ID_SLIDER = 4;
 
 class Slider : public Constraint {
    private:

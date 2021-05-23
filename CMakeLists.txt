@@ -59,57 +59,77 @@ find_package(ImGui-SFML REQUIRED)
 # Compile Target
 
 set(SOURCES
-    src/main/main.cpp
-    src/Corpses/Corpse.cpp
-    src/Corpses/Circle.cpp
-    src/Corpses/Polygon.cpp
-    src/Constraints/Constraint.cpp
-    src/Constraints/Link.cpp
-    src/Constraints/Spring.cpp
-    src/Constraints/Slider.cpp
-    src/Constraints/Dot.cpp
-    src/Geometry/Geometry.cpp
-    src/Geometry/Vector.cpp
     src/Geometry/Bounds.cpp
-    src/Geometry/Vertices.cpp
-    src/Geometry/Text.cpp
+    src/Geometry/Collision.cpp
+    src/Geometry/Geometry.cpp
     src/Geometry/Maths.cpp
     src/Geometry/String.cpp
+    src/Geometry/Vector.cpp
+    src/Geometry/Vertices.cpp
+
+    src/Benchmark/BlockData.cpp
+    src/Benchmark/Performance.cpp
+    src/Benchmark/Recorder.cpp
+
+    src/Corpses/Circle.cpp
+    src/Corpses/Corpse.cpp
+    src/Corpses/Polygon.cpp
+    
+    src/Constraints/Constraint.cpp
+    src/Constraints/Link.cpp
+    src/Constraints/Loose.cpp
+    src/Constraints/Motor.cpp
+    src/Constraints/Propulsor.cpp
+    src/Constraints/Slider.cpp
+    src/Constraints/Spring.cpp
+
     src/Structures/QuadTree.cpp
     src/Structures/QuadNode.cpp
-    src/Structures/System.cpp 
-    src/Geometry/Collision.cpp
-    src/Renderer/Renderer.cpp
+    src/Structures/System.cpp
+
     src/Renderer/Draw.cpp
+    src/Renderer/EditorColorScheme.cpp
     src/Renderer/Event.cpp
     src/Renderer/Gui.cpp
     src/Renderer/GuiModule.cpp
-    src/Renderer/EditorColorScheme.cpp
+    src/Renderer/Renderer.cpp
+
+    src/main/main.cpp
 )
 set(HEADERS
-    include/Corpses/Corpse.hpp
+    include/Geometry/Bounds.hpp
+    include/Geometry/Collision.hpp
+    include/Geometry/Geometry.hpp
+    include/Geometry/Maths.hpp
+    include/Geometry/String.hpp
+    include/Geometry/Vector.hpp
+    include/Geometry/Vertices.hpp
+
+    include/Benchmark/BlockData.hpp
+    include/Benchmark/Performance.hpp
+    include/Benchmark/Recorder.hpp
+
     include/Corpses/Circle.hpp
+    include/Corpses/Corpse.hpp
     include/Corpses/Polygon.hpp
+
     include/Constraints/Constraint.hpp
     include/Constraints/Link.hpp
-    include/Constraints/Spring.hpp
+    include/Constraints/Loose.hpp
+    include/Constraints/Motor.hpp
+    include/Constraints/Propulsor.hpp
     include/Constraints/Slider.hpp
-    include/Constraints/Dot.hpp
-    include/Geometry/Geometry.hpp
-    include/Geometry/Vector.hpp
-    include/Geometry/Bounds.hpp
+    include/Constraints/Spring.hpp
+
     include/Structures/QuadTree.hpp
     include/Structures/QuadNode.hpp
     include/Structures/System.hpp
-    include/Geometry/Collision.hpp
-    include/Geometry/Vertices.hpp
-    include/Geometry/Text.hpp
-    include/Geometry/Maths.hpp
-    include/Geometry/String.hpp
-    include/Renderer/Renderer.hpp
-    include/Renderer/Structures.hpp
+
     include/Renderer/EditorColorScheme.hpp
     include/Renderer/GuiModule.hpp
+    include/Renderer/Renderer.hpp
+    include/Renderer/Structures.hpp
+
 )
 
 set(RESSOURCES 

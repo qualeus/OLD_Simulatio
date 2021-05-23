@@ -84,14 +84,14 @@ struct Console {
     }
 
     void ClearLog() {
-        for (int i = 0; i < Items.Size; i++) free(Items[i]);
+        for (int i = 0; i < Items.Size; i++) { free(Items[i]); }
         Items.clear();
+        Items.empty();
     }
 
     void Log(const std::string str) { AddLog(str.c_str()); }
 
     void AddLog(const char* fmt, ...) IM_FMTARGS(2) {
-        // FIXME-OPT
         char buf[1024];
         va_list args;
         va_start(args, fmt);
@@ -138,28 +138,34 @@ struct Console {
             const float footer_height_to_reserve = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
             ImGui::BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar);
             if (ImGui::BeginPopupContextWindow()) {
-                if (ImGui::Selectable("Clear")) ClearLog();
+                if (ImGui::Selectable("Clear")) { ClearLog(); }
                 ImGui::EndPopup();
             }
 
             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1));
-            if (copy_to_clipboard) ImGui::LogToClipboard();
-            for (int i = 0; i < Items.Size; i++) {
-                const char* item = Items[i];
-                if (!Filter.PassFilter(item)) continue;
-                ImVec4 color;
-                bool has_color = false;
-                for (int j = 0; j < ColorSyntax.size(); j++) {
-                    if (strncmp(item, ColorSyntax[j].second, 2) == 0) {
-                        has_color = true;
-                        color = ColorSyntax[j].first;
-                        break;
+            if (copy_to_clipboard) { ImGui::LogToClipboard(); }
+
+            ImGuiListClipper clipper(Items.Size);
+            while (clipper.Step()) {
+                for (int i = clipper.DisplayStart; i < clipper.DisplayEnd; ++i) {
+                    const char* item = Items[i];
+                    if (!Filter.PassFilter(item)) { continue; }
+                    ImVec4 color = ImColor(255, 255, 255);
+                    for (int j = 0; j < ColorSyntax.size(); j++) {
+                        if (strncmp(item, ColorSyntax[j].second, 2) == 0) {
+                            color = ColorSyntax[j].first;
+                            break;
+                        }
                     }
+                    ImGui::PushStyleColor(ImGuiCol_Text, color);
+
+                    // char temp_text[200] = "";
+                    // ImFormatString(temp_text, IM_ARRAYSIZE(temp_text), "[%i] %s", i, item);
+                    ImGui::TextUnformatted(item);
+                    ImGui::PopStyleColor();
                 }
-                if (has_color) ImGui::PushStyleColor(ImGuiCol_Text, color);
-                ImGui::TextUnformatted(item);
-                if (has_color) ImGui::PopStyleColor();
             }
+
             if (copy_to_clipboard) ImGui::LogFinish();
             if (ScrollToBottom || (AutoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY())) ImGui::SetScrollHereY(1.0f);
             ScrollToBottom = false;

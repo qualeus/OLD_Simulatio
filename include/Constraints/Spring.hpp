@@ -6,7 +6,7 @@
 
 namespace phy {
 
-const static int ID_SPRING = 2;
+const static int ID_SPRING = 3;
 
 class Spring : public Constraint {
    private:

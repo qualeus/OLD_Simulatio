@@ -102,5 +102,6 @@
     },
     "colorize.languages": [
         "cpp",
-    ]
+    ],
+    "cmake.configureOnOpen": false
 }

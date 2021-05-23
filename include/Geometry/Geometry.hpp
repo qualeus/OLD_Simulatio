@@ -1,10 +1,10 @@
 #ifndef Geometry_HPP
 #define Geometry_HPP
 
+#include "../Benchmark/Recorder.hpp"
 #include "Bounds.hpp"
 #include "Config.hpp"
 #include "Maths.hpp"
-#include "Text.hpp"
 #include "Vector.hpp"
 #include "Vertices.hpp"
 
@@ -24,7 +24,6 @@ using VectorI = Vector<PHYSICS_PRECISION>;
 using BoundsI = Bounds<PHYSICS_PRECISION>;
 using VerticesI = Vertices<PHYSICS_PRECISION>;
 using CollisionI = Collision<PHYSICS_PRECISION>;
-using TextI = Text<PHYSICS_PRECISION>;
 
 /* ======================================= */
 /*           DONE : TO REIMPLEMENT         */

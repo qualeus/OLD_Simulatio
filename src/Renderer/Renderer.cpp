@@ -236,13 +236,5 @@ sf::Vector2f Renderer::get_real_pos(sf::Vector2i pos) { return window.mapPixelTo
 float Renderer::get_real_pos_x(float x) { return window.mapPixelToCoords(sf::Vector2i(x, 0)).x; }
 float Renderer::get_real_pos_y(float y) { return window.mapPixelToCoords(sf::Vector2i(0, y)).y; }
 
-void Renderer::addText(gmt::TextI text) { this->texts.push_back(text); }
-void Renderer::DrawTexts() {
-    for (int i = 0; i < this->texts.size(); i++) {
-        gmt::TextI text = this->texts.at(i);
-        DrawText(text.text, text.pos.x, text.pos.y, text.size, text.fixed, text.color);
-    }
-}
-
 bool Renderer::get_enable_inputs() { return this->enable_inputs; }
 void Renderer::set_enable_inputs(bool enable) { this->enable_inputs = enable; }

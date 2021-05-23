@@ -155,6 +155,7 @@ void Renderer::DrawGui() {
     if (show_gui_overlay) { ShowGuiOverlay(&show_gui_overlay); }
     if (show_gui_settings) { ShowGuiSettings(&show_gui_settings); }
     if (show_gui_spawner) { ShowGuiSpawner(&show_gui_spawner); }
+    if (show_gui_benchmark) { ShowGuiBenchmark(&show_gui_benchmark); }
 }
 
 void Renderer::DrawGuiTimeBar() {
@@ -534,6 +535,56 @@ void Renderer::ShowGuiSpawner(bool* p_open) {
         ImGui::PopItemWidth();
     }
     ImGui::End();
+}
+
+void Renderer::ShowGuiBenchmark(bool* p_open) {
+    if (ImGui::Begin("Benchmark", p_open, ImGuiWindowFlags_NoFocusOnAppearing)) {
+        DrawPerf(&bmk::Recorder::root, 1.0);
+        /*
+        if (ImGui::IsWindowFocused() && ImGui::IsMouseDragging(0)) {
+            ImVec2 offset(0.0f, 0.0f);
+
+            offset.x -= ImGui::GetIO().MouseDelta.x;
+            offset.y -= ImGui::GetIO().MouseDelta.y;
+
+            ImGui::SetScrollX(ImGui::GetScrollX() + offset.x);
+            ImGui::SetScrollY(ImGui::GetScrollY() + offset.y);
+        }*/
+    }
+    ImGui::End();
+}
+
+void Renderer::DrawPerf(bmk::Performance* root, double time_scale, size_t count) {
+    for (auto& perf : root->childs) {
+        ImGui::PushID(&perf);
+        ImGui::SameLine();
+
+        ImGui::PushItemWidth(0.0f);
+        ImGui::BeginGroup();
+
+        float hue = count * 0.05f;
+
+        ImVec2 size = ImVec2(static_cast<float>(time_scale * perf.Time()), 0.0f);
+
+        // ImGui::PushStyleColor(ImGuiCol_Header, ImColor::HSV(hue, 0.6f, 0.6f));
+        ImGui::Selectable("TEST", true, ImGuiSelectableFlags_None, size);  // perf.data->get_name().c_str()
+        // ImGui::PopStyleColor(1);
+
+        if (ImGui::IsItemHovered()) {
+            ImGui::SetTooltip(
+                "%s\n"
+                "Location: %s:%d\n"
+                "Children: %d\n"
+                "Total Time: %fms\n"
+                "Size: %f\n",
+                perf.data->get_name(), perf.data->get_file(), perf.data->get_line(), perf.childs.size(), perf.Time(), size.x);
+        }
+        ImGui::NewLine();
+        DrawPerf(&perf, time_scale, count + 1);
+        ImGui::EndGroup();
+        ImGui::PopItemWidth();
+        ImGui::PopID();
+    }
 }
 
 void Renderer::ShowGuiProperties(bool* p_open) {
@@ -1769,6 +1820,7 @@ void Renderer::DrawGuiMenu() {
             ImGui::MenuItem("Spawner", NULL, &show_gui_spawner);
             ImGui::MenuItem("Debug Overlay", NULL, &show_gui_overlay);
             ImGui::MenuItem("ImGui Demo", NULL, &show_gui_imguidemo);
+            ImGui::MenuItem("Benchmark", NULL, &show_gui_benchmark);
             ImGui::PopItemFlag();
             ImGui::EndMenu();
         }
