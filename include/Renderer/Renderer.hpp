@@ -98,6 +98,9 @@
 
 class Renderer {
    private:
+    int benchmark_count = 0;
+    int benchmark_reset = 100;
+
     int input_mouse_type = I_MOUSE_TYPE_MOVE;
     int input_side_menu = I_SIDE_MENU_DEFAULT;
 
@@ -306,6 +309,7 @@ class Renderer {
     void DrawLimits();
     void DrawTrajectories();
 
+    void ResetBenchmark();
     void Debug();
     void DrawInputs();
     void DrawGui();

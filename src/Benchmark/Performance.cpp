@@ -11,6 +11,7 @@ Performance::Performance(Performance &&other) : data(other.data) {
 Performance ::~Performance() { End(); }
 
 void Performance::End() { ending = std::chrono::high_resolution_clock::now(); }
+void Performance::ResetChilds() { this->childs.clear(); }
 
 double Performance::Time() {
     std::chrono::duration<double, std::milli> ms = ending - begining;

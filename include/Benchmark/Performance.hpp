@@ -17,6 +17,7 @@ class Performance {
     Performance(Performance &&other);
     ~Performance();
     void End();
+    void ResetChilds();
     double Time();
 };
 

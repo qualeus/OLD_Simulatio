@@ -14,6 +14,7 @@ class Recorder : public Performance {
     static Recorder *last;
     Recorder(BlockData *bloc);
     ~Recorder();
+    void Reset();
 };
 
 static BlockData perf{"Global Root", __FILE__, __LINE__};

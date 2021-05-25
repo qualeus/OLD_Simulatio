@@ -115,7 +115,11 @@ void System::Step() {
     }
     {
         bmk::Record("Constraints");
-        for (int i = 0; i < constraint_accuracy; i++) { ConstraintsStep(); }
+        for (int i = 0; i < constraint_accuracy; i++) {
+            // std::string label = "Constraint " + i;
+            // bmk::Record(label.c_str());
+            ConstraintsStep();
+        }
     }
 
     // Check the Limits
@@ -134,7 +138,11 @@ void System::Step() {
 
     {
         bmk::Record("Collisions");
-        for (int i = 0; i < collision_accuracy; i++) { QuadPairsStep(); }
+        for (int i = 0; i < collision_accuracy; i++) {
+            // std::string label = "Collision " + i;
+            // bmk::Record("Collision " + gmt::to_string(i));
+            QuadPairsStep();
+        }
     }
     {
         bmk::Record("Pairs");

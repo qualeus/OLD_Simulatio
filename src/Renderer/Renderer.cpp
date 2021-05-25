@@ -64,6 +64,9 @@ Renderer::~Renderer() {}
 void Renderer::Render() {
     /* Main Rendering Loop */
     while (this->window.isOpen()) {
+        /* Reset Benchmarking */
+        this->ResetBenchmark();
+
         if (!this->Paused()) {
             this->system.Step();
             this->UpdateCorpseDatas();
@@ -82,9 +85,18 @@ void Renderer::Render() {
         ImGui::SFML::Update(this->window, this->frame = this->clock.restart());
 
         /* Draw Elements */
-        this->DrawGui();
-        this->Draw();
-        this->Debug();
+        {
+            bmk::Record("Draw Gui");
+            this->DrawGui();
+        }
+        {
+            bmk::Record("Draw Objects");
+            this->Draw();
+        }
+        {
+            bmk::Record("Draw Debug");
+            this->Debug();
+        }
 
         /* Render Elements */
         this->RenderGui();
@@ -94,7 +106,12 @@ void Renderer::Render() {
     /* Clean the ImGui processes*/
     ImGui::SFML::Shutdown();
 }
-
+void Renderer::ResetBenchmark() {
+    if (benchmark_count++ > benchmark_reset) {
+        bmk::Recorder::root.Reset();
+        benchmark_count = 0;
+    }
+}
 void Renderer::RenderWindow() { this->window.display(); }
 
 void Renderer::Close() {

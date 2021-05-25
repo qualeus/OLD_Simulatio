@@ -539,7 +539,7 @@ void Renderer::ShowGuiSpawner(bool* p_open) {
 
 void Renderer::ShowGuiBenchmark(bool* p_open) {
     if (ImGui::Begin("Benchmark", p_open, ImGuiWindowFlags_NoFocusOnAppearing)) {
-        DrawPerf(&bmk::Recorder::root, 1.0);
+        DrawPerf(&bmk::Recorder::root, 0.01f);
         /*
         if (ImGui::IsWindowFocused() && ImGui::IsMouseDragging(0)) {
             ImVec2 offset(0.0f, 0.0f);
@@ -562,13 +562,11 @@ void Renderer::DrawPerf(bmk::Performance* root, double time_scale, size_t count)
         ImGui::PushItemWidth(0.0f);
         ImGui::BeginGroup();
 
-        float hue = count * 0.05f;
-
         ImVec2 size = ImVec2(static_cast<float>(time_scale * perf.Time()), 0.0f);
-
-        // ImGui::PushStyleColor(ImGuiCol_Header, ImColor::HSV(hue, 0.6f, 0.6f));
-        ImGui::Selectable("TEST", true, ImGuiSelectableFlags_None, size);  // perf.data->get_name().c_str()
-        // ImGui::PopStyleColor(1);
+        ImVec4 color = ImColor::HSV(count * 0.05f, 0.6f, 0.6f).Value;
+        ImGui::PushStyleColor(ImGuiCol_Header, color);
+        ImGui::Selectable(perf.data->get_name().c_str(), true, ImGuiSelectableFlags_None, size);  //
+        ImGui::PopStyleColor();
 
         if (ImGui::IsItemHovered()) {
             ImGui::SetTooltip(
