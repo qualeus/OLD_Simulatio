@@ -570,12 +570,14 @@ void Renderer::DrawPerf(bmk::Performance* root, double time_scale, size_t count)
 
         if (ImGui::IsItemHovered()) {
             ImGui::SetTooltip(
-                "%s\n"
-                "Location: %s:%d\n"
-                "Children: %d\n"
+                "Task: %s\n"
+                "Location: %s:l.%d\n"
+                "Childrens: %d\n"
                 "Total Time: %fms\n"
-                "Size: %f\n",
-                perf.data->get_name(), perf.data->get_file(), perf.data->get_line(), perf.childs.size(), perf.Time(), size.x);
+                "Size: %f\n"
+                "Start: %d\n"
+                "End: %d\n",
+                perf.data->get_name().c_str(), perf.data->get_file().c_str(), perf.data->get_line(), perf.childs.size(), perf.Time(), size.x, perf.begining, perf.ending);
         }
         ImGui::NewLine();
         DrawPerf(&perf, time_scale, count + 1);

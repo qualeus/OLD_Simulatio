@@ -2,7 +2,7 @@
 
 namespace bmk {
 
-Performance::Performance(BlockData *data) : data(data) { begining = std::chrono::high_resolution_clock::now(); }
+Performance::Performance(std::shared_ptr<BlockData> data) : data(data) { begining = std::chrono::high_resolution_clock::now(); }
 Performance::Performance(Performance &&other) : data(other.data) {
     begining = other.begining;
     ending = other.ending;

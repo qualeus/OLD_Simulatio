@@ -6,14 +6,13 @@
 namespace bmk {
 
 class Performance {
-   protected:
-    std::chrono::time_point<std::chrono::high_resolution_clock> begining;
-    std::chrono::time_point<std::chrono::high_resolution_clock> ending;
 
    public:
-    BlockData *data;
+    std::chrono::time_point<std::chrono::high_resolution_clock> begining;
+    std::chrono::time_point<std::chrono::high_resolution_clock> ending;
+    std::shared_ptr<BlockData> data;
     std::vector<Performance> childs;
-    Performance(BlockData *data);
+    Performance(std::shared_ptr<BlockData> data);
     Performance(Performance &&other);
     ~Performance();
     void End();
