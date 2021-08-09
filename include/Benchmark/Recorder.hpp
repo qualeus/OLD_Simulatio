@@ -17,10 +17,11 @@ class Recorder : public Performance {
     void Reset();
 };
 
+static bool recording = false;
 static BlockData perf = BlockData("Global Root", __FILE__, __LINE__);
 
 }  // namespace 
 
-#define Record(name) Recorder __perf__{std::make_shared<bmk::BlockData>(bmk::BlockData(name, __FILE__, __LINE__))};
+#define Record(name) Recorder __perf__##__COUNTER__##__RECORDER__{std::make_shared<bmk::BlockData>(bmk::BlockData(name , __FILE__, __LINE__))};
 
 #endif

@@ -163,14 +163,14 @@ void TestDemo() {
 
 int main() {
     // BaseDemo();
-    // GravityDemo();
+   // GravityDemo();
     // ConstraintDemo();
     // ClothDemo();
     // SliderDemo();
-    //  SpringDemo();
-    // BaloonDemo();
-    // SpongeDemo();
-    TestDemo();
+     // SpringDemo();
+     //BaloonDemo();
+     // SpongeDemo();
+     TestDemo();
     return 0;
 }
 

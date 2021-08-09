@@ -66,50 +66,65 @@ void Renderer::Render() {
     while (this->window.isOpen()) {
         /* Reset Benchmarking */
         this->ResetBenchmark();
-
-        if (!this->Paused()) {
-            this->system.Step();
-            this->UpdateCorpseDatas();
-            this->UpdateSpawners();
-        }
-
-        /* Background Color */
-        this->window.clear(background_color);
-
-        /* Events Handling */
-        sf::Event event;
-        while (this->window.pollEvent(event)) { Input(event); }
-        this->UpdateCamera();
-
-        /* Delta Time Clock */
-        ImGui::SFML::Update(this->window, this->frame = this->clock.restart());
-
-        /* Draw Elements */
         {
-            bmk::Record("Draw Gui");
-            this->DrawGui();
-        }
-        {
-            bmk::Record("Draw Objects");
-            this->Draw();
-        }
-        {
-            bmk::Record("Draw Debug");
-            this->Debug();
-        }
+            /* Base */
+            bmk::Record("#");
+            /* Frame */
+            {
+                bmk::Record("Frame");
+                if (!this->Paused()) {
+                    this->system.Step();
+                    this->UpdateCorpseDatas();
+                    this->UpdateSpawners();
+                }
 
-        /* Render Elements */
-        this->RenderGui();
-        this->RenderWindow();
+                /* Background Color */
+                this->window.clear(background_color);
+
+                /* Events Handling */
+                sf::Event event;
+                while (this->window.pollEvent(event)) { Input(event); }
+                this->UpdateCamera();
+
+                /* Delta Time Clock */
+                ImGui::SFML::Update(this->window, this->frame = this->clock.restart());
+
+                /* Draw Elements */
+                {
+                    bmk::Record("Drawing");
+                    {
+                        bmk::Record("Gui");
+                        this->DrawGui();
+                    }
+                    {
+                        bmk::Record("System");
+                        this->Draw();
+                    }
+                    {
+                        bmk::Record("Debug");
+                        this->Debug();
+                    }
+                }
+
+                /* Render Elements */
+                this->RenderGui();
+                this->RenderWindow();
+            }
+        }
     }
 
     /* Clean the ImGui processes*/
     ImGui::SFML::Shutdown();
 }
 void Renderer::ResetBenchmark() {
-    if (benchmark_count++ > benchmark_reset) {
+    if (benchmark_count++ > benchmark_reset || !benchmark_recording) {
         bmk::Recorder::root.Reset();
         benchmark_count = 0;
+    }
+    if (benchmark_paused) {
+        if (bmk::Recorder::root.childs.size() > 0) {
+            bmk::Recorder::root.childs.pop_back();
+        }
     }
 }
 void Renderer::RenderWindow() { this->window.display(); }

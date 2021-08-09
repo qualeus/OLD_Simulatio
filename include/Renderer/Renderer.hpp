@@ -99,7 +99,13 @@
 class Renderer {
    private:
     int benchmark_count = 0;
-    int benchmark_reset = 100;
+    int benchmark_reset = 10000;
+    
+    bool benchmark_recording = true;
+    bool benchmark_paused = false;
+
+    int benchmark_selection_inf = 0;
+    int benchmark_selection_sup = 0;
 
     int input_mouse_type = I_MOUSE_TYPE_MOVE;
     int input_side_menu = I_SIDE_MENU_DEFAULT;
@@ -323,7 +329,8 @@ class Renderer {
     void DrawGuiDocking();
     void DrawGuiHelp(const char* desc);
     bool DrawGuiCheckBox(const char* label, int* v_tristate);
-    void DrawPerf(bmk::Performance* root, double time_scale, size_t count = 0);
+    void DrawPerf(bmk::Performance* root, double time_init, double time_scale, size_t count = 0);
+    void DrawPerfBox(bmk::Performance* perf, double time_init, double time_scale, size_t count = 0);
 
     void ShowGuiConsole(bool* p_open);
     void ShowGuiProperties(bool* p_open);

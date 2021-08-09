@@ -98,7 +98,8 @@
         "hash_map": "cpp",
         "*.impl": "cpp",
         "*.todo": "cpp",
-        "hash_set": "cpp"
+        "hash_set": "cpp",
+        "*.inc": "cpp"
     },
     "colorize.languages": [
         "cpp",
