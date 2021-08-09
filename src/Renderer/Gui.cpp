@@ -540,8 +540,7 @@ void Renderer::ShowGuiSpawner(bool* p_open) {
 void Renderer::ShowGuiBenchmark(bool* p_open) {
     if (ImGui::Begin("Benchmark - Telemetry", p_open, ImGuiWindowFlags_NoFocusOnAppearing)) {
         
-        if (ImGui::Button(benchmark_recording ? "Reset" : "Record"))
-        {
+        if (ImGui::Button(benchmark_recording ? "Reset" : "Record")) {
             if (benchmark_recording) {
                 bmk::Recorder::root.Reset();
                 benchmark_paused = false;
@@ -551,12 +550,16 @@ void Renderer::ShowGuiBenchmark(bool* p_open) {
         }
 
         ImGui::SameLine();
-        if (ImGui::Button(benchmark_paused ? "Resume" : "Pause"))
-        {
+
+        if (ImGui::Button(benchmark_paused ? "Resume" : "Pause")) {
             benchmark_paused = !benchmark_paused;
         }
-        int timeline_height = 100;
+        
+        ImGui::SameLine();
 
+        if (ImGui::SliderFloat("TimeScale", &benchmark_timescale, 0.1f, 20.0f, "%.1f")) { }
+
+        int timeline_height = 100;
         ImVec2 timelineAreaSize();
         ImGui::BeginChild("Timeline", ImVec2(0, timeline_height), false, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_HorizontalScrollbar);
             
@@ -614,7 +617,7 @@ void Renderer::ShowGuiBenchmark(bool* p_open) {
 
         for (int i = selection_inf; i < selection_sup; i++) {
             int index = size > max_element ? size - max_element + i : i;
-            DrawPerf(&bmk::Recorder::root.childs.at(index), bmk::Recorder::root.childs.at(first_index).Beginning(), 5.0f);
+            DrawPerf(&bmk::Recorder::root.childs.at(index), bmk::Recorder::root.childs.at(first_index).Beginning(), benchmark_timescale);
         }
         ImGui::EndChild();
     }
@@ -631,7 +634,7 @@ void Renderer::DrawPerf(bmk::Performance* root, double time_init, double time_sc
 
 void Renderer::DrawPerfBox(bmk::Performance* perf, double time_init, double time_scale, size_t count) {
     float height = 20.0f;
-    ImVec2 size = ImVec2(static_cast<float>(time_scale * perf->Time()) + 0.1f, height);
+    ImVec2 size = ImVec2(static_cast<float>(time_scale * perf->Time()), height);
     ImVec2 pos = ImVec2(static_cast<float>(time_scale * (perf->Beginning() - time_init)), height * count);
     ImVec4 color = ImColor::HSV(count * 0.05f, 0.6f, 0.6f).Value;
     ImGui::PushStyleColor(ImGuiCol_Header, color);

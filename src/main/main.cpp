@@ -162,7 +162,7 @@ void TestDemo() {
 }
 
 int main() {
-    // BaseDemo();
+     BaseDemo();
    // GravityDemo();
     // ConstraintDemo();
     // ClothDemo();
@@ -170,7 +170,7 @@ int main() {
      // SpringDemo();
      //BaloonDemo();
      // SpongeDemo();
-     TestDemo();
+     // TestDemo();
     return 0;
 }
 

@@ -103,6 +103,7 @@ class Renderer {
     
     bool benchmark_recording = true;
     bool benchmark_paused = false;
+    float benchmark_timescale = 10.0f;
 
     int benchmark_selection_inf = 0;
     int benchmark_selection_sup = 0;
