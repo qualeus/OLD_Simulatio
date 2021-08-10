@@ -37,14 +37,14 @@ This project also allows me to familiarize myself with several areas of programm
 [Browse all screenshots](./docs/ScreenShots/ScreenShots.md)
 
 <div float="left">
-<img alt="Abacus" src="./docs/ScreenShots/Pictures/Abacus.png" width="600">
-<img alt="Baloon" src="./docs/ScreenShots/Pictures/Baloon.png" width="600">
-<img alt="Benchmarking" src="./docs/ScreenShots/Pictures/Benchmarking.png" width="600">
-<img alt="Cloth" src="./docs/ScreenShots/Pictures/Cloth.png" width="600">
-<img alt="Polygons" src="./docs/ScreenShots/Pictures/Polygons.png" width="600">
-<img alt="Quadtree" src="./docs/ScreenShots/Pictures/Quadtree.png" width="600">
-<img alt="Softbody" src="./docs/ScreenShots/Pictures/Softbody.png" width="600">
-<img alt="Spring" src="./docs/ScreenShots/Pictures/Spring.png" width="600">
+<img alt="Abacus" src="./docs/ScreenShots/Pictures/Abacus.png" width="450">
+<img alt="Baloon" src="./docs/ScreenShots/Pictures/Baloon.png" width="450">
+<img alt="Benchmarking" src="./docs/ScreenShots/Pictures/Benchmarking.png" width="450">
+<img alt="Cloth" src="./docs/ScreenShots/Pictures/Cloth.png" width="450">
+<img alt="Polygons" src="./docs/ScreenShots/Pictures/Polygons.png" width="450">
+<img alt="Quadtree" src="./docs/ScreenShots/Pictures/Quadtree.png" width="450">
+<img alt="Softbody" src="./docs/ScreenShots/Pictures/Softbody.png" width="450">
+<img alt="Spring" src="./docs/ScreenShots/Pictures/Spring.png" width="450">
 <div>
 
 ## Prerequisites
