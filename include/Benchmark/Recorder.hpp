@@ -22,6 +22,11 @@ static BlockData perf = BlockData("Global Root", __FILE__, __LINE__);
 
 }  // namespace 
 
-#define Record(name) Recorder __perf__##__COUNTER__##__RECORDER__{std::make_shared<bmk::BlockData>(bmk::BlockData(name , __FILE__, __LINE__))};
+// Tracking a single task
+#define Record(name) Recorder __perf__{std::make_shared<bmk::BlockData>(bmk::BlockData(name , __FILE__, __LINE__))};
+
+// Track and group several micro tasks
+// #define RecordCluster(name) Recorder __perf__{std::make_shared<bmk::BlockData>(bmk::BlockData(name , __FILE__, __LINE__))};;
+
 
 #endif

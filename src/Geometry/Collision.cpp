@@ -15,6 +15,7 @@ template Collision<double>::Collision(phy::Corpse* lhs, phy::Corpse* rhs, gmt::V
 
 template <typename T>
 std::vector<Collision<T>> Collision<T>::Resolve(std::shared_ptr<phy::Corpse> lhs, std::shared_ptr<phy::Corpse> rhs) {
+
     /* Left Hand Side pointer classes */
     phy::Circle* lcircle = nullptr;
     phy::Polygon* lpolygon = nullptr;

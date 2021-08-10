@@ -20,31 +20,32 @@ This project also allows me to familiarize myself with several areas of programm
 - **Optimisation**
 - **Threads** and Graphical acceleration with CUDA (IN DEV)
 
-<img align="left" width="160" src="./assets/icon/icon.png">
+---
 
-To summarize this is an introduction to the basic concepts and functions of 2D physical simulation (applicable to 3D thereafter).
+> <img align="left" height="160" src="./assets/icon/icon.png">
+>
+> To summarize this is an introduction to the basic concepts and functions of 2D physical simulation (applicable to 3D thereafter).
+>
+> The ultimate goal would be to present an easy-to-use and optimized physical engine, a bit like a simplified "Algodoo".
+>
+> Currently in dev, you can see a very messy roadmap [here](https://github.com/users/mlhoutel/projects/3)
 
-The ultimate goal would be to present an easy-to-use and optimized physical engine, a bit like a simplified "Algodoo".
+---
 
-Currently in dev, you can see a very messy roadmap [here](https://github.com/users/mlhoutel/projects/3)
+## Exemples
 
-## Examples
+[Browse all screenshots](./docs/ScreenShots/ScreenShots.md)
 
-Few demos...
-
-<p align="center"><img alt="Conglomerate" src="./doc/ScreenShots/Conglomerate.gif"></p>
-
-<p align="center"><img alt="Clothes" src="./doc/ScreenShots/Clothes.gif"></p>
-
-<p align="center"><img alt="Trajectory" src="./doc/ScreenShots/Trajectory.gif"></p>
-
-<p align="center"><img alt="Clothes2" src="./doc/ScreenShots/Clothes2.gif"></p>
-
-<p align="center"><img alt="Balloon" src="./doc/ScreenShots/Balloon.gif"></p>
-
-<p align="center"><img alt="Slider" src="./doc/ScreenShots/Slider.gif"></p>
-
-<p align="center"><img alt="Spring" src="./doc/ScreenShots/Spring.gif"></p>
+<div float="left">
+<img alt="Abacus" src="./docs/ScreenShots/Pictures/Abacus.png" width="600">
+<img alt="Baloon" src="./docs/ScreenShots/Pictures/Baloon.png" width="600">
+<img alt="Benchmarking" src="./docs/ScreenShots/Pictures/Benchmarking.png" width="600">
+<img alt="Cloth" src="./docs/ScreenShots/Pictures/Cloth.png" width="600">
+<img alt="Polygons" src="./docs/ScreenShots/Pictures/Polygons.png" width="600">
+<img alt="Quadtree" src="./docs/ScreenShots/Pictures/Quadtree.png" width="600">
+<img alt="Softbody" src="./docs/ScreenShots/Pictures/Softbody.png" width="600">
+<img alt="Spring" src="./docs/ScreenShots/Pictures/Spring.png" width="600">
+<div>
 
 ## Prerequisites
 
