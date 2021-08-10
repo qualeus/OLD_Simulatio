@@ -22,13 +22,13 @@ This project also allows me to familiarize myself with several areas of programm
 
 ---
 
-> <img align="left" height="160" src="./assets/icon/icon.png">
->
-> To summarize this is an introduction to the basic concepts and functions of 2D physical simulation (applicable to 3D thereafter).
->
-> The ultimate goal would be to present an easy-to-use and optimized physical engine, a bit like a simplified "Algodoo".
->
-> Currently in dev, you can see a very messy roadmap [here](https://github.com/users/mlhoutel/projects/3)
+<img align="left" height="160" src="./assets/icon/icon.png">
+
+To summarize this is an introduction to the basic concepts and functions of 2D physical simulation (applicable to 3D thereafter).
+
+The ultimate goal would be to present an easy-to-use and optimized physical engine, a bit like a simplified "Algodoo".
+
+Currently in dev, you can see a very messy roadmap [here](https://github.com/users/mlhoutel/projects/3)
 
 ---
 
@@ -47,6 +47,47 @@ This project also allows me to familiarize myself with several areas of programm
 <img alt="Spring" src="./docs/ScreenShots/Pictures/Spring.png" width="450">
 <div>
 
+    
+## Installing
+
+Download this repo with `git clone https://github.com/mlhoutel/Physics.git`
+
+_(or just click on the download button and extract the file where you want.)_
+
+It should contain these files:
+
+```
+├───.git
+├───bin             # All binaries files
+│   │───Demos       # Demos of functionnalities and performances (ex: \Release\granular_demo\granular_demo.exe)
+│   │───Saves       # Saved binaries of the last versions (ex: \v0.2.3\Release)
+│   │───Sources     # Where the current build is stored (Debug and Release)
+│   └───Tests       # Manuals Units tests (ex: \Release\functional_computations\functional_computations.exe)
+├───include         # Headers files (.hpp)
+├───ressources      # Fonts, Libraries and Images
+└───src             # Sources files (.cpp)
+    │───Demos       # Demos files
+    └───Tests       # Tests files
+```
+
+~~If you want to use the automatic compilation by command, open the "build.bat" file in a text editor like Notepad and edit this line to match your SMFL compilated folder: ` set lib_path="D:\Projets\Physics\ressources\Libraries"`.
+You can now run the build.bat file and press 5 to compile and run the demo code.~~
+
+```
+cd build
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ../.. && cmake --build .
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build .
+```
+
+---
+
+## Built With
+
+- [SFML](https://github.com/SFML/SFML) - The Graphical library
+- [ImGui](https://github.com/ocornut/imgui) - The GUI library
+- [ImGui::SFML](https://github.com/eliasdaler/imgui-sfml) - The Binder library
+
+    
 ## Prerequisites
 
 ### CPP compiler
@@ -113,7 +154,6 @@ _To compile SFML in static (all in once, don't need the .dll for the .exe to wor
 - Uncheck **BUILD_SHARED_LIBS**
 - Check **SFML_USE_STATIC_STD_LIBS**
 - Edit the **CMake_INSTALL_PREFIX** to be the path of a new folder.
-
 - Click the **Configure** button once more to check there is no problem.
 - Then click on the **Generate** button.
 
@@ -122,11 +162,13 @@ Then open a new command in the folder where SFML was built.
 - Run the following command: `mingw32-make install`
 
 ### IMGUI
-
+    
+```
 IMGUI_DIR = D:/Librairies/imgui
 SFML_DIR = D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/cmake/SFML
 SFML_DOC_DIR = D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/cmake/SFML
 CMAKE_INSTALL_PREFIX = D:/Librairies/imgui_sfml
+```
 
 ```
 cmake . -D SFML_DIR="D:\Librairies\sfml_2_5_1/sfml_2_5_1_build\lib\cmake\SFML"
@@ -136,45 +178,6 @@ cmake D:\Librairies\imgui-sfml -DIMGUI_DIR=D:\Librairies\imgui -DSFML_DIR=D:\Lib
 Then open a new command in the folder where IMGUI was built.
 
 - Run the following command: `mingw32-make install`
-
-## Installing
-
-Download this repo with `git clone https://github.com/mlhoutel/Physics.git`
-
-_(or just click on the download button and extract the file where you want.)_
-
-It should contain these files:
-
-```
-├───.git
-├───bin             # All binaries files
-│   │───Demos       # Demos of functionnalities and performances (ex: \Release\granular_demo\granular_demo.exe)
-│   │───Saves       # Saved binaries of the last versions (ex: \v0.2.3\Release)
-│   │───Sources     # Where the current build is stored (Debug and Release)
-│   └───Tests       # Manuals Units tests (ex: \Release\functional_computations\functional_computations.exe)
-├───include         # Headers files (.hpp)
-├───ressources      # Fonts, Libraries and Images
-└───src             # Sources files (.cpp)
-    │───Demos       # Demos files
-    └───Tests       # Tests files
-```
-
-~~If you want to use the automatic compilation by command, open the "build.bat" file in a text editor like Notepad and edit this line to match your SMFL compilated folder: ` set lib_path="D:\Projets\Physics\ressources\Libraries"`.
-You can now run the build.bat file and press 5 to compile and run the demo code.~~
-
-```
-cd build
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ../.. && cmake --build .
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build .
-```
-
----
-
-## Built With
-
-- [SFML](https://github.com/SFML/SFML) - The Graphical library
-- [ImGui](https://github.com/ocornut/imgui) - The GUI library
-- [ImGui::SFML](https://github.com/eliasdaler/imgui-sfml) - The Binder library
 
 ## Contributing
 
