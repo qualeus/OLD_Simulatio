@@ -162,15 +162,15 @@ void TestDemo() {
 }
 
 int main() {
-     BaseDemo();
-    GravityDemo();
-     ConstraintDemo();
-     ClothDemo();
-     SliderDemo();
-      SpringDemo();
-     BaloonDemo();
-      SpongeDemo();
-      TestDemo();
+     // BaseDemo();
+    // GravityDemo();
+     //  ConstraintDemo();
+      ClothDemo();
+     // SliderDemo();
+     //  SpringDemo();
+     // BaloonDemo();
+      // SpongeDemo();
+     //  TestDemo();
     return 0;
 }
 

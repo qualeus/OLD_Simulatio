@@ -240,6 +240,8 @@ class Renderer {
     std::unordered_map<int, sf::Color> corpses_colors;
     std::unordered_map<int, sf::Color> constraints_colors;
 
+    std::vector<sf::Vertex> vertices_buffer;
+
    public:
     phy::System system;
 
@@ -346,6 +348,7 @@ class Renderer {
     void DebugPairs();  // Draw the interactions of the Corpses
     void DebugDrag();   // Draw the inputs on the Corpses
 
+    void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, sf::Color color = sf::Color::White);
     void DrawLine(int x1, int y1, int x2, int y2, float thickness = 2.0f, sf::Color color = sf::Color::White);
     void DrawSpring(int x1, int y1, int x2, int y2, float thickness, int number_wave, sf::Color color);
     void DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness = 2.0f, sf::Color color = sf::Color::White);

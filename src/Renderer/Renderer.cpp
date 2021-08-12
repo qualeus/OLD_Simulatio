@@ -43,6 +43,8 @@ Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_
     this->view.reset(sf::FloatRect(-screen_width / 2, -screen_height / 2, this->screen_width, this->screen_height));
     this->Camera(sf::Vector2f(camera_x, camera_y), std::max(zoom, 0.01f));
 
+    this->vertices_buffer = {};
+
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
 
@@ -182,11 +184,17 @@ void Renderer::UpdateDebug() {
 }
 
 void Renderer::Draw() {
+
+    // Reset the buffers
+    this->vertices_buffer = {};
+
+    // Fill the buffer with objects to be drawn
     for (int i = 0; i < system.get_corpses_size(); i++) { DrawCorpse(system.get_corpse(i), corpses_colors.at(system.get_corpse(i)->get_id())); }
-
     for (int i = 0; i < system.get_constraints_size(); i++) { DrawConstraint(system.get_constraint(i), constraints_colors.at(system.get_constraint(i)->get_id())); }
-
     if (system.get_enable_limits()) { DrawLimits(); }
+
+    // Draw the buffers objects all at once
+    this->window.draw(&this->vertices_buffer[0], this->vertices_buffer.size(), sf::Triangles);
 }
 
 void Renderer::Camera(sf::Vector2f move, float zoom) {
