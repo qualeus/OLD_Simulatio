@@ -291,9 +291,9 @@ void Renderer::DrawInputs() {
 }
 
 void Renderer::DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, sf::Color color) {
-    this->vertices_buffer.push_back(sf::Vertex(sf::Vector2f(x1, y1), color));
-    this->vertices_buffer.push_back(sf::Vertex(sf::Vector2f(x2, y2), color));
-    this->vertices_buffer.push_back(sf::Vertex(sf::Vector2f(x3, y3), color));
+    this->vertices_buffer.push_back(sf::Vertex(sf::Vector2f(x1 * PIXEL_SCALE, y1 * PIXEL_SCALE), color));
+    this->vertices_buffer.push_back(sf::Vertex(sf::Vector2f(x2 * PIXEL_SCALE, y2 * PIXEL_SCALE), color));
+    this->vertices_buffer.push_back(sf::Vertex(sf::Vector2f(x3 * PIXEL_SCALE, y3 * PIXEL_SCALE), color));
 }
 
 void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Color color) {
@@ -367,19 +367,22 @@ void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, f
 void Renderer::DrawCircle(int x, int y, int radius, sf::Color color, bool outline) {
     if (!gmt::Bounds<float>::CircleIntersectBounds(radius, gmt::Vector<float>(x, y), get_screen_bounds())) { return; }
 
-    sf::CircleShape circle(radius, circle_resolution);
-    circle.setPosition(x, y);
-    circle.setOrigin(circle.getRadius(), circle.getRadius());
-
-    if (outline) {
-        circle.setOutlineThickness(outline_thickness);
-        circle.setOutlineColor(color);
-        circle.setFillColor(sf::Color::Transparent);
-    } else {
-        circle.setFillColor(color);
+    float cx = static_cast<float>(x);
+    float cy = static_cast<float>(y);
+    float frad = static_cast<float>(radius);
+    gmt::Vector<float> pP = gmt::Vector<float>(cx + frad, cy);
+    for (int i = 1; i < circle_resolution; i++) {
+        float angle = static_cast<float>(i) * 2.0f * PI / static_cast<float>(circle_resolution - 1);
+        gmt::Vector<float> pN = gmt::Vector<float>(cx + std::cos(angle) * frad, cy + std::sin(angle) * frad);
+        
+        if (outline) {
+            this->DrawLine(pP.x, pP.y, pN.x, pN.y, outline_thickness, color);
+        } else {
+            this->DrawTriangle(pP.x, pP.y, pN.x, pN.y, cx, cy, color);
+        }
+        
+        pP = pN;
     }
-
-    this->window.draw(circle);
 }
 
 void Renderer::DrawRectangle(int x1, int y1, int x2, int y2, bool fixed, sf::Color color, bool outline) {
@@ -387,8 +390,8 @@ void Renderer::DrawRectangle(int x1, int y1, int x2, int y2, bool fixed, sf::Col
 
     gmt::Vector<float> pA = gmt::Vector<float>(x1, y1);
     gmt::Vector<float> pB = gmt::Vector<float>(x1, y2);
-    gmt::Vector<float> pC = gmt::Vector<float>(x2, y1);
-    gmt::Vector<float> pD = gmt::Vector<float>(x2, y2);
+    gmt::Vector<float> pC = gmt::Vector<float>(x2, y2);
+    gmt::Vector<float> pD = gmt::Vector<float>(x2, y1);
 
     if (outline) {
         this->DrawLine(pA.x, pA.y, pB.x, pB.y, outline_thickness, color);
@@ -397,7 +400,7 @@ void Renderer::DrawRectangle(int x1, int y1, int x2, int y2, bool fixed, sf::Col
         this->DrawLine(pD.x, pD.y, pA.x, pA.y, outline_thickness, color);
     } else {
         this->DrawTriangle(pA.x, pA.y, pB.x, pB.y, pC.x, pC.y, color);
-        this->DrawTriangle(pB.x, pB.y, pC.x, pC.y, pD.x, pD.y, color);
+        this->DrawTriangle(pA.x, pA.y, pC.x, pC.y, pD.x, pD.y, color);
     }
 }
 

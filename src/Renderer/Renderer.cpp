@@ -270,11 +270,11 @@ void Renderer::set_screen_height(int screen_height) { this->screen_height = scre
 int Renderer::get_max_framerate() { return this->max_framerate; }
 void Renderer::set_max_framerate(int max_framerate) { this->max_framerate = max_framerate; }
 
-gmt::Bounds<float> Renderer::get_screen_bounds() { return gmt::Bounds<float>(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width), get_real_pos_y(screen_height)); }
+gmt::Bounds<float> Renderer::get_screen_bounds() { return gmt::Bounds<float>(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width * PIXEL_SCALE), get_real_pos_y(screen_height * PIXEL_SCALE)); }
 
-sf::Vector2f Renderer::get_real_pos(sf::Vector2i pos) { return window.mapPixelToCoords(pos); }
-float Renderer::get_real_pos_x(float x) { return window.mapPixelToCoords(sf::Vector2i(x, 0)).x; }
-float Renderer::get_real_pos_y(float y) { return window.mapPixelToCoords(sf::Vector2i(0, y)).y; }
+sf::Vector2f Renderer::get_real_pos(sf::Vector2i pos) { return window.mapPixelToCoords(sf::Vector2i(pos.x, pos.y)) / PIXEL_SCALE; }
+float Renderer::get_real_pos_x(float x) { return window.mapPixelToCoords(sf::Vector2i(x, 0)).x / PIXEL_SCALE; }
+float Renderer::get_real_pos_y(float y) { return window.mapPixelToCoords(sf::Vector2i(0, y)).y / PIXEL_SCALE; }
 
 bool Renderer::get_enable_inputs() { return this->enable_inputs; }
 void Renderer::set_enable_inputs(bool enable) { this->enable_inputs = enable; }

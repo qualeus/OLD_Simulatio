@@ -1694,6 +1694,17 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             ImGui::TreePop();
         }
 
+         if (ImGui::TreeNode("Drawing")) {
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::Separator();
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::Text("%i vertices drawn", this->vertices_buffer.size());
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::Separator();
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::TreePop();
+         }
+
         if (ImGui::TreeNode("Global Informations")) {
             ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Separator();

@@ -96,6 +96,8 @@
 #define I_SIDE_MENU_SHAPE 1
 #define I_SIDE_MENU_SPAWNER 2
 
+#define PIXEL_SCALE 10.0f
+
 class Renderer {
    private:
     int benchmark_count = 0;
@@ -122,7 +124,7 @@ class Renderer {
     std::string mass_unit = "kg";
     std::string time_unit = "s";
 
-    int circle_resolution = 60;
+    int circle_resolution = 30;
     int outline_thickness = -2;
     float line_thickness = 2.0f;
     float text_resolution = 28.0f;
