@@ -397,7 +397,7 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
         if (one_pointed) {
             for (int i = 0; i < selected_corpses_cursor.size(); i++) {
                 int index = selected_corpses_cursor.at(i);
-                this->selected_corpses_diff.push_back(system.get_corpse(index)->get_pos().CloneSF() - sf::Vector2f(this->sys_mouse_x, this->sys_mouse_y));
+                this->selected_corpses_diff.push_back(system.get_corpse(index)->get_pos() - gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y));
                 this->selected_corpses_fixed.push_back(system.get_corpse(index)->get_fixed());
                 system.get_corpse(index)->set_fixed(true);
             }
@@ -420,7 +420,7 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
         if (system.get_corpse(i)->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {
             this->selected_corpses_cursor.push_back(i);
             this->selected_corpses_index.push_back(system.get_corpse(i)->get_id());
-            this->selected_corpses_diff.push_back(system.get_corpse(i)->get_pos().CloneSF() - sf::Vector2f(this->sys_mouse_x, this->sys_mouse_y));
+            this->selected_corpses_diff.push_back(system.get_corpse(i)->get_pos() - gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y));
             // Fix the corpse while holding it
             this->selected_corpses_fixed.push_back(system.get_corpse(i)->get_fixed());
             system.get_corpse(i)->set_fixed(true);
@@ -493,7 +493,7 @@ void Renderer::SelectMultipleCorpsesStop(sf::Event event) {
 void Renderer::DragCorpsesStep(sf::Event event) {
     for (int i = 0; i < selected_corpses_cursor.size(); i++) {
         this->debug_system_edited = true;
-        system.get_corpse(selected_corpses_cursor.at(i))->Move(sf::Vector2f(this->sys_mouse_x, this->sys_mouse_y) + selected_corpses_diff.at(i));
+        system.get_corpse(selected_corpses_cursor.at(i))->Move(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y) + selected_corpses_diff.at(i));
         system.CorpseStop(selected_corpses_cursor.at(i));
         system.CorpseUpdateBounds(selected_corpses_cursor.at(i));
     }
@@ -684,7 +684,7 @@ void Renderer::ToggleOffPolygon(sf::Event event) {
 
     if (this->selected_corpses_diff.size() > 2) {
         std::vector<gmt::VectorI> points = {};
-        for (int i = 0; i < this->selected_corpses_diff.size(); i++) { points.push_back(gmt::VectorI(this->selected_corpses_diff.at(i))); }
+        for (int i = 0; i < this->selected_corpses_diff.size(); i++) { points.push_back(this->selected_corpses_diff.at(i)); }
         phy::Polygon temp_poly = phy::Polygon(points, 10, 1, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false);
         this->addCorpse(temp_poly, C_NEPHRITIS);
     } else {
@@ -702,7 +702,7 @@ void Renderer::CreatePolygonInit(sf::Event event) {
 }
 void Renderer::CreatePolygonAddPoint(sf::Event event) {
     if (this->select_type != S_CREATE_POLYGON) { return; }
-    sf::Vector2f temp_pos = sf::Vector2f(this->sys_mouse_x, this->sys_mouse_y);
+    gmt::VectorI temp_pos = gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y);
     this->selected_corpses_diff.push_back(temp_pos);
 }
 void Renderer::CreatePolygonStep(sf::Event event) {}
@@ -712,7 +712,7 @@ void Renderer::CreatePolygonStop(sf::Event event) {
 
     if (this->selected_corpses_diff.size() > 2) {
         std::vector<gmt::VectorI> points = {};
-        for (int i = 0; i < this->selected_corpses_diff.size(); i++) { points.push_back(gmt::VectorI(this->selected_corpses_diff.at(i))); }
+        for (int i = 0; i < this->selected_corpses_diff.size(); i++) { points.push_back(this->selected_corpses_diff.at(i)); }
         phy::Polygon temp_poly = phy::Polygon(points, 10, 1, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false);
         this->addCorpse(temp_poly, C_NEPHRITIS);
     }

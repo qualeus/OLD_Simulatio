@@ -96,7 +96,7 @@
 #define I_SIDE_MENU_SHAPE 1
 #define I_SIDE_MENU_SPAWNER 2
 
-#define PIXEL_SCALE 10.0f
+#define PIXEL_SCALE 1.0f
 
 class Renderer {
    private:
@@ -124,7 +124,7 @@ class Renderer {
     std::string mass_unit = "kg";
     std::string time_unit = "s";
 
-    int circle_resolution = 30;
+    int circle_resolution = 0;
     int outline_thickness = -2;
     float line_thickness = 2.0f;
     float text_resolution = 28.0f;
@@ -157,7 +157,7 @@ class Renderer {
     std::vector<bool> selected_corpses_fixed;
     std::vector<int> selected_corpses_cursor;
     std::vector<int> selected_corpses_index;
-    std::vector<sf::Vector2f> selected_corpses_diff;
+    std::vector<gmt::VectorI> selected_corpses_diff;
 
     bool reset_base_layout = false;
     bool show_gui_console = false;
@@ -243,6 +243,13 @@ class Renderer {
     std::unordered_map<int, sf::Color> constraints_colors;
 
     std::vector<sf::Vertex> vertices_buffer;
+    int triangles = 0;
+    int rectangles = 0;
+    int lines = 0;
+    int arrows = 0;
+    int circles = 0;
+    int springs = 0;
+    int polygons = 0;
 
    public:
     phy::System system;
@@ -356,7 +363,7 @@ class Renderer {
     void DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness = 2.0f, sf::Color color = sf::Color::White);
     void DrawCircle(int x, int y, int radius, sf::Color color = sf::Color::White, bool outline = false);
     void DrawRectangle(int x1, int y1, int x2, int y2, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);
-    void DrawPolygon(std::vector<sf::Vector2f> points, sf::Color color = sf::Color::White, bool outline = false);
+    void DrawPolygon(gmt::VerticesI points, sf::Color color = sf::Color::White, bool outline = false);
     void DrawText(std::string str, int x, int y, int size = 20, bool fixed = false, sf::Color color = sf::Color::White);
 
     void Camera(sf::Vector2f move, float zoom = 1.0f);  // Update the positio of the Camera

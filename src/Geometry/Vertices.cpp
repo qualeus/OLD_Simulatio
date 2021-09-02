@@ -4,6 +4,18 @@ namespace gmt {
 
 /* Builder Constructor */
 template <typename T>
+Vertices<T>::Vertices(std::vector<Vector<T>> vertices) {
+    this->vertices = {};
+    for (int i = 0; i < vertices.size(); i++) {
+        this->vertices.push_back(std::make_shared<Vector<T>>(vertices.at(i)));
+    }
+}
+template Vertices<int>::Vertices(std::vector<Vector<int>> vertices);
+template Vertices<float>::Vertices(std::vector<Vector<float>> vertices);
+template Vertices<double>::Vertices(std::vector<Vector<double>> vertices);
+
+/* Builder Constructor */
+template <typename T>
 Vertices<T>::Vertices(std::vector<std::shared_ptr<Vector<T>>> vertices) {
     this->vertices = vertices;
 }

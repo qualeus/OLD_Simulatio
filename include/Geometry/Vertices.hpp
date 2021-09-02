@@ -12,6 +12,7 @@ class Vertices {
    public:
     std::vector<std::shared_ptr<Vector<T>>> vertices;
 
+    Vertices(std::vector<Vector<T>> vertices);
     Vertices(std::vector<std::shared_ptr<Vector<T>>> vertices);
     Vertices();
     ~Vertices();

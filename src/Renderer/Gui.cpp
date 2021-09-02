@@ -634,7 +634,7 @@ void Renderer::DrawPerf(bmk::Performance* root, double time_init, double time_sc
 
 void Renderer::DrawPerfBox(bmk::Performance* perf, double time_init, double time_scale, size_t count) {
     float height = 20.0f;
-    ImVec2 size = ImVec2(static_cast<float>(time_scale * perf->Time()), height);
+    ImVec2 size = ImVec2(static_cast<float>(time_scale * perf->Time() + 1), height);
     ImVec2 pos = ImVec2(static_cast<float>(time_scale * (perf->Beginning() - time_init)), height * count);
     ImVec4 color = ImColor::HSV(count * 0.05f, 0.6f, 0.6f).Value;
     ImGui::PushStyleColor(ImGuiCol_Header, color);
@@ -1668,18 +1668,18 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             float velocity_length = rad;
             float velocity_prec = std::log(last_mouse_vel) * 8.0f;
             if (velocity_prec < rad) { velocity_length = velocity_prec; }
+
             draw_list->AddCircle(ImVec2(x + rad, y + rad), rad, color, 20, 2.0f);
             draw_list->AddLine(ImVec2(x + rad, y + rad), ImVec2(x + rad + std ::cos(mouse_angle) * rad, y + rad + std ::sin(mouse_angle) * rad), color, 2.0f);
             draw_list->AddLine(ImVec2(x + rad, y + rad), ImVec2(x + rad + std ::cos(mouse_angle) * velocity_length, y + rad + std ::sin(mouse_angle) * velocity_length), color_sec, 2.0f);
-            ImGui::Text(
-                " \n"
-                " * Relative: (%.f,%.f)\n"
-                " * Absolute: (%.f,%.f)\n"
-                " * Global: (%.f,%.f)\n"
-                " \n"
-                " * Velocity: %.f\n"
-                " * Acceleration: %.f\n ",
-                debug_values[4], debug_values[5], debug_values[2], debug_values[3], io.MousePos.x, io.MousePos.y, last_mouse_vel, last_mouse_acc);
+            
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::Text(" * Relative: (%.f,%.f)",  debug_values[4], debug_values[5]);
+            ImGui::Text(" * Absolute: (%.f,%.f)", debug_values[2], debug_values[3]);
+            ImGui::Text(" * Global: (%.f,%.f)", io.MousePos.x, io.MousePos.y);
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::Text(" * Velocity: %.f", last_mouse_vel);
+            ImGui::Text(" * Acceleration: %.f", last_mouse_acc);
 
             ImGui::Separator();
             ImGui::Dummy(ImVec2(0.0f, 7.0f));
@@ -1698,7 +1698,18 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Separator();
             ImGui::Dummy(ImVec2(0.0f, 7.0f));
-            ImGui::Text("%i vertices drawn", this->vertices_buffer.size());
+            ImGui::Text("%i vertices in the buffer", this->vertices_buffer.size());
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::Separator();
+            ImGui::Dummy(ImVec2(0.0f, 7.0f));
+            ImGui::Text("Draw calls:");
+            ImGui::Text(" * %i triangles", this->triangles);
+            ImGui::Text(" * %i rectangles", this->rectangles);
+            ImGui::Text(" * %i lines", this->lines);
+            ImGui::Text(" * %i arrows", this->arrows);
+            ImGui::Text(" * %i circles", this->circles);
+            ImGui::Text(" * %i springs", this->springs);
+            ImGui::Text(" * %i polygons", this->polygons);
             ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Separator();
             ImGui::Dummy(ImVec2(0.0f, 7.0f));

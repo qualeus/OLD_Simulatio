@@ -88,6 +88,7 @@ set(SOURCES
     src/Structures/System.cpp
 
     src/Renderer/Draw.cpp
+    src/Renderer/Shapes.cpp
     src/Renderer/EditorColorScheme.cpp
     src/Renderer/Event.cpp
     src/Renderer/Gui.cpp
