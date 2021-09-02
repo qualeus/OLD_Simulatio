@@ -102,7 +102,7 @@ class Renderer {
    private:
     int benchmark_count = 0;
     int benchmark_reset = 10000;
-    
+
     bool benchmark_recording = true;
     bool benchmark_paused = false;
     float benchmark_timescale = 10.0f;
@@ -242,7 +242,23 @@ class Renderer {
     std::unordered_map<int, sf::Color> corpses_colors;
     std::unordered_map<int, sf::Color> constraints_colors;
 
+    struct circle_buffer {
+        gmt::Vector<int> position;
+        int radius;
+        sf::Color color;
+    };
+
+    struct outline_buffer {
+        gmt::Vector<int> position;
+        int radius;
+        int outline;
+        sf::Color color;
+    };
+
     std::vector<sf::Vertex> vertices_buffer;
+    std::vector<circle_buffer> circles_buffer;
+    std::vector<outline_buffer> outlines_buffer;
+
     int triangles = 0;
     int rectangles = 0;
     int lines = 0;
@@ -365,6 +381,10 @@ class Renderer {
     void DrawRectangle(int x1, int y1, int x2, int y2, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);
     void DrawPolygon(gmt::VerticesI points, sf::Color color = sf::Color::White, bool outline = false);
     void DrawText(std::string str, int x, int y, int size = 20, bool fixed = false, sf::Color color = sf::Color::White);
+
+    std::vector<sf::Vertex> ComputeQuad(gmt::Vector<int> position, int range);  // TODO: put in utils
+    void ComputeCircles();
+    void ComputeOutlines();
 
     void Camera(sf::Vector2f move, float zoom = 1.0f);  // Update the positio of the Camera
     bool Paused();                                      // Return true if the system is paused

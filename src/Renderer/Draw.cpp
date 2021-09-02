@@ -2,9 +2,10 @@
 #include "../../include/Renderer/Renderer.hpp"
 
 void Renderer::Draw() {
-
     // Reset the buffers
     this->vertices_buffer = {};
+    this->circles_buffer = {};
+    this->outlines_buffer = {};
 
     // Reset the counts
     this->triangles = 0;
@@ -22,11 +23,101 @@ void Renderer::Draw() {
 
     // Draw the buffers objects all at once
     this->window.draw(&this->vertices_buffer[0], this->vertices_buffer.size(), sf::Triangles);
+
+    // Draw the circles with a shader
+    ComputeCircles();
+
+    // Draw the circles outlines with a shader
+    // ComputeOutlines();
+}
+
+std::vector<sf::Vertex> Renderer::ComputeQuad(gmt::Vector<int> position, int range) {
+    std::vector<sf::Vertex> buffer = {};
+    float x1 = static_cast<float>(position.x - range);
+    float x2 = static_cast<float>(position.x + range);
+    float y1 = static_cast<float>(position.y - range);
+    float y2 = static_cast<float>(position.y + range);
+
+    // First Triangle
+    buffer.push_back(sf::Vertex(sf::Vector2f(x1, y1)));
+    buffer.push_back(sf::Vertex(sf::Vector2f(x1, y2)));
+    buffer.push_back(sf::Vertex(sf::Vector2f(x2, y1)));
+
+    // Second Triangle
+    buffer.push_back(sf::Vertex(sf::Vector2f(x2, y2)));
+    buffer.push_back(sf::Vertex(sf::Vector2f(x1, y2)));
+    buffer.push_back(sf::Vertex(sf::Vector2f(x2, y1)));
+
+    this->triangles += 2;
+
+    return buffer;
+}
+
+void Renderer::ComputeCircles() {
+    const std::string fragmentShader =
+        "uniform vec4 color;"
+        "uniform int radius;"
+        "/* ============== CIRCLE ============= */"
+        "vec4 circle(vec2 uv, vec2 pos, float rad, vec4 color) {"
+        "   float d = length(pos - uv) - rad;"
+        "   float t = clamp(d, 0.0, 1.0);"
+        "   return vec4(color[0], color[1], color[2], d);"
+        "}"
+        "/* ============== MAIN ============= */"
+        "void main(void) {"
+        "   vec2 uv = gl_TexCoord[0].xy;"
+        "   vec2 center = vec2(radius, radius);"
+        "   gl_FragColor = circle(uv, center, radius, color);"
+        "}";
+
+    sf::Shader shader;
+    if (!shader.loadFromMemory(fragmentShader, sf::Shader::Fragment)) { throw std::runtime_error("Circles shaders couldn't be loaded..."); }
+
+    sf::RenderStates states = sf::RenderStates(&shader);
+    for (int i = 0; i < this->circles_buffer.size(); i++) {
+        circle_buffer circle = this->circles_buffer.at(i);
+
+        shader.setUniform("color", sf::Glsl::Vec4(circle.color));
+        shader.setUniform("radius", circle.radius);
+
+        int range = circle.radius;
+        std::vector<sf::Vertex> buffer = ComputeQuad(circle.position, range);
+        this->window.draw(&buffer[0], buffer.size(), sf::Triangles, &shader);
+    }
+}
+
+void Renderer::ComputeOutlines() {
+    const std::string vertexShader =
+        "uniform float radius;"
+        "uniform vec2 position;"
+        "uniform vec4 borderColor;"
+        "uniform float borderThickness;"
+        "void main(void) {"
+        "vec2 uv = gl_FragCoord.xy - position;"
+        "float d = sqrt(dot(uv, uv));"
+        "float t = 1.0 - smoothstep(radius - borderThickness, radius, d);"
+        "frag_colour = vec4(color.rgb, color.a * t);"
+        "}";
+    const std::string fragmentShader = "";
+
+    sf::Shader shader;
+    if (!shader.loadFromMemory(vertexShader, fragmentShader)) { throw std::runtime_error("Outlines shaders couldn't be loaded..."); }
+
+    sf::RenderStates states = sf::RenderStates(&shader);
+    for (int i = 0; i < this->outlines_buffer.size(); i++) {
+        outline_buffer outline = this->outlines_buffer.at(i);
+
+        shader.setUniform("outline", outline.outline);
+        shader.setUniform("color", sf::Glsl::Vec4(outline.color));
+
+        int range = outline.radius + outline.outline;
+        std::vector<sf::Vertex> buffer = ComputeQuad(outline.position, range);
+        this->window.draw(&buffer[0], buffer.size(), sf::Triangles, &shader);
+    }
 }
 
 void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse, sf::Color color) {
     if (phy::Circle *circle = dynamic_cast<phy::Circle *>(corpse.get())) {
-
         /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
         DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), color, false);
         /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
@@ -47,7 +138,6 @@ void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse, sf::Color color) 
         }
 
     } else if (phy::Polygon *polygon = dynamic_cast<phy::Polygon *>(corpse.get())) {
-        
         /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
         gmt::VerticesI polygon_vertices = polygon->get_points();
         std::vector<sf::Vector2f> polygon_points = {};
@@ -292,9 +382,7 @@ void Renderer::DrawInputs() {
             if (temp_pos != sf::Vector2f()) { DrawCircle(temp_pos.x, temp_pos.y, temp_size, sf::Color::White, true); }
         } break;
         case S_CREATE_POLYGON: {
-            if (this->selected_corpses_diff.size() != 0) { 
-                DrawPolygon(gmt::VerticesI(this->selected_corpses_diff), sf::Color::White, true);
-            }
+            if (this->selected_corpses_diff.size() != 0) { DrawPolygon(gmt::VerticesI(this->selected_corpses_diff), sf::Color::White, true); }
         } break;
     }
 

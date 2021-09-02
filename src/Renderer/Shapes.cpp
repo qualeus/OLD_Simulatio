@@ -10,7 +10,6 @@ void Renderer::DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, sf::
 }
 
 void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Color color) {
-
     gmt::Vector<float> oA = gmt::Vector<float>(x1, y1);
     gmt::Vector<float> oB = gmt::Vector<float>(x2, y2);
 
@@ -23,10 +22,10 @@ void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Col
     gmt::Vector<float> pC = oB - normal;
     gmt::Vector<float> pD = oB + normal;
 
-   this->DrawTriangle(pA.x, pA.y, pB.x, pB.y, pC.x, pC.y, color);
-   this->DrawTriangle(pB.x, pB.y, pC.x, pC.y, pD.x, pD.y, color);
+    this->DrawTriangle(pA.x, pA.y, pB.x, pB.y, pC.x, pC.y, color);
+    this->DrawTriangle(pB.x, pB.y, pC.x, pC.y, pD.x, pD.y, color);
 
-   this->lines++;
+    this->lines++;
 }
 
 void Renderer::DrawSpring(int x1, int y1, int x2, int y2, float thickness, int number_wave, sf::Color color) {
@@ -61,7 +60,6 @@ void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, f
 
     if (gmt::float_equals(length, 0.0f, min_arrow_size)) { return; }  // Dont draw if the vector is null
 
-
     gmt::Vector<float> bottom = gmt::Vector<float>(x1, y1);
     gmt::Vector<float> head = gmt::Vector<float>(x2, y2);
     gmt::Vector<float> normal = gmt::Vector<float>::Normal((head - bottom).Normalize());
@@ -82,6 +80,8 @@ void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, f
 void Renderer::DrawCircle(int x, int y, int radius, sf::Color color, bool outline) {
     if (!gmt::Bounds<float>::CircleIntersectBounds(radius, gmt::Vector<float>(x, y), get_screen_bounds())) { return; }
 
+    /*
+    // Using a triangle fan to draw the circle shape. It's quite inneficient, better use a shader
     float cx = static_cast<float>(x);
     float cy = static_cast<float>(y);
     float frad = static_cast<float>(radius);
@@ -90,7 +90,7 @@ void Renderer::DrawCircle(int x, int y, int radius, sf::Color color, bool outlin
     for (int i = 1; i < circle_resolution; i++) {
         float angle = static_cast<float>(i) * 2.0f * PI / static_cast<float>(circle_resolution - 1);
         gmt::Vector<float> pN = gmt::Vector<float>(cx + std::cos(angle) * frad, cy + std::sin(angle) * frad);
-        
+
         if (outline) {
             this->DrawLine(pP.x, pP.y, pN.x, pN.y, outline_thickness, color);
         } else {
@@ -98,7 +98,22 @@ void Renderer::DrawCircle(int x, int y, int radius, sf::Color color, bool outlin
         }
         pP = pN;
     }
+    */
 
+    if (outline) {
+        struct outline_buffer outline;
+        outline.position = gmt::Vector<int>(x, y);
+        outline.color = color;
+        outline.radius = radius;
+        outline.outline = outline_thickness;
+        this->outlines_buffer.push_back(outline);
+    } else {
+        struct circle_buffer circle;
+        circle.position = gmt::Vector<int>(x, y);
+        circle.color = color;
+        circle.radius = radius;
+        this->circles_buffer.push_back(circle);
+    }
     this->circles++;
 }
 
@@ -125,10 +140,10 @@ void Renderer::DrawRectangle(int x1, int y1, int x2, int y2, bool fixed, sf::Col
 
 void Renderer::DrawPolygon(gmt::VerticesI points, sf::Color color, bool outline) {
     if (!gmt::Bounds<float>::BoundsIntersectBounds(points.Bounds(), get_screen_bounds())) { return; }
-    
+
     if (outline) {
-        for (int i = 1; i < points.vertices.size(); i++) { 
-            std::shared_ptr<gmt::VectorI> last = points.vertices.at(i-1);
+        for (int i = 1; i < points.vertices.size(); i++) {
+            std::shared_ptr<gmt::VectorI> last = points.vertices.at(i - 1);
             std::shared_ptr<gmt::VectorI> curr = points.vertices.at(i);
             DrawLine(last->x, last->y, curr->x, curr->y, outline_thickness, color);
         }
@@ -139,9 +154,9 @@ void Renderer::DrawPolygon(gmt::VerticesI points, sf::Color color, bool outline)
 
     } else {
         std::shared_ptr<gmt::VectorI> first = points.vertices.at(0);
-        
-         for (int i = 2; i < points.vertices.size(); i++) { 
-            std::shared_ptr<gmt::VectorI> last = points.vertices.at(i-1);
+
+        for (int i = 2; i < points.vertices.size(); i++) {
+            std::shared_ptr<gmt::VectorI> last = points.vertices.at(i - 1);
             std::shared_ptr<gmt::VectorI> curr = points.vertices.at(i);
             DrawTriangle(first->x, first->y, last->x, last->y, curr->x, curr->y, color);
         }

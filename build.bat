@@ -34,6 +34,7 @@ cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build .
 pause
 cd bin
 physics.exe
+pause
 cd ..\..\..
 goto menu
 
