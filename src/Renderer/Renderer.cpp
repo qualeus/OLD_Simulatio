@@ -46,7 +46,7 @@ Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_
     this->vertices_buffer = {};
 
     sf::ContextSettings settings;
-    settings.antialiasingLevel = 8;
+    settings.antialiasingLevel = 4;
 
     /* Initialize the Window */
     this->window.create(sf::VideoMode(this->screen_width, this->screen_height), this->name, sf::Style::Default, settings);
@@ -59,6 +59,9 @@ Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_
 
     /* Setup the Gui */
     this->SetupGui();
+
+    /* Setup the Drawing */
+    this->SetupDraw();
 }
 
 Renderer::~Renderer() {}
@@ -124,11 +127,10 @@ void Renderer::ResetBenchmark() {
         benchmark_count = 0;
     }
     if (benchmark_paused) {
-        if (bmk::Recorder::root.childs.size() > 0) {
-            bmk::Recorder::root.childs.pop_back();
-        }
+        if (bmk::Recorder::root.childs.size() > 0) { bmk::Recorder::root.childs.pop_back(); }
     }
 }
+
 void Renderer::RenderWindow() { this->window.display(); }
 
 void Renderer::Close() {

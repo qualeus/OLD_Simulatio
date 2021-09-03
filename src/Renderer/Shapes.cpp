@@ -1,12 +1,30 @@
 
 #include "../../include/Renderer/Renderer.hpp"
 
-void Renderer::DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, sf::Color color) {
-    this->vertices_buffer.push_back(sf::Vertex(sf::Vector2f(x1 * PIXEL_SCALE, y1 * PIXEL_SCALE), color));
-    this->vertices_buffer.push_back(sf::Vertex(sf::Vector2f(x2 * PIXEL_SCALE, y2 * PIXEL_SCALE), color));
-    this->vertices_buffer.push_back(sf::Vertex(sf::Vector2f(x3 * PIXEL_SCALE, y3 * PIXEL_SCALE), color));
+void Renderer::DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, sf::Color color, std::vector<sf::Vertex> &buffer) {
+    buffer.push_back(sf::Vertex(sf::Vector2f(x1 * PIXEL_SCALE, y1 * PIXEL_SCALE), color));
+    buffer.push_back(sf::Vertex(sf::Vector2f(x2 * PIXEL_SCALE, y2 * PIXEL_SCALE), color));
+    buffer.push_back(sf::Vertex(sf::Vector2f(x3 * PIXEL_SCALE, y3 * PIXEL_SCALE), color));
 
     this->triangles++;
+}
+
+void Renderer::DrawTriangleTexture(int x1, int y1, int x2, int y2, int x3, int y3, int tx1, int ty1, int tx2, int ty2, int tx3, int ty3, sf::Color color, std::vector<sf::Vertex> &buffer) {
+    buffer.push_back(sf::Vertex(sf::Vector2f(x1 * PIXEL_SCALE, y1 * PIXEL_SCALE), color, sf::Vector2f(tx1, ty1)));
+    buffer.push_back(sf::Vertex(sf::Vector2f(x2 * PIXEL_SCALE, y2 * PIXEL_SCALE), color, sf::Vector2f(tx2, ty2)));
+    buffer.push_back(sf::Vertex(sf::Vector2f(x3 * PIXEL_SCALE, y3 * PIXEL_SCALE), color, sf::Vector2f(tx3, ty3)));
+
+    this->triangles++;
+}
+
+void Renderer::DrawQuad(int x, int y, int range, sf::Color color, std::vector<sf::Vertex> &buffer) {
+    float x1 = static_cast<float>(x - range);
+    float x2 = static_cast<float>(x + range);
+    float y1 = static_cast<float>(y - range);
+    float y2 = static_cast<float>(y + range);
+
+    DrawTriangleTexture(x1, y1, x1, y2, x2, y1, 0, 0, 0, 1, 1, 0, color, buffer);
+    DrawTriangleTexture(x2, y2, x1, y2, x2, y1, 1, 1, 0, 1, 1, 0, color, buffer);
 }
 
 void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Color color) {
@@ -22,8 +40,8 @@ void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Col
     gmt::Vector<float> pC = oB - normal;
     gmt::Vector<float> pD = oB + normal;
 
-    this->DrawTriangle(pA.x, pA.y, pB.x, pB.y, pC.x, pC.y, color);
-    this->DrawTriangle(pB.x, pB.y, pC.x, pC.y, pD.x, pD.y, color);
+    this->DrawTriangle(pA.x, pA.y, pB.x, pB.y, pC.x, pC.y, color, this->vertices_buffer);
+    this->DrawTriangle(pB.x, pB.y, pC.x, pC.y, pD.x, pD.y, color, this->vertices_buffer);
 
     this->lines++;
 }
@@ -71,7 +89,7 @@ void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, f
     gmt::Vector<float> basis_A = head_basis + normal * (yhead / 2.0f);
     gmt::Vector<float> basis_B = head_basis - normal * (yhead / 2.0f);
 
-    DrawTriangle(head.x, head.y, basis_A.x, basis_A.y, basis_B.x, basis_B.y, color);
+    DrawTriangle(head.x, head.y, basis_A.x, basis_A.y, basis_B.x, basis_B.y, color, this->vertices_buffer);
     DrawLine(bottom.x, bottom.y, head_basis.x, head_basis.y, thickness, color);
 
     this->arrows++;
@@ -101,18 +119,9 @@ void Renderer::DrawCircle(int x, int y, int radius, sf::Color color, bool outlin
     */
 
     if (outline) {
-        struct outline_buffer outline;
-        outline.position = gmt::Vector<int>(x, y);
-        outline.color = color;
-        outline.radius = radius;
-        outline.outline = outline_thickness;
-        this->outlines_buffer.push_back(outline);
+        DrawQuad(x, y, radius + outline_thickness, color, this->outlines_buffer);
     } else {
-        struct circle_buffer circle;
-        circle.position = gmt::Vector<int>(x, y);
-        circle.color = color;
-        circle.radius = radius;
-        this->circles_buffer.push_back(circle);
+        DrawQuad(x, y, radius, color, this->circles_buffer);
     }
     this->circles++;
 }
@@ -131,8 +140,8 @@ void Renderer::DrawRectangle(int x1, int y1, int x2, int y2, bool fixed, sf::Col
         this->DrawLine(pC.x, pC.y, pD.x, pD.y, outline_thickness, color);
         this->DrawLine(pD.x, pD.y, pA.x, pA.y, outline_thickness, color);
     } else {
-        this->DrawTriangle(pA.x, pA.y, pB.x, pB.y, pC.x, pC.y, color);
-        this->DrawTriangle(pA.x, pA.y, pC.x, pC.y, pD.x, pD.y, color);
+        this->DrawTriangle(pA.x, pA.y, pB.x, pB.y, pC.x, pC.y, color, this->vertices_buffer);
+        this->DrawTriangle(pA.x, pA.y, pC.x, pC.y, pD.x, pD.y, color, this->vertices_buffer);
     }
 
     this->rectangles++;
@@ -158,7 +167,7 @@ void Renderer::DrawPolygon(gmt::VerticesI points, sf::Color color, bool outline)
         for (int i = 2; i < points.vertices.size(); i++) {
             std::shared_ptr<gmt::VectorI> last = points.vertices.at(i - 1);
             std::shared_ptr<gmt::VectorI> curr = points.vertices.at(i);
-            DrawTriangle(first->x, first->y, last->x, last->y, curr->x, curr->y, color);
+            DrawTriangle(first->x, first->y, last->x, last->y, curr->x, curr->y, color, this->vertices_buffer);
         }
     }
 

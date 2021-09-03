@@ -242,22 +242,12 @@ class Renderer {
     std::unordered_map<int, sf::Color> corpses_colors;
     std::unordered_map<int, sf::Color> constraints_colors;
 
-    struct circle_buffer {
-        gmt::Vector<int> position;
-        int radius;
-        sf::Color color;
-    };
-
-    struct outline_buffer {
-        gmt::Vector<int> position;
-        int radius;
-        int outline;
-        sf::Color color;
-    };
-
     std::vector<sf::Vertex> vertices_buffer;
-    std::vector<circle_buffer> circles_buffer;
-    std::vector<outline_buffer> outlines_buffer;
+    std::vector<sf::Vertex> circles_buffer;
+    std::vector<sf::Vertex> outlines_buffer;
+
+    sf::Shader circles_shader;
+    sf::Shader outlines_shader;
 
     int triangles = 0;
     int rectangles = 0;
@@ -272,6 +262,9 @@ class Renderer {
 
     Renderer(float camera_x, float camera_y, float camera_h, float camera_w, float zoom, std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y, int quadtree_max_count, int quadtree_max_depth);
     void SetupGui();
+    void SetupDraw();
+    void SetupCirclesShader();
+    void SetupOutlinesShader();
     void SetupGuiBaseLayout();
     virtual ~Renderer();
 
@@ -373,7 +366,10 @@ class Renderer {
     void DebugPairs();  // Draw the interactions of the Corpses
     void DebugDrag();   // Draw the inputs on the Corpses
 
-    void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, sf::Color color = sf::Color::White);
+    void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, sf::Color color, std::vector<sf::Vertex>& buffer);
+    void DrawTriangleTexture(int x1, int y1, int x2, int y2, int x3, int y3, int tx1, int ty1, int tx2, int ty2, int tx3, int ty3, sf::Color color, std::vector<sf::Vertex>& buffer);
+    void DrawQuad(int x, int y, int range, sf::Color color, std::vector<sf::Vertex>& buffer);
+
     void DrawLine(int x1, int y1, int x2, int y2, float thickness = 2.0f, sf::Color color = sf::Color::White);
     void DrawSpring(int x1, int y1, int x2, int y2, float thickness, int number_wave, sf::Color color);
     void DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness = 2.0f, sf::Color color = sf::Color::White);
@@ -381,10 +377,6 @@ class Renderer {
     void DrawRectangle(int x1, int y1, int x2, int y2, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);
     void DrawPolygon(gmt::VerticesI points, sf::Color color = sf::Color::White, bool outline = false);
     void DrawText(std::string str, int x, int y, int size = 20, bool fixed = false, sf::Color color = sf::Color::White);
-
-    std::vector<sf::Vertex> ComputeQuad(gmt::Vector<int> position, int range);  // TODO: put in utils
-    void ComputeCircles();
-    void ComputeOutlines();
 
     void Camera(sf::Vector2f move, float zoom = 1.0f);  // Update the positio of the Camera
     bool Paused();                                      // Return true if the system is paused
