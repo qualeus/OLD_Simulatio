@@ -96,6 +96,7 @@
 #define I_SIDE_MENU_SHAPE 1
 #define I_SIDE_MENU_SPAWNER 2
 
+#define OUTLINE_RES 0.05
 #define PIXEL_SCALE 1.0f
 
 class Renderer {
@@ -124,9 +125,8 @@ class Renderer {
     std::string mass_unit = "kg";
     std::string time_unit = "s";
 
-    int circle_resolution = 0;
+    int line_thickness = 2;
     int outline_thickness = -2;
-    float line_thickness = 2.0f;
     float text_resolution = 28.0f;
     float vector_size = 40.0f;
     float velocity_size = 10.0f;
@@ -370,9 +370,9 @@ class Renderer {
     void DrawTriangleTexture(int x1, int y1, int x2, int y2, int x3, int y3, int tx1, int ty1, int tx2, int ty2, int tx3, int ty3, sf::Color color, std::vector<sf::Vertex>& buffer);
     void DrawQuad(int x, int y, int range, sf::Color color, std::vector<sf::Vertex>& buffer);
 
-    void DrawLine(int x1, int y1, int x2, int y2, float thickness = 2.0f, sf::Color color = sf::Color::White);
-    void DrawSpring(int x1, int y1, int x2, int y2, float thickness, int number_wave, sf::Color color);
-    void DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness = 2.0f, sf::Color color = sf::Color::White);
+    void DrawLine(int x1, int y1, int x2, int y2, int thickness = 2, sf::Color color = sf::Color::White);
+    void DrawSpring(int x1, int y1, int x2, int y2, int thickness = 2, int number_wave = 10, sf::Color color = sf::Color::White);
+    void DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, int thickness = 2, sf::Color color = sf::Color::White);
     void DrawCircle(int x, int y, int radius, sf::Color color = sf::Color::White, bool outline = false);
     void DrawRectangle(int x1, int y1, int x2, int y2, bool fixed = false, sf::Color color = sf::Color::White, bool outline = false);
     void DrawPolygon(gmt::VerticesI points, sf::Color color = sf::Color::White, bool outline = false);

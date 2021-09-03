@@ -26,7 +26,7 @@ void Renderer::SetupCirclesShader() {
         "void main(void) {"
         "   vec2 uv = gl_TexCoord[0].xy;"
         "   vec2 center = vec2(0.5, 0.5);"
-        "   gl_FragColor = circle(uv, center, 0.5,gl_Color);"
+        "   gl_FragColor = circle(uv, center, 0.5, gl_Color);"
         "}";
 
     if (!this->circles_shader.loadFromMemory(vertexShader, fragmentShader)) { throw std::runtime_error("Circles shaders couldn't be loaded..."); }
@@ -46,13 +46,15 @@ void Renderer::SetupOutlinesShader() {
         "   float dx = abs(pos.x - uv.x);"
         "   float dy = abs(pos.y - uv.y);"
         "   float dist = sqrt(dx*dx + dy*dy);"
-        "   return vec4(color[0], color[1], color[2], dist < rad);"
+        "   return vec4(color[0], color[1], color[2], dist > rad * (1 - " +
+        gmt::to_string(OUTLINE_RES) +
+        ") && dist < rad);"
         "}"
         "/* ============== MAIN ============= */"
         "void main(void) {"
         "   vec2 uv = gl_TexCoord[0].xy;"
         "   vec2 center = vec2(0.5, 0.5);"
-        "   gl_FragColor = circle(uv, center, 0.5,gl_Color);"
+        "   gl_FragColor = circle(uv, center, 0.5, vec4(1.0, 1.0, 1.0, 1.0));"
         "}";
 
     if (!this->outlines_shader.loadFromMemory(vertexShader, fragmentShader)) { throw std::runtime_error("Outlines shaders couldn't be loaded..."); }
@@ -298,12 +300,12 @@ void Renderer::DrawInputs() {
     }
 
     if (debug_show_pairs) {
-        for (int i = 0; i < system.get_pairs_size(); i++) {
-            const std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair = system.get_pair(i);
-
-            sf::Vector2f pos_A = (pair.first->get_pos()).CloneSF();
-            sf::Vector2f pos_B = (pair.second->get_pos()).CloneSF();
-            DrawLine(pos_A.x, pos_A.y, pos_B.x, pos_B.y);
+        for (int i = 0; i < system.get_corpses_size(); i++) {
+            gmt::VectorI pos_A = system.get_corpse(i)->get_pos();
+            for (int j = i + 1; j < system.get_corpses_size(); j++) {
+                gmt::VectorI pos_B = system.get_corpse(j)->get_pos();
+                DrawLine(pos_A.x, pos_A.y, pos_B.x, pos_B.y, line_thickness, sf::Color::White);
+            }
         }
     }
 

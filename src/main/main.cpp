@@ -3,9 +3,8 @@
 
 #include "../../include/Geometry/Vector.hpp"
 #include "../../include/Renderer/Renderer.hpp"
-
-#include "../demos/base.cpp"
 #include "../demos/baloon.cpp"
+#include "../demos/base.cpp"
 #include "../demos/cloths.cpp"
 #include "../demos/constraints.cpp"
 #include "../demos/slider.cpp"
@@ -18,15 +17,15 @@ void TestDemo() {
 }
 
 int main() {
-     BaseDemo();
-    // GravityDemo();
-     //  ConstraintDemo();
+    // BaseDemo();
+    GravityDemo();
+    //  ConstraintDemo();
     // ClothDemo();
-     // SliderDemo();
-     //  SpringDemo();
-     // BaloonDemo();
-      // SpongeDemo();
-     //  TestDemo();
+    // SliderDemo();
+    //  SpringDemo();
+    // BaloonDemo();
+    // SpongeDemo();
+    //  TestDemo();
     return 0;
 }
 

@@ -27,7 +27,7 @@ void Renderer::DrawQuad(int x, int y, int range, sf::Color color, std::vector<sf
     DrawTriangleTexture(x2, y2, x1, y2, x2, y1, 1, 1, 0, 1, 1, 0, color, buffer);
 }
 
-void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Color color) {
+void Renderer::DrawLine(int x1, int y1, int x2, int y2, int thickness, sf::Color color) {
     gmt::Vector<float> oA = gmt::Vector<float>(x1, y1);
     gmt::Vector<float> oB = gmt::Vector<float>(x2, y2);
 
@@ -46,7 +46,7 @@ void Renderer::DrawLine(int x1, int y1, int x2, int y2, float thickness, sf::Col
     this->lines++;
 }
 
-void Renderer::DrawSpring(int x1, int y1, int x2, int y2, float thickness, int number_wave, sf::Color color) {
+void Renderer::DrawSpring(int x1, int y1, int x2, int y2, int thickness, int number_wave, sf::Color color) {
     if (!gmt::Bounds<float>::SegmentIntersectBounds(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2), get_screen_bounds())) { return; }
 
     float inv = 0.25f / number_wave;
@@ -70,7 +70,7 @@ void Renderer::DrawSpring(int x1, int y1, int x2, int y2, float thickness, int n
     this->springs++;
 }
 
-void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness, sf::Color color) {
+void Renderer::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, int thickness, sf::Color color) {
     if (!gmt::Bounds<float>::SegmentIntersectBounds(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2), get_screen_bounds())) { return; }
 
     float angle = gmt::Vector<float>::Bearing(gmt::Vector<float>(x2, y2), gmt::Vector<float>(x1, y1));
@@ -103,6 +103,7 @@ void Renderer::DrawCircle(int x, int y, int radius, sf::Color color, bool outlin
     float cx = static_cast<float>(x);
     float cy = static_cast<float>(y);
     float frad = static_cast<float>(radius);
+    int circle resolution = 100;
 
     gmt::Vector<float> pP = gmt::Vector<float>(cx + frad, cy);
     for (int i = 1; i < circle_resolution; i++) {
@@ -119,7 +120,7 @@ void Renderer::DrawCircle(int x, int y, int radius, sf::Color color, bool outlin
     */
 
     if (outline) {
-        DrawQuad(x, y, radius + outline_thickness, color, this->outlines_buffer);
+        DrawQuad(x, y, radius * (1.0f + static_cast<float>(OUTLINE_RES)), color, this->outlines_buffer);
     } else {
         DrawQuad(x, y, radius, color, this->circles_buffer);
     }

@@ -10,7 +10,7 @@ void ClothDemo() {
     float pos_y = -500;
     float rigidity = 1;
     bool breaking = true;
-    float limit_breaking = -1000;
+    float limit_breaking = -100;
     bool etherial = true;
     int point_size = 30;
 

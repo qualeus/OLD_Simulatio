@@ -909,11 +909,8 @@ void Renderer::ShowGuiProperties(bool* p_open) {
 
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
-                    /* Renderer Circle Resolution */
-                    int temp_circle_resolution = circle_resolution;
-                    if (ImGui::InputInt("Circle", &temp_circle_resolution)) {
-                        if (temp_circle_resolution > 0) { circle_resolution = temp_circle_resolution; }
-                    }
+                    /* Renderer Line Thickness */
+                    ImGui::InputInt("Outline", &line_thickness);
 
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
 

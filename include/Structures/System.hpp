@@ -21,7 +21,6 @@ class System {
     std::vector<std::shared_ptr<Corpse>> corpses;
     std::vector<std::shared_ptr<Constraint>> constraints;
 
-    std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> pairs;
     std::vector<gmt::NodePairs> quad_pairs;
     std::vector<gmt::CollisionI> collisions;
 
@@ -114,7 +113,6 @@ class System {
     void add_constraint(std::shared_ptr<Constraint> constraint);
 
     void add_corpse(std::shared_ptr<Corpse> corpse);
-    void add_pair(std::shared_ptr<Corpse> corpseA, std::shared_ptr<Corpse> corpseB);
 
     gmt::BoundsI get_limits() const;
     void set_limits(gmt::BoundsI limits);
@@ -131,11 +129,6 @@ class System {
     int get_collisions_size() const;
 
     std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> get_quad_pair(int index, int depth) const;
-
-    std::vector<std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>>> get_pairs() const;
-    std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> get_pair(int index) const;
-    std::shared_ptr<Corpse> get_pair_A(int index) const;
-    std::shared_ptr<Corpse> get_pair_B(int index) const;
 
     bool get_enable_limits() const;
     void set_enable_limits(bool enable_limits);
