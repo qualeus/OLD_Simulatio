@@ -148,8 +148,8 @@ int Renderer::Framerate() { return (1000 / (this->frame.asMilliseconds() + 0.000
 void Renderer::UpdateCorpseDatas() {
     // TODO delete colors in the map when object are also deleted
     for (int i = 0; i < this->selected_corpses_cursor.size(); i++) {
-        int curr_id = system.get_corpse(this->selected_corpses_cursor.at(i))->get_id();
-        int real_id = this->selected_corpses_index.at(i);
+        int curr_id = system.get_corpse(this->selected_corpses_cursor[i])->get_id();
+        int real_id = this->selected_corpses_index[i];
         console.Log(gmt::to_string(curr_id) + "==" + gmt::to_string(real_id));
         if (curr_id != real_id) {
             this->select_type = S_DEFAULT;

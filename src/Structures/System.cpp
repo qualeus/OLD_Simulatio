@@ -195,7 +195,7 @@ void System::PairsStep() {
     for (int i = 0; i < get_corpses_size(); i++) {
         for (int j = i + 1; j < get_corpses_size(); j++) {
             std::vector<gmt::CollisionI> resolved = gmt::CollisionI::Resolve(get_corpse(i), get_corpse(j));
-            for (int k = 0; k < resolved.size(); k++) { this->collisions.push_back(resolved.at(k)); }
+            for (int k = 0; k < resolved.size(); k++) { this->collisions.push_back(resolved[k]); }
         }
     }
     */
@@ -209,8 +209,8 @@ void System::PairsStep() {
 void System::QuadPairsStep() {
     for (int i = 0; i < get_quad_pairs_depth(); i++) {
         int k = 0;
-        for (int j = 0; j < quad_pairs.at(i).second.size(); j++) {
-            int node_pairs_size = quad_pairs.at(i).second.at(j);
+        for (int j = 0; j < quad_pairs[i].second.size(); j++) {
+            int node_pairs_size = quad_pairs[i].second[j];
             ThreadPairsStep(i, k, k + node_pairs_size);
             k += node_pairs_size;
         }
@@ -219,8 +219,8 @@ void System::QuadPairsStep() {
 
 void System::ThreadPairsStep(int depth, int begin, int end) {
     for (int i = begin; i < end; i++) {
-        std::vector<gmt::CollisionI> resolved = gmt::CollisionI::Resolve(this->quad_pairs.at(depth).first.at(i).first, this->quad_pairs.at(depth).first.at(i).second);
-        for (int j = 0; j < resolved.size(); j++) { this->collisions.push_back(resolved.at(j)); }
+        std::vector<gmt::CollisionI> resolved = gmt::CollisionI::Resolve(this->quad_pairs[depth].first[i].first, this->quad_pairs[depth].first[i].second);
+        for (int j = 0; j < resolved.size(); j++) { this->collisions.push_back(resolved[j]); }
     }
 }
 
@@ -324,14 +324,14 @@ int System::get_pairs_size() const {
 int System::get_quad_pairs_depth() const { return this->quad_pairs.size(); }
 int System::get_quad_pairs_size() const {
     int size = 0;
-    for (int i = 0; i < get_quad_pairs_depth(); i++) { size += this->quad_pairs.at(i).first.size(); }
+    for (int i = 0; i < get_quad_pairs_depth(); i++) { size += this->quad_pairs[i].first.size(); }
     return size;
 }
 int System::get_quad_pairs_size(int depth) const {
     if (this->quad_pairs.size() < depth + 1) { return 0; }
-    return this->quad_pairs.at(depth).first.size();
+    return this->quad_pairs[depth].first.size();
 }
-std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> System::get_quad_pair(int index, int depth) const { return this->quad_pairs.at(depth).first.at(index); }
+std::pair<std::shared_ptr<Corpse>, std::shared_ptr<Corpse>> System::get_quad_pair(int index, int depth) const { return this->quad_pairs[depth].first[index]; }
 
 void System::addCorpse(Polygon polygon) { add_corpse(std::make_shared<Polygon>(polygon)); }
 void System::addCorpse(Circle circle) { add_corpse(std::make_shared<Circle>(circle)); }
@@ -358,16 +358,16 @@ void System::set_limits(gmt::BoundsI limits) {
 std::vector<std::shared_ptr<Corpse>> System::get_corpses() const { return this->corpses; }
 std::vector<std::shared_ptr<Constraint>> System::get_constraints() const { return this->constraints; }
 
-std::shared_ptr<Corpse> System::get_corpse(int index) const { return this->corpses.at(index); }
+std::shared_ptr<Corpse> System::get_corpse(int index) const { return this->corpses[index]; }
 std::shared_ptr<Corpse> System::get_corpse_by_id(int index) const {
     for (int i = 0; i < this->corpses.size(); i++) {
-        if (this->corpses.at(i)->get_id() == index) { return this->corpses.at(i); }
+        if (this->corpses[i]->get_id() == index) { return this->corpses[i]; }
     }
     return nullptr;
 }
-std::shared_ptr<Constraint> System::get_constraint(int index) const { return this->constraints.at(index); }
+std::shared_ptr<Constraint> System::get_constraint(int index) const { return this->constraints[index]; }
 
-gmt::CollisionI System::get_collision(int index) const { return this->collisions.at(index); }
+gmt::CollisionI System::get_collision(int index) const { return this->collisions[index]; }
 std::vector<gmt::CollisionI> System::get_collisions() const { return this->collisions; }
 int System::get_collisions_size() const { return this->collisions.size(); }
 

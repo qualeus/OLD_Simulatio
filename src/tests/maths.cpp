@@ -21,8 +21,8 @@ std::pair<SVect<T>, SPair<T>> CreatePairs(std::vector<T> values) {
     SPair<T> pair = SPair<T>();
 
     for (int i = 0; i < values.size(); i++) {
-        vect.push_back(std::make_shared<T>(values.at(i)));
-        for (int j = 0; j < i; j++) { pair.push_back({std::make_shared<T>(values.at(j)), std::make_shared<T>(values.at(i))}); }
+        vect.push_back(std::make_shared<T>(values[i]));
+        for (int j = 0; j < i; j++) { pair.push_back({std::make_shared<T>(values[j]), std::make_shared<T>(values[i])}); }
     }
     return std::pair<SVect<T>, SPair<T>>({vect, pair});
 }
@@ -30,14 +30,14 @@ std::pair<SVect<T>, SPair<T>> CreatePairs(std::vector<T> values) {
 template <class T>
 Pair<T> ExtractPair(SPair<T> spair) {
     Pair<T> pair = Pair<T>();
-    for (int i = 0; i < spair.size(); i++) { pair.push_back({*spair.at(i).first, *spair.at(i).second}); }
+    for (int i = 0; i < spair.size(); i++) { pair.push_back({*spair[i].first, *spair[i].second}); }
     return pair;
 }
 
 template <class T>
 Vect<T> ExtractVect(SVect<T> svect) {
     Vect<T> vect = Vect<T>();
-    for (int i = 0; i < svect.size(); i++) { vect.push_back(*svect.at(i)); }
+    for (int i = 0; i < svect.size(); i++) { vect.push_back(*svect[i]); }
     return vect;
 }
 
@@ -80,10 +80,10 @@ void RemovePairs(int index_delete, std::vector<T> values) {
     std::cout << "true_result_pair: " << gmt::to_string(true_result_pair) << std::endl;
 
     ASSERT_EQUAL(true_result_vect.size(), test_result_vect.size());
-    for (int i = 0; i < test_result_vect.size(); i++) { ASSERT_EQUAL(true_result_vect.at(i), test_result_vect.at(i)); }
+    for (int i = 0; i < test_result_vect.size(); i++) { ASSERT_EQUAL(true_result_vect[i], test_result_vect[i]); }
 
     ASSERT_EQUAL(true_result_pair.size(), test_result_pair.size());
-    for (int i = 0; i < test_result_pair.size(); i++) { ASSERT_EQUAL(true_result_pair.at(i), test_result_pair.at(i)); }
+    for (int i = 0; i < test_result_pair.size(); i++) { ASSERT_EQUAL(true_result_pair[i], test_result_pair[i]); }
 }
 
 template <class T>
@@ -125,10 +125,10 @@ void RemovePairsUnordered(int index_delete, std::vector<T> values) {
     std::cout << "true_result_pair: " << gmt::to_string(true_result_pair) << std::endl;
 
     ASSERT_EQUAL(true_result_vect.size(), test_result_vect.size());
-    for (int i = 0; i < test_result_vect.size(); i++) { ASSERT_EQUAL(true_result_vect.at(i), test_result_vect.at(i)); }
+    for (int i = 0; i < test_result_vect.size(); i++) { ASSERT_EQUAL(true_result_vect[i], test_result_vect[i]); }
 
     ASSERT_EQUAL(true_result_pair.size(), test_result_pair.size());
-    for (int i = 0; i < test_result_pair.size(); i++) { ASSERT_EQUAL(true_result_pair.at(i), test_result_pair.at(i)); }
+    for (int i = 0; i < test_result_pair.size(); i++) { ASSERT_EQUAL(true_result_pair[i], test_result_pair[i]); }
 }
 
 int main(int, char**) {

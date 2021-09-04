@@ -153,21 +153,21 @@ void Renderer::DrawPolygon(gmt::VerticesI points, sf::Color color, bool outline)
 
     if (outline) {
         for (int i = 1; i < points.vertices.size(); i++) {
-            std::shared_ptr<gmt::VectorI> last = points.vertices.at(i - 1);
-            std::shared_ptr<gmt::VectorI> curr = points.vertices.at(i);
+            std::shared_ptr<gmt::VectorI> last = points.vertices[i - 1];
+            std::shared_ptr<gmt::VectorI> curr = points.vertices[i];
             DrawLine(last->x, last->y, curr->x, curr->y, outline_thickness, color);
         }
 
-        std::shared_ptr<gmt::VectorI> first = points.vertices.at(0);
-        std::shared_ptr<gmt::VectorI> last = points.vertices.at(points.vertices.size() - 1);
+        std::shared_ptr<gmt::VectorI> first = points.vertices[0];
+        std::shared_ptr<gmt::VectorI> last = points.vertices[points.vertices.size() - 1];
         DrawLine(first->x, first->y, last->x, last->y, outline_thickness, color);
 
     } else {
-        std::shared_ptr<gmt::VectorI> first = points.vertices.at(0);
+        std::shared_ptr<gmt::VectorI> first = points.vertices[0];
 
         for (int i = 2; i < points.vertices.size(); i++) {
-            std::shared_ptr<gmt::VectorI> last = points.vertices.at(i - 1);
-            std::shared_ptr<gmt::VectorI> curr = points.vertices.at(i);
+            std::shared_ptr<gmt::VectorI> last = points.vertices[i - 1];
+            std::shared_ptr<gmt::VectorI> curr = points.vertices[i];
             DrawTriangle(first->x, first->y, last->x, last->y, curr->x, curr->y, color, this->vertices_buffer);
         }
     }

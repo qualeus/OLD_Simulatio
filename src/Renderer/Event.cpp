@@ -13,15 +13,15 @@ void Renderer::ClearSystem() {
 void Renderer::UpdateSpawners() {
     int i = 0;
     while (i < this->spawners.size()) {
-        if (this->spawners.at(i).interval_counter < this->spawners.at(i).interval) {
-            this->spawners.at(i).interval_counter++;
+        if (this->spawners[i].interval_counter < this->spawners[i].interval) {
+            this->spawners[i].interval_counter++;
         } else {
-            StepSpawner(&this->spawners.at(i));
-            this->spawners.at(i).duration--;
-            this->spawners.at(i).interval_counter = 0;
+            StepSpawner(&this->spawners[i]);
+            this->spawners[i].duration--;
+            this->spawners[i].interval_counter = 0;
         }
 
-        if (this->spawners.at(i).duration != 0) {
+        if (this->spawners[i].duration != 0) {
             i++;
         } else {
             gmt::remove_unordered(i, this->spawners);
@@ -81,9 +81,9 @@ void Renderer::StepSpawner(Spawner *spawner) {
         float random_turn = 0.0f;
         if (!gmt::float_equals(spawner->launch_rotation_random, 0.0f, 0.1f)) { random_turn += gmt::rand_interval(static_cast<int>(spawner->launch_rotation_random)); }
         if (!gmt::float_equals(spawner->corpse_rotation_random, 0.0f, 0.1f)) { random_rotation += gmt::rand_interval(static_cast<int>(spawner->corpse_rotation_random)); }
-        spawner_corpses.at(i)->Rotate(spawner->corpse_rotation + random_rotation);
-        spawner_corpses.at(i)->Bloc();
-        spawner_corpses.at(i)->Rotate(spawner->launch_rotation_power + random_turn);
+        spawner_corpses[i]->Rotate(spawner->corpse_rotation + random_rotation);
+        spawner_corpses[i]->Bloc();
+        spawner_corpses[i]->Rotate(spawner->launch_rotation_power + random_turn);
     }
 
     switch (spawner->spawn_type) {
@@ -95,8 +95,8 @@ void Renderer::StepSpawner(Spawner *spawner) {
                 if (!gmt::float_equals(spawner->corpse_position_randomX, 0.0f, 0.1f)) { randomX += gmt::rand_interval_centered(static_cast<int>(spawner->corpse_position_randomX)); }
                 if (!gmt::float_equals(spawner->corpse_position_randomY, 0.0f, 0.1f)) { randomY += gmt::rand_interval_centered(static_cast<int>(spawner->corpse_position_randomY)); }
 
-                spawner_corpses.at(i)->Drag({randomX, randomY});
-                spawner_corpses.at(i)->Stop();
+                spawner_corpses[i]->Drag({randomX, randomY});
+                spawner_corpses[i]->Stop();
 
                 float angle = gmt::degree_to_radian(spawner->launch_direction);
                 if (!gmt::float_equals(spawner->launch_direction_random, 0.0f, 0.1f)) { angle += gmt::rand_interval_centered(static_cast<int>(spawner->launch_direction_random)); }
@@ -104,7 +104,7 @@ void Renderer::StepSpawner(Spawner *spawner) {
                 float power = spawner->launch_power;
                 if (!gmt::float_equals(spawner->launch_random, 0.0f, 0.1f)) { power += gmt::rand_interval_centered(static_cast<int>(spawner->launch_random)); }
 
-                spawner_corpses.at(i)->Drag({power * std::cos(angle), power * std::sin(angle)});
+                spawner_corpses[i]->Drag({power * std::cos(angle), power * std::sin(angle)});
             }
         } break;
         case 1: {
@@ -115,14 +115,14 @@ void Renderer::StepSpawner(Spawner *spawner) {
                 float power = spawner->launch_power;
                 if (!gmt::float_equals(spawner->launch_random, 0.0f, 0.1f)) { power += gmt::rand_interval_centered(static_cast<int>(spawner->launch_random)); }
 
-                spawner_corpses.at(i)->Drag({power * std::cos(angle), power * std::sin(angle)});
+                spawner_corpses[i]->Drag({power * std::cos(angle), power * std::sin(angle)});
             }
         } break;
         case 2: {
             gmt::UnitI bounds_max_x = 0.0f;
             gmt::UnitI bounds_max_y = 0.0f;
             for (int i = 1; i < spawner->corpse_number; i++) {
-                gmt::BoundsI corpse_bounds = spawner_corpses.at(i)->get_bounds();
+                gmt::BoundsI corpse_bounds = spawner_corpses[i]->get_bounds();
 
                 gmt::UnitI bounds_x = std::abs(corpse_bounds.x1 - corpse_bounds.x2);
                 gmt::UnitI bounds_y = std::abs(corpse_bounds.y1 - corpse_bounds.y2);
@@ -134,8 +134,8 @@ void Renderer::StepSpawner(Spawner *spawner) {
             gmt::UnitI semi_bounds_max_x = bounds_max_x / 2;
             gmt::UnitI semi_bounds_max_y = bounds_max_y / 2;
 
-            spawner_corpses.at(0)->Move({spawner->positionX, spawner->positionY});
-            spawner_corpses.at(0)->Stop();
+            spawner_corpses[0]->Move({spawner->positionX, spawner->positionY});
+            spawner_corpses[0]->Stop();
 
             int corpse_index = 1;
             int ring_index = 0;  // index (6 lines)
@@ -177,8 +177,8 @@ void Renderer::StepSpawner(Spawner *spawner) {
                     } break;
                 }
 
-                spawner_corpses.at(corpse_index)->Move(current_pos);  // TODO diff between bounds pos and real pos (poly)
-                spawner_corpses.at(corpse_index)->Stop();
+                spawner_corpses[corpse_index]->Move(current_pos);  // TODO diff between bounds pos and real pos (poly)
+                spawner_corpses[corpse_index]->Stop();
 
                 line_count++;
                 corpse_index++;
@@ -192,8 +192,8 @@ void Renderer::StepSpawner(Spawner *spawner) {
                 if (!gmt::float_equals(spawner->corpse_position_randomX, 0.0f, 0.1f)) { randomX += gmt::rand_interval_centered(static_cast<int>(spawner->corpse_position_randomX)); }
                 if (!gmt::float_equals(spawner->corpse_position_randomY, 0.0f, 0.1f)) { randomY += gmt::rand_interval_centered(static_cast<int>(spawner->corpse_position_randomY)); }
 
-                spawner_corpses.at(i)->Drag({randomX, randomY});
-                spawner_corpses.at(i)->Stop();
+                spawner_corpses[i]->Drag({randomX, randomY});
+                spawner_corpses[i]->Stop();
 
                 float angle = gmt::degree_to_radian(spawner->launch_direction);
                 if (!gmt::float_equals(spawner->launch_direction_random, 0.0f, 0.1f)) { angle += gmt::rand_interval_centered(static_cast<int>(spawner->launch_direction_random)); }
@@ -201,7 +201,7 @@ void Renderer::StepSpawner(Spawner *spawner) {
                 float power = spawner->launch_power;
                 if (!gmt::float_equals(spawner->launch_random, 0.0f, 0.1f)) { power += gmt::rand_interval_centered(static_cast<int>(spawner->launch_random)); }
 
-                spawner_corpses.at(i)->Drag({power * std::cos(angle), power * std::sin(angle)});
+                spawner_corpses[i]->Drag({power * std::cos(angle), power * std::sin(angle)});
             }
         } break;
         default: {
@@ -209,8 +209,8 @@ void Renderer::StepSpawner(Spawner *spawner) {
     }
 
     for (int i = 0; i < spawner->corpse_number; i++) {
-        this->corpses_colors[spawner_corpses.at(i)->get_id()] = spawner_corpses_colors.at(i);
-        system.add_corpse(spawner_corpses.at(i));
+        this->corpses_colors[spawner_corpses[i]->get_id()] = spawner_corpses_colors[i];
+        system.add_corpse(spawner_corpses[i]);
     }
 }
 
@@ -389,7 +389,7 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
         for (int i = 0; i < selected_corpses_cursor.size(); i++) {
             if (!gmt::BoundsI::BoundsIntersectBounds(system.get_corpse(i)->get_bounds(), gmt::BoundsI(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width), get_real_pos_y(screen_height)))) { continue; }  // Out Screen
 
-            if (system.get_corpse(selected_corpses_cursor.at(i))->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {
+            if (system.get_corpse(selected_corpses_cursor[i])->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {
                 one_pointed = true;
                 break;
             }
@@ -397,7 +397,7 @@ bool Renderer::SelectUniqueCorpseInit(sf::Event event) {
 
         if (one_pointed) {
             for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                int index = selected_corpses_cursor.at(i);
+                int index = selected_corpses_cursor[i];
                 this->selected_corpses_diff.push_back(system.get_corpse(index)->get_pos() - gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y));
                 this->selected_corpses_fixed.push_back(system.get_corpse(index)->get_fixed());
                 system.get_corpse(index)->set_fixed(true);
@@ -494,9 +494,9 @@ void Renderer::SelectMultipleCorpsesStop(sf::Event event) {
 void Renderer::DragCorpsesStep(sf::Event event) {
     for (int i = 0; i < selected_corpses_cursor.size(); i++) {
         this->debug_system_edited = true;
-        system.get_corpse(selected_corpses_cursor.at(i))->Move(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y) + selected_corpses_diff.at(i));
-        system.CorpseStop(selected_corpses_cursor.at(i));
-        system.CorpseUpdateBounds(selected_corpses_cursor.at(i));
+        system.get_corpse(selected_corpses_cursor[i])->Move(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y) + selected_corpses_diff[i]);
+        system.CorpseStop(selected_corpses_cursor[i]);
+        system.CorpseUpdateBounds(selected_corpses_cursor[i]);
     }
 }
 
@@ -506,8 +506,8 @@ void Renderer::DragCorpsesStop(sf::Event event) {
     this->select_type = S_DEFAULT;
 
     for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-        system.get_corpse(selected_corpses_cursor.at(i))->set_fixed(selected_corpses_fixed.at(i));
-        system.CorpseStop(selected_corpses_cursor.at(i));
+        system.get_corpse(selected_corpses_cursor[i])->set_fixed(selected_corpses_fixed[i]);
+        system.CorpseStop(selected_corpses_cursor[i]);
     }
 
     /* Make sure that the arrays are empty */
@@ -524,7 +524,7 @@ bool Renderer::LaunchCorpseInit(sf::Event event) {
         for (int i = 0; i < selected_corpses_cursor.size(); i++) {
             if (!gmt::BoundsI::BoundsIntersectBounds(system.get_corpse(i)->get_bounds(), gmt::BoundsI(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width), get_real_pos_y(screen_height)))) { continue; }  // Out Screen
 
-            if (system.get_corpse(selected_corpses_cursor.at(i))->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {
+            if (system.get_corpse(selected_corpses_cursor[i])->Pointed(gmt::VectorI(this->sys_mouse_x, this->sys_mouse_y))) {
                 one_pointed = true;
                 break;
             }
@@ -532,7 +532,7 @@ bool Renderer::LaunchCorpseInit(sf::Event event) {
 
         if (one_pointed) {
             for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                int index = selected_corpses_cursor.at(i);
+                int index = selected_corpses_cursor[i];
                 // this->selected_corpses_diff.push_back(system.get_corpse(index)->get_pos()
                 // - get_real_pos(sf::Vector2i(event.mouseButton.x,
                 // event.mouseButton.y)));
@@ -589,12 +589,12 @@ void Renderer::LaunchCorpseStop(sf::Event event) {
     this->debug_system_edited = true;
 
     for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-        if (selected_corpses_fixed.at(i)) { continue; }
+        if (selected_corpses_fixed[i]) { continue; }
         sf::Vector2f diff_vector = sf::Vector2f(this->selected_area.x2 - this->selected_area.x1, this->selected_area.y2 - this->selected_area.y1);
         sf::Vector2f launch_vector = -diff_vector * launch_power;
-        system.get_corpse(selected_corpses_cursor.at(i))->Drag(launch_vector);
-        system.get_corpse(selected_corpses_cursor.at(i))->set_fixed(selected_corpses_fixed.at(i));
-        system.CorpseUpdateBounds(selected_corpses_cursor.at(i));
+        system.get_corpse(selected_corpses_cursor[i])->Drag(launch_vector);
+        system.get_corpse(selected_corpses_cursor[i])->set_fixed(selected_corpses_fixed[i]);
+        system.CorpseUpdateBounds(selected_corpses_cursor[i]);
     }
 
     this->select_type = S_DEFAULT;
@@ -685,7 +685,7 @@ void Renderer::ToggleOffPolygon(sf::Event event) {
 
     if (this->selected_corpses_diff.size() > 2) {
         std::vector<gmt::VectorI> points = {};
-        for (int i = 0; i < this->selected_corpses_diff.size(); i++) { points.push_back(this->selected_corpses_diff.at(i)); }
+        for (int i = 0; i < this->selected_corpses_diff.size(); i++) { points.push_back(this->selected_corpses_diff[i]); }
         phy::Polygon temp_poly = phy::Polygon(points, 10, 1, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false);
         this->addCorpse(temp_poly, C_NEPHRITIS);
     } else {
@@ -713,7 +713,7 @@ void Renderer::CreatePolygonStop(sf::Event event) {
 
     if (this->selected_corpses_diff.size() > 2) {
         std::vector<gmt::VectorI> points = {};
-        for (int i = 0; i < this->selected_corpses_diff.size(); i++) { points.push_back(this->selected_corpses_diff.at(i)); }
+        for (int i = 0; i < this->selected_corpses_diff.size(); i++) { points.push_back(this->selected_corpses_diff[i]); }
         phy::Polygon temp_poly = phy::Polygon(points, 10, 1, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false);
         this->addCorpse(temp_poly, C_NEPHRITIS);
     }

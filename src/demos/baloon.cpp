@@ -21,7 +21,7 @@ void BaloonDemo() {
     std::vector<std::pair<int, int>> inside = gmt::non_touching_pairs(gmt::create_vector(0, number, [](int i) { return i++; }));
 
     for (int i = 0; i < inside.size(); i++) {
-        balloon.addConstraint(phy::Link(balloon.getCorpse(inside.at(i).first), balloon.getCorpse(inside.at(i).second), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, -1, rigidity_inside, limit_breaking_inside, limit_breaking_inside, breaking), sf::Color(255, 255, 255, 10));
+        balloon.addConstraint(phy::Link(balloon.getCorpse(inside[i].first), balloon.getCorpse(inside[i].second), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, -1, rigidity_inside, limit_breaking_inside, limit_breaking_inside, breaking), sf::Color(255, 255, 255, 10));
     }
 
     balloon.Render();

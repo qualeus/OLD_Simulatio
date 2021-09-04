@@ -167,7 +167,7 @@ void Quadtree<T>::Insert(std::shared_ptr<phy::Corpse> corpse) {
 
         int i = 0;
         while (i < this->corpses.size()) {
-            int index = Index(this->corpses.at(i));
+            int index = Index(this->corpses[i]);
             if (index != -1) {
                 std::shared_ptr<phy::Corpse> rem = remove_return(i, this->corpses);
                 get_node(index)->Insert(rem);
@@ -230,19 +230,19 @@ std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>
     int corpse_size = corpses.size();
     if (this->corpses.size() > 1) {
         for (int a = 0; a < corpse_size; a++) {
-            for (int b = a + 1; b < corpse_size; b++) { pairs.push_back({this->corpses.at(a), this->corpses.at(b)}); }
+            for (int b = a + 1; b < corpse_size; b++) { pairs.push_back({this->corpses[a], this->corpses[b]}); }
         }
     }
 
     std::vector<std::shared_ptr<phy::Corpse>> sub_corpses = get_sub_corpses();
     for (int a = 0; a < corpse_size; a++) {
-        for (int b = 0; b < sub_corpses.size(); b++) { pairs.push_back({this->corpses.at(a), sub_corpses.at(b)}); }
+        for (int b = 0; b < sub_corpses.size(); b++) { pairs.push_back({this->corpses[a], sub_corpses[b]}); }
     }
 
     for (int i = 0; i < NUMBER_SUB; i++) {
         if (get_node(i) != nullptr) {
             std::vector<std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>>> temp_pairs = get_node(i)->make_pairs();
-            for (int j = 0; j < temp_pairs.size(); j++) { pairs.push_back(temp_pairs.at(j)); }
+            for (int j = 0; j < temp_pairs.size(); j++) { pairs.push_back(temp_pairs[j]); }
         }
     }
     return pairs;
@@ -259,7 +259,7 @@ std::vector<std::shared_ptr<phy::Corpse>> Quadtree<T>::get_sub_corpses() {
     for (int i = 0; i < NUMBER_SUB; i++) {
         if (get_node(i) != nullptr) {
             std::vector<std::shared_ptr<phy::Corpse>> temp_sub_corpses = get_node(i)->get_all_corpses();
-            for (int j = 0; j < temp_sub_corpses.size(); j++) { sub_corpses.push_back(temp_sub_corpses.at(j)); }
+            for (int j = 0; j < temp_sub_corpses.size(); j++) { sub_corpses.push_back(temp_sub_corpses[j]); }
         }
     }
     return sub_corpses;
@@ -273,12 +273,12 @@ template <typename T>
 std::vector<std::shared_ptr<phy::Corpse>> Quadtree<T>::get_all_corpses() {
     std::vector<std::shared_ptr<phy::Corpse>> sub_corpses = std::vector<std::shared_ptr<phy::Corpse>>();
 
-    for (int j = 0; j < this->corpses.size(); j++) { sub_corpses.push_back(this->corpses.at(j)); }
+    for (int j = 0; j < this->corpses.size(); j++) { sub_corpses.push_back(this->corpses[j]); }
 
     for (int i = 0; i < NUMBER_SUB; i++) {
         if (get_node(i) != nullptr) {
             std::vector<std::shared_ptr<phy::Corpse>> temp_sub_corpses = get_node(i)->get_all_corpses();
-            for (int j = 0; j < temp_sub_corpses.size(); j++) { sub_corpses.push_back(temp_sub_corpses.at(j)); }
+            for (int j = 0; j < temp_sub_corpses.size(); j++) { sub_corpses.push_back(temp_sub_corpses[j]); }
         }
     }
 
@@ -327,7 +327,7 @@ std::vector<Bounds<T>> Quadtree<T>::get_all_bounds() {
     for (int i = 0; i < NUMBER_SUB; i++) {
         if (get_node(i) != nullptr) {
             std::vector<Bounds<T>> temp_bounds = get_node(i)->get_all_bounds();
-            for (int j = 0; j < temp_bounds.size(); j++) { temp.push_back(temp_bounds.at(j)); }
+            for (int j = 0; j < temp_bounds.size(); j++) { temp.push_back(temp_bounds[j]); }
         }
     }
     return temp;

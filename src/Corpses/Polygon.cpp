@@ -4,7 +4,7 @@ namespace phy {
 
 Polygon::Polygon(std::vector<gmt::VectorI> points, gmt::UnitI mass, gmt::UnitI damping, gmt::UnitI speed_x, gmt::UnitI speed_y, gmt::UnitI rotation, gmt::UnitI motor, bool fixed, bool tied, bool etherial) : Corpse(mass, damping, fixed, tied, etherial) {
     std::vector<std::shared_ptr<gmt::VectorI>> shared_points = {};
-    for (int i = 0; i < points.size(); i++) { shared_points.push_back(std::make_shared<gmt::VectorI>(points.at(i))); }
+    for (int i = 0; i < points.size(); i++) { shared_points.push_back(std::make_shared<gmt::VectorI>(points[i])); }
 
     this->points = gmt::VerticesI(shared_points);
 
@@ -27,7 +27,7 @@ Polygon& Polygon::operator=(const Polygon& rhs) {
     Corpse::operator=(rhs);
     gmt::VerticesI rpoints = rhs.get_points();
     this->points = gmt::VerticesI();
-    for (int i = 0; i < rpoints.vertices.size(); i++) { this->points.vertices.push_back(std::make_shared<gmt::VectorI>(*rpoints.vertices.at(i))); }
+    for (int i = 0; i < rpoints.vertices.size(); i++) { this->points.vertices.push_back(std::make_shared<gmt::VectorI>(*rpoints.vertices[i])); }
     Generate();
     return *this;
 }

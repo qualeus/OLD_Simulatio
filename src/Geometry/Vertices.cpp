@@ -6,9 +6,7 @@ namespace gmt {
 template <typename T>
 Vertices<T>::Vertices(std::vector<Vector<T>> vertices) {
     this->vertices = {};
-    for (int i = 0; i < vertices.size(); i++) {
-        this->vertices.push_back(std::make_shared<Vector<T>>(vertices.at(i)));
-    }
+    for (int i = 0; i < vertices.size(); i++) { this->vertices.push_back(std::make_shared<Vector<T>>(vertices[i])); }
 }
 template Vertices<int>::Vertices(std::vector<Vector<int>> vertices);
 template Vertices<float>::Vertices(std::vector<Vector<float>> vertices);
@@ -51,8 +49,8 @@ Vector<T> Vertices<T>::Centroid() const {
     T A = T(0);
     int vertices_size = this->vertices.size();
     for (int i = 0; i < vertices_size; i++) {
-        Vector<T> pA = *this->vertices.at(i);
-        Vector<T> pB = *this->vertices.at(gmt::modulo(i + 1, vertices_size));
+        Vector<T> pA = *this->vertices[i];
+        Vector<T> pB = *this->vertices[gmt::modulo(i + 1, vertices_size)];
         A = pA.x * pB.y - pB.x * pA.y;
         signed_area = signed_area + A;
         centroid = centroid + (pA + pB) * A;
@@ -73,7 +71,7 @@ Vector<T> Vertices<T>::Average() const {
     Vector<T> points_average = Vector<T>();
     if (this->vertices.size() == 0) { return points_average; }
 
-    for (int i = 0; i < this->vertices.size(); i++) { points_average = points_average + *this->vertices.at(i); }
+    for (int i = 0; i < this->vertices.size(); i++) { points_average = points_average + *this->vertices[i]; }
     return points_average / static_cast<T>(this->vertices.size());
 }
 template Vector<int> Vertices<int>::Average() const;
@@ -86,8 +84,8 @@ std::vector<std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>>> V
     std::vector<std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>>> pairs = {};
     int vertices_size = this->vertices.size();
     for (int i = 0; i < vertices_size; i++) {
-        std::shared_ptr<Vector<T>> pA = this->vertices.at(i);
-        std::shared_ptr<Vector<T>> pB = this->vertices.at(gmt::modulo(i + 1, vertices_size));
+        std::shared_ptr<Vector<T>> pA = this->vertices[i];
+        std::shared_ptr<Vector<T>> pB = this->vertices[gmt::modulo(i + 1, vertices_size)];
         pairs.push_back({pA, pB});
     }
     return pairs;
@@ -105,8 +103,8 @@ bool Vertices<T>::Intersect() const {
     /* We check for every edges that don't have an edge in common (opposites) if they intersect */
     for (int i = 0; i < sides.size() - 2; i++) {
         for (int j = i + 2; j < sides.size() - (i == 0); j++) {
-            std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>> sideA = sides.at(i);
-            std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>> sideB = sides.at(j);
+            std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>> sideA = sides[i];
+            std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>> sideB = sides[j];
             if (Vector<T>::SegmentsIntersect(*sideA.first, *sideA.second, *sideB.first, *sideB.second)) { return true; }
         }
     }
@@ -125,21 +123,21 @@ bool Vertices<T>::Convex() const {
     /* We check for every edges that don't have an edge in common (opposites) if they intersect */
     for (int i = 0; i < sides.size() - 2; i++) {
         for (int j = i + 2; j < sides.size() - (i == 0); j++) {
-            std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>> sideA = sides.at(i);
-            std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>> sideB = sides.at(j);
+            std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>> sideA = sides[i];
+            std::pair<std::shared_ptr<Vector<T>>, std::shared_ptr<Vector<T>>> sideB = sides[j];
             if (Vector<T>::SegmentsIntersect(*sideA.first, *sideA.second, *sideB.first, *sideB.second)) { return false; }
         }
     }
 
     /* We test for each point if the angle is oriented in the same direction*/
-    Vector<T> last = *sides.at(sides.size() - 1).first - *sides.at(sides.size() - 1).second;
-    Vector<T> curr = *sides.at(0).second - *sides.at(0).first;
+    Vector<T> last = *sides[sides.size() - 1].first - *sides[sides.size() - 1].second;
+    Vector<T> curr = *sides[0].second - *sides[0].first;
 
     bool orientation = Vector<T>::Cross(last, curr) > T(0);
 
     for (int i = 1; i < sides.size(); i++) {
-        last = *sides.at(i - 1).first - *sides.at(i - 1).second;
-        curr = *sides.at(i).second - *sides.at(i).first;
+        last = *sides[i - 1].first - *sides[i - 1].second;
+        curr = *sides[i].second - *sides[i].first;
         bool corientation = Vector<T>::Cross(last, curr) > T(0);
 
         if (orientation != corientation) { return false; }
@@ -161,8 +159,8 @@ T Vertices<T>::Area() const {
     T A = T(0);
     int vertices_size = this->vertices.size();
     for (int i = 0; i < vertices_size; i++) {
-        Vector<T> pA = *this->vertices.at(i);
-        Vector<T> pB = *this->vertices.at(gmt::modulo(i + 1, vertices_size));
+        Vector<T> pA = *this->vertices[i];
+        Vector<T> pB = *this->vertices[gmt::modulo(i + 1, vertices_size)];
         A = pA.x * pB.y - pB.x * pA.y;
         signed_area = signed_area + A;
     }
@@ -178,8 +176,8 @@ std::vector<T> Vertices<T>::Sizes() const {
     std::vector<T> sizes = {};
     int vertices_size = this->vertices.size();
     for (int i = 0; i < vertices_size; i++) {
-        Vector<T> pA = *this->vertices.at(i);
-        Vector<T> pB = *this->vertices.at(gmt::modulo(i + 1, vertices_size));
+        Vector<T> pA = *this->vertices[i];
+        Vector<T> pB = *this->vertices[gmt::modulo(i + 1, vertices_size)];
         sizes.push_back(Vector<T>::Distance(pA, pB));
     }
     return sizes;
@@ -224,8 +222,8 @@ template <typename T>
 void Vertices<T>::Rotate(const T& rotation, const Vector<T>& centroid) {
     std::vector<std::shared_ptr<Vector<T>>> temp = {};
     for (int i = 0; i < this->vertices.size(); i++) {
-        Vector<T> diff = *this->vertices.at(i) - centroid;
-        *this->vertices.at(i) = centroid + diff.Rotate(rotation);
+        Vector<T> diff = *this->vertices[i] - centroid;
+        *this->vertices[i] = centroid + diff.Rotate(rotation);
     }
 }
 template void Vertices<int>::Rotate(const int& rotation, const Vector<int>& centroid);
@@ -235,7 +233,7 @@ template void Vertices<double>::Rotate(const double& rotation, const Vector<doub
 /* Translate the points of the Poilygon with a translation vector */
 template <typename T>
 void Vertices<T>::Translate(const Vector<T>& translation) {
-    for (int i = 0; i < this->vertices.size(); i++) { *this->vertices.at(i) = *this->vertices.at(i) + translation; }
+    for (int i = 0; i < this->vertices.size(); i++) { *this->vertices[i] = *this->vertices[i] + translation; }
 }
 template void Vertices<int>::Translate(const Vector<int>& rotation);
 template void Vertices<float>::Translate(const Vector<float>& rotation);
@@ -245,8 +243,8 @@ template void Vertices<double>::Translate(const Vector<double>& rotation);
 template <typename T>
 void Vertices<T>::Scale(const T& scale, const Vector<T>& centroid) {
     for (int i = 0; i < this->vertices.size(); i++) {
-        Vector<T> diff = *this->vertices.at(i) - centroid;
-        *this->vertices.at(i) = centroid + diff * scale;
+        Vector<T> diff = *this->vertices[i] - centroid;
+        *this->vertices[i] = centroid + diff * scale;
     }
 }
 template void Vertices<int>::Scale(const int& scale, const Vector<int>& centroid);
@@ -257,7 +255,7 @@ template void Vertices<double>::Scale(const double& scale, const Vector<double>&
 template <typename T>
 bool Vertices<T>::OrientationTriangle(const Vertices<T>& vertices) {
     if (vertices.vertices.size() < 3) { return false; }
-    return (Vector<T>::LineOrientation(*vertices.vertices.at(0), *vertices.vertices.at(1), *vertices.vertices.at(2)) == 1);
+    return (Vector<T>::LineOrientation(*vertices.vertices[0], *vertices.vertices[1], *vertices.vertices[2]) == 1);
 }
 template bool Vertices<int>::OrientationTriangle(const Vertices<int>& vertices);
 template bool Vertices<float>::OrientationTriangle(const Vertices<float>& vertices);
@@ -267,9 +265,9 @@ template bool Vertices<double>::OrientationTriangle(const Vertices<double>& vert
 template <typename T>
 bool Vertices<T>::PointInTriangle(const Vertices<T>& vertices, const Vector<T>& point) {
     if (vertices.vertices.size() < 3) { return false; }
-    bool A = Vector<T>::LineOrientation(point, *vertices.vertices.at(0), *vertices.vertices.at(1)) == 1;
-    bool B = Vector<T>::LineOrientation(point, *vertices.vertices.at(1), *vertices.vertices.at(2)) == 1;
-    bool C = Vector<T>::LineOrientation(point, *vertices.vertices.at(2), *vertices.vertices.at(0)) == 1;
+    bool A = Vector<T>::LineOrientation(point, *vertices.vertices[0], *vertices.vertices[1]) == 1;
+    bool B = Vector<T>::LineOrientation(point, *vertices.vertices[1], *vertices.vertices[2]) == 1;
+    bool C = Vector<T>::LineOrientation(point, *vertices.vertices[2], *vertices.vertices[0]) == 1;
     return A && B && C;
 }
 template bool Vertices<int>::PointInTriangle(const Vertices<int>& vertices, const Vector<int>& point);
@@ -292,17 +290,17 @@ Vertices<T> Vertices<T>::Hull() const {
 
     int l = 0;  // leftmost
     for (int i = 0; i < vertices.size(); i++) {
-        if ((*vertices.at(i)).x < (*vertices.at(l)).x) { l = i; }
+        if ((*vertices[i]).x < (*vertices[l]).x) { l = i; }
     }
 
     int p = l;
     int q = 0;
     while (true) {
-        hull.vertices.push_back(vertices.at(p));
+        hull.vertices.push_back(vertices[p]);
 
         q = gmt::modulo(p + 1, vertices.size());
         for (int i = 0; i < vertices.size(); i++) {
-            if (Vector<T>::LineOrientation(*vertices.at(p), *vertices.at(i), *vertices.at(q)) == 2) { q = i; }
+            if (Vector<T>::LineOrientation(*vertices[p], *vertices[i], *vertices[q]) == 2) { q = i; }
         }
         p = q;
         if (p == l) { break; }
@@ -319,7 +317,7 @@ template <typename T>
 std::vector<Vertices<T>> Vertices<T>::Triangulate() const {
     std::vector<Vertices<T>> triangles = {};
     Vertices<T> cvertices = Vertices<T>();
-    for (int i = 0; i < this->vertices.size(); i++) { cvertices.vertices.push_back(this->vertices.at(i)); }
+    for (int i = 0; i < this->vertices.size(); i++) { cvertices.vertices.push_back(this->vertices[i]); }
     // cvertices.Reorder();
 
     if (this->vertices.size() < 4) {
@@ -332,9 +330,9 @@ std::vector<Vertices<T>> Vertices<T>::Triangulate() const {
         const int psize = cvertices.vertices.size();
         bool removed = false;
         for (int i = 0; i < psize; i++) {
-            std::shared_ptr<Vector<T>> pA = cvertices.vertices.at(i);
-            std::shared_ptr<Vector<T>> pB = cvertices.vertices.at(gmt::modulo(i + 1, psize));
-            std::shared_ptr<Vector<T>> pC = cvertices.vertices.at(gmt::modulo(i + 2, psize));
+            std::shared_ptr<Vector<T>> pA = cvertices.vertices[i];
+            std::shared_ptr<Vector<T>> pB = cvertices.vertices[gmt::modulo(i + 1, psize)];
+            std::shared_ptr<Vector<T>> pC = cvertices.vertices[gmt::modulo(i + 2, psize)];
 
             Vertices<T> triangle = Vertices<T>({pC, pB, pA});
 
@@ -344,7 +342,7 @@ std::vector<Vertices<T>> Vertices<T>::Triangulate() const {
 
             bool containspoint = false;
             for (int j = 0; j < psize; j++) {
-                if (PointInTriangle(triangle, *cvertices.vertices.at(j))) {
+                if (PointInTriangle(triangle, *cvertices.vertices[j])) {
                     containspoint = true;
                     break;
                 }
@@ -372,8 +370,8 @@ bool Vertices<T>::OrientationShape(const Vertices<T>& vertices) {
     T orientation = T(0);
     const int vertices_size = vertices.vertices.size();
     for (int i = 0; i < vertices_size; i++) {
-        Vector<T> pA = *vertices.vertices.at(i);
-        Vector<T> pB = *vertices.vertices.at(gmt::modulo(i + 1, vertices_size));
+        Vector<T> pA = *vertices.vertices[i];
+        Vector<T> pB = *vertices.vertices[gmt::modulo(i + 1, vertices_size)];
         orientation += Vector<T>::Cross(pA, pB);
     }
     return (orientation < T(0));
@@ -396,8 +394,8 @@ bool Vertices<T>::PointInShape(const Vertices<T>& vertices, const Vector<T>& poi
     int intersections = 0;
     int vertices_size = vertices.vertices.size();
     for (int i = 0; i < vertices_size; i++) {
-        Vector<T> pA = *vertices.vertices.at(i);
-        Vector<T> pB = *vertices.vertices.at(gmt::modulo(i + 1, vertices_size));
+        Vector<T> pA = *vertices.vertices[i];
+        Vector<T> pB = *vertices.vertices[gmt::modulo(i + 1, vertices_size)];
         if (Vector<T>::SegmentsIntersect(point, pointB, pA, pB)) { intersections++; }
     }
 

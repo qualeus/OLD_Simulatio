@@ -36,7 +36,7 @@ void QuadTree::SplitNode(QuadNode* node, const BoundsI& bounds) {
     std::vector<std::shared_ptr<phy::Corpse>> new_corpses = {};
 
     for (int i = 0; i < node->corpses.size(); i++) {
-        const std::shared_ptr<phy::Corpse> corpse = node->corpses.at(i);
+        const std::shared_ptr<phy::Corpse> corpse = node->corpses[i];
         const BoundsI corpse_bounds = CorpseBounds(corpse);
 
         int index = Quadrant(bounds, corpse_bounds);
@@ -203,7 +203,7 @@ std::vector<gmt::BoundsI> QuadTree::AscendingUpdate(QuadNode* node, QuadNode* pa
     // Compute the bounds for the corpses that were already in that node
     std::vector<gmt::BoundsI> node_corpses_bounds;
     for (int i = 0; i < node->corpses.size() - corpses_bounds.size(); i++) {
-        const std::shared_ptr<phy::Corpse> corpse = node->corpses.at(i);
+        const std::shared_ptr<phy::Corpse> corpse = node->corpses[i];
         BoundsI corpse_bounds = CorpseBounds(corpse);
         node_corpses_bounds.push_back(corpse_bounds);
     }
@@ -215,16 +215,16 @@ std::vector<gmt::BoundsI> QuadTree::AscendingUpdate(QuadNode* node, QuadNode* pa
     // Check the corpses that are still moving to another node
     std::vector<int> to_push_up = {};
     for (int i = 0; i < corpses_bounds.size(); i++) {
-        if (!gmt::BoundsI::BoundsInBounds(corpses_bounds.at(i), bounds)) { to_push_up.push_back(i); }
+        if (!gmt::BoundsI::BoundsInBounds(corpses_bounds[i], bounds)) { to_push_up.push_back(i); }
     }
 
     // Push the corpses in the parent node and record their bounds
     std::vector<gmt::BoundsI> moving_bounds = {};
     for (int i = 0; i < to_push_up.size(); i++) {
-        moving_bounds.push_back(corpses_bounds.at(i));
+        moving_bounds.push_back(corpses_bounds[i]);
 
         // TO ADAPT? easely with erase but seems harder to keep trace of ids with move_back...
-        std::shared_ptr<phy::Corpse> push_up_corpse = remove_return(to_push_up.at(i) - i, node->corpses);  // -i is because we remove one each time
+        std::shared_ptr<phy::Corpse> push_up_corpse = remove_return(to_push_up[i] - i, node->corpses);  // -i is because we remove one each time
 
         // Push into parent corpses
         parent->corpses.push_back(push_up_corpse);
@@ -240,8 +240,8 @@ void QuadTree::DescendingUpdate(int depth, QuadNode* node, const gmt::BoundsI& n
     }
 
     for (int i = 0; i < node->corpses.size(); i++) {
-        // BoundsI corpse_bounds = CorpseBounds(node->corpses.at(i));
-        // Add(depth, node, node_bounds, node->corpses.at(i), corpse_bounds);
+        // BoundsI corpse_bounds = CorpseBounds(node->corpses[i]);
+        // Add(depth, node, node_bounds, node->corpses[i], corpse_bounds);
     }
 }
 
@@ -261,11 +261,11 @@ void QuadTree::FindPairs(QuadNode* node, std::vector<gmt::NodePairs>& pairs, int
         int pairs_size = 0;
         for (int a = 0; a < corpse_size; a++) {
             for (int b = a + 1; b < corpse_size; b++) {
-                pairs.at(0).first.push_back({node->corpses.at(a), node->corpses.at(b)});  // Internal pairs
+                pairs[0].first.push_back({node->corpses[a], node->corpses[b]});  // Internal pairs
                 pairs_size++;
             }
         }
-        pairs.at(0).second.push_back(pairs_size);  // Node Internal pairs size
+        pairs[0].second.push_back(pairs_size);  // Node Internal pairs size
     }
 
     if (!node->Leaf()) {
@@ -291,11 +291,11 @@ void QuadTree::ChildsPairs(const std::vector<std::shared_ptr<phy::Corpse>>& corp
         int pairs_size = 0;
         for (int a = 0; a < parent_size; a++) {
             for (int b = 0; b < corpse_size; b++) {
-                pairs.at(depth).first.push_back({corpses.at(a), node->corpses.at(b)});  // Get the pair
+                pairs[depth].first.push_back({corpses[a], node->corpses[b]});  // Get the pair
                 pairs_size++;
             }
         }
-        pairs.at(depth).second.push_back(pairs_size);  // save the size of pairs for this depth
+        pairs[depth].second.push_back(pairs_size);  // save the size of pairs for this depth
     }
 }
 

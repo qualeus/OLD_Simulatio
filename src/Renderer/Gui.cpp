@@ -570,7 +570,7 @@ void Renderer::ShowGuiBenchmark(bool* p_open) {
         for (int i = 0; i < current_size; i++) {
             ImVec2 position = ImVec2(cursor.x + i * bar_width, cursor.y + 100);
             int index = size > max_element ? size - max_element + i : i;
-            int height = static_cast<int>(bmk::Recorder::root.childs.at(index).Time() * 2);
+            int height = static_cast<int>(bmk::Recorder::root.childs[index].Time() * 2);
 
             ImGui::GetWindowDrawList()->AddRectFilled(position, ImVec2(position.x + bar_width - 1, position.y - height), IM_COL32(255, 255, 255, 255));
         }
@@ -612,7 +612,7 @@ void Renderer::ShowGuiBenchmark(bool* p_open) {
 
         for (int i = selection_inf; i < selection_sup; i++) {
             int index = size > max_element ? size - max_element + i : i;
-            DrawPerf(&bmk::Recorder::root.childs.at(index), bmk::Recorder::root.childs.at(first_index).Beginning(), benchmark_timescale);
+            DrawPerf(&bmk::Recorder::root.childs[index], bmk::Recorder::root.childs[first_index].Beginning(), benchmark_timescale);
         }
         ImGui::EndChild();
     }
@@ -963,7 +963,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                 if (selected_corpses_cursor.size() == 0) {
                     ImFormatString(selection_label, IM_ARRAYSIZE(selection_label), "Selection <%s>", "empty");
                 } else if (selected_corpses_cursor.size() == 1) {
-                    ImFormatString(selection_label, IM_ARRAYSIZE(selection_label), "Selection <1 body [ID %i] >", system.get_corpse(selected_corpses_cursor.at(0))->get_id());
+                    ImFormatString(selection_label, IM_ARRAYSIZE(selection_label), "Selection <1 body [ID %i] >", system.get_corpse(selected_corpses_cursor[0])->get_id());
                 } else {
                     ImFormatString(selection_label, IM_ARRAYSIZE(selection_label), "Selection <%i bodies>", selected_corpses_cursor.size());
                 }
@@ -977,7 +977,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     char chr_default[30];
                     ImFormatString(chr_default, IM_ARRAYSIZE(chr_default), "<%i bodies>", selected_corpses_cursor.size());
                     const char* current_item = chr_default;
-                    if (selected_index > 0) { current_item = std::to_string(selected_corpses_cursor.at(selected_index - 1)).c_str(); }
+                    if (selected_index > 0) { current_item = std::to_string(selected_corpses_cursor[selected_index - 1]).c_str(); }
                     ImGuiComboFlags flags = ImGuiComboFlags_NoArrowButton;
 
                     ImGuiStyle& style = ImGui::GetStyle();
@@ -992,7 +992,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         if (default_selected) { ImGui::SetItemDefaultFocus(); }
 
                         for (int i = 1; i < selected_corpses_cursor.size() + 1; i++) {
-                            const char* chr_index = std::to_string(selected_corpses_cursor.at(i - 1)).c_str();
+                            const char* chr_index = std::to_string(selected_corpses_cursor[i - 1]).c_str();
 
                             bool is_selected = (i == selected_index);
                             if (ImGui::Selectable(chr_index, is_selected)) { selected_index = i; }
@@ -1025,12 +1025,12 @@ void Renderer::ShowGuiProperties(bool* p_open) {
 
                 if (!nothing_selected) {
                     if (unique_selected) {
-                        cursor_selected = selected_corpses_cursor.at(0);
-                        trajectory_debug_index = selected_corpses_cursor.at(0);
+                        cursor_selected = selected_corpses_cursor[0];
+                        trajectory_debug_index = selected_corpses_cursor[0];
                     } else {
                         if (selected_index > 0) {
-                            cursor_selected = selected_corpses_cursor.at(selected_index - 1);
-                            trajectory_debug_index = selected_corpses_cursor.at(selected_index - 1);
+                            cursor_selected = selected_corpses_cursor[selected_index - 1];
+                            trajectory_debug_index = selected_corpses_cursor[selected_index - 1];
                             unique_selected = true;
                         }
                     }
@@ -1059,7 +1059,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         if (unique_selected) {
                             body_cursor = cursor_selected;
                         } else {
-                            body_cursor = selected_corpses_cursor.at(0);
+                            body_cursor = selected_corpses_cursor[0];
                         }
                         props_vel = system.get_corpse(body_cursor)->get_diff_pos().Magnitude();  // dp / dt
                         props_acc = 10.0f;
@@ -1140,7 +1140,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         if (unique_selected) {
                             body_cursor = cursor_selected;
                         } else {
-                            body_cursor = selected_corpses_cursor.at(0);
+                            body_cursor = selected_corpses_cursor[0];
                         }
 
                         temp_position_x = system.get_corpse(body_cursor)->get_pos_x();
@@ -1162,7 +1162,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
 
                         if (!unique_selected) {
                             for (int i = 1; i < selected_corpses_cursor.size(); i++) {
-                                int temp_cursor = selected_corpses_cursor.at(i);
+                                int temp_cursor = selected_corpses_cursor[i];
                                 float sig_pos = 0.1f;
                                 float sig_vel = 0.01f;
                                 float sig_com = 0.001f;
@@ -1227,7 +1227,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 system.get_corpse(cursor_selected)->Stop();
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                                    int body_cursor = selected_corpses_cursor.at(i);
+                                    int body_cursor = selected_corpses_cursor[i];
                                     system.get_corpse(body_cursor)->Move(gmt::VectorI(system.get_corpse(body_cursor)->get_pos_x() + temp_position_x, system.get_corpse(body_cursor)->get_pos_y()));
                                     system.get_corpse(body_cursor)->Stop();
                                 }
@@ -1242,7 +1242,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 system.get_corpse(cursor_selected)->Stop();
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                                    int body_cursor = selected_corpses_cursor.at(i);
+                                    int body_cursor = selected_corpses_cursor[i];
                                     system.get_corpse(body_cursor)->Move(gmt::VectorI(system.get_corpse(body_cursor)->get_pos_x(), system.get_corpse(body_cursor)->get_pos_y() + temp_position_y));
                                     system.get_corpse(body_cursor)->Stop();
                                 }
@@ -1258,7 +1258,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 system.get_corpse(cursor_selected)->set_last_pos_x(system.get_corpse(cursor_selected)->get_pos_x() - temp_velocity_x);
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                                    int body_cursor = selected_corpses_cursor.at(i);
+                                    int body_cursor = selected_corpses_cursor[i];
                                     system.get_corpse(body_cursor)->set_last_pos_x(system.get_corpse(body_cursor)->get_last_pos_x() - temp_velocity_x);
                                 }
                             }
@@ -1271,7 +1271,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 system.get_corpse(cursor_selected)->set_last_pos_y(system.get_corpse(cursor_selected)->get_pos_y() - temp_velocity_y);
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                                    int body_cursor = selected_corpses_cursor.at(i);
+                                    int body_cursor = selected_corpses_cursor[i];
                                     system.get_corpse(body_cursor)->set_last_pos_y(system.get_corpse(body_cursor)->get_pos_y() - temp_velocity_y);
                                 }
                             }
@@ -1286,7 +1286,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 system.get_corpse(cursor_selected)->set_friction(temp_friction);
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                                    int body_cursor = selected_corpses_cursor.at(i);
+                                    int body_cursor = selected_corpses_cursor[i];
                                     system.get_corpse(body_cursor)->set_friction(temp_friction);
                                 }
                             }
@@ -1299,7 +1299,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 system.get_corpse(cursor_selected)->set_mass(temp_mass);
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                                    int body_cursor = selected_corpses_cursor.at(i);
+                                    int body_cursor = selected_corpses_cursor[i];
                                     system.get_corpse(body_cursor)->set_mass(temp_mass);
                                 }
                             }
@@ -1312,7 +1312,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 system.get_corpse(cursor_selected)->set_damping(temp_damping);
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                                    int body_cursor = selected_corpses_cursor.at(i);
+                                    int body_cursor = selected_corpses_cursor[i];
                                     system.get_corpse(body_cursor)->set_damping(temp_damping);
                                 }
                             }
@@ -1327,7 +1327,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 system.get_corpse(cursor_selected)->set_fixed(temp_fixed != 0);
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                                    int body_cursor = selected_corpses_cursor.at(i);
+                                    int body_cursor = selected_corpses_cursor[i];
                                     system.get_corpse(body_cursor)->set_fixed(temp_fixed != 0);
                                 }
                             }
@@ -1342,7 +1342,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 system.get_corpse(cursor_selected)->set_etherial(temp_etherial != 0);
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                                    int body_cursor = selected_corpses_cursor.at(i);
+                                    int body_cursor = selected_corpses_cursor[i];
                                     system.get_corpse(body_cursor)->set_etherial(temp_etherial != 0);
                                 }
                             }
@@ -1357,7 +1357,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 system.get_corpse(cursor_selected)->set_tied(temp_tied != 0);
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                                    int body_cursor = selected_corpses_cursor.at(i);
+                                    int body_cursor = selected_corpses_cursor[i];
                                     system.get_corpse(body_cursor)->set_tied(temp_tied != 0);
                                 }
                             }
@@ -1372,7 +1372,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 system.get_corpse(cursor_selected)->Bloc();
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                                    int body_cursor = selected_corpses_cursor.at(i);
+                                    int body_cursor = selected_corpses_cursor[i];
                                     system.get_corpse(body_cursor)->Turn(temp_rotation);
                                     system.get_corpse(body_cursor)->Bloc();
                                 }
@@ -1388,7 +1388,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 system.get_corpse(cursor_selected)->set_last_rotation(system.get_corpse(cursor_selected)->get_rotation() - temp_spin);
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                                    int body_cursor = selected_corpses_cursor.at(i);
+                                    int body_cursor = selected_corpses_cursor[i];
                                     system.get_corpse(body_cursor)->set_last_rotation(system.get_corpse(body_cursor)->get_rotation() - temp_spin);
                                 }
                             }
@@ -1402,7 +1402,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                                 system.get_corpse(cursor_selected)->set_motor(system.get_corpse(cursor_selected)->get_motor() - temp_motor);
                             } else {
                                 for (int i = 0; i < selected_corpses_cursor.size(); i++) {
-                                    int body_cursor = selected_corpses_cursor.at(i);
+                                    int body_cursor = selected_corpses_cursor[i];
                                     system.get_corpse(body_cursor)->set_motor(system.get_corpse(body_cursor)->get_motor() - temp_motor);
                                 }
                             }
@@ -1487,7 +1487,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     char chr_default[30];
                     ImFormatString(chr_default, IM_ARRAYSIZE(chr_default), "<not relative to a body>");
                     const char* current_body_item = chr_default;
-                    if (trajectory_debug_relative_index > 0) { current_body_item = std::to_string(corpses_indexes.at(trajectory_debug_relative_index - 1)).c_str(); }
+                    if (trajectory_debug_relative_index > 0) { current_body_item = std::to_string(corpses_indexes[trajectory_debug_relative_index - 1]).c_str(); }
                     ImGuiComboFlags flags = ImGuiComboFlags_NoArrowButton;
 
                     ImGuiStyle& style = ImGui::GetStyle();
@@ -1501,7 +1501,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                         if (default_selected) { ImGui::SetItemDefaultFocus(); }
 
                         for (int i = 1; i < corpses_indexes.size() + 1; i++) {
-                            const char* chr_index = std::to_string(corpses_indexes.at(i - 1)).c_str();
+                            const char* chr_index = std::to_string(corpses_indexes[i - 1]).c_str();
 
                             bool is_selected = (i == trajectory_debug_relative_index);
                             if (ImGui::Selectable(chr_index, is_selected)) { trajectory_debug_relative_index = i; }

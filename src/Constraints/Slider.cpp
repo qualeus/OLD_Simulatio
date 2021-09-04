@@ -22,25 +22,25 @@ static int id_class() { return ID_SLIDER; }
 void Slider::Step() {
     /* Re align*/
     for (int i = 0; i < slider_corpses.size(); i++) {
-        gmt::VectorI aligned = gmt::VectorI::SegmentProjection(get_slider_corpses().at(i)->get_pos(), get_corpse_a()->get_pos(), get_corpse_b()->get_pos());
-        get_slider_corpses().at(i)->Move(aligned);
+        gmt::VectorI aligned = gmt::VectorI::SegmentProjection(get_slider_corpses()[i]->get_pos(), get_corpse_a()->get_pos(), get_corpse_b()->get_pos());
+        get_slider_corpses()[i]->Move(aligned);
     }
     /* Limit to the interval */
     gmt::UnitI size = gmt::VectorI::Distance(get_corpse_a()->get_pos(), get_corpse_b()->get_pos());
     for (int i = 0; i < slider_corpses.size(); i++) {
         // Limit A
-        gmt::VectorI diffA = get_slider_corpses().at(i)->get_pos() - get_corpse_a()->get_pos();
+        gmt::VectorI diffA = get_slider_corpses()[i]->get_pos() - get_corpse_a()->get_pos();
         if (diffA.Magnitude() > size) {
-            get_slider_corpses().at(i)->Drag(-diffA + diffA.Normalize());
-            get_slider_corpses().at(i)->Stop();
+            get_slider_corpses()[i]->Drag(-diffA + diffA.Normalize());
+            get_slider_corpses()[i]->Stop();
             continue;
         }
 
         // Limit B
-        gmt::VectorI diffB = get_slider_corpses().at(i)->get_pos() - get_corpse_b()->get_pos();
+        gmt::VectorI diffB = get_slider_corpses()[i]->get_pos() - get_corpse_b()->get_pos();
         if (diffB.Magnitude() > size) {
-            get_slider_corpses().at(i)->Drag(-diffB + diffA.Normalize());
-            get_slider_corpses().at(i)->Stop();
+            get_slider_corpses()[i]->Drag(-diffB + diffA.Normalize());
+            get_slider_corpses()[i]->Stop();
             continue;
         }
     }
@@ -79,8 +79,8 @@ void Slider::set_max_distance(gmt::UnitI max_distance) { this->max_distance = ma
 std::vector<std::shared_ptr<phy::Corpse>> Slider::get_slider_corpses() const { return this->slider_corpses; }
 void Slider::set_slider_corpses(std::vector<std::shared_ptr<phy::Corpse>> slider_corpses) { this->slider_corpses = slider_corpses; }
 int Slider::get_slider_corpses_size() const { return this->slider_corpses.size(); }
-std::shared_ptr<phy::Corpse> Slider::get_slider_corpse(int index) const { return this->slider_corpses.at(index); }
-void Slider::set_slider_corpse(int index, std::shared_ptr<phy::Corpse> corpse) { this->slider_corpses.at(index) = corpse; }
+std::shared_ptr<phy::Corpse> Slider::get_slider_corpse(int index) const { return this->slider_corpses[index]; }
+void Slider::set_slider_corpse(int index, std::shared_ptr<phy::Corpse> corpse) { this->slider_corpses[index] = corpse; }
 
 std::vector<gmt::VectorI> Slider::get_slider_relative_pos() const { return this->slider_relative_pos; }
 void Slider::set_slider_relative_pos(std::vector<gmt::VectorI> slider_relative_pos) { this->slider_relative_pos = slider_relative_pos; }
