@@ -13,7 +13,9 @@ Recorder::~Recorder() {
     this->End();
 
     Performance *self = this;
+
     parent->childs.emplace_back(std::move(*self));
+    if (parent->childs.size() > MAX_STORED_CHILDS) { parent->childs.pop_front(); }
 }
 
 void Recorder::Reset() {

@@ -1,6 +1,8 @@
 #ifndef Performance_HPP
 #define Performance_HPP
 
+#define MAX_STORED_CHILDS 500
+
 #include "BlockData.hpp"
 
 namespace bmk {
@@ -11,7 +13,7 @@ class Performance {
 
    public:
     std::shared_ptr<BlockData> data;
-    std::vector<Performance> childs;
+    std::deque<Performance> childs;
     Performance(std::shared_ptr<BlockData> data);
     Performance(Performance &&other);
     ~Performance();
