@@ -246,6 +246,8 @@ class Renderer {
     sf::Shader circles_shader;
     sf::Shader outlines_shader;
     sf::Shader blur_shader;
+    sf::Shader grid_shader;
+    sf::Shader gravity_shader;
 
     int triangles = 0;
     int rectangles = 0;
@@ -274,6 +276,8 @@ class Renderer {
     void SetupCirclesShader();
     void SetupOutlinesShader();
     void SetupBlurShader();
+    void SetupGridShader();
+    void SetupGravityShader();
 
     void Render();  // Initialize the System and launch the Render loop
     void RenderTexture();
@@ -337,8 +341,17 @@ class Renderer {
     void UpdateDebug();  // Update the Debug Values
 
     void Draw();  // Manage the drawing of the Renderer
+    void DrawBackground();
+
     void DrawCorpse(std::shared_ptr<phy::Corpse> corpse, sf::Color color);
+    void DrawCorpseCircle(phy::Circle* circle, sf::Color color);
+    void DrawCorpsePolygon(phy::Polygon* polygon, sf::Color color);
+
     void DrawConstraint(std::shared_ptr<phy::Constraint> constraint, sf::Color color);
+    void DrawConstraintLink(phy::Link* link, sf::Color color);
+    void DrawConstraintSpring(phy::Spring* spring, sf::Color color);
+    void DrawConstraintSlider(phy::Slider* slider, sf::Color color);
+
     void DrawPair(std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair);
     void DrawQuadTree(gmt::BoundsI rect);
     void DrawLimits();

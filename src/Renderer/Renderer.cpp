@@ -88,8 +88,7 @@ void Renderer::Render() {
                 }
 
                 /* Background Color */
-                this->window.clear(background_color);
-                this->render_texture.clear(background_color);
+                DrawBackground();
 
                 /* Events Handling */
                 sf::Event event;
@@ -144,7 +143,7 @@ void Renderer::RenderTexture() {
     // Draw the texture on a Sprite
     this->render_sprite.setTexture(this->render_texture.getTexture(), true);
     // this->render_sprite.setTextureRect(sf::IntRect(0, 0, this->get_screen_width(), this->get_screen_height()));
-    // this->render_sprite.setPosition(-this->get_screen_width() / 2.0f, -this->get_screen_height() / 2.0f);
+    // this->render_sprite.setPosition(this->get_screen_width() / 2.0f, this->get_screen_height() / 2.0f);
     // this->render_sprite.setOrigin(this->get_screen_width() / 2.0f, this->get_screen_height() / 2.0f);
 
     // ...then we apply it on the window
@@ -282,7 +281,7 @@ void Renderer::set_screen_height(int screen_height) { this->screen_height = scre
 int Renderer::get_max_framerate() { return this->max_framerate; }
 void Renderer::set_max_framerate(int max_framerate) { this->max_framerate = max_framerate; }
 
-gmt::Bounds<float> Renderer::get_screen_bounds() { return gmt::Bounds<float>(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width * PIXEL_SCALE), get_real_pos_y(screen_height * PIXEL_SCALE)); }
+gmt::Bounds<float> Renderer::get_screen_bounds() { return gmt::Bounds<float>(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(get_screen_width() * PIXEL_SCALE), get_real_pos_y(get_screen_height() * PIXEL_SCALE)); }
 
 sf::Vector2f Renderer::get_real_pos(sf::Vector2i pos) { return render_texture.mapPixelToCoords(sf::Vector2i(pos.x, pos.y)) / PIXEL_SCALE; }
 float Renderer::get_real_pos_x(float x) { return render_texture.mapPixelToCoords(sf::Vector2i(x, 0)).x / PIXEL_SCALE; }
