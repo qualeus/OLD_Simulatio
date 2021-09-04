@@ -1,5 +1,5 @@
 #include "../../include/Geometry/Geometry.hpp"
-#include "../../include/tests/test.hpp"
+#include "../../include/Geometry/String.hpp"
 
 template <typename T>
 void FunctionCentroid() {

@@ -1,7 +1,22 @@
 #ifndef String_HPP
 #define String_HPP
 
+#include <stdexcept>
+#include <string>
+
 #include "Maths.hpp"
+
+// clang-format off
+#define ASSERT_EQUAL(x, y) { \
+    if ((gmt::to_string(x)) != (gmt::to_string(y))) { \
+        LOG_ERROR(std::string("[Assertion Failed]\nExpected ") + gmt::to_string(x) + std::string("\nResult ") + gmt::to_string(y)); \
+    } \
+}
+
+#define LOG_ERROR(message) { \
+    throw std::runtime_error(std::string("\n") + std::string(message) + std::string("\nat file:     ") + std::string(__FILE__) + std::string(":") + std::to_string(__LINE__) + std::string("\nat function: ") + std::string(__PRETTY_FUNCTION__)); \
+}
+// clang-format on
 
 namespace gmt {
 

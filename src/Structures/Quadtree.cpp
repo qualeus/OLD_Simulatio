@@ -60,7 +60,7 @@ BoundsI QuadTree::NodeBounds(const BoundsI& bounds, int index) const {
         case 2: return BoundsI(bounds.x1, midy, +midx, bounds.y2);  // SW
         case 3: return BoundsI(midx, midy, bounds.x2, bounds.y2);   // SE
     }
-    throw std::out_of_range("Only 4 Sub-Nodes");
+    LOG_ERROR("Out of range, index given is " + gmt::to_string(index) + " but only 4 Sub-Nodes");
 }
 
 BoundsI QuadTree::CorpseBounds(const std::shared_ptr<phy::Corpse>& corpse) const { return corpse->get_bounds(); }
@@ -134,7 +134,7 @@ void QuadTree::Remove(QuadNode* node, const BoundsI& node_bounds, std::shared_pt
 void QuadTree::SearchRemove(QuadNode* node, std::shared_ptr<phy::Corpse> corpse) {
     auto it = std::find_if(std::begin(node->corpses), std::end(node->corpses), [this, &corpse](const std::shared_ptr<phy::Corpse>& rhs) { return corpse == rhs; });
 
-    if (it == std::end(node->corpses)) { throw std::out_of_range("Object don't exists in the Node"); }  // trying to repove an object that don't exist in the node
+    if (it == std::end(node->corpses)) { LOG_ERROR("Object don't exists in the Node"); }  // trying to repove an object that don't exist in the node
 
     *it = std::move(node->corpses.back());
     node->corpses.pop_back();

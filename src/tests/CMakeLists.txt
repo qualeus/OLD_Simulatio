@@ -53,6 +53,9 @@ set(SOURCES
     ../Structures/QuadNode.cpp
     ../Structures/System.cpp 
     ../Geometry/Collision.cpp
+    ../Benchmark/BlockData.cpp
+    ../Benchmark/Performance.cpp
+    ../Benchmark/Recorder.cpp
 )
 set(HEADERS
     ../../include/Corpses/Corpse.hpp
@@ -75,6 +78,9 @@ set(HEADERS
     ../../include/Geometry/Vertices.hpp
     ../../include/Geometry/Maths.hpp
     ../../include/Geometry/String.hpp
+    ../../include/Benchmark/BlockData.hpp
+    ../../include/Benchmark/Performance.hpp
+    ../../include/Benchmark/Recorder.hpp
 )
 
 set (SFML_LIBRARIES sfml-graphics sfml-window sfml-system )

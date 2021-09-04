@@ -29,7 +29,7 @@ void Renderer::SetupCirclesShader() {
         "   gl_FragColor = circle(uv, center, 0.5, gl_Color);"
         "}";
 
-    if (!this->circles_shader.loadFromMemory(vertexShader, fragmentShader)) { throw std::runtime_error("Circles shaders couldn't be loaded..."); }
+    if (!this->circles_shader.loadFromMemory(vertexShader, fragmentShader)) { LOG_ERROR("Circles shaders couldn't be loaded..."); }
 }
 
 void Renderer::SetupOutlinesShader() {
@@ -57,7 +57,7 @@ void Renderer::SetupOutlinesShader() {
         "   gl_FragColor = circle(uv, center, 0.5, vec4(1.0, 1.0, 1.0, 1.0));"
         "}";
 
-    if (!this->outlines_shader.loadFromMemory(vertexShader, fragmentShader)) { throw std::runtime_error("Outlines shaders couldn't be loaded..."); }
+    if (!this->outlines_shader.loadFromMemory(vertexShader, fragmentShader)) { LOG_ERROR("Outlines shaders couldn't be loaded..."); }
 }
 
 void Renderer::Draw() {
