@@ -13,6 +13,7 @@
 #include <array>
 #include <chrono>
 #include <cmath>
+#include <deque>
 #include <functional>
 #include <iostream>
 #include <memory>

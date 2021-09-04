@@ -20,12 +20,12 @@ int main() {
     // BaseDemo();
     // GravityDemo();
     //  ConstraintDemo();
-    // ClothDemo();
+    ClothDemo();
     // SliderDemo();
     //  SpringDemo();
     // BaloonDemo();
     // SpongeDemo();
-    TestDemo();
+    // TestDemo();
     return 0;
 }
 

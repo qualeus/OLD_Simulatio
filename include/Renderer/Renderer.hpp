@@ -42,7 +42,9 @@
 #define C_CONCRETE sf::Color(149, 165, 166, 255)  // rgba(149, 165, 166,1.0)
 #define C_GREY sf::Color(127, 140, 141, 255)      // rgba(127, 140, 141,1.0)
 
-#define G_DEBUG_FRAME_SIZE 300    // Size of framerate array
+#define G_DEBUG_MIN_FRAME_SIZE 10   // Min size of framerate array
+#define G_DEBUG_MAX_FRAME_SIZE 300  // Max size of framerate array
+
 #define G_SIDE_BAR_SIZE 60        // Size in Px
 #define G_SIDE_CONTENT_SIZE 300   // Size in Px
 #define G_TIME_BAR_SIZE 30        // Size in Px
@@ -221,7 +223,7 @@ class Renderer {
 
     const static int DEBUG_LENGTH = 50;
     float debug_values[DEBUG_LENGTH] = {};
-    float debug_frames[G_DEBUG_FRAME_SIZE] = {};
+    std::deque<float> debug_frames = {};
 
     sf::Vector2f last_mouse_pos = sf::Vector2f();
     float last_mouse_vel = 0.0f;

@@ -562,6 +562,7 @@ void Renderer::ShowGuiBenchmark(bool* p_open) {
 
         int max_element = static_cast<int>(ImGui::GetContentRegionAvailWidth() / 5.0f);
         int size = bmk::Recorder::root.childs.size();
+        console.Log("size: " + gmt::to_string(size));
         int current_size = std::min(size, max_element);
         int bar_width = 5;
 
@@ -1606,14 +1607,13 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             ImGui::InputInt("ms", &update_frame_delay);
             ImGui::SameLine();
             ImGui::SetNextItemWidth(130);
-            ImGui::SliderInt("count", &display_frames_size, 10, G_DEBUG_FRAME_SIZE);
+            ImGui::SliderInt("count", &display_frames_size, G_DEBUG_MIN_FRAME_SIZE, G_DEBUG_MAX_FRAME_SIZE);
 
             float t_perf = 0.0f;
             if (ImGui::GetTime() - t_perf > (update_frame_delay / 1000.0f)) {
                 t_perf = ImGui::GetTime();
-
-                for (int i = IM_ARRAYSIZE(debug_frames) - 1; i > 0; i--) { debug_frames[i] = debug_frames[i - 1]; }
-                debug_frames[0] = debug_values[0];
+                debug_frames.push_front(debug_values[0]);
+                if (debug_frames.size() > G_DEBUG_MAX_FRAME_SIZE) { debug_frames.pop_back(); }
             }
 
             float average = 0.0f;
@@ -1623,7 +1623,10 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
 
             char average_text[32];
             sprintf(average_text, "-80\n\n-45\n\n-10\nAvg: %.fHz", average);
-            ImGui::PlotLines(average_text, debug_frames, display_frames_size, 0, NULL, 10.0f, 80.0f, ImVec2(235.0f, 80.0f));
+
+            float debug_frames_copy[G_DEBUG_MAX_FRAME_SIZE] = {};
+            std::copy(debug_frames.begin(), debug_frames.end(), debug_frames_copy);
+            ImGui::PlotLines(average_text, debug_frames_copy, display_frames_size, 0, NULL, 10.0f, 80.0f, ImVec2(235.0f, 80.0f));
 
             ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::TreePop();
@@ -1715,7 +1718,7 @@ void Renderer::ShowGuiOverlay(bool* p_open) {
             ImGui::Separator();
             ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Text("%.f corpses", debug_values[12]);
-            ImGui::Text("%.f pairs", debug_values[13]);
+            ImGui::Text("%.d pairs", debug_values[13]);
             ImGui::Text("%.f quadpairs [depth: %.f]", debug_values[14], debug_values[15]);
             ImGui::Text(" * Reduction ratio: %.f %% (%f %%)", debug_values[14] / debug_values[13] * 100.0f, (debug_values[14] - debug_values[13]) / debug_values[13] * 100.0f);
             ImGui::Text(" * In cell pairs: %.f/%.f (%.f %%)", debug_values[16], debug_values[14], debug_values[16] / debug_values[14] * 100.0f);
