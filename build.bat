@@ -34,13 +34,14 @@ cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build .
 pause
 cd bin
 physics.exe
-pause
+if errorlevel 1 pause
 cd ..\..\..
 goto menu
 
 :run_debug
 cd build\Debug\bin
 physics.exe
+if errorlevel 1 pause
 cd ..\..\..
 goto menu
 
@@ -52,12 +53,14 @@ cd build\Release
 cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ../.. && cmake --build .
 cd bin
 physics.exe
+if errorlevel 1 pause
 cd ..\..\..
 goto menu
 
 :run_release
 cd build\Release\bin
 physics.exe
+if errorlevel 1 pause
 cd ..\..\..
 goto menu
 

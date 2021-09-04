@@ -18,14 +18,14 @@ void TestDemo() {
 
 int main() {
     // BaseDemo();
-    GravityDemo();
+    // GravityDemo();
     //  ConstraintDemo();
     // ClothDemo();
     // SliderDemo();
     //  SpringDemo();
     // BaloonDemo();
     // SpongeDemo();
-    //  TestDemo();
+    TestDemo();
     return 0;
 }
 

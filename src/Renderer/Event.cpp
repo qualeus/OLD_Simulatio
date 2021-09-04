@@ -7,6 +7,7 @@ void Renderer::ClearSystem() {
     this->selected_corpses_index = {};
     this->selected_corpses_fixed = {};
     this->selected_corpses_diff = {};
+    this->spawners = {};
     system.Clear();
 }
 void Renderer::UpdateSpawners() {

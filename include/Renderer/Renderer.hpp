@@ -126,7 +126,7 @@ class Renderer {
     std::string time_unit = "s";
 
     int line_thickness = 2;
-    int outline_thickness = -2;
+    int outline_thickness = 6;
     float text_resolution = 28.0f;
     float vector_size = 40.0f;
     float velocity_size = 10.0f;

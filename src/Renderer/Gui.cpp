@@ -910,12 +910,12 @@ void Renderer::ShowGuiProperties(bool* p_open) {
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
                     /* Renderer Line Thickness */
-                    ImGui::InputInt("Outline", &line_thickness);
+                    ImGui::InputInt("Line Thickness", &line_thickness);
 
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
                     /* Renderer Outline Thickness */
-                    ImGui::InputInt("Outline", &outline_thickness);
+                    ImGui::InputInt("Outline Thickness", &outline_thickness);
 
                     ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
@@ -1940,11 +1940,19 @@ void Renderer::DrawGuiMenu() {
 
 void Renderer::ShowPopupClearSystem() {
     if (show_popup_clear_system) {
-        ImGui::OpenPopup("##PopupClearSystem");
+        ImGui::OpenPopup("Clear System?");
         show_popup_clear_system = false;
     }
 
-    if (ImGui::ValidationPopup("##PopupClearSystem", "Validate the clear of the system corpses ?")) { ClearSystem(); }
+    if (ImGui::ValidationPopup("Clear System?",
+                               "Do you really want to erase all the objects in the scene ?\n"
+                               "\nIncluding:\n"
+                               "     * Corpses\n"
+                               "     * Constraints\n"
+                               "     * Spawners...\n"
+                               "\nThis operation cannot be undone !")) {
+        ClearSystem();
+    }
 }
 
 void Renderer::ShowGuiConsole(bool* p_open) { this->console.Draw("Console", p_open); }

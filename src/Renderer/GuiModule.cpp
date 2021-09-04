@@ -21,16 +21,47 @@ void TextCenter(std::string text) {
 bool ValidationPopup(std::string title, std::string content) {
     bool always_open = true;
     bool validated = false;
-    if (ImGui::BeginPopupModal(title.c_str(), &always_open, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar)) {
+
+    // Always center this window when appearing
+    ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+    ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+
+    if (ImGui::BeginPopupModal(title.c_str(), &always_open, ImGuiWindowFlags_AlwaysAutoResize)) {
         ImGui::Text(content.c_str());
-        if (ImGui::Button("Validate")) {
+
+        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+        ImGui::Separator();
+        ImGui::Dummy(ImVec2(0.0f, 7.0f));
+
+        if (ImGui::Button("Validate", ImVec2(200, 0))) {
             validated = true;
             ImGui::CloseCurrentPopup();
         }
+        ImGui::SetItemDefaultFocus();
         ImGui::SameLine();
-        if (ImGui::Button("Cancel")) { ImGui::CloseCurrentPopup(); }
+        if (ImGui::Button("Cancel", ImVec2(200, 0))) { ImGui::CloseCurrentPopup(); }
         ImGui::EndPopup();
     }
+
+    if (ImGui::BeginPopupModal("Delete?", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::Text("All those beautiful files will be deleted.\nThis operation cannot be undone!\n\n");
+        ImGui::Separator();
+
+        // static int unused_i = 0;
+        // ImGui::Combo("Combo", &unused_i, "Delete\0Delete harder\0");
+
+        static bool dont_ask_me_next_time = false;
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+        ImGui::Checkbox("Don't ask me next time", &dont_ask_me_next_time);
+        ImGui::PopStyleVar();
+
+        if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+        ImGui::SetItemDefaultFocus();
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+        ImGui::EndPopup();
+    }
+
     return validated;
 }
 
