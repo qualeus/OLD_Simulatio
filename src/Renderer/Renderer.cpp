@@ -46,13 +46,17 @@ Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_
     this->vertices_buffer = {};
 
     sf::ContextSettings settings;
-    settings.antialiasingLevel = 4;
+    settings.antialiasingLevel = 0;
 
     /* Initialize the Window */
     this->window.create(sf::VideoMode(this->screen_width, this->screen_height), this->name, sf::Style::Default, settings);
-    this->window.setView(this->view);
     this->window.setFramerateLimit(max_framerate);
 
+    /* Initialize the RenderTexture*/
+    if (!this->render_texture.create(this->screen_width, this->screen_height)) LOG_ERROR("Render texture couldn't be initialized.");
+    this->render_texture.setView(this->view);
+
+    /* Setup the Window Icon */
     sf::Image icon;
     icon.loadFromMemory(Ricon_compressed_data, Ricon_compressed_size);
     this->window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
@@ -85,6 +89,7 @@ void Renderer::Render() {
 
                 /* Background Color */
                 this->window.clear(background_color);
+                this->render_texture.clear(background_color);
 
                 /* Events Handling */
                 sf::Event event;
@@ -112,6 +117,7 @@ void Renderer::Render() {
                 }
 
                 /* Render Elements */
+                this->RenderTexture();
                 this->RenderGui();
                 this->RenderWindow();
             }
@@ -131,7 +137,25 @@ void Renderer::ResetBenchmark() {
     }
 }
 
-void Renderer::RenderWindow() { this->window.display(); }
+void Renderer::RenderTexture() {
+    // We finalize the render texture computation
+    this->render_texture.display();
+
+    // Draw the texture on a Sprite
+    this->render_sprite.setTexture(this->render_texture.getTexture(), true);
+    // this->render_sprite.setTextureRect(sf::IntRect(0, 0, this->get_screen_width(), this->get_screen_height()));
+    // this->render_sprite.setPosition(-this->get_screen_width() / 2.0f, -this->get_screen_height() / 2.0f);
+    // this->render_sprite.setOrigin(this->get_screen_width() / 2.0f, this->get_screen_height() / 2.0f);
+
+    // ...then we apply it on the window
+    blur_shader.setUniform("texture", this->render_texture.getTexture());
+    this->window.draw(this->render_sprite, &blur_shader);
+}
+
+void Renderer::RenderWindow() {
+    // We compute the windows display
+    this->window.display();
+}
 
 void Renderer::Close() {
     if (this->window.isOpen()) { this->window.close(); }
@@ -194,7 +218,7 @@ void Renderer::Camera(sf::Vector2f move, float zoom) {
 void Renderer::UpdateCamera() {
     this->view.setCenter(get_camera_x(), get_camera_y());
     this->view.setSize(get_screen_width() * get_camera_size(), get_screen_height() * get_camera_size());
-    this->window.setView(this->view);
+    this->render_texture.setView(this->view);
     this->window.setSize({static_cast<unsigned int>(get_screen_width()), static_cast<unsigned int>(get_screen_height())});
     this->window.setFramerateLimit(max_framerate);
 }
@@ -260,9 +284,9 @@ void Renderer::set_max_framerate(int max_framerate) { this->max_framerate = max_
 
 gmt::Bounds<float> Renderer::get_screen_bounds() { return gmt::Bounds<float>(get_real_pos_x(0), get_real_pos_y(0), get_real_pos_x(screen_width * PIXEL_SCALE), get_real_pos_y(screen_height * PIXEL_SCALE)); }
 
-sf::Vector2f Renderer::get_real_pos(sf::Vector2i pos) { return window.mapPixelToCoords(sf::Vector2i(pos.x, pos.y)) / PIXEL_SCALE; }
-float Renderer::get_real_pos_x(float x) { return window.mapPixelToCoords(sf::Vector2i(x, 0)).x / PIXEL_SCALE; }
-float Renderer::get_real_pos_y(float y) { return window.mapPixelToCoords(sf::Vector2i(0, y)).y / PIXEL_SCALE; }
+sf::Vector2f Renderer::get_real_pos(sf::Vector2i pos) { return render_texture.mapPixelToCoords(sf::Vector2i(pos.x, pos.y)) / PIXEL_SCALE; }
+float Renderer::get_real_pos_x(float x) { return render_texture.mapPixelToCoords(sf::Vector2i(x, 0)).x / PIXEL_SCALE; }
+float Renderer::get_real_pos_y(float y) { return render_texture.mapPixelToCoords(sf::Vector2i(0, y)).y / PIXEL_SCALE; }
 
 bool Renderer::get_enable_inputs() { return this->enable_inputs; }
 void Renderer::set_enable_inputs(bool enable) { this->enable_inputs = enable; }

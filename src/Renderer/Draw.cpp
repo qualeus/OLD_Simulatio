@@ -4,6 +4,7 @@
 void Renderer::SetupDraw() {
     SetupCirclesShader();
     SetupOutlinesShader();
+    SetupBlurShader();
 }
 
 void Renderer::SetupCirclesShader() {
@@ -60,6 +61,50 @@ void Renderer::SetupOutlinesShader() {
     if (!this->outlines_shader.loadFromMemory(vertexShader, fragmentShader)) { LOG_ERROR("Outlines shaders couldn't be loaded..."); }
 }
 
+void Renderer::SetupBlurShader() {
+    const std::string vertexShader =
+        "void main() {"
+        "gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;"
+        "gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;"
+        "gl_FrontColor = gl_Color;"
+        "}";
+
+    const std::string fragmentShader =
+        "uniform sampler2D texture;"
+        "/* ============== MATRIX ============= */"
+        "const int x_res = 3;"
+        "const int y_res = 3;"
+        "const float box[x_res * y_res] = float[]("
+        "   0.1, 0.2, 0.1,"
+        "   0.2, 1.0, 0.2,"
+        "   0.1, 0.2, 0.1"
+        ");"
+        "/* ============== COEFS ============= */"
+        "float sum_coefs() {"
+        "   float sum = 0.0;"
+        "   for (int i = 0; i < x_res * y_res; i++) {"
+        "       sum += box[i];"
+        "   }"
+        "   return sum;"
+        "}"
+        "/* ============== MAIN ============= */"
+        "void main(void) {"
+        "   vec2 tex_offset = 1.0 / textureSize(texture, 0);"
+        "   vec2 uv = gl_TexCoord[0].xy;"
+        "   vec4 color = vec4(0.0);"
+        "   for (int x = 0; x < x_res; x++) {"
+        "       for (int y = 0; y < y_res; y++) {"
+        "           vec2 offset = vec2(x - floor(x_res / 2.0), y - floor(y_res / 2.0));"
+        "           color += texture2D(texture, uv + offset * tex_offset) * box[x + y * x_res];"
+        "       }"
+        "   }"
+        "   color /= sum_coefs();"
+        "   gl_FragColor = color;"
+        "}";
+
+    if (!this->blur_shader.loadFromMemory(vertexShader, fragmentShader)) { LOG_ERROR("Bllur shaders couldn't be loaded..."); }
+}
+
 void Renderer::Draw() {
     // Reset the buffers
     this->vertices_buffer = {};
@@ -81,13 +126,13 @@ void Renderer::Draw() {
     if (system.get_enable_limits()) { DrawLimits(); }
 
     // Draw the buffers objects all at once
-    this->window.draw(&this->vertices_buffer[0], this->vertices_buffer.size(), sf::Triangles);
+    this->render_texture.draw(&this->vertices_buffer[0], this->vertices_buffer.size(), sf::Triangles);
 
     // Draw the circles with a shader
-    this->window.draw(&this->circles_buffer[0], this->circles_buffer.size(), sf::Triangles, &this->circles_shader);
+    this->render_texture.draw(&this->circles_buffer[0], this->circles_buffer.size(), sf::Triangles, &this->circles_shader);
 
     // Draw the circles outlines with a shader
-    this->window.draw(&this->outlines_buffer[0], this->outlines_buffer.size(), sf::Triangles, &this->outlines_shader);
+    this->render_texture.draw(&this->outlines_buffer[0], this->outlines_buffer.size(), sf::Triangles, &this->outlines_shader);
 }
 
 void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse, sf::Color color) {

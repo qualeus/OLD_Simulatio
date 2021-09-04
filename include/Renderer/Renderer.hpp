@@ -147,11 +147,6 @@ class Renderer {
     int trails_debug_step = 100;
     int trails_debug_time = 10;
 
-    sf::RenderWindow window;
-    sf::View view;
-    sf::Clock clock;
-    sf::Time frame;
-
     sf::Vector2f saved_mouse_pos;
     gmt::Bounds<float> selected_area;
     std::vector<bool> selected_corpses_fixed;
@@ -248,6 +243,7 @@ class Renderer {
 
     sf::Shader circles_shader;
     sf::Shader outlines_shader;
+    sf::Shader blur_shader;
 
     int triangles = 0;
     int rectangles = 0;
@@ -257,18 +253,28 @@ class Renderer {
     int springs = 0;
     int polygons = 0;
 
+    sf::RenderWindow window;
+    sf::RenderTexture render_texture;
+    sf::Sprite render_sprite;
+    sf::View view;
+    sf::Clock clock;
+    sf::Time frame;
+
    public:
     phy::System system;
 
     Renderer(float camera_x, float camera_y, float camera_h, float camera_w, float zoom, std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y, int quadtree_max_count, int quadtree_max_depth);
     void SetupGui();
     void SetupDraw();
-    void SetupCirclesShader();
-    void SetupOutlinesShader();
     void SetupGuiBaseLayout();
     virtual ~Renderer();
 
+    void SetupCirclesShader();
+    void SetupOutlinesShader();
+    void SetupBlurShader();
+
     void Render();  // Initialize the System and launch the Render loop
+    void RenderTexture();
     void RenderGui();
     void RenderWindow();
     void Close();  // Close the Renderer and Clean the System
