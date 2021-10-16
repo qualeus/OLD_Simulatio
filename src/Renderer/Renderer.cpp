@@ -46,7 +46,7 @@ Renderer::Renderer(float camera_x, float camera_y, float camera_h, float camera_
     this->vertices_buffer = {};
 
     sf::ContextSettings settings;
-    settings.antialiasingLevel = 0;
+    settings.antialiasingLevel = 8;
 
     /* Initialize the Window */
     this->window.create(sf::VideoMode(this->screen_width, this->screen_height), this->name, sf::Style::Default, settings);
@@ -98,6 +98,12 @@ void Renderer::Render() {
                 /* Delta Time Clock */
                 ImGui::SFML::Update(this->window, this->frame = this->clock.restart());
 
+                /* Background Shaders */
+                {
+                    bmk::Record("PreRenderTexture");
+                    this->PreRenderTexture();
+                }
+
                 /* Draw Elements */
                 {
                     bmk::Record("Drawing");
@@ -116,9 +122,18 @@ void Renderer::Render() {
                 }
 
                 /* Render Elements */
-                this->RenderTexture();
-                this->RenderGui();
-                this->RenderWindow();
+                {
+                    bmk::Record("RenderTexture");
+                    this->RenderTexture();
+                }
+                {
+                    bmk::Record("RenderGui");
+                    this->RenderGui();
+                }
+                {
+                    bmk::Record("RenderWindow");
+                    this->RenderWindow();
+                }
             }
         }
     }
@@ -136,7 +151,14 @@ void Renderer::ResetBenchmark() {
     }
 }
 
+void Renderer::PreRenderTexture() {
+    if (this->post_process_grid) { ApplyGridShader(); }
+    if (this->post_process_gravity) { ApplyGravityShader(); }
+}
+
 void Renderer::RenderTexture() {
+    if (this->post_process_blur) { ApplyBlurShader(); }
+
     // We finalize the render texture computation
     this->render_texture.display();
 
@@ -146,9 +168,7 @@ void Renderer::RenderTexture() {
     // this->render_sprite.setPosition(this->get_screen_width() / 2.0f, this->get_screen_height() / 2.0f);
     // this->render_sprite.setOrigin(this->get_screen_width() / 2.0f, this->get_screen_height() / 2.0f);
 
-    // ...then we apply it on the window
-    blur_shader.setUniform("texture", this->render_texture.getTexture());
-    this->window.draw(this->render_sprite, &blur_shader);
+    this->window.draw(this->render_sprite);
 }
 
 void Renderer::RenderWindow() {

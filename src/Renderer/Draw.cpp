@@ -77,9 +77,9 @@ void Renderer::SetupBlurShader() {
         "const int x_res = 3;"
         "const int y_res = 3;"
         "const float box[x_res * y_res] = float[]("
-        "   0.1, 0.2, 0.1,"
-        "   0.2, 1.0, 0.2,"
-        "   0.1, 0.2, 0.1"
+        "   0.1, 0.3, 0.1,"
+        "   0.3, 1.0, 0.3,"
+        "   0.1, 0.3, 0.1"
         ");"
         "/* ============== COEFS ============= */"
         "float sum_coefs() {"
@@ -121,9 +121,9 @@ void Renderer::SetupGridShader() {
         "uniform float scale;"
         "uniform vec4 color;"
         "/* ============== PARAMETERS ============= */"
-        "const float spacing = 500.0;"
-        "const float thickness = 5.0;"
-        "const float fade_speed = 50;"
+        "const float spacing = 1.0;"
+        "const float thickness = 0.005;"
+        "const float fade_speed = 0.5;"
         "/* ============== REMAP ============= */"
         "float remap(float value, float from1, float to1, float from2, float to2) {"
         "   return (value - from1) / (to1 - from1) * (to2 - from2) + from2;"
@@ -131,14 +131,18 @@ void Renderer::SetupGridShader() {
         "/* ============== MAIN ============= */"
         "void main(void) {"
         "   vec2 uv = gl_TexCoord[0].xy - vec2(0.5, 0.5);"
-        "   vec2 xy = uv * textureSize(texture, 0) * scale;"
-        "   vec4 color = vec4(0.0);"
-        "   float modx = mod(xy.x + position.x / 2.0, spacing);"
-        "   float mody = mod(xy.y - position.y/ 2.0, spacing);"
-        "   if (modx > 0.0 && modx < thickness || mody > 0.0 && mody < thickness) {"
-        "       color = vec4(1.0, 1.0, 1.0, 0.5);"
+        "   vec2 xy = uv / textureSize(texture, 0) * scale;"
+        "   float logMappedScale = scale / pow(10, ceil(log(scale)));"
+        "   float localScale = 1 / logMappedScale;"
+        "   float fade = pow(1 - remap(logMappedScale, 0.1, 1, 0.00001, 0.99999), fade_speed);"
+        "   vec2 pos = vec2(0.0);"
+        "   pos.x = floor(mod((uv.x - 0.5 * thickness) * 10.0 * localScale, 1.0) + thickness * 10.0 * localScale);"
+        "   pos.y = floor(mod((uv.y - 0.5 * thickness) * 10.0 * localScale, 1.0) + thickness * 10.0 * localScale);"
+        "   vec4 grid_color = texture2D(texture, uv);"
+        "   if (pos.x == 1 || pos.y == 1) {"
+        "       grid_color = vec4(color[0], color[1], color[2], (1.0 - fade));"
         "   }"
-        "   gl_FragColor = color;"
+        "   gl_FragColor = grid_color;"
         "}";
 
     if (!this->grid_shader.loadFromMemory(vertexShader, fragmentShader)) { LOG_ERROR("Grid shaders couldn't be loaded..."); }
@@ -166,18 +170,34 @@ void Renderer::SetupGravityShader() {
 void Renderer::DrawBackground() {
     this->window.clear(background_color);
     this->render_texture.clear(background_color);
-    sf::Sprite background_sprite;
-    background_sprite.setTexture(this->render_texture.getTexture());
-    background_sprite.setOrigin(this->render_texture.getSize().x / 2.0f, this->render_texture.getSize().y / 2.0f);
-    background_sprite.setPosition(this->get_camera_x(), this->get_camera_y());
-    background_sprite.setScale(this->get_camera_zoom() / 100.0f, this->get_camera_zoom() / 100.0f);
+}
+
+void Renderer::ApplyGridShader() {
+    sf::Sprite sprite;
+    sprite.setTexture(this->render_texture.getTexture());
+    sprite.setOrigin(this->render_texture.getSize().x / 2.0f, this->render_texture.getSize().y / 2.0f);
+    sprite.setPosition(this->get_camera_x(), this->get_camera_y());
+    sprite.setScale(this->get_camera_zoom() / 100.0f, this->get_camera_zoom() / 100.0f);
 
     grid_shader.setUniform("texture", this->render_texture.getTexture());
     grid_shader.setUniform("position", sf::Glsl::Vec2(this->get_camera_x(), this->get_camera_y()));
     grid_shader.setUniform("scale", this->get_camera_zoom() / 100.0f);
     grid_shader.setUniform("color", sf::Glsl::Vec4(sf::Color::White));
-    this->render_texture.draw(background_sprite, &grid_shader);
+    this->render_texture.draw(sprite, &grid_shader);
 }
+
+void Renderer::ApplyBlurShader() {
+    sf::Sprite sprite;
+    sprite.setTexture(this->render_texture.getTexture());
+    sprite.setOrigin(this->render_texture.getSize().x / 2.0f, this->render_texture.getSize().y / 2.0f);
+    sprite.setPosition(this->get_camera_x(), this->get_camera_y());
+    sprite.setScale(this->get_camera_zoom() / 100.0f, this->get_camera_zoom() / 100.0f);
+
+    blur_shader.setUniform("texture", this->render_texture.getTexture());
+    this->render_texture.draw(sprite, &blur_shader);
+}
+
+void Renderer::ApplyGravityShader() {}
 
 void Renderer::Draw() {
     // Reset the buffers

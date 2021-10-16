@@ -1930,6 +1930,14 @@ void Renderer::DrawGuiMenu() {
             ImGui::PopItemFlag();
             ImGui::EndMenu();
         }
+        if (ImGui::BeginMenu("Shaders")) {
+            ImGui::PushItemFlag(ImGuiItemFlags_SelectableDontClosePopup, true);
+            ImGui::MenuItem("Grid", NULL, &post_process_grid);
+            ImGui::MenuItem("Gravity", NULL, &post_process_gravity);
+            ImGui::MenuItem("Blur", NULL, &post_process_blur);
+            ImGui::PopItemFlag();
+            ImGui::EndMenu();
+        }
         if (ImGui::BeginMenu("Help")) {
             if (ImGui::MenuItem("Documentation")) { /* Do stuff */
             }

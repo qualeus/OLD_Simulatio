@@ -187,6 +187,10 @@ class Renderer {
     bool debug_show_contacts = false;
     bool debug_show_collisions = false;
 
+    bool post_process_blur = false;
+    bool post_process_grid = false;
+    bool post_process_gravity = false;
+
     bool debug_system_edited = false;
     bool locked_accuracy = true;
 
@@ -280,6 +284,7 @@ class Renderer {
     void SetupGravityShader();
 
     void Render();  // Initialize the System and launch the Render loop
+    void PreRenderTexture();
     void RenderTexture();
     void RenderGui();
     void RenderWindow();
@@ -342,6 +347,10 @@ class Renderer {
 
     void Draw();  // Manage the drawing of the Renderer
     void DrawBackground();
+
+    void ApplyGridShader();
+    void ApplyBlurShader();
+    void ApplyGravityShader();
 
     void DrawCorpse(std::shared_ptr<phy::Corpse> corpse, sf::Color color);
     void DrawCorpseCircle(phy::Circle* circle, sf::Color color);
