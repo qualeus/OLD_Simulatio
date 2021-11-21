@@ -101,8 +101,7 @@
         "hash_set": "cpp",
         "*.inc": "cpp"
     },
-    "colorize.languages": [
-        "cpp",
-    ],
-    "cmake.configureOnOpen": false
+    "colorize.languages": ["cpp"],
+    "cmake.configureOnOpen": false,
+    "conventionalCommits.scopes": ["README"]
 }
