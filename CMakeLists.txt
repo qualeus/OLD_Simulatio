@@ -1,20 +1,34 @@
 # Set up the minimum version of cmake
 cmake_minimum_required(VERSION 3.0.0)
 
-# Set the project name
-set (PROJECT_NAME "physics")
-project (${PROJECT_NAME})
+# Set the project name and version
+set (PROJECT_NAME "PHYSICS")
+set (PROJECT_VERSION_MAJOR 0)
+set (PROJECT_VERSION_MINOR 5)
+set (PROJECT_VERSION_REVISION 2)
+project (${PROJECT_NAME} VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_REVISION})
 
-# Set the C++ standard to be used
+message("PROJECT ${PROJECT_NAME} VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_REVISION}")
+
+# Set the project Config variables
+set (ENABLE_DOUBLE_PRECISION ON)
+# add_definitions( -DENABLE_DOUBLE_PRECISION=${ENABLEs_DOUBLE_PRECISION} )
+
+configure_file("${PROJECT_SOURCE_DIR}/Config.hpp.in" "${PROJECT_BINARY_DIR}/Config.hpp")
+include_directories("${PROJECT_BINARY_DIR}")
+
+# Set the C++ standard to be usedzz
 set (CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add customs Flags
-set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Werror -Wfatal-errors")
+set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Werror -Wfatal-errors -O0 -g -rdynamic")
 set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Werror -Wfatal-errors -O3 -s -fexpensive-optimizations")
 
+#set(LIBRARIES_PATH "Windows/g++/Release/")
+set(LIBRARIES_PATH "")
+
 # CMake options
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
-set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -25,59 +39,121 @@ if (NOT CMAKE_BUILD_TYPE)
 endif (NOT CMAKE_BUILD_TYPE)
 
 # SFML
-set(SFML_DIR "D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/cmake/SFML")
-set(SFML_DOC_DIR "D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/cmake/SFML")
-set(SFML_STATIC_LIBRARIES TRUE)
-find_package (SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
+set(BUILD_SHARED_LIBS OFF)
+set(SFML_STATIC_LIBRARIES ON)
 
-if(NOT SFML_FOUND)
-    message(FATAL_ERROR "SFML couldn't be located!")
-endif()
+set(SFML_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/${LIBRARIES_PATH}sfml/include)
+set(SFML_LIBRARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/${LIBRARIES_PATH}sfml/lib)
+set(SFML_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/${LIBRARIES_PATH}sfml/lib/cmake/SFML)
+
+link_directories(SFML_LIBRARY_DIR)
+include_directories(SFML_INCLUDE_DIR)
+
+find_package(SFML 2.5 COMPONENTS graphics system window)
 
 # IMGUI
-set(ImGui-SFML_DIR "D:/Librairies/imgui-sfml_2_0_0/imgui_docking_build/lib/cmake/ImGui-SFML")
+set(ImGui-SFML_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/${LIBRARIES_PATH}imgui/lib/cmake/ImGui-SFML)
+
 find_package(ImGui-SFML REQUIRED)
 
 # Compile Target
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 set(SOURCES
-    src/main.cpp
-    src/Circle.cpp
-    src/Constraint.cpp
-    src/Corpse.cpp
-    src/Dot.cpp
-    src/Functional.cpp
-    src/Polygon.cpp
-    src/Quadtree.cpp
-    src/Renderer.cpp
-    src/RendererDraw.cpp
-    src/RendererEvents.cpp
-    src/RendererGui.cpp
-    src/System.cpp  
+    src/Geometry/Bounds.cpp
+    src/Geometry/Collision.cpp
+    src/Geometry/Geometry.cpp
+    src/Geometry/Maths.cpp
+    src/Geometry/String.cpp
+    src/Geometry/Vector.cpp
+    src/Geometry/Vertices.cpp
+
+    src/Benchmark/BlockData.cpp
+    src/Benchmark/Performance.cpp
+    src/Benchmark/Recorder.cpp
+
+    src/Corpses/Circle.cpp
+    src/Corpses/Corpse.cpp
+    src/Corpses/Polygon.cpp
+    
+    src/Constraints/Constraint.cpp
+    src/Constraints/Link.cpp
+    src/Constraints/Loose.cpp
+    src/Constraints/Motor.cpp
+    src/Constraints/Propulsor.cpp
+    src/Constraints/Slider.cpp
+    src/Constraints/Spring.cpp
+
+    src/Structures/QuadTree.cpp
+    src/Structures/QuadNode.cpp
+    src/Structures/System.cpp
+
+    src/Renderer/Draw.cpp
+    src/Renderer/EditorColorScheme.cpp
+    src/Renderer/Event.cpp
+    src/Renderer/Gui.cpp
+    src/Renderer/GuiModule.cpp
+    src/Renderer/Renderer.cpp
+
+    src/main/main.cpp
 )
 set(HEADERS
-    include/Circle.hpp
-    include/Constraint.hpp
-    include/Corpse.hpp
-    include/Dot.hpp
-    include/Functional.hpp
-    include/Polygon.hpp
-    include/Quadtree.hpp
-    include/Renderer.hpp
-    include/System.hpp
+    include/Geometry/Bounds.hpp
+    include/Geometry/Collision.hpp
+    include/Geometry/Geometry.hpp
+    include/Geometry/Maths.hpp
+    include/Geometry/String.hpp
+    include/Geometry/Vector.hpp
+    include/Geometry/Vertices.hpp
+
+    include/Benchmark/BlockData.hpp
+    include/Benchmark/Performance.hpp
+    include/Benchmark/Recorder.hpp
+
+    include/Corpses/Circle.hpp
+    include/Corpses/Corpse.hpp
+    include/Corpses/Polygon.hpp
+
+    include/Constraints/Constraint.hpp
+    include/Constraints/Link.hpp
+    include/Constraints/Loose.hpp
+    include/Constraints/Motor.hpp
+    include/Constraints/Propulsor.hpp
+    include/Constraints/Slider.hpp
+    include/Constraints/Spring.hpp
+
+    include/Structures/QuadTree.hpp
+    include/Structures/QuadNode.hpp
+    include/Structures/System.hpp
+
+    include/Renderer/EditorColorScheme.hpp
+    include/Renderer/GuiModule.hpp
+    include/Renderer/Renderer.hpp
+    include/Renderer/Structures.hpp
+
+)
+
+set(RESSOURCES 
+    ../../assets/icon/ricon.o
 )
 
 set(FONTS
-    assets/fonts/roboto.cpp
-    assets/fonts/proggy.cpp
-    assets/fonts/iconsforkawesome.cpp
-    assets/fonts/IconsForkAwesome.h
+    assets/fonts/roboto.hpp
+    assets/fonts/proggy.hpp
+    assets/fonts/consolas.hpp
+    assets/fonts/forkawersome.hpp
+    assets/fonts/icons.hpp
 )
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${FONTS})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${FONTS} ${RESSOURCES})
+set (SFML_LIBRARIES sfml-graphics sfml-window sfml-system )
+set (IMGUI_LIBRARIES ImGui-SFML::ImGui-SFML)
 
 # Link libraries
-target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system ImGui-SFML::ImGui-SFML)
 
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} ${IMGUI_LIBRARIES} -lmingw32 -lm -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid)
+else()
+    target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} ${IMGUI_LIBRARIES})
+endif()
 # Copy assets
 #file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})

@@ -3,9 +3,11 @@
     UseTab: Never,
     IndentWidth: 4,
     TabWidth: 4,
-    ColumnLimit: 200,
+    ColumnLimit: 300,
     AllowAllParametersOfDeclarationOnNextLine: false,
     BreakBeforeBraces: Attach,
     AllowShortFunctionsOnASingleLine: All,
-    AllowShortIfStatementsOnASingleLine : Always,   
+    AllowShortIfStatementsOnASingleLine : Always,
+    AllowShortBlocksOnASingleLine: Always,
+    AllowShortCaseLabelsOnASingleLine: true,
 }
