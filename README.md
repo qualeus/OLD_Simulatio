@@ -8,11 +8,11 @@
 
 <br />
 <div align="center">
-<a href="https://github.com/mlhoutel/Physics/tree/develop">
+<a href="https://github.com/mlhoutel/Simulatio/tree/develop">
 <img src="./assets/icon/ricon.png" alt="Logo" width="200" height="200">
 </a>
 
-<h2 align="center">PHYSICS</h2>
+<h2 align="center">SIMULATIO</h2>
 
 <p align="center">A flexible physic engine | Debugging tools.</p>
 <p align="center">
@@ -21,11 +21,11 @@
 </a>
 <br />
 <br />
-<a href="https://github.com/mlhoutel/Physics/">Screenshots</a>
+<a href="https://github.com/mlhoutel/Simulatio/">Screenshots</a>
 ·
-<a href="https://github.com/mlhoutel/Physics/issues">Report Bug</a>
+<a href="https://github.com/mlhoutel/Simulatio/issues">Report Bug</a>
 ·
-<a href="https://github.com/mlhoutel/Physics/issues">Request Feature</a>
+<a href="https://github.com/mlhoutel/Simulatio/issues">Request Feature</a>
 </p>
 </div>
 
@@ -58,7 +58,7 @@
 
 ## About The Project
 
-[![Physics Screen Shot][screenshot]](https://example.com)
+[![Simulatio Screen Shot][screenshot]](https://example.com)
 
 This project started from the personal challenge of recreating physical phenomena in a simulation running in real time.
 
@@ -244,7 +244,7 @@ cmake D:\Librairies\imgui-sfml -DIMGUI_DIR=D:\Librairies\imgui -DSFML_DIR=D:\Lib
 
 **To fetch the project files**
 
-1. Clone this project with `git clone https://github.com/mlhoutel/Physics.git` <br/> _(or just click on the download button and extract the file where you want.)_
+1. Clone this project with `git clone https://github.com/mlhoutel/Simulatio.git` <br/> _(or just click on the download button and extract the file where you want.)_
 
 **<details style="padding: 20px"><summary>[Structure details]</summary>**
 
@@ -335,15 +335,15 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-[build-shield]: https://img.shields.io/github/workflow/status/mlhoutel/Physics/Build/main?style=flat-square
-[build-url]: https://github.com/mlhoutel/Physics/main/.github/workflows/main.yml
+[build-shield]: https://img.shields.io/github/workflow/status/mlhoutel/Simulatio/Build/main?style=flat-square
+[build-url]: https://github.com/mlhoutel/Simulatio/main/.github/workflows/main.yml
 [version-shield]: https://img.shields.io/badge/version-0.5.2-orange?style=flat-square
-[version-url]: https://github.com/mlhoutel/Physics/blob/main/CMakeLists.txt
-[language-shield]: https://img.shields.io/github/languages/top/mlhoutel/Physics?style=flat-square
-[language-url]: https://github.com/mlhoutel/Physics/search?l=cpp
+[version-url]: https://github.com/mlhoutel/Simulatio/blob/main/CMakeLists.txt
+[language-shield]: https://img.shields.io/github/languages/top/mlhoutel/Simulatio?style=flat-square
+[language-url]: https://github.com/mlhoutel/Simulatio/search?l=cpp
 [roadmap-shield]: https://img.shields.io/badge/roadmap-available-brightgreen?style=flat-square
 [roadmap-url]: https://github.com/users/mlhoutel/projects/3
-[license-shield]: https://img.shields.io/github/license/mlhoutel/Physics?style=flat-square
-[license-url]: https://github.com/mlhoutel/Physics/blob/main/LICENSE/
+[license-shield]: https://img.shields.io/github/license/mlhoutel/Simulatio?style=flat-square
+[license-url]: https://github.com/mlhoutel/Simulatio/blob/main/LICENSE/
 [logo]: ./src/assets/logo.png
 [screenshot]: ./docs/ScreenShots/Pictures/Benchmarking.png
