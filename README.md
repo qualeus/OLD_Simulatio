@@ -12,7 +12,7 @@
 <img src="./assets/icon/ricon.png" alt="Logo" width="200" height="200">
 </a>
 
-<h2 align="center">PHYSICS</h2>
+<h2 align="center">SIMULATIO</h2>
 
 <p align="center">A flexible physic engine | Debugging tools.</p>
 <p align="center">
