@@ -33,13 +33,13 @@ cd build\Debug
 cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build .
 pause
 cd bin
-physics.exe
+simulatio.exe
 cd ..\..\..
 goto menu
 
 :run_debug
 cd build\Debug\bin
-physics.exe
+simulatio.exe
 cd ..\..\..
 goto menu
 
@@ -50,13 +50,13 @@ echo Compiling for Release...
 cd build\Release
 cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ../.. && cmake --build .
 cd bin
-physics.exe
+simulatio.exe
 cd ..\..\..
 goto menu
 
 :run_release
 cd build\Release\bin
-physics.exe
+simulatio.exe
 cd ..\..\..
 goto menu
 
@@ -68,7 +68,7 @@ if not exist "build/Tests/" mkdir "build/Tests/"
 cls
 echo Compiling Tests...
 cd build\Tests
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../../src/tests && cmake --build .
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../../tests && cmake --build .
 mingw32-make CTEST_OUTPUT_ON_FAILURE=TRUE test
 pause
 cd ..\..
@@ -89,7 +89,7 @@ goto menu
 :sonar_scanner
 sonar-scanner.bat \
   -D"sonar.organization=mlhoutel" \
-  -D"sonar.projectKey=mlhoutel_Physics" \
+  -D"sonar.projectKey=mlhoutel_Simulatio" \
   -D"sonar.sources=." \
   -D"sonar.cfamily.build-wrapper-output=bw-output" \
   -D"sonar.host.url=https://sonarcloud.io"

@@ -22,14 +22,12 @@ class Vector {
     bool operator!=(const Vector<T>& other) const;
 
     Vector(const T& x, const T& y);
-    Vector(const sf::Vector2f& v);
     Vector();
     ~Vector();
     T Magnitude() const;
     T MagnitudeSquared() const;
 
     Vector<T> Clone() const;
-    sf::Vector2f CloneSF() const;
 
     Vector<T> Normalize() const;
     Vector<T> Scale(const T& scale) const;

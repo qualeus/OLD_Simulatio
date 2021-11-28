@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 
 # Set the project name and version
-set (PROJECT_NAME "PHYSICS")
+set (PROJECT_NAME "Simulatio")
 set (PROJECT_VERSION_MAJOR 0)
 set (PROJECT_VERSION_MINOR 5)
 set (PROJECT_VERSION_REVISION 2)
@@ -93,6 +93,7 @@ set(SOURCES
     src/Renderer/Gui.cpp
     src/Renderer/GuiModule.cpp
     src/Renderer/Renderer.cpp
+    src/Renderer/Converter.cpp
 
     src/main/main.cpp
 )
@@ -129,6 +130,7 @@ set(HEADERS
     include/Renderer/GuiModule.hpp
     include/Renderer/Renderer.hpp
     include/Renderer/Structures.hpp
+    include/Renderer/Converter.hpp
 
 )
 

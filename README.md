@@ -46,6 +46,7 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#build-docs">Build Docs</a></li>
       </ul>
     </li>
     <li><a href="#contributing">Contributing</a></li>
@@ -64,19 +65,38 @@ This project started from the personal challenge of recreating physical phenomen
 
 The goal was to learn more about the functioning of these topics, such as:
 
--   **Gravity** (My goal was not to model objects at the molecular level so I used the classical mecanics one)
--   **Collisions** (3rd law of Newton/Reciprocal force between two bodies)
+-   **Gravity** (Classical mecanics one, he goal was not to model objects at the molecular level)
+-   **Collisions** (With Newton's 3rd law)
 -   **Friction** (Approximation with dissipation in heat)
--   **Fluids** (IN DEV)
--   **Electromagnetic fields** (IN DEV, see https://github.com/mlhoutel/Fields)
+-   **Electromagnetic fields** (_IN WORK_, see https://github.com/mlhoutel/Fields)
+-   **Fluids** (_IN WORK_)
 
 This project also allows me to familiarize myself with several areas of programming, like:
 
 -   **Graph Theory** and advanced **Data structures** like Quadtrees
 -   **C++ programs/libraries** compilation (Mingw batch/ CMake)
 -   **Memory allocation** and **Classes Inheritances**
--   **Optimisation**
--   **Threads** and Graphical acceleration with CUDA (?)
+-   **Optimisation** and **Algoritmics**
+-   **Threads** and **Graphical acceleration** with CUDA (?)
+
+This project is oriented towards testing and comparison, so a modular structure has been set up.
+
+**Modularity:**
+
+-   **Precision** (at build time):
+    -   [x] float
+    -   [x] double
+-   **Dimension** (at build time):
+    -   [x] 2D
+    -   [ ] 3D
+-   **Broad phase structure** (at run time):
+    -   [] Spacial grid
+    -   [x] Quad-tree
+    -   [] kD-tree
+-   **Integration method** (at run time):
+    -   [ ] Euler
+    -   [x] Verlet
+    -   [ ] RK4
 
 ---
 
@@ -94,17 +114,17 @@ Currently in dev, you can see a very messy roadmap [here](https://github.com/use
 
 ### Exemples
 
-[Browse all screenshots](./docs/ScreenShots/ScreenShots.md)
+[Browse all screenshots](./docs/screenshots/ScreenShots.md)
 
 <div float="left">
-<img alt="Abacus" src="./docs/ScreenShots/Pictures/Abacus.png" width="300">
-<img alt="Baloon" src="./docs/ScreenShots/Pictures/Baloon.png" width="300">
-<img alt="Benchmarking" src="./docs/ScreenShots/Pictures/Benchmarking.png" width="300">
-<img alt="Cloth" src="./docs/ScreenShots/Pictures/Cloth.png" width="300">
-<img alt="Polygons" src="./docs/ScreenShots/Pictures/Polygons.png" width="300">
-<img alt="Quadtree" src="./docs/ScreenShots/Pictures/Quadtree.png" width="300">
-<img alt="Softbody" src="./docs/ScreenShots/Pictures/Softbody.png" width="300">
-<img alt="Spring" src="./docs/ScreenShots/Pictures/Spring.png" width="300">
+<img alt="Abacus" src="./docs/screenshots/Pictures/Abacus.png" width="300">
+<img alt="Baloon" src="./docs/screenshots/Pictures/Baloon.png" width="300">
+<img alt="Benchmarking" src="./docs/screenshots/Pictures/Benchmarking.png" width="300">
+<img alt="Cloth" src="./docs/screenshots/Pictures/Cloth.png" width="300">
+<img alt="Polygons" src="./docs/screenshots/Pictures/Polygons.png" width="300">
+<img alt="Quadtree" src="./docs/screenshots/Pictures/Quadtree.png" width="300">
+<img alt="Softbody" src="./docs/screenshots/Pictures/Softbody.png" width="300">
+<img alt="Spring" src="./docs/screenshots/Pictures/Spring.png" width="300">
 <div>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -273,16 +293,18 @@ The cloned project should contain these files:
 
 **Build with the batch tool**
 
-0. Build/Run Debug
-1. Run Debug
-2. Build/Run Release
-3. Run Release
-4. Build Demos
-5. Build/Run Tests
-6. Commit/Push Git
-7. Build Wrapper
-8. Sonar Scanner
-9. Exit
+```
+[0] Build/Run Debug
+[1] Run Debug
+[2] Build/Run Release
+[3] Run Release
+[4] Build Demos
+[5] Build/Run Tests
+[6] Commit/Push Git
+[7] Build Wrapper
+[8] Sonar Scanner
+[9] Exit
+```
 
 **In case of problem with the bat file, compile manually with**
 
@@ -299,6 +321,13 @@ cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build .
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+### Build docs
+
+1. Install doxygen (https://www.doxygen.nl/download.html)
+2. Install sphinx (https://www.sphinx-doc.org/en/master/usage/installation.html)
+3. Install sphinx theme (ex: `pip install sphinx_rtd_theme`)
+4. Install sphinx theme (ex: `pip install breathe`)
 
 <!-- CONTRIBUTING -->
 
@@ -346,4 +375,4 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [license-shield]: https://img.shields.io/github/license/mlhoutel/Simulatio?style=flat-square
 [license-url]: https://github.com/mlhoutel/Simulatio/blob/main/LICENSE/
 [logo]: ./src/assets/logo.png
-[screenshot]: ./docs/ScreenShots/Pictures/Benchmarking.png
+[screenshot]: ./docs/screenshots/Pictures/Benchmarking.png

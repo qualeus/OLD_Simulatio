@@ -16,6 +16,7 @@
 #include "../Geometry/Vector.hpp"
 #include "../Structures/System.hpp"
 #include "Config.hpp"
+#include "Converter.hpp"
 #include "EditorColorScheme.hpp"
 #include "GuiModule.hpp"
 #include "Structures.hpp"
@@ -100,7 +101,7 @@ class Renderer {
    private:
     int benchmark_count = 0;
     int benchmark_reset = 10000;
-    
+
     bool benchmark_recording = true;
     bool benchmark_paused = false;
     float benchmark_timescale = 10.0f;
