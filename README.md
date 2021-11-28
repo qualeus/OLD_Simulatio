@@ -61,9 +61,9 @@
 
 [![Simulatio Screen Shot][screenshot]](https://github.com/mlhoutel/Simulatio/tree/main)
 
-This project started from the personal challenge of recreating physical phenomena in a simulation running in real time.
+This project started from a personal challenge: recreate **physical principles** in a **simulation** running in **real time**.
 
-The goal was to learn more about the functioning of these topics, such as:
+The objective was to learn more about such topics as:
 
 -   **Gravity** (Classical mecanics one, he goal was not to model objects at the molecular level)
 -   **Collisions** (With Newton's 3rd law)
@@ -71,7 +71,7 @@ The goal was to learn more about the functioning of these topics, such as:
 -   **Electromagnetic fields** (_IN WORK_, see https://github.com/mlhoutel/Fields)
 -   **Fluids** (_IN WORK_)
 
-This project also allows me to familiarize myself with several areas of programming, like:
+This project also allows me to familiarize myself with several areas of programming, such as:
 
 -   **Graph Theory** and advanced **Data structures** like Quadtrees
 -   **C++ programs/libraries** compilation (Mingw batch/ CMake)
@@ -79,7 +79,9 @@ This project also allows me to familiarize myself with several areas of programm
 -   **Optimisation** and **Algoritmics**
 -   **Threads** and **Graphical acceleration** with CUDA (?)
 
-This project is oriented towards testing and comparison, so a modular structure has been set up.
+---
+
+As this program is oriented towards testing and comparison, a modular structure has been set up.
 
 **Modularity:**
 
