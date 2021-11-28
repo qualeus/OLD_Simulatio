@@ -59,7 +59,7 @@
 
 ## About The Project
 
-[![Simulatio Screen Shot][screenshot]](https://example.com)
+[![Simulatio Screen Shot][screenshot]](https://github.com/mlhoutel/Simulatio/tree/main)
 
 This project started from the personal challenge of recreating physical phenomena in a simulation running in real time.
 
@@ -90,9 +90,9 @@ This project is oriented towards testing and comparison, so a modular structure 
     -   [x] 2D
     -   [ ] 3D
 -   **Broad phase structure** (at run time):
-    -   [] Spacial grid
+    -   [ ] Spacial grid
     -   [x] Quad-tree
-    -   [] kD-tree
+    -   [ ] kD-tree
 -   **Integration method** (at run time):
     -   [ ] Euler
     -   [x] Verlet
