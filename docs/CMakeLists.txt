@@ -1,23 +1,33 @@
-find_package(Doxygen REQUIRED)
+# Set up the minimum version of cmake
+cmake_minimum_required(VERSION 3.0.0)
 
-# Find all the public headers
-get_target_property(CAT_CUTIFIER_PUBLIC_HEADER_DIR CatCutifier INTERFACE_INCLUDE_DIRECTORIES)
-file(GLOB_RECURSE CAT_CUTIFIER_PUBLIC_HEADERS ${CAT_CUTIFIER_PUBLIC_HEADER_DIR}/*.h)
+# Set the project name and version
+set (PROJECT_NAME "Simulatio Docs")
+set (PROJECT_VERSION_MAJOR 0)
+set (PROJECT_VERSION_MINOR 5)
+set (PROJECT_VERSION_REVISION 2)
+project (${PROJECT_NAME} VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_REVISION})
 
-set(DOXYGEN_INPUT_DIR ${PROJECT_SOURCE_DIR}/CatCutifier)
-set(DOXYGEN_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/docs/doxygen)
-set(DOXYGEN_INDEX_FILE ${DOXYGEN_OUTPUT_DIR}/html/index.html)
-set(DOXYFILE_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
-set(DOXYFILE_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+# Doxygen
 
-#Replace variables inside @@ with the current values
-configure_file(${DOXYFILE_IN} ${DOXYFILE_OUT} @ONLY)
+# look for Doxygen package
+find_package(Doxygen)
 
-file(MAKE_DIRECTORY ${DOXYGEN_OUTPUT_DIR}) #Doxygen won't create this for us
-add_custom_command(OUTPUT ${DOXYGEN_INDEX_FILE}
-                   DEPENDS ${CAT_CUTIFIER_PUBLIC_HEADERS}
-                   COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_OUT}
-                   MAIN_DEPENDENCY ${DOXYFILE_OUT} ${DOXYFILE_IN}
-                   COMMENT "Generating docs")
+if (DOXYGEN_FOUND)
+    # set input and output files
+    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile.out)
 
-add_custom_target(Doxygen ALL DEPENDS ${DOXYGEN_INDEX_FILE})
+    # request to configure the file
+    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+    message("Doxygen build started")
+
+    # Note: do not put "ALL" - this builds docs together with application EVERY TIME!
+    add_custom_target(docs ALL
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM)
+else (DOXYGEN_FOUND)
+  message("Doxygen need to be installed to generate the doxygen documentation")
+endif (DOXYGEN_FOUND)

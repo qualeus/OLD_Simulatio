@@ -8,8 +8,8 @@ echo [2] Build/Run Release
 echo [3] Run Release
 echo [4] Build Demos
 echo [5] Build/Run Tests
-echo [6] Commit/Push Git
-echo [7] Build Wrapper
+echo [6] Build Docs
+echo [7] Commit/Push Git
 echo [8] Sonar Scanner
 echo [9] Exit
 set /p user=
@@ -20,8 +20,8 @@ if %user% == 2 goto build_release
 if %user% == 3 goto run_release
 if %user% == 4 goto build_demos
 if %user% == 5 goto build_tests
-if %user% == 6 goto commit_push
-if %user% == 7 goto build_wrapper
+if %user% == 6 goto build_docs
+if %user% == 7 goto commit_push
 if %user% == 8 goto sonar_scanner
 if %user% == 9 exit
 
@@ -71,6 +71,16 @@ cd build\Tests
 cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../../tests && cmake --build .
 mingw32-make CTEST_OUTPUT_ON_FAILURE=TRUE test
 pause
+cd ..\..
+goto menu
+
+:build_docs
+if not exist "build/Docs/" mkdir "build/Docs/"
+if not exist "docs/doxygen/" mkdir "docs/doxygen/"
+cls
+echo Building docs...
+cd build\Docs
+cmake -G "MinGW Makefiles" ../../docs && cmake --build .
 cd ..\..
 goto menu
 

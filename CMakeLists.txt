@@ -19,7 +19,7 @@ include_directories("${PROJECT_BINARY_DIR}")
 
 # Set the C++ standard to be usedzz
 set (CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set (CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add customs Flags
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Werror -Wfatal-errors -O0 -g -rdynamic")
@@ -157,5 +157,6 @@ if(WIN32)
 else()
     target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} ${IMGUI_LIBRARIES})
 endif()
+
 # Copy assets
 #file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
