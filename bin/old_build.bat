@@ -1,5 +1,5 @@
 @echo off
-set lib_path="D:\Documents\Projets\Physics\ressources\Libraries"
+set lib_path="D:\Documents\Projets\Simulatio\ressources\Libraries"
 
 :menu
 color 0a

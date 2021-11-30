@@ -162,6 +162,7 @@ void TestDemo() {
 }
 
 int main() {
+    /*
      BaseDemo();
     GravityDemo();
      ConstraintDemo();
@@ -170,7 +171,8 @@ int main() {
       SpringDemo();
      BaloonDemo();
       SpongeDemo();
-      TestDemo();
+      */
+    TestDemo();
     return 0;
 }
 

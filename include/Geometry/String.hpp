@@ -61,16 +61,6 @@ struct string<std::vector<std::pair<A, B>>> {
     }
 };
 
-/* Partially specialized template for sf::Vector2 */
-template <typename T>
-struct string<sf::Vector2<T>> {
-    static std::string str(sf::Vector2<T> param) {
-        std::ostringstream oss;
-        oss << "sf::Vector2 { " << param.x << " ; " << param.y << " }";
-        return oss.str();
-    }
-};
-
 /* Partially specialized template for gmt::Vector */
 template <typename T>
 struct string<gmt::Vector<T>> {
@@ -91,7 +81,7 @@ struct string<gmt::Bounds<T>> {
     }
 };
 
-/* Usage example: gmt::to_string(gmt::type_name<PHYSICS_PRECISION>())*/
+/* Usage example: gmt::to_string(gmt::type_name<SIMULATIO_PRECISION>())*/
 template <typename T>
 constexpr auto type_name() noexcept {
     std::string_view name = "Error: unsupported compiler", prefix, suffix;

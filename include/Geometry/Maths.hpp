@@ -9,12 +9,12 @@
 
 #define RO 360 /* Complete rotation */
 
-#include <SFML/Graphics.hpp>
 #include <array>
 #include <chrono>
 #include <cmath>
 #include <functional>
 #include <iostream>
+#include <iterator>
 #include <memory>
 #include <sstream>
 #include <string_view>

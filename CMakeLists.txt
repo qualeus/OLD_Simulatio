@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 
 # Set the project name and version
-set (PROJECT_NAME "PHYSICS")
+set (PROJECT_NAME "Simulatio")
 set (PROJECT_VERSION_MAJOR 0)
 set (PROJECT_VERSION_MINOR 5)
 set (PROJECT_VERSION_REVISION 2)
@@ -19,7 +19,7 @@ include_directories("${PROJECT_BINARY_DIR}")
 
 # Set the C++ standard to be usedzz
 set (CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set (CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add customs Flags
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Werror -Wfatal-errors -O0 -g -rdynamic")
@@ -93,6 +93,7 @@ set(SOURCES
     src/Renderer/Gui.cpp
     src/Renderer/GuiModule.cpp
     src/Renderer/Renderer.cpp
+    src/Renderer/Converter.cpp
 
     src/main/main.cpp
 )
@@ -129,6 +130,7 @@ set(HEADERS
     include/Renderer/GuiModule.hpp
     include/Renderer/Renderer.hpp
     include/Renderer/Structures.hpp
+    include/Renderer/Converter.hpp
 
 )
 
@@ -155,5 +157,6 @@ if(WIN32)
 else()
     target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES} ${IMGUI_LIBRARIES})
 endif()
+
 # Copy assets
 #file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
