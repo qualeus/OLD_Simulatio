@@ -82,6 +82,7 @@ echo Building docs...
 cd build\Docs
 cmake -G "MinGW Makefiles" ../../docs && cmake --build .
 cd ..\..
+pause
 goto menu
 
 :build_wrapper

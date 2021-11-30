@@ -329,7 +329,8 @@ cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build .
 1. Install doxygen (https://www.doxygen.nl/download.html)
 2. Install sphinx (https://www.sphinx-doc.org/en/master/usage/installation.html)
 3. Install sphinx theme (ex: `pip install sphinx_rtd_theme`)
-4. Install sphinx theme (ex: `pip install breathe`)
+4. Install sphinx theme (ex: `pip install sphinx-sitemap`)
+5. Install sphinx theme (ex: `pip install breathe`)
 
 <!-- CONTRIBUTING -->
 
