@@ -1,0 +1,747 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
+        <meta name="generator" content="Doxygen 1.9.2" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- BEGIN opengraph metadata -->
+        <meta property="og:title" content="Doxygen Awesome" />
+        <meta
+            property="og:image"
+            content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452"
+        />
+        <meta
+            property="og:description"
+            content="Custom CSS theme for doxygen html-documentation with lots of customization parameters."
+        />
+        <meta
+            property="og:url"
+            content="https://github.com/mlhoutel/Simulatio/"
+        />
+        <!-- END opengraph metadata -->
+        <!-- BEGIN twitter metadata -->
+        <meta
+            name="twitter:image:src"
+            content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452"
+        />
+        <meta name="twitter:title" content="Doxygen Awesome" />
+        <meta
+            name="twitter:description"
+            content="Custom CSS theme for doxygen html-documentation with lots of customization parameters."
+        />
+        <!-- END twitter metadata -->
+        <title>Simulatio: phy::Spring Class Reference</title>
+        <link href="tabs.css" rel="stylesheet" type="text/css" />
+        <link rel="icon" type="image/svg+xml" href="logo.drawio.svg" />
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="dynsections.js"></script>
+        <script
+            type="text/javascript"
+            src="doxygen-awesome-darkmode-toggle.js"
+        ></script>
+        <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+ <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+        <link href="doxygen.css" rel="stylesheet" type="text/css" />
+        <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <!-- https://tholman.com/github-corners/ -->
+        <a
+            href="https://github.com/mlhoutel/Simulatio"
+            class="github-corner"
+            title="View source on GitHub"
+        >
+            <svg
+                viewBox="0 0 250 250"
+                style="position: absolute; top: 0; border: 0; right: 0"
+                aria-hidden="true"
+            >
+                <path
+                    d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"
+                ></path>
+                <path
+                    d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+                    fill="currentColor"
+                    style="transform-origin: 130px 106px"
+                    class="octo-arm"
+                ></path>
+                <path
+                    d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+                    fill="currentColor"
+                    class="octo-body"
+                ></path></svg></a
+        ><style>
+            .github-corner:hover .octo-arm {
+                animation: octocat-wave 560ms ease-in-out;
+            }
+            @keyframes octocat-wave {
+                0%,
+                100% {
+                    transform: rotate(0);
+                }
+                20%,
+                60% {
+                    transform: rotate(-25deg);
+                }
+                40%,
+                80% {
+                    transform: rotate(10deg);
+                }
+            }
+            @media (max-width: 500px) {
+                .github-corner:hover .octo-arm {
+                    animation: none;
+                }
+                .github-corner .octo-arm {
+                    animation: octocat-wave 560ms ease-in-out;
+                }
+            }
+        </style>
+        <div id="top">
+            <!-- do not remove this div, it is closed by doxygen! -->
+            <div id="titlearea">
+                <table cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr style="height: 56px">
+                            <td id="projectlogo">
+                                <img alt="Logo" src="ricon.png" />
+                            </td>
+                            <td id="projectalign" style="padding-left: 0.5em">
+                                <div id="projectname">
+                                    Simulatio
+                                    &#160;<span
+                                        id="projectnumber"
+                                        >0.5.2</span
+                                    >
+                                </div>
+                                <div id="projectbrief">A flexible physic engine</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- end header part -->
+        </div>
+    </body>
+</html>
+<!-- Generated by Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classphy_1_1_spring.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="classphy_1_1_spring-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">phy::Spring Class Reference</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_spring_8hpp_source.html">Spring.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for phy::Spring:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classphy_1_1_spring__inherit__graph.svg" width="131" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for phy::Spring:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classphy_1_1_spring__coll__graph.svg" width="203" height="232"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a6e8e4e2355039286529cd4d3f7a57177"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_spring.html#a6e8e4e2355039286529cd4d3f7a57177">Spring</a> (std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">phy::Corpse</a> &gt; <a class="el" href="classphy_1_1_constraint.html#ad448124631822990edc169b957ff5af9">corpse_a</a>=nullptr, std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">phy::Corpse</a> &gt; <a class="el" href="classphy_1_1_constraint.html#a0bc7691cbee5ec2d53f31813352705cf">corpse_b</a>=nullptr, <a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a> <a class="el" href="classphy_1_1_constraint.html#a106e433a6290fc4798a4661025b88fdc">relative_pos_a</a>=<a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a>(), <a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a> <a class="el" href="classphy_1_1_constraint.html#a337c0f9a151e7046bb48d3146f99b26d">relative_pos_b</a>=<a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a>(), <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="el" href="classphy_1_1_constraint.html#ab3aedeee1e8cac5b485e1d00e00a7e4a">relative_angle_a</a>=<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(), <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="el" href="classphy_1_1_constraint.html#afe4949de9baaebacbcf9af5c92c0567c">relative_angle_b</a>=<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(), bool <a class="el" href="classphy_1_1_constraint.html#a38915afea2f6fc91234fec519f533854">rotation_a</a>=true, bool <a class="el" href="classphy_1_1_constraint.html#a5f39e277555556f3c0cdcb93905d724f">rotation_b</a>=true, <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="el" href="classphy_1_1_constraint.html#ad4a21e3efa6589acce371b81cb29d927">friction_a</a>=<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(), <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="el" href="classphy_1_1_constraint.html#a2f7b0c6eb2f2ce972a70cfa6b48f38a0">friction_b</a>=<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(), <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> size=<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(-1), <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> damping=<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(1), <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> resolution=<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(10), <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> max_size=<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(-1), <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> min_size=<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(-1), bool <a class="el" href="classphy_1_1_constraint.html#a4dfc44c83556ee71a58a0237573c35cd">breaking</a>=false)</td></tr>
+<tr class="separator:a6e8e4e2355039286529cd4d3f7a57177"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc9b6e7a5e2d5c4b94e80a0ebc3e551b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classphy_1_1_spring.html">Spring</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_spring.html#acc9b6e7a5e2d5c4b94e80a0ebc3e551b">operator=</a> (const <a class="el" href="classphy_1_1_spring.html">Spring</a> &amp;rhs)</td></tr>
+<tr class="separator:acc9b6e7a5e2d5c4b94e80a0ebc3e551b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af99f094337d48b9227be53b3635b68e2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_spring.html#af99f094337d48b9227be53b3635b68e2">get_class</a> () const</td></tr>
+<tr class="separator:af99f094337d48b9227be53b3635b68e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac57321a949785324a54347b2a20a4635"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_spring.html#ac57321a949785324a54347b2a20a4635">Step</a> ()</td></tr>
+<tr class="separator:ac57321a949785324a54347b2a20a4635"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74bd5a903e01f9c3788cae82910165da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_spring.html#a74bd5a903e01f9c3788cae82910165da">get_size</a> () const</td></tr>
+<tr class="separator:a74bd5a903e01f9c3788cae82910165da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37399571b7fb5adf2f699eac7200ed3f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_spring.html#a37399571b7fb5adf2f699eac7200ed3f">set_size</a> (<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> size)</td></tr>
+<tr class="separator:a37399571b7fb5adf2f699eac7200ed3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fb73745ac22d7d6c7396d506255202b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_spring.html#a7fb73745ac22d7d6c7396d506255202b">get_damping</a> () const</td></tr>
+<tr class="separator:a7fb73745ac22d7d6c7396d506255202b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3542a53932e53ac8542eb8ec7858aa71"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_spring.html#a3542a53932e53ac8542eb8ec7858aa71">set_damping</a> (<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> damping)</td></tr>
+<tr class="separator:a3542a53932e53ac8542eb8ec7858aa71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a903bfe23447010d96ece06fc7b3b0b11"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_spring.html#a903bfe23447010d96ece06fc7b3b0b11">get_resolution</a> () const</td></tr>
+<tr class="separator:a903bfe23447010d96ece06fc7b3b0b11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafdcd0a63af9adb4acea9b128167f481"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_spring.html#aafdcd0a63af9adb4acea9b128167f481">set_resolution</a> (<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> resolution)</td></tr>
+<tr class="separator:aafdcd0a63af9adb4acea9b128167f481"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac93348ac8d547686d17748c3a4e5b3d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_spring.html#aac93348ac8d547686d17748c3a4e5b3d">get_max_size</a> () const</td></tr>
+<tr class="separator:aac93348ac8d547686d17748c3a4e5b3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaedc8c785410f93d9acf464ba27103ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_spring.html#aaedc8c785410f93d9acf464ba27103ca">set_max_size</a> (<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> max_size)</td></tr>
+<tr class="separator:aaedc8c785410f93d9acf464ba27103ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab93eff81be9846e31639f93247460416"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_spring.html#ab93eff81be9846e31639f93247460416">get_min_size</a> () const</td></tr>
+<tr class="separator:ab93eff81be9846e31639f93247460416"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a169dde06c659f24d9a2d02dcb15ca7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_spring.html#a2a169dde06c659f24d9a2d02dcb15ca7">set_min_size</a> (<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> min_size)</td></tr>
+<tr class="separator:a2a169dde06c659f24d9a2d02dcb15ca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classphy_1_1_constraint"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classphy_1_1_constraint')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classphy_1_1_constraint.html">phy::Constraint</a></td></tr>
+<tr class="memitem:a5359ff24802ee2f4ab84aa1a3721e261 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a5359ff24802ee2f4ab84aa1a3721e261">Constraint</a> (std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">phy::Corpse</a> &gt; <a class="el" href="classphy_1_1_constraint.html#ad448124631822990edc169b957ff5af9">corpse_a</a>, std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">phy::Corpse</a> &gt; <a class="el" href="classphy_1_1_constraint.html#a0bc7691cbee5ec2d53f31813352705cf">corpse_b</a>, <a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a> <a class="el" href="classphy_1_1_constraint.html#a106e433a6290fc4798a4661025b88fdc">relative_pos_a</a>, <a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a> <a class="el" href="classphy_1_1_constraint.html#a337c0f9a151e7046bb48d3146f99b26d">relative_pos_b</a>, <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="el" href="classphy_1_1_constraint.html#ab3aedeee1e8cac5b485e1d00e00a7e4a">relative_angle_a</a>, <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="el" href="classphy_1_1_constraint.html#afe4949de9baaebacbcf9af5c92c0567c">relative_angle_b</a>, bool <a class="el" href="classphy_1_1_constraint.html#a38915afea2f6fc91234fec519f533854">rotation_a</a>, bool <a class="el" href="classphy_1_1_constraint.html#a5f39e277555556f3c0cdcb93905d724f">rotation_b</a>, <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="el" href="classphy_1_1_constraint.html#ad4a21e3efa6589acce371b81cb29d927">friction_a</a>, <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="el" href="classphy_1_1_constraint.html#a2f7b0c6eb2f2ce972a70cfa6b48f38a0">friction_b</a>, bool <a class="el" href="classphy_1_1_constraint.html#a4dfc44c83556ee71a58a0237573c35cd">breaking</a>)</td></tr>
+<tr class="separator:a5359ff24802ee2f4ab84aa1a3721e261 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a286d541c3db83e684182d93c033942a4 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a286d541c3db83e684182d93c033942a4">operator==</a> (const <a class="el" href="classphy_1_1_constraint.html">Constraint</a> *other)</td></tr>
+<tr class="separator:a286d541c3db83e684182d93c033942a4 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a707f279bc1041f5191520823206a0cf3 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classphy_1_1_constraint.html">Constraint</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a707f279bc1041f5191520823206a0cf3">operator=</a> (const <a class="el" href="classphy_1_1_constraint.html">Constraint</a> &amp;rhs)</td></tr>
+<tr class="separator:a707f279bc1041f5191520823206a0cf3 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f269121db0cd95e84d0e405bfd22df5 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a6f269121db0cd95e84d0e405bfd22df5">get_id</a> () const</td></tr>
+<tr class="separator:a6f269121db0cd95e84d0e405bfd22df5 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53c93c4708aa72d20521abb4ba6275ea inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a53c93c4708aa72d20521abb4ba6275ea">Equals</a> (const <a class="el" href="classphy_1_1_constraint.html">Constraint</a> *other) const</td></tr>
+<tr class="separator:a53c93c4708aa72d20521abb4ba6275ea inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac4fe34f85f50e7f8a8f0b71f33b0a2b inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">phy::Corpse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#aac4fe34f85f50e7f8a8f0b71f33b0a2b">get_corpse_a</a> () const</td></tr>
+<tr class="separator:aac4fe34f85f50e7f8a8f0b71f33b0a2b inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6a42feab4409f35e39b0cd4fa77de46 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#ab6a42feab4409f35e39b0cd4fa77de46">set_corpse_a</a> (std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">phy::Corpse</a> &gt; <a class="el" href="classphy_1_1_constraint.html#ad448124631822990edc169b957ff5af9">corpse_a</a>)</td></tr>
+<tr class="separator:ab6a42feab4409f35e39b0cd4fa77de46 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2978d4c0d02ca681016349ab9c103049 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">phy::Corpse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a2978d4c0d02ca681016349ab9c103049">get_corpse_b</a> () const</td></tr>
+<tr class="separator:a2978d4c0d02ca681016349ab9c103049 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafc68e8ffd585e567207437f02fe76ba inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#aafc68e8ffd585e567207437f02fe76ba">set_corpse_b</a> (std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">phy::Corpse</a> &gt; <a class="el" href="classphy_1_1_constraint.html#a0bc7691cbee5ec2d53f31813352705cf">corpse_b</a>)</td></tr>
+<tr class="separator:aafc68e8ffd585e567207437f02fe76ba inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff6f763051729cda253c61d4c32512ef inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#aff6f763051729cda253c61d4c32512ef">get_relative_pos_a</a> () const</td></tr>
+<tr class="separator:aff6f763051729cda253c61d4c32512ef inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a815fc3d394e821d7de1c4d57440dfd72 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a815fc3d394e821d7de1c4d57440dfd72">set_relative_pos_a</a> (<a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a> <a class="el" href="classphy_1_1_constraint.html#a106e433a6290fc4798a4661025b88fdc">relative_pos_a</a>)</td></tr>
+<tr class="separator:a815fc3d394e821d7de1c4d57440dfd72 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af60211489062dbf719bbda1fe77868a2 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#af60211489062dbf719bbda1fe77868a2">get_relative_pos_b</a> () const</td></tr>
+<tr class="separator:af60211489062dbf719bbda1fe77868a2 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f98c80f9c64a87b390c79a57d78727f inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a6f98c80f9c64a87b390c79a57d78727f">set_relative_pos_b</a> (<a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a> <a class="el" href="classphy_1_1_constraint.html#a337c0f9a151e7046bb48d3146f99b26d">relative_pos_b</a>)</td></tr>
+<tr class="separator:a6f98c80f9c64a87b390c79a57d78727f inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4409a659fb059aac1888fe1ae67a0ba inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#ab4409a659fb059aac1888fe1ae67a0ba">get_rotation_a</a> () const</td></tr>
+<tr class="separator:ab4409a659fb059aac1888fe1ae67a0ba inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ac7fa1fd864df3502678580aa473c88 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a5ac7fa1fd864df3502678580aa473c88">set_rotation_a</a> (bool <a class="el" href="classphy_1_1_constraint.html#a38915afea2f6fc91234fec519f533854">rotation_a</a>)</td></tr>
+<tr class="separator:a5ac7fa1fd864df3502678580aa473c88 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a8e27e3fd59a63315ba4f6e7c047c1c inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a4a8e27e3fd59a63315ba4f6e7c047c1c">get_rotation_b</a> () const</td></tr>
+<tr class="separator:a4a8e27e3fd59a63315ba4f6e7c047c1c inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80ff1edeab19efa91a3ee3acf1429c09 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a80ff1edeab19efa91a3ee3acf1429c09">set_rotation_b</a> (bool <a class="el" href="classphy_1_1_constraint.html#a5f39e277555556f3c0cdcb93905d724f">rotation_b</a>)</td></tr>
+<tr class="separator:a80ff1edeab19efa91a3ee3acf1429c09 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaed8811665e8fc37e0ec286d27bd077e inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#aaed8811665e8fc37e0ec286d27bd077e">get_relative_angle_a</a> () const</td></tr>
+<tr class="separator:aaed8811665e8fc37e0ec286d27bd077e inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab550ef991c409e08b794ac51142c912e inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#ab550ef991c409e08b794ac51142c912e">set_relative_angle_a</a> (<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> angle_a)</td></tr>
+<tr class="separator:ab550ef991c409e08b794ac51142c912e inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac015576e811c9a8face0f84bb0e70273 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#ac015576e811c9a8face0f84bb0e70273">get_relative_angle_b</a> () const</td></tr>
+<tr class="separator:ac015576e811c9a8face0f84bb0e70273 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a040b11d5933f93699e832d32892a05f0 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a040b11d5933f93699e832d32892a05f0">set_relative_angle_b</a> (<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> angle_b)</td></tr>
+<tr class="separator:a040b11d5933f93699e832d32892a05f0 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe22f5609b666cd0823d155eb565156a inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#afe22f5609b666cd0823d155eb565156a">get_friction_a</a> () const</td></tr>
+<tr class="separator:afe22f5609b666cd0823d155eb565156a inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab90d5e02d98f720112024e2f57805754 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#ab90d5e02d98f720112024e2f57805754">set_friction_a</a> (<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="el" href="classphy_1_1_constraint.html#ad4a21e3efa6589acce371b81cb29d927">friction_a</a>)</td></tr>
+<tr class="separator:ab90d5e02d98f720112024e2f57805754 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1499a554d015db8f2e0364cda65c312 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#ad1499a554d015db8f2e0364cda65c312">get_friction_b</a> () const</td></tr>
+<tr class="separator:ad1499a554d015db8f2e0364cda65c312 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab280070841dacfb149676a7e434c26e inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#aab280070841dacfb149676a7e434c26e">set_friction_b</a> (<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="el" href="classphy_1_1_constraint.html#a2f7b0c6eb2f2ce972a70cfa6b48f38a0">friction_b</a>)</td></tr>
+<tr class="separator:aab280070841dacfb149676a7e434c26e inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c487339b8450fd0a7e531e65d1dbf30 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a5c487339b8450fd0a7e531e65d1dbf30">get_breaking</a> () const</td></tr>
+<tr class="separator:a5c487339b8450fd0a7e531e65d1dbf30 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ab38ca8440005bc05d04af0a11dbe80 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a9ab38ca8440005bc05d04af0a11dbe80">set_breaking</a> (bool <a class="el" href="classphy_1_1_constraint.html#a4dfc44c83556ee71a58a0237573c35cd">breaking</a>)</td></tr>
+<tr class="separator:a9ab38ca8440005bc05d04af0a11dbe80 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50a17dde01657b579708ac12a5dab9af inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a50a17dde01657b579708ac12a5dab9af">get_broken</a> () const</td></tr>
+<tr class="separator:a50a17dde01657b579708ac12a5dab9af inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b8134fd12f46a39baec1ee8bc911928 inherit pub_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a5b8134fd12f46a39baec1ee8bc911928">set_broken</a> (bool <a class="el" href="classphy_1_1_constraint.html#a8fe2c0de120ac3d9f02003d7d6d000ae">broken</a>)</td></tr>
+<tr class="separator:a5b8134fd12f46a39baec1ee8bc911928 inherit pub_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a8306aa89ffcef7600c8cb5f2f82e480a"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_spring.html#a8306aa89ffcef7600c8cb5f2f82e480a">id_class</a> ()</td></tr>
+<tr class="separator:a8306aa89ffcef7600c8cb5f2f82e480a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_methods_classphy_1_1_constraint"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classphy_1_1_constraint')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classphy_1_1_constraint.html">phy::Constraint</a></td></tr>
+<tr class="memitem:a4f64485bf9f5e68d116737ec70e805f1 inherit pub_static_methods_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a4f64485bf9f5e68d116737ec70e805f1">id_class</a> ()</td></tr>
+<tr class="separator:a4f64485bf9f5e68d116737ec70e805f1 inherit pub_static_methods_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_attribs_classphy_1_1_constraint"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classphy_1_1_constraint')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classphy_1_1_constraint.html">phy::Constraint</a></td></tr>
+<tr class="memitem:a4d1b5443bdd12d3328b3c4e5f8960165 inherit pro_attribs_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a4d1b5443bdd12d3328b3c4e5f8960165">id</a></td></tr>
+<tr class="separator:a4d1b5443bdd12d3328b3c4e5f8960165 inherit pro_attribs_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad448124631822990edc169b957ff5af9 inherit pro_attribs_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">phy::Corpse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#ad448124631822990edc169b957ff5af9">corpse_a</a></td></tr>
+<tr class="separator:ad448124631822990edc169b957ff5af9 inherit pro_attribs_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bc7691cbee5ec2d53f31813352705cf inherit pro_attribs_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">phy::Corpse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a0bc7691cbee5ec2d53f31813352705cf">corpse_b</a></td></tr>
+<tr class="separator:a0bc7691cbee5ec2d53f31813352705cf inherit pro_attribs_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a106e433a6290fc4798a4661025b88fdc inherit pro_attribs_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a106e433a6290fc4798a4661025b88fdc">relative_pos_a</a></td></tr>
+<tr class="separator:a106e433a6290fc4798a4661025b88fdc inherit pro_attribs_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a337c0f9a151e7046bb48d3146f99b26d inherit pro_attribs_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a337c0f9a151e7046bb48d3146f99b26d">relative_pos_b</a></td></tr>
+<tr class="separator:a337c0f9a151e7046bb48d3146f99b26d inherit pro_attribs_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38915afea2f6fc91234fec519f533854 inherit pro_attribs_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a38915afea2f6fc91234fec519f533854">rotation_a</a></td></tr>
+<tr class="separator:a38915afea2f6fc91234fec519f533854 inherit pro_attribs_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f39e277555556f3c0cdcb93905d724f inherit pro_attribs_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a5f39e277555556f3c0cdcb93905d724f">rotation_b</a></td></tr>
+<tr class="separator:a5f39e277555556f3c0cdcb93905d724f inherit pro_attribs_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3aedeee1e8cac5b485e1d00e00a7e4a inherit pro_attribs_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#ab3aedeee1e8cac5b485e1d00e00a7e4a">relative_angle_a</a></td></tr>
+<tr class="separator:ab3aedeee1e8cac5b485e1d00e00a7e4a inherit pro_attribs_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe4949de9baaebacbcf9af5c92c0567c inherit pro_attribs_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#afe4949de9baaebacbcf9af5c92c0567c">relative_angle_b</a></td></tr>
+<tr class="separator:afe4949de9baaebacbcf9af5c92c0567c inherit pro_attribs_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4a21e3efa6589acce371b81cb29d927 inherit pro_attribs_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#ad4a21e3efa6589acce371b81cb29d927">friction_a</a></td></tr>
+<tr class="separator:ad4a21e3efa6589acce371b81cb29d927 inherit pro_attribs_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f7b0c6eb2f2ce972a70cfa6b48f38a0 inherit pro_attribs_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a2f7b0c6eb2f2ce972a70cfa6b48f38a0">friction_b</a></td></tr>
+<tr class="separator:a2f7b0c6eb2f2ce972a70cfa6b48f38a0 inherit pro_attribs_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dfc44c83556ee71a58a0237573c35cd inherit pro_attribs_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a4dfc44c83556ee71a58a0237573c35cd">breaking</a></td></tr>
+<tr class="separator:a4dfc44c83556ee71a58a0237573c35cd inherit pro_attribs_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fe2c0de120ac3d9f02003d7d6d000ae inherit pro_attribs_classphy_1_1_constraint"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_constraint.html#a8fe2c0de120ac3d9f02003d7d6d000ae">broken</a></td></tr>
+<tr class="separator:a8fe2c0de120ac3d9f02003d7d6d000ae inherit pro_attribs_classphy_1_1_constraint"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a6e8e4e2355039286529cd4d3f7a57177" name="a6e8e4e2355039286529cd4d3f7a57177"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e8e4e2355039286529cd4d3f7a57177">&#9670;&nbsp;</a></span>Spring()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">phy::Spring::Spring </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">phy::Corpse</a> &gt;&#160;</td>
+          <td class="paramname"><em>corpse_a</em> = <code>nullptr</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">phy::Corpse</a> &gt;&#160;</td>
+          <td class="paramname"><em>corpse_b</em> = <code>nullptr</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a>&#160;</td>
+          <td class="paramname"><em>relative_pos_a</em> = <code><a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a>()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a>&#160;</td>
+          <td class="paramname"><em>relative_pos_b</em> = <code><a class="el" href="namespacegmt.html#a7b4ff5b66721e0db1f2e8deafdd5fe08">gmt::VectorI</a>()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>relative_angle_a</em> = <code><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>relative_angle_b</em> = <code><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>rotation_a</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>rotation_b</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>friction_a</em> = <code><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>friction_b</em> = <code><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>size</em> = <code><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(-1)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>damping</em> = <code><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(1)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>resolution</em> = <code><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(10)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>max_size</em> = <code><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(-1)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>min_size</em> = <code><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(-1)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>breaking</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="af99f094337d48b9227be53b3635b68e2" name="af99f094337d48b9227be53b3635b68e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af99f094337d48b9227be53b3635b68e2">&#9670;&nbsp;</a></span>get_class()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int phy::Spring::get_class </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="classphy_1_1_constraint.html#a46f35eb2a30ce7634419305f518f69aa">phy::Constraint</a>.</p>
+
+</div>
+</div>
+<a id="a7fb73745ac22d7d6c7396d506255202b" name="a7fb73745ac22d7d6c7396d506255202b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fb73745ac22d7d6c7396d506255202b">&#9670;&nbsp;</a></span>get_damping()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> phy::Spring::get_damping </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aac93348ac8d547686d17748c3a4e5b3d" name="aac93348ac8d547686d17748c3a4e5b3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac93348ac8d547686d17748c3a4e5b3d">&#9670;&nbsp;</a></span>get_max_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> phy::Spring::get_max_size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab93eff81be9846e31639f93247460416" name="ab93eff81be9846e31639f93247460416"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab93eff81be9846e31639f93247460416">&#9670;&nbsp;</a></span>get_min_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> phy::Spring::get_min_size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a903bfe23447010d96ece06fc7b3b0b11" name="a903bfe23447010d96ece06fc7b3b0b11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a903bfe23447010d96ece06fc7b3b0b11">&#9670;&nbsp;</a></span>get_resolution()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> phy::Spring::get_resolution </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a74bd5a903e01f9c3788cae82910165da" name="a74bd5a903e01f9c3788cae82910165da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74bd5a903e01f9c3788cae82910165da">&#9670;&nbsp;</a></span>get_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> phy::Spring::get_size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8306aa89ffcef7600c8cb5f2f82e480a" name="a8306aa89ffcef7600c8cb5f2f82e480a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8306aa89ffcef7600c8cb5f2f82e480a">&#9670;&nbsp;</a></span>id_class()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int phy::Spring::id_class </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acc9b6e7a5e2d5c4b94e80a0ebc3e551b" name="acc9b6e7a5e2d5c4b94e80a0ebc3e551b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc9b6e7a5e2d5c4b94e80a0ebc3e551b">&#9670;&nbsp;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classphy_1_1_spring.html">Spring</a> &amp; phy::Spring::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classphy_1_1_spring.html">Spring</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3542a53932e53ac8542eb8ec7858aa71" name="a3542a53932e53ac8542eb8ec7858aa71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3542a53932e53ac8542eb8ec7858aa71">&#9670;&nbsp;</a></span>set_damping()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::Spring::set_damping </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>damping</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaedc8c785410f93d9acf464ba27103ca" name="aaedc8c785410f93d9acf464ba27103ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaedc8c785410f93d9acf464ba27103ca">&#9670;&nbsp;</a></span>set_max_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::Spring::set_max_size </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>max_size</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2a169dde06c659f24d9a2d02dcb15ca7" name="a2a169dde06c659f24d9a2d02dcb15ca7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a169dde06c659f24d9a2d02dcb15ca7">&#9670;&nbsp;</a></span>set_min_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::Spring::set_min_size </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>min_size</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aafdcd0a63af9adb4acea9b128167f481" name="aafdcd0a63af9adb4acea9b128167f481"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafdcd0a63af9adb4acea9b128167f481">&#9670;&nbsp;</a></span>set_resolution()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::Spring::set_resolution </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>resolution</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a37399571b7fb5adf2f699eac7200ed3f" name="a37399571b7fb5adf2f699eac7200ed3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37399571b7fb5adf2f699eac7200ed3f">&#9670;&nbsp;</a></span>set_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::Spring::set_size </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>size</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac57321a949785324a54347b2a20a4635" name="ac57321a949785324a54347b2a20a4635"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac57321a949785324a54347b2a20a4635">&#9670;&nbsp;</a></span>Step()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::Spring::Step </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classphy_1_1_constraint.html#a5093a1407cd5170c69f439b17cb2824a">phy::Constraint</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>/home/runner/work/Simulatio/Simulatio/include/Constraints/<a class="el" href="_spring_8hpp_source.html">Spring.hpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.1-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacephy.html">phy</a></li><li class="navelem"><a class="el" href="classphy_1_1_spring.html">Spring</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+<script type="text/javascript">
+  $(function() {
+     toggleButton = document.createElement('doxygen-awesome-dark-mode-toggle')
+     toggleButton.title = "Toggle Light/Dark Mode"
+     $(document).ready(function(){
+       document.getElementById("MSearchBox").parentNode.appendChild(toggleButton)
+     })
+     $(window).resize(function(){
+       document.getElementById("MSearchBox").parentNode.appendChild(toggleButton)
+     })
+   })
+</script>
+</body>
+</html>

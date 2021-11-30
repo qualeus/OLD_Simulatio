@@ -1,0 +1,1684 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
+        <meta name="generator" content="Doxygen 1.9.2" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- BEGIN opengraph metadata -->
+        <meta property="og:title" content="Doxygen Awesome" />
+        <meta
+            property="og:image"
+            content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452"
+        />
+        <meta
+            property="og:description"
+            content="Custom CSS theme for doxygen html-documentation with lots of customization parameters."
+        />
+        <meta
+            property="og:url"
+            content="https://github.com/mlhoutel/Simulatio/"
+        />
+        <!-- END opengraph metadata -->
+        <!-- BEGIN twitter metadata -->
+        <meta
+            name="twitter:image:src"
+            content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452"
+        />
+        <meta name="twitter:title" content="Doxygen Awesome" />
+        <meta
+            name="twitter:description"
+            content="Custom CSS theme for doxygen html-documentation with lots of customization parameters."
+        />
+        <!-- END twitter metadata -->
+        <title>Simulatio: phy::System Class Reference</title>
+        <link href="tabs.css" rel="stylesheet" type="text/css" />
+        <link rel="icon" type="image/svg+xml" href="logo.drawio.svg" />
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="dynsections.js"></script>
+        <script
+            type="text/javascript"
+            src="doxygen-awesome-darkmode-toggle.js"
+        ></script>
+        <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+ <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+        <link href="doxygen.css" rel="stylesheet" type="text/css" />
+        <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <!-- https://tholman.com/github-corners/ -->
+        <a
+            href="https://github.com/mlhoutel/Simulatio"
+            class="github-corner"
+            title="View source on GitHub"
+        >
+            <svg
+                viewBox="0 0 250 250"
+                style="position: absolute; top: 0; border: 0; right: 0"
+                aria-hidden="true"
+            >
+                <path
+                    d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"
+                ></path>
+                <path
+                    d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+                    fill="currentColor"
+                    style="transform-origin: 130px 106px"
+                    class="octo-arm"
+                ></path>
+                <path
+                    d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+                    fill="currentColor"
+                    class="octo-body"
+                ></path></svg></a
+        ><style>
+            .github-corner:hover .octo-arm {
+                animation: octocat-wave 560ms ease-in-out;
+            }
+            @keyframes octocat-wave {
+                0%,
+                100% {
+                    transform: rotate(0);
+                }
+                20%,
+                60% {
+                    transform: rotate(-25deg);
+                }
+                40%,
+                80% {
+                    transform: rotate(10deg);
+                }
+            }
+            @media (max-width: 500px) {
+                .github-corner:hover .octo-arm {
+                    animation: none;
+                }
+                .github-corner .octo-arm {
+                    animation: octocat-wave 560ms ease-in-out;
+                }
+            }
+        </style>
+        <div id="top">
+            <!-- do not remove this div, it is closed by doxygen! -->
+            <div id="titlearea">
+                <table cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr style="height: 56px">
+                            <td id="projectlogo">
+                                <img alt="Logo" src="ricon.png" />
+                            </td>
+                            <td id="projectalign" style="padding-left: 0.5em">
+                                <div id="projectname">
+                                    Simulatio
+                                    &#160;<span
+                                        id="projectnumber"
+                                        >0.5.2</span
+                                    >
+                                </div>
+                                <div id="projectbrief">A flexible physic engine</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- end header part -->
+        </div>
+    </body>
+</html>
+<!-- Generated by Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classphy_1_1_system.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="classphy_1_1_system-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">phy::System Class Reference</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_system_8hpp_source.html">System.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:aabc9bc03cca62443028a0f9168b3b49f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#aabc9bc03cca62443028a0f9168b3b49f">System</a> (bool gravity=false, <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> force_x=<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(0), <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> force_y=<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(0), <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> limit_x=<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(10000), <a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> limit_y=<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(10000), int quadtree_max_count=10, int quadtree_max_depth=10)</td></tr>
+<tr class="separator:aabc9bc03cca62443028a0f9168b3b49f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e682817a1481f4e4a8dbf7d79ba4062"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classphy_1_1_system.html">System</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a5e682817a1481f4e4a8dbf7d79ba4062">operator=</a> (const <a class="el" href="classphy_1_1_system.html">System</a> &amp;rhs)</td></tr>
+<tr class="separator:a5e682817a1481f4e4a8dbf7d79ba4062"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa0702983bfe107949b8b8795f538ea5"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#afa0702983bfe107949b8b8795f538ea5">~System</a> ()</td></tr>
+<tr class="separator:afa0702983bfe107949b8b8795f538ea5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae7dc1e29b216aa71718c43fb881764f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#aae7dc1e29b216aa71718c43fb881764f">Step</a> ()</td></tr>
+<tr class="separator:aae7dc1e29b216aa71718c43fb881764f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af059c02c62dd71dee3663b1999e53f41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#af059c02c62dd71dee3663b1999e53f41">UpdateTime</a> ()</td></tr>
+<tr class="separator:af059c02c62dd71dee3663b1999e53f41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d372bdd069c5b6e57a0f376ba7541a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a4d372bdd069c5b6e57a0f376ba7541a2">CheckLimits</a> ()</td></tr>
+<tr class="separator:a4d372bdd069c5b6e57a0f376ba7541a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92102601b1fc49fef5950665cef5d273"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a92102601b1fc49fef5950665cef5d273">CorpsesStep</a> ()</td></tr>
+<tr class="separator:a92102601b1fc49fef5950665cef5d273"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e42ea2de72f6693981c1a9d1d1f80e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a4e42ea2de72f6693981c1a9d1d1f80e0">ForcesStep</a> ()</td></tr>
+<tr class="separator:a4e42ea2de72f6693981c1a9d1d1f80e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7eb0bd983c2ba822478d0eab3a8045a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a7eb0bd983c2ba822478d0eab3a8045a0">ConstraintsStep</a> ()</td></tr>
+<tr class="separator:a7eb0bd983c2ba822478d0eab3a8045a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd0f07a45d93689a4bad905346309f53"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#afd0f07a45d93689a4bad905346309f53">CorpseStop</a> (int i)</td></tr>
+<tr class="separator:afd0f07a45d93689a4bad905346309f53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b2f7c52ec43259640f21a99e0e0bc45"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a9b2f7c52ec43259640f21a99e0e0bc45">CorpseUpdateBounds</a> (int i)</td></tr>
+<tr class="separator:a9b2f7c52ec43259640f21a99e0e0bc45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6505edb5f25a555767ef95017562a9f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a6505edb5f25a555767ef95017562a9f2">PairsStep</a> ()</td></tr>
+<tr class="separator:a6505edb5f25a555767ef95017562a9f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c64622ca6f0d4d28d45b8d6bc6826e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a2c64622ca6f0d4d28d45b8d6bc6826e4">QuadPairsStep</a> ()</td></tr>
+<tr class="separator:a2c64622ca6f0d4d28d45b8d6bc6826e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a664a7f6d2f1ad0ccf196bb55bb245b87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a664a7f6d2f1ad0ccf196bb55bb245b87">ThreadPairsStep</a> (int depth, int begin, int end)</td></tr>
+<tr class="separator:a664a7f6d2f1ad0ccf196bb55bb245b87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ecbf6ad3e59848a5c9282ef116d50d4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a5ecbf6ad3e59848a5c9282ef116d50d4">Remove</a> (int i)</td></tr>
+<tr class="separator:a5ecbf6ad3e59848a5c9282ef116d50d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc29e9030c6ed0b88aa87fb899c2b85e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#abc29e9030c6ed0b88aa87fb899c2b85e">Clear</a> ()</td></tr>
+<tr class="separator:abc29e9030c6ed0b88aa87fb899c2b85e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36f575e6ae797d49479758cb8d57ca21"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a36f575e6ae797d49479758cb8d57ca21">Gravity</a> (std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; a, std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; b)</td></tr>
+<tr class="separator:a36f575e6ae797d49479758cb8d57ca21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc8c33937d2c061bb04b19362cb70569"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#afc8c33937d2c061bb04b19362cb70569">InitQuadTree</a> ()</td></tr>
+<tr class="separator:afc8c33937d2c061bb04b19362cb70569"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a031135e006bc4d02c0d730b5f99c619f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a031135e006bc4d02c0d730b5f99c619f">StepQuadTree</a> ()</td></tr>
+<tr class="separator:a031135e006bc4d02c0d730b5f99c619f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5de9beaf4484f05312430de036d500f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classgmt_1_1_quad_tree.html">gmt::QuadTree</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#af5de9beaf4484f05312430de036d500f">get_quadtree</a> ()</td></tr>
+<tr class="separator:af5de9beaf4484f05312430de036d500f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac39a0d5d522f7840fc6773521de1f613"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#ac39a0d5d522f7840fc6773521de1f613">get_dt</a> () const</td></tr>
+<tr class="separator:ac39a0d5d522f7840fc6773521de1f613"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b28ac20eb5bbaa5e43eacf59d007994"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a1b28ac20eb5bbaa5e43eacf59d007994">set_dt</a> (<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> dt)</td></tr>
+<tr class="separator:a1b28ac20eb5bbaa5e43eacf59d007994"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a734274b0240fa5aae616cc5f28683c0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a734274b0240fa5aae616cc5f28683c0a">invert_dt</a> ()</td></tr>
+<tr class="separator:a734274b0240fa5aae616cc5f28683c0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1839d689e3f100736c1276b47cb99003"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a1839d689e3f100736c1276b47cb99003">get_t</a> () const</td></tr>
+<tr class="separator:a1839d689e3f100736c1276b47cb99003"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35fd5d906b02570dd5f7c19c8bf56e11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a35fd5d906b02570dd5f7c19c8bf56e11">set_t</a> (double t)</td></tr>
+<tr class="separator:a35fd5d906b02570dd5f7c19c8bf56e11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a606742020730672edf0a30e7ca05155e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a606742020730672edf0a30e7ca05155e">get_force_x</a> () const</td></tr>
+<tr class="separator:a606742020730672edf0a30e7ca05155e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac711f63093df5fd6c97143c193525763"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#ac711f63093df5fd6c97143c193525763">set_force_x</a> (<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> force_x)</td></tr>
+<tr class="separator:ac711f63093df5fd6c97143c193525763"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6762d2645181791a577f382cf911cac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#af6762d2645181791a577f382cf911cac">get_force_y</a> () const</td></tr>
+<tr class="separator:af6762d2645181791a577f382cf911cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb57df8fd824684399e670b82183668f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#afb57df8fd824684399e670b82183668f">set_force_y</a> (<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> force_y)</td></tr>
+<tr class="separator:afb57df8fd824684399e670b82183668f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef0f241a903564aabc5c979123e4d274"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#aef0f241a903564aabc5c979123e4d274">get_gravity</a> () const</td></tr>
+<tr class="separator:aef0f241a903564aabc5c979123e4d274"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acff0e6ad1a1a5de65b9742b2f9fa7d90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#acff0e6ad1a1a5de65b9742b2f9fa7d90">set_gravity</a> (bool gravity)</td></tr>
+<tr class="separator:acff0e6ad1a1a5de65b9742b2f9fa7d90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a4795604e62a62425d2f6dac8d8d68a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a8a4795604e62a62425d2f6dac8d8d68a">get_LS</a> () const</td></tr>
+<tr class="separator:a8a4795604e62a62425d2f6dac8d8d68a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0801fad6edcbbf9de532e4d6d910c682"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a0801fad6edcbbf9de532e4d6d910c682">set_LS</a> (<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> LS)</td></tr>
+<tr class="separator:a0801fad6edcbbf9de532e4d6d910c682"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a231c0941981e82ad716900081d4b4812"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a231c0941981e82ad716900081d4b4812">get_G</a> () const</td></tr>
+<tr class="separator:a231c0941981e82ad716900081d4b4812"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad341424106f95aa80ce58476b58dc2d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#ad341424106f95aa80ce58476b58dc2d2">set_G</a> (<a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> G)</td></tr>
+<tr class="separator:ad341424106f95aa80ce58476b58dc2d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a813fceb44f98e80284d136c4bbf1ecd0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a813fceb44f98e80284d136c4bbf1ecd0">get_collision_accuracy</a> () const</td></tr>
+<tr class="separator:a813fceb44f98e80284d136c4bbf1ecd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad606c691b8678992d1a720de209cf237"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#ad606c691b8678992d1a720de209cf237">set_collision_accuracy</a> (int collision_accuracy)</td></tr>
+<tr class="separator:ad606c691b8678992d1a720de209cf237"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3ceef9e30fe144f4a18728f0427fad5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#af3ceef9e30fe144f4a18728f0427fad5">get_constraint_accuracy</a> () const</td></tr>
+<tr class="separator:af3ceef9e30fe144f4a18728f0427fad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90b8a82f05bfc0384dba95b7a5bdfceb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a90b8a82f05bfc0384dba95b7a5bdfceb">set_constraint_accuracy</a> (int constraint_accuracy)</td></tr>
+<tr class="separator:a90b8a82f05bfc0384dba95b7a5bdfceb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8903e4367404b496e492c29622d9ce0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#ab8903e4367404b496e492c29622d9ce0">get_corpses_size</a> () const</td></tr>
+<tr class="separator:ab8903e4367404b496e492c29622d9ce0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07baa6b8b9e3a222572cd2b4355b118a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a07baa6b8b9e3a222572cd2b4355b118a">get_constraints_size</a> () const</td></tr>
+<tr class="separator:a07baa6b8b9e3a222572cd2b4355b118a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9219f21e26677e10412218bf387b0cb3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a9219f21e26677e10412218bf387b0cb3">get_pairs_size</a> () const</td></tr>
+<tr class="separator:a9219f21e26677e10412218bf387b0cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3df592c42ca3253b22bb75014f3ec42"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#ab3df592c42ca3253b22bb75014f3ec42">get_quad_pairs_depth</a> () const</td></tr>
+<tr class="separator:ab3df592c42ca3253b22bb75014f3ec42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c4075f156e5639a1fb3db083e09eceb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a4c4075f156e5639a1fb3db083e09eceb">get_quad_pairs_size</a> () const</td></tr>
+<tr class="separator:a4c4075f156e5639a1fb3db083e09eceb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ee0e0af53e79a75cad6fab7effe03fb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a2ee0e0af53e79a75cad6fab7effe03fb">get_quad_pairs_size</a> (int depth) const</td></tr>
+<tr class="separator:a2ee0e0af53e79a75cad6fab7effe03fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ac86278277ed700305fe76bdc986906"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a0ac86278277ed700305fe76bdc986906">addCorpse</a> (<a class="el" href="classphy_1_1_polygon.html">Polygon</a> polygon)</td></tr>
+<tr class="separator:a0ac86278277ed700305fe76bdc986906"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60d7ca1608e73ca814415318972b367e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a60d7ca1608e73ca814415318972b367e">addCorpse</a> (<a class="el" href="classphy_1_1_circle.html">Circle</a> circle)</td></tr>
+<tr class="separator:a60d7ca1608e73ca814415318972b367e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5176a921f65b82b2c62cb4ea8e7f3b3f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a5176a921f65b82b2c62cb4ea8e7f3b3f">addConstraint</a> (<a class="el" href="classphy_1_1_link.html">Link</a> link)</td></tr>
+<tr class="separator:a5176a921f65b82b2c62cb4ea8e7f3b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a072fe18843f11813ed2c13bf164bda8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a072fe18843f11813ed2c13bf164bda8f">addConstraint</a> (<a class="el" href="classphy_1_1_spring.html">Spring</a> spring)</td></tr>
+<tr class="separator:a072fe18843f11813ed2c13bf164bda8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a451338fd78be2eaa779abb728975b548"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a451338fd78be2eaa779abb728975b548">addConstraint</a> (<a class="el" href="classphy_1_1_slider.html">Slider</a> slider)</td></tr>
+<tr class="separator:a451338fd78be2eaa779abb728975b548"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1c161bb85b492d4513002637b1c3f50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#ab1c161bb85b492d4513002637b1c3f50">add_constraint</a> (std::shared_ptr&lt; <a class="el" href="classphy_1_1_constraint.html">Constraint</a> &gt; constraint)</td></tr>
+<tr class="separator:ab1c161bb85b492d4513002637b1c3f50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d079560396bd873b3773d571033a07d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a4d079560396bd873b3773d571033a07d">add_corpse</a> (std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; corpse)</td></tr>
+<tr class="separator:a4d079560396bd873b3773d571033a07d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ee2b4078db2798d1c9598c1b1bd3b44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a4ee2b4078db2798d1c9598c1b1bd3b44">add_pair</a> (std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; corpseA, std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; corpseB)</td></tr>
+<tr class="separator:a4ee2b4078db2798d1c9598c1b1bd3b44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefd284208552d172d04e9bf7b01ee2f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#a0be5d0adb0b5be67f355b4c87fde0015">gmt::BoundsI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#aefd284208552d172d04e9bf7b01ee2f4">get_limits</a> () const</td></tr>
+<tr class="separator:aefd284208552d172d04e9bf7b01ee2f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96474d3908226e578fb0a3763b35501c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a96474d3908226e578fb0a3763b35501c">set_limits</a> (<a class="el" href="namespacegmt.html#a0be5d0adb0b5be67f355b4c87fde0015">gmt::BoundsI</a> limits)</td></tr>
+<tr class="separator:a96474d3908226e578fb0a3763b35501c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a175a649657fc8ae2a771db053181b31d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a175a649657fc8ae2a771db053181b31d">get_corpses</a> () const</td></tr>
+<tr class="separator:a175a649657fc8ae2a771db053181b31d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac00ed8dbf2f31a8511207be995c24386"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="classphy_1_1_constraint.html">Constraint</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#ac00ed8dbf2f31a8511207be995c24386">get_constraints</a> () const</td></tr>
+<tr class="separator:ac00ed8dbf2f31a8511207be995c24386"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5b21d03f7c9ff6c061810cead0075d7"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#aa5b21d03f7c9ff6c061810cead0075d7">get_corpse</a> (int index) const</td></tr>
+<tr class="separator:aa5b21d03f7c9ff6c061810cead0075d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a265dd095b29d98efcf2958ff4b04c06f"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a265dd095b29d98efcf2958ff4b04c06f">get_corpse_by_id</a> (int index) const</td></tr>
+<tr class="separator:a265dd095b29d98efcf2958ff4b04c06f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa71208b9c68c644dd7dc215c5cecdde8"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classphy_1_1_constraint.html">Constraint</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#aa71208b9c68c644dd7dc215c5cecdde8">get_constraint</a> (int index) const</td></tr>
+<tr class="separator:aa71208b9c68c644dd7dc215c5cecdde8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7de862dfc1a5014103f29a0d8bb7419d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacegmt.html#aa3aebefb773c65348cbd26f6d2d7d5b3">gmt::CollisionI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a7de862dfc1a5014103f29a0d8bb7419d">get_collision</a> (int index) const</td></tr>
+<tr class="separator:a7de862dfc1a5014103f29a0d8bb7419d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7497a5ab10f3c2dec938897dfc941e50"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespacegmt.html#aa3aebefb773c65348cbd26f6d2d7d5b3">gmt::CollisionI</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a7497a5ab10f3c2dec938897dfc941e50">get_collisions</a> () const</td></tr>
+<tr class="separator:a7497a5ab10f3c2dec938897dfc941e50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dba9ce08b34ace5a54d086b2475e63c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a7dba9ce08b34ace5a54d086b2475e63c">get_collisions_size</a> () const</td></tr>
+<tr class="separator:a7dba9ce08b34ace5a54d086b2475e63c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5aa8a4dbe22643859a96880ce8709f3"><td class="memItemLeft" align="right" valign="top">std::pair&lt; std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt;, std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#ae5aa8a4dbe22643859a96880ce8709f3">get_quad_pair</a> (int index, int depth) const</td></tr>
+<tr class="separator:ae5aa8a4dbe22643859a96880ce8709f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2abac16176f8fef87117928d400264b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt;, std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#ae2abac16176f8fef87117928d400264b">get_pairs</a> () const</td></tr>
+<tr class="separator:ae2abac16176f8fef87117928d400264b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37514b267211187f86a889955a54ded8"><td class="memItemLeft" align="right" valign="top">std::pair&lt; std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt;, std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a37514b267211187f86a889955a54ded8">get_pair</a> (int index) const</td></tr>
+<tr class="separator:a37514b267211187f86a889955a54ded8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6721810c5d4a197b71c9bea13b908a2"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#ad6721810c5d4a197b71c9bea13b908a2">get_pair_A</a> (int index) const</td></tr>
+<tr class="separator:ad6721810c5d4a197b71c9bea13b908a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f34a5d820258858def48d47737a3609"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a5f34a5d820258858def48d47737a3609">get_pair_B</a> (int index) const</td></tr>
+<tr class="separator:a5f34a5d820258858def48d47737a3609"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f86e4855b488580dca050ef06c5a87e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a9f86e4855b488580dca050ef06c5a87e">get_enable_limits</a> () const</td></tr>
+<tr class="separator:a9f86e4855b488580dca050ef06c5a87e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9291bf2a13ec3ad4d970af27b27d57e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphy_1_1_system.html#a9291bf2a13ec3ad4d970af27b27d57e1">set_enable_limits</a> (bool enable_limits)</td></tr>
+<tr class="separator:a9291bf2a13ec3ad4d970af27b27d57e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="aabc9bc03cca62443028a0f9168b3b49f" name="aabc9bc03cca62443028a0f9168b3b49f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabc9bc03cca62443028a0f9168b3b49f">&#9670;&nbsp;</a></span>System()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">phy::System::System </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>gravity</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>force_x</em> = <code><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(0)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>force_y</em> = <code><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(0)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>limit_x</em> = <code><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(10000)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>limit_y</em> = <code><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>(10000)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>quadtree_max_count</em> = <code>10</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>quadtree_max_depth</em> = <code>10</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afa0702983bfe107949b8b8795f538ea5" name="afa0702983bfe107949b8b8795f538ea5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa0702983bfe107949b8b8795f538ea5">&#9670;&nbsp;</a></span>~System()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual phy::System::~System </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab1c161bb85b492d4513002637b1c3f50" name="ab1c161bb85b492d4513002637b1c3f50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1c161bb85b492d4513002637b1c3f50">&#9670;&nbsp;</a></span>add_constraint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::add_constraint </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classphy_1_1_constraint.html">Constraint</a> &gt;&#160;</td>
+          <td class="paramname"><em>constraint</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4d079560396bd873b3773d571033a07d" name="a4d079560396bd873b3773d571033a07d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d079560396bd873b3773d571033a07d">&#9670;&nbsp;</a></span>add_corpse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::add_corpse </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt;&#160;</td>
+          <td class="paramname"><em>corpse</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4ee2b4078db2798d1c9598c1b1bd3b44" name="a4ee2b4078db2798d1c9598c1b1bd3b44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ee2b4078db2798d1c9598c1b1bd3b44">&#9670;&nbsp;</a></span>add_pair()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::add_pair </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt;&#160;</td>
+          <td class="paramname"><em>corpseA</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt;&#160;</td>
+          <td class="paramname"><em>corpseB</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5176a921f65b82b2c62cb4ea8e7f3b3f" name="a5176a921f65b82b2c62cb4ea8e7f3b3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5176a921f65b82b2c62cb4ea8e7f3b3f">&#9670;&nbsp;</a></span>addConstraint() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::addConstraint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classphy_1_1_link.html">Link</a>&#160;</td>
+          <td class="paramname"><em>link</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a451338fd78be2eaa779abb728975b548" name="a451338fd78be2eaa779abb728975b548"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a451338fd78be2eaa779abb728975b548">&#9670;&nbsp;</a></span>addConstraint() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::addConstraint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classphy_1_1_slider.html">Slider</a>&#160;</td>
+          <td class="paramname"><em>slider</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a072fe18843f11813ed2c13bf164bda8f" name="a072fe18843f11813ed2c13bf164bda8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a072fe18843f11813ed2c13bf164bda8f">&#9670;&nbsp;</a></span>addConstraint() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::addConstraint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classphy_1_1_spring.html">Spring</a>&#160;</td>
+          <td class="paramname"><em>spring</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a60d7ca1608e73ca814415318972b367e" name="a60d7ca1608e73ca814415318972b367e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60d7ca1608e73ca814415318972b367e">&#9670;&nbsp;</a></span>addCorpse() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::addCorpse </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classphy_1_1_circle.html">Circle</a>&#160;</td>
+          <td class="paramname"><em>circle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0ac86278277ed700305fe76bdc986906" name="a0ac86278277ed700305fe76bdc986906"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ac86278277ed700305fe76bdc986906">&#9670;&nbsp;</a></span>addCorpse() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::addCorpse </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classphy_1_1_polygon.html">Polygon</a>&#160;</td>
+          <td class="paramname"><em>polygon</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4d372bdd069c5b6e57a0f376ba7541a2" name="a4d372bdd069c5b6e57a0f376ba7541a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d372bdd069c5b6e57a0f376ba7541a2">&#9670;&nbsp;</a></span>CheckLimits()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::CheckLimits </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abc29e9030c6ed0b88aa87fb899c2b85e" name="abc29e9030c6ed0b88aa87fb899c2b85e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc29e9030c6ed0b88aa87fb899c2b85e">&#9670;&nbsp;</a></span>Clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::Clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7eb0bd983c2ba822478d0eab3a8045a0" name="a7eb0bd983c2ba822478d0eab3a8045a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7eb0bd983c2ba822478d0eab3a8045a0">&#9670;&nbsp;</a></span>ConstraintsStep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::ConstraintsStep </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a92102601b1fc49fef5950665cef5d273" name="a92102601b1fc49fef5950665cef5d273"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92102601b1fc49fef5950665cef5d273">&#9670;&nbsp;</a></span>CorpsesStep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::CorpsesStep </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afd0f07a45d93689a4bad905346309f53" name="afd0f07a45d93689a4bad905346309f53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd0f07a45d93689a4bad905346309f53">&#9670;&nbsp;</a></span>CorpseStop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::CorpseStop </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9b2f7c52ec43259640f21a99e0e0bc45" name="a9b2f7c52ec43259640f21a99e0e0bc45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b2f7c52ec43259640f21a99e0e0bc45">&#9670;&nbsp;</a></span>CorpseUpdateBounds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::CorpseUpdateBounds </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4e42ea2de72f6693981c1a9d1d1f80e0" name="a4e42ea2de72f6693981c1a9d1d1f80e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e42ea2de72f6693981c1a9d1d1f80e0">&#9670;&nbsp;</a></span>ForcesStep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::ForcesStep </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7de862dfc1a5014103f29a0d8bb7419d" name="a7de862dfc1a5014103f29a0d8bb7419d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7de862dfc1a5014103f29a0d8bb7419d">&#9670;&nbsp;</a></span>get_collision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacegmt.html#aa3aebefb773c65348cbd26f6d2d7d5b3">gmt::CollisionI</a> phy::System::get_collision </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a813fceb44f98e80284d136c4bbf1ecd0" name="a813fceb44f98e80284d136c4bbf1ecd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a813fceb44f98e80284d136c4bbf1ecd0">&#9670;&nbsp;</a></span>get_collision_accuracy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int phy::System::get_collision_accuracy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7497a5ab10f3c2dec938897dfc941e50" name="a7497a5ab10f3c2dec938897dfc941e50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7497a5ab10f3c2dec938897dfc941e50">&#9670;&nbsp;</a></span>get_collisions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="namespacegmt.html#aa3aebefb773c65348cbd26f6d2d7d5b3">gmt::CollisionI</a> &gt; phy::System::get_collisions </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7dba9ce08b34ace5a54d086b2475e63c" name="a7dba9ce08b34ace5a54d086b2475e63c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dba9ce08b34ace5a54d086b2475e63c">&#9670;&nbsp;</a></span>get_collisions_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int phy::System::get_collisions_size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa71208b9c68c644dd7dc215c5cecdde8" name="aa71208b9c68c644dd7dc215c5cecdde8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa71208b9c68c644dd7dc215c5cecdde8">&#9670;&nbsp;</a></span>get_constraint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classphy_1_1_constraint.html">Constraint</a> &gt; phy::System::get_constraint </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af3ceef9e30fe144f4a18728f0427fad5" name="af3ceef9e30fe144f4a18728f0427fad5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3ceef9e30fe144f4a18728f0427fad5">&#9670;&nbsp;</a></span>get_constraint_accuracy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int phy::System::get_constraint_accuracy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac00ed8dbf2f31a8511207be995c24386" name="ac00ed8dbf2f31a8511207be995c24386"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac00ed8dbf2f31a8511207be995c24386">&#9670;&nbsp;</a></span>get_constraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::shared_ptr&lt; <a class="el" href="classphy_1_1_constraint.html">Constraint</a> &gt; &gt; phy::System::get_constraints </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a07baa6b8b9e3a222572cd2b4355b118a" name="a07baa6b8b9e3a222572cd2b4355b118a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07baa6b8b9e3a222572cd2b4355b118a">&#9670;&nbsp;</a></span>get_constraints_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int phy::System::get_constraints_size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa5b21d03f7c9ff6c061810cead0075d7" name="aa5b21d03f7c9ff6c061810cead0075d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5b21d03f7c9ff6c061810cead0075d7">&#9670;&nbsp;</a></span>get_corpse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; phy::System::get_corpse </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a265dd095b29d98efcf2958ff4b04c06f" name="a265dd095b29d98efcf2958ff4b04c06f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a265dd095b29d98efcf2958ff4b04c06f">&#9670;&nbsp;</a></span>get_corpse_by_id()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; phy::System::get_corpse_by_id </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a175a649657fc8ae2a771db053181b31d" name="a175a649657fc8ae2a771db053181b31d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a175a649657fc8ae2a771db053181b31d">&#9670;&nbsp;</a></span>get_corpses()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; &gt; phy::System::get_corpses </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab8903e4367404b496e492c29622d9ce0" name="ab8903e4367404b496e492c29622d9ce0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8903e4367404b496e492c29622d9ce0">&#9670;&nbsp;</a></span>get_corpses_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int phy::System::get_corpses_size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac39a0d5d522f7840fc6773521de1f613" name="ac39a0d5d522f7840fc6773521de1f613"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac39a0d5d522f7840fc6773521de1f613">&#9670;&nbsp;</a></span>get_dt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> phy::System::get_dt </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9f86e4855b488580dca050ef06c5a87e" name="a9f86e4855b488580dca050ef06c5a87e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f86e4855b488580dca050ef06c5a87e">&#9670;&nbsp;</a></span>get_enable_limits()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool phy::System::get_enable_limits </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a606742020730672edf0a30e7ca05155e" name="a606742020730672edf0a30e7ca05155e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a606742020730672edf0a30e7ca05155e">&#9670;&nbsp;</a></span>get_force_x()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> phy::System::get_force_x </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af6762d2645181791a577f382cf911cac" name="af6762d2645181791a577f382cf911cac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6762d2645181791a577f382cf911cac">&#9670;&nbsp;</a></span>get_force_y()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> phy::System::get_force_y </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a231c0941981e82ad716900081d4b4812" name="a231c0941981e82ad716900081d4b4812"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a231c0941981e82ad716900081d4b4812">&#9670;&nbsp;</a></span>get_G()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> phy::System::get_G </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aef0f241a903564aabc5c979123e4d274" name="aef0f241a903564aabc5c979123e4d274"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef0f241a903564aabc5c979123e4d274">&#9670;&nbsp;</a></span>get_gravity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool phy::System::get_gravity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aefd284208552d172d04e9bf7b01ee2f4" name="aefd284208552d172d04e9bf7b01ee2f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefd284208552d172d04e9bf7b01ee2f4">&#9670;&nbsp;</a></span>get_limits()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacegmt.html#a0be5d0adb0b5be67f355b4c87fde0015">gmt::BoundsI</a> phy::System::get_limits </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8a4795604e62a62425d2f6dac8d8d68a" name="a8a4795604e62a62425d2f6dac8d8d68a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a4795604e62a62425d2f6dac8d8d68a">&#9670;&nbsp;</a></span>get_LS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> phy::System::get_LS </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a37514b267211187f86a889955a54ded8" name="a37514b267211187f86a889955a54ded8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37514b267211187f86a889955a54ded8">&#9670;&nbsp;</a></span>get_pair()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt; std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt;, std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; &gt; phy::System::get_pair </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad6721810c5d4a197b71c9bea13b908a2" name="ad6721810c5d4a197b71c9bea13b908a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6721810c5d4a197b71c9bea13b908a2">&#9670;&nbsp;</a></span>get_pair_A()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; phy::System::get_pair_A </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5f34a5d820258858def48d47737a3609" name="a5f34a5d820258858def48d47737a3609"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f34a5d820258858def48d47737a3609">&#9670;&nbsp;</a></span>get_pair_B()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; phy::System::get_pair_B </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae2abac16176f8fef87117928d400264b" name="ae2abac16176f8fef87117928d400264b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2abac16176f8fef87117928d400264b">&#9670;&nbsp;</a></span>get_pairs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::pair&lt; std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt;, std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; &gt; &gt; phy::System::get_pairs </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9219f21e26677e10412218bf387b0cb3" name="a9219f21e26677e10412218bf387b0cb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9219f21e26677e10412218bf387b0cb3">&#9670;&nbsp;</a></span>get_pairs_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int phy::System::get_pairs_size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae5aa8a4dbe22643859a96880ce8709f3" name="ae5aa8a4dbe22643859a96880ce8709f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5aa8a4dbe22643859a96880ce8709f3">&#9670;&nbsp;</a></span>get_quad_pair()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt; std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt;, std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt; &gt; phy::System::get_quad_pair </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>depth</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab3df592c42ca3253b22bb75014f3ec42" name="ab3df592c42ca3253b22bb75014f3ec42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3df592c42ca3253b22bb75014f3ec42">&#9670;&nbsp;</a></span>get_quad_pairs_depth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int phy::System::get_quad_pairs_depth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4c4075f156e5639a1fb3db083e09eceb" name="a4c4075f156e5639a1fb3db083e09eceb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c4075f156e5639a1fb3db083e09eceb">&#9670;&nbsp;</a></span>get_quad_pairs_size() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int phy::System::get_quad_pairs_size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2ee0e0af53e79a75cad6fab7effe03fb" name="a2ee0e0af53e79a75cad6fab7effe03fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ee0e0af53e79a75cad6fab7effe03fb">&#9670;&nbsp;</a></span>get_quad_pairs_size() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int phy::System::get_quad_pairs_size </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>depth</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af5de9beaf4484f05312430de036d500f" name="af5de9beaf4484f05312430de036d500f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5de9beaf4484f05312430de036d500f">&#9670;&nbsp;</a></span>get_quadtree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classgmt_1_1_quad_tree.html">gmt::QuadTree</a> * phy::System::get_quadtree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1839d689e3f100736c1276b47cb99003" name="a1839d689e3f100736c1276b47cb99003"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1839d689e3f100736c1276b47cb99003">&#9670;&nbsp;</a></span>get_t()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double phy::System::get_t </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a36f575e6ae797d49479758cb8d57ca21" name="a36f575e6ae797d49479758cb8d57ca21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36f575e6ae797d49479758cb8d57ca21">&#9670;&nbsp;</a></span>Gravity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::Gravity </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classphy_1_1_corpse.html">Corpse</a> &gt;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afc8c33937d2c061bb04b19362cb70569" name="afc8c33937d2c061bb04b19362cb70569"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc8c33937d2c061bb04b19362cb70569">&#9670;&nbsp;</a></span>InitQuadTree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::InitQuadTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a734274b0240fa5aae616cc5f28683c0a" name="a734274b0240fa5aae616cc5f28683c0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a734274b0240fa5aae616cc5f28683c0a">&#9670;&nbsp;</a></span>invert_dt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::invert_dt </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5e682817a1481f4e4a8dbf7d79ba4062" name="a5e682817a1481f4e4a8dbf7d79ba4062"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e682817a1481f4e4a8dbf7d79ba4062">&#9670;&nbsp;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classphy_1_1_system.html">System</a> &amp; phy::System::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classphy_1_1_system.html">System</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6505edb5f25a555767ef95017562a9f2" name="a6505edb5f25a555767ef95017562a9f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6505edb5f25a555767ef95017562a9f2">&#9670;&nbsp;</a></span>PairsStep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::PairsStep </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2c64622ca6f0d4d28d45b8d6bc6826e4" name="a2c64622ca6f0d4d28d45b8d6bc6826e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c64622ca6f0d4d28d45b8d6bc6826e4">&#9670;&nbsp;</a></span>QuadPairsStep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::QuadPairsStep </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5ecbf6ad3e59848a5c9282ef116d50d4" name="a5ecbf6ad3e59848a5c9282ef116d50d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ecbf6ad3e59848a5c9282ef116d50d4">&#9670;&nbsp;</a></span>Remove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::Remove </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad606c691b8678992d1a720de209cf237" name="ad606c691b8678992d1a720de209cf237"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad606c691b8678992d1a720de209cf237">&#9670;&nbsp;</a></span>set_collision_accuracy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::set_collision_accuracy </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>collision_accuracy</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a90b8a82f05bfc0384dba95b7a5bdfceb" name="a90b8a82f05bfc0384dba95b7a5bdfceb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90b8a82f05bfc0384dba95b7a5bdfceb">&#9670;&nbsp;</a></span>set_constraint_accuracy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::set_constraint_accuracy </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>constraint_accuracy</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1b28ac20eb5bbaa5e43eacf59d007994" name="a1b28ac20eb5bbaa5e43eacf59d007994"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b28ac20eb5bbaa5e43eacf59d007994">&#9670;&nbsp;</a></span>set_dt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::set_dt </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>dt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9291bf2a13ec3ad4d970af27b27d57e1" name="a9291bf2a13ec3ad4d970af27b27d57e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9291bf2a13ec3ad4d970af27b27d57e1">&#9670;&nbsp;</a></span>set_enable_limits()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::set_enable_limits </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enable_limits</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac711f63093df5fd6c97143c193525763" name="ac711f63093df5fd6c97143c193525763"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac711f63093df5fd6c97143c193525763">&#9670;&nbsp;</a></span>set_force_x()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::set_force_x </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>force_x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afb57df8fd824684399e670b82183668f" name="afb57df8fd824684399e670b82183668f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb57df8fd824684399e670b82183668f">&#9670;&nbsp;</a></span>set_force_y()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::set_force_y </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>force_y</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad341424106f95aa80ce58476b58dc2d2" name="ad341424106f95aa80ce58476b58dc2d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad341424106f95aa80ce58476b58dc2d2">&#9670;&nbsp;</a></span>set_G()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::set_G </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>G</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acff0e6ad1a1a5de65b9742b2f9fa7d90" name="acff0e6ad1a1a5de65b9742b2f9fa7d90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acff0e6ad1a1a5de65b9742b2f9fa7d90">&#9670;&nbsp;</a></span>set_gravity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::set_gravity </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>gravity</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a96474d3908226e578fb0a3763b35501c" name="a96474d3908226e578fb0a3763b35501c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96474d3908226e578fb0a3763b35501c">&#9670;&nbsp;</a></span>set_limits()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::set_limits </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#a0be5d0adb0b5be67f355b4c87fde0015">gmt::BoundsI</a>&#160;</td>
+          <td class="paramname"><em>limits</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0801fad6edcbbf9de532e4d6d910c682" name="a0801fad6edcbbf9de532e4d6d910c682"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0801fad6edcbbf9de532e4d6d910c682">&#9670;&nbsp;</a></span>set_LS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::set_LS </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&#160;</td>
+          <td class="paramname"><em>LS</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a35fd5d906b02570dd5f7c19c8bf56e11" name="a35fd5d906b02570dd5f7c19c8bf56e11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35fd5d906b02570dd5f7c19c8bf56e11">&#9670;&nbsp;</a></span>set_t()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::set_t </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aae7dc1e29b216aa71718c43fb881764f" name="aae7dc1e29b216aa71718c43fb881764f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae7dc1e29b216aa71718c43fb881764f">&#9670;&nbsp;</a></span>Step()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::Step </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a031135e006bc4d02c0d730b5f99c619f" name="a031135e006bc4d02c0d730b5f99c619f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a031135e006bc4d02c0d730b5f99c619f">&#9670;&nbsp;</a></span>StepQuadTree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::StepQuadTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a664a7f6d2f1ad0ccf196bb55bb245b87" name="a664a7f6d2f1ad0ccf196bb55bb245b87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a664a7f6d2f1ad0ccf196bb55bb245b87">&#9670;&nbsp;</a></span>ThreadPairsStep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::ThreadPairsStep </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>depth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af059c02c62dd71dee3663b1999e53f41" name="af059c02c62dd71dee3663b1999e53f41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af059c02c62dd71dee3663b1999e53f41">&#9670;&nbsp;</a></span>UpdateTime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void phy::System::UpdateTime </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>/home/runner/work/Simulatio/Simulatio/include/Structures/<a class="el" href="_system_8hpp_source.html">System.hpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.1-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacephy.html">phy</a></li><li class="navelem"><a class="el" href="classphy_1_1_system.html">System</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+<script type="text/javascript">
+  $(function() {
+     toggleButton = document.createElement('doxygen-awesome-dark-mode-toggle')
+     toggleButton.title = "Toggle Light/Dark Mode"
+     $(document).ready(function(){
+       document.getElementById("MSearchBox").parentNode.appendChild(toggleButton)
+     })
+     $(window).resize(function(){
+       document.getElementById("MSearchBox").parentNode.appendChild(toggleButton)
+     })
+   })
+</script>
+</body>
+</html>

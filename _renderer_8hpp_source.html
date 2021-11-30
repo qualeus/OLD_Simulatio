@@ -1,0 +1,759 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
+        <meta name="generator" content="Doxygen 1.9.2" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- BEGIN opengraph metadata -->
+        <meta property="og:title" content="Doxygen Awesome" />
+        <meta
+            property="og:image"
+            content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452"
+        />
+        <meta
+            property="og:description"
+            content="Custom CSS theme for doxygen html-documentation with lots of customization parameters."
+        />
+        <meta
+            property="og:url"
+            content="https://github.com/mlhoutel/Simulatio/"
+        />
+        <!-- END opengraph metadata -->
+        <!-- BEGIN twitter metadata -->
+        <meta
+            name="twitter:image:src"
+            content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452"
+        />
+        <meta name="twitter:title" content="Doxygen Awesome" />
+        <meta
+            name="twitter:description"
+            content="Custom CSS theme for doxygen html-documentation with lots of customization parameters."
+        />
+        <!-- END twitter metadata -->
+        <title>Simulatio: /home/runner/work/Simulatio/Simulatio/include/Renderer/Renderer.hpp Source File</title>
+        <link href="tabs.css" rel="stylesheet" type="text/css" />
+        <link rel="icon" type="image/svg+xml" href="logo.drawio.svg" />
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="dynsections.js"></script>
+        <script
+            type="text/javascript"
+            src="doxygen-awesome-darkmode-toggle.js"
+        ></script>
+        <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+ <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+        <link href="doxygen.css" rel="stylesheet" type="text/css" />
+        <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <!-- https://tholman.com/github-corners/ -->
+        <a
+            href="https://github.com/mlhoutel/Simulatio"
+            class="github-corner"
+            title="View source on GitHub"
+        >
+            <svg
+                viewBox="0 0 250 250"
+                style="position: absolute; top: 0; border: 0; right: 0"
+                aria-hidden="true"
+            >
+                <path
+                    d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"
+                ></path>
+                <path
+                    d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+                    fill="currentColor"
+                    style="transform-origin: 130px 106px"
+                    class="octo-arm"
+                ></path>
+                <path
+                    d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+                    fill="currentColor"
+                    class="octo-body"
+                ></path></svg></a
+        ><style>
+            .github-corner:hover .octo-arm {
+                animation: octocat-wave 560ms ease-in-out;
+            }
+            @keyframes octocat-wave {
+                0%,
+                100% {
+                    transform: rotate(0);
+                }
+                20%,
+                60% {
+                    transform: rotate(-25deg);
+                }
+                40%,
+                80% {
+                    transform: rotate(10deg);
+                }
+            }
+            @media (max-width: 500px) {
+                .github-corner:hover .octo-arm {
+                    animation: none;
+                }
+                .github-corner .octo-arm {
+                    animation: octocat-wave 560ms ease-in-out;
+                }
+            }
+        </style>
+        <div id="top">
+            <!-- do not remove this div, it is closed by doxygen! -->
+            <div id="titlearea">
+                <table cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr style="height: 56px">
+                            <td id="projectlogo">
+                                <img alt="Logo" src="ricon.png" />
+                            </td>
+                            <td id="projectalign" style="padding-left: 0.5em">
+                                <div id="projectname">
+                                    Simulatio
+                                    &#160;<span
+                                        id="projectnumber"
+                                        >0.5.2</span
+                                    >
+                                </div>
+                                <div id="projectbrief">A flexible physic engine</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- end header part -->
+        </div>
+    </body>
+</html>
+<!-- Generated by Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('_renderer_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Renderer.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_renderer_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef Renderer_HPP</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define Renderer_HPP</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;SFML/Graphics.hpp&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;SFML/Main.hpp&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;../../assets/fonts/consolas.hpp&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;../../assets/fonts/forkawersome.hpp&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;../../assets/fonts/icons.hpp&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;../../assets/fonts/proggy.hpp&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;../../assets/fonts/roboto.hpp&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;../../assets/icon/ricon.hpp&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;../Geometry/Geometry.hpp&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;../Geometry/Maths.hpp&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;../Geometry/String.hpp&quot;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;../Geometry/Vector.hpp&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;../Structures/System.hpp&quot;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;Config.hpp&quot;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;<a class="code" href="_converter_8hpp.html">Converter.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &quot;<a class="code" href="_editor_color_scheme_8hpp.html">EditorColorScheme.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &quot;<a class="code" href="_gui_module_8hpp.html">GuiModule.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &quot;<a class="code" href="_structures_8hpp.html">Structures.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a3f0addaae591c2bb02d8f602e1b86e30">   24</a></span><span class="preprocessor">#define C_TURQUOISE sf::Color(26, 188, 156, 255)  </span><span class="comment">// rgba(26, 188, 156,1.0)</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a448d973f9ee30250ec93e600f5d89ed1">   25</a></span><span class="preprocessor">#define C_GREEN sf::Color(22, 160, 133, 255)      </span><span class="comment">// rgba(22, 160, 133,1.0)</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a1a883a92a2b50cb70090dd338b8d20b5">   26</a></span><span class="preprocessor">#define C_EMERALD sf::Color(46, 204, 113, 255)    </span><span class="comment">// rgba(46, 204, 113,1.0)</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a0cded400221cedb858788998534582f4">   27</a></span><span class="preprocessor">#define C_NEPHRITIS sf::Color(39, 174, 96, 255)   </span><span class="comment">// rgba(39, 174, 96,1.0)</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a4f668553df88f5b465272ba24c42ec41">   28</a></span><span class="preprocessor">#define C_RIVER sf::Color(52, 152, 219, 255)      </span><span class="comment">// rgba(52, 152, 219,1.0)</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a2e4dd0b4af70107f36c2aa60b1195f01">   29</a></span><span class="preprocessor">#define C_BLUE sf::Color(41, 128, 185, 255)       </span><span class="comment">// rgba(41, 128, 185,1.0)</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#ab449973a3be1e47a7ecd382312f18d01">   30</a></span><span class="preprocessor">#define C_AMETHYST sf::Color(155, 89, 182, 255)   </span><span class="comment">// rgba(155, 89, 182,1.0)</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a35741706cb362e5f88b597c777518b66">   31</a></span><span class="preprocessor">#define C_PURPLE sf::Color(142, 68, 173, 255)     </span><span class="comment">// rgba(142, 68, 173,1.0)</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a287ea6eacccf5d6abf3477eef7c23fca">   32</a></span><span class="preprocessor">#define C_ASPHALT sf::Color(52, 73, 94, 255)      </span><span class="comment">// rgba(52, 73, 94,1.0)</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#aa137d7b05caa694d53f6b5767aa84986">   33</a></span><span class="preprocessor">#define C_MARINE sf::Color(44, 62, 80, 255)       </span><span class="comment">// rgba(44, 62, 80,1.0)</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a22a9543e081938a146a8bce60a84200a">   34</a></span><span class="preprocessor">#define C_BLACK sf::Color(22, 29, 31, 255)        </span><span class="comment">// rgba(22, 29, 31,1.0)</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a767cb491fcd6934965660c80ec7644af">   35</a></span><span class="preprocessor">#define C_SUN sf::Color(241, 196, 15, 255)        </span><span class="comment">// rgba(241, 196, 15,1.0)</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#ad0da755001370ae88a57535d806cfef5">   36</a></span><span class="preprocessor">#define C_ORANGE sf::Color(243, 156, 18, 255)     </span><span class="comment">// rgba(243, 156, 18,1.0)</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#ab02a74936db815016ffc49be61a6b62f">   37</a></span><span class="preprocessor">#define C_CARROT sf::Color(230, 126, 34, 255)     </span><span class="comment">// rgba(230, 126, 34,1.0)</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#ab4ccfdaf40e9886c28e1c8fb4439ed52">   38</a></span><span class="preprocessor">#define C_PUMPKIN sf::Color(211, 84, 0, 255)      </span><span class="comment">// rgba(211, 84, 0,1.0)</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a7b9e3ca4bb972ccffc1991e5dfdb577a">   39</a></span><span class="preprocessor">#define C_ALIZARIN sf::Color(231, 76, 60, 255)    </span><span class="comment">// rgba(231, 76, 60,1.0)</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a7adb9aaa1eed15caecd92e3837581b53">   40</a></span><span class="preprocessor">#define C_RED sf::Color(192, 57, 43, 255)         </span><span class="comment">// rgba(192, 57, 43,1.0)</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a67fead37547ff67ca0a269d712e87822">   41</a></span><span class="preprocessor">#define C_WHITE sf::Color(236, 240, 241, 255)     </span><span class="comment">// rgba(236, 240, 241,1.0)</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#acdb14a1a4a36e5902cb1f43bff843732">   42</a></span><span class="preprocessor">#define C_SILVER sf::Color(189, 195, 199, 255)    </span><span class="comment">// rgba(189, 195, 199,1.0)</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#ad09a554e97caf9c12f60cb81b8d80fbd">   43</a></span><span class="preprocessor">#define C_CONCRETE sf::Color(149, 165, 166, 255)  </span><span class="comment">// rgba(149, 165, 166,1.0)</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a652a3a522a7adca9327a71c6c8c8b196">   44</a></span><span class="preprocessor">#define C_GREY sf::Color(127, 140, 141, 255)      </span><span class="comment">// rgba(127, 140, 141,1.0)</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a9f3c20ea965e45dc2de0d3c909716972">   46</a></span><span class="preprocessor">#define G_DEBUG_FRAME_SIZE 300    </span><span class="comment">// Size of framerate array</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a97413ebda001bd65a78337fdbe1a7a7c">   47</a></span><span class="preprocessor">#define G_SIDE_BAR_SIZE 60        </span><span class="comment">// Size in Px</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#aebeee80c1513cd6163be30e0b58c6530">   48</a></span><span class="preprocessor">#define G_SIDE_CONTENT_SIZE 300   </span><span class="comment">// Size in Px</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a018450f0c93adb46cf0511223a5e2a44">   49</a></span><span class="preprocessor">#define G_TIME_BAR_SIZE 30        </span><span class="comment">// Size in Px</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a6eb153a06a93b3f99c6ed8920517c739">   50</a></span><span class="preprocessor">#define G_HANDLE_SIZE 20          </span><span class="comment">// Size in Px</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#aafd41ddd6b190358e7833fa18fc96e59">   51</a></span><span class="preprocessor">#define G_OPENED_BAR_SIZE 400     </span><span class="comment">// Size in Px</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a84107c05ee1f2bf9e67ee4cdbb8ca539">   52</a></span><span class="preprocessor">#define G_UP_DOCK_SIZE 0.10f      </span><span class="comment">// 100% &lt;=&gt; 1.0f</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#af5aa22c145d62bb4f721aca3f96f9000">   53</a></span><span class="preprocessor">#define G_BOTTOM_DOCK_SIZE 0.20f  </span><span class="comment">// 100% &lt;=&gt; 1.0f</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a55a6e26541edd8bc9cce12749f253552">   54</a></span><span class="preprocessor">#define G_LEFT_DOCK_SIZE 0.25f    </span><span class="comment">// 100% &lt;=&gt; 1.0f</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#ad88ef570d377a1d151f764c8c8a3b27b">   55</a></span><span class="preprocessor">#define G_RIGHT_DOCK_SIZE 0.25f   </span><span class="comment">// 100% &lt;=&gt; 1.0f</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a4f8e9c2cb81ef8ff472c3bc498d2a656">   57</a></span><span class="preprocessor">#define G_ANIMATION_SPEED 10.0f</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a56755b4ee69177dde3b2da148ade63f6">   59</a></span><span class="preprocessor">#define G_WINDOW_LABEL_SPACE 100  </span><span class="comment">// remaining space for the label</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a61218e7589c2fa8502b8a8031f87b64d">   60</a></span><span class="preprocessor">#define G_WINDOW_LABEL_MIN 400    </span><span class="comment">// minimum width of the widow for the label resize</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a5d2b31190327914fbc6a6b62c5ea3b99">   61</a></span><span class="preprocessor">#define G_WINDOW_BORDER 50        </span><span class="comment">// right border of the window</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#ae527d47b61cec23db07c8142dd7b3454">   63</a></span><span class="preprocessor">#define S_SIZE 7 </span><span class="comment">/* Size of the array of Selections values */</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a6c213ea2be3deba105fd1d7a011bde10">   64</a></span><span class="preprocessor">#define S_DEFAULT 0</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#afc573b4d31d4bc446411ec3fcb2cfca1">   65</a></span><span class="preprocessor">#define S_SELECT_MULTIPLE 1</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a48cd85c4fccea7cc7b758ff55fc94571">   66</a></span><span class="preprocessor">#define S_LAUNCH_CORPSE 2</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#aec58edb878b0180fc2bfe7ac77373f5c">   67</a></span><span class="preprocessor">#define S_DRAG_CORPSE 3</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#ae61bf5c5430be0ff60d5e1777e1c2944">   68</a></span><span class="preprocessor">#define S_DRAG_SCREEN 4</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a66c1415ed8f4e2fa7bd1f596dd53b876">   69</a></span><span class="preprocessor">#define S_CREATE_CIRCLE 5</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a8fdea181da659a4a007f26cd5806b72a">   70</a></span><span class="preprocessor">#define S_CREATE_POLYGON 6</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#aa10037412685b42c8d68adc6f0cb0c5d">   72</a></span><span class="preprocessor">#define S_MENU_INTERFACE 1</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a9ae46ea45c4149cb3efd220561ff22bc">   73</a></span><span class="preprocessor">#define S_MENU_SIMULATION 2</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#ae335ed63c7332a796f1f0455eb41f50c">   74</a></span><span class="preprocessor">#define S_MENU_CONSOLE 3</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#af21b711f2a50fe240d0fe7459a042c1d">   76</a></span><span class="preprocessor">#define F_SMALLER_SIZE 14</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a8ebb5819fe400550a1a684e51ad073b8">   77</a></span><span class="preprocessor">#define F_DEFAULT_SIZE 16</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a5a170d42dc5b52ec974af8fa88bcce44">   78</a></span><span class="preprocessor">#define F_MEDIUM_SIZE 20</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a39ea2c978c46f738c8538dba0e103779">   79</a></span><span class="preprocessor">#define F_BIGGER_SIZE 26</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a683a9ab270fb4ada0ac9d79763afd224">   81</a></span><span class="preprocessor">#define I_SMALLER_SIZE 16</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#aa0e0fbcdfbea1805822e072d28288633">   82</a></span><span class="preprocessor">#define I_DEFAULT_SIZE 20</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#abb883e608358053a696b63d5fcfb40a2">   83</a></span><span class="preprocessor">#define I_MEDIUM_SIZE 30</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#aec45b3acc4acbd0b13e34ef9ba5fe9ff">   84</a></span><span class="preprocessor">#define I_BIGGER_SIZE 40</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a1b55f94d8ce9ad7982a656bfeb8a9a9d">   86</a></span><span class="preprocessor">#define F_ROBOTO_DEFAULT 0</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#aaa10962ecb856900cd420a115e939e2e">   87</a></span><span class="preprocessor">#define F_ROBOTO_MEDIUM 1</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a309f7d92463bed452307cdd089b8a907">   88</a></span><span class="preprocessor">#define F_ROBOTO_BIGGER 2</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a1a4f1a4c4ddb603088ced2db061320fc">   89</a></span><span class="preprocessor">#define F_CONSOLAS_SMALLER 3</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#ae5129fb940a0832e0d14641888289738">   90</a></span><span class="preprocessor">#define F_PROGGY_SMALLER 4</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a62013420705b33d53e4d47c95acfaf0a">   92</a></span><span class="preprocessor">#define I_MOUSE_TYPE_CURSOR 0;</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#aff16dc5f965e919e4bbc9817358f2c72">   93</a></span><span class="preprocessor">#define I_MOUSE_TYPE_MOVE 1;</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#af60dae1645c6ca8a0d59df28543beb71">   94</a></span><span class="preprocessor">#define I_MOUSE_TYPE_RESIZE 2;</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#adb3758aad0569fdb6723062298888165">   96</a></span><span class="preprocessor">#define I_SIDE_MENU_DEFAULT 0</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a4fd15cf0bcfb192d1ac49734c9c4933d">   97</a></span><span class="preprocessor">#define I_SIDE_MENU_SHAPE 1</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="_renderer_8hpp.html#a300c25809e8ae4df451aa22d82cb67b0">   98</a></span><span class="preprocessor">#define I_SIDE_MENU_SPAWNER 2</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="class_renderer.html">  100</a></span><span class="keyword">class </span><a class="code hl_class" href="class_renderer.html">Renderer</a> {</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>   <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordtype">int</span> benchmark_count = 0;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordtype">int</span> benchmark_reset = 10000;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordtype">bool</span> benchmark_recording = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keywordtype">bool</span> benchmark_paused = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="keywordtype">float</span> benchmark_timescale = 10.0f;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keywordtype">int</span> benchmark_selection_inf = 0;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordtype">int</span> benchmark_selection_sup = 0;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="keywordtype">int</span> input_mouse_type = <a class="code hl_define" href="_renderer_8hpp.html#aff16dc5f965e919e4bbc9817358f2c72">I_MOUSE_TYPE_MOVE</a>;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="keywordtype">int</span> input_side_menu = <a class="code hl_define" href="_renderer_8hpp.html#adb3758aad0569fdb6723062298888165">I_SIDE_MENU_DEFAULT</a>;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <span class="keywordtype">int</span> display_frames_size = 170;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keywordtype">int</span> update_frame_delay = 10;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keywordtype">float</span> launch_power = 0.2f;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordtype">float</span> zoom_speed = 0.1f;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keywordtype">float</span> dt_step = 0.01f;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    std::string lenght_unit = <span class="stringliteral">&quot;m&quot;</span>;</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    std::string mass_unit = <span class="stringliteral">&quot;kg&quot;</span>;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    std::string time_unit = <span class="stringliteral">&quot;s&quot;</span>;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keywordtype">int</span> circle_resolution = 60;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keywordtype">int</span> outline_thickness = -2;</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="keywordtype">float</span> line_thickness = 2.0f;</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keywordtype">float</span> text_resolution = 28.0f;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordtype">float</span> vector_size = 40.0f;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keywordtype">float</span> velocity_size = 10.0f;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordtype">float</span> min_arrow_size = 10.0f;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="keywordtype">int</span> arrow_size = 12;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordtype">bool</span> trajectory_debug_show = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <span class="keywordtype">bool</span> trajectory_debug_all = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <span class="keywordtype">bool</span> trajectory_compute_on_change = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="keywordtype">bool</span> trajectory_compute_manual = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="keywordtype">int</span> trajectory_debug_step = 100;</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    <span class="keywordtype">int</span> trajectory_debug_time = 10;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    <span class="keywordtype">int</span> trajectory_debug_index = 0;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keywordtype">int</span> trajectory_debug_relative_index = 0;</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    <span class="keywordtype">int</span> trajectory_collision_accuracy = 1;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <span class="keywordtype">int</span> trajectory_constraint_accuracy = 1;</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    <span class="keywordtype">int</span> trails_debug_step = 100;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keywordtype">int</span> trails_debug_time = 10;</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    sf::RenderWindow window;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    sf::View view;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    sf::Clock clock;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    sf::Time frame;</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    sf::Vector2f saved_mouse_pos;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <a class="code hl_class" href="classgmt_1_1_bounds.html">gmt::Bounds&lt;float&gt;</a> selected_area;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    std::vector&lt;bool&gt; selected_corpses_fixed;</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    std::vector&lt;int&gt; selected_corpses_cursor;</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    std::vector&lt;int&gt; selected_corpses_index;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    std::vector&lt;sf::Vector2f&gt; selected_corpses_diff;</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    <span class="keywordtype">bool</span> reset_base_layout = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <span class="keywordtype">bool</span> show_gui_console = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keywordtype">bool</span> show_gui_properties = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    <span class="keywordtype">bool</span> show_gui_overlay = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="keywordtype">bool</span> show_gui_settings = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <span class="keywordtype">bool</span> show_gui_imguidemo = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    <span class="keywordtype">bool</span> show_gui_spawner = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    <span class="keywordtype">bool</span> show_gui_benchmark = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <span class="keywordtype">bool</span> show_side_bar = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <span class="keywordtype">bool</span> show_side_content = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <span class="keywordtype">bool</span> show_time_bar = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <span class="keywordtype">bool</span> show_popup_clear_system = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <span class="keywordtype">float</span> side_bar_size = show_side_bar ? <a class="code hl_define" href="_renderer_8hpp.html#a97413ebda001bd65a78337fdbe1a7a7c">G_SIDE_BAR_SIZE</a> : 0.0f;</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <span class="keywordtype">float</span> side_content_size = show_side_content ? <a class="code hl_define" href="_renderer_8hpp.html#aebeee80c1513cd6163be30e0b58c6530">G_SIDE_CONTENT_SIZE</a> : 0.0f;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    <span class="keywordtype">float</span> time_bar_size = show_time_bar ? <a class="code hl_define" href="_renderer_8hpp.html#a018450f0c93adb46cf0511223a5e2a44">G_TIME_BAR_SIZE</a> : 0.0f;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="keywordtype">bool</span> debug_show_quadtree = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    <span class="keywordtype">bool</span> debug_show_bounds = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    <span class="keywordtype">bool</span> debug_show_centroids = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    <span class="keywordtype">bool</span> debug_show_edges = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <span class="keywordtype">bool</span> debug_show_projections = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    <span class="keywordtype">bool</span> debug_show_vertices = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    <span class="keywordtype">bool</span> debug_show_normals = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    <span class="keywordtype">bool</span> debug_show_velocity = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    <span class="keywordtype">bool</span> debug_show_xyvelocity = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    <span class="keywordtype">bool</span> debug_show_pairs = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <span class="keywordtype">bool</span> debug_show_quadpairs = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    <span class="keywordtype">bool</span> debug_show_contacts = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    <span class="keywordtype">bool</span> debug_show_collisions = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    <span class="keywordtype">bool</span> debug_system_edited = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    <span class="keywordtype">bool</span> locked_accuracy = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    ImGuiID dockspace_id;</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    ImGuiID dockspace_bottom_id;</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    ImGuiID dockspace_left_id;</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    ImGuiID dockspace_right_id;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    ImGuiID dockspace_up_id;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    std::string name;</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    sf::Color background_color = sf::Color(0, 0, 0, 255);</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <span class="keywordtype">int</span> max_framerate = 60;</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span> </div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <span class="keywordtype">float</span> mouse_x;</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    <span class="keywordtype">float</span> mouse_y;</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <span class="keywordtype">float</span> sys_mouse_x;</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    <span class="keywordtype">float</span> sys_mouse_y;</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    <span class="keywordtype">int</span> select_type;</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    <span class="keywordtype">int</span> debug_type;</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    <a class="code hl_struct" href="struct_spawner.html">Spawner</a> input_spawner;</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    std::vector&lt;Spawner&gt; spawners;</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span> </div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>    <span class="keywordtype">float</span> camera_x = 0.0f;</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>    <span class="keywordtype">float</span> camera_y = 0.0f;</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    <span class="keywordtype">float</span> camera_zoom;</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="keywordtype">int</span> screen_width;</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    <span class="keywordtype">int</span> screen_height;</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    <span class="keywordtype">bool</span> paused;</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    <span class="keywordtype">bool</span> enable_inputs;</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    std::unordered_map&lt;int, std::vector&lt;std::pair&lt;float, float&gt;&gt;&gt; trajectories;</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    std::unordered_map&lt;int, std::vector&lt;std::pair&lt;float, float&gt;&gt;&gt; trajectories_previews;</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span> </div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> DEBUG_LENGTH = 50;</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keywordtype">float</span> debug_values[DEBUG_LENGTH] = {};</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="keywordtype">float</span> debug_frames[<a class="code hl_define" href="_renderer_8hpp.html#a9f3c20ea965e45dc2de0d3c909716972">G_DEBUG_FRAME_SIZE</a>] = {};</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    sf::Vector2f last_mouse_pos = sf::Vector2f();</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    <span class="keywordtype">float</span> last_mouse_vel = 0.0f;</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    <span class="keywordtype">float</span> last_mouse_acc = 0.0f;</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    <span class="keywordtype">float</span> mouse_angle = 0.0f;</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span> </div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> DELAY_DEBUG = 3;</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    <span class="keywordtype">int</span> counter_debug;</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    <span class="keywordtype">int</span> collision_number;</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    <a class="code hl_struct" href="struct_im_gui_1_1_console.html">ImGui::Console</a> console;</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span> </div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>    std::unordered_map&lt;int, sf::Color&gt; corpses_colors;</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>    std::unordered_map&lt;int, sf::Color&gt; constraints_colors;</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>   <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno"><a class="line" href="class_renderer.html#ab31cd59e5ae61692b28a66857c3c1443">  245</a></span>    <a class="code hl_class" href="classphy_1_1_system.html">phy::System</a> <a class="code hl_variable" href="class_renderer.html#ab31cd59e5ae61692b28a66857c3c1443">system</a>;</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span> </div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno"><a class="line" href="class_renderer.html#a02c2fb0af342f2aa48394c15ad16eb0a">  247</a></span>    <a class="code hl_function" href="class_renderer.html#a02c2fb0af342f2aa48394c15ad16eb0a">Renderer</a>(<span class="keywordtype">float</span> camera_x, <span class="keywordtype">float</span> camera_y, <span class="keywordtype">float</span> camera_h, <span class="keywordtype">float</span> camera_w, <span class="keywordtype">float</span> zoom, std::string p_name, <span class="keywordtype">bool</span> gravity, <span class="keywordtype">float</span> force_x, <span class="keywordtype">float</span> force_y, <span class="keywordtype">float</span> limit_x, <span class="keywordtype">float</span> limit_y, <span class="keywordtype">int</span> quadtree_max_count, <span class="keywordtype">int</span> quadtree_max_depth);</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno"><a class="line" href="class_renderer.html#a810e2f0623e2524fcb09406158a062bc">  248</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a810e2f0623e2524fcb09406158a062bc">SetupGui</a>();</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno"><a class="line" href="class_renderer.html#a88481e3a3eccac1433fa65fbd03c13b9">  249</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a88481e3a3eccac1433fa65fbd03c13b9">SetupGuiBaseLayout</a>();</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno"><a class="line" href="class_renderer.html#aba42b60392775e4a492c4d14d4fff29f">  250</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="class_renderer.html#aba42b60392775e4a492c4d14d4fff29f">~Renderer</a>();</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span> </div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno"><a class="line" href="class_renderer.html#adde94d3402b015b1fcd23c9a283cae2e">  252</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#adde94d3402b015b1fcd23c9a283cae2e">Render</a>();  <span class="comment">// Initialize the System and launch the Render loop</span></div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno"><a class="line" href="class_renderer.html#a70b03a8a73eda8ed547447016b170603">  253</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a70b03a8a73eda8ed547447016b170603">RenderGui</a>();</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno"><a class="line" href="class_renderer.html#a201446cbeefeab0c7a53c43cf6ba08ec">  254</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a201446cbeefeab0c7a53c43cf6ba08ec">RenderWindow</a>();</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno"><a class="line" href="class_renderer.html#abaebd71810954981786be9c00ae370ac">  255</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#abaebd71810954981786be9c00ae370ac">Close</a>();  <span class="comment">// Close the Renderer and Clean the System</span></div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span> </div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno"><a class="line" href="class_renderer.html#a170d2a994f1655d19b67fc315756b5b9">  257</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a170d2a994f1655d19b67fc315756b5b9">Input</a>(sf::Event event);  <span class="comment">// Handle Input events</span></div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno"><a class="line" href="class_renderer.html#adb66c68d92c0478dfd712d03d00e825f">  258</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#adb66c68d92c0478dfd712d03d00e825f">UpdateMouse</a>();           <span class="comment">// Upate the Mouse position</span></div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno"><a class="line" href="class_renderer.html#a9dd196e78d7190d2c9ef35add7ff7a3d">  259</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a9dd196e78d7190d2c9ef35add7ff7a3d">UpdateCorpseDatas</a>();     <span class="comment">// Check if the corpses in the selection still exists</span></div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno"><a class="line" href="class_renderer.html#abf9ddbed82f7a84e25f9c2c3a776ea25">  260</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#abf9ddbed82f7a84e25f9c2c3a776ea25">Pause</a>();                 <span class="comment">// Toggle the pause of the System</span></div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span> </div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno"><a class="line" href="class_renderer.html#a99d759bfe1157fbdbe5c87ca00c2ae4e">  262</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a99d759bfe1157fbdbe5c87ca00c2ae4e">ClearSystem</a>();</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span> </div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno"><a class="line" href="class_renderer.html#ae0887e031e3c74cc761fdaeec00989c8">  264</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#ae0887e031e3c74cc761fdaeec00989c8">addCorpse</a>(<a class="code hl_class" href="classphy_1_1_polygon.html">phy::Polygon</a> polygon, sf::Color color);</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno"><a class="line" href="class_renderer.html#ada669d2bb4145ef2a2e3249e4eb75fb2">  265</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#ada669d2bb4145ef2a2e3249e4eb75fb2">addCorpse</a>(<a class="code hl_class" href="classphy_1_1_circle.html">phy::Circle</a> circle, sf::Color color);</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno"><a class="line" href="class_renderer.html#abca248e03550eb289353b3562780a5ff">  266</a></span>    std::shared_ptr&lt;phy::Corpse&gt; <a class="code hl_function" href="class_renderer.html#abca248e03550eb289353b3562780a5ff">getCorpse</a>(<span class="keywordtype">int</span> index) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span> </div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno"><a class="line" href="class_renderer.html#a301586c9a53539cd9da524102b7bf08f">  268</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a301586c9a53539cd9da524102b7bf08f">addConstraint</a>(<a class="code hl_class" href="classphy_1_1_link.html">phy::Link</a> link, sf::Color color);</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno"><a class="line" href="class_renderer.html#acc56bd6cf59e9273eaf87c19775094e5">  269</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#acc56bd6cf59e9273eaf87c19775094e5">addConstraint</a>(<a class="code hl_class" href="classphy_1_1_spring.html">phy::Spring</a> spring, sf::Color color);</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno"><a class="line" href="class_renderer.html#a75fcb55f928491bcdba6756c6d6dac8d">  270</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a75fcb55f928491bcdba6756c6d6dac8d">addConstraint</a>(<a class="code hl_class" href="classphy_1_1_slider.html">phy::Slider</a> slider, sf::Color color);</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno"><a class="line" href="class_renderer.html#a112b4761f4ab9f38ca01f095c16e1611">  271</a></span>    std::shared_ptr&lt;phy::Constraint&gt; <a class="code hl_function" href="class_renderer.html#a112b4761f4ab9f38ca01f095c16e1611">getConstraint</a>(<span class="keywordtype">int</span> index) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno"><a class="line" href="class_renderer.html#ace4a71bc54216fdf891c1b8a39691a8b">  273</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_renderer.html#ace4a71bc54216fdf891c1b8a39691a8b">DragPositionInit</a>(sf::Event event);  <span class="comment">// Initialize the draggig of the Position</span></div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno"><a class="line" href="class_renderer.html#a482650469d99424664c17e30a190059b">  274</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a482650469d99424664c17e30a190059b">DragPositionStep</a>(sf::Event event);  <span class="comment">// Drag the position until the Release</span></div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno"><a class="line" href="class_renderer.html#a29cb9acc784c847f23623129224f21da">  275</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a29cb9acc784c847f23623129224f21da">DragPositionStop</a>(sf::Event event);  <span class="comment">// Stop the dragging of the Position</span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno"><a class="line" href="class_renderer.html#a6e390415b06a30a2f4c356688938c587">  277</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_renderer.html#a6e390415b06a30a2f4c356688938c587">SelectUniqueCorpseInit</a>(sf::Event event);  <span class="comment">// Initialize the selection of a unique corpse to Drag</span></div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span> </div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno"><a class="line" href="class_renderer.html#abfe34833415ac45f0fe8fad8080f4a7e">  279</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#abfe34833415ac45f0fe8fad8080f4a7e">UpdateSpawners</a>();</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno"><a class="line" href="class_renderer.html#a12b3a0805818f81fb2f39ff70775dc64">  280</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a12b3a0805818f81fb2f39ff70775dc64">StepSpawner</a>(<a class="code hl_struct" href="struct_spawner.html">Spawner</a>* spawner);</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno"><a class="line" href="class_renderer.html#ab3d088c35690fc22def588fde7fcb9fc">  282</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#ab3d088c35690fc22def588fde7fcb9fc">SelectMultipleCorpsesInit</a>(sf::Event event);  <span class="comment">// Initialize the selecting of multiple corpses to Drag</span></div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno"><a class="line" href="class_renderer.html#aafefbdbf5422d7e74875268402d74517">  283</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#aafefbdbf5422d7e74875268402d74517">SelectMultipleCorpsesStep</a>(sf::Event event);  <span class="comment">// Drag the selection rectangle until release</span></div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno"><a class="line" href="class_renderer.html#aee4a4aebbee9542d0b8a47aa282582b6">  284</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#aee4a4aebbee9542d0b8a47aa282582b6">SelectMultipleCorpsesStop</a>(sf::Event event);  <span class="comment">// Select corpses and stop the selection event</span></div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span> </div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno"><a class="line" href="class_renderer.html#a98132e8a9d8d7dd8877f3f59718f2d79">  286</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a98132e8a9d8d7dd8877f3f59718f2d79">DragCorpsesStep</a>(sf::Event event);  <span class="comment">// Drag the Corpse until the Release</span></div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno"><a class="line" href="class_renderer.html#a92fc6570f62ca3479388aaf31e7a5026">  287</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a92fc6570f62ca3479388aaf31e7a5026">DragCorpsesStop</a>(sf::Event event);  <span class="comment">// Stop the dragging of the Corpse</span></div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span> </div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno"><a class="line" href="class_renderer.html#ace455502ad996913f59d8eac24f4f7ef">  289</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_renderer.html#ace455502ad996913f59d8eac24f4f7ef">LaunchCorpseInit</a>(sf::Event event);  <span class="comment">// Initialize the launching of the Corpse</span></div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno"><a class="line" href="class_renderer.html#a68cb61903f75221462e0abebec3fd37d">  290</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a68cb61903f75221462e0abebec3fd37d">LaunchCorpseStep</a>(sf::Event event);  <span class="comment">// Drag the launcher until the Release</span></div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno"><a class="line" href="class_renderer.html#ac30e4e31b4c309c74288fc0e47eb0912">  291</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#ac30e4e31b4c309c74288fc0e47eb0912">LaunchCorpseStop</a>(sf::Event event);  <span class="comment">// Launch corpse and Stop the launching event</span></div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span> </div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno"><a class="line" href="class_renderer.html#a11752b355035b3120df62814576df4d1">  293</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a11752b355035b3120df62814576df4d1">ToggleOnCircle</a>(sf::Event event);</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno"><a class="line" href="class_renderer.html#aa48f162722167f7a8a4c3926fe91d1e1">  294</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#aa48f162722167f7a8a4c3926fe91d1e1">ToggleOffCircle</a>(sf::Event event);</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno"><a class="line" href="class_renderer.html#a831c50a9a19b0fb8a91b743c54ce0bd2">  295</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a831c50a9a19b0fb8a91b743c54ce0bd2">CreateCircleInit</a>(sf::Event event);</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno"><a class="line" href="class_renderer.html#a65c45ba4ae04e070851f8e851e3eb548">  296</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a65c45ba4ae04e070851f8e851e3eb548">CreateCircleFast</a>(sf::Event event);</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno"><a class="line" href="class_renderer.html#a2d3bbe9061c408a0823ce08ef5fdf922">  297</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a2d3bbe9061c408a0823ce08ef5fdf922">CreateCircleStep</a>(sf::Event event);</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno"><a class="line" href="class_renderer.html#af65d0257855faf619a51a20db344f138">  298</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#af65d0257855faf619a51a20db344f138">CreateCircleStop</a>(sf::Event event);</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span> </div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno"><a class="line" href="class_renderer.html#a45e210b3213cb8d3691662cd9cb234f9">  300</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a45e210b3213cb8d3691662cd9cb234f9">ToggleOnPolygon</a>(sf::Event event);</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno"><a class="line" href="class_renderer.html#a6a47834cbe56cc0adfdb1bb111efdd59">  301</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a6a47834cbe56cc0adfdb1bb111efdd59">ToggleOffPolygon</a>(sf::Event event);</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span> </div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno"><a class="line" href="class_renderer.html#af91a62583ac45f4ca490862e8b57f69b">  303</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#af91a62583ac45f4ca490862e8b57f69b">CreatePolygonInit</a>(sf::Event event);</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno"><a class="line" href="class_renderer.html#a0402ff9fbb38115f9dd4d6e60110142a">  304</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a0402ff9fbb38115f9dd4d6e60110142a">CreatePolygonAddPoint</a>(sf::Event event);</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno"><a class="line" href="class_renderer.html#a8ccc53d096e8aa89aba2af907e194529">  305</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a8ccc53d096e8aa89aba2af907e194529">CreatePolygonStep</a>(sf::Event event);</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno"><a class="line" href="class_renderer.html#ad89e6c78093c4e27a03515c29fbd3cb1">  306</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#ad89e6c78093c4e27a03515c29fbd3cb1">CreatePolygonStop</a>(sf::Event event);</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span> </div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno"><a class="line" href="class_renderer.html#a2ea6ad7b1a3836d1da5d85925f996004">  308</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_renderer.html#a2ea6ad7b1a3836d1da5d85925f996004">Framerate</a>();  <span class="comment">// Return the number of frames per second</span></div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno"><a class="line" href="class_renderer.html#acf3b77995faec503670553644ae85bea">  309</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#acf3b77995faec503670553644ae85bea">UpdateMaxFramerate</a>(<span class="keywordtype">int</span> max_framerate);</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno"><a class="line" href="class_renderer.html#a83853267f49188f267f3af5b26c9748e">  310</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a83853267f49188f267f3af5b26c9748e">UpdateDebug</a>();  <span class="comment">// Update the Debug Values</span></div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span> </div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno"><a class="line" href="class_renderer.html#a7ee1958f92e9e88379336297ae4cbc3f">  312</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a7ee1958f92e9e88379336297ae4cbc3f">Draw</a>();  <span class="comment">// Manage the drawing of the Renderer</span></div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno"><a class="line" href="class_renderer.html#a7a516cccc0ec914c17749a0b57b14df6">  313</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a7a516cccc0ec914c17749a0b57b14df6">DrawCorpse</a>(std::shared_ptr&lt;phy::Corpse&gt; corpse, sf::Color color);</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno"><a class="line" href="class_renderer.html#a2ff99ca85b30c6221cd3fbf96ee7fb54">  314</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a2ff99ca85b30c6221cd3fbf96ee7fb54">DrawConstraint</a>(std::shared_ptr&lt;phy::Constraint&gt; constraint, sf::Color color);</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno"><a class="line" href="class_renderer.html#a6e68162b1732bf4b87cc8dcb96b61429">  315</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a6e68162b1732bf4b87cc8dcb96b61429">DrawPair</a>(std::pair&lt;std::shared_ptr&lt;phy::Corpse&gt;, std::shared_ptr&lt;phy::Corpse&gt;&gt; pair);</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno"><a class="line" href="class_renderer.html#aae9a96a3981b4171ca6963364f1e6398">  316</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#aae9a96a3981b4171ca6963364f1e6398">DrawQuadTree</a>(<a class="code hl_class" href="classgmt_1_1_bounds.html">gmt::BoundsI</a> rect);</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno"><a class="line" href="class_renderer.html#a12ba736356e04fee89652ed854e30b50">  317</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a12ba736356e04fee89652ed854e30b50">DrawLimits</a>();</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno"><a class="line" href="class_renderer.html#a5747d3e35a757ed1c37b3528891e986b">  318</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a5747d3e35a757ed1c37b3528891e986b">DrawTrajectories</a>();</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span> </div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno"><a class="line" href="class_renderer.html#a702a98506acd00cd8811d3c1e0ef3792">  320</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a702a98506acd00cd8811d3c1e0ef3792">ResetBenchmark</a>();</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno"><a class="line" href="class_renderer.html#aa212f57690b4af038a6578eeb488d0ca">  321</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#aa212f57690b4af038a6578eeb488d0ca">Debug</a>();</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno"><a class="line" href="class_renderer.html#a9a41ac5c80e2c51abb0af15162bd95fd">  322</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a9a41ac5c80e2c51abb0af15162bd95fd">DrawInputs</a>();</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno"><a class="line" href="class_renderer.html#a295e69b4297adbd29b6082470c481846">  323</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a295e69b4297adbd29b6082470c481846">DrawGui</a>();</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno"><a class="line" href="class_renderer.html#a55ebe0c5fdcdf28de69bd57454b3420b">  324</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a55ebe0c5fdcdf28de69bd57454b3420b">DrawGuiMenu</a>();</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno"><a class="line" href="class_renderer.html#a6a14794e21623c6fef334d49dadf66ad">  325</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a6a14794e21623c6fef334d49dadf66ad">DrawGuiSideBar</a>();</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno"><a class="line" href="class_renderer.html#a8c1e9ef9a048ef08c849d5fe22e77a63">  326</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a8c1e9ef9a048ef08c849d5fe22e77a63">DrawGuiSideContent</a>();</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno"><a class="line" href="class_renderer.html#abb6a829748bbb5621792719a7d19d069">  327</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#abb6a829748bbb5621792719a7d19d069">DrawGuiSideDefault</a>();</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno"><a class="line" href="class_renderer.html#a817ca9d275b529c8c8e0413d03804329">  328</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a817ca9d275b529c8c8e0413d03804329">DrawGuiSideShape</a>();</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno"><a class="line" href="class_renderer.html#a7a64681a40600c522c03ac99e7db05cd">  329</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a7a64681a40600c522c03ac99e7db05cd">DrawGuiSideSpawner</a>();</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno"><a class="line" href="class_renderer.html#a32a84945261f8317cef6219443cfe59a">  330</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a32a84945261f8317cef6219443cfe59a">DrawGuiTimeBar</a>();</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno"><a class="line" href="class_renderer.html#a7d21b9079265808afbfd036da292dbfe">  331</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a7d21b9079265808afbfd036da292dbfe">DrawGuiDocking</a>();</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno"><a class="line" href="class_renderer.html#aae5684480c48f10e2275c0cd3e11be02">  332</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#aae5684480c48f10e2275c0cd3e11be02">DrawGuiHelp</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* desc);</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno"><a class="line" href="class_renderer.html#a29a7145b9eb50610cfca7a67208e6169">  333</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_renderer.html#a29a7145b9eb50610cfca7a67208e6169">DrawGuiCheckBox</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* label, <span class="keywordtype">int</span>* v_tristate);</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno"><a class="line" href="class_renderer.html#a5817cc478d0d3892c2ae0fcda97b3e0a">  334</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a5817cc478d0d3892c2ae0fcda97b3e0a">DrawPerf</a>(<a class="code hl_class" href="classbmk_1_1_performance.html">bmk::Performance</a>* root, <span class="keywordtype">double</span> time_init, <span class="keywordtype">double</span> time_scale, <span class="keywordtype">size_t</span> count = 0);</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno"><a class="line" href="class_renderer.html#a65cffcc52203844b4948b56af711c9b8">  335</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a65cffcc52203844b4948b56af711c9b8">DrawPerfBox</a>(<a class="code hl_class" href="classbmk_1_1_performance.html">bmk::Performance</a>* perf, <span class="keywordtype">double</span> time_init, <span class="keywordtype">double</span> time_scale, <span class="keywordtype">size_t</span> count = 0);</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span> </div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno"><a class="line" href="class_renderer.html#abc507bcc49253cf4fe5a8a7c3705d9aa">  337</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#abc507bcc49253cf4fe5a8a7c3705d9aa">ShowGuiConsole</a>(<span class="keywordtype">bool</span>* p_open);</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno"><a class="line" href="class_renderer.html#a3dd97aaf44d2c3026ad14347eb840d36">  338</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a3dd97aaf44d2c3026ad14347eb840d36">ShowGuiProperties</a>(<span class="keywordtype">bool</span>* p_open);</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno"><a class="line" href="class_renderer.html#abd106f87e0039ad23302604c5cfd8910">  339</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#abd106f87e0039ad23302604c5cfd8910">ShowGuiSpawner</a>(<span class="keywordtype">bool</span>* p_open);</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno"><a class="line" href="class_renderer.html#a00a55e6241abee49214c964dd834b2ea">  340</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a00a55e6241abee49214c964dd834b2ea">ShowGuiOverlay</a>(<span class="keywordtype">bool</span>* p_open);</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno"><a class="line" href="class_renderer.html#a91a4fba33e725bc62a2dbefd6736b91a">  341</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a91a4fba33e725bc62a2dbefd6736b91a">ShowGuiSettings</a>(<span class="keywordtype">bool</span>* p_open);</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno"><a class="line" href="class_renderer.html#ab37053cf3b0df0e7ac872810bc7e084b">  342</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#ab37053cf3b0df0e7ac872810bc7e084b">ShowGuiBenchmark</a>(<span class="keywordtype">bool</span>* p_open);</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno"><a class="line" href="class_renderer.html#aa33735546e8385ae532438df16641d90">  343</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#aa33735546e8385ae532438df16641d90">ShowGuiSettingsInterface</a>();</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno"><a class="line" href="class_renderer.html#a8cacfc0d66317c30b91ca45d89ab3a88">  344</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a8cacfc0d66317c30b91ca45d89ab3a88">ShowPopupClearSystem</a>();</div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span> </div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno"><a class="line" href="class_renderer.html#a12ff69c4744d1715dfbdeaf84b04409c">  346</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a12ff69c4744d1715dfbdeaf84b04409c">DebugSpeed</a>();  <span class="comment">// Draw the speed of the Corpses</span></div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno"><a class="line" href="class_renderer.html#aa78bf21f8daca4f0e9b6e72638e2e1e8">  347</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#aa78bf21f8daca4f0e9b6e72638e2e1e8">DebugPairs</a>();  <span class="comment">// Draw the interactions of the Corpses</span></div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno"><a class="line" href="class_renderer.html#a44e68cb8201aeb057b3143cb20e3a290">  348</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a44e68cb8201aeb057b3143cb20e3a290">DebugDrag</a>();   <span class="comment">// Draw the inputs on the Corpses</span></div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span> </div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno"><a class="line" href="class_renderer.html#aa818ae833b4d13997db3ab05d9861e8f">  350</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#aa818ae833b4d13997db3ab05d9861e8f">DrawLine</a>(<span class="keywordtype">int</span> x1, <span class="keywordtype">int</span> y1, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y2, <span class="keywordtype">float</span> thickness = 2.0f, sf::Color color = sf::Color::White);</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno"><a class="line" href="class_renderer.html#a4e6577849dbae0b4249904598ac761a5">  351</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a4e6577849dbae0b4249904598ac761a5">DrawSpring</a>(<span class="keywordtype">int</span> x1, <span class="keywordtype">int</span> y1, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y2, <span class="keywordtype">float</span> thickness, <span class="keywordtype">int</span> number_wave, sf::Color color);</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno"><a class="line" href="class_renderer.html#ae06ed734a32ddba4fdeedfe0747137d1">  352</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#ae06ed734a32ddba4fdeedfe0747137d1">DrawArrow</a>(<span class="keywordtype">int</span> x1, <span class="keywordtype">int</span> y1, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y2, <span class="keywordtype">int</span> xhead, <span class="keywordtype">int</span> yhead, <span class="keywordtype">float</span> thickness = 2.0f, sf::Color color = sf::Color::White);</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno"><a class="line" href="class_renderer.html#ad89df3fa9e2cd385ad5ec176e38777dd">  353</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#ad89df3fa9e2cd385ad5ec176e38777dd">DrawCircle</a>(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> radius, sf::Color color = sf::Color::White, <span class="keywordtype">bool</span> outline = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno"><a class="line" href="class_renderer.html#abb1bad10d50ce730e8f92adc4d5b6937">  354</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#abb1bad10d50ce730e8f92adc4d5b6937">DrawRectangle</a>(<span class="keywordtype">int</span> x1, <span class="keywordtype">int</span> y1, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y2, <span class="keywordtype">bool</span> fixed = <span class="keyword">false</span>, sf::Color color = sf::Color::White, <span class="keywordtype">bool</span> outline = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno"><a class="line" href="class_renderer.html#a838cb52f52b098f8b3650cddc2a1096f">  355</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a838cb52f52b098f8b3650cddc2a1096f">DrawPolygon</a>(std::vector&lt;sf::Vector2f&gt; points, sf::Color color = sf::Color::White, <span class="keywordtype">bool</span> outline = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno"><a class="line" href="class_renderer.html#a7a606ca1a78491672c8a36119821acb8">  356</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a7a606ca1a78491672c8a36119821acb8">DrawText</a>(std::string str, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> size = 20, <span class="keywordtype">bool</span> fixed = <span class="keyword">false</span>, sf::Color color = sf::Color::White);</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span> </div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno"><a class="line" href="class_renderer.html#aa23b10cdf66a5783b77f1f977dd96d80">  358</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#aa23b10cdf66a5783b77f1f977dd96d80">Camera</a>(sf::Vector2f move, <span class="keywordtype">float</span> zoom = 1.0f);  <span class="comment">// Update the positio of the Camera</span></div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno"><a class="line" href="class_renderer.html#a36d736224eea3b9aab3c3b5d8e66c7f9">  359</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_renderer.html#a36d736224eea3b9aab3c3b5d8e66c7f9">Paused</a>();                                      <span class="comment">// Return true if the system is paused</span></div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span> </div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno"><a class="line" href="class_renderer.html#a349110f940147c211007db4a0234bd3b">  361</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a349110f940147c211007db4a0234bd3b">UpdateCamera</a>();</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span> </div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>    <span class="comment">// Return the mouse position on the screen</span></div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno"><a class="line" href="class_renderer.html#a11f85ba2aca8a64c5f6dee9ed9371662">  364</a></span>    <span class="keywordtype">float</span> <a class="code hl_function" href="class_renderer.html#a11f85ba2aca8a64c5f6dee9ed9371662">get_mouse_x</a>();</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno"><a class="line" href="class_renderer.html#a191bebec79b6c2a9847ce1dfe5aad5ac">  365</a></span>    <span class="keywordtype">float</span> <a class="code hl_function" href="class_renderer.html#a191bebec79b6c2a9847ce1dfe5aad5ac">get_mouse_y</a>();</div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span> </div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>    <span class="comment">// Return the select and debug types</span></div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno"><a class="line" href="class_renderer.html#ae6b5d1f9ba93b936d592d9e6b5b43e99">  368</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_renderer.html#ae6b5d1f9ba93b936d592d9e6b5b43e99">get_select_type</a>();</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno"><a class="line" href="class_renderer.html#a566108258f5fdd9c4c2ee084f1eee13f">  369</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_renderer.html#a566108258f5fdd9c4c2ee084f1eee13f">get_debug_type</a>();</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno"><a class="line" href="class_renderer.html#a634a0cbc5c8a05e02a222762bbafc641">  370</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a634a0cbc5c8a05e02a222762bbafc641">set_debug_type</a>(<span class="keywordtype">int</span> i);</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span> </div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>    <span class="comment">// Getter/Setters of the camera X position</span></div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno"><a class="line" href="class_renderer.html#ab0f1035514f8e03a54d0505311aba1f5">  373</a></span>    <span class="keywordtype">float</span> <a class="code hl_function" href="class_renderer.html#ab0f1035514f8e03a54d0505311aba1f5">get_camera_x</a>();</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno"><a class="line" href="class_renderer.html#a54414aad1b781bce69289d7c2da75f56">  374</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a54414aad1b781bce69289d7c2da75f56">set_camera_x</a>(<span class="keywordtype">float</span> camera_x);</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span> </div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>    <span class="comment">// Getter/Setters of the camera Y position</span></div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno"><a class="line" href="class_renderer.html#aa1e9ca4080548813547ca1693955ed74">  377</a></span>    <span class="keywordtype">float</span> <a class="code hl_function" href="class_renderer.html#aa1e9ca4080548813547ca1693955ed74">get_camera_y</a>();</div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno"><a class="line" href="class_renderer.html#a0f1e752fe785bda4aea49962972c7c72">  378</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a0f1e752fe785bda4aea49962972c7c72">set_camera_y</a>(<span class="keywordtype">float</span> camera_y);</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span> </div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>    <span class="comment">// Getter/Setters of the camera Zoom</span></div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno"><a class="line" href="class_renderer.html#ab0a1248420e6cfb85fb2635950eea7cd">  381</a></span>    <span class="keywordtype">float</span> <a class="code hl_function" href="class_renderer.html#ab0a1248420e6cfb85fb2635950eea7cd">get_camera_zoom</a>();</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno"><a class="line" href="class_renderer.html#a0e943857cd0b75f81ee142e282d9d151">  382</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a0e943857cd0b75f81ee142e282d9d151">set_camera_zoom</a>(<span class="keywordtype">float</span> camera_zoom);</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span> </div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>    <span class="comment">// Return the size of the view on the base plane</span></div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno"><a class="line" href="class_renderer.html#a44d675f72c17cd306472659bfa3767f3">  385</a></span>    <span class="keywordtype">float</span> <a class="code hl_function" href="class_renderer.html#a44d675f72c17cd306472659bfa3767f3">get_camera_size</a>();</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno"><a class="line" href="class_renderer.html#a8e20c6ecf11d03dba45014549044136c">  386</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a8e20c6ecf11d03dba45014549044136c">set_camera_size</a>(<span class="keywordtype">float</span> camera_size);</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span> </div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno"><a class="line" href="class_renderer.html#a57be6e76b1988747236d75e93b33537a">  388</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_renderer.html#a57be6e76b1988747236d75e93b33537a">get_screen_width</a>();</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno"><a class="line" href="class_renderer.html#a0a1b03d4a098908e2579dc79a66bbb61">  389</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a0a1b03d4a098908e2579dc79a66bbb61">set_screen_width</a>(<span class="keywordtype">int</span> screen_width);</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span> </div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno"><a class="line" href="class_renderer.html#aa297b9dd6130350d59d812c2528b93d4">  391</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_renderer.html#aa297b9dd6130350d59d812c2528b93d4">get_screen_height</a>();</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno"><a class="line" href="class_renderer.html#ab8b2ea624c678b50561d3233d5cc5438">  392</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#ab8b2ea624c678b50561d3233d5cc5438">set_screen_height</a>(<span class="keywordtype">int</span> screen_height);</div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span> </div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno"><a class="line" href="class_renderer.html#a7107cead414c00d7ded3ace02c120970">  394</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_renderer.html#a7107cead414c00d7ded3ace02c120970">get_max_framerate</a>();</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno"><a class="line" href="class_renderer.html#a87a92a2079d571b187fd23055af0c0cc">  395</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#a87a92a2079d571b187fd23055af0c0cc">set_max_framerate</a>(<span class="keywordtype">int</span> max_framerate);</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span> </div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno"><a class="line" href="class_renderer.html#a2abd0e73fc84c6d190a383efd876b447">  397</a></span>    <a class="code hl_class" href="classgmt_1_1_bounds.html">gmt::Bounds&lt;float&gt;</a> <a class="code hl_function" href="class_renderer.html#a2abd0e73fc84c6d190a383efd876b447">get_screen_bounds</a>();</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span> </div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>    <span class="comment">// Return the pos on the plane with the pos on the screen</span></div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno"><a class="line" href="class_renderer.html#a13d41c53342a08396dd9f6e4503bf0df">  400</a></span>    sf::Vector2f <a class="code hl_function" href="class_renderer.html#a13d41c53342a08396dd9f6e4503bf0df">get_real_pos</a>(sf::Vector2i pos);</div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno"><a class="line" href="class_renderer.html#ad7189bd949ea122fe063c3b62f339062">  401</a></span>    <span class="keywordtype">float</span> <a class="code hl_function" href="class_renderer.html#ad7189bd949ea122fe063c3b62f339062">get_real_pos_x</a>(<span class="keywordtype">float</span> x);</div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno"><a class="line" href="class_renderer.html#a502cb70e60ca468c6cf279abc767d6bc">  402</a></span>    <span class="keywordtype">float</span> <a class="code hl_function" href="class_renderer.html#a502cb70e60ca468c6cf279abc767d6bc">get_real_pos_y</a>(<span class="keywordtype">float</span> y);</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span> </div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno"><a class="line" href="class_renderer.html#afbdb4bfe6158e270ad20ea52b638d978">  404</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_renderer.html#afbdb4bfe6158e270ad20ea52b638d978">get_enable_inputs</a>();</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno"><a class="line" href="class_renderer.html#ad62c987d61e6c85d07c69d736b3ba56a">  405</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_renderer.html#ad62c987d61e6c85d07c69d736b3ba56a">set_enable_inputs</a>(<span class="keywordtype">bool</span> enable);</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>};</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span> </div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="a_converter_8hpp_html"><div class="ttname"><a href="_converter_8hpp.html">Converter.hpp</a></div></div>
+<div class="ttc" id="a_editor_color_scheme_8hpp_html"><div class="ttname"><a href="_editor_color_scheme_8hpp.html">EditorColorScheme.hpp</a></div></div>
+<div class="ttc" id="a_gui_module_8hpp_html"><div class="ttname"><a href="_gui_module_8hpp.html">GuiModule.hpp</a></div></div>
+<div class="ttc" id="a_renderer_8hpp_html_a018450f0c93adb46cf0511223a5e2a44"><div class="ttname"><a href="_renderer_8hpp.html#a018450f0c93adb46cf0511223a5e2a44">G_TIME_BAR_SIZE</a></div><div class="ttdeci">#define G_TIME_BAR_SIZE</div><div class="ttdef"><b>Definition:</b> Renderer.hpp:49</div></div>
+<div class="ttc" id="a_renderer_8hpp_html_a97413ebda001bd65a78337fdbe1a7a7c"><div class="ttname"><a href="_renderer_8hpp.html#a97413ebda001bd65a78337fdbe1a7a7c">G_SIDE_BAR_SIZE</a></div><div class="ttdeci">#define G_SIDE_BAR_SIZE</div><div class="ttdef"><b>Definition:</b> Renderer.hpp:47</div></div>
+<div class="ttc" id="a_renderer_8hpp_html_a9f3c20ea965e45dc2de0d3c909716972"><div class="ttname"><a href="_renderer_8hpp.html#a9f3c20ea965e45dc2de0d3c909716972">G_DEBUG_FRAME_SIZE</a></div><div class="ttdeci">#define G_DEBUG_FRAME_SIZE</div><div class="ttdef"><b>Definition:</b> Renderer.hpp:46</div></div>
+<div class="ttc" id="a_renderer_8hpp_html_adb3758aad0569fdb6723062298888165"><div class="ttname"><a href="_renderer_8hpp.html#adb3758aad0569fdb6723062298888165">I_SIDE_MENU_DEFAULT</a></div><div class="ttdeci">#define I_SIDE_MENU_DEFAULT</div><div class="ttdef"><b>Definition:</b> Renderer.hpp:96</div></div>
+<div class="ttc" id="a_renderer_8hpp_html_aebeee80c1513cd6163be30e0b58c6530"><div class="ttname"><a href="_renderer_8hpp.html#aebeee80c1513cd6163be30e0b58c6530">G_SIDE_CONTENT_SIZE</a></div><div class="ttdeci">#define G_SIDE_CONTENT_SIZE</div><div class="ttdef"><b>Definition:</b> Renderer.hpp:48</div></div>
+<div class="ttc" id="a_renderer_8hpp_html_aff16dc5f965e919e4bbc9817358f2c72"><div class="ttname"><a href="_renderer_8hpp.html#aff16dc5f965e919e4bbc9817358f2c72">I_MOUSE_TYPE_MOVE</a></div><div class="ttdeci">#define I_MOUSE_TYPE_MOVE</div><div class="ttdef"><b>Definition:</b> Renderer.hpp:93</div></div>
+<div class="ttc" id="a_structures_8hpp_html"><div class="ttname"><a href="_structures_8hpp.html">Structures.hpp</a></div></div>
+<div class="ttc" id="aclass_renderer_html"><div class="ttname"><a href="class_renderer.html">Renderer</a></div><div class="ttdef"><b>Definition:</b> Renderer.hpp:100</div></div>
+<div class="ttc" id="aclass_renderer_html_a00a55e6241abee49214c964dd834b2ea"><div class="ttname"><a href="class_renderer.html#a00a55e6241abee49214c964dd834b2ea">Renderer::ShowGuiOverlay</a></div><div class="ttdeci">void ShowGuiOverlay(bool *p_open)</div></div>
+<div class="ttc" id="aclass_renderer_html_a02c2fb0af342f2aa48394c15ad16eb0a"><div class="ttname"><a href="class_renderer.html#a02c2fb0af342f2aa48394c15ad16eb0a">Renderer::Renderer</a></div><div class="ttdeci">Renderer(float camera_x, float camera_y, float camera_h, float camera_w, float zoom, std::string p_name, bool gravity, float force_x, float force_y, float limit_x, float limit_y, int quadtree_max_count, int quadtree_max_depth)</div></div>
+<div class="ttc" id="aclass_renderer_html_a0402ff9fbb38115f9dd4d6e60110142a"><div class="ttname"><a href="class_renderer.html#a0402ff9fbb38115f9dd4d6e60110142a">Renderer::CreatePolygonAddPoint</a></div><div class="ttdeci">void CreatePolygonAddPoint(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_a0a1b03d4a098908e2579dc79a66bbb61"><div class="ttname"><a href="class_renderer.html#a0a1b03d4a098908e2579dc79a66bbb61">Renderer::set_screen_width</a></div><div class="ttdeci">void set_screen_width(int screen_width)</div></div>
+<div class="ttc" id="aclass_renderer_html_a0e943857cd0b75f81ee142e282d9d151"><div class="ttname"><a href="class_renderer.html#a0e943857cd0b75f81ee142e282d9d151">Renderer::set_camera_zoom</a></div><div class="ttdeci">void set_camera_zoom(float camera_zoom)</div></div>
+<div class="ttc" id="aclass_renderer_html_a0f1e752fe785bda4aea49962972c7c72"><div class="ttname"><a href="class_renderer.html#a0f1e752fe785bda4aea49962972c7c72">Renderer::set_camera_y</a></div><div class="ttdeci">void set_camera_y(float camera_y)</div></div>
+<div class="ttc" id="aclass_renderer_html_a112b4761f4ab9f38ca01f095c16e1611"><div class="ttname"><a href="class_renderer.html#a112b4761f4ab9f38ca01f095c16e1611">Renderer::getConstraint</a></div><div class="ttdeci">std::shared_ptr&lt; phy::Constraint &gt; getConstraint(int index) const</div></div>
+<div class="ttc" id="aclass_renderer_html_a11752b355035b3120df62814576df4d1"><div class="ttname"><a href="class_renderer.html#a11752b355035b3120df62814576df4d1">Renderer::ToggleOnCircle</a></div><div class="ttdeci">void ToggleOnCircle(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_a11f85ba2aca8a64c5f6dee9ed9371662"><div class="ttname"><a href="class_renderer.html#a11f85ba2aca8a64c5f6dee9ed9371662">Renderer::get_mouse_x</a></div><div class="ttdeci">float get_mouse_x()</div></div>
+<div class="ttc" id="aclass_renderer_html_a12b3a0805818f81fb2f39ff70775dc64"><div class="ttname"><a href="class_renderer.html#a12b3a0805818f81fb2f39ff70775dc64">Renderer::StepSpawner</a></div><div class="ttdeci">void StepSpawner(Spawner *spawner)</div></div>
+<div class="ttc" id="aclass_renderer_html_a12ba736356e04fee89652ed854e30b50"><div class="ttname"><a href="class_renderer.html#a12ba736356e04fee89652ed854e30b50">Renderer::DrawLimits</a></div><div class="ttdeci">void DrawLimits()</div></div>
+<div class="ttc" id="aclass_renderer_html_a12ff69c4744d1715dfbdeaf84b04409c"><div class="ttname"><a href="class_renderer.html#a12ff69c4744d1715dfbdeaf84b04409c">Renderer::DebugSpeed</a></div><div class="ttdeci">void DebugSpeed()</div></div>
+<div class="ttc" id="aclass_renderer_html_a13d41c53342a08396dd9f6e4503bf0df"><div class="ttname"><a href="class_renderer.html#a13d41c53342a08396dd9f6e4503bf0df">Renderer::get_real_pos</a></div><div class="ttdeci">sf::Vector2f get_real_pos(sf::Vector2i pos)</div></div>
+<div class="ttc" id="aclass_renderer_html_a170d2a994f1655d19b67fc315756b5b9"><div class="ttname"><a href="class_renderer.html#a170d2a994f1655d19b67fc315756b5b9">Renderer::Input</a></div><div class="ttdeci">void Input(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_a191bebec79b6c2a9847ce1dfe5aad5ac"><div class="ttname"><a href="class_renderer.html#a191bebec79b6c2a9847ce1dfe5aad5ac">Renderer::get_mouse_y</a></div><div class="ttdeci">float get_mouse_y()</div></div>
+<div class="ttc" id="aclass_renderer_html_a201446cbeefeab0c7a53c43cf6ba08ec"><div class="ttname"><a href="class_renderer.html#a201446cbeefeab0c7a53c43cf6ba08ec">Renderer::RenderWindow</a></div><div class="ttdeci">void RenderWindow()</div></div>
+<div class="ttc" id="aclass_renderer_html_a295e69b4297adbd29b6082470c481846"><div class="ttname"><a href="class_renderer.html#a295e69b4297adbd29b6082470c481846">Renderer::DrawGui</a></div><div class="ttdeci">void DrawGui()</div></div>
+<div class="ttc" id="aclass_renderer_html_a29a7145b9eb50610cfca7a67208e6169"><div class="ttname"><a href="class_renderer.html#a29a7145b9eb50610cfca7a67208e6169">Renderer::DrawGuiCheckBox</a></div><div class="ttdeci">bool DrawGuiCheckBox(const char *label, int *v_tristate)</div></div>
+<div class="ttc" id="aclass_renderer_html_a29cb9acc784c847f23623129224f21da"><div class="ttname"><a href="class_renderer.html#a29cb9acc784c847f23623129224f21da">Renderer::DragPositionStop</a></div><div class="ttdeci">void DragPositionStop(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_a2abd0e73fc84c6d190a383efd876b447"><div class="ttname"><a href="class_renderer.html#a2abd0e73fc84c6d190a383efd876b447">Renderer::get_screen_bounds</a></div><div class="ttdeci">gmt::Bounds&lt; float &gt; get_screen_bounds()</div></div>
+<div class="ttc" id="aclass_renderer_html_a2d3bbe9061c408a0823ce08ef5fdf922"><div class="ttname"><a href="class_renderer.html#a2d3bbe9061c408a0823ce08ef5fdf922">Renderer::CreateCircleStep</a></div><div class="ttdeci">void CreateCircleStep(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_a2ea6ad7b1a3836d1da5d85925f996004"><div class="ttname"><a href="class_renderer.html#a2ea6ad7b1a3836d1da5d85925f996004">Renderer::Framerate</a></div><div class="ttdeci">int Framerate()</div></div>
+<div class="ttc" id="aclass_renderer_html_a2ff99ca85b30c6221cd3fbf96ee7fb54"><div class="ttname"><a href="class_renderer.html#a2ff99ca85b30c6221cd3fbf96ee7fb54">Renderer::DrawConstraint</a></div><div class="ttdeci">void DrawConstraint(std::shared_ptr&lt; phy::Constraint &gt; constraint, sf::Color color)</div></div>
+<div class="ttc" id="aclass_renderer_html_a301586c9a53539cd9da524102b7bf08f"><div class="ttname"><a href="class_renderer.html#a301586c9a53539cd9da524102b7bf08f">Renderer::addConstraint</a></div><div class="ttdeci">void addConstraint(phy::Link link, sf::Color color)</div></div>
+<div class="ttc" id="aclass_renderer_html_a32a84945261f8317cef6219443cfe59a"><div class="ttname"><a href="class_renderer.html#a32a84945261f8317cef6219443cfe59a">Renderer::DrawGuiTimeBar</a></div><div class="ttdeci">void DrawGuiTimeBar()</div></div>
+<div class="ttc" id="aclass_renderer_html_a349110f940147c211007db4a0234bd3b"><div class="ttname"><a href="class_renderer.html#a349110f940147c211007db4a0234bd3b">Renderer::UpdateCamera</a></div><div class="ttdeci">void UpdateCamera()</div></div>
+<div class="ttc" id="aclass_renderer_html_a36d736224eea3b9aab3c3b5d8e66c7f9"><div class="ttname"><a href="class_renderer.html#a36d736224eea3b9aab3c3b5d8e66c7f9">Renderer::Paused</a></div><div class="ttdeci">bool Paused()</div></div>
+<div class="ttc" id="aclass_renderer_html_a3dd97aaf44d2c3026ad14347eb840d36"><div class="ttname"><a href="class_renderer.html#a3dd97aaf44d2c3026ad14347eb840d36">Renderer::ShowGuiProperties</a></div><div class="ttdeci">void ShowGuiProperties(bool *p_open)</div></div>
+<div class="ttc" id="aclass_renderer_html_a44d675f72c17cd306472659bfa3767f3"><div class="ttname"><a href="class_renderer.html#a44d675f72c17cd306472659bfa3767f3">Renderer::get_camera_size</a></div><div class="ttdeci">float get_camera_size()</div></div>
+<div class="ttc" id="aclass_renderer_html_a44e68cb8201aeb057b3143cb20e3a290"><div class="ttname"><a href="class_renderer.html#a44e68cb8201aeb057b3143cb20e3a290">Renderer::DebugDrag</a></div><div class="ttdeci">void DebugDrag()</div></div>
+<div class="ttc" id="aclass_renderer_html_a45e210b3213cb8d3691662cd9cb234f9"><div class="ttname"><a href="class_renderer.html#a45e210b3213cb8d3691662cd9cb234f9">Renderer::ToggleOnPolygon</a></div><div class="ttdeci">void ToggleOnPolygon(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_a482650469d99424664c17e30a190059b"><div class="ttname"><a href="class_renderer.html#a482650469d99424664c17e30a190059b">Renderer::DragPositionStep</a></div><div class="ttdeci">void DragPositionStep(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_a4e6577849dbae0b4249904598ac761a5"><div class="ttname"><a href="class_renderer.html#a4e6577849dbae0b4249904598ac761a5">Renderer::DrawSpring</a></div><div class="ttdeci">void DrawSpring(int x1, int y1, int x2, int y2, float thickness, int number_wave, sf::Color color)</div></div>
+<div class="ttc" id="aclass_renderer_html_a502cb70e60ca468c6cf279abc767d6bc"><div class="ttname"><a href="class_renderer.html#a502cb70e60ca468c6cf279abc767d6bc">Renderer::get_real_pos_y</a></div><div class="ttdeci">float get_real_pos_y(float y)</div></div>
+<div class="ttc" id="aclass_renderer_html_a54414aad1b781bce69289d7c2da75f56"><div class="ttname"><a href="class_renderer.html#a54414aad1b781bce69289d7c2da75f56">Renderer::set_camera_x</a></div><div class="ttdeci">void set_camera_x(float camera_x)</div></div>
+<div class="ttc" id="aclass_renderer_html_a55ebe0c5fdcdf28de69bd57454b3420b"><div class="ttname"><a href="class_renderer.html#a55ebe0c5fdcdf28de69bd57454b3420b">Renderer::DrawGuiMenu</a></div><div class="ttdeci">void DrawGuiMenu()</div></div>
+<div class="ttc" id="aclass_renderer_html_a566108258f5fdd9c4c2ee084f1eee13f"><div class="ttname"><a href="class_renderer.html#a566108258f5fdd9c4c2ee084f1eee13f">Renderer::get_debug_type</a></div><div class="ttdeci">int get_debug_type()</div></div>
+<div class="ttc" id="aclass_renderer_html_a5747d3e35a757ed1c37b3528891e986b"><div class="ttname"><a href="class_renderer.html#a5747d3e35a757ed1c37b3528891e986b">Renderer::DrawTrajectories</a></div><div class="ttdeci">void DrawTrajectories()</div></div>
+<div class="ttc" id="aclass_renderer_html_a57be6e76b1988747236d75e93b33537a"><div class="ttname"><a href="class_renderer.html#a57be6e76b1988747236d75e93b33537a">Renderer::get_screen_width</a></div><div class="ttdeci">int get_screen_width()</div></div>
+<div class="ttc" id="aclass_renderer_html_a5817cc478d0d3892c2ae0fcda97b3e0a"><div class="ttname"><a href="class_renderer.html#a5817cc478d0d3892c2ae0fcda97b3e0a">Renderer::DrawPerf</a></div><div class="ttdeci">void DrawPerf(bmk::Performance *root, double time_init, double time_scale, size_t count=0)</div></div>
+<div class="ttc" id="aclass_renderer_html_a634a0cbc5c8a05e02a222762bbafc641"><div class="ttname"><a href="class_renderer.html#a634a0cbc5c8a05e02a222762bbafc641">Renderer::set_debug_type</a></div><div class="ttdeci">void set_debug_type(int i)</div></div>
+<div class="ttc" id="aclass_renderer_html_a65c45ba4ae04e070851f8e851e3eb548"><div class="ttname"><a href="class_renderer.html#a65c45ba4ae04e070851f8e851e3eb548">Renderer::CreateCircleFast</a></div><div class="ttdeci">void CreateCircleFast(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_a65cffcc52203844b4948b56af711c9b8"><div class="ttname"><a href="class_renderer.html#a65cffcc52203844b4948b56af711c9b8">Renderer::DrawPerfBox</a></div><div class="ttdeci">void DrawPerfBox(bmk::Performance *perf, double time_init, double time_scale, size_t count=0)</div></div>
+<div class="ttc" id="aclass_renderer_html_a68cb61903f75221462e0abebec3fd37d"><div class="ttname"><a href="class_renderer.html#a68cb61903f75221462e0abebec3fd37d">Renderer::LaunchCorpseStep</a></div><div class="ttdeci">void LaunchCorpseStep(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_a6a14794e21623c6fef334d49dadf66ad"><div class="ttname"><a href="class_renderer.html#a6a14794e21623c6fef334d49dadf66ad">Renderer::DrawGuiSideBar</a></div><div class="ttdeci">void DrawGuiSideBar()</div></div>
+<div class="ttc" id="aclass_renderer_html_a6a47834cbe56cc0adfdb1bb111efdd59"><div class="ttname"><a href="class_renderer.html#a6a47834cbe56cc0adfdb1bb111efdd59">Renderer::ToggleOffPolygon</a></div><div class="ttdeci">void ToggleOffPolygon(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_a6e390415b06a30a2f4c356688938c587"><div class="ttname"><a href="class_renderer.html#a6e390415b06a30a2f4c356688938c587">Renderer::SelectUniqueCorpseInit</a></div><div class="ttdeci">bool SelectUniqueCorpseInit(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_a6e68162b1732bf4b87cc8dcb96b61429"><div class="ttname"><a href="class_renderer.html#a6e68162b1732bf4b87cc8dcb96b61429">Renderer::DrawPair</a></div><div class="ttdeci">void DrawPair(std::pair&lt; std::shared_ptr&lt; phy::Corpse &gt;, std::shared_ptr&lt; phy::Corpse &gt; &gt; pair)</div></div>
+<div class="ttc" id="aclass_renderer_html_a702a98506acd00cd8811d3c1e0ef3792"><div class="ttname"><a href="class_renderer.html#a702a98506acd00cd8811d3c1e0ef3792">Renderer::ResetBenchmark</a></div><div class="ttdeci">void ResetBenchmark()</div></div>
+<div class="ttc" id="aclass_renderer_html_a70b03a8a73eda8ed547447016b170603"><div class="ttname"><a href="class_renderer.html#a70b03a8a73eda8ed547447016b170603">Renderer::RenderGui</a></div><div class="ttdeci">void RenderGui()</div></div>
+<div class="ttc" id="aclass_renderer_html_a7107cead414c00d7ded3ace02c120970"><div class="ttname"><a href="class_renderer.html#a7107cead414c00d7ded3ace02c120970">Renderer::get_max_framerate</a></div><div class="ttdeci">int get_max_framerate()</div></div>
+<div class="ttc" id="aclass_renderer_html_a75fcb55f928491bcdba6756c6d6dac8d"><div class="ttname"><a href="class_renderer.html#a75fcb55f928491bcdba6756c6d6dac8d">Renderer::addConstraint</a></div><div class="ttdeci">void addConstraint(phy::Slider slider, sf::Color color)</div></div>
+<div class="ttc" id="aclass_renderer_html_a7a516cccc0ec914c17749a0b57b14df6"><div class="ttname"><a href="class_renderer.html#a7a516cccc0ec914c17749a0b57b14df6">Renderer::DrawCorpse</a></div><div class="ttdeci">void DrawCorpse(std::shared_ptr&lt; phy::Corpse &gt; corpse, sf::Color color)</div></div>
+<div class="ttc" id="aclass_renderer_html_a7a606ca1a78491672c8a36119821acb8"><div class="ttname"><a href="class_renderer.html#a7a606ca1a78491672c8a36119821acb8">Renderer::DrawText</a></div><div class="ttdeci">void DrawText(std::string str, int x, int y, int size=20, bool fixed=false, sf::Color color=sf::Color::White)</div></div>
+<div class="ttc" id="aclass_renderer_html_a7a64681a40600c522c03ac99e7db05cd"><div class="ttname"><a href="class_renderer.html#a7a64681a40600c522c03ac99e7db05cd">Renderer::DrawGuiSideSpawner</a></div><div class="ttdeci">void DrawGuiSideSpawner()</div></div>
+<div class="ttc" id="aclass_renderer_html_a7d21b9079265808afbfd036da292dbfe"><div class="ttname"><a href="class_renderer.html#a7d21b9079265808afbfd036da292dbfe">Renderer::DrawGuiDocking</a></div><div class="ttdeci">void DrawGuiDocking()</div></div>
+<div class="ttc" id="aclass_renderer_html_a7ee1958f92e9e88379336297ae4cbc3f"><div class="ttname"><a href="class_renderer.html#a7ee1958f92e9e88379336297ae4cbc3f">Renderer::Draw</a></div><div class="ttdeci">void Draw()</div></div>
+<div class="ttc" id="aclass_renderer_html_a810e2f0623e2524fcb09406158a062bc"><div class="ttname"><a href="class_renderer.html#a810e2f0623e2524fcb09406158a062bc">Renderer::SetupGui</a></div><div class="ttdeci">void SetupGui()</div></div>
+<div class="ttc" id="aclass_renderer_html_a817ca9d275b529c8c8e0413d03804329"><div class="ttname"><a href="class_renderer.html#a817ca9d275b529c8c8e0413d03804329">Renderer::DrawGuiSideShape</a></div><div class="ttdeci">void DrawGuiSideShape()</div></div>
+<div class="ttc" id="aclass_renderer_html_a831c50a9a19b0fb8a91b743c54ce0bd2"><div class="ttname"><a href="class_renderer.html#a831c50a9a19b0fb8a91b743c54ce0bd2">Renderer::CreateCircleInit</a></div><div class="ttdeci">void CreateCircleInit(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_a83853267f49188f267f3af5b26c9748e"><div class="ttname"><a href="class_renderer.html#a83853267f49188f267f3af5b26c9748e">Renderer::UpdateDebug</a></div><div class="ttdeci">void UpdateDebug()</div></div>
+<div class="ttc" id="aclass_renderer_html_a838cb52f52b098f8b3650cddc2a1096f"><div class="ttname"><a href="class_renderer.html#a838cb52f52b098f8b3650cddc2a1096f">Renderer::DrawPolygon</a></div><div class="ttdeci">void DrawPolygon(std::vector&lt; sf::Vector2f &gt; points, sf::Color color=sf::Color::White, bool outline=false)</div></div>
+<div class="ttc" id="aclass_renderer_html_a87a92a2079d571b187fd23055af0c0cc"><div class="ttname"><a href="class_renderer.html#a87a92a2079d571b187fd23055af0c0cc">Renderer::set_max_framerate</a></div><div class="ttdeci">void set_max_framerate(int max_framerate)</div></div>
+<div class="ttc" id="aclass_renderer_html_a88481e3a3eccac1433fa65fbd03c13b9"><div class="ttname"><a href="class_renderer.html#a88481e3a3eccac1433fa65fbd03c13b9">Renderer::SetupGuiBaseLayout</a></div><div class="ttdeci">void SetupGuiBaseLayout()</div></div>
+<div class="ttc" id="aclass_renderer_html_a8c1e9ef9a048ef08c849d5fe22e77a63"><div class="ttname"><a href="class_renderer.html#a8c1e9ef9a048ef08c849d5fe22e77a63">Renderer::DrawGuiSideContent</a></div><div class="ttdeci">void DrawGuiSideContent()</div></div>
+<div class="ttc" id="aclass_renderer_html_a8cacfc0d66317c30b91ca45d89ab3a88"><div class="ttname"><a href="class_renderer.html#a8cacfc0d66317c30b91ca45d89ab3a88">Renderer::ShowPopupClearSystem</a></div><div class="ttdeci">void ShowPopupClearSystem()</div></div>
+<div class="ttc" id="aclass_renderer_html_a8ccc53d096e8aa89aba2af907e194529"><div class="ttname"><a href="class_renderer.html#a8ccc53d096e8aa89aba2af907e194529">Renderer::CreatePolygonStep</a></div><div class="ttdeci">void CreatePolygonStep(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_a8e20c6ecf11d03dba45014549044136c"><div class="ttname"><a href="class_renderer.html#a8e20c6ecf11d03dba45014549044136c">Renderer::set_camera_size</a></div><div class="ttdeci">void set_camera_size(float camera_size)</div></div>
+<div class="ttc" id="aclass_renderer_html_a91a4fba33e725bc62a2dbefd6736b91a"><div class="ttname"><a href="class_renderer.html#a91a4fba33e725bc62a2dbefd6736b91a">Renderer::ShowGuiSettings</a></div><div class="ttdeci">void ShowGuiSettings(bool *p_open)</div></div>
+<div class="ttc" id="aclass_renderer_html_a92fc6570f62ca3479388aaf31e7a5026"><div class="ttname"><a href="class_renderer.html#a92fc6570f62ca3479388aaf31e7a5026">Renderer::DragCorpsesStop</a></div><div class="ttdeci">void DragCorpsesStop(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_a98132e8a9d8d7dd8877f3f59718f2d79"><div class="ttname"><a href="class_renderer.html#a98132e8a9d8d7dd8877f3f59718f2d79">Renderer::DragCorpsesStep</a></div><div class="ttdeci">void DragCorpsesStep(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_a99d759bfe1157fbdbe5c87ca00c2ae4e"><div class="ttname"><a href="class_renderer.html#a99d759bfe1157fbdbe5c87ca00c2ae4e">Renderer::ClearSystem</a></div><div class="ttdeci">void ClearSystem()</div></div>
+<div class="ttc" id="aclass_renderer_html_a9a41ac5c80e2c51abb0af15162bd95fd"><div class="ttname"><a href="class_renderer.html#a9a41ac5c80e2c51abb0af15162bd95fd">Renderer::DrawInputs</a></div><div class="ttdeci">void DrawInputs()</div></div>
+<div class="ttc" id="aclass_renderer_html_a9dd196e78d7190d2c9ef35add7ff7a3d"><div class="ttname"><a href="class_renderer.html#a9dd196e78d7190d2c9ef35add7ff7a3d">Renderer::UpdateCorpseDatas</a></div><div class="ttdeci">void UpdateCorpseDatas()</div></div>
+<div class="ttc" id="aclass_renderer_html_aa1e9ca4080548813547ca1693955ed74"><div class="ttname"><a href="class_renderer.html#aa1e9ca4080548813547ca1693955ed74">Renderer::get_camera_y</a></div><div class="ttdeci">float get_camera_y()</div></div>
+<div class="ttc" id="aclass_renderer_html_aa212f57690b4af038a6578eeb488d0ca"><div class="ttname"><a href="class_renderer.html#aa212f57690b4af038a6578eeb488d0ca">Renderer::Debug</a></div><div class="ttdeci">void Debug()</div></div>
+<div class="ttc" id="aclass_renderer_html_aa23b10cdf66a5783b77f1f977dd96d80"><div class="ttname"><a href="class_renderer.html#aa23b10cdf66a5783b77f1f977dd96d80">Renderer::Camera</a></div><div class="ttdeci">void Camera(sf::Vector2f move, float zoom=1.0f)</div></div>
+<div class="ttc" id="aclass_renderer_html_aa297b9dd6130350d59d812c2528b93d4"><div class="ttname"><a href="class_renderer.html#aa297b9dd6130350d59d812c2528b93d4">Renderer::get_screen_height</a></div><div class="ttdeci">int get_screen_height()</div></div>
+<div class="ttc" id="aclass_renderer_html_aa33735546e8385ae532438df16641d90"><div class="ttname"><a href="class_renderer.html#aa33735546e8385ae532438df16641d90">Renderer::ShowGuiSettingsInterface</a></div><div class="ttdeci">void ShowGuiSettingsInterface()</div></div>
+<div class="ttc" id="aclass_renderer_html_aa48f162722167f7a8a4c3926fe91d1e1"><div class="ttname"><a href="class_renderer.html#aa48f162722167f7a8a4c3926fe91d1e1">Renderer::ToggleOffCircle</a></div><div class="ttdeci">void ToggleOffCircle(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_aa78bf21f8daca4f0e9b6e72638e2e1e8"><div class="ttname"><a href="class_renderer.html#aa78bf21f8daca4f0e9b6e72638e2e1e8">Renderer::DebugPairs</a></div><div class="ttdeci">void DebugPairs()</div></div>
+<div class="ttc" id="aclass_renderer_html_aa818ae833b4d13997db3ab05d9861e8f"><div class="ttname"><a href="class_renderer.html#aa818ae833b4d13997db3ab05d9861e8f">Renderer::DrawLine</a></div><div class="ttdeci">void DrawLine(int x1, int y1, int x2, int y2, float thickness=2.0f, sf::Color color=sf::Color::White)</div></div>
+<div class="ttc" id="aclass_renderer_html_aae5684480c48f10e2275c0cd3e11be02"><div class="ttname"><a href="class_renderer.html#aae5684480c48f10e2275c0cd3e11be02">Renderer::DrawGuiHelp</a></div><div class="ttdeci">void DrawGuiHelp(const char *desc)</div></div>
+<div class="ttc" id="aclass_renderer_html_aae9a96a3981b4171ca6963364f1e6398"><div class="ttname"><a href="class_renderer.html#aae9a96a3981b4171ca6963364f1e6398">Renderer::DrawQuadTree</a></div><div class="ttdeci">void DrawQuadTree(gmt::BoundsI rect)</div></div>
+<div class="ttc" id="aclass_renderer_html_aafefbdbf5422d7e74875268402d74517"><div class="ttname"><a href="class_renderer.html#aafefbdbf5422d7e74875268402d74517">Renderer::SelectMultipleCorpsesStep</a></div><div class="ttdeci">void SelectMultipleCorpsesStep(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_ab0a1248420e6cfb85fb2635950eea7cd"><div class="ttname"><a href="class_renderer.html#ab0a1248420e6cfb85fb2635950eea7cd">Renderer::get_camera_zoom</a></div><div class="ttdeci">float get_camera_zoom()</div></div>
+<div class="ttc" id="aclass_renderer_html_ab0f1035514f8e03a54d0505311aba1f5"><div class="ttname"><a href="class_renderer.html#ab0f1035514f8e03a54d0505311aba1f5">Renderer::get_camera_x</a></div><div class="ttdeci">float get_camera_x()</div></div>
+<div class="ttc" id="aclass_renderer_html_ab31cd59e5ae61692b28a66857c3c1443"><div class="ttname"><a href="class_renderer.html#ab31cd59e5ae61692b28a66857c3c1443">Renderer::system</a></div><div class="ttdeci">phy::System system</div><div class="ttdef"><b>Definition:</b> Renderer.hpp:245</div></div>
+<div class="ttc" id="aclass_renderer_html_ab37053cf3b0df0e7ac872810bc7e084b"><div class="ttname"><a href="class_renderer.html#ab37053cf3b0df0e7ac872810bc7e084b">Renderer::ShowGuiBenchmark</a></div><div class="ttdeci">void ShowGuiBenchmark(bool *p_open)</div></div>
+<div class="ttc" id="aclass_renderer_html_ab3d088c35690fc22def588fde7fcb9fc"><div class="ttname"><a href="class_renderer.html#ab3d088c35690fc22def588fde7fcb9fc">Renderer::SelectMultipleCorpsesInit</a></div><div class="ttdeci">void SelectMultipleCorpsesInit(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_ab8b2ea624c678b50561d3233d5cc5438"><div class="ttname"><a href="class_renderer.html#ab8b2ea624c678b50561d3233d5cc5438">Renderer::set_screen_height</a></div><div class="ttdeci">void set_screen_height(int screen_height)</div></div>
+<div class="ttc" id="aclass_renderer_html_aba42b60392775e4a492c4d14d4fff29f"><div class="ttname"><a href="class_renderer.html#aba42b60392775e4a492c4d14d4fff29f">Renderer::~Renderer</a></div><div class="ttdeci">virtual ~Renderer()</div></div>
+<div class="ttc" id="aclass_renderer_html_abaebd71810954981786be9c00ae370ac"><div class="ttname"><a href="class_renderer.html#abaebd71810954981786be9c00ae370ac">Renderer::Close</a></div><div class="ttdeci">void Close()</div></div>
+<div class="ttc" id="aclass_renderer_html_abb1bad10d50ce730e8f92adc4d5b6937"><div class="ttname"><a href="class_renderer.html#abb1bad10d50ce730e8f92adc4d5b6937">Renderer::DrawRectangle</a></div><div class="ttdeci">void DrawRectangle(int x1, int y1, int x2, int y2, bool fixed=false, sf::Color color=sf::Color::White, bool outline=false)</div></div>
+<div class="ttc" id="aclass_renderer_html_abb6a829748bbb5621792719a7d19d069"><div class="ttname"><a href="class_renderer.html#abb6a829748bbb5621792719a7d19d069">Renderer::DrawGuiSideDefault</a></div><div class="ttdeci">void DrawGuiSideDefault()</div></div>
+<div class="ttc" id="aclass_renderer_html_abc507bcc49253cf4fe5a8a7c3705d9aa"><div class="ttname"><a href="class_renderer.html#abc507bcc49253cf4fe5a8a7c3705d9aa">Renderer::ShowGuiConsole</a></div><div class="ttdeci">void ShowGuiConsole(bool *p_open)</div></div>
+<div class="ttc" id="aclass_renderer_html_abca248e03550eb289353b3562780a5ff"><div class="ttname"><a href="class_renderer.html#abca248e03550eb289353b3562780a5ff">Renderer::getCorpse</a></div><div class="ttdeci">std::shared_ptr&lt; phy::Corpse &gt; getCorpse(int index) const</div></div>
+<div class="ttc" id="aclass_renderer_html_abd106f87e0039ad23302604c5cfd8910"><div class="ttname"><a href="class_renderer.html#abd106f87e0039ad23302604c5cfd8910">Renderer::ShowGuiSpawner</a></div><div class="ttdeci">void ShowGuiSpawner(bool *p_open)</div></div>
+<div class="ttc" id="aclass_renderer_html_abf9ddbed82f7a84e25f9c2c3a776ea25"><div class="ttname"><a href="class_renderer.html#abf9ddbed82f7a84e25f9c2c3a776ea25">Renderer::Pause</a></div><div class="ttdeci">void Pause()</div></div>
+<div class="ttc" id="aclass_renderer_html_abfe34833415ac45f0fe8fad8080f4a7e"><div class="ttname"><a href="class_renderer.html#abfe34833415ac45f0fe8fad8080f4a7e">Renderer::UpdateSpawners</a></div><div class="ttdeci">void UpdateSpawners()</div></div>
+<div class="ttc" id="aclass_renderer_html_ac30e4e31b4c309c74288fc0e47eb0912"><div class="ttname"><a href="class_renderer.html#ac30e4e31b4c309c74288fc0e47eb0912">Renderer::LaunchCorpseStop</a></div><div class="ttdeci">void LaunchCorpseStop(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_acc56bd6cf59e9273eaf87c19775094e5"><div class="ttname"><a href="class_renderer.html#acc56bd6cf59e9273eaf87c19775094e5">Renderer::addConstraint</a></div><div class="ttdeci">void addConstraint(phy::Spring spring, sf::Color color)</div></div>
+<div class="ttc" id="aclass_renderer_html_ace455502ad996913f59d8eac24f4f7ef"><div class="ttname"><a href="class_renderer.html#ace455502ad996913f59d8eac24f4f7ef">Renderer::LaunchCorpseInit</a></div><div class="ttdeci">bool LaunchCorpseInit(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_ace4a71bc54216fdf891c1b8a39691a8b"><div class="ttname"><a href="class_renderer.html#ace4a71bc54216fdf891c1b8a39691a8b">Renderer::DragPositionInit</a></div><div class="ttdeci">bool DragPositionInit(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_acf3b77995faec503670553644ae85bea"><div class="ttname"><a href="class_renderer.html#acf3b77995faec503670553644ae85bea">Renderer::UpdateMaxFramerate</a></div><div class="ttdeci">void UpdateMaxFramerate(int max_framerate)</div></div>
+<div class="ttc" id="aclass_renderer_html_ad62c987d61e6c85d07c69d736b3ba56a"><div class="ttname"><a href="class_renderer.html#ad62c987d61e6c85d07c69d736b3ba56a">Renderer::set_enable_inputs</a></div><div class="ttdeci">void set_enable_inputs(bool enable)</div></div>
+<div class="ttc" id="aclass_renderer_html_ad7189bd949ea122fe063c3b62f339062"><div class="ttname"><a href="class_renderer.html#ad7189bd949ea122fe063c3b62f339062">Renderer::get_real_pos_x</a></div><div class="ttdeci">float get_real_pos_x(float x)</div></div>
+<div class="ttc" id="aclass_renderer_html_ad89df3fa9e2cd385ad5ec176e38777dd"><div class="ttname"><a href="class_renderer.html#ad89df3fa9e2cd385ad5ec176e38777dd">Renderer::DrawCircle</a></div><div class="ttdeci">void DrawCircle(int x, int y, int radius, sf::Color color=sf::Color::White, bool outline=false)</div></div>
+<div class="ttc" id="aclass_renderer_html_ad89e6c78093c4e27a03515c29fbd3cb1"><div class="ttname"><a href="class_renderer.html#ad89e6c78093c4e27a03515c29fbd3cb1">Renderer::CreatePolygonStop</a></div><div class="ttdeci">void CreatePolygonStop(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_ada669d2bb4145ef2a2e3249e4eb75fb2"><div class="ttname"><a href="class_renderer.html#ada669d2bb4145ef2a2e3249e4eb75fb2">Renderer::addCorpse</a></div><div class="ttdeci">void addCorpse(phy::Circle circle, sf::Color color)</div></div>
+<div class="ttc" id="aclass_renderer_html_adb66c68d92c0478dfd712d03d00e825f"><div class="ttname"><a href="class_renderer.html#adb66c68d92c0478dfd712d03d00e825f">Renderer::UpdateMouse</a></div><div class="ttdeci">void UpdateMouse()</div></div>
+<div class="ttc" id="aclass_renderer_html_adde94d3402b015b1fcd23c9a283cae2e"><div class="ttname"><a href="class_renderer.html#adde94d3402b015b1fcd23c9a283cae2e">Renderer::Render</a></div><div class="ttdeci">void Render()</div></div>
+<div class="ttc" id="aclass_renderer_html_ae06ed734a32ddba4fdeedfe0747137d1"><div class="ttname"><a href="class_renderer.html#ae06ed734a32ddba4fdeedfe0747137d1">Renderer::DrawArrow</a></div><div class="ttdeci">void DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, float thickness=2.0f, sf::Color color=sf::Color::White)</div></div>
+<div class="ttc" id="aclass_renderer_html_ae0887e031e3c74cc761fdaeec00989c8"><div class="ttname"><a href="class_renderer.html#ae0887e031e3c74cc761fdaeec00989c8">Renderer::addCorpse</a></div><div class="ttdeci">void addCorpse(phy::Polygon polygon, sf::Color color)</div></div>
+<div class="ttc" id="aclass_renderer_html_ae6b5d1f9ba93b936d592d9e6b5b43e99"><div class="ttname"><a href="class_renderer.html#ae6b5d1f9ba93b936d592d9e6b5b43e99">Renderer::get_select_type</a></div><div class="ttdeci">int get_select_type()</div></div>
+<div class="ttc" id="aclass_renderer_html_aee4a4aebbee9542d0b8a47aa282582b6"><div class="ttname"><a href="class_renderer.html#aee4a4aebbee9542d0b8a47aa282582b6">Renderer::SelectMultipleCorpsesStop</a></div><div class="ttdeci">void SelectMultipleCorpsesStop(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_af65d0257855faf619a51a20db344f138"><div class="ttname"><a href="class_renderer.html#af65d0257855faf619a51a20db344f138">Renderer::CreateCircleStop</a></div><div class="ttdeci">void CreateCircleStop(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_af91a62583ac45f4ca490862e8b57f69b"><div class="ttname"><a href="class_renderer.html#af91a62583ac45f4ca490862e8b57f69b">Renderer::CreatePolygonInit</a></div><div class="ttdeci">void CreatePolygonInit(sf::Event event)</div></div>
+<div class="ttc" id="aclass_renderer_html_afbdb4bfe6158e270ad20ea52b638d978"><div class="ttname"><a href="class_renderer.html#afbdb4bfe6158e270ad20ea52b638d978">Renderer::get_enable_inputs</a></div><div class="ttdeci">bool get_enable_inputs()</div></div>
+<div class="ttc" id="aclassbmk_1_1_performance_html"><div class="ttname"><a href="classbmk_1_1_performance.html">bmk::Performance</a></div><div class="ttdef"><b>Definition:</b> Performance.hpp:8</div></div>
+<div class="ttc" id="aclassgmt_1_1_bounds_html"><div class="ttname"><a href="classgmt_1_1_bounds.html">gmt::Bounds</a></div><div class="ttdef"><b>Definition:</b> Bounds.hpp:10</div></div>
+<div class="ttc" id="aclassphy_1_1_circle_html"><div class="ttname"><a href="classphy_1_1_circle.html">phy::Circle</a></div><div class="ttdef"><b>Definition:</b> Circle.hpp:14</div></div>
+<div class="ttc" id="aclassphy_1_1_link_html"><div class="ttname"><a href="classphy_1_1_link.html">phy::Link</a></div><div class="ttdef"><b>Definition:</b> Link.hpp:11</div></div>
+<div class="ttc" id="aclassphy_1_1_polygon_html"><div class="ttname"><a href="classphy_1_1_polygon.html">phy::Polygon</a></div><div class="ttdef"><b>Definition:</b> Polygon.hpp:14</div></div>
+<div class="ttc" id="aclassphy_1_1_slider_html"><div class="ttname"><a href="classphy_1_1_slider.html">phy::Slider</a></div><div class="ttdef"><b>Definition:</b> Slider.hpp:11</div></div>
+<div class="ttc" id="aclassphy_1_1_spring_html"><div class="ttname"><a href="classphy_1_1_spring.html">phy::Spring</a></div><div class="ttdef"><b>Definition:</b> Spring.hpp:11</div></div>
+<div class="ttc" id="aclassphy_1_1_system_html"><div class="ttname"><a href="classphy_1_1_system.html">phy::System</a></div><div class="ttdef"><b>Definition:</b> System.hpp:19</div></div>
+<div class="ttc" id="astruct_im_gui_1_1_console_html"><div class="ttname"><a href="struct_im_gui_1_1_console.html">ImGui::Console</a></div><div class="ttdef"><b>Definition:</b> GuiModule.hpp:22</div></div>
+<div class="ttc" id="astruct_spawner_html"><div class="ttname"><a href="struct_spawner.html">Spawner</a></div><div class="ttdef"><b>Definition:</b> Structures.hpp:4</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.1-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_16a64cef37031d7516f8ccb21b22bcaa.html">Renderer</a></li><li class="navelem"><a class="el" href="_renderer_8hpp.html">Renderer.hpp</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+<script type="text/javascript">
+  $(function() {
+     toggleButton = document.createElement('doxygen-awesome-dark-mode-toggle')
+     toggleButton.title = "Toggle Light/Dark Mode"
+     $(document).ready(function(){
+       document.getElementById("MSearchBox").parentNode.appendChild(toggleButton)
+     })
+     $(window).resize(function(){
+       document.getElementById("MSearchBox").parentNode.appendChild(toggleButton)
+     })
+   })
+</script>
+</body>
+</html>

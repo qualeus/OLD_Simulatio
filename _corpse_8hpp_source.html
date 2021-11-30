@@ -1,0 +1,403 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
+        <meta name="generator" content="Doxygen 1.9.2" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- BEGIN opengraph metadata -->
+        <meta property="og:title" content="Doxygen Awesome" />
+        <meta
+            property="og:image"
+            content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452"
+        />
+        <meta
+            property="og:description"
+            content="Custom CSS theme for doxygen html-documentation with lots of customization parameters."
+        />
+        <meta
+            property="og:url"
+            content="https://github.com/mlhoutel/Simulatio/"
+        />
+        <!-- END opengraph metadata -->
+        <!-- BEGIN twitter metadata -->
+        <meta
+            name="twitter:image:src"
+            content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452"
+        />
+        <meta name="twitter:title" content="Doxygen Awesome" />
+        <meta
+            name="twitter:description"
+            content="Custom CSS theme for doxygen html-documentation with lots of customization parameters."
+        />
+        <!-- END twitter metadata -->
+        <title>Simulatio: /home/runner/work/Simulatio/Simulatio/include/Corpses/Corpse.hpp Source File</title>
+        <link href="tabs.css" rel="stylesheet" type="text/css" />
+        <link rel="icon" type="image/svg+xml" href="logo.drawio.svg" />
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="dynsections.js"></script>
+        <script
+            type="text/javascript"
+            src="doxygen-awesome-darkmode-toggle.js"
+        ></script>
+        <link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+ <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+        <link href="doxygen.css" rel="stylesheet" type="text/css" />
+        <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <!-- https://tholman.com/github-corners/ -->
+        <a
+            href="https://github.com/mlhoutel/Simulatio"
+            class="github-corner"
+            title="View source on GitHub"
+        >
+            <svg
+                viewBox="0 0 250 250"
+                style="position: absolute; top: 0; border: 0; right: 0"
+                aria-hidden="true"
+            >
+                <path
+                    d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"
+                ></path>
+                <path
+                    d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+                    fill="currentColor"
+                    style="transform-origin: 130px 106px"
+                    class="octo-arm"
+                ></path>
+                <path
+                    d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+                    fill="currentColor"
+                    class="octo-body"
+                ></path></svg></a
+        ><style>
+            .github-corner:hover .octo-arm {
+                animation: octocat-wave 560ms ease-in-out;
+            }
+            @keyframes octocat-wave {
+                0%,
+                100% {
+                    transform: rotate(0);
+                }
+                20%,
+                60% {
+                    transform: rotate(-25deg);
+                }
+                40%,
+                80% {
+                    transform: rotate(10deg);
+                }
+            }
+            @media (max-width: 500px) {
+                .github-corner:hover .octo-arm {
+                    animation: none;
+                }
+                .github-corner .octo-arm {
+                    animation: octocat-wave 560ms ease-in-out;
+                }
+            }
+        </style>
+        <div id="top">
+            <!-- do not remove this div, it is closed by doxygen! -->
+            <div id="titlearea">
+                <table cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr style="height: 56px">
+                            <td id="projectlogo">
+                                <img alt="Logo" src="ricon.png" />
+                            </td>
+                            <td id="projectalign" style="padding-left: 0.5em">
+                                <div id="projectname">
+                                    Simulatio
+                                    &#160;<span
+                                        id="projectnumber"
+                                        >0.5.2</span
+                                    >
+                                </div>
+                                <div id="projectbrief">A flexible physic engine</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- end header part -->
+        </div>
+    </body>
+</html>
+<!-- Generated by Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('_corpse_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Corpse.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_corpse_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef Corpse_HPP</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define Corpse_HPP</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;../Geometry/Geometry.hpp&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;Config.hpp&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacephy.html">phy</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">const</span> <span class="keyword">static</span> <span class="keywordtype">int</span> ID_CORPSE = 1;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html">   16</a></span><span class="keyword">class </span><a class="code hl_class" href="classphy_1_1_corpse.html">Corpse</a> {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>   <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#aa79a0800e5a468efee3ef46e60a375d3">   18</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="classphy_1_1_corpse.html#aa79a0800e5a468efee3ef46e60a375d3">id</a>;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a43c27abda987d530b96df72a614bcb37">   19</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classphy_1_1_corpse.html#a43c27abda987d530b96df72a614bcb37">fixed</a>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a8ff2edb032dac78867bdfcaa49fc9c7b">   20</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classphy_1_1_corpse.html#a8ff2edb032dac78867bdfcaa49fc9c7b">tied</a>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a5b41726d85b4f190a83a0a4cfcb0d385">   21</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classphy_1_1_corpse.html#a5b41726d85b4f190a83a0a4cfcb0d385">etherial</a>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#af98bbd70df8af89457eb11ea72f6ec09">   23</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_variable" href="classphy_1_1_corpse.html#af98bbd70df8af89457eb11ea72f6ec09">friction</a>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#ae1acde976f09040db88f4093b92351b1">   24</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_variable" href="classphy_1_1_corpse.html#ae1acde976f09040db88f4093b92351b1">mass</a>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#ad476407cf43475537f49ae6086ba766a">   25</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_variable" href="classphy_1_1_corpse.html#ad476407cf43475537f49ae6086ba766a">damping</a>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#aa46ef88eca1015d1e65554ae9f0e0fb8">   27</a></span>    <a class="code hl_class" href="classgmt_1_1_vector.html">gmt::VectorI</a> <a class="code hl_variable" href="classphy_1_1_corpse.html#aa46ef88eca1015d1e65554ae9f0e0fb8">current_pos</a>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a78f9699fb3d8d0411eaa01f92c93deb4">   28</a></span>    <a class="code hl_class" href="classgmt_1_1_vector.html">gmt::VectorI</a> <a class="code hl_variable" href="classphy_1_1_corpse.html#a78f9699fb3d8d0411eaa01f92c93deb4">last_pos</a>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a1d637f0a2c60eab502b5fe949cab4b43">   29</a></span>    <a class="code hl_class" href="classgmt_1_1_vector.html">gmt::VectorI</a> <a class="code hl_variable" href="classphy_1_1_corpse.html#a1d637f0a2c60eab502b5fe949cab4b43">propulsor</a>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a4ed2bcdc659dd6e89c97980ef3cce9a2">   31</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_variable" href="classphy_1_1_corpse.html#a4ed2bcdc659dd6e89c97980ef3cce9a2">current_rotation</a>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#aac28fc4477e80d7bfc83728115c7f974">   32</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_variable" href="classphy_1_1_corpse.html#aac28fc4477e80d7bfc83728115c7f974">last_rotation</a>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a38d4c4a154ac65feb496b734920fe172">   33</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_variable" href="classphy_1_1_corpse.html#a38d4c4a154ac65feb496b734920fe172">motor</a>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a9fbd98838a2c934319355599a066a4fd">   35</a></span>    <a class="code hl_class" href="classgmt_1_1_bounds.html">gmt::BoundsI</a> <a class="code hl_variable" href="classphy_1_1_corpse.html#a9fbd98838a2c934319355599a066a4fd">bounds</a>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>   <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a592c3e35a1c496bd48b9fa91c3327776">   38</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a592c3e35a1c496bd48b9fa91c3327776">Corpse</a>(<a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_variable" href="classphy_1_1_corpse.html#ae1acde976f09040db88f4093b92351b1">mass</a>, <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_variable" href="classphy_1_1_corpse.html#ad476407cf43475537f49ae6086ba766a">damping</a>, <span class="keywordtype">bool</span> <a class="code hl_variable" href="classphy_1_1_corpse.html#a43c27abda987d530b96df72a614bcb37">fixed</a>, <span class="keywordtype">bool</span> <a class="code hl_variable" href="classphy_1_1_corpse.html#a8ff2edb032dac78867bdfcaa49fc9c7b">tied</a>, <span class="keywordtype">bool</span> <a class="code hl_variable" href="classphy_1_1_corpse.html#a5b41726d85b4f190a83a0a4cfcb0d385">etherial</a>);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="comment">// virtual ~Corpse();</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#aa7a6116e4843a8b6f819e588a03c6ecf">   40</a></span>    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classphy_1_1_corpse.html#aa7a6116e4843a8b6f819e588a03c6ecf">operator==</a>(<span class="keyword">const</span> <a class="code hl_class" href="classphy_1_1_corpse.html">Corpse</a>* other);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a205d895492afc3be3f1bb5f98382ad77">   41</a></span>    <a class="code hl_class" href="classphy_1_1_corpse.html">Corpse</a>&amp; <a class="code hl_function" href="classphy_1_1_corpse.html#a205d895492afc3be3f1bb5f98382ad77">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classphy_1_1_corpse.html">Corpse</a>&amp; rhs);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#ac1057e55d78dfa0a242c404145f441ab">   43</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classphy_1_1_corpse.html#ac1057e55d78dfa0a242c404145f441ab">get_id</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a535cd0ab27d456e09bccf5829f59c252">   44</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a535cd0ab27d456e09bccf5829f59c252">get_class</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a7eb60b1e10b50fa9b862e71a8b96a773">   45</a></span>    <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a7eb60b1e10b50fa9b862e71a8b96a773">id_class</a>();</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#ac6b949bcaf11aa6c4edd2f528e61dbde">   47</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classphy_1_1_corpse.html#ac6b949bcaf11aa6c4edd2f528e61dbde">get_fixed</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#aa618970535bf81b21c447230b2c47d2e">   48</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#aa618970535bf81b21c447230b2c47d2e">set_fixed</a>(<span class="keywordtype">bool</span> <a class="code hl_variable" href="classphy_1_1_corpse.html#a43c27abda987d530b96df72a614bcb37">fixed</a>);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#aaa017c54e1a0bbeb73b3f4754eac08ac">   50</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classphy_1_1_corpse.html#aaa017c54e1a0bbeb73b3f4754eac08ac">get_etherial</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a503dc4d82d2720ac2694d1c88cbbb0bf">   51</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a503dc4d82d2720ac2694d1c88cbbb0bf">set_etherial</a>(<span class="keywordtype">bool</span> <a class="code hl_variable" href="classphy_1_1_corpse.html#a5b41726d85b4f190a83a0a4cfcb0d385">etherial</a>);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#aafa4d36fc9b25c38fda6f5ce69857765">   53</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classphy_1_1_corpse.html#aafa4d36fc9b25c38fda6f5ce69857765">get_tied</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#accb2fdc5a244c357b8a6b1c9032b21e6">   54</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#accb2fdc5a244c357b8a6b1c9032b21e6">set_tied</a>(<span class="keywordtype">bool</span> <a class="code hl_variable" href="classphy_1_1_corpse.html#a8ff2edb032dac78867bdfcaa49fc9c7b">tied</a>);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a5050d335ad93dfcee47c77356d0356cd">   56</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a5050d335ad93dfcee47c77356d0356cd">Step</a>() = 0;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#abb77dc9da55f0bb5715ebf7a92a7c9de">   57</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#abb77dc9da55f0bb5715ebf7a92a7c9de">Stop</a>() = 0;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a6337abd45607cd2658acb6336a2f7834">   58</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a6337abd45607cd2658acb6336a2f7834">Bloc</a>() = 0;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#acae1af0b374824f67c4cfe1e942b1e53">   60</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#acae1af0b374824f67c4cfe1e942b1e53">Move</a>(<span class="keyword">const</span> <a class="code hl_class" href="classgmt_1_1_vector.html">gmt::VectorI</a>&amp; move) = 0;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a411c8d928bca887969c81a6ddf0466c7">   61</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a411c8d928bca887969c81a6ddf0466c7">Drag</a>(<span class="keyword">const</span> <a class="code hl_class" href="classgmt_1_1_vector.html">gmt::VectorI</a>&amp; drag) = 0;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#ae46664fb155f0632077851a93ae3f00f">   63</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#ae46664fb155f0632077851a93ae3f00f">Turn</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&amp; turn) = 0;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a73de0e417dc5768591781c4da8c5144b">   64</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a73de0e417dc5768591781c4da8c5144b">Rotate</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&amp; rotate) = 0;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a00a3531fb68d666516cde9081411c02a">   66</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a00a3531fb68d666516cde9081411c02a">inBounds</a>(<span class="keyword">const</span> <a class="code hl_class" href="classgmt_1_1_bounds.html">gmt::BoundsI</a>&amp; <a class="code hl_variable" href="classphy_1_1_corpse.html#a9fbd98838a2c934319355599a066a4fd">bounds</a>) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a70f1ff8c37cbc9161d5790873709df81">   67</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a70f1ff8c37cbc9161d5790873709df81">Pointed</a>(<span class="keyword">const</span> <a class="code hl_class" href="classgmt_1_1_vector.html">gmt::VectorI</a>&amp; point) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a55f2e0093a7809e5fbd9a39078aad5a1">   69</a></span>    <a class="code hl_class" href="classgmt_1_1_vector.html">gmt::VectorI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#a55f2e0093a7809e5fbd9a39078aad5a1">get_pos</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#ac4d33fc712d62c5cfd2caf0eeb37b2e1">   70</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#ac4d33fc712d62c5cfd2caf0eeb37b2e1">get_pos_x</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a4c5d49d8ac54309cfc51fb02918b921f">   71</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#a4c5d49d8ac54309cfc51fb02918b921f">get_pos_y</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a730c4a3fcef17531552e3ec6b14b0242">   73</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a730c4a3fcef17531552e3ec6b14b0242">set_pos</a>(<span class="keyword">const</span> <a class="code hl_class" href="classgmt_1_1_vector.html">gmt::VectorI</a>&amp; pos);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#ab300450ea4883de8a195c66bd8ff15d5">   74</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#ab300450ea4883de8a195c66bd8ff15d5">set_pos_x</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&amp; pos_x);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a577944b0163defff5eefc9dddc0efc8f">   75</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a577944b0163defff5eefc9dddc0efc8f">set_pos_y</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&amp; pos_y);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a186b5194d528b87cef80c589e2a133ee">   77</a></span>    <a class="code hl_class" href="classgmt_1_1_vector.html">gmt::VectorI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#a186b5194d528b87cef80c589e2a133ee">get_last_pos</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#aa1bd103925e18581811dc4ef6666262a">   78</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#aa1bd103925e18581811dc4ef6666262a">get_last_pos_x</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#af10d71fd58ad9eca609fa99413087f64">   79</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#af10d71fd58ad9eca609fa99413087f64">get_last_pos_y</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a4cedd2e8781117286308c68f8a13a768">   81</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a4cedd2e8781117286308c68f8a13a768">set_last_pos</a>(<span class="keyword">const</span> <a class="code hl_class" href="classgmt_1_1_vector.html">gmt::VectorI</a>&amp; pos);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a360273fd77590c282854999e4c6321bc">   82</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a360273fd77590c282854999e4c6321bc">set_last_pos_x</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&amp; pos_x);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a2e87dad877d76d1501ddda45b5f491ac">   83</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a2e87dad877d76d1501ddda45b5f491ac">set_last_pos_y</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&amp; pos_y);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#aacae3ba03003310e5af1b64d797fc896">   85</a></span>    <a class="code hl_class" href="classgmt_1_1_vector.html">gmt::VectorI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#aacae3ba03003310e5af1b64d797fc896">get_diff_pos</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#ae32a5c796e9d2fc34379222235c0e411">   86</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#ae32a5c796e9d2fc34379222235c0e411">get_diff_pos_x</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a3126487e416924f2999a4563200e3f49">   87</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#a3126487e416924f2999a4563200e3f49">get_diff_pos_y</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#abc71fdd0fe0c1c1b355e24b9c3845f45">   89</a></span>    <a class="code hl_class" href="classgmt_1_1_vector.html">gmt::VectorI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#abc71fdd0fe0c1c1b355e24b9c3845f45">get_propulsor</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a0e203610a42d64b0dafe00109f8d37d7">   90</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a0e203610a42d64b0dafe00109f8d37d7">set_propulsor</a>(<span class="keyword">const</span> <a class="code hl_class" href="classgmt_1_1_vector.html">gmt::VectorI</a>&amp; <a class="code hl_variable" href="classphy_1_1_corpse.html#a1d637f0a2c60eab502b5fe949cab4b43">propulsor</a>);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a2267af49aebb7ea6ebc3b446ab2eaeee">   92</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#a2267af49aebb7ea6ebc3b446ab2eaeee">get_rotation</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#ace98612f5fc0ac6f009f1ee35632b99f">   93</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#ace98612f5fc0ac6f009f1ee35632b99f">set_rotation</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&amp; <a class="code hl_variable" href="classphy_1_1_corpse.html#a4ed2bcdc659dd6e89c97980ef3cce9a2">current_rotation</a>);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a6e38a678909489e8b83987e075380a7d">   94</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#a6e38a678909489e8b83987e075380a7d">get_diff_rotation</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a5777236df80d3504abf5d217d6ea3218">   96</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#a5777236df80d3504abf5d217d6ea3218">get_last_rotation</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a992d749138d129011be4a0968348ed7f">   97</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a992d749138d129011be4a0968348ed7f">set_last_rotation</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&amp; <a class="code hl_variable" href="classphy_1_1_corpse.html#aac28fc4477e80d7bfc83728115c7f974">last_rotation</a>);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#af1f321910cd24c491ea02f3235c42180">   99</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#af1f321910cd24c491ea02f3235c42180">get_motor</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a07cbfa7d5ef1a66e73d81ebc22a084e5">  100</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a07cbfa7d5ef1a66e73d81ebc22a084e5">set_motor</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&amp; <a class="code hl_variable" href="classphy_1_1_corpse.html#a38d4c4a154ac65feb496b734920fe172">motor</a>);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a592a04a5fe0a231ef1070f6bc85e4692">  102</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a592a04a5fe0a231ef1070f6bc85e4692">set_damping</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&amp; <a class="code hl_variable" href="classphy_1_1_corpse.html#ad476407cf43475537f49ae6086ba766a">damping</a>);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a367a184af990c8960b4d878b684de6db">  103</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#a367a184af990c8960b4d878b684de6db">get_damping</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#abb5f400368ed037a28e24ce945042873">  104</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#abb5f400368ed037a28e24ce945042873">get_bounce</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#af544ac8687aaa61c4fe85ca6eb46fbae">  106</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#af544ac8687aaa61c4fe85ca6eb46fbae">get_mass</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a4e4881676eb910b7f3706d602276efff">  107</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a4e4881676eb910b7f3706d602276efff">set_mass</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&amp; <a class="code hl_variable" href="classphy_1_1_corpse.html#ae1acde976f09040db88f4093b92351b1">mass</a>);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a51d412f1223441b415fd4985bad8b08a">  109</a></span>    <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#a51d412f1223441b415fd4985bad8b08a">get_friction</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a24570e0c1b7ceaad8fbb1cbaafcbad59">  110</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a24570e0c1b7ceaad8fbb1cbaafcbad59">set_friction</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a>&amp; <a class="code hl_variable" href="classphy_1_1_corpse.html#af98bbd70df8af89457eb11ea72f6ec09">friction</a>);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a94430ba2f39564701cc921e723fe4c66">  112</a></span>    <a class="code hl_class" href="classgmt_1_1_bounds.html">gmt::BoundsI</a> <a class="code hl_function" href="classphy_1_1_corpse.html#a94430ba2f39564701cc921e723fe4c66">get_bounds</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="classphy_1_1_corpse.html#a1bb8bd8c4dfff75ff06b75ff0ee8778d">  114</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classphy_1_1_corpse.html#a1bb8bd8c4dfff75ff06b75ff0ee8778d">Equals</a>(<span class="keyword">const</span> <a class="code hl_class" href="classphy_1_1_corpse.html">Corpse</a>* other);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>};</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>}  <span class="comment">// namespace phy</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclassgmt_1_1_bounds_html"><div class="ttname"><a href="classgmt_1_1_bounds.html">gmt::Bounds&lt; SIMULATIO_PRECISION &gt;</a></div></div>
+<div class="ttc" id="aclassgmt_1_1_vector_html"><div class="ttname"><a href="classgmt_1_1_vector.html">gmt::Vector&lt; SIMULATIO_PRECISION &gt;</a></div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html"><div class="ttname"><a href="classphy_1_1_corpse.html">phy::Corpse</a></div><div class="ttdef"><b>Definition:</b> Corpse.hpp:16</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a00a3531fb68d666516cde9081411c02a"><div class="ttname"><a href="classphy_1_1_corpse.html#a00a3531fb68d666516cde9081411c02a">phy::Corpse::inBounds</a></div><div class="ttdeci">virtual bool inBounds(const gmt::BoundsI &amp;bounds) const =0</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a07cbfa7d5ef1a66e73d81ebc22a084e5"><div class="ttname"><a href="classphy_1_1_corpse.html#a07cbfa7d5ef1a66e73d81ebc22a084e5">phy::Corpse::set_motor</a></div><div class="ttdeci">void set_motor(const gmt::UnitI &amp;motor)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a0e203610a42d64b0dafe00109f8d37d7"><div class="ttname"><a href="classphy_1_1_corpse.html#a0e203610a42d64b0dafe00109f8d37d7">phy::Corpse::set_propulsor</a></div><div class="ttdeci">void set_propulsor(const gmt::VectorI &amp;propulsor)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a186b5194d528b87cef80c589e2a133ee"><div class="ttname"><a href="classphy_1_1_corpse.html#a186b5194d528b87cef80c589e2a133ee">phy::Corpse::get_last_pos</a></div><div class="ttdeci">gmt::VectorI get_last_pos() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a1bb8bd8c4dfff75ff06b75ff0ee8778d"><div class="ttname"><a href="classphy_1_1_corpse.html#a1bb8bd8c4dfff75ff06b75ff0ee8778d">phy::Corpse::Equals</a></div><div class="ttdeci">bool Equals(const Corpse *other)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a1d637f0a2c60eab502b5fe949cab4b43"><div class="ttname"><a href="classphy_1_1_corpse.html#a1d637f0a2c60eab502b5fe949cab4b43">phy::Corpse::propulsor</a></div><div class="ttdeci">gmt::VectorI propulsor</div><div class="ttdef"><b>Definition:</b> Corpse.hpp:29</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a205d895492afc3be3f1bb5f98382ad77"><div class="ttname"><a href="classphy_1_1_corpse.html#a205d895492afc3be3f1bb5f98382ad77">phy::Corpse::operator=</a></div><div class="ttdeci">Corpse &amp; operator=(const Corpse &amp;rhs)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a2267af49aebb7ea6ebc3b446ab2eaeee"><div class="ttname"><a href="classphy_1_1_corpse.html#a2267af49aebb7ea6ebc3b446ab2eaeee">phy::Corpse::get_rotation</a></div><div class="ttdeci">gmt::UnitI get_rotation() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a24570e0c1b7ceaad8fbb1cbaafcbad59"><div class="ttname"><a href="classphy_1_1_corpse.html#a24570e0c1b7ceaad8fbb1cbaafcbad59">phy::Corpse::set_friction</a></div><div class="ttdeci">void set_friction(const gmt::UnitI &amp;friction)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a2e87dad877d76d1501ddda45b5f491ac"><div class="ttname"><a href="classphy_1_1_corpse.html#a2e87dad877d76d1501ddda45b5f491ac">phy::Corpse::set_last_pos_y</a></div><div class="ttdeci">void set_last_pos_y(const gmt::UnitI &amp;pos_y)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a3126487e416924f2999a4563200e3f49"><div class="ttname"><a href="classphy_1_1_corpse.html#a3126487e416924f2999a4563200e3f49">phy::Corpse::get_diff_pos_y</a></div><div class="ttdeci">gmt::UnitI get_diff_pos_y() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a360273fd77590c282854999e4c6321bc"><div class="ttname"><a href="classphy_1_1_corpse.html#a360273fd77590c282854999e4c6321bc">phy::Corpse::set_last_pos_x</a></div><div class="ttdeci">void set_last_pos_x(const gmt::UnitI &amp;pos_x)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a367a184af990c8960b4d878b684de6db"><div class="ttname"><a href="classphy_1_1_corpse.html#a367a184af990c8960b4d878b684de6db">phy::Corpse::get_damping</a></div><div class="ttdeci">gmt::UnitI get_damping() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a38d4c4a154ac65feb496b734920fe172"><div class="ttname"><a href="classphy_1_1_corpse.html#a38d4c4a154ac65feb496b734920fe172">phy::Corpse::motor</a></div><div class="ttdeci">gmt::UnitI motor</div><div class="ttdef"><b>Definition:</b> Corpse.hpp:33</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a411c8d928bca887969c81a6ddf0466c7"><div class="ttname"><a href="classphy_1_1_corpse.html#a411c8d928bca887969c81a6ddf0466c7">phy::Corpse::Drag</a></div><div class="ttdeci">virtual void Drag(const gmt::VectorI &amp;drag)=0</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a43c27abda987d530b96df72a614bcb37"><div class="ttname"><a href="classphy_1_1_corpse.html#a43c27abda987d530b96df72a614bcb37">phy::Corpse::fixed</a></div><div class="ttdeci">bool fixed</div><div class="ttdef"><b>Definition:</b> Corpse.hpp:19</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a4c5d49d8ac54309cfc51fb02918b921f"><div class="ttname"><a href="classphy_1_1_corpse.html#a4c5d49d8ac54309cfc51fb02918b921f">phy::Corpse::get_pos_y</a></div><div class="ttdeci">gmt::UnitI get_pos_y() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a4cedd2e8781117286308c68f8a13a768"><div class="ttname"><a href="classphy_1_1_corpse.html#a4cedd2e8781117286308c68f8a13a768">phy::Corpse::set_last_pos</a></div><div class="ttdeci">void set_last_pos(const gmt::VectorI &amp;pos)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a4e4881676eb910b7f3706d602276efff"><div class="ttname"><a href="classphy_1_1_corpse.html#a4e4881676eb910b7f3706d602276efff">phy::Corpse::set_mass</a></div><div class="ttdeci">void set_mass(const gmt::UnitI &amp;mass)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a4ed2bcdc659dd6e89c97980ef3cce9a2"><div class="ttname"><a href="classphy_1_1_corpse.html#a4ed2bcdc659dd6e89c97980ef3cce9a2">phy::Corpse::current_rotation</a></div><div class="ttdeci">gmt::UnitI current_rotation</div><div class="ttdef"><b>Definition:</b> Corpse.hpp:31</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a503dc4d82d2720ac2694d1c88cbbb0bf"><div class="ttname"><a href="classphy_1_1_corpse.html#a503dc4d82d2720ac2694d1c88cbbb0bf">phy::Corpse::set_etherial</a></div><div class="ttdeci">void set_etherial(bool etherial)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a5050d335ad93dfcee47c77356d0356cd"><div class="ttname"><a href="classphy_1_1_corpse.html#a5050d335ad93dfcee47c77356d0356cd">phy::Corpse::Step</a></div><div class="ttdeci">virtual void Step()=0</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a51d412f1223441b415fd4985bad8b08a"><div class="ttname"><a href="classphy_1_1_corpse.html#a51d412f1223441b415fd4985bad8b08a">phy::Corpse::get_friction</a></div><div class="ttdeci">gmt::UnitI get_friction() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a535cd0ab27d456e09bccf5829f59c252"><div class="ttname"><a href="classphy_1_1_corpse.html#a535cd0ab27d456e09bccf5829f59c252">phy::Corpse::get_class</a></div><div class="ttdeci">virtual int get_class() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a55f2e0093a7809e5fbd9a39078aad5a1"><div class="ttname"><a href="classphy_1_1_corpse.html#a55f2e0093a7809e5fbd9a39078aad5a1">phy::Corpse::get_pos</a></div><div class="ttdeci">gmt::VectorI get_pos() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a5777236df80d3504abf5d217d6ea3218"><div class="ttname"><a href="classphy_1_1_corpse.html#a5777236df80d3504abf5d217d6ea3218">phy::Corpse::get_last_rotation</a></div><div class="ttdeci">gmt::UnitI get_last_rotation() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a577944b0163defff5eefc9dddc0efc8f"><div class="ttname"><a href="classphy_1_1_corpse.html#a577944b0163defff5eefc9dddc0efc8f">phy::Corpse::set_pos_y</a></div><div class="ttdeci">void set_pos_y(const gmt::UnitI &amp;pos_y)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a592a04a5fe0a231ef1070f6bc85e4692"><div class="ttname"><a href="classphy_1_1_corpse.html#a592a04a5fe0a231ef1070f6bc85e4692">phy::Corpse::set_damping</a></div><div class="ttdeci">void set_damping(const gmt::UnitI &amp;damping)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a592c3e35a1c496bd48b9fa91c3327776"><div class="ttname"><a href="classphy_1_1_corpse.html#a592c3e35a1c496bd48b9fa91c3327776">phy::Corpse::Corpse</a></div><div class="ttdeci">Corpse(gmt::UnitI mass, gmt::UnitI damping, bool fixed, bool tied, bool etherial)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a5b41726d85b4f190a83a0a4cfcb0d385"><div class="ttname"><a href="classphy_1_1_corpse.html#a5b41726d85b4f190a83a0a4cfcb0d385">phy::Corpse::etherial</a></div><div class="ttdeci">bool etherial</div><div class="ttdef"><b>Definition:</b> Corpse.hpp:21</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a6337abd45607cd2658acb6336a2f7834"><div class="ttname"><a href="classphy_1_1_corpse.html#a6337abd45607cd2658acb6336a2f7834">phy::Corpse::Bloc</a></div><div class="ttdeci">virtual void Bloc()=0</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a6e38a678909489e8b83987e075380a7d"><div class="ttname"><a href="classphy_1_1_corpse.html#a6e38a678909489e8b83987e075380a7d">phy::Corpse::get_diff_rotation</a></div><div class="ttdeci">gmt::UnitI get_diff_rotation() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a70f1ff8c37cbc9161d5790873709df81"><div class="ttname"><a href="classphy_1_1_corpse.html#a70f1ff8c37cbc9161d5790873709df81">phy::Corpse::Pointed</a></div><div class="ttdeci">virtual bool Pointed(const gmt::VectorI &amp;point) const =0</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a730c4a3fcef17531552e3ec6b14b0242"><div class="ttname"><a href="classphy_1_1_corpse.html#a730c4a3fcef17531552e3ec6b14b0242">phy::Corpse::set_pos</a></div><div class="ttdeci">void set_pos(const gmt::VectorI &amp;pos)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a73de0e417dc5768591781c4da8c5144b"><div class="ttname"><a href="classphy_1_1_corpse.html#a73de0e417dc5768591781c4da8c5144b">phy::Corpse::Rotate</a></div><div class="ttdeci">virtual void Rotate(const gmt::UnitI &amp;rotate)=0</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a78f9699fb3d8d0411eaa01f92c93deb4"><div class="ttname"><a href="classphy_1_1_corpse.html#a78f9699fb3d8d0411eaa01f92c93deb4">phy::Corpse::last_pos</a></div><div class="ttdeci">gmt::VectorI last_pos</div><div class="ttdef"><b>Definition:</b> Corpse.hpp:28</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a7eb60b1e10b50fa9b862e71a8b96a773"><div class="ttname"><a href="classphy_1_1_corpse.html#a7eb60b1e10b50fa9b862e71a8b96a773">phy::Corpse::id_class</a></div><div class="ttdeci">static int id_class()</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a8ff2edb032dac78867bdfcaa49fc9c7b"><div class="ttname"><a href="classphy_1_1_corpse.html#a8ff2edb032dac78867bdfcaa49fc9c7b">phy::Corpse::tied</a></div><div class="ttdeci">bool tied</div><div class="ttdef"><b>Definition:</b> Corpse.hpp:20</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a94430ba2f39564701cc921e723fe4c66"><div class="ttname"><a href="classphy_1_1_corpse.html#a94430ba2f39564701cc921e723fe4c66">phy::Corpse::get_bounds</a></div><div class="ttdeci">gmt::BoundsI get_bounds() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a992d749138d129011be4a0968348ed7f"><div class="ttname"><a href="classphy_1_1_corpse.html#a992d749138d129011be4a0968348ed7f">phy::Corpse::set_last_rotation</a></div><div class="ttdeci">void set_last_rotation(const gmt::UnitI &amp;last_rotation)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_a9fbd98838a2c934319355599a066a4fd"><div class="ttname"><a href="classphy_1_1_corpse.html#a9fbd98838a2c934319355599a066a4fd">phy::Corpse::bounds</a></div><div class="ttdeci">gmt::BoundsI bounds</div><div class="ttdef"><b>Definition:</b> Corpse.hpp:35</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_aa1bd103925e18581811dc4ef6666262a"><div class="ttname"><a href="classphy_1_1_corpse.html#aa1bd103925e18581811dc4ef6666262a">phy::Corpse::get_last_pos_x</a></div><div class="ttdeci">gmt::UnitI get_last_pos_x() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_aa46ef88eca1015d1e65554ae9f0e0fb8"><div class="ttname"><a href="classphy_1_1_corpse.html#aa46ef88eca1015d1e65554ae9f0e0fb8">phy::Corpse::current_pos</a></div><div class="ttdeci">gmt::VectorI current_pos</div><div class="ttdef"><b>Definition:</b> Corpse.hpp:27</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_aa618970535bf81b21c447230b2c47d2e"><div class="ttname"><a href="classphy_1_1_corpse.html#aa618970535bf81b21c447230b2c47d2e">phy::Corpse::set_fixed</a></div><div class="ttdeci">void set_fixed(bool fixed)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_aa79a0800e5a468efee3ef46e60a375d3"><div class="ttname"><a href="classphy_1_1_corpse.html#aa79a0800e5a468efee3ef46e60a375d3">phy::Corpse::id</a></div><div class="ttdeci">int id</div><div class="ttdef"><b>Definition:</b> Corpse.hpp:18</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_aa7a6116e4843a8b6f819e588a03c6ecf"><div class="ttname"><a href="classphy_1_1_corpse.html#aa7a6116e4843a8b6f819e588a03c6ecf">phy::Corpse::operator==</a></div><div class="ttdeci">bool operator==(const Corpse *other)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_aaa017c54e1a0bbeb73b3f4754eac08ac"><div class="ttname"><a href="classphy_1_1_corpse.html#aaa017c54e1a0bbeb73b3f4754eac08ac">phy::Corpse::get_etherial</a></div><div class="ttdeci">bool get_etherial() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_aac28fc4477e80d7bfc83728115c7f974"><div class="ttname"><a href="classphy_1_1_corpse.html#aac28fc4477e80d7bfc83728115c7f974">phy::Corpse::last_rotation</a></div><div class="ttdeci">gmt::UnitI last_rotation</div><div class="ttdef"><b>Definition:</b> Corpse.hpp:32</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_aacae3ba03003310e5af1b64d797fc896"><div class="ttname"><a href="classphy_1_1_corpse.html#aacae3ba03003310e5af1b64d797fc896">phy::Corpse::get_diff_pos</a></div><div class="ttdeci">gmt::VectorI get_diff_pos() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_aafa4d36fc9b25c38fda6f5ce69857765"><div class="ttname"><a href="classphy_1_1_corpse.html#aafa4d36fc9b25c38fda6f5ce69857765">phy::Corpse::get_tied</a></div><div class="ttdeci">bool get_tied() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_ab300450ea4883de8a195c66bd8ff15d5"><div class="ttname"><a href="classphy_1_1_corpse.html#ab300450ea4883de8a195c66bd8ff15d5">phy::Corpse::set_pos_x</a></div><div class="ttdeci">void set_pos_x(const gmt::UnitI &amp;pos_x)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_abb5f400368ed037a28e24ce945042873"><div class="ttname"><a href="classphy_1_1_corpse.html#abb5f400368ed037a28e24ce945042873">phy::Corpse::get_bounce</a></div><div class="ttdeci">gmt::UnitI get_bounce() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_abb77dc9da55f0bb5715ebf7a92a7c9de"><div class="ttname"><a href="classphy_1_1_corpse.html#abb77dc9da55f0bb5715ebf7a92a7c9de">phy::Corpse::Stop</a></div><div class="ttdeci">virtual void Stop()=0</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_abc71fdd0fe0c1c1b355e24b9c3845f45"><div class="ttname"><a href="classphy_1_1_corpse.html#abc71fdd0fe0c1c1b355e24b9c3845f45">phy::Corpse::get_propulsor</a></div><div class="ttdeci">gmt::VectorI get_propulsor() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_ac1057e55d78dfa0a242c404145f441ab"><div class="ttname"><a href="classphy_1_1_corpse.html#ac1057e55d78dfa0a242c404145f441ab">phy::Corpse::get_id</a></div><div class="ttdeci">int get_id() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_ac4d33fc712d62c5cfd2caf0eeb37b2e1"><div class="ttname"><a href="classphy_1_1_corpse.html#ac4d33fc712d62c5cfd2caf0eeb37b2e1">phy::Corpse::get_pos_x</a></div><div class="ttdeci">gmt::UnitI get_pos_x() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_ac6b949bcaf11aa6c4edd2f528e61dbde"><div class="ttname"><a href="classphy_1_1_corpse.html#ac6b949bcaf11aa6c4edd2f528e61dbde">phy::Corpse::get_fixed</a></div><div class="ttdeci">bool get_fixed() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_acae1af0b374824f67c4cfe1e942b1e53"><div class="ttname"><a href="classphy_1_1_corpse.html#acae1af0b374824f67c4cfe1e942b1e53">phy::Corpse::Move</a></div><div class="ttdeci">virtual void Move(const gmt::VectorI &amp;move)=0</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_accb2fdc5a244c357b8a6b1c9032b21e6"><div class="ttname"><a href="classphy_1_1_corpse.html#accb2fdc5a244c357b8a6b1c9032b21e6">phy::Corpse::set_tied</a></div><div class="ttdeci">void set_tied(bool tied)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_ace98612f5fc0ac6f009f1ee35632b99f"><div class="ttname"><a href="classphy_1_1_corpse.html#ace98612f5fc0ac6f009f1ee35632b99f">phy::Corpse::set_rotation</a></div><div class="ttdeci">void set_rotation(const gmt::UnitI &amp;current_rotation)</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_ad476407cf43475537f49ae6086ba766a"><div class="ttname"><a href="classphy_1_1_corpse.html#ad476407cf43475537f49ae6086ba766a">phy::Corpse::damping</a></div><div class="ttdeci">gmt::UnitI damping</div><div class="ttdef"><b>Definition:</b> Corpse.hpp:25</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_ae1acde976f09040db88f4093b92351b1"><div class="ttname"><a href="classphy_1_1_corpse.html#ae1acde976f09040db88f4093b92351b1">phy::Corpse::mass</a></div><div class="ttdeci">gmt::UnitI mass</div><div class="ttdef"><b>Definition:</b> Corpse.hpp:24</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_ae32a5c796e9d2fc34379222235c0e411"><div class="ttname"><a href="classphy_1_1_corpse.html#ae32a5c796e9d2fc34379222235c0e411">phy::Corpse::get_diff_pos_x</a></div><div class="ttdeci">gmt::UnitI get_diff_pos_x() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_ae46664fb155f0632077851a93ae3f00f"><div class="ttname"><a href="classphy_1_1_corpse.html#ae46664fb155f0632077851a93ae3f00f">phy::Corpse::Turn</a></div><div class="ttdeci">virtual void Turn(const gmt::UnitI &amp;turn)=0</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_af10d71fd58ad9eca609fa99413087f64"><div class="ttname"><a href="classphy_1_1_corpse.html#af10d71fd58ad9eca609fa99413087f64">phy::Corpse::get_last_pos_y</a></div><div class="ttdeci">gmt::UnitI get_last_pos_y() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_af1f321910cd24c491ea02f3235c42180"><div class="ttname"><a href="classphy_1_1_corpse.html#af1f321910cd24c491ea02f3235c42180">phy::Corpse::get_motor</a></div><div class="ttdeci">gmt::UnitI get_motor() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_af544ac8687aaa61c4fe85ca6eb46fbae"><div class="ttname"><a href="classphy_1_1_corpse.html#af544ac8687aaa61c4fe85ca6eb46fbae">phy::Corpse::get_mass</a></div><div class="ttdeci">gmt::UnitI get_mass() const</div></div>
+<div class="ttc" id="aclassphy_1_1_corpse_html_af98bbd70df8af89457eb11ea72f6ec09"><div class="ttname"><a href="classphy_1_1_corpse.html#af98bbd70df8af89457eb11ea72f6ec09">phy::Corpse::friction</a></div><div class="ttdeci">gmt::UnitI friction</div><div class="ttdef"><b>Definition:</b> Corpse.hpp:23</div></div>
+<div class="ttc" id="anamespacegmt_html_ad605cc0c721f1f31b32a8a4fce0dd466"><div class="ttname"><a href="namespacegmt.html#ad605cc0c721f1f31b32a8a4fce0dd466">gmt::UnitI</a></div><div class="ttdeci">SIMULATIO_PRECISION UnitI</div><div class="ttdef"><b>Definition:</b> Geometry.hpp:22</div></div>
+<div class="ttc" id="anamespacephy_html"><div class="ttname"><a href="namespacephy.html">phy</a></div><div class="ttdef"><b>Definition:</b> Constraint.hpp:11</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.1-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_9cf3df97c19220fcbd08d1d21199accb.html">Corpses</a></li><li class="navelem"><a class="el" href="_corpse_8hpp.html">Corpse.hpp</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+<script type="text/javascript">
+  $(function() {
+     toggleButton = document.createElement('doxygen-awesome-dark-mode-toggle')
+     toggleButton.title = "Toggle Light/Dark Mode"
+     $(document).ready(function(){
+       document.getElementById("MSearchBox").parentNode.appendChild(toggleButton)
+     })
+     $(window).resize(function(){
+       document.getElementById("MSearchBox").parentNode.appendChild(toggleButton)
+     })
+   })
+</script>
+</body>
+</html>
