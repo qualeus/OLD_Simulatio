@@ -51,14 +51,14 @@ PROJECT_BRIEF          = "A flexible physic engine"
 # pixels and the maximum width should not exceed 200 pixels. Doxygen will copy
 # the logo to the output directory.
 
-PROJECT_LOGO           = "@CMAKE_CURRENT_SOURCE_DIR@/../assets/icon/ricon.png"
+PROJECT_LOGO           = "../assets/icon/ricon.png"
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) path
 # into which the generated documentation will be written. If a relative path is
 # entered, it will be relative to the location where doxygen was started. If
 # left blank the current directory will be used.
 
-OUTPUT_DIRECTORY = "@CMAKE_CURRENT_SOURCE_DIR@/"
+OUTPUT_DIRECTORY = "./"
 
 # If the CREATE_SUBDIRS tag is set to YES then doxygen will create 4096 sub-
 # directories (in 2 levels) under the output directory of each output format and
@@ -856,9 +856,9 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                   = "@CMAKE_CURRENT_SOURCE_DIR@/../include/" \
-                          "@CMAKE_CURRENT_SOURCE_DIR@/../README.md" \
-                          "@CMAKE_CURRENT_SOURCE_DIR@/pages/"
+INPUT                   = "../include/" \
+                          "../README.md" \
+                          "./pages/"
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1242,7 +1242,7 @@ HTML_FILE_EXTENSION    = .html
 # of the possible markers and block names see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_HEADER            = "@CMAKE_CURRENT_SOURCE_DIR@/theme/header.html"
+HTML_HEADER            = "./theme/header.html"
 
 # The HTML_FOOTER tag can be used to specify a user-defined HTML footer for each
 # generated HTML page. If the tag is left blank doxygen will generate a standard
@@ -1252,7 +1252,7 @@ HTML_HEADER            = "@CMAKE_CURRENT_SOURCE_DIR@/theme/header.html"
 # that doxygen normally uses.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_FOOTER            = "@CMAKE_CURRENT_SOURCE_DIR@/theme/footer.html"
+HTML_FOOTER            = "./theme/footer.html"
 
 # The HTML_STYLESHEET tag can be used to specify a user-defined cascading style
 # sheet that is used by each HTML page. It can be used to fine-tune the look of
@@ -1277,10 +1277,10 @@ HTML_STYLESHEET        =
 # list). For an example see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_STYLESHEET  = "@CMAKE_CURRENT_SOURCE_DIR@/theme/doxygen-awesome.css" \
-                         "@CMAKE_CURRENT_SOURCE_DIR@/theme/doxygen-awesome-sidebar-only.css" \
-                         "@CMAKE_CURRENT_SOURCE_DIR@/theme/doxygen-awesome-sidebar-only-darkmode-toggle.css" \
-                         "@CMAKE_CURRENT_SOURCE_DIR@/theme/custom.css"
+HTML_EXTRA_STYLESHEET  = "./theme/doxygen-awesome.css" \
+                         "./theme/doxygen-awesome-sidebar-only.css" \
+                         "./theme/doxygen-awesome-sidebar-only-darkmode-toggle.css" \
+                         "./theme/custom.css"
 
 # The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
 # other source files which should be copied to the HTML output directory. Note
@@ -1290,7 +1290,7 @@ HTML_EXTRA_STYLESHEET  = "@CMAKE_CURRENT_SOURCE_DIR@/theme/doxygen-awesome.css" 
 # files will be copied as-is; there are no commands or markers available.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_FILES       = "@CMAKE_CURRENT_SOURCE_DIR@/theme/doxygen-awesome-darkmode-toggle.js"
+HTML_EXTRA_FILES       = "./theme/doxygen-awesome-darkmode-toggle.js"
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the style sheet and background images according to
