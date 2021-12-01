@@ -367,8 +367,8 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 -   **LHOUTELLIER Maël** - _Initial work_ - [mlhoutel](https://github.com/mlhoutel)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-[build-shield]: https://img.shields.io/github/workflow/status/mlhoutel/Simulatio/Build/main?style=flat-square
+  
+[build-shield]: https://img.shields.io/github/workflow/status/mlhoutel/Simulatio/publish/main?style=flat-square
 [build-url]: https://github.com/mlhoutel/Simulatio/main/.github/workflows/main.yml
 [version-shield]: https://img.shields.io/badge/version-0.5.2-orange?style=flat-square
 [version-url]: https://github.com/mlhoutel/Simulatio/blob/main/CMakeLists.txt
