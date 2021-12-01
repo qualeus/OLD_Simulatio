@@ -59,6 +59,8 @@
 
 ## About The Project
 
+[![Join the chat at https://gitter.im/simulatio_engine/community](https://badges.gitter.im/simulatio_engine/community.svg)](https://gitter.im/simulatio_engine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Simulatio Screen Shot][screenshot]](https://github.com/mlhoutel/Simulatio/tree/main)
 
 This project started from a personal challenge: recreate **physical principles** in a **simulation** running in **real time**.
