@@ -5,6 +5,7 @@
 [![Language][language-shield]][language-url]
 [![Roadmap][roadmap-shield]][roadmap-url]
 [![License][license-shield]][license-url]
+[![Gitter][gitter-shield]][gitter-url]
 
 <br />
 <div align="center">
@@ -16,7 +17,7 @@
 
 <p align="center">A flexible physic engine | Debugging tools.</p>
 <p align="center">
-<a href="">
+<a href="https://mlhoutel.github.io/Simulatio/">
 <strong>Browse the docs »</strong>
 </a>
 <br />
@@ -58,8 +59,6 @@
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
-
-[![Join the chat at https://gitter.im/simulatio_engine/community](https://badges.gitter.im/simulatio_engine/community.svg)](https://gitter.im/simulatio_engine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![Simulatio Screen Shot][screenshot]](https://github.com/mlhoutel/Simulatio/tree/main)
 
@@ -379,5 +378,8 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [roadmap-url]: https://github.com/users/mlhoutel/projects/3
 [license-shield]: https://img.shields.io/github/license/mlhoutel/Simulatio?style=flat-square
 [license-url]: https://github.com/mlhoutel/Simulatio/blob/main/LICENSE/
+[gitter-shield]: https://img.shields.io/gitter/room/mlhoutel/Simulatio?style=flat-square
+[gitter-url]: https://gitter.im/simulatio_engine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [logo]: ./src/assets/logo.png
 [screenshot]: ./docs/screenshots/Pictures/Benchmarking.png
+  
