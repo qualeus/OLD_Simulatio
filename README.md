@@ -143,7 +143,7 @@ Currently in dev, you can see a very messy roadmap [here](https://github.com/use
 
 ## Getting Started
 
-**[Official documentation](https://github.com/mlhoutel/Simulatio/build.html)**
+**[Official documentation](https://mlhoutel.github.io/Simulatio/build.html)**
 
 ## Contributing
 
