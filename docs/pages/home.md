@@ -34,7 +34,7 @@ This project also allows me to familiarize myself with several areas of programm
 
 <div style="margin: 50px; text-align:center">
   
-<a href="https://github.com/mlhoutel/Simulatio/tree/main"><img style="width:80%" src="https://github.com/mlhoutel/Simulatio/blob/main/docs/screenshots/Pictures/Benchmarking.png"></a>
+<a href="https://github.com/mlhoutel/Simulatio/tree/main"><img style="width:80%" src="https://github.com/mlhoutel/Simulatio/blob/main/docs/screenshots/Pictures/Benchmarking.png?raw=true"></a>
 
 </div>
 
