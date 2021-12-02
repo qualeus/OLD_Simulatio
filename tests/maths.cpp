@@ -1,19 +1,4 @@
-#include "../../include/Geometry/String.hpp"
-
-template <class T>
-using Unit = T;
-
-template <class T>
-using Vect = std::vector<T>;
-
-template <class T>
-using Pair = std::vector<std::pair<T, T>>;
-
-template <class T>
-using SVect = std::vector<std::shared_ptr<T>>;
-
-template <class T>
-using SPair = std::vector<std::pair<std::shared_ptr<T>, std::shared_ptr<T>>>;
+#include "test.hpp"
 
 template <class T>
 std::pair<SVect<T>, SPair<T>> CreatePairs(std::vector<T> values) {

@@ -8,9 +8,9 @@
 #define PROJECT_VERSION_REVISION @PROJECT_VERSION_REVISION@
 
 #ifdef ENABLE_DOUBLE_PRECISION
-typedef double PHYSICS_PRECISION;
+typedef double SIMULATIO_PRECISION;
 #else
-typedef float PHYSICS_PRECISION;
+typedef float SIMULATIO_PRECISION;
 #endif 
 #define PRECISION_SET
 #endif

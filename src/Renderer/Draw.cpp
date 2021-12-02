@@ -263,13 +263,16 @@ void Renderer::DrawCorpsePolygon(phy::Polygon *polygon, sf::Color color) {
     /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
     gmt::VerticesI polygon_vertices = polygon->get_points();
     std::vector<sf::Vector2f> polygon_points = {};
-    for (int i = 0; i < polygon_vertices.vertices.size(); i++) { polygon_points.push_back((*polygon_vertices.vertices[i]).CloneSF()); }
+
+    // TODO: if convex
+    for (int i = 0; i < polygon_vertices.vertices.size(); i++) { polygon_points.push_back(convertSF(*polygon_vertices.vertices[i])); }
     // DrawPolygon(polygon_points, color, true);
 
+    // TODO: if concave
     std::vector<gmt::VerticesI> triangles = polygon->get_polygons();
     for (int i = 0; i < triangles.size(); i++) {
         gmt::VerticesI triangle_vertices = triangles[i];
-        DrawPolygon(triangle_vertices, color, false);
+        DrawPolygon(triangle_vertices, color);
     }
     /* ---------------------------------------------------- Default Drawing ---------------------------------------------------- */
 
@@ -290,26 +293,26 @@ void Renderer::DrawCorpsePolygon(phy::Polygon *polygon, sf::Color color) {
     if (debug_show_vertices) {
         gmt::VerticesI points = polygon->get_points();
         for (int i = 0; i < points.vertices.size(); i++) {
-            gmt::VectorI point = *points.vertices[i];
+            gmt::VectorI point = *points.vertices.at(i);
             DrawCircle(point.x, point.y, 6, sf::Color::Red, true);
         }
     }
     if (debug_show_normals) {
         std::vector<std::pair<std::shared_ptr<gmt::VectorI>, std::shared_ptr<gmt::VectorI>>> sides = polygon->get_sides();
         for (int i = 0; i < sides.size(); i++) {
-            sf::Vector2f side_A = (*sides[i].first).CloneSF();
-            sf::Vector2f side_B = (*sides[i].second).CloneSF();
+            gmt::Vector<float> side_A = *sides[i].first;
+            gmt::Vector<float> side_B = *sides[i].second;
 
-            sf::Vector2f edge_center = (side_A + side_B) / 2.0f;
-            sf::Vector2f edge_vector = edge_center + (gmt::Vector<float>::Normal(side_A, side_B)).Normalize().CloneSF() * vector_size;
+            sf::Vector2f edge_center = (convertSF(side_A + side_B)) / 2.0f;
+            sf::Vector2f edge_vector = edge_center + convertSF(gmt::Vector<float>::Normal(side_A, side_B).Normalize()) * vector_size;
             Renderer::DrawArrow(edge_center.x, edge_center.y, edge_vector.x, edge_vector.y, arrow_size, arrow_size, line_thickness, sf::Color::Red);
 
-            sf::Vector2f last_edge_A = (*sides[gmt::modulo(i - 1, sides.size())].first).CloneSF();
-            sf::Vector2f last_edge_B = (*sides[gmt::modulo(i - 1, sides.size())].second).CloneSF();
-            sf::Vector2f current_edge_A = (*sides[i].first).CloneSF();
-            sf::Vector2f current_edge_B = (*sides[i].second).CloneSF();
+            gmt::Vector<float> last_edge_A = *sides.at(gmt::modulo(i - 1, sides.size())).first;
+            gmt::Vector<float> last_edge_B = *sides.at(gmt::modulo(i - 1, sides.size())).second;
+            gmt::Vector<float> current_edge_A = *sides[i].first;
+            gmt::Vector<float> current_edge_B = *sides[i].second;
 
-            sf::Vector2f point_vector = last_edge_B + ((gmt::Vector<float>::Normal(last_edge_A, last_edge_B)).Normalize() + (gmt::Vector<float>::Normal(current_edge_A, current_edge_B).Normalize())).Normalize().CloneSF() * vector_size;
+            sf::Vector2f point_vector = convertSF(last_edge_B) + convertSF(((gmt::Vector<float>::Normal(last_edge_A, last_edge_B)).Normalize() + (gmt::Vector<float>::Normal(current_edge_A, current_edge_B).Normalize())).Normalize()) * vector_size;
             Renderer::DrawArrow(last_edge_B.x, last_edge_B.y, point_vector.x, point_vector.y, arrow_size, arrow_size, line_thickness, sf::Color::Red);
         }
     }
@@ -326,8 +329,8 @@ void Renderer::DrawCorpsePolygon(phy::Polygon *polygon, sf::Color color) {
             gmt::VerticesI triangle_vertices = triangles[i];
             std::vector<std::pair<std::shared_ptr<gmt::VectorI>, std::shared_ptr<gmt::VectorI>>> sides = triangle_vertices.Pairs();
             for (int i = 0; i < sides.size(); i++) {
-                sf::Vector2f side_A = (*sides[i].first).CloneSF();
-                sf::Vector2f side_B = (*sides[i].second).CloneSF();
+                sf::Vector2f side_A = convertSF(*sides[i].first);
+                sf::Vector2f side_B = convertSF(*sides[i].second);
                 DrawLine(side_A.x, side_A.y, side_B.x, side_B.y, 1.5f, sf::Color::Red);
             }
         }
@@ -460,9 +463,9 @@ void Renderer::DrawInputs() {
 
     if (debug_show_pairs) {
         for (int i = 0; i < system.get_corpses_size(); i++) {
-            gmt::VectorI pos_A = system.get_corpse(i)->get_pos();
+            sf::Vector2f pos_A = convertSF(system.get_corpse(i)->get_pos());
             for (int j = i + 1; j < system.get_corpses_size(); j++) {
-                gmt::VectorI pos_B = system.get_corpse(j)->get_pos();
+                sf::Vector2f pos_B = convertSF(system.get_corpse(j)->get_pos());
                 DrawLine(pos_A.x, pos_A.y, pos_B.x, pos_B.y, line_thickness, sf::Color::White);
             }
         }
@@ -473,8 +476,8 @@ void Renderer::DrawInputs() {
             for (int i = 0; i < system.get_quad_pairs_size(j); i++) {
                 const std::pair<std::shared_ptr<phy::Corpse>, std::shared_ptr<phy::Corpse>> pair = system.get_quad_pair(i, j);
 
-                sf::Vector2f pos_A = (pair.first->get_pos()).CloneSF();
-                sf::Vector2f pos_B = (pair.second->get_pos()).CloneSF();
+                sf::Vector2f pos_A = convertSF(pair.first->get_pos());
+                sf::Vector2f pos_B = convertSF(pair.second->get_pos());
 
                 DrawLine(pos_A.x, pos_A.y, pos_B.x, pos_B.y, 2.0f, sf::Color(255 - (225.0f / system.get_quad_pairs_depth() * j), 70, 0));
             }
@@ -509,13 +512,21 @@ void Renderer::DrawInputs() {
         case S_DRAG_CORPSE: {
         } break;
         case S_CREATE_CIRCLE: {
-            sf::Vector2f temp_pos = gmt::Vector<float>(this->selected_area.x1, this->selected_area.y1).CloneSF();
+            sf::Vector2f temp_pos = convertSF(gmt::Vector<float>(this->selected_area.x1, this->selected_area.y1));
             float temp_size = gmt::Vector<float>::Distance(gmt::Vector<float>(this->selected_area.x1, this->selected_area.y1), gmt::Vector<float>(this->selected_area.x2, this->selected_area.y2));
 
             if (temp_pos != sf::Vector2f()) { DrawCircle(temp_pos.x, temp_pos.y, temp_size, sf::Color::White, true); }
         } break;
         case S_CREATE_POLYGON: {
-            if (this->selected_corpses_diff.size() != 0) { DrawPolygon(gmt::VerticesI(this->selected_corpses_diff), sf::Color::White, true); }
+            gmt::VerticesI polygon_vertices = {};
+
+            for (int i = 0; i < this->selected_corpses_diff.size(); i++) {
+                gmt::VectorI vect_diff = convertSF(this->selected_corpses_diff[i]);
+
+                polygon_vertices.vertices.push_back(std::make_shared<gmt::VectorI>(vect_diff));
+            }
+
+            if (this->selected_corpses_diff.size() != 0) { DrawPolygon(polygon_vertices, sf::Color::White, true); }
         } break;
     }
 
@@ -527,7 +538,8 @@ void Renderer::DrawInputs() {
             DrawCircle(circle->get_pos_x(), circle->get_pos_y(), circle->get_size(), sf::Color::White, true);
         } else if (phy::Polygon *polygon = dynamic_cast<phy::Polygon *>(system.get_corpse(cursor).get())) {
             gmt::VerticesI polygon_vertices = polygon->get_points();
-            DrawPolygon(polygon_vertices, sf::Color::White, true);
+
+            DrawPolygon(polygon->get_points(), sf::Color::White, true);
         }
     }
 }

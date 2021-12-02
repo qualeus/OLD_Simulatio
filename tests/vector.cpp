@@ -1,5 +1,4 @@
-#include "../../include/Geometry/Geometry.hpp"
-#include "../../include/Geometry/String.hpp"
+#include "test.hpp"
 
 template <typename T>
 void OperatorPlus() {

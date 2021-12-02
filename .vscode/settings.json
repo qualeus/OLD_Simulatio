@@ -117,8 +117,8 @@
         "__tree": "cpp",
         "__tuple": "cpp"
     },
-    "colorize.languages": [
-        "cpp",
-    ],
-    "cmake.configureOnOpen": false
+    "colorize.languages": ["cpp"],
+    "cmake.configureOnOpen": false,
+    "conventionalCommits.scopes": ["README", "Docs", "Actions"],
+    "C_Cpp.errorSquiggles": "Disabled"
 }

@@ -4,19 +4,13 @@
 #include <stdexcept>
 #include <string>
 
-#include "Maths.hpp"
-
 // clang-format off
-#define ASSERT_EQUAL(x, y) { \
-    if ((gmt::to_string(x)) != (gmt::to_string(y))) { \
-        LOG_ERROR(std::string("[Assertion Failed]\nExpected ") + gmt::to_string(x) + std::string("\nResult ") + gmt::to_string(y)); \
-    } \
-}
-
 #define LOG_ERROR(message) { \
     throw std::runtime_error(std::string("\n") + std::string(message) + std::string("\nat file:     ") + std::string(__FILE__) + std::string(":") + std::to_string(__LINE__) + std::string("\nat function: ") + std::string(__PRETTY_FUNCTION__)); \
 }
 // clang-format on
+
+#include "Maths.hpp"
 
 namespace gmt {
 
@@ -76,16 +70,6 @@ struct string<std::vector<std::pair<A, B>>> {
     }
 };
 
-/* Partially specialized template for sf::Vector2 */
-template <typename T>
-struct string<sf::Vector2<T>> {
-    static std::string str(sf::Vector2<T> param) {
-        std::ostringstream oss;
-        oss << "sf::Vector2 { " << param.x << " ; " << param.y << " }";
-        return oss.str();
-    }
-};
-
 /* Partially specialized template for gmt::Vector */
 template <typename T>
 struct string<gmt::Vector<T>> {
@@ -106,7 +90,7 @@ struct string<gmt::Bounds<T>> {
     }
 };
 
-/* Usage example: gmt::to_string(gmt::type_name<PHYSICS_PRECISION>())*/
+/* Usage example: gmt::to_string(gmt::type_name<SIMULATIO_PRECISION>())*/
 template <typename T>
 constexpr auto type_name() noexcept {
     std::string_view name = "Error: unsupported compiler", prefix, suffix;

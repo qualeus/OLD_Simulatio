@@ -1,28 +1,111 @@
-<p align="center"><img alt="Icon" src="./assets/icon/ricon.png"></p>
+<div id="top"></div>
 
-# Physics
+[![Build][build-shield]][build-url]
+[![Version][version-shield]][version-url]
+[![Language][language-shield]][language-url]
+[![Roadmap][roadmap-shield]][roadmap-url]
+[![License][license-shield]][license-url]
+[![Gitter][gitter-shield]][gitter-url]
 
-This project started from the personal challenge of recreating physical phenomena in a simulation running in real time.
+<br />
+<div align="center">
+<a href="https://github.com/mlhoutel/Simulatio/tree/develop">
+<img src="./assets/icon/ricon.png" alt="Logo" width="200" height="200">
+</a>
 
-The goal was to learn more about the functioning of these topics, such as:
+<h2 align="center">SIMULATIO</h2>
 
-- **Gravity** (My goal was not to model objects at the molecular level so I used the classical mecanics one)
-- **Collisions** (3rd law of Newton/Reciprocal force between two bodies)
-- **Friction** (Approximation with dissipation in heat)
-- **Fluids** (IN DEV)
-- **Electromagnetic fields** (IN DEV)
+<p align="center">A flexible physic engine | Debugging tools.</p>
+<p align="center">
+<a href="https://mlhoutel.github.io/Simulatio/">
+<strong>Browse the docs »</strong>
+</a>
+<br />
+<br />
+<a href="https://github.com/mlhoutel/Simulatio/">Screenshots</a>
+·
+<a href="https://github.com/mlhoutel/Simulatio/issues">Report Bug</a>
+·
+<a href="https://github.com/mlhoutel/Simulatio/issues">Request Feature</a>
+</p>
+</div>
 
-This project also allows me to familiarize myself with several areas of programming, like:
+<!-- TABLE OF CONTENTS -->
 
-- **Graph Theory** and advanced **Data structures** like Quadtrees
-- **C++ programs/libraries** compilation (Mingw batch/ CMake)
-- **Memory allocation** and **Classes Inheritances**
-- **Optimisation**
-- **Threads** and Graphical acceleration with CUDA (IN DEV)
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#exemples">Exemples</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#build-docs">Build Docs</a></li>
+      </ul>
+    </li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#authors">Authors</a></li>
+  </ol>
+</details>
+
+<!-- ABOUT THE PROJECT -->
+
+## About The Project
+
+[![Simulatio Screen Shot][screenshot]](https://github.com/mlhoutel/Simulatio/tree/main)
+
+This project started from a personal challenge: recreate **physical principles** in a **simulation** running in **real time**. I also wanted this project to easily **convey some understanding** of how it works, as well as **analysis** and **debugging tools**.
+
+The objective was to learn more about such topics as:
+
+-   **Gravity** (Classical mecanics one, he goal was not to model objects at the molecular level)
+-   **Collisions** (With Newton's 3rd law)
+-   **Friction** (Approximation with dissipation in heat)
+-   **Electromagnetic fields** (_IN WORK_, see https://github.com/mlhoutel/Fields)
+-   **Fluids** (_IN WORK_)
+
+This project also allows me to familiarize myself with several areas of programming, such as:
+
+-   **Graph Theory** and advanced **Data structures** like Quadtrees
+-   **C++ programs/libraries** compilation (Mingw batch/ CMake)
+-   **Memory allocation** and **Classes Inheritances**
+-   **Optimisation** and **Algoritmics**
+-   **Threads** and **Graphical acceleration** with CUDA (?)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ---
 
-<img align="left" height="160" src="./assets/icon/icon.png">
+As this program is oriented towards testing and comparison, a modular structure has been set up.
+
+**Modularity:**
+
+-   **Precision** (at build time):
+    -   [x] float
+    -   [x] double
+-   **Dimension** (at build time):
+    -   [x] 2D
+    -   [ ] 3D
+-   **Broad phase structure** (at run time):
+    -   [ ] Spacial grid
+    -   [x] Quad-tree
+    -   [ ] kD-tree
+-   **Integration method** (at run time):
+    -   [ ] Euler
+    -   [x] Verlet
+    -   [ ] RK4
+
+---
+
+<img align="left" height="100" style="padding:10px" src="./assets/icon/icon.png">
 
 To summarize this is an introduction to the basic concepts and functions of 2D physical simulation (applicable to 3D thereafter).
 
@@ -32,161 +115,78 @@ Currently in dev, you can see a very messy roadmap [here](https://github.com/use
 
 ---
 
-## Exemples
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-[Browse all screenshots](./docs/ScreenShots/ScreenShots.md)
+### Gallery
 
-<div float="left">
-<img alt="Abacus" src="./docs/ScreenShots/Pictures/Abacus.png" width="300">
-<img alt="Baloon" src="./docs/ScreenShots/Pictures/Baloon.png" width="300">
-<img alt="Benchmarking" src="./docs/ScreenShots/Pictures/Benchmarking.png" width="300">
-<img alt="Cloth" src="./docs/ScreenShots/Pictures/Cloth.png" width="300">
-<img alt="Polygons" src="./docs/ScreenShots/Pictures/Polygons.png" width="300">
-<img alt="Quadtree" src="./docs/ScreenShots/Pictures/Quadtree.png" width="300">
-<img alt="Softbody" src="./docs/ScreenShots/Pictures/Softbody.png" width="300">
-<img alt="Spring" src="./docs/ScreenShots/Pictures/Spring.png" width="300">
-<div>
+**[Browse screenshots](https://mlhoutel.github.io/Simulatio/gallery.html)**
 
-    
-## Installing
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-Download this repo with `git clone https://github.com/mlhoutel/Physics.git`
+### Built With
 
-_(or just click on the download button and extract the file where you want.)_
+-   [SFML](https://github.com/SFML/SFML) - The Graphical library
+-   [ImGui](https://github.com/ocornut/imgui) - The GUI library
+-   [ImGui::SFML](https://github.com/eliasdaler/imgui-sfml) - The Binder library
 
-It should contain these files:
+### Documented With
 
-```
-├───.git
-├───bin             # All binaries files
-│   │───Demos       # Demos of functionnalities and performances (ex: \Release\granular_demo\granular_demo.exe)
-│   │───Saves       # Saved binaries of the last versions (ex: \v0.2.3\Release)
-│   │───Sources     # Where the current build is stored (Debug and Release)
-│   └───Tests       # Manuals Units tests (ex: \Release\functional_computations\functional_computations.exe)
-├───include         # Headers files (.hpp)
-├───ressources      # Fonts, Libraries and Images
-└───src             # Sources files (.cpp)
-    │───Demos       # Demos files
-    └───Tests       # Tests files
-```
+-   [doxygen](https://www.doxygen.nl/index.html)
+-   [doxygen-awerzome](https://github.com/jothepro/doxygen-awesome-css)
+-   [intense-images](https://github.com/tholman/intense-images)
 
-~~If you want to use the automatic compilation by command, open the "build.bat" file in a text editor like Notepad and edit this line to match your SMFL compilated folder: ` set lib_path="D:\Projets\Physics\ressources\Libraries"`.
-You can now run the build.bat file and press 5 to compile and run the demo code.~~
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-```
-cd build
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ../.. && cmake --build .
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build .
-```
+<!-- GETTING STARTED -->
 
----
+## Getting Started
 
-## Built With
-
-- [SFML](https://github.com/SFML/SFML) - The Graphical library
-- [ImGui](https://github.com/ocornut/imgui) - The GUI library
-- [ImGui::SFML](https://github.com/eliasdaler/imgui-sfml) - The Binder library
-
-    
-## Prerequisites
-
-### CPP compiler
-
-**MINGW 32**
-
-- Download with [MinGW 32 bits](https://osdn.net/projects/mingw/downloads/68260/mingw-get-setup.exe/).
-- After the download is complete, launch the program and wait for the download to finish.
-- When you get to the **MinGW Installation Manager** page, check all the boxes.
-- Then click on the **Installation** button then **Apply Changes**.
-
-**MINGW 64**
-
-- Download with [MinGW 64 bits](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe/download).
-- Select the architecture **x86_64** and the treads to **posix**
-- Then click on the **Next** and wait until it's downloaded.
-
----
-
-You must then add the **environment variable** to your compiler:
-
-- Type **env** in the windows search bar and open **Edit the environment variables**.
-- Then click on **Environment variables** in **Avanced System Parameters**.
-- Click on the **Path** field then on **Edit**.
-- **Add** the path to the emplacement of the compiler: `...\Mingw\bin`
-
-Check if it works by opening a new command line and typing:
-
-```
-> gcc
-
-gcc: fatal error: no input files
-compilation terminated.
-```
-
-### CMAKE
-
-Install the cmake software that I use to controll the build process, and also build the libraries:
-
-- Go to http://www.cmake.org/download/ and click on the **Download button**.
-- Add it's path to then environment variables: `...\CMake\bin`
-
----
-
-## Libraries
-
-### SFML
-
-Download precompiled library from https://www.sfml-dev.org/download/sfml/2.5.1/index-fr.php
-
-**OR**
-
-Compile it yourself:
-
-- Open a **new cmd** and type `git clone https://github.com/SFML/SFML.git`
-- Open **CMake** and put the path to the **SFML source code** into the **Where is the source code** field.
-- Create a **new folder** where to compile SFML
-- Put it's path into the **Where to build the binaries** field.
-- Click on the **Configure** button and select your c/c++ compiler
-- Click on **finish**.
-
-_To compile SFML in static (all in once, don't need the .dll for the .exe to work)_
-
-- Uncheck **BUILD_SHARED_LIBS**
-- Check **SFML_USE_STATIC_STD_LIBS**
-- Edit the **CMake_INSTALL_PREFIX** to be the path of a new folder.
-- Click the **Configure** button once more to check there is no problem.
-- Then click on the **Generate** button.
-
-Then open a new command in the folder where SFML was built.
-
-- Run the following command: `mingw32-make install`
-
-### IMGUI
-    
-```
-IMGUI_DIR = D:/Librairies/imgui
-SFML_DIR = D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/cmake/SFML
-SFML_DOC_DIR = D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/cmake/SFML
-CMAKE_INSTALL_PREFIX = D:/Librairies/imgui_sfml
-```
-
-```
-cmake . -D SFML_DIR="D:\Librairies\sfml_2_5_1/sfml_2_5_1_build\lib\cmake\SFML"
-cmake D:\Librairies\imgui-sfml -DIMGUI_DIR=D:\Librairies\imgui -DSFML_DIR=D:\Librairies\sfml_2_5_1\sfml_2_5_1_build
-```
-
-Then open a new command in the folder where IMGUI was built.
-
-- Run the following command: `mingw32-make install`
+**[Official documentation](https://mlhoutel.github.io/Simulatio/build.html)**
 
 ## Contributing
 
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
 Please read [CONTRIBUTING.md](CONSTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
-## Authors
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-- **LHOUTELLIER Maël** - _Initial work_ - [mlhoutel](https://github.com/mlhoutel)
+<!-- LICENSE -->
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- ACKNOWLEDGMENTS -->
+
+## Authors
+
+-   **LHOUTELLIER Maël** - _Initial work_ - [mlhoutel](https://github.com/mlhoutel)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+  
+[build-shield]: https://img.shields.io/github/workflow/status/mlhoutel/Simulatio/publish/main?style=flat-square
+[build-url]: https://github.com/mlhoutel/Simulatio/blob/main/.github/workflows/docs.yml
+[version-shield]: https://img.shields.io/badge/version-0.5.2-orange?style=flat-square
+[version-url]: https://github.com/mlhoutel/Simulatio/blob/main/CMakeLists.txt
+[language-shield]: https://img.shields.io/github/languages/top/mlhoutel/Simulatio?style=flat-square
+[language-url]: https://github.com/mlhoutel/Simulatio/search?l=cpp
+[roadmap-shield]: https://img.shields.io/badge/roadmap-available-brightgreen?style=flat-square
+[roadmap-url]: https://github.com/users/mlhoutel/projects/3
+[license-shield]: https://img.shields.io/github/license/mlhoutel/Simulatio?style=flat-square
+[license-url]: https://github.com/mlhoutel/Simulatio/blob/main/LICENSE/
+[gitter-shield]: https://img.shields.io/gitter/room/mlhoutel/Simulatio?style=flat-square
+[gitter-url]: https://gitter.im/simulatio_engine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+[logo]: ./src/assets/logo.png
+[screenshot]: ./docs/screenshots/Pictures/Benchmarking.png

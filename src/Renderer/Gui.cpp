@@ -571,6 +571,7 @@ void Renderer::ShowGuiBenchmark(bool* p_open) {
         for (int i = 0; i < current_size; i++) {
             ImVec2 position = ImVec2(cursor.x + i * bar_width, cursor.y + 100);
             int index = size > max_element ? size - max_element + i : i;
+
             int height = static_cast<int>(bmk::Recorder::root.childs[index].Time() * 2);
 
             ImGui::GetWindowDrawList()->AddRectFilled(position, ImVec2(position.x + bar_width - 1, position.y - height), IM_COL32(255, 255, 255, 255));
@@ -666,7 +667,7 @@ void Renderer::ShowGuiProperties(bool* p_open) {
 
                 /* PRECISION */
                 ImGui::Dummy(ImVec2(0.0f, 7.0f));
-                ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), ("PHYSICS_PRECISION:" + gmt::to_string(gmt::type_name<PHYSICS_PRECISION>())).c_str());
+                ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), ("SIMULATIO_PRECISION:" + gmt::to_string(gmt::type_name<SIMULATIO_PRECISION>())).c_str());
                 ImGui::Dummy(ImVec2(0.0f, 7.0f));
 
                 ImGui::SetNextTreeNodeOpen(false, ImGuiCond_FirstUseEver);

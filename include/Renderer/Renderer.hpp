@@ -16,6 +16,7 @@
 #include "../Geometry/Vector.hpp"
 #include "../Structures/System.hpp"
 #include "Config.hpp"
+#include "Converter.hpp"
 #include "EditorColorScheme.hpp"
 #include "GuiModule.hpp"
 #include "Structures.hpp"
@@ -154,7 +155,7 @@ class Renderer {
     std::vector<bool> selected_corpses_fixed;
     std::vector<int> selected_corpses_cursor;
     std::vector<int> selected_corpses_index;
-    std::vector<gmt::VectorI> selected_corpses_diff;
+    std::vector<sf::Vector2f> selected_corpses_diff;
 
     bool reset_base_layout = false;
     bool show_gui_console = false;
