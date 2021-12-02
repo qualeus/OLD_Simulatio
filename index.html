@@ -185,44 +185,23 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
   <div class="headertitle"><div class="title">Simulatio </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p >Table of Contents</p>
-<p ><a class="anchor" id="md__home_runner_work_Simulatio_Simulatio_README"></a> </p><div id="top"></div><p ><a href="https://github.com/mlhoutel/Simulatio/main/.github/workflows/main.yml"><img src="https://img.shields.io/github/workflow/status/mlhoutel/Simulatio/publish/main?style=flat-square" alt="Build" class="inline"/></a> <a href="https://github.com/mlhoutel/Simulatio/blob/main/CMakeLists.txt"><img src="https://img.shields.io/badge/version-0.5.2-orange?style=flat-square" alt="Version" class="inline"/></a> <a href="https://github.com/mlhoutel/Simulatio/search?l=cpp"><img src="https://img.shields.io/github/languages/top/mlhoutel/Simulatio?style=flat-square" alt="Language" class="inline"/></a> <a href="https://github.com/users/mlhoutel/projects/3"><img src="https://img.shields.io/badge/roadmap-available-brightgreen?style=flat-square" alt="Roadmap" class="inline"/></a> <a href="https://github.com/mlhoutel/Simulatio/blob/main/LICENSE/"><img src="https://img.shields.io/github/license/mlhoutel/Simulatio?style=flat-square" alt="License" class="inline"/></a> <a href="https://gitter.im/simulatio_engine/community?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://img.shields.io/gitter/room/mlhoutel/Simulatio?style=flat-square" alt="Gitter" class="inline"/></a></p>
-<p ><br  />
- </p><div align="center"> <a href="https://github.com/mlhoutel/Simulatio/tree/develop"><img src="./assets/icon/ricon.png" alt="Logo" width="200" height="200" class="inline"/> </a></div><div align="center"><h2 align="center">SIMULATIO</h2>
-</div><div align="center"></div><div align="center"></div><div align="center">A flexible physic engine | Debugging tools.</div><div align="center"> </div><div align="center"> <a href="https://mlhoutel.github.io/Simulatio/"><b>Browse the docs »</b> </a> <br  />
- <br  />
- <a href="https://github.com/mlhoutel/Simulatio/">Screenshots</a> · <a href="https://github.com/mlhoutel/Simulatio/issues">Report Bug</a> · <a href="https://github.com/mlhoutel/Simulatio/issues">Request Feature</a> </div><div align="center"> </div><p >&lt;details&gt;</p>
-<ol>
-<li>
-<a href="#about-the-project">About The Project</a> <ul>
-<li>
-<a href="#built-with">Built With</a> </li>
-<li>
-<a href="#exemples">Exemples</a> </li>
+<div class="toc"><h3>Table of Contents</h3>
+<ul><li class="level1"><a href="#about">About The Project</a><ul><li class="level2"><a href="#objectives">Objectives</a></li>
+<li class="level2"><a href="#modularity">Modularity</a></li>
+<li class="level2"><a href="#summary">Summary</a></li>
 </ul>
 </li>
-<li>
-<a href="#getting-started">Getting Started</a> <ul>
-<li>
-<a href="#prerequisites">Prerequisites</a> </li>
-<li>
-<a href="#installation">Installation</a> </li>
-<li>
-<a href="#build-docs">Build Docs</a> </li>
 </ul>
-</li>
-<li>
-<a href="#contributing">Contributing</a> </li>
-<li>
-<a href="#license">License</a> </li>
-<li>
-<a href="#authors">Authors</a> </li>
-</ol>
-<p>&lt;/details&gt;</p>
-<h2><a class="anchor" id="autotoc_md0"></a>
-About The Project</h2>
-<p ><a href="https://github.com/mlhoutel/Simulatio/tree/main"><img src="./docs/screenshots/Pictures/Benchmarking.png" alt="Simulatio Screen Shot" class="inline"/></a></p>
-<p >This project started from a personal challenge: recreate <b>physical principles</b> in a <b>simulation</b> running in <b>real time</b>.</p>
+</div>
+<div class="textblock"><p ><a href="https://github.com/mlhoutel/Simulatio/blob/main/.github/workflows/docs.yml"><img src="https://img.shields.io/github/workflow/status/mlhoutel/Simulatio/Build/main?style=flat-square" alt="Build" class="inline"/></a> <a href="https://github.com/mlhoutel/Simulatio/blob/main/CMakeLists.txt"><img src="https://img.shields.io/badge/version-0.5.2-orange?style=flat-square" alt="Version" class="inline"/></a> <a href="https://github.com/mlhoutel/Simulatio/search?l=cpp"><img src="https://img.shields.io/github/languages/top/mlhoutel/Simulatio?style=flat-square" alt="Language" class="inline"/></a> <a href="https://github.com/users/mlhoutel/projects/3"><img src="https://img.shields.io/badge/roadmap-available-brightgreen?style=flat-square" alt="Roadmap" class="inline"/></a> <a href="https://github.com/mlhoutel/Simulatio/blob/main/LICENSE/"><img src="https://img.shields.io/github/license/mlhoutel/Simulatio?style=flat-square" alt="License" class="inline"/></a></p>
+<h1><a class="anchor" id="about"></a>
+About The Project</h1>
+<p >This project started from a personal challenge: recreate <b>physical principles</b> in a <b>simulation</b> running in <b>real time</b>. I also wanted this project to easily <b>convey some understanding</b> of how it works, as well as <b>analysis</b> and <b>debugging tools</b>.</p>
+<dl class="section note"><dt>Note</dt><dd>This project is currently in <b>active development</b>.<br  />
+You can see a very messy <b>roadmap</b> <a href="https://github.com/users/mlhoutel/projects/3">here</a>.<br  />
+If you want to <b>report a bug</b> or <b>request a feature</b>, see <a href="https://github.com/mlhoutel/Simulatio/issues">here</a>.</dd></dl>
+<h2><a class="anchor" id="objectives"></a>
+Objectives</h2>
 <p >The objective was to learn more about such topics as:</p>
 <ul>
 <li><b>Gravity</b> (Classical mecanics one, he goal was not to model objects at the molecular level)</li>
@@ -239,7 +218,8 @@ About The Project</h2>
 <li><b>Optimisation</b> and <b>Algoritmics</b></li>
 <li><b>Threads</b> and <b>Graphical acceleration</b> with CUDA (?)</li>
 </ul>
-<hr  />
+<div style="margin: 50px; text-align:center"> <a href="https://github.com/mlhoutel/Simulatio/tree/main"><img src="../screenshots/Pictures/Benchmarking.png" alt="" style="width:80%" class="inline"/></a> </div><h2><a class="anchor" id="modularity"></a>
+Modularity</h2>
 <p >As this program is oriented towards testing and comparison, a modular structure has been set up.</p>
 <p ><b>Modularity:</b></p>
 <ul>
@@ -266,169 +246,12 @@ About The Project</h2>
 </ul>
 </li>
 </ul>
-<hr  />
+<h2><a class="anchor" id="summary"></a>
+Summary</h2>
 <p ><img src="./assets/icon/icon.png" alt="" align="left" height="100" style="padding:10px" class="inline"/></p>
 <p >To summarize this is an introduction to the basic concepts and functions of 2D physical simulation (applicable to 3D thereafter).</p>
-<p >The ultimate goal would be to present an easy-to-use and optimized physical engine, a bit like a simplified "Algodoo".</p>
-<p >Currently in dev, you can see a very messy roadmap <a href="https://github.com/users/mlhoutel/projects/3">here</a></p>
-<hr  />
-<p >(<a href="#top">back to top</a>)</p>
-<h3><a class="anchor" id="autotoc_md4"></a>
-Exemples</h3>
-<p >Browse all screenshots</p>
-<div float="left"> <img src="./docs/screenshots/Pictures/Abacus.png" alt="Abacus" width="300" class="inline"/> <img src="./docs/screenshots/Pictures/Baloon.png" alt="Baloon" width="300" class="inline"/> <img src="./docs/screenshots/Pictures/Benchmarking.png" alt="Benchmarking" width="300" class="inline"/> <img src="./docs/screenshots/Pictures/Cloth.png" alt="Cloth" width="300" class="inline"/> <img src="./docs/screenshots/Pictures/Polygons.png" alt="Polygons" width="300" class="inline"/> <img src="./docs/screenshots/Pictures/Quadtree.png" alt="Quadtree" width="300" class="inline"/> <img src="./docs/screenshots/Pictures/Softbody.png" alt="Softbody" width="300" class="inline"/> <img src="./docs/screenshots/Pictures/Spring.png" alt="Spring" width="300" class="inline"/> <div></div></div><div float="left"><div></div></div><div float="left"><div>(<a href="#top">back to top</a>)</div></div><div float="left"><div></div></div><div float="left"><div></div></div><h3><a class="anchor" id="autotoc_md5"></a>
-Built With</h3>
-<div float="left"><div><ul>
-<li><a href="https://github.com/SFML/SFML">SFML</a> - The Graphical library</li>
-<li><a href="https://github.com/ocornut/imgui">ImGui</a> - The GUI library</li>
-<li><a href="https://github.com/eliasdaler/imgui-sfml">ImGui::SFML</a> - The Binder library</li>
-</ul>
-</div></div><div float="left"><div></div></div><div float="left"><div>(<a href="#top">back to top</a>)</div></div><div float="left"><div></div></div><div float="left"><div></div></div><h2><a class="anchor" id="autotoc_md6"></a>
-Getting Started</h2>
-<div float="left"><div> </div></div><h3><a class="anchor" id="autotoc_md7"></a>
-Prerequisites</h3>
-<div float="left"><div> </div></div><h4><a class="anchor" id="autotoc_md8"></a>
-&lt;strong&gt;C++ compiler&lt;/strong&gt;</h4>
-<div float="left"><div> &lt;details open&gt; </div></div><div float="left"><div><div class="fragment"><div class="line">For Windows</div>
-</div><!-- fragment --></div></div><div float="left"><div></div></div><div float="left"><div><b>MINGW 32</b></div></div><div float="left"><div><ol type="1">
-<li>Download with <a href="https://osdn.net/projects/mingw/downloads/68260/mingw-get-setup.exe/">MinGW 32 bits</a>.</li>
-<li>After the download is complete, launch the program and wait for the download to finish.</li>
-<li>When you get to the <b>MinGW Installation Manager</b> page, check all the boxes.</li>
-<li>Then click on the <b>Installation</b> button then <b>Apply Changes</b>.</li>
-</ol>
-</div></div><div float="left"><div><b>MINGW 64</b></div></div><div float="left"><div><ol type="1">
-<li>Download with <a href="https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe/download">MinGW 64 bits</a>.</li>
-<li>Select the architecture <b>x86_64</b> and the treads to <b>posix</b></li>
-<li>Then click on the <b>Next</b> and wait until it's downloaded.</li>
-</ol>
-</div></div><div float="left"><div><b>ENV VARS</b></div></div><div float="left"><div>You must then add the <b>environment variable</b> to your compiler:</div></div><div float="left"><div><ol type="1">
-<li>Type <b>env</b> in the windows search bar and open <b>Edit the environment variables</b>.</li>
-<li>Then click on <b>Environment variables</b> in <b>Avanced System Parameters</b>.</li>
-<li>Click on the <b>Path</b> field then on <b>Edit</b>.</li>
-<li><b>Add</b> the path to the emplacement of the compiler: <code>...\Mingw\bin</code></li>
-</ol>
-</div></div><div float="left"><div>Check if it works by opening a new command line and typing:</div></div><div float="left"><div><div class="fragment"><div class="line">&gt; gcc</div>
-<div class="line"> </div>
-<div class="line">gcc: fatal error: no input files</div>
-<div class="line">compilation terminated.</div>
-</div><!-- fragment --></div></div><div float="left"><div>&lt;/details&gt;</div></div><div float="left"><div>&lt;details&gt; </div></div><div float="left"><div><div class="fragment"><div class="line">For Linux</div>
-</div><!-- fragment --></div></div><div float="left"><div></div></div><div float="left"><div> <code>TODO</code></div></div><div float="left"><div>&lt;/details&gt;</div></div><div float="left"><div></div></div><h4><a class="anchor" id="autotoc_md9"></a>
-&lt;strong&gt;CMAKE&lt;/strong&gt;</h4>
-<div float="left"><div> &lt;details open&gt; </div></div><div float="left"><div><div class="fragment"><div class="line">For Windows</div>
-</div><!-- fragment --></div></div><div float="left"><div></div></div><div float="left"><div>Install the cmake software that I use to controll the build process, and also build the libraries:</div></div><div float="left"><div><ol type="1">
-<li>Go to <a href="http://www.cmake.org/download/">http://www.cmake.org/download/</a> and click on the <b>Download button</b>.</li>
-<li>Add it's path to then environment variables: <code>...\CMake\bin</code></li>
-</ol>
-</div></div><div float="left"><div>&lt;/details&gt;</div></div><div float="left"><div>&lt;details&gt; </div></div><div float="left"><div><div class="fragment"><div class="line">For Linux</div>
-</div><!-- fragment --></div></div><div float="left"><div></div></div><div float="left"><div> <code>TODO</code></div></div><div float="left"><div>&lt;/details&gt;</div></div><div float="left"><div></div></div><div float="left"><div>(<a href="#top">back to top</a>)</div></div><div float="left"><div></div></div><div float="left"><div></div></div><h3><a class="anchor" id="autotoc_md10"></a>
-Libraries</h3>
-<div float="left"><div> </div></div><h4><a class="anchor" id="autotoc_md11"></a>
-&lt;strong&gt;SFML&lt;/strong&gt;</h4>
-<div float="left"><div><ol type="1">
-<li>Download precompiled library from <a href="https://www.sfml-dev.org/download/sfml/2.5.1/index-fr.php">https://www.sfml-dev.org/download/sfml/2.5.1/index-fr.php</a></li>
-</ol>
-</div></div><div float="left"><div>Or compile it yourself:</div></div><div float="left"><div><ol type="1">
-<li>Open a <b>new cmd</b> and type <code>git clone <a href="https://github.com/SFML/SFML.git">https://github.com/SFML/SFML.git</a></code></li>
-<li>Open <b>CMake</b> and put the path to the <b>SFML source code</b> into the <b>Where is the source code</b> field.</li>
-<li>Create a <b>new folder</b> where to compile SFML</li>
-<li>Put it's path into the <b>Where to build the binaries</b> field.</li>
-<li>Click on the <b>Configure</b> button and select your c/c++ compiler</li>
-<li>Click on <b>finish</b>.</li>
-</ol>
-</div></div><div float="left"><div><blockquote class="doxtable">
-<p >**&lt;details&gt;</p>
-<div class="fragment"><div class="line">To compile SFML in static</div>
-</div><!-- fragment --></blockquote>
-</div></div><div float="left"><div>**</div></div><div float="left"><div><b>Static:</b> don't need the .dll for the .exe to work</div></div><div float="left"><div><ol type="1">
-<li>Uncheck <b>BUILD_SHARED_LIBS</b></li>
-<li>Check <b>SFML_USE_STATIC_STD_LIBS</b></li>
-<li>Edit the <b>CMake_INSTALL_PREFIX</b> to be the path of a new folder.</li>
-<li>Click the <b>Configure</b> button once more to check there is no problem.</li>
-<li>Then click on the <b>Generate</b> button.</li>
-<li>Open a new command in the folder where SFML was built.</li>
-<li>Run the following command: <code>mingw32-make install</code> </li>
-</ol>
-</div></div><div float="left"><div> &lt;/details&gt;</div></div><div float="left"><div></div></div><div float="left"><div>(<a href="#top">back to top</a>)</div></div><div float="left"><div></div></div><div float="left"><div></div></div><h4><a class="anchor" id="autotoc_md12"></a>
-&lt;strong&gt;IMGUI&lt;/strong&gt;</h4>
-<div float="left"><div><ol type="1">
-<li>Open a <b>new cmd</b> and type <code>git clone <a href="https://github.com/ocornut/imgui.git">https://github.com/ocornut/imgui.git</a></code></li>
-<li>Go to the docking branch with <code>git checkout docking</code></li>
-</ol>
-</div></div><div float="left"><div><div class="fragment"><div class="line">IMGUI_DIR = D:/Librairies/imgui</div>
-<div class="line">SFML_DIR = D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/cmake/SFML</div>
-<div class="line">SFML_DOC_DIR = D:/Librairies/sfml_2_5_1/sfml_2_5_1_build/lib/cmake/SFML</div>
-<div class="line">CMAKE_INSTALL_PREFIX = D:/Librairies/imgui_sfml</div>
-</div><!-- fragment --></div></div><div float="left"><div><div class="fragment"><div class="line">cmake . -D SFML_DIR=&quot;D:\Librairies\sfml_2_5_1/sfml_2_5_1_build\lib\cmake\SFML&quot;</div>
-<div class="line">cmake D:\Librairies\imgui-sfml -DIMGUI_DIR=D:\Librairies\imgui -DSFML_DIR=D:\Librairies\sfml_2_5_1\sfml_2_5_1_build</div>
-</div><!-- fragment --></div></div><div float="left"><div><ol type="1">
-<li>Then open a new command in the folder where IMGUI was built.</li>
-<li>Run the following command: <code>mingw32-make install</code></li>
-</ol>
-</div></div><div float="left"><div></div></div><h3><a class="anchor" id="autotoc_md13"></a>
-Installation</h3>
-<div float="left"><div> <b>To fetch the project files</b></div></div><div float="left"><div><ol type="1">
-<li>Clone this project with <code>git clone <a href="https://github.com/mlhoutel/Simulatio.git">https://github.com/mlhoutel/Simulatio.git</a></code> <br  />
- _(or just click on the download button and extract the file where you want.)_</li>
-</ol>
-</div></div><div float="left"><div>**&lt;details style="padding: 20px"&gt; </div></div><div float="left"><div>[Structure details]</div></div><div float="left"><div>**</div></div><div float="left"><div></div></div><div float="left"><div> The cloned project should contain these files:</div></div><div float="left"><div><div class="fragment"><div class="line">├───.git</div>
-<div class="line">├───.vscode</div>
-<div class="line">├───assets          # Fonts, Libraries and Images</div>
-<div class="line">├───bin             # All binaries files</div>
-<div class="line">│   │───Demos       # Demos of functionnalities and performances</div>
-<div class="line">│   └───Saves       # Saved binaries of the precedent versions</div>
-<div class="line">=========================================================</div>
-<div class="line">├───build           # Where the project is compiled</div>
-<div class="line">│   │───Debug       # Debug binaries</div>
-<div class="line">│   └───Release     # Release binaries</div>
-<div class="line">=========================================================</div>
-<div class="line">├───docs            # Documentatiion and screenshots</div>
-<div class="line">├───include         # Headers files (.hpp)</div>
-<div class="line">└───src             # Sources files (.cpp)</div>
-</div><!-- fragment --></div></div><div float="left"><div></div></div><div float="left"><div> &lt;/details&gt;</div></div><div float="left"><div><b>Build with the batch tool</b></div></div><div float="left"><div><div class="fragment"><div class="line">[0] Build/Run Debug</div>
-<div class="line">[1] Run Debug</div>
-<div class="line">[2] Build/Run Release</div>
-<div class="line">[3] Run Release</div>
-<div class="line">[4] Build Demos</div>
-<div class="line">[5] Build/Run Tests</div>
-<div class="line">[6] Commit/Push Git</div>
-<div class="line">[7] Build Wrapper</div>
-<div class="line">[8] Sonar Scanner</div>
-<div class="line">[9] Exit</div>
-</div><!-- fragment --></div></div><div float="left"><div><b>In case of problem with the bat file, compile manually with</b></div></div><div float="left"><div><div class="fragment"><div class="line">cd build</div>
-<div class="line"> </div>
-<div class="line">and</div>
-<div class="line"> </div>
-<div class="line">cmake -G &quot;MinGW Makefiles&quot; -DCMAKE_BUILD_TYPE=Release ../.. &amp;&amp; cmake --build .</div>
-<div class="line"> </div>
-<div class="line">or</div>
-<div class="line"> </div>
-<div class="line">cmake -G &quot;MinGW Makefiles&quot; -DCMAKE_BUILD_TYPE=Debug ../.. &amp;&amp; cmake --build .</div>
-</div><!-- fragment --></div></div><div float="left"><div></div></div><div float="left"><div>(<a href="#top">back to top</a>)</div></div><div float="left"><div></div></div><div float="left"><div></div></div><h3><a class="anchor" id="autotoc_md14"></a>
-Build docs</h3>
-<div float="left"><div><ol type="1">
-<li>Install doxygen (<a href="https://www.doxygen.nl/download.html">https://www.doxygen.nl/download.html</a>)</li>
-<li>Install sphinx (<a href="https://www.sphinx-doc.org/en/master/usage/installation.html">https://www.sphinx-doc.org/en/master/usage/installation.html</a>)</li>
-<li>Install sphinx theme (ex: <code>pip install sphinx_rtd_theme</code>)</li>
-<li>Install sphinx theme (ex: <code>pip install sphinx-sitemap</code>)</li>
-<li>Install sphinx theme (ex: <code>pip install breathe</code>)</li>
-</ol>
-</div></div><div float="left"><div></div></div><h2><a class="anchor" id="autotoc_md15"></a>
-Contributing</h2>
-<div float="left"><div> Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are <b>greatly appreciated</b>.</div></div><div float="left"><div>If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement". Don't forget to give the project a star! Thanks again!</div></div><div float="left"><div><ol type="1">
-<li>Fork the Project</li>
-<li>Create your Feature Branch (<code>git checkout -b feature/AmazingFeature</code>)</li>
-<li>Commit your Changes (&lsquo;git commit -m 'Add some AmazingFeature&rsquo;<code>)</code></li>
-<li><code>Push to the Branch (</code>git push origin feature/AmazingFeature`)</li>
-<li>Open a Pull Request</li>
-</ol>
-</div></div><div float="left"><div>Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.</div></div><div float="left"><div></div></div><div float="left"><div>(<a href="#top">back to top</a>)</div></div><div float="left"><div></div></div><div float="left"><div></div></div><h2><a class="anchor" id="autotoc_md16"></a>
-License</h2>
-<div float="left"><div> Distributed under the MIT License. See <code>LICENSE.txt</code> for more information.</div></div><div float="left"><div></div></div><div float="left"><div>(<a href="#top">back to top</a>)</div></div><div float="left"><div></div></div><div float="left"><div></div></div><h2><a class="anchor" id="autotoc_md17"></a>
-Authors</h2>
-<div float="left"><div><ul>
-<li><b>LHOUTELLIER Maël</b> - <em>Initial work</em> - <a href="https://github.com/mlhoutel">mlhoutel</a></li>
-</ul>
-</div></div><div float="left"><div></div></div><div float="left"><div>(<a href="#top">back to top</a>)</div></div><div float="left"><div> </div></div></div></div><!-- PageDoc -->
+<p >The ultimate goal would be to present an easy-to-use and optimized physical engine, a bit like a simplified "Algodoo". </p>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

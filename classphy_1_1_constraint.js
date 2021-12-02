@@ -4,7 +4,7 @@ var classphy_1_1_constraint =
     [ "Equals", "classphy_1_1_constraint.html#a53c93c4708aa72d20521abb4ba6275ea", null ],
     [ "get_breaking", "classphy_1_1_constraint.html#a5c487339b8450fd0a7e531e65d1dbf30", null ],
     [ "get_broken", "classphy_1_1_constraint.html#a50a17dde01657b579708ac12a5dab9af", null ],
-    [ "get_class", "classphy_1_1_constraint.html#a46f35eb2a30ce7634419305f518f69aa", null ],
+    [ "get_class", "classphy_1_1_constraint.html#a3e236f173a1c663137eea9a0ae62bb60", null ],
     [ "get_corpse_a", "classphy_1_1_constraint.html#aac4fe34f85f50e7f8a8f0b71f33b0a2b", null ],
     [ "get_corpse_b", "classphy_1_1_constraint.html#a2978d4c0d02ca681016349ab9c103049", null ],
     [ "get_friction_a", "classphy_1_1_constraint.html#afe22f5609b666cd0823d155eb565156a", null ],

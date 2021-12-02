@@ -25,31 +25,33 @@
 var NAVTREE =
 [
   [ "Simulatio", "index.html", [
-    [ "Example Page", "page1.html", [
-      [ "About The Project", "index.html#autotoc_md0", [
-        [ "Exemples", "index.html#autotoc_md4", null ],
-        [ "Built With", "index.html#autotoc_md5", null ]
-      ] ],
-      [ "Getting Started", "index.html#autotoc_md6", [
-        [ "Prerequisites", "index.html#autotoc_md7", [
-          [ "<strong>C++ compiler</strong>", "index.html#autotoc_md8", null ],
-          [ "<strong>CMAKE</strong>", "index.html#autotoc_md9", null ]
-        ] ],
-        [ "Libraries", "index.html#autotoc_md10", [
-          [ "<strong>SFML</strong>", "index.html#autotoc_md11", null ],
-          [ "<strong>IMGUI</strong>", "index.html#autotoc_md12", null ]
-        ] ],
-        [ "Installation", "index.html#autotoc_md13", null ],
-        [ "Build docs", "index.html#autotoc_md14", null ]
-      ] ],
-      [ "Contributing", "index.html#autotoc_md15", null ],
-      [ "License", "index.html#autotoc_md16", null ],
-      [ "Authors", "index.html#autotoc_md17", null ],
-      [ "An example section", "page1.html#sec", [
-        [ "The first subsection", "page1.html#subsection1", null ],
-        [ "The second subsection", "page1.html#subsection2", null ]
-      ] ]
+    [ "About The Project", "index.html#about", [
+      [ "Objectives", "index.html#objectives", null ],
+      [ "Modularity", "index.html#modularity", null ],
+      [ "Summary", "index.html#summary", null ]
     ] ],
+    [ "About", "about.html", [
+      [ "Contributing", "about.html#contributing", null ],
+      [ "License", "about.html#license", null ],
+      [ "Authors", "about.html#authors", null ]
+    ] ],
+    [ "Build", "build.html", [
+      [ "Built With", "build.html#build_with", null ],
+      [ "For Windows", "build.html#for_windows", [
+        [ "Prerequisites", "build.html#prerequisites", [
+          [ "C++ compiler", "build.html#cpp_compiler", null ],
+          [ "CMAKE", "build.html#cmake", null ]
+        ] ],
+        [ "Libraries", "build.html#libraries", [
+          [ "SFML", "build.html#sfml", null ],
+          [ "IMGUI", "build.html#imgui", null ]
+        ] ]
+      ] ],
+      [ "For Linux", "build.html#for_linux", null ],
+      [ "Installation", "build.html#installation", null ],
+      [ "Build docs", "build.html#build_docs", null ]
+    ] ],
+    [ "Screenshots", "screenshots.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -81,12 +83,12 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_block_data_8hpp.html",
-"class_renderer.html#a8e20c6ecf11d03dba45014549044136c",
-"classgmt_1_1_quadtree.html#ae0aa9e7cd2256d82c9a0ba97bc1ebb8e",
-"classphy_1_1_corpse.html#a4ed2bcdc659dd6e89c97980ef3cce9a2",
-"classphy_1_1_spring.html#a3542a53932e53ac8542eb8ec7858aa71",
-"namespace_im_gui.html#ac3919b239ed10ef8d87093a8781f9070"
+"_block_data_8cpp.html",
+"class_renderer.html#a0402ff9fbb38115f9dd4d6e60110142a",
+"classgmt_1_1_quad_tree.html#a6c56331fdd0075d49c4f2241d7a96778",
+"classphy_1_1_constraint.html#ab4409a659fb059aac1888fe1ae67a0ba",
+"classphy_1_1_polygon.html#ad4d7f778960ce6d5db52fbee8f4d0132",
+"functions.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

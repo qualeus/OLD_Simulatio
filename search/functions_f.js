@@ -20,12 +20,12 @@ var searchData=
   ['renderer_17',['Renderer',['../class_renderer.html#a02c2fb0af342f2aa48394c15ad16eb0a',1,'Renderer']]],
   ['rendergui_18',['RenderGui',['../class_renderer.html#a70b03a8a73eda8ed547447016b170603',1,'Renderer']]],
   ['renderwindow_19',['RenderWindow',['../class_renderer.html#a201446cbeefeab0c7a53c43cf6ba08ec',1,'Renderer']]],
-  ['reorder_20',['Reorder',['../classgmt_1_1_bounds.html#ac523fdd33f8a027ba01881e3fa000654',1,'gmt::Bounds::Reorder()'],['../classgmt_1_1_vertices.html#ab34524f06d8e71c1253ca7cef1354eeb',1,'gmt::Vertices::Reorder()']]],
+  ['reorder_20',['Reorder',['../classgmt_1_1_bounds.html#afefd38f584cec3eaaaa223ebd92988f6',1,'gmt::Bounds::Reorder()'],['../classgmt_1_1_vertices.html#ae92ae378281dc0a0e4862b04ca98d793',1,'gmt::Vertices::Reorder()']]],
   ['reset_21',['Reset',['../classbmk_1_1_recorder.html#a37e6834c8f13cc0a67d9b865ce515c22',1,'bmk::Recorder']]],
   ['resetbenchmark_22',['ResetBenchmark',['../class_renderer.html#a702a98506acd00cd8811d3c1e0ef3792',1,'Renderer']]],
   ['resetchilds_23',['ResetChilds',['../classbmk_1_1_performance.html#af6e4c0de890587b5074ae59a4dec6470',1,'bmk::Performance']]],
-  ['resolve_24',['Resolve',['../classgmt_1_1_collision.html#a9ed1e280304e94c846410e08bc44746f',1,'gmt::Collision']]],
-  ['response_25',['Response',['../classgmt_1_1_collision.html#af0912714f33d4954b7170292d5bc06e5',1,'gmt::Collision']]],
-  ['rotate_26',['Rotate',['../classgmt_1_1_vertices.html#ae304f5f89a8f78a5465907581c9a46d0',1,'gmt::Vertices::Rotate()'],['../classgmt_1_1_vector.html#a1cec0a646ff835180e5e331118c605ae',1,'gmt::Vector::Rotate()'],['../classphy_1_1_polygon.html#a9bcf02f39752d4d253263055c9ff97c5',1,'phy::Polygon::Rotate()'],['../classphy_1_1_corpse.html#a73de0e417dc5768591781c4da8c5144b',1,'phy::Corpse::Rotate()'],['../classphy_1_1_circle.html#ab8114045562846ebaf48e4b3f7259231',1,'phy::Circle::Rotate()']]],
-  ['rotatepoint_27',['RotatePoint',['../classgmt_1_1_vector.html#a063c5e23beaa140621d4f1a82aafd81d',1,'gmt::Vector']]]
+  ['resolve_24',['Resolve',['../classgmt_1_1_collision.html#a7becdc72cb2c9024d6e10bfc9d5b1348',1,'gmt::Collision']]],
+  ['response_25',['Response',['../classgmt_1_1_collision.html#aa05cead7620eb5a1c6884e9064c4a4e0',1,'gmt::Collision']]],
+  ['rotate_26',['Rotate',['../classgmt_1_1_vertices.html#aef4e0f2557953865f97d88390ad166eb',1,'gmt::Vertices::Rotate()'],['../classgmt_1_1_vector.html#a9c5f6afcf9f46f53f58118406d6e5296',1,'gmt::Vector::Rotate()'],['../classphy_1_1_polygon.html#a9bcf02f39752d4d253263055c9ff97c5',1,'phy::Polygon::Rotate()'],['../classphy_1_1_corpse.html#a73de0e417dc5768591781c4da8c5144b',1,'phy::Corpse::Rotate()'],['../classphy_1_1_circle.html#ab8114045562846ebaf48e4b3f7259231',1,'phy::Circle::Rotate()']]],
+  ['rotatepoint_27',['RotatePoint',['../classgmt_1_1_vector.html#aed87015fa6f0774eae87794521d4f383',1,'gmt::Vector']]]
 ];

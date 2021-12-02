@@ -7,9 +7,9 @@ var searchData=
   ['nodepairs_4',['NodePairs',['../namespacegmt.html#a316f8c5b9eaa054ebac4935beb9d56ba',1,'gmt']]],
   ['non_5ftouching_5fpairs_5',['non_touching_pairs',['../namespacegmt.html#ac2818911a7d6e22f5532deecc65b441b',1,'gmt']]],
   ['normal_6',['normal',['../classgmt_1_1_collision.html#a2fc27d844f6335215e54dbe81793a23f',1,'gmt::Collision']]],
-  ['normal_7',['Normal',['../classgmt_1_1_vector.html#a9c882a05eac8587fa0544d7d52db7b73',1,'gmt::Vector::Normal(const Vector&lt; T &gt; &amp;v1)'],['../classgmt_1_1_vector.html#aab6c8124d0557b59708b92fb87396293',1,'gmt::Vector::Normal(const Vector&lt; T &gt; &amp;v1, const Vector&lt; T &gt; &amp;v2)']]],
-  ['normalinverted_8',['NormalInverted',['../classgmt_1_1_vector.html#a6f6173940754cd17faf239743696a821',1,'gmt::Vector::NormalInverted(const Vector&lt; T &gt; &amp;v1)'],['../classgmt_1_1_vector.html#a64741e12ad1973efdd0f0706f86c126a',1,'gmt::Vector::NormalInverted(const Vector&lt; T &gt; &amp;v1, const Vector&lt; T &gt; &amp;v2)']]],
-  ['normalize_9',['Normalize',['../classgmt_1_1_vector.html#afe266aec98f675bf49438c0fd085c1e8',1,'gmt::Vector']]],
-  ['notnull_10',['NotNull',['../classgmt_1_1_quadtree.html#ae0aa9e7cd2256d82c9a0ba97bc1ebb8e',1,'gmt::Quadtree']]],
+  ['normal_7',['Normal',['../classgmt_1_1_vector.html#a596bcc368aa7a64e4135be9b4b1daf99',1,'gmt::Vector::Normal(const Vector&lt; T &gt; &amp;v1)'],['../classgmt_1_1_vector.html#a0d2d645788b7d6ff640b5080ca7526b4',1,'gmt::Vector::Normal(const Vector&lt; T &gt; &amp;v1, const Vector&lt; T &gt; &amp;v2)']]],
+  ['normalinverted_8',['NormalInverted',['../classgmt_1_1_vector.html#a68aa5a38caa372a93dbb22942830fa7a',1,'gmt::Vector::NormalInverted(const Vector&lt; T &gt; &amp;v1)'],['../classgmt_1_1_vector.html#a299dc01111faa5d18694db0b0441bfbb',1,'gmt::Vector::NormalInverted(const Vector&lt; T &gt; &amp;v1, const Vector&lt; T &gt; &amp;v2)']]],
+  ['normalize_9',['Normalize',['../classgmt_1_1_vector.html#ac10821b8df513b3fd4fa562ea972b2bf',1,'gmt::Vector']]],
+  ['notnull_10',['NotNull',['../classgmt_1_1_quadtree.html#a4652893cb723b2a73fd6e35797112d3d',1,'gmt::Quadtree']]],
   ['number_5fsub_11',['NUMBER_SUB',['../_old_quadtree_8hpp.html#ae6caeab988aec9faa1173693e41924de',1,'OldQuadtree.hpp']]]
 ];

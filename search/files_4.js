@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['geometry_2ehpp_0',['Geometry.hpp',['../_geometry_8hpp.html',1,'']]],
-  ['guimodule_2ehpp_1',['GuiModule.hpp',['../_gui_module_8hpp.html',1,'']]]
+  ['editorcolorscheme_2ecpp_0',['EditorColorScheme.cpp',['../_editor_color_scheme_8cpp.html',1,'']]],
+  ['editorcolorscheme_2ehpp_1',['EditorColorScheme.hpp',['../_editor_color_scheme_8hpp.html',1,'']]],
+  ['event_2ecpp_2',['Event.cpp',['../_event_8cpp.html',1,'']]]
 ];

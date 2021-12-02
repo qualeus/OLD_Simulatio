@@ -6,7 +6,7 @@ var classphy_1_1_corpse =
     [ "Equals", "classphy_1_1_corpse.html#a1bb8bd8c4dfff75ff06b75ff0ee8778d", null ],
     [ "get_bounce", "classphy_1_1_corpse.html#abb5f400368ed037a28e24ce945042873", null ],
     [ "get_bounds", "classphy_1_1_corpse.html#a94430ba2f39564701cc921e723fe4c66", null ],
-    [ "get_class", "classphy_1_1_corpse.html#a535cd0ab27d456e09bccf5829f59c252", null ],
+    [ "get_class", "classphy_1_1_corpse.html#a3140eab86a31884a3b371adf05cdace9", null ],
     [ "get_damping", "classphy_1_1_corpse.html#a367a184af990c8960b4d878b684de6db", null ],
     [ "get_diff_pos", "classphy_1_1_corpse.html#aacae3ba03003310e5af1b64d797fc896", null ],
     [ "get_diff_pos_x", "classphy_1_1_corpse.html#ae32a5c796e9d2fc34379222235c0e411", null ],
