@@ -25,10 +25,12 @@
 var NAVTREE =
 [
   [ "Simulatio", "index.html", [
-    [ "About The Project", "index.html#about", [
+    [ "Project", "index.html#about", [
       [ "Objectives", "index.html#objectives", null ],
       [ "Modularity", "index.html#modularity", null ],
-      [ "Summary", "index.html#summary", null ]
+      [ "Summary", "index.html#summary", null ],
+      [ "Built With", "index.html#build_with", null ],
+      [ "Documented With", "index.html#documented_with", null ]
     ] ],
     [ "About", "about.html", [
       [ "Contributing", "about.html#contributing", null ],
@@ -36,7 +38,6 @@ var NAVTREE =
       [ "Authors", "about.html#authors", null ]
     ] ],
     [ "Build", "build.html", [
-      [ "Built With", "build.html#build_with", null ],
       [ "For Windows", "build.html#for_windows", [
         [ "Prerequisites", "build.html#prerequisites", [
           [ "C++ compiler", "build.html#cpp_compiler", null ],
@@ -51,7 +52,17 @@ var NAVTREE =
       [ "Installation", "build.html#installation", null ],
       [ "Build docs", "build.html#build_docs", null ]
     ] ],
-    [ "Screenshots", "screenshots.html", null ],
+    [ "Gallery", "gallery.html", [
+      [ "Screenshots", "gallery.html#screenshots", [
+        [ "scenes", "gallery.html#scenes", null ],
+        [ "Gui", "gallery.html#gui", null ],
+        [ "Demos", "gallery.html#demos", null ]
+      ] ],
+      [ "Motion", "gallery.html#motion", [
+        [ "Gifs", "gallery.html#gifs", null ],
+        [ "Videos", "gallery.html#videos", null ]
+      ] ]
+    ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -84,7 +95,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_block_data_8cpp.html",
-"class_renderer.html#a0402ff9fbb38115f9dd4d6e60110142a",
+"class_renderer.html#a0a1b03d4a098908e2579dc79a66bbb61",
 "classgmt_1_1_quad_tree.html#a6c56331fdd0075d49c4f2241d7a96778",
 "classphy_1_1_constraint.html#ab4409a659fb059aac1888fe1ae67a0ba",
 "classphy_1_1_polygon.html#ad4d7f778960ce6d5db52fbee8f4d0132",
