@@ -5,6 +5,7 @@
 [![Language][language-shield]][language-url]
 [![Roadmap][roadmap-shield]][roadmap-url]
 [![License][license-shield]][license-url]
+[![Gitter][gitter-shield]][gitter-url]
 
 <br />
 <div align="center">
@@ -16,7 +17,7 @@
 
 <p align="center">A flexible physic engine | Debugging tools.</p>
 <p align="center">
-<a href="">
+<a href="https://mlhoutel.github.io/Simulatio/">
 <strong>Browse the docs »</strong>
 </a>
 <br />
@@ -177,8 +178,8 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 -   **LHOUTELLIER Maël** - _Initial work_ - [mlhoutel](https://github.com/mlhoutel)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-[build-shield]: https://img.shields.io/github/workflow/status/mlhoutel/Simulatio/Build/main?style=flat-square
+  
+[build-shield]: https://img.shields.io/github/workflow/status/mlhoutel/Simulatio/publish/main?style=flat-square
 [build-url]: https://github.com/mlhoutel/Simulatio/blob/main/.github/workflows/docs.yml
 [version-shield]: https://img.shields.io/badge/version-0.5.2-orange?style=flat-square
 [version-url]: https://github.com/mlhoutel/Simulatio/blob/main/CMakeLists.txt
@@ -188,5 +189,8 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [roadmap-url]: https://github.com/users/mlhoutel/projects/3
 [license-shield]: https://img.shields.io/github/license/mlhoutel/Simulatio?style=flat-square
 [license-url]: https://github.com/mlhoutel/Simulatio/blob/main/LICENSE/
+[gitter-shield]: https://img.shields.io/gitter/room/mlhoutel/Simulatio?style=flat-square
+[gitter-url]: https://gitter.im/simulatio_engine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [logo]: ./src/assets/logo.png
 [screenshot]: ./docs/screenshots/Pictures/Benchmarking.png
+  
