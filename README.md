@@ -80,6 +80,8 @@ This project also allows me to familiarize myself with several areas of programm
 -   **Optimisation** and **Algoritmics**
 -   **Threads** and **Graphical acceleration** with CUDA (?)
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 ---
 
 As this program is oriented towards testing and comparison, a modular structure has been set up.
@@ -115,20 +117,9 @@ Currently in dev, you can see a very messy roadmap [here](https://github.com/use
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-### Exemples
+### Gallery
 
-[Browse all screenshots](./docs/screenshots/ScreenShots.md)
-
-<div float="left">
-<img alt="Abacus" src="./docs/screenshots/Pictures/Abacus.png" width="300">
-<img alt="Baloon" src="./docs/screenshots/Pictures/Baloon.png" width="300">
-<img alt="Benchmarking" src="./docs/screenshots/Pictures/Benchmarking.png" width="300">
-<img alt="Cloth" src="./docs/screenshots/Pictures/Cloth.png" width="300">
-<img alt="Polygons" src="./docs/screenshots/Pictures/Polygons.png" width="300">
-<img alt="Quadtree" src="./docs/screenshots/Pictures/Quadtree.png" width="300">
-<img alt="Softbody" src="./docs/screenshots/Pictures/Softbody.png" width="300">
-<img alt="Spring" src="./docs/screenshots/Pictures/Spring.png" width="300">
-<div>
+**[Browse screenshots](https://mlhoutel.github.io/Simulatio/gallery.html)**
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -138,6 +129,12 @@ Currently in dev, you can see a very messy roadmap [here](https://github.com/use
 -   [ImGui](https://github.com/ocornut/imgui) - The GUI library
 -   [ImGui::SFML](https://github.com/eliasdaler/imgui-sfml) - The Binder library
 
+### Documented With
+
+-   [doxygen](https://www.doxygen.nl/index.html)
+-   [doxygen-awerzome](https://github.com/jothepro/doxygen-awesome-css)
+-   [intense-images](https://github.com/tholman/intense-images)
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
@@ -145,7 +142,7 @@ Currently in dev, you can see a very messy roadmap [here](https://github.com/use
 ## Getting Started
 
 **[Official documentation](https://mlhoutel.github.io/Simulatio/build.html)**
-  
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -193,4 +190,3 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [gitter-url]: https://gitter.im/simulatio_engine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [logo]: ./src/assets/logo.png
 [screenshot]: ./docs/screenshots/Pictures/Benchmarking.png
-  

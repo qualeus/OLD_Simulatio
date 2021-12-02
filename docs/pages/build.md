@@ -2,12 +2,6 @@
 
 \tableofcontents
 
-\section build_with Built With
-
--   [SFML](https://github.com/SFML/SFML) - The Graphical library
--   [ImGui](https://github.com/ocornut/imgui) - The GUI library
--   [ImGui::SFML](https://github.com/eliasdaler/imgui-sfml) - The Binder library
-
 \section for_windows For Windows
 
 \subsection prerequisites Prerequisites
