@@ -22,6 +22,9 @@ set (CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Werror -Wfatal-errors -O0 -g -rdynamic")
 set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Werror -Wfatal-errors -O3 -s -fexpensive-optimizations")
 
+# CMake options
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+
 # Add as many warning as possible:
 if (MSVC)
   # target_compile_options(smk PRIVATE "/wd4244")
@@ -42,5 +45,5 @@ if (NOT CMAKE_BUILD_TYPE)
     set (CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build type." FORCE)
 endif (NOT CMAKE_BUILD_TYPE)
 
-# add_subdirectory(simulatio)
+add_subdirectory(engine)
 add_subdirectory(renderer)

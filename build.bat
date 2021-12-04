@@ -33,14 +33,14 @@ cd build\Debug
 cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build .
 pause
 cd bin
-simulatio.exe
+Simulatio_Renderer.exe
 if errorlevel 1 pause
 cd ..\..\..
 goto menu
 
 :run_debug
 cd build\Debug\bin
-simulatio.exe
+Simulatio_Renderer.exe
 if errorlevel 1 pause
 cd ..\..\..
 goto menu
@@ -52,14 +52,14 @@ echo Compiling for Release...
 cd build\Release
 cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ../.. && cmake --build .
 cd bin
-simulatio.exe
+Simulatio_Renderer.exe
 if errorlevel 1 pause
 cd ..\..\..
 goto menu
 
 :run_release
 cd build\Release\bin
-simulatio.exe
+Simulatio_Renderer.exe
 if errorlevel 1 pause
 cd ..\..\..
 goto menu

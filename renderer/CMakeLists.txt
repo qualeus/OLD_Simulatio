@@ -13,9 +13,21 @@ add_subdirectory(libs)
 # Compile Target
 
 set(SOURCES
-    src/main.cpp
+    src/main/main.cpp
 )
 set(HEADERS
+)
+
+set(RESSOURCES 
+    # ../assets/icon/ricon.o
+)
+
+set(FONTS
+    # ../assets/fonts/roboto.hpp
+    # ../assets/fonts/proggy.hpp
+    # ../assets/fonts/consolas.hpp
+    # ../assets/fonts/forkawersome.hpp
+    # ../assets/fonts/icons.hpp
 )
 
 # add_subdirectory(examples)
