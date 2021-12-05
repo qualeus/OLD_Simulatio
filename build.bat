@@ -72,7 +72,7 @@ if not exist "build/Tests/" mkdir "build/Tests/"
 cls
 echo Compiling Tests...
 cd build\Tests
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../../tests && cmake --build .
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON  ../.. && cmake --build .
 mingw32-make CTEST_OUTPUT_ON_FAILURE=TRUE test
 pause
 cd ..\..
@@ -84,7 +84,7 @@ if not exist "docs/doxygen/" mkdir "docs/doxygen/"
 cls
 echo Building docs...
 cd build\Docs
-cmake -G "MinGW Makefiles" ../../docs && cmake --build .
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug -DBUILD_DOCS=ON  ../.. && cmake --build .
 cd ..\..
 pause
 goto menu

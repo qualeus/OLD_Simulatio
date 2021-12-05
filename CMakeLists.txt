@@ -11,6 +11,13 @@ project (${PROJECT_NAME} VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINO
 
 message("Building ${PROJECT_NAME} VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_REVISION}...")
 
+# Build targets
+
+option(BUILD_RENDERER "Building the renderer or only the engine" ON)
+option(BUILD_TESTS "Building the engine tests" OFF)
+option(BUILD_DOCS "Building only the documentation" OFF)
+
+
 # Configure dependencies for build static libraries only. 
 set(BUILD_SHARED_LIBS OFF)
 
@@ -45,5 +52,13 @@ if (NOT CMAKE_BUILD_TYPE)
     set (CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build type." FORCE)
 endif (NOT CMAKE_BUILD_TYPE)
 
-add_subdirectory(engine)
-add_subdirectory(renderer)
+if (BUILD_DOCS) 
+    add_subdirectory(docs)
+elseif(BUILD_TESTS)
+    add_subdirectory(engine/tests)
+else()
+    add_subdirectory(engine)
+    if (BUILD_RENDERER)
+        add_subdirectory(renderer)
+    endif()
+endif()

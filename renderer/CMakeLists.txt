@@ -14,8 +14,11 @@ add_subdirectory(libs)
 
 set(SOURCES
     src/main/main.cpp
+    src/Drawing/Window.cpp
 )
+
 set(HEADERS
+    include/Drawing/Window.hpp
 )
 
 set(RESSOURCES 

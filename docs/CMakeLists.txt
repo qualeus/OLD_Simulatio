@@ -2,11 +2,11 @@
 cmake_minimum_required(VERSION 3.0.0)
 
 # Set the project name and version
-set (PROJECT_NAME "Simulatio Docs")
-set (PROJECT_VERSION_MAJOR 0)
-set (PROJECT_VERSION_MINOR 5)
-set (PROJECT_VERSION_REVISION 2)
-project (${PROJECT_NAME} VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_REVISION})
+set (PROJECT_DOCS_NAME ${PROJECT_NAME}_Documentation)
+
+project (${PROJECT_DOCS_NAME})
+
+message("Building ${PROJECT_DOCS_NAME}...")
 
 # Doxygen
 
