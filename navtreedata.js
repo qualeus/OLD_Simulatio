@@ -52,6 +52,7 @@ var NAVTREE =
       [ "Installation", "build.html#installation", null ],
       [ "Build docs", "build.html#build_docs", null ]
     ] ],
+    [ "Exemple", "exemple.html", null ],
     [ "Gallery", "gallery.html", [
       [ "Screenshots", "gallery.html#screenshots", [
         [ "scenes", "gallery.html#scenes", null ],
@@ -86,6 +87,7 @@ var NAVTREE =
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
         [ "Functions", "globals_func.html", null ],
+        [ "Typedefs", "globals_type.html", null ],
         [ "Macros", "globals_defs.html", null ]
       ] ]
     ] ]
@@ -95,11 +97,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_block_data_8cpp.html",
-"class_renderer.html#a0a1b03d4a098908e2579dc79a66bbb61",
-"classgmt_1_1_quad_tree.html#a6c56331fdd0075d49c4f2241d7a96778",
-"classphy_1_1_constraint.html#ab4409a659fb059aac1888fe1ae67a0ba",
-"classphy_1_1_polygon.html#ad4d7f778960ce6d5db52fbee8f4d0132",
-"functions.html"
+"class_renderer.html#a0402ff9fbb38115f9dd4d6e60110142a",
+"classgmt_1_1_quad_tree.html",
+"classphy_1_1_constraint.html#ad1499a554d015db8f2e0364cda65c312",
+"classphy_1_1_polygon.html#afc8dabedf984a351832e96f02e9f6d50",
+"functions.html",
+"tests_2_vertices_8cpp.html#af98696ea83a2adad5276c15335fb788e"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,14 +1,19 @@
 var searchData=
 [
-  ['i_5fbigger_5fsize_0',['I_BIGGER_SIZE',['../_renderer_8hpp.html#aec45b3acc4acbd0b13e34ef9ba5fe9ff',1,'Renderer.hpp']]],
-  ['i_5fdefault_5fsize_1',['I_DEFAULT_SIZE',['../_renderer_8hpp.html#aa0e0fbcdfbea1805822e072d28288633',1,'Renderer.hpp']]],
-  ['i_5fmedium_5fsize_2',['I_MEDIUM_SIZE',['../_renderer_8hpp.html#abb883e608358053a696b63d5fcfb40a2',1,'Renderer.hpp']]],
-  ['i_5fmouse_5ftype_5fcursor_3',['I_MOUSE_TYPE_CURSOR',['../_renderer_8hpp.html#a62013420705b33d53e4d47c95acfaf0a',1,'Renderer.hpp']]],
-  ['i_5fmouse_5ftype_5fmove_4',['I_MOUSE_TYPE_MOVE',['../_renderer_8hpp.html#aff16dc5f965e919e4bbc9817358f2c72',1,'Renderer.hpp']]],
-  ['i_5fmouse_5ftype_5fresize_5',['I_MOUSE_TYPE_RESIZE',['../_renderer_8hpp.html#af60dae1645c6ca8a0d59df28543beb71',1,'Renderer.hpp']]],
-  ['i_5fside_5fmenu_5fdefault_6',['I_SIDE_MENU_DEFAULT',['../_renderer_8hpp.html#adb3758aad0569fdb6723062298888165',1,'Renderer.hpp']]],
-  ['i_5fside_5fmenu_5fshape_7',['I_SIDE_MENU_SHAPE',['../_renderer_8hpp.html#a4fd15cf0bcfb192d1ac49734c9c4933d',1,'Renderer.hpp']]],
-  ['i_5fside_5fmenu_5fspawner_8',['I_SIDE_MENU_SPAWNER',['../_renderer_8hpp.html#a300c25809e8ae4df451aa22d82cb67b0',1,'Renderer.hpp']]],
-  ['i_5fsmaller_5fsize_9',['I_SMALLER_SIZE',['../_renderer_8hpp.html#a683a9ab270fb4ada0ac9d79763afd224',1,'Renderer.hpp']]],
-  ['icon_5ffk_5funity_10',['ICON_FK_UNITY',['../_renderer_8hpp.html#ac41f2bab4cd7a634ed02950982a143b4',1,'Renderer.hpp']]]
+  ['g_5fanimation_5fspeed_0',['G_ANIMATION_SPEED',['../_renderer_8hpp.html#a4f8e9c2cb81ef8ff472c3bc498d2a656',1,'Renderer.hpp']]],
+  ['g_5fbottom_5fdock_5fsize_1',['G_BOTTOM_DOCK_SIZE',['../_renderer_8hpp.html#af5aa22c145d62bb4f721aca3f96f9000',1,'Renderer.hpp']]],
+  ['g_5fdebug_5fmax_5fframe_5fsize_2',['G_DEBUG_MAX_FRAME_SIZE',['../_renderer_8hpp.html#a3c043b200cc967f33692e59c4383d458',1,'Renderer.hpp']]],
+  ['g_5fdebug_5fmin_5fframe_5fsize_3',['G_DEBUG_MIN_FRAME_SIZE',['../_renderer_8hpp.html#a56c1b6b91b3294724a2d6614a79a98ae',1,'Renderer.hpp']]],
+  ['g_5fhandle_5fsize_4',['G_HANDLE_SIZE',['../_renderer_8hpp.html#a6eb153a06a93b3f99c6ed8920517c739',1,'Renderer.hpp']]],
+  ['g_5fleft_5fdock_5fsize_5',['G_LEFT_DOCK_SIZE',['../_renderer_8hpp.html#a55a6e26541edd8bc9cce12749f253552',1,'Renderer.hpp']]],
+  ['g_5fopened_5fbar_5fsize_6',['G_OPENED_BAR_SIZE',['../_renderer_8hpp.html#aafd41ddd6b190358e7833fa18fc96e59',1,'Renderer.hpp']]],
+  ['g_5fright_5fdock_5fsize_7',['G_RIGHT_DOCK_SIZE',['../_renderer_8hpp.html#ad88ef570d377a1d151f764c8c8a3b27b',1,'Renderer.hpp']]],
+  ['g_5fside_5fbar_5fsize_8',['G_SIDE_BAR_SIZE',['../_renderer_8hpp.html#a97413ebda001bd65a78337fdbe1a7a7c',1,'Renderer.hpp']]],
+  ['g_5fside_5fcontent_5fsize_9',['G_SIDE_CONTENT_SIZE',['../_renderer_8hpp.html#aebeee80c1513cd6163be30e0b58c6530',1,'Renderer.hpp']]],
+  ['g_5ftime_5fbar_5fsize_10',['G_TIME_BAR_SIZE',['../_renderer_8hpp.html#a018450f0c93adb46cf0511223a5e2a44',1,'Renderer.hpp']]],
+  ['g_5fup_5fdock_5fsize_11',['G_UP_DOCK_SIZE',['../_renderer_8hpp.html#a84107c05ee1f2bf9e67ee4cdbb8ca539',1,'Renderer.hpp']]],
+  ['g_5fwindow_5fborder_12',['G_WINDOW_BORDER',['../_renderer_8hpp.html#a5d2b31190327914fbc6a6b62c5ea3b99',1,'Renderer.hpp']]],
+  ['g_5fwindow_5flabel_5fmin_13',['G_WINDOW_LABEL_MIN',['../_renderer_8hpp.html#a61218e7589c2fa8502b8a8031f87b64d',1,'Renderer.hpp']]],
+  ['g_5fwindow_5flabel_5fspace_14',['G_WINDOW_LABEL_SPACE',['../_renderer_8hpp.html#a56755b4ee69177dde3b2da148ade63f6',1,'Renderer.hpp']]],
+  ['gr_15',['GR',['../_maths_8hpp.html#a656da95f9680f14093be09a52ab6752f',1,'Maths.hpp']]]
 ];

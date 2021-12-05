@@ -1,5 +1,6 @@
 var classgmt_1_1_vertices =
 [
+    [ "Vertices", "classgmt_1_1_vertices.html#aa21aff75ad649f6607d37d24d0be8310", null ],
     [ "Vertices", "classgmt_1_1_vertices.html#afb683741ca49a107ebd5128426dbba46", null ],
     [ "Vertices", "classgmt_1_1_vertices.html#a12e337a3bbaa30b06dbbc9b62691e0d3", null ],
     [ "~Vertices", "classgmt_1_1_vertices.html#a3a785e97ed5c6bf221639d8a62be2971", null ],

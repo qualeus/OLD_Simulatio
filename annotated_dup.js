@@ -5,12 +5,13 @@ var annotated_dup =
       [ "Performance", "classbmk_1_1_performance.html", "classbmk_1_1_performance" ],
       [ "Recorder", "classbmk_1_1_recorder.html", "classbmk_1_1_recorder" ]
     ] ],
+    [ "drw", "namespacedrw.html", [
+      [ "Window", "classdrw_1_1_window.html", "classdrw_1_1_window" ]
+    ] ],
     [ "gmt", "namespacegmt.html", [
       [ "Bounds", "classgmt_1_1_bounds.html", "classgmt_1_1_bounds" ],
       [ "Collision", "classgmt_1_1_collision.html", "classgmt_1_1_collision" ],
-      [ "FreeList", "classgmt_1_1_free_list.html", "classgmt_1_1_free_list" ],
       [ "QuadNode", "classgmt_1_1_quad_node.html", "classgmt_1_1_quad_node" ],
-      [ "Quadtree", "classgmt_1_1_quadtree.html", "classgmt_1_1_quadtree" ],
       [ "QuadTree", "classgmt_1_1_quad_tree.html", "classgmt_1_1_quad_tree" ],
       [ "string", "structgmt_1_1string.html", null ],
       [ "string< gmt::Bounds< T > >", "structgmt_1_1string_3_01gmt_1_1_bounds_3_01_t_01_4_01_4.html", null ],
@@ -24,6 +25,9 @@ var annotated_dup =
     ] ],
     [ "ImGui", "namespace_im_gui.html", [
       [ "Console", "struct_im_gui_1_1_console.html", "struct_im_gui_1_1_console" ]
+    ] ],
+    [ "ovl", "namespaceovl.html", [
+      [ "Overlay", "classovl_1_1_overlay.html", "classovl_1_1_overlay" ]
     ] ],
     [ "phy", "namespacephy.html", [
       [ "Circle", "classphy_1_1_circle.html", "classphy_1_1_circle" ],

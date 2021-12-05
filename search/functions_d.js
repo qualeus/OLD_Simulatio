@@ -16,5 +16,7 @@ var searchData=
   ['polygon_13',['Polygon',['../classphy_1_1_polygon.html#a57cfe32893dab95eeffbf55cac4515f2',1,'phy::Polygon']]],
   ['polygononpolygon_14',['PolygonOnPolygon',['../classgmt_1_1_collision.html#a6dca481a6fa6d70d22c401441263044c',1,'gmt::Collision']]],
   ['pow_15',['Pow',['../classgmt_1_1_vector.html#a72f73865a3c207ded28ab9fdd31b2968',1,'gmt::Vector']]],
-  ['pushbutton_16',['PushButton',['../namespace_im_gui.html#a1a871b88364997214a9dab093417ff60',1,'ImGui']]]
+  ['prepare_16',['Prepare',['../classdrw_1_1_window.html#a5a67eb7e07c6bbaede5c04c0bc51fe4b',1,'drw::Window::Prepare()'],['../classovl_1_1_overlay.html#a09e326f5894cac3d25cf38e20a9a4573',1,'ovl::Overlay::Prepare()']]],
+  ['prerendertexture_17',['PreRenderTexture',['../class_renderer.html#a26d9bf8b288c6e01a77085e3822ac320',1,'Renderer']]],
+  ['pushbutton_18',['PushButton',['../namespace_im_gui.html#a1a871b88364997214a9dab093417ff60',1,'ImGui']]]
 ];

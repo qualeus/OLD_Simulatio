@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['x_0',['x',['../classgmt_1_1_vector.html#a9cb441c522a2d7f47f8f741c4798728e',1,'gmt::Vector']]],
-  ['x1_1',['x1',['../classgmt_1_1_bounds.html#a40d2a4a8f6298d6c0de2fe411bc5aa98',1,'gmt::Bounds']]],
-  ['x2_2',['x2',['../classgmt_1_1_bounds.html#a3c077fc0c2c5cbe5ad4dade5af6e830e',1,'gmt::Bounds']]]
+  ['window_0',['Window',['../classdrw_1_1_window.html',1,'drw::Window'],['../classdrw_1_1_window.html#a053eac74b858d8073f73749540a84431',1,'drw::Window::Window()']]],
+  ['window_2ecpp_1',['Window.cpp',['../_window_8cpp.html',1,'']]],
+  ['window_2ehpp_2',['Window.hpp',['../_window_8hpp.html',1,'']]]
 ];
