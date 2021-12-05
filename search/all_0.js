@@ -8,7 +8,7 @@ var searchData=
   ['addconstraint_5',['addConstraint',['../classphy_1_1_system.html#a5176a921f65b82b2c62cb4ea8e7f3b3f',1,'phy::System::addConstraint()'],['../class_renderer.html#a75fcb55f928491bcdba6756c6d6dac8d',1,'Renderer::addConstraint(phy::Slider slider, sf::Color color)'],['../class_renderer.html#acc56bd6cf59e9273eaf87c19775094e5',1,'Renderer::addConstraint(phy::Spring spring, sf::Color color)'],['../classphy_1_1_system.html#a451338fd78be2eaa779abb728975b548',1,'phy::System::addConstraint(Slider slider)'],['../classphy_1_1_system.html#a072fe18843f11813ed2c13bf164bda8f',1,'phy::System::addConstraint(Spring spring)'],['../class_renderer.html#a301586c9a53539cd9da524102b7bf08f',1,'Renderer::addConstraint()']]],
   ['addcorpse_6',['addCorpse',['../classphy_1_1_system.html#a0ac86278277ed700305fe76bdc986906',1,'phy::System']]],
   ['addcorpse_7',['AddCorpse',['../classgmt_1_1_quad_tree.html#ac02d84e0595660640a83b028ba096668',1,'gmt::QuadTree']]],
-  ['addcorpse_8',['addCorpse',['../class_renderer.html#ada669d2bb4145ef2a2e3249e4eb75fb2',1,'Renderer::addCorpse()'],['../classphy_1_1_system.html#a60d7ca1608e73ca814415318972b367e',1,'phy::System::addCorpse()'],['../classphy_1_1_slider.html#a8a282b68c286c110e50cdd3edafbdca4',1,'phy::Slider::addCorpse()'],['../class_renderer.html#ae0887e031e3c74cc761fdaeec00989c8',1,'Renderer::addCorpse()']]],
+  ['addcorpse_8',['addCorpse',['../class_renderer.html#ada669d2bb4145ef2a2e3249e4eb75fb2',1,'Renderer::addCorpse(phy::Circle circle, sf::Color color)'],['../class_renderer.html#ae0887e031e3c74cc761fdaeec00989c8',1,'Renderer::addCorpse(phy::Polygon polygon, sf::Color color)'],['../classphy_1_1_system.html#a60d7ca1608e73ca814415318972b367e',1,'phy::System::addCorpse()'],['../classphy_1_1_slider.html#a8a282b68c286c110e50cdd3edafbdca4',1,'phy::Slider::addCorpse()']]],
   ['addfont_9',['AddFont',['../classovl_1_1_overlay.html#a4b583a174d89d9b43e6b74282bbdd7f1',1,'ovl::Overlay']]],
   ['addlog_10',['AddLog',['../struct_im_gui_1_1_console.html#ad1be3d99ae7b276a2eeb547b44ab74bd',1,'ImGui::Console']]],
   ['angle_11',['Angle',['../classgmt_1_1_vector.html#a8321a1901e94ba563118463bda8bb8f2',1,'gmt::Vector']]],
@@ -20,8 +20,6 @@ var searchData=
   ['applytheme_17',['ApplyTheme',['../class_editor_color_scheme.html#aa610bf2be7bb7702295c38fe44bb6973',1,'EditorColorScheme']]],
   ['area_18',['Area',['../classgmt_1_1_vertices.html#aae8be4888ed49bb7fdfbea104f8cdb76',1,'gmt::Vertices']]],
   ['ascendingupdate_19',['AscendingUpdate',['../classgmt_1_1_quad_tree.html#a45a88e63847c5483d4f448bb72ea1eda',1,'gmt::QuadTree']]],
-  ['assert_5fequal_20',['ASSERT_EQUAL',['../test_8hpp.html#a07fc9e3c2fa55f275fe572e4bb251316',1,'test.hpp']]],
-  ['assert_5fthrow_21',['ASSERT_THROW',['../test_8hpp.html#aee04a531eb092494320bf72c0f09e350',1,'test.hpp']]],
-  ['autoscroll_22',['AutoScroll',['../struct_im_gui_1_1_console.html#a9d32e512128c77d0269ef246495632a2',1,'ImGui::Console']]],
-  ['average_23',['Average',['../classgmt_1_1_vertices.html#a5412e4814ba3b0171f707f1eedc8983e',1,'gmt::Vertices']]]
+  ['autoscroll_20',['AutoScroll',['../struct_im_gui_1_1_console.html#a9d32e512128c77d0269ef246495632a2',1,'ImGui::Console']]],
+  ['average_21',['Average',['../classgmt_1_1_vertices.html#a5412e4814ba3b0171f707f1eedc8983e',1,'gmt::Vertices']]]
 ];

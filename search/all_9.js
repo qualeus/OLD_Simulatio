@@ -22,8 +22,7 @@ var searchData=
   ['link_2ehpp_19',['Link.hpp',['../_link_8hpp.html',1,'']]],
   ['log_20',['Log',['../struct_im_gui_1_1_console.html#ae8d07ffdb73417147d7e0b12c2975541',1,'ImGui::Console']]],
   ['log_5ferror_21',['LOG_ERROR',['../_string_8hpp.html#a27d98b18ba06759c6ef5c71b1e1a9904',1,'String.hpp']]],
-  ['loop_22',['loop',['../renderer_2src_2main_2main_8cpp.html#afe461d27b9c48d5921c00d521181f12f',1,'main.cpp']]],
-  ['loose_23',['Loose',['../classphy_1_1_loose.html#a5986d13df434ef41bbbc1bbbb1730b71',1,'phy::Loose::Loose()'],['../classphy_1_1_loose.html',1,'phy::Loose']]],
-  ['loose_2ecpp_24',['Loose.cpp',['../_loose_8cpp.html',1,'']]],
-  ['loose_2ehpp_25',['Loose.hpp',['../_loose_8hpp.html',1,'']]]
+  ['loose_22',['Loose',['../classphy_1_1_loose.html#a5986d13df434ef41bbbc1bbbb1730b71',1,'phy::Loose::Loose()'],['../classphy_1_1_loose.html',1,'phy::Loose']]],
+  ['loose_2ecpp_23',['Loose.cpp',['../_loose_8cpp.html',1,'']]],
+  ['loose_2ehpp_24',['Loose.hpp',['../_loose_8hpp.html',1,'']]]
 ];

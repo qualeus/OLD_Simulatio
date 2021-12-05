@@ -90,7 +90,7 @@ var searchData=
   ['get_5fscreen_5fwidth_87',['get_screen_width',['../class_renderer.html#a57be6e76b1988747236d75e93b33537a',1,'Renderer']]],
   ['get_5fselect_5ftype_88',['get_select_type',['../class_renderer.html#ae6b5d1f9ba93b936d592d9e6b5b43e99',1,'Renderer']]],
   ['get_5fsides_89',['get_sides',['../classphy_1_1_polygon.html#a521ad4742faab41cff86c1bddcd97925',1,'phy::Polygon']]],
-  ['get_5fsize_90',['get_size',['../classphy_1_1_spring.html#a74bd5a903e01f9c3788cae82910165da',1,'phy::Spring::get_size()'],['../classphy_1_1_circle.html#ae6ef68e4a7d0c22d04f6f13db25db817',1,'phy::Circle::get_size()'],['../classphy_1_1_loose.html#ac42a86fae24407390ac0a15ec6a506b3',1,'phy::Loose::get_size()'],['../classphy_1_1_link.html#afa68ec3187b4dd0e05a9a86a6a00ead3',1,'phy::Link::get_size()']]],
+  ['get_5fsize_90',['get_size',['../classphy_1_1_loose.html#ac42a86fae24407390ac0a15ec6a506b3',1,'phy::Loose::get_size()'],['../classphy_1_1_circle.html#ae6ef68e4a7d0c22d04f6f13db25db817',1,'phy::Circle::get_size()'],['../classphy_1_1_spring.html#a74bd5a903e01f9c3788cae82910165da',1,'phy::Spring::get_size()'],['../classphy_1_1_link.html#afa68ec3187b4dd0e05a9a86a6a00ead3',1,'phy::Link::get_size()']]],
   ['get_5fslider_5fcorpse_91',['get_slider_corpse',['../classphy_1_1_slider.html#a009bb287227b95e7e5be30b7405b9d8d',1,'phy::Slider']]],
   ['get_5fslider_5fcorpses_92',['get_slider_corpses',['../classphy_1_1_slider.html#a71a00e60500c27684b99239f3c4c0deb',1,'phy::Slider']]],
   ['get_5fslider_5fcorpses_5fsize_93',['get_slider_corpses_size',['../classphy_1_1_slider.html#a989585cde5b9d589ef155038f824e749',1,'phy::Slider']]],
@@ -102,6 +102,5 @@ var searchData=
   ['get_5ftied_99',['get_tied',['../classphy_1_1_corpse.html#aafa4d36fc9b25c38fda6f5ce69857765',1,'phy::Corpse']]],
   ['getconstraint_100',['getConstraint',['../class_renderer.html#a112b4761f4ab9f38ca01f095c16e1611',1,'Renderer']]],
   ['getcorpse_101',['getCorpse',['../class_renderer.html#abca248e03550eb289353b3562780a5ff',1,'Renderer']]],
-  ['gravity_102',['Gravity',['../classphy_1_1_system.html#a36f575e6ae797d49479758cb8d57ca21',1,'phy::System']]],
-  ['gravitydemo_103',['GravityDemo',['../base_8cpp.html#a6929ae511a6ab46541a6a60ff681b0c6',1,'base.cpp']]]
+  ['gravity_102',['Gravity',['../classphy_1_1_system.html#a36f575e6ae797d49479758cb8d57ca21',1,'phy::System']]]
 ];

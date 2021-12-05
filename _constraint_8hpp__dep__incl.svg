@@ -48,15 +48,15 @@
 </g>
 </g>
 <!-- Node1&#45;&gt;Node3 -->
-<g id="edge14" class="edge">
+<g id="edge13" class="edge">
 <title>Node1&#45;&gt;Node3</title>
 <path fill="none" stroke="midnightblue" d="M419.88,-239.02C389.97,-230.69 357.91,-217.82 333,-198 307.17,-177.44 290.36,-142 281.79,-119.84"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="419.37,-242.51 429.93,-241.68 421.16,-235.74 419.37,-242.51"/>
 </g>
-<!-- Node7 -->
-<g id="node7" class="node">
-<title>Node7</title>
-<g id="a_node7"><a xlink:href="_loose_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node6 -->
+<g id="node6" class="node">
+<title>Node6</title>
+<g id="a_node6"><a xlink:href="_loose_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="694,-156.5 694,-197.5 852,-197.5 852,-156.5 694,-156.5"/>
 <text text-anchor="start" x="702" y="-185.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/runner/work/Simulatio</text>
 <text text-anchor="start" x="702" y="-174.5" font-family="Helvetica,sans-Serif" font-size="10.00">/Simulatio/engine/include</text>
@@ -64,16 +64,16 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node7 -->
-<g id="edge6" class="edge">
-<title>Node1&#45;&gt;Node7</title>
+<!-- Node1&#45;&gt;Node6 -->
+<g id="edge5" class="edge">
+<title>Node1&#45;&gt;Node6</title>
 <path fill="none" stroke="midnightblue" d="M586.88,-231.58C624.45,-220.76 669.1,-207.91 705.24,-197.51"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="585.63,-228.3 576.99,-234.43 587.56,-235.03 585.63,-228.3"/>
 </g>
-<!-- Node9 -->
-<g id="node9" class="node">
-<title>Node9</title>
-<g id="a_node9"><a xlink:href="_slider_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node8 -->
+<g id="node8" class="node">
+<title>Node8</title>
+<g id="a_node8"><a xlink:href="_slider_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="128,-156.5 128,-197.5 286,-197.5 286,-156.5 128,-156.5"/>
 <text text-anchor="start" x="136" y="-185.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/runner/work/Simulatio</text>
 <text text-anchor="start" x="136" y="-174.5" font-family="Helvetica,sans-Serif" font-size="10.00">/Simulatio/engine/include</text>
@@ -81,16 +81,16 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node9 -->
-<g id="edge8" class="edge">
-<title>Node1&#45;&gt;Node9</title>
+<!-- Node1&#45;&gt;Node8 -->
+<g id="edge7" class="edge">
+<title>Node1&#45;&gt;Node8</title>
 <path fill="none" stroke="midnightblue" d="M421.28,-231.92C378.02,-221.04 326.3,-208.02 284.51,-197.51"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="420.68,-235.38 431.23,-234.43 422.38,-228.59 420.68,-235.38"/>
 </g>
-<!-- Node11 -->
-<g id="node11" class="node">
-<title>Node11</title>
-<g id="a_node11"><a xlink:href="_spring_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node10 -->
+<g id="node10" class="node">
+<title>Node10</title>
+<g id="a_node10"><a xlink:href="_spring_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="342,-156.5 342,-197.5 500,-197.5 500,-156.5 342,-156.5"/>
 <text text-anchor="start" x="350" y="-185.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/runner/work/Simulatio</text>
 <text text-anchor="start" x="350" y="-174.5" font-family="Helvetica,sans-Serif" font-size="10.00">/Simulatio/engine/include</text>
@@ -98,16 +98,16 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node11 -->
-<g id="edge11" class="edge">
-<title>Node1&#45;&gt;Node11</title>
+<!-- Node1&#45;&gt;Node10 -->
+<g id="edge10" class="edge">
+<title>Node1&#45;&gt;Node10</title>
 <path fill="none" stroke="midnightblue" d="M478.64,-227.78C467.13,-217.84 454.25,-206.72 443.59,-197.51"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="476.48,-230.54 486.34,-234.43 481.06,-225.24 476.48,-230.54"/>
 </g>
-<!-- Node13 -->
-<g id="node13" class="node">
-<title>Node13</title>
-<g id="a_node13"><a xlink:href="_constraint_8cpp.html" target="_top" xlink:title=" ">
+<!-- Node12 -->
+<g id="node12" class="node">
+<title>Node12</title>
+<g id="a_node12"><a xlink:href="_constraint_8cpp.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="870,-156.5 870,-197.5 1048,-197.5 1048,-156.5 870,-156.5"/>
 <text text-anchor="start" x="878" y="-185.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/runner/work/Simulatio</text>
 <text text-anchor="start" x="878" y="-174.5" font-family="Helvetica,sans-Serif" font-size="10.00">/Simulatio/engine/src/Constraints</text>
@@ -115,9 +115,9 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node13 -->
-<g id="edge15" class="edge">
-<title>Node1&#45;&gt;Node13</title>
+<!-- Node1&#45;&gt;Node12 -->
+<g id="edge14" class="edge">
+<title>Node1&#45;&gt;Node12</title>
 <path fill="none" stroke="midnightblue" d="M598.44,-240.87C669.69,-230.15 771.92,-214.17 861,-198 863.9,-197.47 866.86,-196.93 869.83,-196.37"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="597.52,-237.47 588.15,-242.41 598.56,-244.39 597.52,-237.47"/>
 </g>
@@ -127,10 +127,10 @@
 <path fill="none" stroke="midnightblue" d="M508.02,-155C459.81,-143.62 400.75,-129.68 354.16,-118.68"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="507.28,-158.42 517.82,-157.31 508.89,-151.61 507.28,-158.42"/>
 </g>
-<!-- Node6 -->
-<g id="node6" class="node">
-<title>Node6</title>
-<g id="a_node6"><a xlink:href="_link_8cpp.html" target="_top" xlink:title=" ">
+<!-- Node5 -->
+<g id="node5" class="node">
+<title>Node5</title>
+<g id="a_node5"><a xlink:href="_link_8cpp.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="568,-78.5 568,-119.5 746,-119.5 746,-78.5 568,-78.5"/>
 <text text-anchor="start" x="576" y="-107.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/runner/work/Simulatio</text>
 <text text-anchor="start" x="576" y="-96.5" font-family="Helvetica,sans-Serif" font-size="10.00">/Simulatio/engine/src/Constraints</text>
@@ -138,9 +138,9 @@
 </a>
 </g>
 </g>
-<!-- Node2&#45;&gt;Node6 -->
-<g id="edge5" class="edge">
-<title>Node2&#45;&gt;Node6</title>
+<!-- Node2&#45;&gt;Node5 -->
+<g id="edge4" class="edge">
+<title>Node2&#45;&gt;Node5</title>
 <path fill="none" stroke="midnightblue" d="M618.84,-148.34C626.39,-138.78 634.68,-128.27 641.6,-119.51"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="615.9,-146.41 612.45,-156.43 621.4,-150.75 615.9,-146.41"/>
 </g>
@@ -148,40 +148,23 @@
 <g id="node4" class="node">
 <title>Node4</title>
 <g id="a_node4"><a xlink:href="_system_8cpp.html" target="_top" xlink:title=" ">
-<polygon fill="none" stroke="black" points="97,-0.5 97,-41.5 269,-41.5 269,-0.5 97,-0.5"/>
-<text text-anchor="start" x="105" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/runner/work/Simulatio</text>
-<text text-anchor="start" x="105" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">/Simulatio/engine/src/Structures</text>
-<text text-anchor="middle" x="183" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">/System.cpp</text>
+<polygon fill="none" stroke="black" points="189,-0.5 189,-41.5 361,-41.5 361,-0.5 189,-0.5"/>
+<text text-anchor="start" x="197" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/runner/work/Simulatio</text>
+<text text-anchor="start" x="197" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">/Simulatio/engine/src/Structures</text>
+<text text-anchor="middle" x="275" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">/System.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node3&#45;&gt;Node4 -->
 <g id="edge3" class="edge">
 <title>Node3&#45;&gt;Node4</title>
-<path fill="none" stroke="midnightblue" d="M243.26,-71.78C231.23,-61.84 217.76,-50.72 206.61,-41.51"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="241.37,-74.76 251.31,-78.43 245.83,-69.36 241.37,-74.76"/>
+<path fill="none" stroke="midnightblue" d="M275,-68.3C275,-59.3 275,-49.65 275,-41.51"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="271.5,-68.43 275,-78.43 278.5,-68.43 271.5,-68.43"/>
 </g>
-<!-- Node5 -->
-<g id="node5" class="node">
-<title>Node5</title>
-<g id="a_node5"><a xlink:href="engine_2src_2main_2main_8cpp.html" target="_top" xlink:title=" ">
-<polygon fill="none" stroke="black" points="287,-0.5 287,-41.5 445,-41.5 445,-0.5 287,-0.5"/>
-<text text-anchor="start" x="295" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/runner/work/Simulatio</text>
-<text text-anchor="start" x="295" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">/Simulatio/engine/src/main</text>
-<text text-anchor="middle" x="366" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">/main.cpp</text>
-</a>
-</g>
-</g>
-<!-- Node3&#45;&gt;Node5 -->
-<g id="edge4" class="edge">
-<title>Node3&#45;&gt;Node5</title>
-<path fill="none" stroke="midnightblue" d="M306.4,-71.78C318.29,-61.84 331.62,-50.72 342.64,-41.51"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="303.87,-69.33 298.43,-78.43 308.35,-74.7 303.87,-69.33"/>
-</g>
-<!-- Node8 -->
-<g id="node8" class="node">
-<title>Node8</title>
-<g id="a_node8"><a xlink:href="_loose_8cpp.html" target="_top" xlink:title=" ">
+<!-- Node7 -->
+<g id="node7" class="node">
+<title>Node7</title>
+<g id="a_node7"><a xlink:href="_loose_8cpp.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="764,-78.5 764,-119.5 942,-119.5 942,-78.5 764,-78.5"/>
 <text text-anchor="start" x="772" y="-107.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/runner/work/Simulatio</text>
 <text text-anchor="start" x="772" y="-96.5" font-family="Helvetica,sans-Serif" font-size="10.00">/Simulatio/engine/src/Constraints</text>
@@ -189,22 +172,22 @@
 </a>
 </g>
 </g>
-<!-- Node7&#45;&gt;Node8 -->
-<g id="edge7" class="edge">
-<title>Node7&#45;&gt;Node8</title>
+<!-- Node6&#45;&gt;Node7 -->
+<g id="edge6" class="edge">
+<title>Node6&#45;&gt;Node7</title>
 <path fill="none" stroke="midnightblue" d="M800.9,-149.49C811.28,-139.63 822.87,-128.63 832.47,-119.51"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="798.44,-147 793.6,-156.43 803.26,-152.08 798.44,-147"/>
 </g>
-<!-- Node9&#45;&gt;Node3 -->
-<g id="edge9" class="edge">
-<title>Node9&#45;&gt;Node3</title>
+<!-- Node8&#45;&gt;Node3 -->
+<g id="edge8" class="edge">
+<title>Node8&#45;&gt;Node3</title>
 <path fill="none" stroke="midnightblue" d="M231.23,-148.92C239.92,-139.2 249.54,-128.45 257.55,-119.51"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="228.57,-146.64 224.51,-156.43 233.79,-151.31 228.57,-146.64"/>
 </g>
-<!-- Node10 -->
-<g id="node10" class="node">
-<title>Node10</title>
-<g id="a_node10"><a xlink:href="engine_2src_2_constraints_2_slider_8cpp.html" target="_top" xlink:title=" ">
+<!-- Node9 -->
+<g id="node9" class="node">
+<title>Node9</title>
+<g id="a_node9"><a xlink:href="_slider_8cpp.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="0,-78.5 0,-119.5 178,-119.5 178,-78.5 0,-78.5"/>
 <text text-anchor="start" x="8" y="-107.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/runner/work/Simulatio</text>
 <text text-anchor="start" x="8" y="-96.5" font-family="Helvetica,sans-Serif" font-size="10.00">/Simulatio/engine/src/Constraints</text>
@@ -212,22 +195,22 @@
 </a>
 </g>
 </g>
-<!-- Node9&#45;&gt;Node10 -->
-<g id="edge10" class="edge">
-<title>Node9&#45;&gt;Node10</title>
+<!-- Node8&#45;&gt;Node9 -->
+<g id="edge9" class="edge">
+<title>Node8&#45;&gt;Node9</title>
 <path fill="none" stroke="midnightblue" d="M168.06,-150.92C152.2,-140.7 134.14,-129.07 119.28,-119.51"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="166.31,-153.96 176.61,-156.43 170.1,-148.07 166.31,-153.96"/>
 </g>
-<!-- Node11&#45;&gt;Node3 -->
-<g id="edge12" class="edge">
-<title>Node11&#45;&gt;Node3</title>
+<!-- Node10&#45;&gt;Node3 -->
+<g id="edge11" class="edge">
+<title>Node10&#45;&gt;Node3</title>
 <path fill="none" stroke="midnightblue" d="M374.45,-151.77C354.44,-141.35 331.36,-129.34 312.47,-119.51"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="372.92,-154.92 383.4,-156.43 376.15,-148.71 372.92,-154.92"/>
 </g>
-<!-- Node12 -->
-<g id="node12" class="node">
-<title>Node12</title>
-<g id="a_node12"><a xlink:href="engine_2src_2_constraints_2_spring_8cpp.html" target="_top" xlink:title=" ">
+<!-- Node11 -->
+<g id="node11" class="node">
+<title>Node11</title>
+<g id="a_node11"><a xlink:href="_spring_8cpp.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="372,-78.5 372,-119.5 550,-119.5 550,-78.5 372,-78.5"/>
 <text text-anchor="start" x="380" y="-107.5" font-family="Helvetica,sans-Serif" font-size="10.00">/home/runner/work/Simulatio</text>
 <text text-anchor="start" x="380" y="-96.5" font-family="Helvetica,sans-Serif" font-size="10.00">/Simulatio/engine/src/Constraints</text>
@@ -235,9 +218,9 @@
 </a>
 </g>
 </g>
-<!-- Node11&#45;&gt;Node12 -->
-<g id="edge13" class="edge">
-<title>Node11&#45;&gt;Node12</title>
+<!-- Node10&#45;&gt;Node11 -->
+<g id="edge12" class="edge">
+<title>Node10&#45;&gt;Node11</title>
 <path fill="none" stroke="midnightblue" d="M436.02,-147.47C440.92,-138.14 446.26,-128.01 450.73,-119.51"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="432.86,-145.95 431.3,-156.43 439.06,-149.21 432.86,-145.95"/>
 </g>

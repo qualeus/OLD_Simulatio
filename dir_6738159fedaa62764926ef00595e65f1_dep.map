@@ -1,13 +1,11 @@
 <map id="/home/runner/work/Simulatio/Simulatio/renderer/src" name="/home/runner/work/Simulatio/Simulatio/renderer/src">
-<area shape="rect" id="node1" href="dir_38d06604e9df36157c4a7ee987c246f7.html" title="include" alt="" coords="192,159,264,207"/>
-<area shape="rect" id="node3" href="dir_5e0372532a64970b42b46e6156b916d7.html" title="Drawing" alt="" coords="338,63,414,111"/>
-<area shape="rect" id="edge3-headlabel" href="dir_000024_000020.html" title="1" alt="" coords="279,150,289,164"/>
-<area shape="rect" id="node4" href="dir_d4aa06c12780ef68053b54c6a21e276c.html" title="main" alt="" coords="241,63,313,111"/>
-<area shape="rect" id="edge4-headlabel" href="dir_000018_000020.html" title="2" alt="" coords="251,139,261,154"/>
-<area shape="rect" id="node5" href="dir_50731ef37105e594833886c1d7f3c3bb.html" title="Overlay" alt="" coords="143,63,217,111"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000025_000020.html" title="1" alt="" coords="211,131,220,146"/>
-<area shape="rect" id="node6" href="dir_56ddd38578677f0e21369c803f2d7684.html" title="Renderer" alt="" coords="38,63,119,111"/>
-<area shape="rect" id="edge2-headlabel" href="dir_000026_000020.html" title="8" alt="" coords="176,135,186,149"/>
-<area shape="rect" id="clust2" href="dir_6738159fedaa62764926ef00595e65f1.html" alt="" coords="27,52,521,121"/>
-<area shape="rect" id="clust1" href="dir_d10aa5f1e26260a914a037377583e9a7.html" title="renderer" alt="" coords="16,16,532,217"/>
+<area shape="rect" id="node1" href="dir_38d06604e9df36157c4a7ee987c246f7.html" title="include" alt="" coords="144,159,216,207"/>
+<area shape="rect" id="node3" href="dir_5e0372532a64970b42b46e6156b916d7.html" title="Drawing" alt="" coords="241,63,317,111"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000020_000015.html" title="1" alt="" coords="218,145,228,160"/>
+<area shape="rect" id="node4" href="dir_50731ef37105e594833886c1d7f3c3bb.html" title="Overlay" alt="" coords="143,63,217,111"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000021_000015.html" title="1" alt="" coords="184,133,193,148"/>
+<area shape="rect" id="node5" href="dir_56ddd38578677f0e21369c803f2d7684.html" title="Renderer" alt="" coords="38,63,119,111"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000022_000015.html" title="8" alt="" coords="143,133,152,147"/>
+<area shape="rect" id="clust2" href="dir_6738159fedaa62764926ef00595e65f1.html" alt="" coords="27,52,424,121"/>
+<area shape="rect" id="clust1" href="dir_d10aa5f1e26260a914a037377583e9a7.html" title="renderer" alt="" coords="16,16,435,217"/>
 </map>

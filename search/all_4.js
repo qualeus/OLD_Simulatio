@@ -11,7 +11,5 @@ var searchData=
   ['event_2ecpp_8',['Event.cpp',['../_event_8cpp.html',1,'']]],
   ['execcommand_9',['ExecCommand',['../struct_im_gui_1_1_console.html#aba93a595bb474b830dac14457c4af0e2',1,'ImGui::Console']]],
   ['exemple_10',['Exemple',['../exemple.html',1,'']]],
-  ['exemple_2emd_11',['exemple.md',['../exemple_8md.html',1,'']]],
-  ['extractpair_12',['ExtractPair',['../tests_2_maths_8cpp.html#ad0563bfefedf7fa2c7e5fe2a9cbe8830',1,'maths.cpp']]],
-  ['extractvect_13',['ExtractVect',['../tests_2_maths_8cpp.html#a64e6834fb23ec664c4d2e43be4699300',1,'maths.cpp']]]
+  ['exemple_2emd_11',['exemple.md',['../exemple_8md.html',1,'']]]
 ];
