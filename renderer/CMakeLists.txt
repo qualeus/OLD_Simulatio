@@ -14,12 +14,26 @@ add_subdirectory(libs)
 
 set(SOURCES
     src/Drawing/Window.cpp
+    src/Drawing/Camera.cpp
+    src/Drawing/Shader.cpp
+    src/Drawing/Mesh.cpp
+    src/Drawing/Vertex.cpp
+
     src/Overlay/Overlay.cpp
+
+    src/Renderer/Renderer.cpp
 )
 
 set(HEADERS
     include/Drawing/Window.hpp
+    include/Drawing/Camera.hpp
+    include/Drawing/Shader.hpp
+    include/Drawing/Mesh.hpp
+    include/Drawing/Vertex.hpp
+
     include/Overlay/Overlay.hpp
+
+    include/Renderer/Renderer.hpp
 )
 
 set(RESSOURCES 
