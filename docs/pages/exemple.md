@@ -1,6 +1,7 @@
 \page exemple Exemple
 
 @htmlonly
+<canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
 
 <p id="output" />
 <script>
