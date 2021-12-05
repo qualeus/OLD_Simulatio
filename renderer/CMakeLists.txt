@@ -15,10 +15,12 @@ add_subdirectory(libs)
 set(SOURCES
     src/main/main.cpp
     src/Drawing/Window.cpp
+    src/Overlay/Overlay.cpp
 )
 
 set(HEADERS
     include/Drawing/Window.hpp
+    include/Overlay/Overlay.hpp
 )
 
 set(RESSOURCES 

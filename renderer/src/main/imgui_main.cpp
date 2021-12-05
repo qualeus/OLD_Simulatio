@@ -9,6 +9,9 @@
 #include <backends/imgui_impl_opengl3.h>
 #include <imgui.h>
 #include <stdio.h>
+
+#include <string>
+
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <GLES2/gl2.h>
 #endif
