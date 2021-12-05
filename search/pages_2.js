@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gallery_0',['Gallery',['../gallery.html',1,'']]]
+  ['exemple_0',['Exemple',['../exemple.html',1,'']]]
 ];

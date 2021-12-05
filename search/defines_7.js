@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['pc_0',['PC',['../_maths_8hpp.html#a600721f0222b857dc8a3ae59e5077347',1,'Maths.hpp']]],
-  ['pi_1',['PI',['../_maths_8hpp.html#a598a3330b3c21701223ee0ca14316eca',1,'Maths.hpp']]],
-  ['precision_5fset_2',['PRECISION_SET',['../_geometry_8hpp.html#af269eeea39586c74cee061706484fd0c',1,'Geometry.hpp']]]
+  ['max_5fdamping_0',['MAX_DAMPING',['../_geometry_8hpp.html#ad3c1fc835508d953909d0089ef53fe73',1,'Geometry.hpp']]],
+  ['max_5fgravity_5fdistance_1',['MAX_GRAVITY_DISTANCE',['../_geometry_8hpp.html#a55868d7032798522d5ee97f18745c668',1,'Geometry.hpp']]],
+  ['max_5fstored_5fchilds_2',['MAX_STORED_CHILDS',['../_performance_8hpp.html#a8543d889e4c5e1c6531b9ff21263648a',1,'Performance.hpp']]],
+  ['min_5fdamping_3',['MIN_DAMPING',['../_geometry_8hpp.html#a58fcce4ff9dbf9eced736eb3d7420ca6',1,'Geometry.hpp']]]
 ];

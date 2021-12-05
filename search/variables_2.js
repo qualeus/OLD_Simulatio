@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['childs_0',['childs',['../classgmt_1_1_quad_node.html#a052225e0ced815aadb36a8cc9e521326',1,'gmt::QuadNode::childs()'],['../classbmk_1_1_performance.html#ad857c9fad42acee05e5a3c73e8d6f50b',1,'bmk::Performance::childs()']]],
+  ['childs_0',['childs',['../classgmt_1_1_quad_node.html#a052225e0ced815aadb36a8cc9e521326',1,'gmt::QuadNode::childs()'],['../classbmk_1_1_performance.html#aa179949cd662a973d3542929e03d67fc',1,'bmk::Performance::childs()']]],
   ['colorsyntax_1',['ColorSyntax',['../struct_im_gui_1_1_console.html#aef54b812748c2bcf7b0f2d1f5af01758',1,'ImGui::Console']]],
   ['commands_2',['Commands',['../struct_im_gui_1_1_console.html#a6afc3814f1420c3a9ccd5d10800493e7',1,'ImGui::Console']]],
   ['corpse_5fa_3',['corpse_a',['../classphy_1_1_constraint.html#ad448124631822990edc169b957ff5af9',1,'phy::Constraint']]],
@@ -24,7 +24,7 @@ var searchData=
   ['corpse_5frotation_5frandom_21',['corpse_rotation_random',['../struct_spawner.html#aa895a3a23f3a90b6bb1acc68f76c3d84',1,'Spawner']]],
   ['corpse_5ftied_22',['corpse_tied',['../struct_spawner.html#aca60d98fd0404a6f93862ce63d25c71a',1,'Spawner']]],
   ['corpse_5ftype_23',['corpse_type',['../struct_spawner.html#aa891cf18789163b284c0b14d35f973fc',1,'Spawner']]],
-  ['corpses_24',['corpses',['../classgmt_1_1_quadtree.html#a104d7b1ad304c49da52675f6f9057194',1,'gmt::Quadtree::corpses()'],['../classgmt_1_1_quad_node.html#a3359090db15cc66f34d982fdcb34ea71',1,'gmt::QuadNode::corpses()']]],
+  ['corpses_24',['corpses',['../classgmt_1_1_quad_node.html#a3359090db15cc66f34d982fdcb34ea71',1,'gmt::QuadNode']]],
   ['current_5fpos_25',['current_pos',['../classphy_1_1_corpse.html#aa46ef88eca1015d1e65554ae9f0e0fb8',1,'phy::Corpse']]],
   ['current_5frotation_26',['current_rotation',['../classphy_1_1_corpse.html#a4ed2bcdc659dd6e89c97980ef3cce9a2',1,'phy::Corpse']]]
 ];

@@ -31,7 +31,7 @@
             content="Custom CSS theme for doxygen html-documentation with lots of customization parameters."
         />
         <!-- END twitter metadata -->
-        <title>Simulatio: /home/runner/work/Simulatio/Simulatio/include/Geometry/String.hpp File Reference</title>
+        <title>Simulatio: /home/runner/work/Simulatio/Simulatio/engine/include/Geometry/String.hpp File Reference</title>
         <link href="tabs.css" rel="stylesheet" type="text/css" />
         <link rel="icon" type="image/svg+xml" href="ricon.ico" />
         <script type="text/javascript" src="jquery.js"></script>
@@ -200,21 +200,24 @@ $(document).ready(function(){initNavTree('_string_8hpp.html',''); initResizable(
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">String.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="_maths_8hpp_source.html">Maths.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &quot;<a class="el" href="_maths_8hpp_source.html">Maths.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for String.hpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="_string_8hpp__incl.svg" width="1114" height="216"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="_string_8hpp__incl.svg" width="1200" height="216"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="_string_8hpp__dep__incl.svg" width="1162" height="483"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="_string_8hpp__dep__incl.svg" width="1322" height="379"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div>
@@ -240,6 +243,11 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespacegmt"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegmt.html">gmt</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a27d98b18ba06759c6ef5c71b1e1a9904"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_string_8hpp.html#a27d98b18ba06759c6ef5c71b1e1a9904">LOG_ERROR</a>(message)</td></tr>
+<tr class="separator:a27d98b18ba06759c6ef5c71b1e1a9904"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a1eafb10c4f014227f67a027954c27e5d"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
@@ -249,13 +257,36 @@ Functions</h2></td></tr>
 <tr class="memitem:aff69c73cce7877d5768abc8b302dde9d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacegmt.html#aff69c73cce7877d5768abc8b302dde9d">gmt::type_name</a> () noexcept</td></tr>
 <tr class="separator:aff69c73cce7877d5768abc8b302dde9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a27d98b18ba06759c6ef5c71b1e1a9904" name="a27d98b18ba06759c6ef5c71b1e1a9904"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27d98b18ba06759c6ef5c71b1e1a9904">&#9670;&nbsp;</a></span>LOG_ERROR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LOG_ERROR</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">message</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">    { \</div>
+<div class="line">    throw std::runtime_error(std::string(<span class="stringliteral">&quot;\n&quot;</span>) + std::string(message) + std::string(<span class="stringliteral">&quot;\nat file:     &quot;</span>) + std::string(__FILE__) + std::string(<span class="stringliteral">&quot;:&quot;</span>) + <a class="code hl_function" href="namespacegmt.html#a1eafb10c4f014227f67a027954c27e5d">std::to_string</a>(__LINE__) + std::string(<span class="stringliteral">&quot;\nat function: &quot;</span>) + std::string(__PRETTY_FUNCTION__)); \</div>
+<div class="line">}</div>
+<div class="ttc" id="anamespacegmt_html_a1eafb10c4f014227f67a027954c27e5d"><div class="ttname"><a href="namespacegmt.html#a1eafb10c4f014227f67a027954c27e5d">gmt::to_string</a></div><div class="ttdeci">std::string to_string(T param)</div><div class="ttdef"><b>Definition:</b> String.hpp:29</div></div>
+</div><!-- fragment -->
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_e5d471f994553c4d62f75de3eec3a008.html">Geometry</a></li><li class="navelem"><a class="el" href="_string_8hpp.html">String.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_996f45160da62e1a3d7f6046fad68f51.html">engine</a></li><li class="navelem"><a class="el" href="dir_bafa501d493553e442f19f5f8dd7b29c.html">include</a></li><li class="navelem"><a class="el" href="dir_0f27ad101268ab0da7ab16b17027eb4c.html">Geometry</a></li><li class="navelem"><a class="el" href="_string_8hpp.html">String.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
   </ul>
 </div>
