@@ -1294,6 +1294,7 @@ HTML_EXTRA_STYLESHEET  = "./theme/doxygen-awesome.css" \
 
 HTML_EXTRA_FILES       = "./theme/doxygen-awesome-darkmode-toggle.js" \ 
                          "./pages/Simulatio_Renderer.js" \
+                         "./pages/Simulatio_Renderer.wasm" \
                          "../assets/icon/ricon.ico"
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
