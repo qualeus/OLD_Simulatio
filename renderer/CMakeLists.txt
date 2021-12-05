@@ -13,7 +13,6 @@ add_subdirectory(libs)
 # Compile Target
 
 set(SOURCES
-    src/main/main.cpp
     src/Drawing/Window.cpp
     src/Overlay/Overlay.cpp
 )
@@ -35,19 +34,20 @@ set(FONTS
     # ../assets/fonts/icons.hpp
 )
 
+add_library(${PROJECT_RENDERER_NAME} STATIC ${SOURCES} ${HEADERS} ${RESSOURCES} ${FONTS})
+target_include_directories(${PROJECT_RENDERER_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 # add_subdirectory(examples)
 
-add_executable(${PROJECT_RENDERER_NAME} ${SOURCES} ${HEADERS} ${FONTS} ${RESSOURCES})
-
 if(EMSCRIPTEN)
-  target_link_libraries(${PROJECT_RENDERER_NAME} PUBLIC "-s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY")
-  target_link_libraries(${PROJECT_RENDERER_NAME} PUBLIC "-s USE_WEBGL2=1")
+  target_link_libraries (${PROJECT_RENDERER_NAME} PUBLIC "-s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY")
+  target_link_libraries (${PROJECT_RENDERER_NAME} PUBLIC "-s USE_WEBGL2=1")
   set(CMAKE_EXECUTABLE_SUFFIX ".html")
 else()
-  target_link_libraries(${PROJECT_RENDERER_NAME} PUBLIC glfw)
-  target_link_libraries(${PROJECT_RENDERER_NAME} PUBLIC libglew_static)
+  target_link_libraries (${PROJECT_RENDERER_NAME} PUBLIC glfw)
+  target_link_libraries (${PROJECT_RENDERER_NAME} PUBLIC libglew_static)
 endif()
 
-target_link_libraries(${PROJECT_RENDERER_NAME} PUBLIC glm)
-target_link_libraries(${PROJECT_RENDERER_NAME} PRIVATE freetype)
-target_link_libraries(${PROJECT_RENDERER_NAME} PUBLIC imgui)
+target_link_libraries (${PROJECT_RENDERER_NAME} PUBLIC glm)
+target_link_libraries (${PROJECT_RENDERER_NAME} PRIVATE freetype)
+target_link_libraries (${PROJECT_RENDERER_NAME} PUBLIC imgui)

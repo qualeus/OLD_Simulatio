@@ -29,13 +29,15 @@
         totalDependencies: 0,
         monitorRunDependencies: function(left) {}
     };
-
+    
+    /*
     window.addEventListener('resize', js_resizeCanvas, false);
     
     function js_resizeCanvas() {
         document.getElementById('canvas').width = window.innerWidth;
         document.getElementById('canvas').height = window.innerHeight;
     }
+    */
 </script>
 
 <style>

@@ -57,8 +57,19 @@ if (BUILD_DOCS)
 elseif(BUILD_TESTS)
     add_subdirectory(engine/tests)
 else()
+    add_executable(${PROJECT_NAME} "main/main.cpp")
+
+    # Setup config file
+    configure_file("${PROJECT_SOURCE_DIR}/Config.hpp.in" "${PROJECT_BINARY_DIR}/Config.hpp")
+    include_directories("${PROJECT_BINARY_DIR}")
+
     add_subdirectory(engine)
+    target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_Engine)
+    include_directories("${CMAKE_CURRENT_SOURCE_DIR}/engine/include")
+
     if (BUILD_RENDERER)
         add_subdirectory(renderer)
+        target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_Renderer)
+        include_directories("${CMAKE_CURRENT_SOURCE_DIR}/renderer/include")
     endif()
 endif()

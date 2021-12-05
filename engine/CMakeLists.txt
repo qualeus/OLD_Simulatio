@@ -8,10 +8,6 @@ project (${PROJECT_ENGINE_NAME})
 
 message("Building ${PROJECT_ENGINE_NAME}...")
 
-# Setup config file
-configure_file("${PROJECT_SOURCE_DIR}/Config.hpp.in" "${PROJECT_BINARY_DIR}/Config.hpp")
-include_directories("${PROJECT_BINARY_DIR}")
-
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(SOURCES
@@ -43,7 +39,6 @@ set(SOURCES
     src/Structures/QuadNode.cpp
     src/Structures/System.cpp
 
-    src/main/main.cpp
 )
 
 set(HEADERS
@@ -76,4 +71,5 @@ set(HEADERS
     include/Structures/System.hpp
 )
 
-add_executable(${PROJECT_ENGINE_NAME} ${SOURCES} ${HEADERS})
+add_library(${PROJECT_ENGINE_NAME} STATIC ${SOURCES} ${HEADERS})
+target_include_directories(${PROJECT_ENGINE_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

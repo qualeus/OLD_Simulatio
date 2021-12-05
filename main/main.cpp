@@ -1,13 +1,15 @@
 
-#include "../../include/Drawing/Window.hpp"
+#include <Drawing/Window.hpp>
+#include <Structures/System.hpp>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
 
 drw::Window window;
-bool show_demo_window = true;
+phy::System m_system;
 
+bool show_demo_window = true;
 void loop() {
     window.Clear();
 
@@ -18,7 +20,6 @@ void loop() {
     glVertex2f(0.0, 0.5);
     glEnd();
     */
-
     if (show_demo_window) ImGui::ShowDemoWindow(&show_demo_window);
 
     /* Swap front and back buffers */
@@ -32,8 +33,8 @@ int main(void) {
 
 #ifdef __EMSCRIPTEN__
     // EM_JS(int, canvas_get_width, (), { return Module.canvas.width; });
-    //  EM_JS(int, canvas_get_height, (), { return Module.canvas.height; });
-    //  EM_JS(void, resizeCanvas, (), { js_resizeCanvas(); });
+    // EM_JS(int, canvas_get_height, (), { return Module.canvas.height; });
+    // EM_JS(void, resizeCanvas, (), { js_resizeCanvas(); });
 #endif
 
     /* Loop until the user closes the window */
