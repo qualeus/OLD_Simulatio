@@ -40,8 +40,9 @@ set(FONTS
 add_executable(${PROJECT_RENDERER_NAME} ${SOURCES} ${HEADERS} ${FONTS} ${RESSOURCES})
 
 if(EMSCRIPTEN)
-  target_link_libraries(${PROJECT_RENDERER_NAME} PUBLIC "-s USE_GLFW=3")
+  target_link_libraries(${PROJECT_RENDERER_NAME} PUBLIC "-s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY")
   target_link_libraries(${PROJECT_RENDERER_NAME} PUBLIC "-s USE_WEBGL2=1")
+  set(CMAKE_EXECUTABLE_SUFFIX ".html")
 else()
   target_link_libraries(${PROJECT_RENDERER_NAME} PUBLIC glfw)
   target_link_libraries(${PROJECT_RENDERER_NAME} PUBLIC libglew_static)

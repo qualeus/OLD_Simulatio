@@ -103,6 +103,12 @@
     },
     "colorize.languages": ["cpp"],
     "cmake.configureOnOpen": false,
-    "conventionalCommits.scopes": ["README", "Docs", "Actions", "Pipeline"],
+    "conventionalCommits.scopes": [
+        "README",
+        "Docs",
+        "Actions",
+        "Pipeline",
+        "Renderer"
+    ],
     "C_Cpp.errorSquiggles": "Disabled"
 }

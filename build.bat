@@ -9,7 +9,7 @@ echo [3] Run Release
 echo [4] Build Demos
 echo [5] Build/Run Tests
 echo [6] Build Docs
-echo [7] Commit/Push Git
+echo [7] Build WebAssembly
 echo [8] Sonar Scanner
 echo [9] Exit
 set /p user=
@@ -21,7 +21,7 @@ if %user% == 3 goto run_release
 if %user% == 4 goto build_demos
 if %user% == 5 goto build_tests
 if %user% == 6 goto build_docs
-if %user% == 7 goto commit_push
+if %user% == 7 goto build_webassembly
 if %user% == 8 goto sonar_scanner
 if %user% == 9 exit
 
@@ -87,6 +87,17 @@ cd build\Docs
 cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug -DBUILD_DOCS=ON  ../.. && cmake --build .
 cd ..\..
 pause
+goto menu
+
+:build_webassembly
+if not exist "build/WebAssembly/" mkdir "build/WebAssembly/"
+cls
+echo Compiling for WebAssembly...
+cd build\WebAssembly\
+call conda activate
+emcmake cmake -S . -B build ../.. && cmake --build build
+call conda deactivate
+cd ..\..
 goto menu
 
 :build_wrapper

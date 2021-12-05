@@ -41,7 +41,10 @@ void Window::Render() {
     this->overlay->Initialize();
 }
 
-void Window::Clear() { glClear(GL_COLOR_BUFFER_BIT); }
+void Window::Clear() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    this->Prepare();
+}
 
 void Window::Draw() {
     this->overlay->Render();
