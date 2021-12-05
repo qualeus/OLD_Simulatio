@@ -16,12 +16,13 @@ var hierarchy =
       [ "phy::Polygon", "classphy_1_1_polygon.html", null ]
     ] ],
     [ "EditorColorScheme", "class_editor_color_scheme.html", null ],
-    [ "ovl::Overlay", "classovl_1_1_overlay.html", null ],
+    [ "gmt::FreeList< T >", "classgmt_1_1_free_list.html", null ],
     [ "bmk::Performance", "classbmk_1_1_performance.html", [
       [ "bmk::Recorder", "classbmk_1_1_recorder.html", null ]
     ] ],
     [ "gmt::QuadNode", "classgmt_1_1_quad_node.html", null ],
     [ "gmt::QuadTree", "classgmt_1_1_quad_tree.html", null ],
+    [ "gmt::Quadtree< T >", "classgmt_1_1_quadtree.html", null ],
     [ "Renderer", "class_renderer.html", null ],
     [ "Spawner", "struct_spawner.html", null ],
     [ "gmt::string< T >", "structgmt_1_1string.html", null ],
@@ -34,6 +35,5 @@ var hierarchy =
     [ "gmt::Text< T >", "classgmt_1_1_text.html", null ],
     [ "gmt::Vector< T >", "classgmt_1_1_vector.html", null ],
     [ "gmt::Vector< SIMULATIO_PRECISION >", "classgmt_1_1_vector.html", null ],
-    [ "gmt::Vertices< T >", "classgmt_1_1_vertices.html", null ],
-    [ "drw::Window", "classdrw_1_1_window.html", null ]
+    [ "gmt::Vertices< T >", "classgmt_1_1_vertices.html", null ]
 ];

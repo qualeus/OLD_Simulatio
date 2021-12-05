@@ -1,7 +1,0 @@
-var dir_6738159fedaa62764926ef00595e65f1 =
-[
-    [ "Drawing", "dir_5e0372532a64970b42b46e6156b916d7.html", "dir_5e0372532a64970b42b46e6156b916d7" ],
-    [ "main", "dir_d4aa06c12780ef68053b54c6a21e276c.html", "dir_d4aa06c12780ef68053b54c6a21e276c" ],
-    [ "Overlay", "dir_50731ef37105e594833886c1d7f3c3bb.html", "dir_50731ef37105e594833886c1d7f3c3bb" ],
-    [ "Renderer", "dir_56ddd38578677f0e21369c803f2d7684.html", "dir_56ddd38578677f0e21369c803f2d7684" ]
-];

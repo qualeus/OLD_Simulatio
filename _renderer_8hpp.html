@@ -31,7 +31,7 @@
             content="Custom CSS theme for doxygen html-documentation with lots of customization parameters."
         />
         <!-- END twitter metadata -->
-        <title>Simulatio: /home/runner/work/Simulatio/Simulatio/renderer/include/Renderer/Renderer.hpp File Reference</title>
+        <title>Simulatio: /home/runner/work/Simulatio/Simulatio/include/Renderer/Renderer.hpp File Reference</title>
         <link href="tabs.css" rel="stylesheet" type="text/css" />
         <link rel="icon" type="image/svg+xml" href="ricon.ico" />
         <script type="text/javascript" src="jquery.js"></script>
@@ -211,11 +211,11 @@ $(document).ready(function(){initNavTree('_renderer_8hpp.html',''); initResizabl
 <code>#include &quot;../../assets/fonts/proggy.hpp&quot;</code><br />
 <code>#include &quot;../../assets/fonts/roboto.hpp&quot;</code><br />
 <code>#include &quot;../../assets/icon/ricon.hpp&quot;</code><br />
-<code>#include &quot;../Geometry/Geometry.hpp&quot;</code><br />
-<code>#include &quot;../Geometry/Maths.hpp&quot;</code><br />
-<code>#include &quot;../Geometry/String.hpp&quot;</code><br />
-<code>#include &quot;../Geometry/Vector.hpp&quot;</code><br />
-<code>#include &quot;../Structures/System.hpp&quot;</code><br />
+<code>#include &quot;<a class="el" href="_geometry_8hpp_source.html">../Geometry/Geometry.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_maths_8hpp_source.html">../Geometry/Maths.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_string_8hpp_source.html">../Geometry/String.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_vector_8hpp_source.html">../Geometry/Vector.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_system_8hpp_source.html">../Structures/System.hpp</a>&quot;</code><br />
 <code>#include &quot;Config.hpp&quot;</code><br />
 <code>#include &quot;<a class="el" href="_converter_8hpp_source.html">Converter.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_editor_color_scheme_8hpp_source.html">EditorColorScheme.hpp</a>&quot;</code><br />
@@ -224,13 +224,13 @@ $(document).ready(function(){initNavTree('_renderer_8hpp.html',''); initResizabl
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Renderer.hpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="_renderer_8hpp__incl.svg" width="2658" height="231"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="_renderer_8hpp__incl.svg" width="3416" height="978"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="_renderer_8hpp__dep__incl.svg" width="1395" height="171"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="_renderer_8hpp__dep__incl.svg" width="1162" height="171"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div>
@@ -243,6 +243,8 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:ac41f2bab4cd7a634ed02950982a143b4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_renderer_8hpp.html#ac41f2bab4cd7a634ed02950982a143b4">ICON_FK_UNITY</a>&#160;&#160;&#160;&quot;\xef\x8d\x9e&quot;</td></tr>
+<tr class="separator:ac41f2bab4cd7a634ed02950982a143b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f0addaae591c2bb02d8f602e1b86e30"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_renderer_8hpp.html#a3f0addaae591c2bb02d8f602e1b86e30">C_TURQUOISE</a>&#160;&#160;&#160;sf::Color(26, 188, 156, 255)</td></tr>
 <tr class="separator:a3f0addaae591c2bb02d8f602e1b86e30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a448d973f9ee30250ec93e600f5d89ed1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_renderer_8hpp.html#a448d973f9ee30250ec93e600f5d89ed1">C_GREEN</a>&#160;&#160;&#160;sf::Color(22, 160, 133, 255)</td></tr>
@@ -285,10 +287,8 @@ Macros</h2></td></tr>
 <tr class="separator:ad09a554e97caf9c12f60cb81b8d80fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a652a3a522a7adca9327a71c6c8c8b196"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_renderer_8hpp.html#a652a3a522a7adca9327a71c6c8c8b196">C_GREY</a>&#160;&#160;&#160;sf::Color(127, 140, 141, 255)</td></tr>
 <tr class="separator:a652a3a522a7adca9327a71c6c8c8b196"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56c1b6b91b3294724a2d6614a79a98ae"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_renderer_8hpp.html#a56c1b6b91b3294724a2d6614a79a98ae">G_DEBUG_MIN_FRAME_SIZE</a>&#160;&#160;&#160;10</td></tr>
-<tr class="separator:a56c1b6b91b3294724a2d6614a79a98ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c043b200cc967f33692e59c4383d458"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_renderer_8hpp.html#a3c043b200cc967f33692e59c4383d458">G_DEBUG_MAX_FRAME_SIZE</a>&#160;&#160;&#160;300</td></tr>
-<tr class="separator:a3c043b200cc967f33692e59c4383d458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f3c20ea965e45dc2de0d3c909716972"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_renderer_8hpp.html#a9f3c20ea965e45dc2de0d3c909716972">G_DEBUG_FRAME_SIZE</a>&#160;&#160;&#160;300</td></tr>
+<tr class="separator:a9f3c20ea965e45dc2de0d3c909716972"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97413ebda001bd65a78337fdbe1a7a7c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_renderer_8hpp.html#a97413ebda001bd65a78337fdbe1a7a7c">G_SIDE_BAR_SIZE</a>&#160;&#160;&#160;60</td></tr>
 <tr class="separator:a97413ebda001bd65a78337fdbe1a7a7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aebeee80c1513cd6163be30e0b58c6530"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_renderer_8hpp.html#aebeee80c1513cd6163be30e0b58c6530">G_SIDE_CONTENT_SIZE</a>&#160;&#160;&#160;300</td></tr>
@@ -375,10 +375,6 @@ Macros</h2></td></tr>
 <tr class="separator:a4fd15cf0bcfb192d1ac49734c9c4933d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a300c25809e8ae4df451aa22d82cb67b0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_renderer_8hpp.html#a300c25809e8ae4df451aa22d82cb67b0">I_SIDE_MENU_SPAWNER</a>&#160;&#160;&#160;2</td></tr>
 <tr class="separator:a300c25809e8ae4df451aa22d82cb67b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1cdec6a28aea0929c30b4a5ca142197"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_renderer_8hpp.html#af1cdec6a28aea0929c30b4a5ca142197">OUTLINE_RES</a>&#160;&#160;&#160;0.05</td></tr>
-<tr class="separator:af1cdec6a28aea0929c30b4a5ca142197"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab20b3dd17819acbd8b3efd004c93406e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_renderer_8hpp.html#ab20b3dd17819acbd8b3efd004c93406e">PIXEL_SCALE</a>&#160;&#160;&#160;1.0f</td></tr>
-<tr class="separator:ab20b3dd17819acbd8b3efd004c93406e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a7b9e3ca4bb972ccffc1991e5dfdb577a" name="a7b9e3ca4bb972ccffc1991e5dfdb577a"></a>
@@ -829,28 +825,14 @@ Macros</h2></td></tr>
 
 </div>
 </div>
-<a id="a3c043b200cc967f33692e59c4383d458" name="a3c043b200cc967f33692e59c4383d458"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c043b200cc967f33692e59c4383d458">&#9670;&nbsp;</a></span>G_DEBUG_MAX_FRAME_SIZE</h2>
+<a id="a9f3c20ea965e45dc2de0d3c909716972" name="a9f3c20ea965e45dc2de0d3c909716972"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f3c20ea965e45dc2de0d3c909716972">&#9670;&nbsp;</a></span>G_DEBUG_FRAME_SIZE</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define G_DEBUG_MAX_FRAME_SIZE&#160;&#160;&#160;300</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a56c1b6b91b3294724a2d6614a79a98ae" name="a56c1b6b91b3294724a2d6614a79a98ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56c1b6b91b3294724a2d6614a79a98ae">&#9670;&nbsp;</a></span>G_DEBUG_MIN_FRAME_SIZE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define G_DEBUG_MIN_FRAME_SIZE&#160;&#160;&#160;10</td>
+          <td class="memname">#define G_DEBUG_FRAME_SIZE&#160;&#160;&#160;300</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1151,28 +1133,14 @@ Macros</h2></td></tr>
 
 </div>
 </div>
-<a id="af1cdec6a28aea0929c30b4a5ca142197" name="af1cdec6a28aea0929c30b4a5ca142197"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1cdec6a28aea0929c30b4a5ca142197">&#9670;&nbsp;</a></span>OUTLINE_RES</h2>
+<a id="ac41f2bab4cd7a634ed02950982a143b4" name="ac41f2bab4cd7a634ed02950982a143b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac41f2bab4cd7a634ed02950982a143b4">&#9670;&nbsp;</a></span>ICON_FK_UNITY</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define OUTLINE_RES&#160;&#160;&#160;0.05</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab20b3dd17819acbd8b3efd004c93406e" name="ab20b3dd17819acbd8b3efd004c93406e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab20b3dd17819acbd8b3efd004c93406e">&#9670;&nbsp;</a></span>PIXEL_SCALE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define PIXEL_SCALE&#160;&#160;&#160;1.0f</td>
+          <td class="memname">#define ICON_FK_UNITY&#160;&#160;&#160;&quot;\xef\x8d\x9e&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1339,7 +1307,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d10aa5f1e26260a914a037377583e9a7.html">renderer</a></li><li class="navelem"><a class="el" href="dir_38d06604e9df36157c4a7ee987c246f7.html">include</a></li><li class="navelem"><a class="el" href="dir_a6a9f528e5bf3b3ec0179909e4c6e472.html">Renderer</a></li><li class="navelem"><a class="el" href="_renderer_8hpp.html">Renderer.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_16a64cef37031d7516f8ccb21b22bcaa.html">Renderer</a></li><li class="navelem"><a class="el" href="_renderer_8hpp.html">Renderer.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
   </ul>
 </div>

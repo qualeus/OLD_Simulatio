@@ -8,6 +8,6 @@ var classbmk_1_1_performance =
     [ "Ending", "classbmk_1_1_performance.html#a0dd4a12c243e25fe2d637bb2b1edb891", null ],
     [ "ResetChilds", "classbmk_1_1_performance.html#af6e4c0de890587b5074ae59a4dec6470", null ],
     [ "Time", "classbmk_1_1_performance.html#a6389b5e7637b10d5d4c5601a2fd24335", null ],
-    [ "childs", "classbmk_1_1_performance.html#aa179949cd662a973d3542929e03d67fc", null ],
+    [ "childs", "classbmk_1_1_performance.html#ad857c9fad42acee05e5a3c73e8d6f50b", null ],
     [ "data", "classbmk_1_1_performance.html#a2436b474cae4426aac74b1586f14db2d", null ]
 ];
