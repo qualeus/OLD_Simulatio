@@ -2,7 +2,7 @@
 
 namespace drw {
 
-Window::Window(int width, int height, std::string title) : camera(drw::Camera()) {
+Window::Window(int width, int height, std::string title) : camera(drw::Camera()), overlay(ovl::Overlay()) {
     this->size = glm::ivec2(width, height);
     this->title = title;
 }
@@ -48,10 +48,11 @@ void Window::InitializeBGFX() {
     init.resolution.width = (uint32_t)this->get_width();
     init.resolution.height = (uint32_t)this->get_height();
     init.resolution.reset = BGFX_RESET_VSYNC;
+
     if (!bgfx::init(init)) throw std::runtime_error("bgfx::init failed.");
 
     // Set view 0 to the same dimensions as the window and to clear the color buffer.
-    bgfx::setViewClear(this->viewId, BGFX_CLEAR_COLOR);
+    bgfx::setViewClear(this->viewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
     bgfx::setViewRect(this->viewId, 0, 0, bgfx::BackbufferRatio::Equal);
 }
 
@@ -59,13 +60,11 @@ void Window::Render() {
     this->InitializeGLFW();
     this->InitializeBGFX();
 
-    // glfwMakeContextCurrent(this->window);
     glewInit();
-    // glfwSwapInterval(1);  // Enable vsync
+    glfwMakeContextCurrent(this->window);
+    glfwSwapInterval(1);  // Enable vsync
 
-    ovl::Overlay overlay = ovl::Overlay(this->window, this->glsl_version);
-    this->overlay = &overlay;
-    this->overlay->Initialize();
+    // this->overlay.Initialize(this->viewId, this->window, this->glsl_version);
 }
 
 void Window::Clear() {
@@ -74,18 +73,20 @@ void Window::Clear() {
     bgfx::touch(this->viewId);
 }
 
-void Window::Draw() {
-    this->overlay->Render();
-    glfwGetFramebufferSize(this->window, &this->size.x, &this->size.y);
-    glViewport(0, 0, this->get_width(), this->get_height());
-    this->overlay->RenderDrawData();
-    glfwSwapBuffers(this->window);
-}
-
 void Window::Prepare() {
     this->HandleResize();
     glfwPollEvents();
-    this->overlay->Prepare();
+    // this->overlay.Prepare();
+}
+
+void Window::Draw() {
+    //  this->overlay.Render();
+
+    glfwGetFramebufferSize(this->window, &this->size.x, &this->size.y);
+    glViewport(0, 0, this->get_width(), this->get_height());
+    glfwSwapBuffers(this->window);
+
+    // this->overlay.RenderDraw();
 }
 
 void Window::HandleResize() {
@@ -98,18 +99,18 @@ void Window::HandleResize() {
     }
 }
 
-void Window::Cleanup() {
-    bgfx::shutdown();
-    glfwTerminate();
-}
 void Window::Close() {
-    this->overlay->Cleanup();
     glfwDestroyWindow(this->window);
     this->Cleanup();
 }
 
-bool Window::isOpen() { return !glfwWindowShouldClose(this->window); }
+void Window::Cleanup() {
+    bgfx::shutdown();
+    glfwTerminate();
+    // this->overlay.Cleanup();
+}
 
+bool Window::isOpen() { return !glfwWindowShouldClose(this->window); }
 int Window::get_width() { return this->size.x; }
 int Window::get_height() { return this->size.y; }
 }  // namespace drw

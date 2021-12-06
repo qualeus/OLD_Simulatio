@@ -20,6 +20,7 @@ set(SOURCES
     src/Drawing/Vertex.cpp
 
     src/Overlay/Overlay.cpp
+    src/Overlay/ImGuiBinder.cpp
 
     src/Renderer/Renderer.cpp
 )
@@ -32,6 +33,9 @@ set(HEADERS
     include/Drawing/Vertex.hpp
 
     include/Overlay/Overlay.hpp
+    include/Overlay/ImGuiBinder.hpp
+    include/Overlay/fs_ocornut_imgui.bin.h
+    include/Overlay/vs_ocornut_imgui.bin.h
 
     include/Renderer/Renderer.hpp
 )

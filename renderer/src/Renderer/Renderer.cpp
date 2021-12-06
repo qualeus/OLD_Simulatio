@@ -27,7 +27,7 @@ void Renderer::Render() {
 void Renderer::Loop() {
     this->window.Clear();
 
-    if (this->show_demo_window) ImGui::ShowDemoWindow(&this->show_demo_window);
+    // if (this->show_demo_window) ImGui::ShowDemoWindow(&this->show_demo_window);
 
     // Use debug font to print information about this example.
     bgfx::dbgTextClear();
@@ -41,7 +41,7 @@ void Renderer::Loop() {
     bgfx::dbgTextPrintf(0, 2, 0x0f, "Backbuffer %dW x %dH in pixels, debug text %dW x %dH in characters.", stats->width, stats->height, stats->textWidth, stats->textHeight);
 
     // Enable stats or debug text.
-    bool s_showStats = true;
+    bool s_showStats = false;
     bgfx::setDebug(s_showStats ? BGFX_DEBUG_STATS : BGFX_DEBUG_TEXT);
     // Advance to next frame. Process submitted rendering primitives.
     bgfx::frame();

@@ -24,9 +24,9 @@ class Window {
    private:
     GLFWwindow* window;
     drw::Camera camera;
-    bgfx::ViewId viewId = 0;
+    ovl::Overlay overlay;
 
-    ovl::Overlay* overlay;
+    bgfx::ViewId viewId = 0;
 
     glm::ivec2 size;
     std::string title;

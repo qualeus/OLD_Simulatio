@@ -8,20 +8,19 @@
 
 #include <string>
 
+#include "ImGuiBinder.hpp"
+
 namespace ovl {
 
 class Overlay {
    private:
-    GLFWwindow* window;
-    std::string glsl_version;
-
    public:
-    Overlay(GLFWwindow* window, std::string glsl_version);
-    void Initialize();
-    void AddFont();
+    Overlay();
+
+    void Initialize(int view, GLFWwindow* window, std::string glsl_version);
     void Prepare();
     void Render();
-    void RenderDrawData();
+    void RenderDraw();
     void Cleanup();
 };
 
