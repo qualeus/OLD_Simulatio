@@ -30,6 +30,11 @@ FetchContent_Declare(imgui
   GIT_TAG 9d03db158bbb67a6aa039e561a9352e3818ca15f # docking
 )
 
+FetchContent_Declare(bgfx
+  GIT_REPOSITORY https://github.com/bkaradzic/bgfx.cmake
+  GIT_TAG b54594715f8d29938d879c1c18108960c4806cb8
+)
+
 FetchContent_GetProperties(freetype2)
 if(NOT freetype2_POPULATED)
   FetchContent_Populate(freetype2)
@@ -67,4 +72,10 @@ if(NOT imgui_POPULATED )
 
   add_subdirectory(${imgui_SOURCE_DIR} ${imgui_BINARY_DIR} EXCLUDE_FROM_ALL)
   # FetchContent_MakeAvailable(imgui)
+endif()
+
+FetchContent_GetProperties(bgfx)
+if(NOT bgfx_POPULATED )
+  FetchContent_Populate(bgfx)
+  add_subdirectory(${bgfx_SOURCE_DIR} ${bgfx_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()

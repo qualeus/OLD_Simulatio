@@ -3,11 +3,17 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <bgfx/bgfx.h>
 
 #include <glm/vec2.hpp>
 #include <iostream>
 #include <string>
 
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include "GLFW/glfw3native.h"
+#include "bgfx/platform.h"
+
+// intern
 #include "../Overlay/Overlay.hpp"
 #include "Camera.hpp"
 #include "Shader.hpp"
@@ -18,6 +24,7 @@ class Window {
    private:
     GLFWwindow* window;
     drw::Camera camera;
+    bgfx::ViewId viewId = 0;
 
     ovl::Overlay* overlay;
 
@@ -33,6 +40,10 @@ class Window {
     void Draw();
     void Prepare();
 
+    void InitializeGLFW();
+    void InitializeBGFX();
+
+    void HandleResize();
     void Close();
     void Cleanup();
     bool isOpen();
