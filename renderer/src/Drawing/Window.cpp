@@ -80,7 +80,7 @@ void Window::Prepare() {
 }
 
 void Window::Draw() {
-    //  this->overlay.Render();
+    // this->overlay.Render();
 
     glfwGetFramebufferSize(this->window, &this->size.x, &this->size.y);
     glViewport(0, 0, this->get_width(), this->get_height());

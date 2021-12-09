@@ -21,6 +21,7 @@ set(SOURCES
 
     src/Overlay/Overlay.cpp
     src/Overlay/ImGuiBinder.cpp
+    src/Overlay/ImGuiHelper.cpp
 
     src/Renderer/Renderer.cpp
 )
@@ -34,6 +35,7 @@ set(HEADERS
 
     include/Overlay/Overlay.hpp
     include/Overlay/ImGuiBinder.hpp
+    include/Overlay/ImGuiHelper.hpp
     include/Overlay/fs_ocornut_imgui.bin.h
     include/Overlay/vs_ocornut_imgui.bin.h
 
