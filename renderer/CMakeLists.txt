@@ -15,9 +15,6 @@ add_subdirectory(libs)
 set(SOURCES
     src/Drawing/Window.cpp
     src/Drawing/Camera.cpp
-    src/Drawing/Shader.cpp
-    src/Drawing/Mesh.cpp
-    src/Drawing/Vertex.cpp
 
     src/Overlay/Overlay.cpp
     src/Overlay/ImGuiBinder.cpp
@@ -30,17 +27,15 @@ set(HEADERS
     include/Drawing/Test.hpp
     include/Drawing/Window.hpp
     include/Drawing/Camera.hpp
-    include/Drawing/Shader.hpp
-    include/Drawing/Mesh.hpp
-    include/Drawing/Vertex.hpp
 
     include/Overlay/Overlay.hpp
     include/Overlay/ImGuiBinder.hpp
     include/Overlay/ImGuiHelper.hpp
-    include/Overlay/fs_ocornut_imgui.bin.h
-    include/Overlay/vs_ocornut_imgui.bin.h
 
     include/Renderer/Renderer.hpp
+
+    assets/shaders/fs_imgui.bin.hpp
+    assets/shaders/vs_imgui.bin.hpp
 )
 
 set(RESSOURCES 

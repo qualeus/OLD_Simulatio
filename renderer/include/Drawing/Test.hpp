@@ -3,6 +3,8 @@
 #include <imgui.h>
 #include <stdio.h>
 
+#include <stdexcept>
+
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
 #include <bgfx/platform.h>
@@ -91,6 +93,7 @@ void RenderTest() {
         ImGui::NewFrame();
 
         bgfx::touch(0);
+
         bool open = true;
         ImGui::ShowDemoWindow(&open);
 
@@ -183,13 +186,42 @@ static const char *get_shader_type() {
     }
 }
 
-// #include "../../include/Overlay/fs_ocornut_imgui.bin.h"
-// #include "../../include/Overlay/vs_ocornut_imgui.bin.h"
-// #include "bgfx/embedded_shader.h"
+#include "../../assets/shaders/fs_imgui.bin.hpp"
+#include "../../assets/shaders/vs_imgui.bin.hpp"
+#include "bgfx/embedded_shader.h"
 
-// static const bgfx::EmbeddedShader s_embeddedShaders[] = {BGFX_EMBEDDED_SHADER(vs_ocornut_imgui), BGFX_EMBEDDED_SHADER(fs_ocornut_imgui), BGFX_EMBEDDED_SHADER_END()};
+static const bgfx::Memory *get_vs_shader() {
+    switch (bgfx::getRendererType()) {
+        case bgfx::RendererType::Noop:  // fallthrough
+        case bgfx::RendererType::Direct3D9: return bgfx::copy(vs_imgui_dx9, vs_imgui_dx9_size);
+        case bgfx::RendererType::Direct3D11:  // fallthrough
+        case bgfx::RendererType::Direct3D12: return bgfx::copy(vs_imgui_dx11, vs_imgui_dx11_size);
+        case bgfx::RendererType::OpenGL: return bgfx::copy(vs_imgui_glsl, vs_imgui_glsl_size);
+        case bgfx::RendererType::OpenGLES: return bgfx::copy(vs_imgui_essl, vs_imgui_essl_size);
+        case bgfx::RendererType::Metal: return bgfx::copy(vs_imgui_metal, vs_imgui_metal_size);
+        case bgfx::RendererType::Vulkan: return bgfx::copy(vs_imgui_spirv, vs_imgui_spirv_size);
+        default: throw std::runtime_error("Can't find the shader type");
+    }
+}
+
+static const bgfx::Memory *get_fs_shader() {
+    switch (bgfx::getRendererType()) {
+        case bgfx::RendererType::Noop:  // fallthrough
+        case bgfx::RendererType::Direct3D9: return bgfx::copy(fs_imgui_dx9, fs_imgui_dx9_size);
+        case bgfx::RendererType::Direct3D11:  // fallthrough
+        case bgfx::RendererType::Direct3D12: return bgfx::copy(fs_imgui_dx11, fs_imgui_dx11_size);
+        case bgfx::RendererType::OpenGL: return bgfx::copy(fs_imgui_glsl, fs_imgui_glsl_size);
+        case bgfx::RendererType::OpenGLES: return bgfx::copy(fs_imgui_essl, fs_imgui_essl_size);
+        case bgfx::RendererType::Metal: return bgfx::copy(fs_imgui_metal, fs_imgui_metal_size);
+        case bgfx::RendererType::Vulkan: return bgfx::copy(fs_imgui_spirv, fs_imgui_spirv_size);
+        default: throw std::runtime_error("Can't find the shader type");
+    }
+}
+
+// static const bgfx::EmbeddedShader s_embeddedShaders[] = {BGFX_EMBEDDED_SHADER(vs_imgui), BGFX_EMBEDDED_SHADER(fs_imgui), BGFX_EMBEDDED_SHADER_END()};
 
 static bgfx::ProgramHandle create_program(const char *name) {
+    /*
     char vs_path[256];
     char fs_path[256];
 
@@ -200,9 +232,16 @@ static bgfx::ProgramHandle create_program(const char *name) {
     auto vs = bgfx::createShader(load_file(vs_path));
     auto fs = bgfx::createShader(load_file(fs_path));
     return bgfx::createProgram(vs, fs, true);
+    */
 
-    /*
-     bgfx::RendererType::Enum type = bgfx::getRendererType();
-     return bgfx::createProgram(bgfx::createEmbeddedShader(s_embeddedShaders, type, "vs_ocornut_imgui"), bgfx::createEmbeddedShader(s_embeddedShaders, type, "fs_ocornut_imgui"), true);
-     */
+    const bgfx::Memory *imgui_vs = get_vs_shader();
+    const bgfx::Memory *imgui_fs = get_fs_shader();
+
+    bgfx::ShaderHandle vs = bgfx::createShader(imgui_vs);
+    bgfx::ShaderHandle fs = bgfx::createShader(imgui_fs);
+
+    return bgfx::createProgram(vs, fs, true);
+
+    // bgfx::RendererType::Enum type = bgfx::getRendererType();
+    // return bgfx::createProgram(bgfx::createEmbeddedShader(s_embeddedShaders, type, "vs_ocornut_imgui"), bgfx::createEmbeddedShader(s_embeddedShaders, type, "fs_ocornut_imgui"), true);
 }

@@ -3,7 +3,7 @@
     UseTab: Never,
     IndentWidth: 4,
     TabWidth: 4,
-    ColumnLimit: 300,
+    ColumnLimit: 200,
     AllowAllParametersOfDeclarationOnNextLine: false,
     BreakBeforeBraces: Attach,
     AllowShortFunctionsOnASingleLine: All,
