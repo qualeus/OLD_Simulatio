@@ -27,6 +27,7 @@ set(SOURCES
 )
 
 set(HEADERS
+    include/Drawing/Test.hpp
     include/Drawing/Window.hpp
     include/Drawing/Camera.hpp
     include/Drawing/Shader.hpp

@@ -1,9 +1,11 @@
 
-#include <Renderer/Renderer.hpp>
+//#include <Renderer/Renderer.hpp>
+#include <Drawing/Test.hpp>
 
 int main(void) {
-    rdr::Renderer renderer = rdr::Renderer();
-    renderer.Render();
+    RenderTest();
+    // rdr::Renderer renderer = rdr::Renderer();
+    // renderer.Render();
     // https://dev.to/pperon/hello-bgfx-4dka
     // exemples: https://github.com/podgorskiy/KeplerOrbits
     // + web demo

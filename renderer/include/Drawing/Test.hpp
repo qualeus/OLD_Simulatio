@@ -1,0 +1,208 @@
+#include <GLFW/glfw3.h>
+#include <bgfx/bgfx.h>
+#include <imgui.h>
+#include <stdio.h>
+
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3native.h>
+#include <bgfx/platform.h>
+
+#include <string>
+
+#include "../Overlay/ImGuiHelper.hpp"
+
+static void reset();
+
+static void glfw_error_callback(int error, const char *description);
+static void glfw_window_size_callback(GLFWwindow *window, int width, int height);
+static void glfw_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
+static void glfw_char_callback(GLFWwindow *window, unsigned int codepoint);
+static void glfw_mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
+static void glfw_scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
+
+static bgfx::ProgramHandle create_program(const char *name);
+
+static bool g_show_stats = false;
+static int g_width = 1024;
+static int g_height = 768;
+
+void RenderTest() {
+    // Create window using glfw
+    glfwSetErrorCallback(glfw_error_callback);
+    if (!glfwInit()) return;
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+
+    auto window = glfwCreateWindow(g_width, g_height, "bgfx + imgui", nullptr, nullptr);
+    if (!window) {
+        glfwTerminate();
+        return;
+    }
+
+    // Setting some window callbacks
+    glfwSetWindowSizeCallback(window, glfw_window_size_callback);
+    glfwSetKeyCallback(window, glfw_key_callback);
+    glfwSetCharCallback(window, glfw_char_callback);
+    glfwSetMouseButtonCallback(window, glfw_mouse_button_callback);
+    glfwSetScrollCallback(window, glfw_scroll_callback);
+
+    // Tell bgfx about our window
+    bgfx::PlatformData platform_data = {};
+
+#if BX_PLATFORM_LINUX || BX_PLATFORM_BSD
+    platform_data.ndt = glfwGetX11Display();
+    platform_data.nwh = (void *)(uintptr_t)glfwGetX11Window(window);
+#elif BX_PLATFORM_OSX
+    platform_data.nwh = glfwGetCocoaWindow(window);
+#elif BX_PLATFORM_WINDOWS
+    platform_data.nwh = glfwGetWin32Window(window);
+#endif
+    bgfx::setPlatformData(platform_data);
+
+    // Init bgfx
+    bgfx::Init init;
+    // init.type = bgfx::RendererType::Vulkan;  // Select rendering backend
+    init.vendorId = BGFX_PCI_ID_NONE;  // Choose graphics card vendor
+    init.deviceId = 0;                 // Choose which graphics card to use
+    init.callback = nullptr;
+    if (!bgfx::init(init)) {
+        fprintf(stderr, "unable to initialize bgfx\n");
+        return;
+    }
+
+    // Initialize ImGui
+    auto imgui_program = create_program("imgui");
+    imgui_init(window, imgui_program);
+
+    // Reset display buffers
+    reset();
+
+    float last_time = 0;
+    while (!glfwWindowShouldClose(window)) {
+        // Calculate delta time
+        float time = (float)glfwGetTime();
+        float dt = time - last_time;
+        last_time = time;
+
+        // Poll events
+        glfwPollEvents();
+        imgui_events(dt);
+
+        // Render
+        ImGui::NewFrame();
+
+        bgfx::touch(0);
+        bool open = true;
+        ImGui::ShowDemoWindow(&open);
+
+        ImGui::Begin("Information", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+        ImGui::Text("Current window resolution is %dx%d", g_width, g_height);
+        ImGui::End();
+
+        bgfx::dbgTextClear();
+        bgfx::dbgTextPrintf(0, 0, 0x0f, "Press \x1b[11;mF1\x1b[0m to toggle stats.");
+        bgfx::setDebug(g_show_stats ? BGFX_DEBUG_STATS : BGFX_DEBUG_TEXT);
+
+        imgui_render();
+        bgfx::frame();
+    }
+
+    // Destroy all resources
+    imgui_shutdown();
+    bgfx::shutdown();
+    glfwTerminate();
+    return;
+}
+
+static void reset() {
+    bgfx::reset(g_width, g_height);
+    imgui_reset(g_width, g_height);
+    bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
+    bgfx::setViewRect(0, 0, 0, bgfx::BackbufferRatio::Equal);
+}
+
+static void glfw_error_callback(int error, const char *description) { fprintf(stderr, "GLFW error %d: %s\n", error, description); }
+
+static void glfw_window_size_callback(GLFWwindow *window, int width, int height) {
+    g_width = width;
+    g_height = height;
+    reset();
+}
+
+static void glfw_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+    imgui_key_callback(window, key, scancode, action, mods);
+
+    if (!imgui_want_keyboard()) {  // Ignore when ImGui has keyboard focus
+        if (action == GLFW_PRESS) {
+            if (key == GLFW_KEY_ESCAPE) {
+                glfwSetWindowShouldClose(window, 1);
+            } else if (key == GLFW_KEY_F1) {
+                g_show_stats = !g_show_stats;
+            }
+        }
+    }
+}
+
+static void glfw_char_callback(GLFWwindow *window, unsigned int codepoint) { imgui_char_callback(window, codepoint); }
+
+static void glfw_mouse_button_callback(GLFWwindow *window, int button, int action, int mods) { imgui_mouse_button_callback(window, button, action, mods); }
+
+static void glfw_scroll_callback(GLFWwindow *window, double xoffset, double yoffset) { imgui_scroll_callback(window, xoffset, yoffset); }
+
+static const bgfx::Memory *load_file(const char *filename) {
+    auto file = fopen(filename, "rb");
+    if (!file) {
+        fprintf(stderr, "unable to open file: %s\n", filename);
+        return nullptr;
+    }
+    fseek(file, 0, SEEK_END);
+    size_t file_size = ftell(file);
+    rewind(file);
+    const bgfx::Memory *mem = bgfx::alloc((uint32_t)file_size + 1);
+    size_t read_size = fread(mem->data, 1, file_size, file);
+    if (read_size != file_size) {
+        fprintf(stderr, "read %zu bytes instead of %zu\n", read_size, file_size);
+        fclose(file);
+        return nullptr;
+    }
+    mem->data[mem->size - 1] = 0;
+    fclose(file);
+    return mem;
+}
+
+static const char *get_shader_type() {
+    switch (bgfx::getRendererType()) {
+        case bgfx::RendererType::Noop:  // fallthrough
+        case bgfx::RendererType::Direct3D9: return "dx9";
+        case bgfx::RendererType::Direct3D11:  // fallthrough
+        case bgfx::RendererType::Direct3D12: return "dx11";
+        case bgfx::RendererType::OpenGL: return "glsl";
+        case bgfx::RendererType::OpenGLES: return "essl";
+        case bgfx::RendererType::Metal: return "metal";
+        case bgfx::RendererType::Vulkan: return "spirv";
+        default: return "unknown";
+    }
+}
+
+// #include "../../include/Overlay/fs_ocornut_imgui.bin.h"
+// #include "../../include/Overlay/vs_ocornut_imgui.bin.h"
+// #include "bgfx/embedded_shader.h"
+
+// static const bgfx::EmbeddedShader s_embeddedShaders[] = {BGFX_EMBEDDED_SHADER(vs_ocornut_imgui), BGFX_EMBEDDED_SHADER(fs_ocornut_imgui), BGFX_EMBEDDED_SHADER_END()};
+
+static bgfx::ProgramHandle create_program(const char *name) {
+    char vs_path[256];
+    char fs_path[256];
+
+    // TODO: test
+    snprintf(vs_path, sizeof(vs_path), "assets/shaders/%s/%s.v.bin", get_shader_type(), name);
+    snprintf(fs_path, sizeof(fs_path), "assets/shaders/%s/%s.f.bin", get_shader_type(), name);
+
+    auto vs = bgfx::createShader(load_file(vs_path));
+    auto fs = bgfx::createShader(load_file(fs_path));
+    return bgfx::createProgram(vs, fs, true);
+
+    /*
+     bgfx::RendererType::Enum type = bgfx::getRendererType();
+     return bgfx::createProgram(bgfx::createEmbeddedShader(s_embeddedShaders, type, "vs_ocornut_imgui"), bgfx::createEmbeddedShader(s_embeddedShaders, type, "fs_ocornut_imgui"), true);
+     */
+}
