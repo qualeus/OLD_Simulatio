@@ -13,33 +13,32 @@ add_subdirectory(libs)
 # Compile Target
 
 set(SOURCES
-    src/Drawing/Window.cpp
-    src/Drawing/Camera.cpp
+    # src/Drawing/Camera.cpp
 
     src/Overlay/Overlay.cpp
-    src/Overlay/ImGuiBinder.cpp
     src/Overlay/ImGuiHelper.cpp
 
     src/Renderer/Renderer.cpp
+    src/Renderer/Window.cpp
+    # src/Renderer/Inputs.cpp
 )
 
 set(HEADERS
     include/Drawing/Test.hpp
-    include/Drawing/Window.hpp
-    include/Drawing/Camera.hpp
+    # include/Drawing/Camera.hpp
 
     include/Overlay/Overlay.hpp
-    include/Overlay/ImGuiBinder.hpp
     include/Overlay/ImGuiHelper.hpp
 
     include/Renderer/Renderer.hpp
+    include/Renderer/Window.hpp
+    # include/Renderer/Inputs.hpp
 
-    assets/shaders/fs_imgui.bin.hpp
-    assets/shaders/vs_imgui.bin.hpp
 )
 
 set(RESSOURCES 
-    # ../assets/icon/ricon.o
+    assets/shaders/fs_imgui.bin.hpp
+    assets/shaders/vs_imgui.bin.hpp
 )
 
 set(FONTS

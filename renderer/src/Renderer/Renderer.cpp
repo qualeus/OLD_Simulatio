@@ -25,9 +25,8 @@ void Renderer::Render() {
 }
 
 void Renderer::Loop() {
+    this->window.PreDraw();
     this->window.Clear();
-
-    // if (this->show_demo_window) ImGui::ShowDemoWindow(&this->show_demo_window);
 
     // Use debug font to print information about this example.
     bgfx::dbgTextClear();
@@ -43,11 +42,11 @@ void Renderer::Loop() {
     // Enable stats or debug text.
     bool s_showStats = false;
     bgfx::setDebug(s_showStats ? BGFX_DEBUG_STATS : BGFX_DEBUG_TEXT);
-    // Advance to next frame. Process submitted rendering primitives.
-    bgfx::frame();
 
-    /* Swap front and back buffers */
-    // this->window.Draw();
+    bool open = true;
+    ImGui::ShowDemoWindow(&open);
+
+    this->window.Draw();
 }
 
 }  // namespace rdr

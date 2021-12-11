@@ -8,7 +8,7 @@
 #include <Structures/System.hpp>
 #include <glm/glm.hpp>
 
-#include "../Drawing/Window.hpp"
+#include "Window.hpp"
 
 namespace rdr {
 

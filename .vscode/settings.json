@@ -110,7 +110,8 @@
         "Actions",
         "Pipeline",
         "Renderer",
-        "Wasm"
+        "Wasm",
+        "Shaders"
     ],
     "C_Cpp.errorSquiggles": "Disabled"
 }
