@@ -111,7 +111,8 @@
         "Pipeline",
         "Renderer",
         "Wasm",
-        "Shaders"
+        "Shaders",
+        "Inputs"
     ],
     "C_Cpp.errorSquiggles": "Disabled"
 }

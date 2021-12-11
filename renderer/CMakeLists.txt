@@ -28,7 +28,6 @@ set(HEADERS
     include/Context/Window.hpp
     include/Context/Inputs.hpp
 
-    include/Drawing/Test.hpp
     # include/Drawing/Camera.hpp
 
     include/Overlay/Overlay.hpp

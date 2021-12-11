@@ -48,7 +48,11 @@ void Renderer::Loop() {
         s_showStats = !s_showStats;
         std::cout << "F1 pressed" << std::endl;
     }
-    if (Inputs::KeyPressed(GLFW_KEY_A)) { std::cout << "A pressed" << std::endl; }
+    if (Inputs::KeyPressed("A")) { std::cout << "A pressed" << std::endl; }
+    if (Inputs::KeyDown("A")) { std::cout << "A down" << std::endl; }
+    if (Inputs::KeyReleased("A")) { std::cout << "A released" << std::endl; }
+
+    if (Inputs::KeyPressed(GLFW_KEY_ESCAPE)) { this->window.Close(); }
 
     this->window.Draw();
 }
