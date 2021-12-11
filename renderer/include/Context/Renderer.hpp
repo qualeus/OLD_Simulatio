@@ -8,15 +8,17 @@
 #include <Structures/System.hpp>
 #include <glm/glm.hpp>
 
+#include "Inputs.hpp"
 #include "Window.hpp"
 
-namespace rdr {
+namespace ctx {
 
 class Renderer {
    private:
-    drw::Window window;
+    Window window;
     phy::System system;
     bool show_demo_window = true;
+    bool s_showStats = true;
 
    public:
     Renderer();
@@ -24,5 +26,5 @@ class Renderer {
     void Loop();
 };
 
-}  // namespace rdr
+}  // namespace ctx
 #endif

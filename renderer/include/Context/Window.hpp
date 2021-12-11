@@ -11,8 +11,9 @@
 
 // intern
 #include "../Overlay/Overlay.hpp"
+#include "Inputs.hpp"
 
-namespace drw {
+namespace ctx {
 
 #define ENABLE_IMGUI true
 
@@ -57,5 +58,5 @@ class Window {
     static void glfw_scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
 };
 
-}  // namespace drw
+}  // namespace ctx
 #endif

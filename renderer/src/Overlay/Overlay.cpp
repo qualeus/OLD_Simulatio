@@ -60,19 +60,19 @@ void Overlay::glfw_key_callback(GLFWwindow *window, int key, int scancode, int a
     imgui_key_callback(window, key, scancode, action, mods);
 
     if (!imgui_want_keyboard()) {  // Ignore when ImGui has keyboard focus
-        if (action == GLFW_PRESS) {
-            if (key == GLFW_KEY_ESCAPE) {
-                glfwSetWindowShouldClose(window, 1);
-            } else if (key == GLFW_KEY_F1) {
-                // g_show_stats = !g_show_stats;
-            }
-        }
+        ctx::Inputs::HandleKeyboardInputs(key, action);
     }
 }
 
 void Overlay::glfw_char_callback(GLFWwindow *window, unsigned int codepoint) { imgui_char_callback(window, codepoint); }
 
-void Overlay::glfw_mouse_button_callback(GLFWwindow *window, int button, int action, int mods) { imgui_mouse_button_callback(window, button, action, mods); }
+void Overlay::glfw_mouse_button_callback(GLFWwindow *window, int button, int action, int mods) {
+    imgui_mouse_button_callback(window, button, action, mods);
+
+    if (!imgui_want_mouse()) {  // Ignore when ImGui has mouse focus
+        ctx::Inputs::HandleMouseInputs(button, action);
+    }
+}
 
 void Overlay::glfw_scroll_callback(GLFWwindow *window, double xoffset, double yoffset) { imgui_scroll_callback(window, xoffset, yoffset); }
 

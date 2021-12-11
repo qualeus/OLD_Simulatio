@@ -13,26 +13,27 @@ add_subdirectory(libs)
 # Compile Target
 
 set(SOURCES
+    src/Context/Renderer.cpp
+    src/Context/Window.cpp
+    src/Context/Inputs.cpp
+
     # src/Drawing/Camera.cpp
 
     src/Overlay/Overlay.cpp
     src/Overlay/ImGuiHelper.cpp
-
-    src/Renderer/Renderer.cpp
-    src/Renderer/Window.cpp
-    # src/Renderer/Inputs.cpp
 )
 
 set(HEADERS
+    include/Context/Renderer.hpp
+    include/Context/Window.hpp
+    include/Context/Inputs.hpp
+
     include/Drawing/Test.hpp
     # include/Drawing/Camera.hpp
 
     include/Overlay/Overlay.hpp
     include/Overlay/ImGuiHelper.hpp
 
-    include/Renderer/Renderer.hpp
-    include/Renderer/Window.hpp
-    # include/Renderer/Inputs.hpp
 
 )
 

@@ -1,6 +1,6 @@
-#include "../../include/Renderer/Window.hpp"
+#include "../../include/Context/Window.hpp"
 
-namespace drw {
+namespace ctx {
 
 Window::Window(int width, int height, std::string title) : overlay(ovl::Overlay()) {
     this->width = width;
@@ -56,7 +56,11 @@ void Window::InitializeBGFX() {
     if (!bgfx::init(init)) throw std::runtime_error("unable to initialize bgfx");
 }
 
-void Window::InitializeIMGUI() { this->overlay.Initialize(this->window); }
+void Window::InitializeIMGUI() {
+#if ENABLE_IMGUI
+    this->overlay.Initialize(this->window);
+#endif
+}
 
 void Window::Render() {
     this->InitializeGLFW();
@@ -69,7 +73,9 @@ void Window::Render() {
 void Window::Reset() {
     bgfx::reset(this->get_width(), this->get_height());
 
+#if ENABLE_IMGUI
     this->overlay.Reset(this->get_width(), this->get_height());
+#endif
 
     bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
     bgfx::setViewRect(0, 0, 0, bgfx::BackbufferRatio::Equal);
@@ -84,8 +90,12 @@ void Window::PreDraw() {
     this->last_time = this->current_time;
 
     // Poll events
+    Inputs::ResetInputs();
     glfwPollEvents();
+
+#if ENABLE_IMGUI
     this->overlay.PollEvents(this->delta_time);
+#endif
 
     // Render
     ImGui::NewFrame();
@@ -94,7 +104,10 @@ void Window::PreDraw() {
 }
 
 void Window::Draw() {
+#if ENABLE_IMGUI
     this->overlay.Draw();
+#endif
+
     bgfx::frame();
 }
 
@@ -104,7 +117,10 @@ void Window::Close() {
 }
 
 void Window::Cleanup() {
+#if ENABLE_IMGUI
     this->overlay.Cleanup();
+#endif
+
     bgfx::shutdown();
     glfwTerminate();
 }
@@ -124,22 +140,42 @@ void Window::glfw_window_size_callback(GLFWwindow *window, int width, int height
 
 void Window::glfw_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
     Window *ctx = static_cast<Window *>(glfwGetWindowUserPointer(window));
+
+#if ENABLE_IMGUI
     ctx->overlay.glfw_key_callback(window, key, scancode, action, mods);
+#else
+    ctx::Inputs::HandleKeyboardInputs(key, action);
+#endif
 }
 
 void Window::glfw_char_callback(GLFWwindow *window, unsigned int codepoint) {
     Window *ctx = static_cast<Window *>(glfwGetWindowUserPointer(window));
+
+#if ENABLE_IMGUI
     ctx->overlay.glfw_char_callback(window, codepoint);
+#else
+
+#endif
 }
 
 void Window::glfw_mouse_button_callback(GLFWwindow *window, int button, int action, int mods) {
     Window *ctx = static_cast<Window *>(glfwGetWindowUserPointer(window));
+
+#if ENABLE_IMGUI
     ctx->overlay.glfw_mouse_button_callback(window, button, action, mods);
+#else
+    ctx::Inputs::HandleMouseInputs(button, action);
+#endif
 }
 
 void Window::glfw_scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
     Window *ctx = static_cast<Window *>(glfwGetWindowUserPointer(window));
+
+#if ENABLE_IMGUI
     ctx->overlay.glfw_scroll_callback(window, xoffset, yoffset);
+#else
+
+#endif
 }
 
-}  // namespace drw
+}  // namespace ctx

@@ -1,8 +1,8 @@
 
-#include <Renderer/Renderer.hpp>
+#include <Context/Renderer.hpp>
 
 int main(void) {
-    rdr::Renderer renderer = rdr::Renderer();
+    ctx::Renderer renderer = ctx::Renderer();
     renderer.Render();
 
     // https://dev.to/pperon/hello-bgfx-4dka

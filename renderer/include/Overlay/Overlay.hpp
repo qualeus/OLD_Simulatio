@@ -14,6 +14,7 @@
 
 #include "../../assets/shaders/fs_imgui.bin.hpp"
 #include "../../assets/shaders/vs_imgui.bin.hpp"
+#include "../Context/Inputs.hpp"
 #include "ImGuiHelper.hpp"
 
 namespace ovl {

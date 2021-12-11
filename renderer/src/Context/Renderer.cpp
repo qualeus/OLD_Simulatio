@@ -1,8 +1,8 @@
-#include "../../include/Renderer/Renderer.hpp"
+#include "../../include/Context/Renderer.hpp"
 
-namespace rdr {
+namespace ctx {
 
-Renderer::Renderer() { this->window = drw::Window(1000, 800, "Test"); }
+Renderer::Renderer() { this->window = Window(1000, 800, "Test"); }
 
 void Renderer::Render() {
     this->window.Render();
@@ -40,13 +40,17 @@ void Renderer::Loop() {
     bgfx::dbgTextPrintf(0, 2, 0x0f, "Backbuffer %dW x %dH in pixels, debug text %dW x %dH in characters.", stats->width, stats->height, stats->textWidth, stats->textHeight);
 
     // Enable stats or debug text.
-    bool s_showStats = false;
     bgfx::setDebug(s_showStats ? BGFX_DEBUG_STATS : BGFX_DEBUG_TEXT);
 
-    bool open = true;
-    ImGui::ShowDemoWindow(&open);
+    if (show_demo_window) ImGui::ShowDemoWindow(&show_demo_window);
+
+    if (Inputs::KeyPressed(GLFW_KEY_F1)) {
+        s_showStats = !s_showStats;
+        std::cout << "F1 pressed" << std::endl;
+    }
+    if (Inputs::KeyPressed(GLFW_KEY_A)) { std::cout << "A pressed" << std::endl; }
 
     this->window.Draw();
 }
 
-}  // namespace rdr
+}  // namespace ctx
