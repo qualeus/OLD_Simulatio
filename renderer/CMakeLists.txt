@@ -17,10 +17,12 @@ set(SOURCES
     src/Context/Window.cpp
     src/Context/Inputs.cpp
 
-    # src/Drawing/Camera.cpp
+    src/Drawing/Camera.cpp
 
     src/Overlay/Overlay.cpp
     src/Overlay/ImGuiHelper.cpp
+
+    src/Overlay/Gui/GuiManager.cpp
 )
 
 set(HEADERS
@@ -28,25 +30,26 @@ set(HEADERS
     include/Context/Window.hpp
     include/Context/Inputs.hpp
 
-    # include/Drawing/Camera.hpp
+    include/Drawing/Camera.hpp
 
     include/Overlay/Overlay.hpp
     include/Overlay/ImGuiHelper.hpp
 
-
+    include/Overlay/Gui/GuiManager.hpp
 )
 
 set(RESSOURCES 
     assets/shaders/fs_imgui.bin.hpp
     assets/shaders/vs_imgui.bin.hpp
+    assets/icon/ricon.hpp
 )
 
 set(FONTS
-    # ../assets/fonts/roboto.hpp
-    # ../assets/fonts/proggy.hpp
-    # ../assets/fonts/consolas.hpp
-    # ../assets/fonts/forkawersome.hpp
-    # ../assets/fonts/icons.hpp
+    assets/fonts/roboto.hpp
+    assets/fonts/proggy.hpp
+    assets/fonts/consolas.hpp
+    assets/fonts/forkawersome.hpp
+    assets/fonts/icons.hpp
 )
 
 add_library(${PROJECT_RENDERER_NAME} STATIC ${SOURCES} ${HEADERS} ${RESSOURCES} ${FONTS})

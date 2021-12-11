@@ -1,7 +1,6 @@
 #ifndef EditorColorScheme_HPP
 #define EditorColorScheme_HPP
 
-#include "imgui-SFML.h"
 #include "imgui.h"
 #include "imgui_internal.h"
 

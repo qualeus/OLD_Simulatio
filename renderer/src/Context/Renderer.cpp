@@ -6,6 +6,7 @@ Renderer::Renderer() { this->window = Window(1000, 800, "Test"); }
 
 void Renderer::Render() {
     this->window.Render();
+    this->overlay.Setup();
 
 #ifdef __EMSCRIPTEN__
     // EM_JS(int, canvas_get_width, (), { return Module.canvas.width; });
@@ -42,19 +43,23 @@ void Renderer::Loop() {
     // Enable stats or debug text.
     bgfx::setDebug(s_showStats ? BGFX_DEBUG_STATS : BGFX_DEBUG_TEXT);
 
-    if (show_demo_window) ImGui::ShowDemoWindow(&show_demo_window);
+    this->overlay.DrawGui();
 
+    this->Inputs();
+
+    this->window.Draw();
+}
+
+void Renderer::Inputs() {
     if (Inputs::KeyPressed(GLFW_KEY_F1)) {
         s_showStats = !s_showStats;
         std::cout << "F1 pressed" << std::endl;
     }
     if (Inputs::KeyPressed("A")) { std::cout << "A pressed" << std::endl; }
-    if (Inputs::KeyDown("A")) { std::cout << "A down" << std::endl; }
+    // if (Inputs::KeyDown("A")) { std::cout << "A down" << std::endl; }
     if (Inputs::KeyReleased("A")) { std::cout << "A released" << std::endl; }
 
     if (Inputs::KeyPressed(GLFW_KEY_ESCAPE)) { this->window.Close(); }
-
-    this->window.Draw();
 }
 
 }  // namespace ctx

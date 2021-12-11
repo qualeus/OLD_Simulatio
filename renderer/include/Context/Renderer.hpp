@@ -10,13 +10,18 @@
 
 #include "Inputs.hpp"
 #include "Window.hpp"
+#include "../Overlay/Gui/GuiManager.hpp"
+#include "../Drawing/Camera.hpp"
 
 namespace ctx {
 
 class Renderer {
    private:
     Window window;
+    ovl::GuiManager overlay;
+    drw::Camera camera;
     phy::System system;
+
     bool show_demo_window = true;
     bool s_showStats = true;
 
@@ -24,6 +29,8 @@ class Renderer {
     Renderer();
     void Render();
     void Loop();
+
+    void Inputs();
 };
 
 }  // namespace ctx

@@ -27,7 +27,7 @@ FetchContent_Declare(glfw
 
 FetchContent_Declare(imgui
   GIT_REPOSITORY https://github.com/mlhoutel/imgui_docking_cmake
-  GIT_TAG 9d03db158bbb67a6aa039e561a9352e3818ca15f # docking
+  GIT_TAG ddecdd7ef60c80e06f7a198466746e89a1f716c5 # docking
 )
 
 FetchContent_Declare(bgfx

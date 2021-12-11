@@ -1,10 +1,10 @@
 #ifndef GuiModule_HPP
 #define GuiModule_HPP
 
-#include "../Geometry/Maths.hpp"
-#include "imgui-SFML.h"
-#include "imgui.h"
-#include "imgui_internal.h"
+#include <imgui.h>
+#include <imgui_internal.h>
+
+#include <Geometry/Maths.hpp>
 
 namespace ImGui {
 
