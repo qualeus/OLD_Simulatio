@@ -112,7 +112,8 @@
         "Renderer",
         "Wasm",
         "Shaders",
-        "Inputs"
+        "Inputs",
+        "Gui"
     ],
     "C_Cpp.errorSquiggles": "Disabled"
 }

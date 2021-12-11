@@ -1,20 +1,24 @@
-#include "../../include/Renderer/EditorColorScheme.hpp"
+#include "../../../include/Overlay/Gui/GuiTheme.hpp"
 
-float EditorColorScheme::GetR(int colorCode) { return (float)((colorCode & 0xFF000000) >> 24) / (float)(0xFF); }
-float EditorColorScheme::GetG(int colorCode) { return (float)((colorCode & 0x00FF0000) >> 16) / (float)(0xFF); }
-float EditorColorScheme::GetB(int colorCode) { return (float)((colorCode & 0x0000FF00) >> 8) / (float)(0xFF); }
-float EditorColorScheme::GetA(int alphaCode) { return ((float)alphaCode / (float)0xFF); }
+namespace ovl {
 
-ImVec4 EditorColorScheme::GetColor(int c, int a) { return ImVec4(GetR(c), GetG(c), GetB(c), GetA(a)); }
-ImVec4 EditorColorScheme::Darken(ImVec4 c, float p) { return ImVec4(fmax(0.f, c.x - 1.0f * p), fmax(0.f, c.y - 1.0f * p), fmax(0.f, c.z - 1.0f * p), c.w); }
-ImVec4 EditorColorScheme::Lighten(ImVec4 c, float p) { return ImVec4(fmax(0.f, c.x + 1.0f * p), fmax(0.f, c.y + 1.0f * p), fmax(0.f, c.z + 1.0f * p), c.w); }
+GuiTheme::GuiTheme() {}
 
-ImVec4 EditorColorScheme::Disabled(ImVec4 c) { return Darken(c, 0.6f); }
-ImVec4 EditorColorScheme::Hovered(ImVec4 c) { return Lighten(c, 0.2f); }
-ImVec4 EditorColorScheme::Active(ImVec4 c) { return Lighten(ImVec4(c.x, c.y, c.z, 1.0f), 0.1f); }
-ImVec4 EditorColorScheme::Collapsed(ImVec4 c) { return Darken(c, 0.2f); }
+float GuiTheme::GetR(int colorCode) { return (float)((colorCode & 0xFF000000) >> 24) / (float)(0xFF); }
+float GuiTheme::GetG(int colorCode) { return (float)((colorCode & 0x00FF0000) >> 16) / (float)(0xFF); }
+float GuiTheme::GetB(int colorCode) { return (float)((colorCode & 0x0000FF00) >> 8) / (float)(0xFF); }
+float GuiTheme::GetA(int alphaCode) { return ((float)alphaCode / (float)0xFF); }
 
-void EditorColorScheme::SetColors(int backGroundColor, int textColor, int mainColor, int mainAccentColor, int highlightColor) {
+ImVec4 GuiTheme::GetColor(int c, int a) { return ImVec4(GetR(c), GetG(c), GetB(c), GetA(a)); }
+ImVec4 GuiTheme::Darken(ImVec4 c, float p) { return ImVec4(fmax(0.f, c.x - 1.0f * p), fmax(0.f, c.y - 1.0f * p), fmax(0.f, c.z - 1.0f * p), c.w); }
+ImVec4 GuiTheme::Lighten(ImVec4 c, float p) { return ImVec4(fmax(0.f, c.x + 1.0f * p), fmax(0.f, c.y + 1.0f * p), fmax(0.f, c.z + 1.0f * p), c.w); }
+
+ImVec4 GuiTheme::Disabled(ImVec4 c) { return Darken(c, 0.6f); }
+ImVec4 GuiTheme::Hovered(ImVec4 c) { return Lighten(c, 0.2f); }
+ImVec4 GuiTheme::Active(ImVec4 c) { return Lighten(ImVec4(c.x, c.y, c.z, 1.0f), 0.1f); }
+ImVec4 GuiTheme::Collapsed(ImVec4 c) { return Darken(c, 0.2f); }
+
+void GuiTheme::SetColors(int backGroundColor, int textColor, int mainColor, int mainAccentColor, int highlightColor) {
     BackGroundColor = backGroundColor;
     TextColor = textColor;
     MainColor = mainColor;
@@ -22,7 +26,7 @@ void EditorColorScheme::SetColors(int backGroundColor, int textColor, int mainCo
     HighlightColor = highlightColor;
 }
 
-void EditorColorScheme::ApplyTheme() {
+void GuiTheme::ApplyTheme() {
     ImVec4* colors = ImGui::GetStyle().Colors;
 
     colors[ImGuiCol_Text] = GetColor(TextColor);
@@ -78,3 +82,5 @@ void EditorColorScheme::ApplyTheme() {
 
     ImGui::GetStyle().WindowMenuButtonPosition = ImGuiDir_Right;
 }
+
+}  // namespace ovl

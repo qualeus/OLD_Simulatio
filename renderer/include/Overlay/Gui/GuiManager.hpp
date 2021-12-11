@@ -14,8 +14,8 @@
 #include "../../../assets/fonts/roboto.hpp"
 #include "../../../assets/icon/ricon.hpp"
 #include "Config.hpp"
-#include "EditorColorScheme.hpp"
 #include "GuiModule.hpp"
+#include "GuiTheme.hpp"
 
 namespace ovl {
 
@@ -69,6 +69,7 @@ namespace ovl {
 class GuiManager {
    private:
     bool reset_base_layout = false;
+
     bool show_gui_console = false;
     bool show_gui_properties = true;
     bool show_gui_overlay = true;
@@ -85,18 +86,46 @@ class GuiManager {
     float side_content_size = show_side_content ? G_SIDE_CONTENT_SIZE : 0.0f;
     float time_bar_size = show_time_bar ? G_TIME_BAR_SIZE : 0.0f;
 
+    bool debug_show_quadtree = false;
+    bool debug_show_bounds = false;
+    bool debug_show_centroids = false;
+    bool debug_show_edges = false;
+    bool debug_show_projections = false;
+    bool debug_show_vertices = false;
+    bool debug_show_normals = false;
+    bool debug_show_velocity = false;
+    bool debug_show_xyvelocity = false;
+    bool debug_show_pairs = false;
+    bool debug_show_quadpairs = false;
+    bool debug_show_contacts = false;
+    bool debug_show_collisions = false;
+
+    bool post_process_blur = false;
+    bool post_process_grid = false;
+    bool post_process_gravity = false;
+
     ImGuiID dockspace_id;
     ImGuiID dockspace_bottom_id;
     ImGuiID dockspace_left_id;
     ImGuiID dockspace_right_id;
     ImGuiID dockspace_up_id;
 
+    bgfx::TextureHandle roboto_default;
+    bgfx::TextureHandle roboto_medium;
+    bgfx::TextureHandle roboto_bigger;
+    bgfx::TextureHandle consolas_smaller;
+    bgfx::TextureHandle proggy_smaller;
+
    public:
     GuiManager();
+    bgfx::TextureHandle addFont(const std::string font_name, const void* compressed_ttf_data, int compressed_ttf_size, float size_pixels, float icon_pixels);
     void Setup();
     void SetupGuiBaseLayout();
     void DrawGuiDocking();
     void DrawGui();
+
+    /* GuiMenu */
+    void DrawGuiMenu();
 };
 
 }  // namespace ovl

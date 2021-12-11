@@ -4,6 +4,32 @@ namespace ovl {
 
 GuiManager::GuiManager() {}
 
+bgfx::TextureHandle GuiManager::addFont(const std::string font_name, const void* compressed_ttf_data, int compressed_ttf_size, float size_pixels, float icon_pixels) {
+    ImGuiIO& io = ImGui::GetIO();
+
+    /* Setup Icons  */
+    static const ImWchar icons_ranges[] = {ICON_MIN_FK, ICON_MAX_FK, 0};
+    ImFontConfig icons_cfg;
+    icons_cfg.MergeMode = true;
+    icons_cfg.PixelSnapH = true;
+    icons_cfg.GlyphMinAdvanceX = 13.0f;  // Icons monospaced
+
+    /* Setup and add font */
+    ImFontConfig font_cfg;
+    ImFormatString(font_cfg.Name, IM_ARRAYSIZE(font_cfg.Name), "%s, %spx", font_name.c_str(), gmt::to_string(size_pixels).c_str());
+    io.Fonts->AddFontFromMemoryCompressedTTF(compressed_ttf_data, compressed_ttf_size, size_pixels, &font_cfg);
+    io.Fonts->AddFontFromMemoryCompressedTTF(IconsForkAwersome_compressed_data, IconsForkAwersome_compressed_size, icon_pixels, &icons_cfg, icons_ranges);
+
+    /* Texture Handle */
+    uint8_t* data;
+    int32_t width;
+    int32_t height;
+
+    io.Fonts->GetTexDataAsRGBA32(&data, &width, &height);
+
+    return bgfx::createTexture2D((uint16_t)width, (uint16_t)height, false, 1, bgfx::TextureFormat::BGRA8, 0, bgfx::copy(data, width * height * 4));
+}
+
 void GuiManager::Setup() {
     /* ImGui Enable Docking */
     ImGuiIO& io = ImGui::GetIO();
@@ -17,62 +43,21 @@ void GuiManager::Setup() {
 
     /* ImGui Setup Font */
     // io.Fonts->AddFontDefault();
-    io.Fonts->Clear();
+    // io.Fonts->Clear();
 
-    /* Setup Icons  */
-    static const ImWchar icons_ranges[] = {ICON_MIN_FK, ICON_MAX_FK, 0};
-    ImFontConfig icons_cfg;
-    icons_cfg.MergeMode = true;
-    icons_cfg.PixelSnapH = true;
-    icons_cfg.GlyphMinAdvanceX = 13.0f;  // Icons monospaced
-
-    /* Add the Roboto font [DEFAULT] */
-    ImFontConfig roboto_default_cfg;
-    ImFormatString(roboto_default_cfg.Name, IM_ARRAYSIZE(roboto_default_cfg.Name), "RobotoMedium.ttf, %spx", gmt::to_string(F_DEFAULT_SIZE).c_str());
-    io.Fonts->AddFontFromMemoryCompressedTTF(Roboto_compressed_data, Roboto_compressed_size, F_DEFAULT_SIZE, &roboto_default_cfg);
-    io.Fonts->AddFontFromMemoryCompressedTTF(IconsForkAwersome_compressed_data, IconsForkAwersome_compressed_size, I_DEFAULT_SIZE, &icons_cfg, icons_ranges);
-
-    /* Add the Roboto font [MEDIUM] */
-    ImFontConfig roboto_medium_cfg;
-    ImFormatString(roboto_medium_cfg.Name, IM_ARRAYSIZE(roboto_medium_cfg.Name), "RobotoMedium.ttf, %spx", gmt::to_string(F_MEDIUM_SIZE).c_str());
-    io.Fonts->AddFontFromMemoryCompressedTTF(Roboto_compressed_data, Roboto_compressed_size, F_MEDIUM_SIZE, &roboto_medium_cfg);
-    io.Fonts->AddFontFromMemoryCompressedTTF(IconsForkAwersome_compressed_data, IconsForkAwersome_compressed_size, I_MEDIUM_SIZE, &icons_cfg, icons_ranges);
-
-    /* Add the Roboto font [BIGGER] */
-    ImFontConfig roboto_bigger_cfg;
-    ImFormatString(roboto_bigger_cfg.Name, IM_ARRAYSIZE(roboto_bigger_cfg.Name), "RobotoMedium.ttf, %spx", gmt::to_string(F_BIGGER_SIZE).c_str());
-    io.Fonts->AddFontFromMemoryCompressedTTF(Roboto_compressed_data, Roboto_compressed_size, F_BIGGER_SIZE, &roboto_bigger_cfg);
-    io.Fonts->AddFontFromMemoryCompressedTTF(IconsForkAwersome_compressed_data, IconsForkAwersome_compressed_size, I_BIGGER_SIZE, &icons_cfg, icons_ranges);
-
-    /* Add the Consolas font [SMALLER] */
-    ImFontConfig consolas_smaller_cfg;
-    ImFormatString(consolas_smaller_cfg.Name, IM_ARRAYSIZE(consolas_smaller_cfg.Name), "Consolas.ttf, %spx", gmt::to_string(F_SMALLER_SIZE).c_str());
-    io.Fonts->AddFontFromMemoryCompressedTTF(Consolas_compressed_data, Consolas_compressed_size, F_SMALLER_SIZE, &consolas_smaller_cfg);
-    io.Fonts->AddFontFromMemoryCompressedTTF(IconsForkAwersome_compressed_data, IconsForkAwersome_compressed_size, I_SMALLER_SIZE, &icons_cfg, icons_ranges);
-
-    /* Add the Proggy font [SMALLER] */
-    ImFontConfig proggy_smaller_cfg;
-    ImFormatString(proggy_smaller_cfg.Name, IM_ARRAYSIZE(proggy_smaller_cfg.Name), "ProggyClean.ttf, %spx", gmt::to_string(F_SMALLER_SIZE).c_str());
-    io.Fonts->AddFontFromMemoryCompressedTTF(Proggy_compressed_data, Proggy_compressed_size, F_SMALLER_SIZE, &proggy_smaller_cfg);
-    io.Fonts->AddFontFromMemoryCompressedTTF(IconsForkAwersome_compressed_data, IconsForkAwersome_compressed_size, I_SMALLER_SIZE, &icons_cfg, icons_ranges);
-
-    /* Update Fonts */
-    uint8_t* data;
-    int32_t width;
-    int32_t height;
-
-    io.Fonts->GetTexDataAsRGBA32(&data, &width, &height);
-
-    bgfx::TextureHandle m_texture = bgfx::createTexture2D((uint16_t)width, (uint16_t)height, false, 1, bgfx::TextureFormat::BGRA8, 0, bgfx::copy(data, width * height * 4));
+    // TODO: debug textures, see https://github.com/bkaradzic/bgfx/issues/1233
+    // this->roboto_default = this->addFont("RobotoDefault.ttf", Roboto_compressed_data, Roboto_compressed_size, F_DEFAULT_SIZE, I_DEFAULT_SIZE);
+    // this->roboto_medium = this->addFont("RobotoMedium.ttf", Roboto_compressed_data, Roboto_compressed_size, F_MEDIUM_SIZE, I_MEDIUM_SIZE);
+    // this->roboto_bigger = this->addFont("RobotoBigger.ttf", Roboto_compressed_data, Roboto_compressed_size, F_BIGGER_SIZE, I_BIGGER_SIZE);
+    // this->consolas_smaller = this->addFont("Consolas.ttf", Consolas_compressed_data, Consolas_compressed_size, F_SMALLER_SIZE, I_SMALLER_SIZE);
+    // this->proggy_smaller = this->addFont("ProggyClean.ttf", Proggy_compressed_data, Proggy_compressed_size, F_SMALLER_SIZE, I_SMALLER_SIZE);
 
     /* Theming */
-    // EditorColorScheme::ApplyTheme();
+    GuiTheme::ApplyTheme();
 
     // From https://coolors.co/1f2421-725ac1-8d86c9-eca400-dce1de ;
-
-    // EditorColorScheme::SetColors(0xA99F96FF /* Background */, 0x37123CFF /* Text */, DDA77B /* MainColor */, 0xBBADA0FF /* MainAccent */, 0xD1C6ADFF /* Highlight */);
-
-    // EditorColorScheme::SetColors(0x1F2421FF /* Background */, 0xDCE1DEFF /* Text */, 0x725AC1FF /* MainColor */, 0x8D86C9FF /* MainAccent */, 0xECA400FF /* Highlight */);
+    // GuiTheme::SetColors(0x1F2421FF /* Background */, 0xDCE1DEFF /* Text */, 0x725AC1FF /* MainColor */, 0x8D86C9FF /* MainAccent */, 0xECA400FF /* Highlight */);
+    // GuiTheme::ApplyTheme();
 }
 
 void GuiManager::SetupGuiBaseLayout() {
@@ -93,6 +78,34 @@ void GuiManager::SetupGuiBaseLayout() {
     // ImGui::DockBuilderDockWindow("Bar", dockspace_up_id);
 
     ImGui::DockBuilderFinish(dockspace_id);
+}
+
+void GuiManager::DrawGui() {
+    DrawGuiMenu();
+
+    // ShowPopupClearSystem();
+
+    /* We draw the Time bar */
+    // DrawGuiTimeBar();
+
+    /* We draw the side bar as an independant Window*/
+    // DrawGuiSideBar();
+    // DrawGuiSideContent();
+
+    /* The Docking must be Before all the sub Windows*/
+    DrawGuiDocking();
+
+    if (show_gui_imguidemo) { ImGui::ShowDemoWindow(&show_gui_imguidemo); }
+    /*
+    if (show_gui_console) {
+        this->console.Draw("Console", show_gui_console); }
+    }
+    if (show_gui_properties) { ShowGuiProperties(&show_gui_properties); }
+    if (show_gui_overlay) { ShowGuiOverlay(&show_gui_overlay); }
+    if (show_gui_settings) { ShowGuiSettings(&show_gui_settings); }
+    if (show_gui_spawner) { ShowGuiSpawner(&show_gui_spawner); }
+    if (show_gui_benchmark) { ShowGuiBenchmark(&show_gui_benchmark); }
+    */
 }
 
 void GuiManager::DrawGuiDocking() {
@@ -135,33 +148,6 @@ void GuiManager::DrawGuiDocking() {
     dockspace_id = ImGui::GetID("DockSpace");
     ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
     ImGui::End();
-}
-
-void GuiManager::DrawGui() {
-    // DrawGuiMenu();
-    // ShowPopupClearSystem();
-
-    /* We draw the Time bar */
-    // DrawGuiTimeBar();
-
-    /* We draw the side bar as an independant Window*/
-    // DrawGuiSideBar();
-    // DrawGuiSideContent();
-
-    /* The Docking must be Before all the sub Windows*/
-    DrawGuiDocking();
-
-    if (show_gui_imguidemo) { ImGui::ShowDemoWindow(&show_gui_imguidemo); }
-    /*
-    if (show_gui_console) {
-        this->console.Draw("Console", show_gui_console); }
-    }
-    if (show_gui_properties) { ShowGuiProperties(&show_gui_properties); }
-    if (show_gui_overlay) { ShowGuiOverlay(&show_gui_overlay); }
-    if (show_gui_settings) { ShowGuiSettings(&show_gui_settings); }
-    if (show_gui_spawner) { ShowGuiSpawner(&show_gui_spawner); }
-    if (show_gui_benchmark) { ShowGuiBenchmark(&show_gui_benchmark); }
-    */
 }
 
 }  // namespace ovl

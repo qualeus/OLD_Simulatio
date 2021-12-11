@@ -52,6 +52,8 @@ int Inputs::ConvertKeyAzerty(int key) {
 void Inputs::HandleKeyboardInputs(int key, int action) {
     int c_key = ConvertKey(key);  // Convert key with right keyboard
 
+    // std::cout << "Key " << key << " [" << (char)key << "] => " << c_key << " [" << (char)c_key << "]" << std::endl;
+
     if (c_key >= 0 && c_key < KEYS_INPUT_SIZE) {
         if (action == 1) {  // GLFW_PRESS
             current_keys[c_key] = true;
@@ -93,38 +95,64 @@ bool Inputs::MouseReleased(std::string key) { return MouseReleased(std::accumula
 
 std::unordered_map<std::string, std::string> Inputs::QWERTY_TO_AZERTY = {
 
-    {"q", "a"},   // conversion x => x
-    {"b", "b"},   // conversion x => x
-    {"c", "c"},   // conversion x => x
-    {"d", "d"},   // conversion x => x
-    {"e", "e"},   // conversion x => x
-    {"f", "f"},   // conversion x => x
-    {"g", "g"},   // conversion x => x
-    {"h", "h"},   // conversion x => x
-    {"i", "i"},   // conversion x => x
-    {"j", "j"},   // conversion x => x
-    {"k", "k"},   // conversion x => x
-    {"l", "l"},   // conversion x => x
-    {":", "m"},   // conversion x => x
-    {"n", "n"},   // conversion x => x
-    {"o", "o"},   // conversion x => x
-    {"p", "p"},   // conversion x => x
-    {"a", "q"},   // conversion x => x
-    {"r", "r"},   // conversion x => x
-    {"s", "s"},   // conversion x => x
-    {"t", "t"},   // conversion x => x
-    {"u", "u"},   // conversion x => x
-    {"v", "v"},   // conversion x => x
-    {"z", "w"},   // conversion x => x
-    {"x", "x"},   // conversion x => x
-    {"y", "y"},   // conversion x => x
-    {"w", "z"},   // conversion x => x
+    {"q", "a"},  // conversion x => x
+    {"b", "b"},  // conversion x => x
+    {"c", "c"},  // conversion x => x
+    {"d", "d"},  // conversion x => x
+    {"e", "e"},  // conversion x => x
+    {"f", "f"},  // conversion x => x
+    {"g", "g"},  // conversion x => x
+    {"h", "h"},  // conversion x => x
+    {"i", "i"},  // conversion x => x
+    {"j", "j"},  // conversion x => x
+    {"k", "k"},  // conversion x => x
+    {"l", "l"},  // conversion x => x
+    {":", "m"},  // conversion x => x
+    {"n", "n"},  // conversion x => x
+    {"o", "o"},  // conversion x => x
+    {"p", "p"},  // conversion x => x
+    {"a", "q"},  // conversion x => x
+    {"r", "r"},  // conversion x => x
+    {"s", "s"},  // conversion x => x
+    {"t", "t"},  // conversion x => x
+    {"u", "u"},  // conversion x => x
+    {"v", "v"},  // conversion x => x
+    {"z", "w"},  // conversion x => x
+    {"x", "x"},  // conversion x => x
+    {"y", "y"},  // conversion x => x
+    {"w", "z"},  // conversion x => x {"Q", "A"},   // conversion x => x
+    {"B", "B"},  // conversion x => x
+    {"C", "C"},  // conversion x => x
+    {"D", "D"},  // conversion x => x
+    {"E", "E"},  // conversion x => x
+    {"F", "F"},  // conversion x => x
+    {"G", "G"},  // conversion x => x
+    {"H", "H"},  // conversion x => x
+    {"I", "I"},  // conversion x => x
+    {"J", "J"},  // conversion x => x
+    {"K", "K"},  // conversion x => x
+    {"L", "L"},  // conversion x => x
+    {",", "M"},  // conversion x => x
+    {"N", "N"},  // conversion x => x
+    {"O", "O"},  // conversion x => x
+    {"P", "P"},  // conversion x => x
+    {"A", "Q"},  // conversion x => x
+    {"R", "R"},  // conversion x => x
+    {"S", "S"},  // conversion x => x
+    {"T", "T"},  // conversion x => x
+    {"U", "U"},  // conversion x => x
+    {"V", "V"},  // conversion x => x
+    {"Z", "W"},  // conversion x => x
+    {"X", "X"},  // conversion x => x
+    {"Y", "Y"},  // conversion x => x
+    {"W", "Z"},  // conversion x => x
+    /*
+    {",", ";"},   // conversion x => x
     {"]", "$"},   // conversion x => x
     {"'", "ù"},   // conversion x => x
     {"\"", "*"},  // conversion x => x
     {"\"", "<"},  // conversion x => x
     {"m", ","},   // conversion x => x
-    {",", ";"},   // conversion x => x
     {".", ":"},   // conversion x => x
     {"/", "!"},   // conversion x => x
     {"1", "&"},   // conversion x => x
@@ -150,32 +178,6 @@ std::unordered_map<std::string, std::string> Inputs::QWERTY_TO_AZERTY = {
     {"-", "@"},   // conversion x => x
     {"-", "]"},   // conversion x => x
     {"=", "}"},   // conversion x => x
-    {"Q", "A"},   // conversion x => x
-    {"B", "B"},   // conversion x => x
-    {"C", "C"},   // conversion x => x
-    {"D", "D"},   // conversion x => x
-    {"E", "E"},   // conversion x => x
-    {"F", "F"},   // conversion x => x
-    {"G", "G"},   // conversion x => x
-    {"H", "H"},   // conversion x => x
-    {"I", "I"},   // conversion x => x
-    {"J", "J"},   // conversion x => x
-    {"K", "K"},   // conversion x => x
-    {"L", "L"},   // conversion x => x
-    {",", "M"},   // conversion x => x
-    {"N", "N"},   // conversion x => x
-    {"O", "O"},   // conversion x => x
-    {"P", "P"},   // conversion x => x
-    {"A", "Q"},   // conversion x => x
-    {"R", "R"},   // conversion x => x
-    {"S", "S"},   // conversion x => x
-    {"T", "T"},   // conversion x => x
-    {"U", "U"},   // conversion x => x
-    {"V", "V"},   // conversion x => x
-    {"Z", "W"},   // conversion x => x
-    {"X", "X"},   // conversion x => x
-    {"Y", "Y"},   // conversion x => x
-    {"W", "Z"},   // conversion x => x
     {"]", "£"},   // conversion x => x
     {"'", "%"},   // conversion x => x
     {"\"", "µ"},  // conversion x => x
@@ -196,5 +198,6 @@ std::unordered_map<std::string, std::string> Inputs::QWERTY_TO_AZERTY = {
     {"0", "0"},   // conversion x => x
     {"-", "°"},   // conversion x => x
     {"=", "+"},   // conversion x => x
+    */
 };
 }  // namespace ctx

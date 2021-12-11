@@ -1,10 +1,15 @@
-#ifndef EditorColorScheme_HPP
-#define EditorColorScheme_HPP
+#ifndef GuiTheme_HPP
+#define GuiThemee_HPP
 
 #include "imgui.h"
 #include "imgui_internal.h"
 
-class EditorColorScheme {
+namespace ovl {
+
+class GuiTheme {
+   private:
+    GuiTheme();
+
     // 0xRRGGBBAA
     inline static int BackGroundColor = 0x25213100;
     inline static int TextColor = 0xF4F1DE00;
@@ -43,4 +48,5 @@ class EditorColorScheme {
     static void ApplyTheme();
 };
 
+}  // namespace ovl
 #endif

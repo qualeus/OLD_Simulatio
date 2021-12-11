@@ -1,17 +1,13 @@
-
-#include "../../../include/Overlay/GuiManager.hpp"
+#include "../../../../include/Overlay/Gui/GuiManager.hpp"
 
 namespace ovl {
 
 void GuiManager::DrawGuiMenu() {
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
-            if (ImGui::MenuItem("Open", "Ctrl+O")) { /* Do stuff */
-            }
-            if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */
-            }
-            if (ImGui::MenuItem("Close", "Ctrl+W")) { /* Do stuff */
-            }
+            if (ImGui::MenuItem("Open", "Ctrl+O")) {}
+            if (ImGui::MenuItem("Save", "Ctrl+S")) {}
+            if (ImGui::MenuItem("Close", "Ctrl+W")) {}
 
             ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Separator();
@@ -23,7 +19,9 @@ void GuiManager::DrawGuiMenu() {
             ImGui::Separator();
             ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
-            if (ImGui::MenuItem("Exit")) { Close(); }
+            if (ImGui::MenuItem("Exit")) {
+                // Close();
+            }
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Edit")) {
@@ -53,7 +51,7 @@ void GuiManager::DrawGuiMenu() {
 
         if (ImGui::BeginMenu("Tools")) {
             if (ImGui::BeginMenu("Layout")) {
-                if (ImGui::MenuItem("Reset Base Layout")) { this->reset_base_layout = true; }
+                if (ImGui::MenuItem("Reset Base Layout")) { reset_base_layout = true; }
                 ImGui::EndMenu();
             }
 
@@ -107,4 +105,4 @@ void GuiManager::DrawGuiMenu() {
         ImGui::EndMainMenuBar();
     }
 }
-}
+}  // namespace ovl

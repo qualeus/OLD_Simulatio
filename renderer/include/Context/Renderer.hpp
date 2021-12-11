@@ -8,10 +8,10 @@
 #include <Structures/System.hpp>
 #include <glm/glm.hpp>
 
+#include "../Drawing/Camera.hpp"
+#include "../Overlay/Gui/GuiManager.hpp"
 #include "Inputs.hpp"
 #include "Window.hpp"
-#include "../Overlay/Gui/GuiManager.hpp"
-#include "../Drawing/Camera.hpp"
 
 namespace ctx {
 
@@ -22,14 +22,13 @@ class Renderer {
     drw::Camera camera;
     phy::System system;
 
-    bool show_demo_window = true;
-    bool s_showStats = true;
+    int debug = 0;
 
    public:
     Renderer();
     void Render();
     void Loop();
-
+    void Debug();
     void Inputs();
 };
 

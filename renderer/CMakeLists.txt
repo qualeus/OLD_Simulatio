@@ -23,6 +23,9 @@ set(SOURCES
     src/Overlay/ImGuiHelper.cpp
 
     src/Overlay/Gui/GuiManager.cpp
+    src/Overlay/Gui/GuiTheme.cpp
+    
+    src/Overlay/Gui/Windows/GuiMenu.cpp
 )
 
 set(HEADERS
@@ -36,6 +39,7 @@ set(HEADERS
     include/Overlay/ImGuiHelper.hpp
 
     include/Overlay/Gui/GuiManager.hpp
+    include/Overlay/Gui/GuiTheme.hpp
 )
 
 set(RESSOURCES 
