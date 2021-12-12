@@ -2,7 +2,7 @@
 
 namespace ctx {
 
-Renderer::Renderer() { this->window = Window(1000, 800, "Test"); }
+Renderer::Renderer() : system(phy::System()), overlay(ovl::GuiManager(&this->system)) { this->window = Window(1000, 800, "Test"); }
 
 void Renderer::Render() {
     this->window.Render();

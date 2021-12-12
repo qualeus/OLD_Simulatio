@@ -54,8 +54,19 @@ std::string FileManager::SelectFile(std::string path, std::string filter, bool s
 #endif
 }
 
-phy::System FileManager::LoadSystem(std::string path) { return phy::System(); }
+phy::System FileManager::LoadSystem(std::string path) {
+    std::ifstream file = std::ifstream(path);
+    cereal::JSONInputArchive iarchive = cereal::JSONInputArchive(file);
+    phy::System system;
+    iarchive(system);
+    return system;
+}
 
-void FileManager::SaveSystem(const phy::System& system, std::string path) {}
+void FileManager::SaveSystem(const phy::System* system, std::string path) {
+    std::ofstream file = std::ofstream(path);
+    phy::System c_system = &system;
+    cereal::JSONOutputArchive oarchive = cereal::JSONOutputArchive(file);
+    oarchive(c_system);
+}
 
 }  // namespace ovl

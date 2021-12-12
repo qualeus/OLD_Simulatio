@@ -6,10 +6,14 @@ void GuiManager::DrawGuiMenu() {
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
             if (ImGui::MenuItem("Open", "Ctrl+O")) {
-                // FileManager::OpenFileExplorer(FileManager::CurrentPath());
-                std::cout << FileManager::SelectFile(FileManager::CurrentPath(), "Json\0*.json") << std::endl;
+                std::string path = FileManager::SelectFile(FileManager::CurrentPath(), "Json\0*.json", true);
+                // FileManager::LoadSystem(path);
             }
-            if (ImGui::MenuItem("Save", "Ctrl+S")) {}
+            if (ImGui::MenuItem("Save", "Ctrl+S")) {
+                std::string path = FileManager::SelectFile(FileManager::CurrentPath(), "Json\0*.json", true);
+                FileManager::SaveSystem(system, path);
+                // FileManager::LoadSystem(path);
+            }
             if (ImGui::MenuItem("Close", "Ctrl+W")) {}
 
             ImGui::Dummy(ImVec2(0.0f, 7.0f));

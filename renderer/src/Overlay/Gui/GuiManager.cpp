@@ -2,7 +2,7 @@
 
 namespace ovl {
 
-GuiManager::GuiManager() {}
+GuiManager::GuiManager(phy::System* system) { this->system = system; }
 
 bgfx::TextureHandle GuiManager::addFont(const std::string font_name, const void* compressed_ttf_data, int compressed_ttf_size, float size_pixels, float icon_pixels) {
     ImGuiIO& io = ImGui::GetIO();

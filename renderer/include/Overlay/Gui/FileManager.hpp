@@ -5,6 +5,8 @@
 
 #include <Structures/System.hpp>
 #include <cereal/archives/json.hpp>
+#include <cereal/types/vector.hpp>
+#include <fstream>
 #include <iostream>
 #include <string>
 
@@ -30,7 +32,7 @@ class FileManager {
     static std::string SelectFile(std::string path = nullptr, std::string filter = "All\0*.*\0Text\0*.txt\0Json\0*.json\0", bool saving = false);
 
     static phy::System LoadSystem(std::string path);
-    static void SaveSystem(const phy::System& system, std::string path);
+    static void SaveSystem(const phy::System* system, std::string path);
 };
 
 }  // namespace ovl

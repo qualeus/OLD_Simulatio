@@ -1,6 +1,8 @@
 #ifndef System_HPP
 #define System_HPP
 
+#include <cereal/access.hpp>
+
 #include "../Constraints/Constraint.hpp"
 #include "../Constraints/Link.hpp"
 #include "../Constraints/Slider.hpp"
@@ -18,6 +20,8 @@ namespace phy {
 
 class System {
    private:
+    friend class cereal::access;  // private serialization
+
     std::vector<std::shared_ptr<Corpse>> corpses;
     std::vector<std::shared_ptr<Constraint>> constraints;
 
@@ -42,8 +46,9 @@ class System {
     int constraint_accuracy = 1;
 
    public:
-    System(bool gravity = false, gmt::UnitI force_x = gmt::UnitI(0), gmt::UnitI force_y = gmt::UnitI(0), gmt::UnitI limit_x = gmt::UnitI(10000), gmt::UnitI limit_y = gmt::UnitI(10000), int quadtree_max_count = 10, int quadtree_max_depth = 10);  // System Constructor
-    System& operator=(const System& rhs);                                                                                                                                                                                                            // System Copy
+    System(bool gravity = false, gmt::UnitI force_x = gmt::UnitI(0), gmt::UnitI force_y = gmt::UnitI(0), gmt::UnitI limit_x = gmt::UnitI(10000), gmt::UnitI limit_y = gmt::UnitI(10000),
+           int quadtree_max_count = 10, int quadtree_max_depth = 10);  // System Constructor
+    System& operator=(const System& rhs);                              // System Copy
     virtual ~System();
 
     void Step();
@@ -132,6 +137,11 @@ class System {
 
     bool get_enable_limits() const;
     void set_enable_limits(bool enable_limits);
+
+    template <class Archive>
+    void serialize(Archive& archive) {
+        archive(gravity, enable_limits, LS, G, force_x, force_y, dt, t, collision_accuracy, constraint_accuracy);
+    }
 };
 
 }  // namespace phy

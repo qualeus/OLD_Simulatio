@@ -20,6 +20,7 @@ class Renderer {
     Window window;
     ovl::GuiManager overlay;
     drw::Camera camera;
+
     phy::System system;
 
     int debug = 0;

@@ -117,8 +117,10 @@ class GuiManager {
     bgfx::TextureHandle consolas_smaller;
     bgfx::TextureHandle proggy_smaller;
 
+    phy::System* system;
+
    public:
-    GuiManager();
+    GuiManager(phy::System* system);
     bgfx::TextureHandle addFont(const std::string font_name, const void* compressed_ttf_data, int compressed_ttf_size, float size_pixels, float icon_pixels);
     void Setup();
     void SetupGuiBaseLayout();
