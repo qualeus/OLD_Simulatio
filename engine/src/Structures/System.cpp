@@ -19,6 +19,8 @@ System::System(bool gravity, gmt::UnitI force_x, gmt::UnitI force_y, gmt::UnitI 
     this->enable_limits = true;
 }
 
+System::System(const System& other) : quadtree() { operator=(other); }
+
 System& System::operator=(const System& rhs) {
     this->force_x = rhs.get_force_x();
     this->force_y = rhs.get_force_y();
@@ -88,8 +90,6 @@ System& System::operator=(const System& rhs) {
 
     return *this;
 }
-
-void System::Assign(const System& rhs) { *this = rhs; }
 
 System::~System() {}
 

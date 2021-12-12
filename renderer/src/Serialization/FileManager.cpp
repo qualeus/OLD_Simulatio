@@ -61,11 +61,10 @@ phy::System FileManager::LoadSystem(std::string path) {
     return system;
 }
 
-void FileManager::SaveSystem(const phy::System* system, std::string path) {
+void FileManager::SaveSystem(const phy::System& system, std::string path) {
     std::ofstream file = std::ofstream(path);
-    phy::System c_system = &system;
     cereal::JSONOutputArchive oarchive = cereal::JSONOutputArchive(file);
-    oarchive(cereal::make_nvp<phy::System>("system", c_system));
+    oarchive(cereal::make_nvp<phy::System>("system", system));
 }
 
 }  // namespace srz

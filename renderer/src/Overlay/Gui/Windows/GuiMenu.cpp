@@ -6,16 +6,16 @@ void GuiManager::DrawGuiMenu() {
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
             if (ImGui::MenuItem("Open", "Ctrl+O")) {
-                std::string path = srz::FileManager::SelectFile("Open System", srz::FileManager::CurrentPath(), "System (.latio)\0*.latio\0", false);
+                std::string path = srz::FileManager::SelectFile("Open System", srz::FileManager::CurrentPath(), "System (.json)\0*.json\0", false);
                 if (path != "") {
                     phy::System temp = srz::FileManager::LoadSystem(path);
-                    this->system->Assign(temp);
-                    std::cout << "gravity: " << this->system->get_gravity() << std::endl;
+                    *this->system = temp;
                 }
             }
             if (ImGui::MenuItem("Save", "Ctrl+S")) {
-                std::string path = srz::FileManager::SelectFile("Save System", srz::FileManager::CurrentPath(), "System (.latio)\0*.latio\0", true);
-                if (path != "") { srz::FileManager::SaveSystem(system, path); }
+                std::string path = srz::FileManager::SelectFile("Save System", srz::FileManager::CurrentPath(), "System (.json)\0*.json\0", true);
+                phy::System temp = phy::System(*this->system);
+                if (path != "") { srz::FileManager::SaveSystem(temp, path); }
             }
             if (ImGui::MenuItem("Close", "Ctrl+W")) {}
 

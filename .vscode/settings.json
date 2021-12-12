@@ -114,7 +114,8 @@
         "Wasm",
         "Shaders",
         "Inputs",
-        "Gui"
+        "Gui",
+        "Serialization"
     ],
     "C_Cpp.errorSquiggles": "Disabled"
 }

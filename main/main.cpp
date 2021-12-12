@@ -3,6 +3,9 @@
 
 int main(void) {
     ctx::Renderer renderer = ctx::Renderer();
+    renderer.system.addCorpse(phy::Circle(10.0f, 5.0f));
+    renderer.system.set_gravity(false);
+    std::cout << gmt::to_string(renderer.system.get_corpses()) << std::endl;
     renderer.Render();
 
     // https://dev.to/pperon/hello-bgfx-4dka

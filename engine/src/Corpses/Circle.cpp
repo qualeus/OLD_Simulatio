@@ -2,7 +2,9 @@
 
 namespace phy {
 
-Circle::Circle(gmt::UnitI x, gmt::UnitI y, gmt::UnitI size, gmt::UnitI mass, gmt::UnitI damping, gmt::UnitI speed_x, gmt::UnitI speed_y, gmt::UnitI rotation, gmt::UnitI motor, bool fixed, bool tied, bool etherial) : Corpse(mass, damping, fixed, tied, etherial) {
+Circle::Circle(gmt::UnitI x, gmt::UnitI y, gmt::UnitI size, gmt::UnitI mass, gmt::UnitI damping, gmt::UnitI speed_x, gmt::UnitI speed_y, gmt::UnitI rotation, gmt::UnitI motor, bool fixed, bool tied,
+               bool etherial)
+    : Corpse(mass, damping, fixed, tied, etherial) {
     this->current_pos = gmt::VectorI(x, y);
     this->last_pos = gmt::VectorI(x - speed_x, y - speed_y);
 
@@ -49,7 +51,9 @@ void Circle::Step() {
     // Add the motor rotation even if the object is tied
     // if (!gmt::decimal_equals(motor, gmt::UnitI(0), gmt::UnitI(0.0001))) { this->current_rotation = this->current_rotation + motor; }
 }
-void Circle::UpdateBounds() { this->bounds = gmt::BoundsI(this->get_pos_x() - this->get_size(), this->get_pos_y() - this->get_size(), this->get_pos_x() + this->get_size(), this->get_pos_y() + this->get_size()); }
+void Circle::UpdateBounds() {
+    this->bounds = gmt::BoundsI(this->get_pos_x() - this->get_size(), this->get_pos_y() - this->get_size(), this->get_pos_x() + this->get_size(), this->get_pos_y() + this->get_size());
+}
 void Circle::Stop() { this->last_pos = this->current_pos; }
 void Circle::Bloc() { this->last_rotation = this->current_rotation; }
 
@@ -63,5 +67,6 @@ bool Circle::inBounds(const gmt::BoundsI& bounds) const { return gmt::BoundsI::B
 bool Circle::Pointed(const gmt::VectorI& point) const { return (gmt::VectorI::Distance(this->get_pos(), point) <= this->size); }
 
 gmt::UnitI Circle::get_size() const { return this->size; }
+void Circle::set_size(const gmt::UnitI& size) { this->size = size; }
 
 }  // namespace phy

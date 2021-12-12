@@ -120,7 +120,41 @@ std::unordered_map<std::string, std::string> Inputs::QWERTY_TO_AZERTY = {
     {"z", "w"},  // conversion x => x
     {"x", "x"},  // conversion x => x
     {"y", "y"},  // conversion x => x
-    {"w", "z"},  // conversion x => x {"Q", "A"},   // conversion x => x
+    {"w", "z"},  // conversion x => x
+    /*
+    {"]", "$"},   // conversion x => x
+    {"'", "ù"},   // conversion x => x
+    {"\"", "*"},  // conversion x => x
+    {"\"", "<"},  // conversion x => x
+    {"m", ","},   // conversion x => x
+    {",", ";"},   // conversion x => x
+    {".", ":"},   // conversion x => x
+    {"/", "!"},   // conversion x => x
+    {"1", "&"},   // conversion x => x
+    {"2", "é"},   // conversion x => x
+    {"3", "\""},  // conversion x => x
+    {"4", "'"},   // conversion x => x
+    {"5", "("},   // conversion x => x
+    {"6", "-"},   // conversion x => x
+    {"7", "è"},   // conversion x => x
+    {"8", "_"},   // conversion x => x
+    {"9", "ç"},   // conversion x => x
+    {"0", "à"},   // conversion x => x
+    {"-", ")"},   // conversion x => x
+    {"=", "="},   // conversion x => x
+    {"2", "~"},   // conversion x => x
+    {"3", "#"},   // conversion x => x
+    {"4", "{"},   // conversion x => x
+    {"5", "["},   // conversion x => x
+    {"6", "|"},   // conversion x => x
+    {"7", "`"},   // conversion x => x
+    {"8", "\\"},  // conversion x => x
+    {"9", "^"},   // conversion x => x
+    {"-", "@"},   // conversion x => x
+    {"-", "]"},   // conversion x => x
+    {"=", "}"},   // conversion x => x
+    */
+    {"Q", "A"},  // conversion x => x
     {"B", "B"},  // conversion x => x
     {"C", "C"},  // conversion x => x
     {"D", "D"},  // conversion x => x
@@ -147,37 +181,6 @@ std::unordered_map<std::string, std::string> Inputs::QWERTY_TO_AZERTY = {
     {"Y", "Y"},  // conversion x => x
     {"W", "Z"},  // conversion x => x
     /*
-    {",", ";"},   // conversion x => x
-    {"]", "$"},   // conversion x => x
-    {"'", "ù"},   // conversion x => x
-    {"\"", "*"},  // conversion x => x
-    {"\"", "<"},  // conversion x => x
-    {"m", ","},   // conversion x => x
-    {".", ":"},   // conversion x => x
-    {"/", "!"},   // conversion x => x
-    {"1", "&"},   // conversion x => x
-    {"2", "é"},   // conversion x => x
-    {"3", "\""},  // conversion x => x
-    {"4", "'"},   // conversion x => x
-    {"5", "("},   // conversion x => x
-    {"6", "-"},   // conversion x => x
-    {"7", "è"},   // conversion x => x
-    {"8", "_"},   // conversion x => x
-    {"9", "ç"},   // conversion x => x
-    {"0", "à"},   // conversion x => x
-    {"-", ")"},   // conversion x => x
-    {"=", "="},   // conversion x => x
-    {"2", "~"},   // conversion x => x
-    {"3", "#"},   // conversion x => x
-    {"4", "{"},   // conversion x => x
-    {"5", "["},   // conversion x => x
-    {"6", "|"},   // conversion x => x
-    {"7", "`"},   // conversion x => x
-    {"8", "\\"},  // conversion x => x
-    {"9", "^"},   // conversion x => x
-    {"-", "@"},   // conversion x => x
-    {"-", "]"},   // conversion x => x
-    {"=", "}"},   // conversion x => x
     {"]", "£"},   // conversion x => x
     {"'", "%"},   // conversion x => x
     {"\"", "µ"},  // conversion x => x

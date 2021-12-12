@@ -165,5 +165,13 @@ std::vector<C> create_vector(C init, int number, Func next) {
     }
     return vector;
 }
+
+template <typename T>
+void obj_swap(T &a, T &b) {
+    T temp = a;
+    a = b;
+    b = temp;
+}
+
 }  // namespace gmt
 #endif

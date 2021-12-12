@@ -42,10 +42,17 @@ class System {
     int constraint_accuracy = 1;
 
    public:
-    System(bool gravity = false, gmt::UnitI force_x = gmt::UnitI(0), gmt::UnitI force_y = gmt::UnitI(0), gmt::UnitI limit_x = gmt::UnitI(10000), gmt::UnitI limit_y = gmt::UnitI(10000),
-           int quadtree_max_count = 10, int quadtree_max_depth = 10);  // System Constructor
-    System& operator=(const System& rhs);                              // System Copy
-    void Assign(const System& rhs);                                    // System Copy
+    System(bool gravity = false,                    //
+           gmt::UnitI force_x = gmt::UnitI(0),      //
+           gmt::UnitI force_y = gmt::UnitI(0),      //
+           gmt::UnitI limit_x = gmt::UnitI(10000),  //
+           gmt::UnitI limit_y = gmt::UnitI(10000),  //
+           int quadtree_max_count = 10,             //
+           int quadtree_max_depth = 10);            //
+
+    System(const System& other);
+
+    System& operator=(const System& rhs);
     virtual ~System();
 
     void Step();

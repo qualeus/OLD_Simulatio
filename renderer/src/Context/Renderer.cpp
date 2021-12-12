@@ -60,6 +60,7 @@ void Renderer::Debug() {
 void Renderer::Inputs() {
     if (Inputs::KeyPressed(GLFW_KEY_F1)) { debug = (debug + 1) % 3; }
     if (Inputs::KeyPressed(GLFW_KEY_ESCAPE)) { this->window.Close(); }
+    if (Inputs::KeyPressed(GLFW_KEY_A)) { std::cout << gmt::to_string(this->system.get_corpses()) << std::endl; }
 }
 
 }  // namespace ctx

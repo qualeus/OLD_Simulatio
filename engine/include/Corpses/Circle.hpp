@@ -16,8 +16,9 @@ class Circle : public Corpse {
     gmt::UnitI size;
 
    public:
-    Circle(gmt::UnitI x = gmt::UnitI(0), gmt::UnitI y = gmt::UnitI(0), gmt::UnitI size = gmt::UnitI(1), gmt::UnitI mass = gmt::UnitI(1), gmt::UnitI damping = gmt::UnitI(1), gmt::UnitI speed_x = gmt::UnitI(0), gmt::UnitI speed_y = gmt::UnitI(0), gmt::UnitI rotation = gmt::UnitI(0),
-           gmt::UnitI motor = gmt::UnitI(0), bool fixed = false, bool tied = false, bool etherial = false);
+    Circle(gmt::UnitI x = gmt::UnitI(0), gmt::UnitI y = gmt::UnitI(0), gmt::UnitI size = gmt::UnitI(1), gmt::UnitI mass = gmt::UnitI(1), gmt::UnitI damping = gmt::UnitI(1),
+           gmt::UnitI speed_x = gmt::UnitI(0), gmt::UnitI speed_y = gmt::UnitI(0), gmt::UnitI rotation = gmt::UnitI(0), gmt::UnitI motor = gmt::UnitI(0), bool fixed = false, bool tied = false,
+           bool etherial = false);
     // virtual ~Circle();
     Circle& operator=(const Circle& rhs);
 
@@ -39,6 +40,7 @@ class Circle : public Corpse {
 
     void UpdateBounds();
     gmt::UnitI get_size() const;
+    void set_size(const gmt::UnitI& size);
 };
 
 }  // namespace phy

@@ -21,11 +21,11 @@ class Renderer {
     ovl::GuiManager overlay;
     drw::Camera camera;
 
-    phy::System system;
-
     int debug = 0;
 
    public:
+    phy::System system;
+
     Renderer();
     void Render();
     void Loop();
