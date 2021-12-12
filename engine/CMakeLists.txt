@@ -8,8 +8,6 @@ project (${PROJECT_ENGINE_NAME})
 
 message("Building ${PROJECT_ENGINE_NAME}...")
 
-add_subdirectory(libs)
-
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(SOURCES
@@ -75,4 +73,3 @@ set(HEADERS
 
 add_library(${PROJECT_ENGINE_NAME} STATIC ${SOURCES} ${HEADERS})
 target_include_directories(${PROJECT_ENGINE_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries (${PROJECT_ENGINE_NAME} PUBLIC cereal)

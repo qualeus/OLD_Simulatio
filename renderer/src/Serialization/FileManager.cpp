@@ -1,6 +1,6 @@
-#include "../../../include/Overlay/Gui/FileManager.hpp"
+#include "../../include/Serialization/FileManager.hpp"
 
-namespace ovl {
+namespace srz {
 
 FileManager::FileManager() {}
 
@@ -26,7 +26,7 @@ void FileManager::OpenFileExplorer(std::string path) {
 #endif
 }
 
-std::string FileManager::SelectFile(std::string path, std::string filter, bool saving) {
+std::string FileManager::SelectFile(std::string name, std::string path, LPCSTR filter, bool saving) {
 #ifdef WIN32
     OPENFILENAME open;
     char fileName[MAX_PATH] = "";
@@ -35,16 +35,15 @@ std::string FileManager::SelectFile(std::string path, std::string filter, bool s
     open.lStructSize = sizeof(OPENFILENAME);
     open.lpstrFile = fileName;
     open.nMaxFile = MAX_PATH;
-    open.lpstrTitle = "Test";
+    open.lpstrTitle = name.c_str();
     open.Flags = OFN_EXPLORER | OFN_HIDEREADONLY | (saving ? OFN_NOTESTFILECREATE : OFN_FILEMUSTEXIST);
     open.lpstrInitialDir = path.c_str();
-    open.lpstrFilter = filter.c_str();
-    open.nFilterIndex = 0;
+    open.lpstrFilter = filter;
+    // open.nFilterIndex = 0;
     open.lpstrDefExt = "";
 
     std::string fileNameStr;
-
-    if (GetOpenFileName(&open)) fileNameStr = fileName;
+    if (saving ? GetSaveFileName(&open) : GetOpenFileName(&open)) fileNameStr = fileName;
 
     return fileNameStr;
 #endif
@@ -58,7 +57,7 @@ phy::System FileManager::LoadSystem(std::string path) {
     std::ifstream file = std::ifstream(path);
     cereal::JSONInputArchive iarchive = cereal::JSONInputArchive(file);
     phy::System system;
-    iarchive(system);
+    iarchive(cereal::make_nvp<phy::System>("system", system));
     return system;
 }
 
@@ -66,7 +65,7 @@ void FileManager::SaveSystem(const phy::System* system, std::string path) {
     std::ofstream file = std::ofstream(path);
     phy::System c_system = &system;
     cereal::JSONOutputArchive oarchive = cereal::JSONOutputArchive(file);
-    oarchive(c_system);
+    oarchive(cereal::make_nvp<phy::System>("system", c_system));
 }
 
-}  // namespace ovl
+}  // namespace srz

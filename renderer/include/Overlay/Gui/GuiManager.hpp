@@ -13,8 +13,9 @@
 #include "../../../assets/fonts/proggy.hpp"
 #include "../../../assets/fonts/roboto.hpp"
 #include "../../../assets/icon/ricon.hpp"
+#include "../../Serialization/FileManager.hpp"
+#include "../../Serialization/Serialization.hpp"
 #include "Config.hpp"
-#include "FileManager.hpp"
 #include "GuiModule.hpp"
 #include "GuiTheme.hpp"
 

@@ -89,6 +89,8 @@ System& System::operator=(const System& rhs) {
     return *this;
 }
 
+void System::Assign(const System& rhs) { *this = rhs; }
+
 System::~System() {}
 
 void System::Step() {
