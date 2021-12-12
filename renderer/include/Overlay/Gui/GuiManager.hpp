@@ -70,41 +70,13 @@ namespace ovl {
 
 class GuiManager {
    private:
+    bool paused = false;
     bool reset_base_layout = false;
 
-    bool show_gui_console = false;
-    bool show_gui_properties = true;
-    bool show_gui_overlay = true;
-    bool show_gui_settings = false;
-    bool show_gui_imguidemo = true;
-    bool show_gui_spawner = false;
-    bool show_gui_benchmark = true;
-    bool show_side_bar = true;
-    bool show_side_content = false;
-    bool show_time_bar = true;
-    bool show_popup_clear_system = false;
+    bool debug_system_edited = false;
+    bool locked_accuracy = true;
 
-    float side_bar_size = show_side_bar ? G_SIDE_BAR_SIZE : 0.0f;
-    float side_content_size = show_side_content ? G_SIDE_CONTENT_SIZE : 0.0f;
-    float time_bar_size = show_time_bar ? G_TIME_BAR_SIZE : 0.0f;
-
-    bool debug_show_quadtree = false;
-    bool debug_show_bounds = false;
-    bool debug_show_centroids = false;
-    bool debug_show_edges = false;
-    bool debug_show_projections = false;
-    bool debug_show_vertices = false;
-    bool debug_show_normals = false;
-    bool debug_show_velocity = false;
-    bool debug_show_xyvelocity = false;
-    bool debug_show_pairs = false;
-    bool debug_show_quadpairs = false;
-    bool debug_show_contacts = false;
-    bool debug_show_collisions = false;
-
-    bool post_process_blur = false;
-    bool post_process_grid = false;
-    bool post_process_gravity = false;
+    phy::System* system;
 
     ImGuiID dockspace_id;
     ImGuiID dockspace_bottom_id;
@@ -118,7 +90,45 @@ class GuiManager {
     bgfx::TextureHandle consolas_smaller;
     bgfx::TextureHandle proggy_smaller;
 
-    phy::System* system;
+    std::unordered_map<std::string, bool> show_gui = {
+        {"console", false},       // show_gui_console
+        {"properties", false},    // show_gui_properties
+        {"overlay", false},       // show_gui_overlay
+        {"settings", false},      // show_gui_settings
+        {"imguidemo", false},     // show_gui_imguidemo
+        {"spawner", false},       // show_gui_spawner
+        {"benchmark", false},     // show_gui_benchmark
+        {"side_bar", false},      // show_side_bar
+        {"side_content", false},  // show_side_content
+        {"time_bar", false},      // show_time_bar
+        {"popup_clear", false}    // show_popup_clear_system
+    };
+
+    std::unordered_map<std::string, bool> show_debug = {
+        {"quadtree", false},     // show_debug_quadtree
+        {"bounds", false},       // show_debug_bounds
+        {"centroids", false},    // show_debug_centroids
+        {"edges", false},        // show_debug_edges
+        {"projections", false},  // show_debug_projections
+        {"vertices", false},     // show_debug_vertices
+        {"normals", false},      // show_debug_normals
+        {"velocity", false},     // show_debug_velocity
+        {"xyvelocity", false},   // show_debug_xyvelocity
+        {"pairs", false},        // show_debug_pairs
+        {"quadpairs", false},    // show_debug_quadpairs
+        {"contacts", false},     // show_debug_contacts
+        {"collisions", false}    // show_debug_collisions
+    };
+
+    std::unordered_map<std::string, bool> post_process = {
+        {"blur", false},    // post_process_blur
+        {"grid", false},    // post_process_grid
+        {"gravity", false}  // post_process_gravity
+    };
+
+    float side_bar_size = show_gui["side_bar"] ? G_SIDE_BAR_SIZE : 0.0f;
+    float side_content_size = show_gui["side_content"] ? G_SIDE_CONTENT_SIZE : 0.0f;
+    float time_bar_size = show_gui["time_bar"] ? G_TIME_BAR_SIZE : 0.0f;
 
    public:
     GuiManager(phy::System* system);
@@ -130,6 +140,9 @@ class GuiManager {
 
     /* GuiMenu */
     void DrawGuiMenu();
+    void DrawGuiTimeBar();
+    void ShowPopupClearSystem();
+    void ClearSystem();
 };
 
 }  // namespace ovl

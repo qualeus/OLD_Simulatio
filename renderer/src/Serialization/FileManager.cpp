@@ -54,17 +54,38 @@ std::string FileManager::SelectFile(std::string name, std::string path, LPCSTR f
 }
 
 phy::System FileManager::LoadSystem(std::string path) {
-    std::ifstream file = std::ifstream(path);
-    cereal::JSONInputArchive iarchive = cereal::JSONInputArchive(file);
+    std::string extension = path.substr(path.find_last_of("."));
+
     phy::System system;
-    iarchive(cereal::make_nvp<phy::System>("system", system));
+
+    // Format from file extension
+    if (extension == ".json") {
+        std::ifstream file = std::ifstream(path);
+        cereal::JSONInputArchive iarchive = cereal::JSONInputArchive(file);
+        iarchive(cereal::make_nvp<phy::System>("system", system));
+
+    } else if (extension == ".latio") {
+        std::ifstream file = std::ifstream(path, std::ios::binary);
+        cereal::BinaryInputArchive iarchive = cereal::BinaryInputArchive(file);
+        iarchive(cereal::make_nvp<phy::System>("system", system));
+    }
+
     return system;
 }
 
 void FileManager::SaveSystem(const phy::System& system, std::string path) {
-    std::ofstream file = std::ofstream(path);
-    cereal::JSONOutputArchive oarchive = cereal::JSONOutputArchive(file);
-    oarchive(cereal::make_nvp<phy::System>("system", system));
+    std::string extension = path.substr(path.find_last_of("."));
+
+    // Format from file extension
+    if (extension == ".json") {
+        std::ofstream file = std::ofstream(path);
+        cereal::JSONOutputArchive oarchive = cereal::JSONOutputArchive(file);
+        oarchive(cereal::make_nvp<phy::System>("system", system));
+    } else if (extension == ".latio") {
+        std::ofstream file = std::ofstream(path, std::ios::binary);
+        cereal::BinaryOutputArchive oarchive = cereal::BinaryOutputArchive(file);
+        oarchive(cereal::make_nvp<phy::System>("system", system));
+    }
 }
 
 }  // namespace srz

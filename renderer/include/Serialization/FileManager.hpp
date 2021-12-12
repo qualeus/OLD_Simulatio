@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include <Structures/System.hpp>
+#include <cereal/archives/binary.hpp>
 #include <cereal/archives/json.hpp>
 #include <fstream>
 #include <iostream>

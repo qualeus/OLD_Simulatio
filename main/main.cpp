@@ -3,8 +3,12 @@
 
 int main(void) {
     ctx::Renderer renderer = ctx::Renderer();
-    renderer.system.addCorpse(phy::Circle(10.0f, 5.0f));
-    renderer.system.set_gravity(false);
+    for (int i = 0; i < 100; ++i) { renderer.system.addCorpse(phy::Circle(rand() % 500 + 250, rand() % 500, rand() % 20 + 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false)); }
+
+    renderer.system.addConstraint(phy::Link(renderer.system.get_corpse(0), renderer.system.get_corpse(1), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, -1, 1.0f, 0.3f, -1000.0f, -300.0f));
+
+    // renderer.system.addCorpse(phy::Polygon({{850, -350}, {950, -350}, {950, 750}, {-50, 750}, {-50, -350}, {50, -350}, {50, 650}, {850, 650}}, 5, 1, 0.0f, 0.0f, 0.0f, 0.0f, true, true, false));
+
     std::cout << gmt::to_string(renderer.system.get_corpses()) << std::endl;
     renderer.Render();
 

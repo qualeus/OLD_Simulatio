@@ -83,10 +83,10 @@ void GuiManager::SetupGuiBaseLayout() {
 void GuiManager::DrawGui() {
     DrawGuiMenu();
 
-    // ShowPopupClearSystem();
+    ShowPopupClearSystem();
 
     /* We draw the Time bar */
-    // DrawGuiTimeBar();
+    DrawGuiTimeBar();
 
     /* We draw the side bar as an independant Window*/
     // DrawGuiSideBar();
@@ -95,16 +95,16 @@ void GuiManager::DrawGui() {
     /* The Docking must be Before all the sub Windows*/
     DrawGuiDocking();
 
-    if (show_gui_imguidemo) { ImGui::ShowDemoWindow(&show_gui_imguidemo); }
+    if (show_gui["imguidemo"]) { ImGui::ShowDemoWindow(&show_gui["imguidemo"]); }
     /*
-    if (show_gui_console) {
-        this->console.Draw("Console", show_gui_console); }
+    if (show_gui["console"]) {
+        this->console.Draw("Console", show_gui["console"]); }
     }
-    if (show_gui_properties) { ShowGuiProperties(&show_gui_properties); }
-    if (show_gui_overlay) { ShowGuiOverlay(&show_gui_overlay); }
-    if (show_gui_settings) { ShowGuiSettings(&show_gui_settings); }
-    if (show_gui_spawner) { ShowGuiSpawner(&show_gui_spawner); }
-    if (show_gui_benchmark) { ShowGuiBenchmark(&show_gui_benchmark); }
+    if (show_gui["properties"]) { ShowGuiProperties(&show_gui["properties"]); }
+    if (show_gui["overlay"]) { ShowGuiOverlay(&show_gui["overlay"]); }
+    if (show_gui["settings"]) { ShowGuiSettings(&show_gui["settings"]); }
+    if (show_gui["spawner"]) { ShowGuiSpawner(&show_gui["spawner"]); }
+    if (show_gui["benchmark"]) { ShowGuiBenchmark(&show_gui["benchmark"]); }
     */
 }
 

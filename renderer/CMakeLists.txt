@@ -24,8 +24,11 @@ set(SOURCES
 
     src/Overlay/Gui/GuiManager.cpp
     src/Overlay/Gui/GuiTheme.cpp
+    src/Overlay/Gui/GuiModule.cpp
     
     src/Overlay/Gui/Windows/GuiMenu.cpp
+    src/Overlay/Gui/Windows/GuiTimeBar.cpp
+    src/Overlay/Gui/Windows/GuiPopupClearSystem.cpp
 
     src/Serialization/FileManager.cpp
     src/Serialization/Serialization.cpp
@@ -43,6 +46,7 @@ set(HEADERS
 
     include/Overlay/Gui/GuiManager.hpp
     include/Overlay/Gui/GuiTheme.hpp
+    include/Overlay/Gui/GuiModule.hpp
 
     include/Serialization/FileManager.hpp
     include/Serialization/Serialization.hpp
