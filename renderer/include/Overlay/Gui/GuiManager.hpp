@@ -14,6 +14,7 @@
 #include "../../../assets/fonts/roboto.hpp"
 #include "../../../assets/icon/ricon.hpp"
 #include "Config.hpp"
+#include "FileManager.hpp"
 #include "GuiModule.hpp"
 #include "GuiTheme.hpp"
 

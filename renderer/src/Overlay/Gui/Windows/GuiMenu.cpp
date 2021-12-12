@@ -5,7 +5,10 @@ namespace ovl {
 void GuiManager::DrawGuiMenu() {
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
-            if (ImGui::MenuItem("Open", "Ctrl+O")) {}
+            if (ImGui::MenuItem("Open", "Ctrl+O")) {
+                // FileManager::OpenFileExplorer(FileManager::CurrentPath());
+                std::cout << FileManager::SelectFile(FileManager::CurrentPath(), "Json\0*.json") << std::endl;
+            }
             if (ImGui::MenuItem("Save", "Ctrl+S")) {}
             if (ImGui::MenuItem("Close", "Ctrl+W")) {}
 

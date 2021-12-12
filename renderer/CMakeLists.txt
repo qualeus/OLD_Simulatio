@@ -24,6 +24,7 @@ set(SOURCES
 
     src/Overlay/Gui/GuiManager.cpp
     src/Overlay/Gui/GuiTheme.cpp
+    src/Overlay/Gui/FileManager.cpp
     
     src/Overlay/Gui/Windows/GuiMenu.cpp
 )
@@ -40,6 +41,7 @@ set(HEADERS
 
     include/Overlay/Gui/GuiManager.hpp
     include/Overlay/Gui/GuiTheme.hpp
+    include/Overlay/Gui/FileManager.hpp
 )
 
 set(RESSOURCES 
@@ -74,3 +76,4 @@ target_link_libraries (${PROJECT_RENDERER_NAME} PUBLIC glm)
 target_link_libraries (${PROJECT_RENDERER_NAME} PRIVATE freetype)
 target_link_libraries (${PROJECT_RENDERER_NAME} PUBLIC imgui)
 target_link_libraries (${PROJECT_RENDERER_NAME} PUBLIC bgfx)
+target_link_libraries (${PROJECT_RENDERER_NAME} PUBLIC cereal)

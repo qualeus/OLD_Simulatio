@@ -100,7 +100,8 @@
         "*.todo": "cpp",
         "hash_set": "cpp",
         "*.inc": "cpp",
-        "*.idl": "cpp"
+        "*.idl": "cpp",
+        "forward_list": "cpp"
     },
     "colorize.languages": ["cpp"],
     "cmake.configureOnOpen": false,

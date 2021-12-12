@@ -35,6 +35,11 @@ FetchContent_Declare(bgfx
   GIT_TAG b54594715f8d29938d879c1c18108960c4806cb8
 )
 
+FetchContent_Declare(cereal
+  GIT_REPOSITORY https://github.com/USCiLab/cereal
+  GIT_TAG 02eace19a99ce3cd564ca4e379753d69af08c2c8
+)
+
 FetchContent_GetProperties(freetype2)
 if(NOT freetype2_POPULATED)
   FetchContent_Populate(freetype2)
@@ -79,3 +84,10 @@ if(NOT bgfx_POPULATED )
   FetchContent_Populate(bgfx)
   add_subdirectory(${bgfx_SOURCE_DIR} ${bgfx_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
+
+FetchContent_GetProperties(cereal)
+if(NOT cereal_POPULATED)
+  FetchContent_Populate(cereal)
+  add_subdirectory(${cereal_SOURCE_DIR} ${cereal_BINARY_DIR} EXCLUDE_FROM_ALL)
+endif()
+
