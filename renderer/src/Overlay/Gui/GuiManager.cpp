@@ -89,17 +89,17 @@ void GuiManager::DrawGui() {
     DrawGuiTimeBar();
 
     /* We draw the side bar as an independant Window*/
-    // DrawGuiSideBar();
+    DrawGuiSideBar();
     // DrawGuiSideContent();
 
     /* The Docking must be Before all the sub Windows*/
     DrawGuiDocking();
 
     if (show_gui["imguidemo"]) { ImGui::ShowDemoWindow(&show_gui["imguidemo"]); }
+
+    if (show_gui["console"]) { this->console.Draw("Console", &show_gui["console"]); }
+
     /*
-    if (show_gui["console"]) {
-        this->console.Draw("Console", show_gui["console"]); }
-    }
     if (show_gui["properties"]) { ShowGuiProperties(&show_gui["properties"]); }
     if (show_gui["overlay"]) { ShowGuiOverlay(&show_gui["overlay"]); }
     if (show_gui["settings"]) { ShowGuiSettings(&show_gui["settings"]); }

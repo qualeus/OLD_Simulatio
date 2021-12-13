@@ -13,13 +13,15 @@ void GuiManager::DrawGuiMenu() {
                     *this->system = temp;
                 }
             }
+
             if (ImGui::MenuItem("Save", "Ctrl+S")) {
                 std::string path =
                     srz::FileManager::SelectFile("Save System", srz::FileManager::CurrentPath(), "System (.json, .latio)\0*.json;*.latio\0System (.json)\0*.json\0System (.latio)\0*.latio\0", true);
                 phy::System temp = phy::System(*this->system);
                 if (path != "") { srz::FileManager::SaveSystem(temp, path); }
             }
-            if (ImGui::MenuItem("Close", "Ctrl+W")) {}
+
+            if (ImGui::MenuItem("Clear", "Ctrl+R")) { show_gui["popup_clear"] = true; }
 
             ImGui::Dummy(ImVec2(0.0f, 7.0f));
             ImGui::Separator();
@@ -37,12 +39,6 @@ void GuiManager::DrawGuiMenu() {
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Edit")) {
-            if (ImGui::MenuItem("Clear", "Ctrl+R")) { show_gui["popup_clear"] = true; }
-
-            ImGui::Dummy(ImVec2(0.0f, 7.0f));
-            ImGui::Separator();
-            ImGui::Dummy(ImVec2(0.0f, 5.0f));
-
             if (ImGui::MenuItem("Undo", "Ctrl+Z")) { /* Do stuff */
             }
             if (ImGui::MenuItem("Redo", "Ctrl+Y")) { /* Do stuff */

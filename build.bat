@@ -1,7 +1,9 @@
 @echo off
+set /A NUM_BUILD_THREADS = %NUMBER_OF_PROCESSORS%
 :menu
-color 0a
 cls
+color 0a
+echo [7m Simulatio Build Tool [0m[32m
 echo [0] Build/Run Debug 
 echo [1] Run Debug 
 echo [2] Build/Run Release
@@ -13,7 +15,6 @@ echo [7] Build WebAssembly
 echo [8] Sonar Scanner
 echo [9] Exit
 set /p user=
-
 if %user% == 0 goto build_debug
 if %user% == 1 goto run_debug
 if %user% == 2 goto build_release
@@ -23,14 +24,14 @@ if %user% == 5 goto build_tests
 if %user% == 6 goto build_docs
 if %user% == 7 goto build_webassembly
 if %user% == 8 goto sonar_scanner
-if %user% == 9 exit
+if %user% == 9 cls & exit /B 2
 
 :build_debug
 if not exist "build/Debug/" mkdir "build/Debug/"
 cls
-echo Compiling for Debug...
+echo [7mCompiling for Debug...                                                           [%NUM_BUILD_THREADS% threads][0m[32m
 cd build\Debug
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build .
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build . -j %NUM_BUILD_THREADS%
 pause
 cd bin
 Simulatio.exe
@@ -48,9 +49,9 @@ goto menu
 :build_release
 if not exist "build/Release/" mkdir "build/Release/"
 cls
-echo Compiling for Release...
+echo [7mCompiling for Release...                                                           [%NUM_BUILD_THREADS% threads][0m[32m
 cd build\Release
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ../.. && cmake --build .
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ../.. && cmake --build . -j %NUM_BUILD_THREADS%
 cd bin
 Simulatio.exe
 if errorlevel 1 pause
@@ -70,9 +71,9 @@ goto menu
 :build_tests
 if not exist "build/Tests/" mkdir "build/Tests/"
 cls
-echo Compiling Tests...
+echo [7mCompiling Tests...                                                                  [%NUM_BUILD_THREADS% threads][0m[32m
 cd build\Tests
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON  ../.. && cmake --build .
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON  ../.. && cmake --build . -j %NUM_BUILD_THREADS%
 mingw32-make CTEST_OUTPUT_ON_FAILURE=TRUE test
 pause
 cd ..\..
@@ -82,9 +83,9 @@ goto menu
 if not exist "build/Docs/" mkdir "build/Docs/"
 if not exist "docs/doxygen/" mkdir "docs/doxygen/"
 cls
-echo Building docs...
+echo [7mBuilding Docs...                                                                   [%NUM_BUILD_THREADS% threads][0m[32m
 cd build\Docs
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug -DBUILD_DOCS=ON  ../.. && cmake --build .
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug -DBUILD_DOCS=ON  ../.. && cmake --build . -j %NUM_BUILD_THREADS%
 cd ..\..
 pause
 goto menu
@@ -92,7 +93,7 @@ goto menu
 :build_webassembly
 if not exist "build/WebAssembly/" mkdir "build/WebAssembly/"
 cls
-echo Compiling for WebAssembly...
+echo [7mCompiling WebAssembly...                                                           [%NUM_BUILD_THREADS% threads][0m[32m
 cd build\WebAssembly\
 call conda activate
 emcmake cmake -S . -B build ../.. && cmake --build build

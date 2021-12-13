@@ -78,6 +78,8 @@ class GuiManager {
 
     phy::System* system;
 
+    ImGui::Console console;
+
     ImGuiID dockspace_id;
     ImGuiID dockspace_bottom_id;
     ImGuiID dockspace_left_id;
@@ -89,6 +91,9 @@ class GuiManager {
     bgfx::TextureHandle roboto_bigger;
     bgfx::TextureHandle consolas_smaller;
     bgfx::TextureHandle proggy_smaller;
+
+    int input_mouse_type = I_MOUSE_TYPE_MOVE;
+    int input_side_menu = I_SIDE_MENU_DEFAULT;
 
     std::unordered_map<std::string, bool> show_gui = {
         {"console", false},       // show_gui_console
@@ -140,6 +145,7 @@ class GuiManager {
 
     /* GuiMenu */
     void DrawGuiMenu();
+    void DrawGuiSideBar();
     void DrawGuiTimeBar();
     void ShowPopupClearSystem();
     void ClearSystem();

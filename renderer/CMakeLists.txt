@@ -27,6 +27,7 @@ set(SOURCES
     src/Overlay/Gui/GuiModule.cpp
     
     src/Overlay/Gui/Windows/GuiMenu.cpp
+    src/Overlay/Gui/Windows/GuiSideBar.cpp
     src/Overlay/Gui/Windows/GuiTimeBar.cpp
     src/Overlay/Gui/Windows/GuiPopupClearSystem.cpp
 
