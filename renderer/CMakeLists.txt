@@ -18,6 +18,8 @@ set(SOURCES
     src/Context/Inputs.cpp
 
     src/Drawing/Camera.cpp
+    src/Drawing/Vertex.cpp
+    src/Drawing/Shader.cpp
 
     src/Overlay/Overlay.cpp
     src/Overlay/ImGuiHelper.cpp
@@ -41,6 +43,8 @@ set(HEADERS
     include/Context/Inputs.hpp
 
     include/Drawing/Camera.hpp
+    include/Drawing/Vertex.hpp
+    include/Drawing/Shader.hpp
 
     include/Overlay/Overlay.hpp
     include/Overlay/ImGuiHelper.hpp
@@ -54,8 +58,8 @@ set(HEADERS
 )
 
 set(RESSOURCES 
-    assets/shaders/fs_imgui.bin.hpp
-    assets/shaders/vs_imgui.bin.hpp
+    assets/shaders/imgui/fs_imgui.bin.hpp
+    assets/shaders/imgui/vs_imgui.bin.hpp
     assets/icon/ricon.hpp
 )
 
@@ -71,6 +75,8 @@ add_library(${PROJECT_RENDERER_NAME} STATIC ${SOURCES} ${HEADERS} ${RESSOURCES} 
 target_include_directories(${PROJECT_RENDERER_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # add_subdirectory(examples)
+add_subdirectory(assets/shaders/shaderc)
+add_subdirectory(assets/shaders/renderer)
 
 if(EMSCRIPTEN)
   target_link_libraries (${PROJECT_RENDERER_NAME} PUBLIC "-s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY")
@@ -86,3 +92,4 @@ target_link_libraries (${PROJECT_RENDERER_NAME} PRIVATE freetype)
 target_link_libraries (${PROJECT_RENDERER_NAME} PUBLIC imgui)
 target_link_libraries (${PROJECT_RENDERER_NAME} PUBLIC bgfx)
 target_link_libraries (${PROJECT_RENDERER_NAME} PUBLIC cereal)
+

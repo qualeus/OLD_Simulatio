@@ -31,7 +31,7 @@ if not exist "build/Debug/" mkdir "build/Debug/"
 cls
 echo [7mCompiling for Debug...                                                           [%NUM_BUILD_THREADS% threads][0m[32m
 cd build\Debug
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build . -j %NUM_BUILD_THREADS%
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ../.. && cmake --build . -j 1
 pause
 cd bin
 Simulatio.exe

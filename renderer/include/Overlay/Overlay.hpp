@@ -12,8 +12,8 @@
 #include <GLFW/glfw3native.h>
 #include <bgfx/platform.h>
 
-#include "../../assets/shaders/fs_imgui.bin.hpp"
-#include "../../assets/shaders/vs_imgui.bin.hpp"
+#include "../../assets/shaders/imgui/fs_imgui.bin.hpp"
+#include "../../assets/shaders/imgui/vs_imgui.bin.hpp"
 #include "../Context/Inputs.hpp"
 #include "ImGuiHelper.hpp"
 

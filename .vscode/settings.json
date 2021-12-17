@@ -101,7 +101,8 @@
         "hash_set": "cpp",
         "*.inc": "cpp",
         "*.idl": "cpp",
-        "forward_list": "cpp"
+        "forward_list": "cpp",
+        "*.sc": "cpp"
     },
     "colorize.languages": ["cpp"],
     "cmake.configureOnOpen": false,
