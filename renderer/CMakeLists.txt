@@ -75,8 +75,7 @@ add_library(${PROJECT_RENDERER_NAME} STATIC ${SOURCES} ${HEADERS} ${RESSOURCES} 
 target_include_directories(${PROJECT_RENDERER_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # add_subdirectory(examples)
-add_subdirectory(assets/shaders/shaderc)
-add_subdirectory(assets/shaders/renderer)
+add_subdirectory(assets/shaders)
 
 if(EMSCRIPTEN)
   target_link_libraries (${PROJECT_RENDERER_NAME} PUBLIC "-s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY")

@@ -32,7 +32,8 @@ FetchContent_Declare(imgui
 
 FetchContent_Declare(bgfx
   GIT_REPOSITORY https://github.com/mlhoutel/bgfx.cmake
-  GIT_TAG 1b2bebba848ef1da7983a82ac20dfcde39de6576
+  # GIT_TAG 1b2bebba848ef1da7983a82ac20dfcde39de6576 # cutom
+  GIT_TAG 1e165dc020ec2d9383fe7c1c145f04534758725b # build tools
   # GIT_REPOSITORY https://github.com/bkaradzic/bgfx.cmake
   # GIT_TAG b54594715f8d29938d879c1c18108960c4806cb8
 )
