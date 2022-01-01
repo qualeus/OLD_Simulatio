@@ -2,22 +2,41 @@
 
 namespace drw {
 
-void Shapes::DrawTriangle(glm::vec3 pt1, glm::vec3 pt2, glm::vec3 pt3, glm::vec4 color, std::vector<GLfloat> &buffer) {
-    buffer.push_back(sf::Vertex(sf::Vector2f(x1 * PIXEL_SCALE, y1 * PIXEL_SCALE), color));
-    buffer.push_back(sf::Vertex(sf::Vector2f(x2 * PIXEL_SCALE, y2 * PIXEL_SCALE), color));
-    buffer.push_back(sf::Vertex(sf::Vector2f(x3 * PIXEL_SCALE, y3 * PIXEL_SCALE), color));
+Shapes::Shapes() {}
 
-    this->triangles++;
+void Shapes::Reset() {
+    Shapes::triangles = 0;
+    Shapes::rectangles = 0;
+    Shapes::lines = 0;
+    Shapes::arrows = 0;
+    Shapes::circles = 0;
+    Shapes::springs = 0;
+    Shapes::polygons = 0;
 }
 
-void Shapes::DrawTriangleTexture(glm::vec3 pt1, glm::vec3 pt2, glm::vec3 pt3, glm::vec3 tx1, glm::vec3 tx2, glm::vec3 tx3, glm::vec4 color, std::vector<GLfloat> &buffer) {
-    buffer.push_back(sf::Vertex(sf::Vector2f(x1 * PIXEL_SCALE, y1 * PIXEL_SCALE), color, sf::Vector2f(tx1, ty1)));
-    buffer.push_back(sf::Vertex(sf::Vector2f(x2 * PIXEL_SCALE, y2 * PIXEL_SCALE), color, sf::Vector2f(tx2, ty2)));
-    buffer.push_back(sf::Vertex(sf::Vector2f(x3 * PIXEL_SCALE, y3 * PIXEL_SCALE), color, sf::Vector2f(tx3, ty3)));
+void Shapes::DrawTriangle(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3, uint32_t color) {
+    const int vertices_size = mesh.vertices.size();
 
-    this->triangles++;
+    mesh.vertices.push_back(Vertex<float>(pt1, color));
+    mesh.vertices.push_back(Vertex<float>(pt2, color));
+    mesh.vertices.push_back(Vertex<float>(pt3, color));
+
+    mesh.indexes.push_back(vertices_size + 0);
+    mesh.indexes.push_back(vertices_size + 1);
+    mesh.indexes.push_back(vertices_size + 2);
+
+    Shapes::triangles++;
 }
 
+uint32_t Shapes::triangles = 0;
+uint32_t Shapes::rectangles = 0;
+uint32_t Shapes::lines = 0;
+uint32_t Shapes::arrows = 0;
+uint32_t Shapes::circles = 0;
+uint32_t Shapes::springs = 0;
+uint32_t Shapes::polygons = 0;
+
+/*
 void Shapes::DrawQuad(int x, int y, int range, sf::Color color, std::vector<sf::Vertex> &buffer) {
     float x1 = static_cast<float>(x - range);
     float x2 = static_cast<float>(x + range);
@@ -175,6 +194,6 @@ void Renderer::DrawPolygon(gmt::VerticesI points, sf::Color color, bool outline)
     }
 
     this->polygons++;
-}
+}*/
 
 }  // namespace drw

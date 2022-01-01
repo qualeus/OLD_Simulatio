@@ -1,22 +1,30 @@
-#ifndef Shader_HPP
-#define Shader_HPP
+#ifndef Shapes_HPP
+#define Shapes_HPP
 
 #include <GLFW/glfw3.h>
-#include <glm/glm.h>
+
+#include <glm/glm.hpp>
+
+#include "Mesh.hpp"
+#include "Vertex.hpp"
 
 namespace drw {
 
 class Shapes {
    private:
-    int triangles = 0;
-    int rectangles = 0;
-    int lines = 0;
-    int arrows = 0;
-    int circles = 0;
-    int springs = 0;
-    int polygons = 0;
+    Shapes();
 
    public:
+    static uint32_t triangles;
+    static uint32_t rectangles;
+    static uint32_t lines;
+    static uint32_t arrows;
+    static uint32_t circles;
+    static uint32_t springs;
+    static uint32_t polygons;
+
+    static void DrawTriangle(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3, uint32_t color);
+    static void Reset();
 };
 
 }  // namespace drw

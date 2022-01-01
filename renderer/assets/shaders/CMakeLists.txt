@@ -14,20 +14,21 @@ add_custom_target(run ALL)
 
 foreach(file ${FS_FILES})
     if(WIN32)
-        # shaderc(FILE "default/${file}" OUTPUT "default/${file}.bin" FRAGMENT WINDOWS)
+        get_filename_component(bare_file ${file} NAME_WLE)
 
-        message("\"tools/shaderc_win.exe\" -i \"tools/include\" -p ps_4_0 -O 3 --type fragment --platform windows -f \"default/${file}\" -o \"default/${file}.bin\" --varyingdef \"default/varying.def.sc\"")
+        message("\n\"tools/shaderc_win.exe\" -i \"tools/include\" -p ps_5_0 -O 3 --type fragment --platform windows -f \"default/${file}\" -o \"default/${bare_file}.bin.hpp\" --varyingdef \"default/varying.def.sc\" --bin2c \"${bare_file}\"")
 
         add_custom_command (
-            OUTPUT "default/${file}.bin"
+            OUTPUT "default/${bare_file}.bin.hpp"
             COMMAND "tools/shaderc_win.exe"
             -i "tools/include"
-            -p ps_4_0 -O 3
+            -p ps_5_0 -O 3
             --type fragment 
             --platform "windows"
             -f "default/${file}" 
-            -o "default/${file}.bin"
+            -o "default/${bare_file}.bin.hpp"
             --varyingdef "default/varying.def.sc"
+            --bin2c "${bare_file}"
             DEPENDS "default/${file}" "tools/shaderc_win.exe"
         )
     endif()
@@ -35,19 +36,20 @@ endforeach()
 
 foreach(file ${VS_FILES})    
     if(WIN32)
-        # shaderc(FILE "default/${file}" OUTPUT "default/${file}.bin" VERTEX WINDOWS)
+        get_filename_component(bare_file ${file} NAME_WLE)
 
-        message("\"tools/shaderc_win.exe\" -i \"tools/include\" -p vs_4_0 -O 3 --type vertex --platform windows -f \"default/${file}\" -o \"default/${file}.bin\" --varyingdef \"default/varying.def.sc\"")
+        message("\n\"tools/shaderc_win.exe\" -i \"tools/include\" -p vs_5_0 -O 3 --type vertex --platform windows -f \"default/${file}\" -o \"default/${bare_file}.bin.hpp\" --varyingdef \"default/varying.def.sc\" --bin2c \"${bare_file}\"")
         add_custom_command(
-            OUTPUT "default/${file}.bin"
+            OUTPUT "default/${bare_file}.bin.hpp"
             COMMAND "tools/shaderc_win.exe"
             -i "tools/include"
-            -p vs_4_0 -O 3
+            -p vs_5_0 -O 3
             --type vertex 
             --platform "windows"
             -f "default/${file}" 
-            -o "default/${file}.bin"
+            -o "default/${bare_file}.bin.hpp"
             --varyingdef "default/varying.def.sc"
+            --bin2c "${bare_file}"
             DEPENDS "default/${file}" "tools/shaderc_win.exe"
         )
     endif()

@@ -19,7 +19,9 @@ set(SOURCES
 
     src/Drawing/Camera.cpp
     src/Drawing/Vertex.cpp
+    src/Drawing/Mesh.cpp
     src/Drawing/Shader.cpp
+    src/Drawing/Shapes.cpp
 
     src/Overlay/Overlay.cpp
     src/Overlay/ImGuiHelper.cpp
@@ -44,7 +46,9 @@ set(HEADERS
 
     include/Drawing/Camera.hpp
     include/Drawing/Vertex.hpp
+    include/Drawing/Mesh.hpp
     include/Drawing/Shader.hpp
+    include/Drawing/Shapes.hpp
 
     include/Overlay/Overlay.hpp
     include/Overlay/ImGuiHelper.hpp
@@ -60,6 +64,8 @@ set(HEADERS
 set(RESSOURCES 
     assets/shaders/imgui/fs_imgui.bin.hpp
     assets/shaders/imgui/vs_imgui.bin.hpp
+    assets/shaders/default/fs_base.bin.hpp
+    assets/shaders/default/vs_base.bin.hpp
     assets/icon/ricon.hpp
 )
 

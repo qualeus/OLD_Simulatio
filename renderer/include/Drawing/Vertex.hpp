@@ -1,5 +1,5 @@
-#ifndef Shader_HPP
-#define Shader_HPP
+#ifndef Vertex_HPP
+#define Vertex_HPP
 
 #include <bgfx/bgfx.h>
 
@@ -7,12 +7,13 @@
 
 namespace drw {
 
+template <typename T>
 class Vertex {
    public:
-    glm::vec3 position;
+    glm::tvec3<T> position;
     uint32_t color;
 
-    Vertex(glm::vec3 position, uint32_t color);
+    Vertex(glm::tvec3<T> position, uint32_t color);
 };
 
 }  // namespace drw

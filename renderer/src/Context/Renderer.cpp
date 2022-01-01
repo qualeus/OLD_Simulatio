@@ -2,7 +2,12 @@
 
 namespace ctx {
 
-Renderer::Renderer() : system(phy::System()), overlay(ovl::GuiManager(&this->system)) { this->window = Window(1000, 800, "Test"); }
+Renderer::Renderer() : system(phy::System()), overlay(ovl::GuiManager(&this->system)) {
+    this->window = Window(1000, 800, "Test");
+
+    this->shaders = {};
+    this->meshes = {};
+}
 
 void Renderer::Render() {
     this->window.Render();
@@ -19,6 +24,8 @@ void Renderer::Render() {
     emscripten_set_main_loop(&this->Loop, 0, 1);
 #else
 
+    this->LoadShaders();
+
     while (this->window.isOpen()) { this->Loop(); }
 #endif
 
@@ -27,10 +34,15 @@ void Renderer::Render() {
 
 void Renderer::Loop() {
     this->window.PreDraw();
+    drw::Shapes::Reset();
 
     this->Debug();
 
     this->overlay.DrawGui();
+
+    this->meshes["base"] = drw::Mesh();
+    drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(0, 0, 0), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0), 0xffffff);
+    this->meshes["base"].Draw(this->shaders["base"]);
 
     this->Inputs();
 
@@ -61,6 +73,13 @@ void Renderer::Inputs() {
     if (Inputs::KeyPressed(GLFW_KEY_F1)) { debug = (debug + 1) % 3; }
     if (Inputs::KeyPressed(GLFW_KEY_ESCAPE)) { this->window.Close(); }
     if (Inputs::KeyPressed(GLFW_KEY_A)) { std::cout << gmt::to_string(this->system.get_corpses()) << std::endl; }
+}
+
+void Renderer::LoadShaders() {
+    const bgfx::Memory* base_vs = drw::Shader::get_base_vs_shader();
+    const bgfx::Memory* base_fs = drw::Shader::get_base_fs_shader();
+
+    this->shaders["base"] = drw::Shader::create_program("base", base_vs, base_fs);
 }
 
 }  // namespace ctx

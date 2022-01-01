@@ -1,20 +1,23 @@
-#ifndef Shader_HPP
-#define Shader_HPP
+#ifndef Mesh_HPP
+#define Mesh_HPP
 
 #include <bgfx/bgfx.h>
 
 #include <glm/vec3.hpp>
+#include <vector>
+
+#include "Vertex.hpp"
 
 namespace drw {
 
 // Triangle mesh
 class Mesh {
    public:
-    std::vector<drw::Vertex> vertices;
-    std::vector<drw::Vertex> indexes;
+    std::vector<Vertex<float>> vertices;
+    std::vector<uint32_t> indexes;
 
     Mesh();
-    bgfx::VertexLayout Convert();
+    void Draw(bgfx::ProgramHandle program);
 };
 
 }  // namespace drw

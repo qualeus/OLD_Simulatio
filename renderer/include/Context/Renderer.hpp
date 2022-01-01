@@ -7,8 +7,11 @@
 
 #include <Structures/System.hpp>
 #include <glm/glm.hpp>
+#include <unordered_map>
 
 #include "../Drawing/Camera.hpp"
+#include "../Drawing/Shader.hpp"
+#include "../Drawing/Shapes.hpp"
 #include "../Overlay/Gui/GuiManager.hpp"
 #include "Inputs.hpp"
 #include "Window.hpp"
@@ -20,6 +23,8 @@ class Renderer {
     Window window;
     ovl::GuiManager overlay;
     drw::Camera camera;
+    std::unordered_map<std::string, bgfx::ProgramHandle> shaders;
+    std::unordered_map<std::string, drw::Mesh> meshes;
 
     int debug = 0;
 
@@ -31,6 +36,7 @@ class Renderer {
     void Loop();
     void Debug();
     void Inputs();
+    void LoadShaders();
 };
 
 }  // namespace ctx

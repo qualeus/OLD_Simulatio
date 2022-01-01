@@ -4,7 +4,7 @@ $input a_position, a_color0
 $output v_color0 
 
 #include <bgfx_shader.sh>
-#include <shaderlib.hpp>
+#include <shaderlib.sh>
 
 void main() {
     gl_Position = mul(u_modelViewProj, vec4(a_position, 1.0));
