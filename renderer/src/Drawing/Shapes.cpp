@@ -22,8 +22,8 @@ void Shapes::Draw(const Mesh& mesh, const bgfx::ProgramHandle& program) {
     declaration.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true);  // color
     declaration.end();                                                        // stop
 
-    uint32_t maxVertices = 1000;
-    uint32_t maxIndexes = 1000;
+    uint32_t maxVertices = 300000;
+    uint32_t maxIndexes = 300000;
 
     bgfx::TransientVertexBuffer tvb;
     bgfx::TransientIndexBuffer tib;
@@ -34,8 +34,8 @@ void Shapes::Draw(const Mesh& mesh, const bgfx::ProgramHandle& program) {
     Vertex<float>* tvb_ptr = (Vertex<float>*)tvb.data;
     uint32_t* tib_ptr = (uint32_t*)tib.data;
 
-    if (!bgfx::getAvailTransientVertexBuffer(mesh.vertices.size(), declaration) < 0) LOG_ERROR("No more available space in Transient Vertex Buffer");
-    if (!bgfx::getAvailTransientIndexBuffer(mesh.indexes.size()) < 0) LOG_ERROR("No more available space in Transient Index Buffer");
+    if (mesh.vertices.size() > maxVertices) LOG_ERROR("No more available space in Transient Vertex Buffer");
+    if (mesh.indexes.size() > maxIndexes) LOG_ERROR("No more available space in Transient Index Buffer");
 
     std::copy(mesh.vertices.begin(), mesh.vertices.end(), tvb_ptr);
     std::copy(mesh.indexes.begin(), mesh.indexes.end(), tib_ptr);
