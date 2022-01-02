@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <bgfx/bgfx.h>
 
+#include <Geometry/String.hpp>
 #include <glm/vec2.hpp>
 #include <iostream>
 #include <stdexcept>

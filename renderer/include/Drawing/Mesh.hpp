@@ -3,6 +3,7 @@
 
 #include <bgfx/bgfx.h>
 
+#include <Geometry/String.hpp>
 #include <glm/vec3.hpp>
 #include <vector>
 
@@ -17,7 +18,6 @@ class Mesh {
     std::vector<uint32_t> indexes;
 
     Mesh();
-    void Draw(bgfx::ProgramHandle program);
 };
 
 }  // namespace drw

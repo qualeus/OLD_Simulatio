@@ -5,6 +5,7 @@
 #include <bgfx/bgfx.h>
 #include <imgui.h>
 
+#include <Geometry/String.hpp>
 #include <stdexcept>
 #include <string>
 

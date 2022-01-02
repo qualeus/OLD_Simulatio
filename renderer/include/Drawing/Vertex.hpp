@@ -4,6 +4,8 @@
 #include <bgfx/bgfx.h>
 
 #include <glm/vec3.hpp>
+#include <sstream>
+#include <string>
 
 namespace drw {
 
@@ -14,7 +16,9 @@ class Vertex {
     uint32_t color;
 
     Vertex(glm::tvec3<T> position, uint32_t color);
+    Vertex();
 };
 
 }  // namespace drw
+
 #endif

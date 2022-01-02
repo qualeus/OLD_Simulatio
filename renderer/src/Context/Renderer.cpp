@@ -38,11 +38,40 @@ void Renderer::Loop() {
 
     this->Debug();
 
-    this->overlay.DrawGui();
+    // this->overlay.DrawGui();
+
+    // ==================================================================
+
+    const bx::Vec3 at = {0.0f, 0.0f, 0.0f};
+    const bx::Vec3 eye = {0.0f, 0.0f, 10.0f};
+
+    // Set view and projection matrix for view 0.
+    float view[16];
+    bx::mtxLookAt(view, eye, at);
+
+    float proj[16];
+    bx::mtxProj(proj, 60.0f, (float)this->window.get_width() / (float)this->window.get_height(), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
+
+    bgfx::setViewTransform(0, view, proj);
+
+    float mtx[16];
+    bx::mtxRotateY(mtx, 0.0f);
+
+    // position x,y,z
+    mtx[12] = 0.0f;
+    mtx[13] = 0.0f;
+    mtx[14] = 0.0f;
+
+    // Set model matrix for rendering.
+    bgfx::setTransform(mtx);
 
     this->meshes["base"] = drw::Mesh();
-    drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(0, 0, 0), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0), 0xffffff);
-    this->meshes["base"].Draw(this->shaders["base"]);
+    drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(0, 0, 0), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0), 0xffffffff);
+    drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(10, 0, 5), glm::vec3(2, -7, 3), glm::vec3(1, 2, 0), 0xffffffff);
+    drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(0, 0, 0), glm::vec3(1, 1, 0), glm::vec3(1, 3, 3), 0xffffffff);
+    drw::Shapes::Draw(this->meshes["base"], this->shaders["base"]);
+
+    // ==================================================================
 
     this->Inputs();
 

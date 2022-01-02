@@ -5,13 +5,18 @@
 #include <emscripten.h>
 #endif
 
+#include <bx/math.h>
+
+#include <Geometry/String.hpp>
 #include <Structures/System.hpp>
 #include <glm/glm.hpp>
 #include <unordered_map>
 
 #include "../Drawing/Camera.hpp"
+#include "../Drawing/Mesh.hpp"
 #include "../Drawing/Shader.hpp"
 #include "../Drawing/Shapes.hpp"
+#include "../Drawing/Vertex.hpp"
 #include "../Overlay/Gui/GuiManager.hpp"
 #include "Inputs.hpp"
 #include "Window.hpp"

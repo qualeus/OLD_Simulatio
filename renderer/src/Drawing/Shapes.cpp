@@ -14,12 +14,46 @@ void Shapes::Reset() {
     Shapes::polygons = 0;
 }
 
+void Shapes::Draw(const Mesh& mesh, const bgfx::ProgramHandle& program) {
+    bgfx::VertexLayout declaration;
+
+    declaration.begin();                                                      // init
+    declaration.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float);      // vertex
+    declaration.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true);  // color
+    declaration.end();                                                        // stop
+
+    uint32_t maxVertices = 1000;
+    uint32_t maxIndexes = 1000;
+
+    bgfx::TransientVertexBuffer tvb;
+    bgfx::TransientIndexBuffer tib;
+
+    bgfx::allocTransientVertexBuffer(&tvb, maxVertices, declaration);
+    bgfx::allocTransientIndexBuffer(&tib, maxVertices);
+
+    Vertex<float>* tvb_ptr = (Vertex<float>*)tvb.data;
+    uint32_t* tib_ptr = (uint32_t*)tib.data;
+
+    if (!bgfx::getAvailTransientVertexBuffer(mesh.vertices.size(), declaration) < 0) LOG_ERROR("No more available space in Transient Vertex Buffer");
+    if (!bgfx::getAvailTransientIndexBuffer(mesh.indexes.size()) < 0) LOG_ERROR("No more available space in Transient Index Buffer");
+
+    std::copy(mesh.vertices.begin(), mesh.vertices.end(), tvb_ptr);
+    std::copy(mesh.indexes.begin(), mesh.indexes.end(), tib_ptr);
+
+    bgfx::setVertexBuffer(0, &tvb, 0, mesh.vertices.size());
+    bgfx::setIndexBuffer(&tib, 0, mesh.indexes.size());
+
+    bgfx::setState(BGFX_STATE_DEFAULT);
+
+    bgfx::submit(0, program);
+}
+
 void Shapes::DrawTriangle(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3, uint32_t color) {
     const int vertices_size = mesh.vertices.size();
 
-    mesh.vertices.push_back(Vertex<float>(pt1, color));
-    mesh.vertices.push_back(Vertex<float>(pt2, color));
-    mesh.vertices.push_back(Vertex<float>(pt3, color));
+    mesh.vertices.push_back(Vertex<float>(glm::vec3(pt1.x, pt1.y, pt1.z), color));
+    mesh.vertices.push_back(Vertex<float>(glm::vec3(pt2.x, pt2.y, pt2.z), color));
+    mesh.vertices.push_back(Vertex<float>(glm::vec3(pt3.x, pt3.y, pt3.z), color));
 
     mesh.indexes.push_back(vertices_size + 0);
     mesh.indexes.push_back(vertices_size + 1);

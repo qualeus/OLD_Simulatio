@@ -3,6 +3,7 @@
 
 #include <GLFW/glfw3.h>
 
+#include <Geometry/String.hpp>
 #include <glm/glm.hpp>
 
 #include "Mesh.hpp"
@@ -22,6 +23,8 @@ class Shapes {
     static uint32_t circles;
     static uint32_t springs;
     static uint32_t polygons;
+
+    static void Draw(const Mesh& mesh, const bgfx::ProgramHandle& program);
 
     static void DrawTriangle(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3, uint32_t color);
     static void Reset();

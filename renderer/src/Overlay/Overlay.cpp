@@ -20,7 +20,7 @@ const bgfx::Memory *Overlay::get_vs_shader() {
         case bgfx::RendererType::OpenGLES: return bgfx::copy(vs_imgui_essl, vs_imgui_essl_size);
         case bgfx::RendererType::Metal: return bgfx::copy(vs_imgui_metal, vs_imgui_metal_size);
         case bgfx::RendererType::Vulkan: return bgfx::copy(vs_imgui_spirv, vs_imgui_spirv_size);
-        default: throw std::runtime_error("Can't find the shader type");
+        default: LOG_ERROR("Can't find the shader type");
     }
 }
 
@@ -34,7 +34,7 @@ const bgfx::Memory *Overlay::get_fs_shader() {
         case bgfx::RendererType::OpenGLES: return bgfx::copy(fs_imgui_essl, fs_imgui_essl_size);
         case bgfx::RendererType::Metal: return bgfx::copy(fs_imgui_metal, fs_imgui_metal_size);
         case bgfx::RendererType::Vulkan: return bgfx::copy(fs_imgui_spirv, fs_imgui_spirv_size);
-        default: throw std::runtime_error("Can't find the shader type");
+        default: LOG_ERROR("Can't find the shader type");
     }
 }
 

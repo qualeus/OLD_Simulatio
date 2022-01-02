@@ -11,7 +11,7 @@ Window::Window(int width, int height, std::string title) : overlay(ovl::Overlay(
 void Window::InitializeGLFW() {
     glfwSetErrorCallback(glfw_error_callback);
 
-    if (!glfwInit()) throw std::runtime_error("glfwInit failed.");
+    if (!glfwInit()) LOG_ERROR("glfwInit failed.");
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
     /* Create a windowed mode window and its OpenGL context */
@@ -19,7 +19,7 @@ void Window::InitializeGLFW() {
 
     if (!this->window) {
         this->Cleanup();
-        throw std::runtime_error("glfwCreateWindow failed.");
+        LOG_ERROR("glfwCreateWindow failed.");
     }
 
     // Setting some window callbacks
@@ -53,7 +53,7 @@ void Window::InitializeBGFX() {
     init.deviceId = 0;                 // Choose which graphics card to use
     init.callback = nullptr;
 
-    if (!bgfx::init(init)) throw std::runtime_error("unable to initialize bgfx");
+    if (!bgfx::init(init)) LOG_ERROR("unable to initialize bgfx.");
 }
 
 void Window::InitializeIMGUI() {

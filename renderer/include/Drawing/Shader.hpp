@@ -4,6 +4,7 @@
 #include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
 
+#include <Geometry/String.hpp>
 #include <glm/vec3.hpp>
 #include <stdexcept>
 #include <string>
