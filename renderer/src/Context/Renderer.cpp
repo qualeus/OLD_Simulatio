@@ -66,10 +66,15 @@ void Renderer::Loop() {
     bgfx::setTransform(mtx);
 
     this->meshes["base"] = drw::Mesh();
-    drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(0, 0, 0), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0), 0xff000000);
-    drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(10, 0, 5), glm::vec3(2, -7, 3), glm::vec3(1, 2, 0), 0xff000000);
-    drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(0, 0, 0), glm::vec3(1, 1, 0), glm::vec3(1, 3, 3), 0xff000000);
-    for (int i = 0; i < 10000; i++) { drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(-10, 0, 0), glm::vec3(1, 1, 0), glm::vec3(10, 3, 3), 0xff000000); }
+    // drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(-1, 0, 0), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0), 0xffffffff);
+
+    drw::Shapes::DrawQuad(this->meshes["base"], glm::vec3(-1, 0, 0), 1, 0xffffffff);
+    // drw::Shapes::DrawLine(this->meshes["base"], glm::vec3(-10, 0, 0), glm::vec3(10, 2, 0), 0.1f, 0xffffffff);
+    drw::Shapes::DrawSpring(this->meshes["base"], glm::vec3(-10, 0, 0), glm::vec3(10, 2, 0), 0.1f, 1.0f, 10, 0xffffffff);
+
+    // drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(10, 0, 5), glm::vec3(2, -7, 3), glm::vec3(1, 2, 0), 0xff000000);
+    // drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(0, 0, 0), glm::vec3(1, 1, 0), glm::vec3(1, 3, 3), 0xff000000);
+    // for (int i = 0; i < 10000; i++) { drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(-10, 0, 0), glm::vec3(1, 1, 0), glm::vec3(10, 3, 3), 0xff000000); }
 
     drw::Shapes::Draw(this->meshes["base"], this->shaders["base"]);
 

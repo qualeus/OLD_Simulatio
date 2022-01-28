@@ -102,7 +102,9 @@
         "*.inc": "cpp",
         "*.idl": "cpp",
         "forward_list": "cpp",
-        "*.sc": "cpp"
+        "*.sc": "cpp",
+        "*.hlsl": "cpp",
+        "*.cl": "cpp"
     },
     "colorize.languages": ["cpp"],
     "cmake.configureOnOpen": false,

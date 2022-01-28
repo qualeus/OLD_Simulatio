@@ -2,6 +2,14 @@
 
 namespace drw {
 
+uint32_t Shapes::triangles = 0;
+uint32_t Shapes::rectangles = 0;
+uint32_t Shapes::lines = 0;
+uint32_t Shapes::arrows = 0;
+uint32_t Shapes::circles = 0;
+uint32_t Shapes::springs = 0;
+uint32_t Shapes::polygons = 0;
+
 Shapes::Shapes() {}
 
 void Shapes::Reset() {
@@ -41,7 +49,7 @@ void Shapes::Draw(const Mesh& mesh, const bgfx::ProgramHandle& program) {
     std::copy(mesh.indexes.begin(), mesh.indexes.end(), tib_ptr);
 
     bgfx::setVertexBuffer(0, &tvb, 0, mesh.vertices.size());
-    // bgfx::setIndexBuffer(&tib, 0, mesh.indexes.size());
+    // bgfx::setIndexBuffer(&tib, 0, mesh.indexes.size()); // TODO: fon't work, investigte...
 
     bgfx::setState(BGFX_STATE_DEFAULT);
     bgfx::submit(0, program);
@@ -61,68 +69,57 @@ void Shapes::DrawTriangle(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2
     Shapes::triangles++;
 }
 
-uint32_t Shapes::triangles = 0;
-uint32_t Shapes::rectangles = 0;
-uint32_t Shapes::lines = 0;
-uint32_t Shapes::arrows = 0;
-uint32_t Shapes::circles = 0;
-uint32_t Shapes::springs = 0;
-uint32_t Shapes::polygons = 0;
+void Shapes::DrawPlane(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3, const glm::vec3& pt4, uint32_t color) {
+    DrawTriangle(mesh, pt1, pt2, pt3, color);
+    DrawTriangle(mesh, pt1, pt3, pt4, color);
 
-/*
-void Shapes::DrawQuad(int x, int y, int range, sf::Color color, std::vector<sf::Vertex> &buffer) {
-    float x1 = static_cast<float>(x - range);
-    float x2 = static_cast<float>(x + range);
-    float y1 = static_cast<float>(y - range);
-    float y2 = static_cast<float>(y + range);
-
-    DrawTriangleTexture(x1, y1, x1, y2, x2, y1, 0, 0, 0, 1, 1, 0, color, buffer);
-    DrawTriangleTexture(x2, y2, x1, y2, x2, y1, 1, 1, 0, 1, 1, 0, color, buffer);
+    Shapes::rectangles++;
 }
 
-void Shapes::DrawLine(int x1, int y1, int x2, int y2, int thickness, sf::Color color) {
-    gmt::Vector<float> oA = gmt::Vector<float>(x1, y1);
-    gmt::Vector<float> oB = gmt::Vector<float>(x2, y2);
+void Shapes::DrawQuad(Mesh& mesh, const glm::vec3& center, const float& radius, uint32_t color) {
+    // TODO: normals with screen orientation
+    const glm::vec3 pt1 = glm::vec3(center.x - radius, center.y - radius, center.z);
+    const glm::vec3 pt2 = glm::vec3(center.x - radius, center.y + radius, center.z);
+    const glm::vec3 pt3 = glm::vec3(center.x + radius, center.y + radius, center.z);
+    const glm::vec3 pt4 = glm::vec3(center.x + radius, center.y - radius, center.z);
 
-    if (!gmt::Bounds<float>::SegmentIntersectBounds(oA, oB, get_screen_bounds())) { return; }
-
-    gmt::Vector<float> normal = gmt::Vector<float>::Normal(oB - oA).Normalize() * (thickness / 2.0f);
-
-    gmt::Vector<float> pA = oA - normal;
-    gmt::Vector<float> pB = oA + normal;
-    gmt::Vector<float> pC = oB - normal;
-    gmt::Vector<float> pD = oB + normal;
-
-    this->DrawTriangle(pA.x, pA.y, pB.x, pB.y, pC.x, pC.y, color, this->vertices_buffer);
-    this->DrawTriangle(pB.x, pB.y, pC.x, pC.y, pD.x, pD.y, color, this->vertices_buffer);
-
-    this->lines++;
+    DrawPlane(mesh, pt1, pt2, pt3, pt4, color);
 }
 
-void Shapes::DrawSpring(int x1, int y1, int x2, int y2, int thickness, int number_wave, sf::Color color) {
-    if (!gmt::Bounds<float>::SegmentIntersectBounds(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2), get_screen_bounds())) { return; }
+void Shapes::DrawLine(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, uint32_t color) {
+    // TODO: normals with screen orientation
+    const glm::vec3 vector = pt2 - pt1;
+    const glm::vec3 normal = glm::vec3(-vector.y, vector.x, vector.z);
+    const glm::vec3 normalized = glm::normalize(normal) * (thickness / 2.0f);
 
-    float inv = 0.25f / number_wave;
-    float dx = (x2 - x1) * inv;
-    float dy = (y2 - y1) * inv;
+    DrawPlane(mesh, pt1 - normalized, pt1 + normalized, pt2 + normalized, pt2 - normalized, color);
 
-    float inv2 = thickness / std::sqrt(dx * dx + dy * dy);
-    float px = dy * inv2;
-    float py = -dx * inv2;
+    Shapes::lines++;
+}
 
-    float x = x1;
-    float y = y1;
-    for (int i = 0; i < number_wave; i++) {
-        DrawLine(x, y, x + dx + px, y + dy + py, 2.0f, color);
-        DrawLine(x + dx + px, y + dy + py, x + 3.0f * dx - px, y + 3.0f * dy - py, 2.0f, color);
-        DrawLine(x + 3.0f * dx - px, y + 3.0f * dy - py, x + 4.0f * dx, y + 4.0f * dy, 2.0f, color);
-        x += 4.0f * dx;
-        y += 4.0f * dy;
+void Shapes::DrawSpring(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, const float& width, const int& number_waves, uint32_t color) {
+    // TODO: normals with screen orientation
+    const float inv = 0.25f / number_waves;
+    const glm::vec3 diff = (pt2 - pt1) * inv;
+
+    const float inv2 = width / std::sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z);
+    const glm::vec3 diffpn2 = diff * inv2;
+    const glm::vec3 diff2 = glm::vec3(-diffpn2.y, diffpn2.x, diffpn2.z);
+
+    glm::vec3 bpt = pt1;
+
+    for (int i = 0; i < number_waves; i++) {
+        DrawLine(mesh, bpt, bpt + diff + diff2, thickness, color);
+        DrawLine(mesh, bpt + diff + diff2, bpt + 3.0f * diff - diff2, thickness, color);
+        DrawLine(mesh, bpt + 3.0f * diff - diff2, bpt + 4.0f * diff, thickness, color);
+
+        bpt += 4.0f * diff;
     }
 
-    this->springs++;
+    Shapes::springs++;
 }
 
+/*
 void Shapes::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, int thickness, sf::Color color) {
     if (!gmt::Bounds<float>::SegmentIntersectBounds(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2), get_screen_bounds())) { return; }
 
@@ -227,6 +224,7 @@ void Renderer::DrawPolygon(gmt::VerticesI points, sf::Color color, bool outline)
     }
 
     this->polygons++;
-}*/
+}
+*/
 
 }  // namespace drw
