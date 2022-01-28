@@ -38,7 +38,7 @@ void Renderer::Loop() {
 
     this->Debug();
 
-    // this->overlay.DrawGui();
+    this->overlay.DrawGui();
 
     // ==================================================================
 

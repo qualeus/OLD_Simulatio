@@ -41,10 +41,9 @@ void Shapes::Draw(const Mesh& mesh, const bgfx::ProgramHandle& program) {
     std::copy(mesh.indexes.begin(), mesh.indexes.end(), tib_ptr);
 
     bgfx::setVertexBuffer(0, &tvb, 0, mesh.vertices.size());
-    bgfx::setIndexBuffer(&tib, 0, mesh.indexes.size());
+    // bgfx::setIndexBuffer(&tib, 0, mesh.indexes.size());
 
     bgfx::setState(BGFX_STATE_DEFAULT);
-
     bgfx::submit(0, program);
 }
 
