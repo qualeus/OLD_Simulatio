@@ -4,6 +4,7 @@ namespace ctx {
 
 Renderer::Renderer() : system(phy::System()), overlay(ovl::GuiManager(&this->system)) {
     this->window = Window(1000, 800, "Test");
+    this->camera = drw::Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 10.0f));
 
     this->shaders = {};
     this->meshes = {};
@@ -40,10 +41,34 @@ void Renderer::Loop() {
 
     this->overlay.DrawGui();
 
-    // ==================================================================
+    this->UpdateCamera();
 
-    const bx::Vec3 at = {0.0f, 0.0f, 0.0f};
-    const bx::Vec3 eye = {0.0f, 0.0f, 10.0f};
+    this->meshes["base"] = drw::Mesh();
+    // drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(-1, 0, 0), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0), 0xffffffff);
+
+    drw::Shapes::DrawQuad(this->meshes["base"], glm::vec3(-1, 0, 0), 1, 0xffffffff);
+    // drw::Shapes::DrawLine(this->meshes["base"], glm::vec3(-10, 0, 0), glm::vec3(10, 2, 0), 0.1f, 0xffffffff);
+
+    drw::Shapes::DrawSpring(this->meshes["base"], glm::vec3(-10, 0, 0), glm::vec3(10, 2, 0), 0.1f, 1.0f, 10, 0xffffffff);
+    drw::Shapes::DrawArrow(this->meshes["base"], glm::vec3(10, 0, 0), glm::vec3(0, 0, 0), 0.1f, 1.0f, 0xffffffff);
+
+    // drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(10, 0, 5), glm::vec3(2, -7, 3), glm::vec3(1, 2, 0), 0xff000000);
+    // drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(0, 0, 0), glm::vec3(1, 1, 0), glm::vec3(1, 3, 3), 0xff000000);
+    // for (int i = 0; i < 10000; i++) { drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(-10, 0, 0), glm::vec3(1, 1, 0), glm::vec3(10, 3, 3), 0xff000000); }
+
+    drw::Shapes::Draw(this->meshes["base"], this->shaders["base"]);
+
+    this->Inputs();
+
+    this->window.Draw();
+}
+
+void Renderer::UpdateCamera() {
+    const glm::vec3 cpos = this->camera.get_position();
+    const glm::vec3 ctrd = this->camera.get_towards();
+
+    const bx::Vec3 at = {cpos.x, cpos.y, cpos.z};
+    const bx::Vec3 eye = {ctrd.x, ctrd.y, ctrd.z};
 
     // Set view and projection matrix for view 0.
     float view[16];
@@ -64,25 +89,6 @@ void Renderer::Loop() {
 
     // Set model matrix for rendering.
     bgfx::setTransform(mtx);
-
-    this->meshes["base"] = drw::Mesh();
-    // drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(-1, 0, 0), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0), 0xffffffff);
-
-    drw::Shapes::DrawQuad(this->meshes["base"], glm::vec3(-1, 0, 0), 1, 0xffffffff);
-    // drw::Shapes::DrawLine(this->meshes["base"], glm::vec3(-10, 0, 0), glm::vec3(10, 2, 0), 0.1f, 0xffffffff);
-    drw::Shapes::DrawSpring(this->meshes["base"], glm::vec3(-10, 0, 0), glm::vec3(10, 2, 0), 0.1f, 1.0f, 10, 0xffffffff);
-
-    // drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(10, 0, 5), glm::vec3(2, -7, 3), glm::vec3(1, 2, 0), 0xff000000);
-    // drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(0, 0, 0), glm::vec3(1, 1, 0), glm::vec3(1, 3, 3), 0xff000000);
-    // for (int i = 0; i < 10000; i++) { drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(-10, 0, 0), glm::vec3(1, 1, 0), glm::vec3(10, 3, 3), 0xff000000); }
-
-    drw::Shapes::Draw(this->meshes["base"], this->shaders["base"]);
-
-    // ==================================================================
-
-    this->Inputs();
-
-    this->window.Draw();
 }
 
 void Renderer::Debug() {
@@ -109,6 +115,39 @@ void Renderer::Inputs() {
     if (Inputs::KeyPressed(GLFW_KEY_F1)) { debug = (debug + 1) % 3; }
     if (Inputs::KeyPressed(GLFW_KEY_ESCAPE)) { this->window.Close(); }
     if (Inputs::KeyPressed(GLFW_KEY_A)) { std::cout << gmt::to_string(this->system.get_corpses()) << std::endl; }
+
+    const float CAMERA_STEP = 0.005f;
+    const float CAMERA_ZOOM = 0.01f;
+
+    if (Inputs::KeyDown(GLFW_KEY_LEFT)) {
+        this->camera.set_position(this->camera.get_position() + glm::vec3(CAMERA_STEP, 0, 0));
+        this->camera.set_towards(this->camera.get_towards() + glm::vec3(CAMERA_STEP, 0, 0));
+    }
+
+    if (Inputs::KeyDown(GLFW_KEY_RIGHT)) {
+        this->camera.set_position(this->camera.get_position() - glm::vec3(CAMERA_STEP, 0, 0));
+        this->camera.set_towards(this->camera.get_towards() - glm::vec3(CAMERA_STEP, 0, 0));
+    }
+
+    if (Inputs::KeyDown(GLFW_KEY_UP)) {
+        this->camera.set_position(this->camera.get_position() + glm::vec3(0, CAMERA_STEP, 0));
+        this->camera.set_towards(this->camera.get_towards() + glm::vec3(0, CAMERA_STEP, 0));
+    }
+
+    if (Inputs::KeyDown(GLFW_KEY_DOWN)) {
+        this->camera.set_position(this->camera.get_position() - glm::vec3(0, CAMERA_STEP, 0));
+        this->camera.set_towards(this->camera.get_towards() - glm::vec3(0, CAMERA_STEP, 0));
+    }
+
+    if (Inputs::KeyDown(GLFW_KEY_P)) {
+        this->camera.set_position(this->camera.get_position() + glm::vec3(0, 0, CAMERA_ZOOM));
+        this->camera.set_towards(this->camera.get_towards() + glm::vec3(0, 0, CAMERA_ZOOM));
+    }
+
+    if (Inputs::KeyDown(GLFW_KEY_O)) {
+        this->camera.set_position(this->camera.get_position() - glm::vec3(0, 0, CAMERA_ZOOM));
+        this->camera.set_towards(this->camera.get_towards() - glm::vec3(0, 0, CAMERA_ZOOM));
+    }
 }
 
 void Renderer::LoadShaders() {

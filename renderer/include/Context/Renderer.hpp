@@ -42,6 +42,7 @@ class Renderer {
     void Debug();
     void Inputs();
     void LoadShaders();
+    void UpdateCamera();
 };
 
 }  // namespace ctx

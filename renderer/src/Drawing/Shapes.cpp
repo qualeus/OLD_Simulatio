@@ -30,23 +30,23 @@ void Shapes::Draw(const Mesh& mesh, const bgfx::ProgramHandle& program) {
     declaration.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true);  // color
     declaration.end();                                                        // stop
 
-    uint32_t maxVertices = 300000;
-    uint32_t maxIndexes = 300000;
+    uint32_t maxVertices = BUFFER_SIZE;
+    // uint32_t maxIndexes = BUFFER_SIZE;
 
     bgfx::TransientVertexBuffer tvb;
-    bgfx::TransientIndexBuffer tib;
+    // bgfx::TransientIndexBuffer tib;
 
     bgfx::allocTransientVertexBuffer(&tvb, maxVertices, declaration);
-    bgfx::allocTransientIndexBuffer(&tib, maxVertices);
+    // bgfx::allocTransientIndexBuffer(&tib, maxVertices);
 
     Vertex<float>* tvb_ptr = (Vertex<float>*)tvb.data;
-    uint32_t* tib_ptr = (uint32_t*)tib.data;
+    // uint32_t* tib_ptr = (uint32_t*)tib.data;
 
     if (mesh.vertices.size() > maxVertices) LOG_ERROR("No more available space in Transient Vertex Buffer");
-    if (mesh.indexes.size() > maxIndexes) LOG_ERROR("No more available space in Transient Index Buffer");
+    // if (mesh.indexes.size() > maxIndexes) LOG_ERROR("No more available space in Transient Index Buffer");
 
     std::copy(mesh.vertices.begin(), mesh.vertices.end(), tvb_ptr);
-    std::copy(mesh.indexes.begin(), mesh.indexes.end(), tib_ptr);
+    // std::copy(mesh.indexes.begin(), mesh.indexes.end(), tib_ptr);
 
     bgfx::setVertexBuffer(0, &tvb, 0, mesh.vertices.size());
     // bgfx::setIndexBuffer(&tib, 0, mesh.indexes.size()); // TODO: fon't work, investigte...
@@ -119,32 +119,79 @@ void Shapes::DrawSpring(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, 
     Shapes::springs++;
 }
 
-/*
-void Shapes::DrawArrow(int x1, int y1, int x2, int y2, int xhead, int yhead, int thickness, sf::Color color) {
-    if (!gmt::Bounds<float>::SegmentIntersectBounds(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2), get_screen_bounds())) { return; }
+void Shapes::DrawArrow(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, const float& sz_head, uint32_t color) {
+    // TODO: normals with screen orientation
+    const float angle = glm::angle(glm::normalize(pt2), glm::normalize(pt1));
+    const float length = glm::distance(pt1, pt2);
 
-    float angle = gmt::Vector<float>::Bearing(gmt::Vector<float>(x2, y2), gmt::Vector<float>(x1, y1));
-    float length = gmt::Vector<float>::Distance(gmt::Vector<float>(x1, y1), gmt::Vector<float>(x2, y2));
+    const glm::vec3 bottom = pt1;
+    const glm::vec3 head = pt2;
+    const glm::vec3 diff = head - bottom;
+    const glm::vec3 normal = glm::vec3(-diff.y, diff.x, diff.z);
+    const glm::vec3 normalized = glm::normalize(normal);
 
-    if (gmt::float_equals(length, 0.0f, min_arrow_size)) { return; }  // Dont draw if the vector is null
+    const float ratio = sz_head / glm::distance(bottom, head);
 
-    gmt::Vector<float> bottom = gmt::Vector<float>(x1, y1);
-    gmt::Vector<float> head = gmt::Vector<float>(x2, y2);
-    gmt::Vector<float> normal = gmt::Vector<float>::Normal((head - bottom).Normalize());
+    const glm::vec3 head_basis = bottom + diff * (1 - ratio);
 
-    float ratio = xhead / gmt::Vector<float>::Distance(bottom, head);
+    const glm::vec3 basis_A = head_basis + normalized * (sz_head / 2.0f);
+    const glm::vec3 basis_B = head_basis - normalized * (sz_head / 2.0f);
 
-    gmt::Vector<float> head_basis = bottom + (head - bottom) * (1 - ratio);
+    DrawTriangle(mesh, head, basis_A, basis_B, color);
+    DrawLine(mesh, bottom, head_basis, thickness, color);
 
-    gmt::Vector<float> basis_A = head_basis + normal * (yhead / 2.0f);
-    gmt::Vector<float> basis_B = head_basis - normal * (yhead / 2.0f);
-
-    DrawTriangle(head.x, head.y, basis_A.x, basis_A.y, basis_B.x, basis_B.y, color, this->vertices_buffer);
-    DrawLine(bottom.x, bottom.y, head_basis.x, head_basis.y, thickness, color);
-
-    this->arrows++;
+    Shapes::arrows++;
 }
 
+void Shapes::DrawRectangle(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, uint32_t color) {
+    const glm::vec3 diff = pt2 - pt1;
+    const glm::vec3 diffx = glm::vec3(diff.x, 0, 0);
+    const glm::vec3 diffy = glm::vec3(0, diff.y, 0);
+    const glm::vec3 diffz = glm::vec3(0, 0, diff.z);
+
+    const glm::vec3 spt1 = pt1;
+    const glm::vec3 spt2 = pt1 + diffx + diffz;
+    const glm::vec3 spt3 = pt1 + diffx + diffy + diffz;
+    const glm::vec3 spt4 = pt1 + diffy;
+
+    DrawPlane(mesh, spt1, spt2, spt3, spt4, color);
+
+    Shapes::rectangles++;
+}
+
+void Shapes::DrawRectangleOutlined(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, uint32_t color) {
+    const glm::vec3 diff = pt2 - pt1;
+    const glm::vec3 diffx = glm::vec3(diff.x, 0, 0);
+    const glm::vec3 diffy = glm::vec3(0, diff.y, 0);
+    const glm::vec3 diffz = glm::vec3(0, 0, diff.z);
+
+    const glm::vec3 spt1 = pt1;
+    const glm::vec3 spt2 = pt1 + diffx + diffz;
+    const glm::vec3 spt3 = pt1 + diffx + diffy + diffz;
+    const glm::vec3 spt4 = pt1 + diffy;
+
+    DrawLine(mesh, spt1, spt2, thickness, color);
+    DrawLine(mesh, spt2, spt3, thickness, color);
+    DrawLine(mesh, spt3, spt4, thickness, color);
+    DrawLine(mesh, spt4, spt1, thickness, color);
+
+    Shapes::rectangles++;
+}
+
+void Shapes::DrawPolygon(Mesh& mesh, const std::vector<glm::vec3>& points, uint32_t color) {
+    for (int i = 2; i < points.size(); i++) { DrawTriangle(mesh, points[0], points[i - 1], points[i], color); }
+
+    Shapes::polygons++;
+}
+
+void Shapes::DrawPolygonOutlined(Mesh& mesh, const std::vector<glm::vec3>& points, const float& thickness, uint32_t color) {
+    for (int i = 1; i < points.size(); i++) { DrawLine(mesh, points[i - 1], points[i], thickness, color); }
+    DrawLine(mesh, points[0], points[points.size() - 1], thickness, color);
+
+    Shapes::polygons++;
+}
+
+/*
 void Shapes::DrawCircleFan(int x, int y, int radius, sf::Color color, bool outline) {
     // Using a triangle fan to draw the circle shape. It's quite inneficient, better use a shader
     float cx = static_cast<float>(x);
@@ -176,54 +223,6 @@ void Shapes::DrawCircle(int x, int y, int radius, sf::Color color, bool outline)
         DrawQuad(x, y, radius, color, this->circles_buffer);
     }
     this->circles++;
-}
-
-void Renderer::DrawRectangle(int x1, int y1, int x2, int y2, bool fixed, sf::Color color, bool outline) {
-    if (!gmt::Bounds<float>::BoundsIntersectBounds(gmt::Bounds<float>(x1, y1, x2, y2), get_screen_bounds())) { return; }
-
-    gmt::Vector<float> pA = gmt::Vector<float>(x1, y1);
-    gmt::Vector<float> pB = gmt::Vector<float>(x1, y2);
-    gmt::Vector<float> pC = gmt::Vector<float>(x2, y2);
-    gmt::Vector<float> pD = gmt::Vector<float>(x2, y1);
-
-    if (outline) {
-        this->DrawLine(pA.x, pA.y, pB.x, pB.y, outline_thickness, color);
-        this->DrawLine(pB.x, pB.y, pC.x, pC.y, outline_thickness, color);
-        this->DrawLine(pC.x, pC.y, pD.x, pD.y, outline_thickness, color);
-        this->DrawLine(pD.x, pD.y, pA.x, pA.y, outline_thickness, color);
-    } else {
-        this->DrawTriangle(pA.x, pA.y, pB.x, pB.y, pC.x, pC.y, color, this->vertices_buffer);
-        this->DrawTriangle(pA.x, pA.y, pC.x, pC.y, pD.x, pD.y, color, this->vertices_buffer);
-    }
-
-    this->rectangles++;
-}
-
-void Renderer::DrawPolygon(gmt::VerticesI points, sf::Color color, bool outline) {
-    if (!gmt::Bounds<float>::BoundsIntersectBounds(points.Bounds(), get_screen_bounds())) { return; }
-
-    if (outline) {
-        for (int i = 1; i < points.vertices.size(); i++) {
-            std::shared_ptr<gmt::VectorI> last = points.vertices[i - 1];
-            std::shared_ptr<gmt::VectorI> curr = points.vertices[i];
-            DrawLine(last->x, last->y, curr->x, curr->y, outline_thickness, color);
-        }
-
-        std::shared_ptr<gmt::VectorI> first = points.vertices[0];
-        std::shared_ptr<gmt::VectorI> last = points.vertices[points.vertices.size() - 1];
-        DrawLine(first->x, first->y, last->x, last->y, outline_thickness, color);
-
-    } else {
-        std::shared_ptr<gmt::VectorI> first = points.vertices[0];
-
-        for (int i = 2; i < points.vertices.size(); i++) {
-            std::shared_ptr<gmt::VectorI> last = points.vertices[i - 1];
-            std::shared_ptr<gmt::VectorI> curr = points.vertices[i];
-            DrawTriangle(first->x, first->y, last->x, last->y, curr->x, curr->y, color, this->vertices_buffer);
-        }
-    }
-
-    this->polygons++;
 }
 */
 

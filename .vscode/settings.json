@@ -104,7 +104,8 @@
         "forward_list": "cpp",
         "*.sc": "cpp",
         "*.hlsl": "cpp",
-        "*.cl": "cpp"
+        "*.cl": "cpp",
+        "*.sh": "cpp"
     },
     "colorize.languages": ["cpp"],
     "cmake.configureOnOpen": false,
