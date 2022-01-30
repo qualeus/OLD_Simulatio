@@ -16,10 +16,12 @@
 #include <unordered_map>
 
 #include "../Drawing/Camera.hpp"
-#include "../Drawing/Mesh.hpp"
 #include "../Drawing/Shader.hpp"
 #include "../Drawing/Shapes.hpp"
-#include "../Drawing/Vertex.hpp"
+#include "../Mesh/Mesh.hpp"
+#include "../Mesh/Vertex.hpp"
+#include "../Mesh/VertexCol.hpp"
+#include "../Mesh/VertexTex.hpp"
 #include "../Overlay/Gui/GuiManager.hpp"
 #include "Inputs.hpp"
 #include "Window.hpp"
@@ -31,8 +33,12 @@ class Renderer {
     Window window;
     ovl::GuiManager overlay;
     drw::Camera camera;
-    std::unordered_map<std::string, bgfx::ProgramHandle> shaders;
-    std::unordered_map<std::string, drw::Mesh> meshes;
+
+    bgfx::ProgramHandle base_shader;
+    bgfx::ProgramHandle circle_shader;
+
+    drw::Mesh<drw::VertexCol> base_mesh;
+    drw::Mesh<drw::VertexTex> circle_mesh;
 
     int debug = 0;
     glm::vec3 mouse_initial_position = glm::vec3();
@@ -54,6 +60,9 @@ class Renderer {
     void DebugInputs();
     void CameraInputs();
 
+    drw::Mesh<drw::VertexCol> DeclareColorMesh();
+    drw::Mesh<drw::VertexTex> DeclareTextureMesh();
+
     void DrawSystem();
 
     void DrawCorpse(std::shared_ptr<phy::Corpse> corpse, uint32_t color);
@@ -68,6 +77,8 @@ class Renderer {
 
     void LoadShaders();
     void UpdateCamera();
+    void DeclareMeshes();
+    void DrawMeshes();
 
     void addCorpse(phy::Polygon polygon, uint32_t color);
     void addCorpse(phy::Circle circle, uint32_t color);

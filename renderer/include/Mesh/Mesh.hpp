@@ -8,14 +8,17 @@
 #include <vector>
 
 #include "Vertex.hpp"
+#include "VertexCol.hpp"
+#include "VertexTex.hpp"
 
 namespace drw {
 
-// Triangle mesh
+template <typename T>
 class Mesh {
    public:
-    std::vector<Vertex<float>> vertices;
+    std::vector<T> vertices;
     std::vector<uint32_t> indexes;
+    bgfx::VertexLayout declaration;
 
     Mesh();
 };

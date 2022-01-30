@@ -22,24 +22,18 @@ void Shapes::Reset() {
     Shapes::polygons = 0;
 }
 
-void Shapes::Draw(const Mesh& mesh, const bgfx::ProgramHandle& program) {
-    bgfx::VertexLayout declaration;
-
-    declaration.begin();                                                      // init
-    declaration.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float);      // vertex
-    declaration.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true);  // color
-    declaration.end();                                                        // stop
-
+template <typename T>
+void Shapes::Draw(const Mesh<T>& mesh, const bgfx::ProgramHandle& program) {
     uint32_t maxVertices = BUFFER_SIZE;
     // uint32_t maxIndexes = BUFFER_SIZE;
 
     bgfx::TransientVertexBuffer tvb;
     // bgfx::TransientIndexBuffer tib;
 
-    bgfx::allocTransientVertexBuffer(&tvb, maxVertices, declaration);
+    bgfx::allocTransientVertexBuffer(&tvb, maxVertices, mesh.declaration);
     // bgfx::allocTransientIndexBuffer(&tib, maxVertices);
 
-    Vertex<float>* tvb_ptr = (Vertex<float>*)tvb.data;
+    T* tvb_ptr = (T*)tvb.data;
     // uint32_t* tib_ptr = (uint32_t*)tib.data;
 
     if (mesh.vertices.size() > maxVertices) LOG_ERROR("No more available space in Transient Vertex Buffer");
@@ -54,13 +48,15 @@ void Shapes::Draw(const Mesh& mesh, const bgfx::ProgramHandle& program) {
     bgfx::setState(BGFX_STATE_DEFAULT);
     bgfx::submit(0, program);
 }
+template void Shapes::Draw<VertexCol>(const Mesh<VertexCol>& mesh, const bgfx::ProgramHandle& program);
+template void Shapes::Draw<VertexTex>(const Mesh<VertexTex>& mesh, const bgfx::ProgramHandle& program);
 
-void Shapes::DrawTriangle(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3, uint32_t color) {
+void Shapes::DrawTriangle(Mesh<VertexCol>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3, uint32_t color) {
     const int vertices_size = mesh.vertices.size();
 
-    mesh.vertices.push_back(Vertex<float>(glm::vec3(pt1.x, pt1.y, pt1.z), color));
-    mesh.vertices.push_back(Vertex<float>(glm::vec3(pt2.x, pt2.y, pt2.z), color));
-    mesh.vertices.push_back(Vertex<float>(glm::vec3(pt3.x, pt3.y, pt3.z), color));
+    mesh.vertices.push_back(VertexCol(glm::vec3(pt1.x, pt1.y, pt1.z), color));
+    mesh.vertices.push_back(VertexCol(glm::vec3(pt2.x, pt2.y, pt2.z), color));
+    mesh.vertices.push_back(VertexCol(glm::vec3(pt3.x, pt3.y, pt3.z), color));
 
     mesh.indexes.push_back(vertices_size + 0);
     mesh.indexes.push_back(vertices_size + 1);
@@ -69,14 +65,38 @@ void Shapes::DrawTriangle(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2
     Shapes::triangles++;
 }
 
-void Shapes::DrawPlane(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3, const glm::vec3& pt4, uint32_t color) {
+void Shapes::DrawTriangle(Mesh<VertexTex>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3,  //
+                          const glm::vec2& tex1, const glm::vec2& tex2, const glm::vec2& tex3, uint32_t color) {    //
+
+    const int vertices_size = mesh.vertices.size();
+
+    mesh.vertices.push_back(VertexTex(glm::vec3(pt1.x, pt1.y, pt1.z), tex1, color));
+    mesh.vertices.push_back(VertexTex(glm::vec3(pt2.x, pt2.y, pt2.z), tex2, color));
+    mesh.vertices.push_back(VertexTex(glm::vec3(pt3.x, pt3.y, pt3.z), tex3, color));
+
+    mesh.indexes.push_back(vertices_size + 0);
+    mesh.indexes.push_back(vertices_size + 1);
+    mesh.indexes.push_back(vertices_size + 2);
+
+    Shapes::triangles++;
+}
+
+void Shapes::DrawPlane(Mesh<VertexCol>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3, const glm::vec3& pt4, uint32_t color) {
     DrawTriangle(mesh, pt1, pt2, pt3, color);
     DrawTriangle(mesh, pt1, pt3, pt4, color);
 
     Shapes::rectangles++;
 }
 
-void Shapes::DrawQuad(Mesh& mesh, const glm::vec3& center, const float& radius, uint32_t color) {
+void Shapes::DrawPlane(Mesh<VertexTex>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3, const glm::vec3& pt4, uint32_t color) {
+    DrawTriangle(mesh, pt1, pt2, pt3, {0, 0}, {1, 0}, {1, 1}, color);
+    DrawTriangle(mesh, pt1, pt3, pt4, {0, 0}, {0, 1}, {1, 1}, color);
+
+    Shapes::rectangles++;
+}
+
+template <typename T>
+void Shapes::DrawQuad(Mesh<T>& mesh, const glm::vec3& center, const float& radius, uint32_t color) {
     // TODO: normals with screen orientation
     const glm::vec3 pt1 = glm::vec3(center.x - radius, center.y - radius, center.z);
     const glm::vec3 pt2 = glm::vec3(center.x - radius, center.y + radius, center.z);
@@ -85,8 +105,11 @@ void Shapes::DrawQuad(Mesh& mesh, const glm::vec3& center, const float& radius, 
 
     DrawPlane(mesh, pt1, pt2, pt3, pt4, color);
 }
+template void Shapes::DrawQuad<VertexCol>(Mesh<VertexCol>& mesh, const glm::vec3& center, const float& radius, uint32_t color);
+template void Shapes::DrawQuad<VertexTex>(Mesh<VertexTex>& mesh, const glm::vec3& center, const float& radius, uint32_t color);
 
-void Shapes::DrawLine(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, uint32_t color) {
+template <typename T>
+void Shapes::DrawLine(Mesh<T>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, uint32_t color) {
     // TODO: normals with screen orientation
     const glm::vec3 vector = pt2 - pt1;
     const glm::vec3 normal = glm::vec3(-vector.y, vector.x, vector.z);
@@ -96,8 +119,11 @@ void Shapes::DrawLine(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, co
 
     Shapes::lines++;
 }
+template void Shapes::DrawLine<VertexCol>(Mesh<VertexCol>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, uint32_t color);
+template void Shapes::DrawLine<VertexTex>(Mesh<VertexTex>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, uint32_t color);
 
-void Shapes::DrawSpring(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, const float& width, const int& number_waves, uint32_t color) {
+template <typename T>
+void Shapes::DrawSpring(Mesh<T>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, const float& width, const int& number_waves, uint32_t color) {
     // TODO: normals with screen orientation
     const float inv = 0.25f / number_waves;
     const glm::vec3 diff = (pt2 - pt1) * inv;
@@ -118,8 +144,10 @@ void Shapes::DrawSpring(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, 
 
     Shapes::springs++;
 }
+template void Shapes::DrawSpring<VertexCol>(Mesh<VertexCol>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, const float& width, const int& number_waves, uint32_t color);
+template void Shapes::DrawSpring<VertexTex>(Mesh<VertexTex>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, const float& width, const int& number_waves, uint32_t color);
 
-void Shapes::DrawArrow(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, const float& sz_head, uint32_t color) {
+void Shapes::DrawArrow(Mesh<VertexCol>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, const float& sz_head, uint32_t color) {
     // TODO: normals with screen orientation
     const float angle = glm::angle(glm::normalize(pt2), glm::normalize(pt1));
     const float length = glm::distance(pt1, pt2);
@@ -143,7 +171,8 @@ void Shapes::DrawArrow(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, c
     Shapes::arrows++;
 }
 
-void Shapes::DrawRectangle(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, uint32_t color) {
+template <typename T>
+void Shapes::DrawRectangle(Mesh<T>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, uint32_t color) {
     const glm::vec3 diff = pt2 - pt1;
     const glm::vec3 diffx = glm::vec3(diff.x, 0, 0);
     const glm::vec3 diffy = glm::vec3(0, diff.y, 0);
@@ -158,8 +187,11 @@ void Shapes::DrawRectangle(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt
 
     Shapes::rectangles++;
 }
+template void Shapes::DrawRectangle<VertexCol>(Mesh<VertexCol>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, uint32_t color);
+template void Shapes::DrawRectangle<VertexTex>(Mesh<VertexTex>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, uint32_t color);
 
-void Shapes::DrawRectangleOutlined(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, uint32_t color) {
+template <typename T>
+void Shapes::DrawRectangleOutlined(Mesh<T>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, uint32_t color) {
     const glm::vec3 diff = pt2 - pt1;
     const glm::vec3 diffx = glm::vec3(diff.x, 0, 0);
     const glm::vec3 diffy = glm::vec3(0, diff.y, 0);
@@ -177,19 +209,24 @@ void Shapes::DrawRectangleOutlined(Mesh& mesh, const glm::vec3& pt1, const glm::
 
     Shapes::rectangles++;
 }
+template void Shapes::DrawRectangleOutlined<VertexCol>(Mesh<VertexCol>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, uint32_t color);
+template void Shapes::DrawRectangleOutlined<VertexTex>(Mesh<VertexTex>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, uint32_t color);
 
-void Shapes::DrawPolygon(Mesh& mesh, const std::vector<glm::vec3>& points, uint32_t color) {
+void Shapes::DrawPolygon(Mesh<VertexCol>& mesh, const std::vector<glm::vec3>& points, uint32_t color) {
     for (int i = 2; i < points.size(); i++) { DrawTriangle(mesh, points[0], points[i - 1], points[i], color); }
 
     Shapes::polygons++;
 }
 
-void Shapes::DrawPolygonOutlined(Mesh& mesh, const std::vector<glm::vec3>& points, const float& thickness, uint32_t color) {
+template <typename T>
+void Shapes::DrawPolygonOutlined(Mesh<T>& mesh, const std::vector<glm::vec3>& points, const float& thickness, uint32_t color) {
     for (int i = 1; i < points.size(); i++) { DrawLine(mesh, points[i - 1], points[i], thickness, color); }
     DrawLine(mesh, points[0], points[points.size() - 1], thickness, color);
 
     Shapes::polygons++;
 }
+template void Shapes::DrawPolygonOutlined<VertexCol>(Mesh<VertexCol>& mesh, const std::vector<glm::vec3>& points, const float& thickness, uint32_t color);
+template void Shapes::DrawPolygonOutlined<VertexTex>(Mesh<VertexTex>& mesh, const std::vector<glm::vec3>& points, const float& thickness, uint32_t color);
 
 /*
 void Shapes::DrawCircleFan(int x, int y, int radius, sf::Color color, bool outline) {

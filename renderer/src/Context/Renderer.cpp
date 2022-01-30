@@ -11,9 +11,6 @@ Renderer::Renderer() : system(phy::System()), overlay(ovl::GuiManager(&this->sys
 
     this->window = Window(1000, 800, sim_title);
     this->camera = drw::Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 10.0f));
-
-    this->shaders = {};
-    this->meshes = {};
 }
 
 void Renderer::Render() {
@@ -51,17 +48,51 @@ void Renderer::Loop() {
 
     this->UpdateCamera();
 
-    this->meshes["base"] = drw::Mesh();
-    this->meshes["circle"] = drw::Mesh();
+    this->DeclareMeshes();
 
     this->DrawSystem();
 
-    drw::Shapes::Draw(this->meshes["base"], this->shaders["base"]);
-    drw::Shapes::Draw(this->meshes["circle"], this->shaders["circle"]);
+    this->DrawMeshes();
 
     this->Inputs();
 
     this->window.Draw();
+}
+
+void Renderer::DeclareMeshes() {
+    this->base_mesh = this->DeclareColorMesh();
+    this->circle_mesh = this->DeclareTextureMesh();
+}
+
+void Renderer::DrawMeshes() {
+    // Base Mesh => Colors vertex
+    drw::Shapes::Draw(this->base_mesh, this->base_shader);
+
+    // Circle Mesh => Texture vertex
+    // drw::Shapes::Draw(this->circle_mesh, this->circle_shader);
+}
+
+drw::Mesh<drw::VertexCol> Renderer::DeclareColorMesh() {
+    drw::Mesh<drw::VertexCol> mesh = drw::Mesh<drw::VertexCol>();
+
+    mesh.declaration.begin();                                                      // init
+    mesh.declaration.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float);      // vertex
+    mesh.declaration.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true);  // color
+    mesh.declaration.end();                                                        // stop
+
+    return mesh;
+}
+
+drw::Mesh<drw::VertexTex> Renderer::DeclareTextureMesh() {
+    drw::Mesh<drw::VertexTex> mesh = drw::Mesh<drw::VertexTex>();
+
+    mesh.declaration.begin();                                                               // init
+    mesh.declaration.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float);               // vertex
+    mesh.declaration.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true);           // color
+    mesh.declaration.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float, true, true);  // texture
+    mesh.declaration.end();                                                                 // stop
+
+    return mesh;
 }
 
 void Renderer::UpdateCamera() {
@@ -195,12 +226,12 @@ void Renderer::LoadShaders() {
     const bgfx::Memory *base_vs = drw::Shader::get_base_vs_shader();
     const bgfx::Memory *base_fs = drw::Shader::get_base_fs_shader();
 
-    this->shaders["base"] = drw::Shader::create_program("base", base_vs, base_fs);
+    this->base_shader = drw::Shader::create_program("base", base_vs, base_fs);
 
     const bgfx::Memory *circle_vs = drw::Shader::get_circle_vs_shader();
     const bgfx::Memory *circle_fs = drw::Shader::get_circle_fs_shader();
 
-    this->shaders["circle"] = drw::Shader::create_program("circle", circle_vs, circle_fs);
+    this->circle_shader = drw::Shader::create_program("circle", circle_vs, circle_fs);
 }
 
 void Renderer::addCorpse(phy::Polygon polygon, uint32_t color) {
@@ -233,20 +264,13 @@ void Renderer::addConstraint(phy::Slider slider, uint32_t color) {
 std::shared_ptr<phy::Constraint> Renderer::getConstraint(int index) const { return this->system.get_constraint(index); }
 
 void Renderer::DrawSystem() {
-    for (int i = 0; i < this->system.get_corpses_size(); i++) { DrawCorpse(this->system.get_corpse(i), this->corpses_colors[system.get_corpse(i)->get_id()]); }
-    for (int i = 0; i < this->system.get_constraints_size(); i++) { DrawConstraint(this->system.get_constraint(i), this->constraints_colors[system.get_constraint(i)->get_id()]); }
+    for (int i = 0; i < this->system.get_corpses_size(); i++) {
+        DrawCorpse(this->system.get_corpse(i), this->corpses_colors[system.get_corpse(i)->get_id()]);  //
+    }
 
-    // drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(-1, 0, 0), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0), 0xffffffff);
-
-    // drw::Shapes::DrawQuad(this->meshes["base"], glm::vec3(-1, 0, 0), 1, 0xffffffff);
-    // drw::Shapes::DrawLine(this->meshes["base"], glm::vec3(-10, 0, 0), glm::vec3(10, 2, 0), 0.1f, 0xffffffff);
-
-    // drw::Shapes::DrawSpring(this->meshes["base"], glm::vec3(-10, 0, 0), glm::vec3(10, 2, 0), 0.1f, 1.0f, 10, 0xffffffff);
-    // drw::Shapes::DrawArrow(this->meshes["base"], glm::vec3(10, 0, 0), glm::vec3(0, 0, 0), 0.1f, 1.0f, 0xffffffff);
-
-    // drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(10, 0, 5), glm::vec3(2, -7, 3), glm::vec3(1, 2, 0), 0xff000000);
-    // drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(0, 0, 0), glm::vec3(1, 1, 0), glm::vec3(1, 3, 3), 0xff000000);
-    // for (int i = 0; i < 10000; i++) { drw::Shapes::DrawTriangle(this->meshes["base"], glm::vec3(-10, 0, 0), glm::vec3(1, 1, 0), glm::vec3(10, 3, 3), 0xff000000); }
+    for (int i = 0; i < this->system.get_constraints_size(); i++) {
+        DrawConstraint(this->system.get_constraint(i), this->constraints_colors[system.get_constraint(i)->get_id()]);  //
+    }
 }
 
 void Renderer::DrawCorpse(std::shared_ptr<phy::Corpse> corpse, uint32_t color) {
@@ -270,7 +294,8 @@ void Renderer::DrawConstraint(std::shared_ptr<phy::Constraint> constraint, uint3
 
 void Renderer::DrawCorpseCircle(phy::Circle *circle, uint32_t color) {
     const glm::vec3 center = glm::vec3(circle->get_pos_x(), circle->get_pos_y(), 0);
-    drw::Shapes::DrawQuad(this->meshes["circle"], center, circle->get_size(), color);
+    // drw::Shapes::DrawQuad(this->circle_mesh, center, circle->get_size(), color);
+    drw::Shapes::DrawQuad(this->base_mesh, center, circle->get_size(), color);
 }
 
 void Renderer::DrawCorpsePolygon(phy::Polygon *polygon, uint32_t color) {
@@ -285,7 +310,7 @@ void Renderer::DrawCorpsePolygon(phy::Polygon *polygon, uint32_t color) {
             polygon_points.push_back(glm::vec3(vertice->x, vertice->y, 0));
         }
 
-        drw::Shapes::DrawPolygon(this->meshes["base"], polygon_points, color);
+        drw::Shapes::DrawPolygon(this->base_mesh, polygon_points, color);
     }
 }
 

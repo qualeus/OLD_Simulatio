@@ -7,8 +7,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
-#include "Mesh.hpp"
-#include "Vertex.hpp"
+#include "../Mesh/Mesh.hpp"
+#include "../Mesh/Vertex.hpp"
+#include "../Mesh/VertexCol.hpp"
+#include "../Mesh/VertexTex.hpp"
 
 namespace drw {
 
@@ -27,18 +29,37 @@ class Shapes {
     static uint32_t springs;
     static uint32_t polygons;
 
-    static void Draw(const Mesh& mesh, const bgfx::ProgramHandle& program);
+    template <typename T>
+    static void Draw(const Mesh<T>& mesh, const bgfx::ProgramHandle& program);
 
-    static void DrawTriangle(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3, uint32_t color);
-    static void DrawPlane(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3, const glm::vec3& pt4, uint32_t color);
-    static void DrawQuad(Mesh& mesh, const glm::vec3& center, const float& radius, uint32_t color);
-    static void DrawLine(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, uint32_t color);
-    static void DrawSpring(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, const float& width, const int& number_waves, uint32_t color);
-    static void DrawArrow(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, const float& sz_head, uint32_t color);
-    static void DrawRectangle(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, uint32_t color);
-    static void DrawRectangleOutlined(Mesh& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, uint32_t color);
-    static void DrawPolygon(Mesh& mesh, const std::vector<glm::vec3>& points, uint32_t color);
-    static void DrawPolygonOutlined(Mesh& mesh, const std::vector<glm::vec3>& points, const float& thickness, uint32_t color);
+    static void DrawTriangle(Mesh<VertexCol>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3, uint32_t color);
+    static void DrawTriangle(Mesh<VertexTex>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3,  //
+                             const glm::vec2& tex1, const glm::vec2& tex2, const glm::vec2& tex3, uint32_t color);     //
+
+    static void DrawPlane(Mesh<VertexCol>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3, const glm::vec3& pt4, uint32_t color);
+    static void DrawPlane(Mesh<VertexTex>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const glm::vec3& pt3, const glm::vec3& pt4, uint32_t color);
+
+    template <typename T>
+    static void DrawQuad(Mesh<T>& mesh, const glm::vec3& center, const float& radius, uint32_t color);
+
+    template <typename T>
+    static void DrawLine(Mesh<T>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, uint32_t color);
+
+    template <typename T>
+    static void DrawSpring(Mesh<T>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, const float& width, const int& number_waves, uint32_t color);
+
+    static void DrawArrow(Mesh<VertexCol>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, const float& sz_head, uint32_t color);
+
+    template <typename T>
+    static void DrawRectangle(Mesh<T>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, uint32_t color);
+
+    template <typename T>
+    static void DrawRectangleOutlined(Mesh<T>& mesh, const glm::vec3& pt1, const glm::vec3& pt2, const float& thickness, uint32_t color);
+
+    static void DrawPolygon(Mesh<VertexCol>& mesh, const std::vector<glm::vec3>& points, uint32_t color);
+
+    template <typename T>
+    static void DrawPolygonOutlined(Mesh<T>& mesh, const std::vector<glm::vec3>& points, const float& thickness, uint32_t color);
 
     static void Reset();
 };

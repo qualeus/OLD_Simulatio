@@ -18,10 +18,13 @@ set(SOURCES
     src/Context/Inputs.cpp
 
     src/Drawing/Camera.cpp
-    src/Drawing/Vertex.cpp
-    src/Drawing/Mesh.cpp
     src/Drawing/Shader.cpp
     src/Drawing/Shapes.cpp
+
+    src/Mesh/Mesh.cpp
+    src/Mesh/Vertex.cpp
+    src/Mesh/VertexCol.cpp
+    src/Mesh/VertexTex.cpp
 
     src/Overlay/Overlay.cpp
     src/Overlay/ImGuiHelper.cpp
@@ -45,10 +48,13 @@ set(HEADERS
     include/Context/Inputs.hpp
 
     include/Drawing/Camera.hpp
-    include/Drawing/Vertex.hpp
-    include/Drawing/Mesh.hpp
     include/Drawing/Shader.hpp
     include/Drawing/Shapes.hpp
+
+    include/Mesh/Mesh.hpp
+    include/Mesh/Vertex.hpp
+    include/Mesh/VertexCol.hpp
+    include/Mesh/VertexTex.hpp
 
     include/Overlay/Overlay.hpp
     include/Overlay/ImGuiHelper.hpp
