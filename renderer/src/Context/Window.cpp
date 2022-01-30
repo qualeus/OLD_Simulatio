@@ -28,6 +28,7 @@ void Window::InitializeGLFW() {
     glfwSetCharCallback(window, glfw_char_callback);
     glfwSetMouseButtonCallback(window, glfw_mouse_button_callback);
     glfwSetScrollCallback(window, glfw_scroll_callback);
+    glfwSetCursorPosCallback(window, glfw_cursor_pos_callback);
 
     glfwSetWindowUserPointer(window, this);
 }
@@ -168,13 +169,23 @@ void Window::glfw_mouse_button_callback(GLFWwindow *window, int button, int acti
 #endif
 }
 
+void Window::glfw_cursor_pos_callback(GLFWwindow *window, double xpos, double ypos) {
+    Window *ctx = static_cast<Window *>(glfwGetWindowUserPointer(window));
+
+#if ENABLE_IMGUI
+    ctx->overlay.glfw_cursor_pos_callback(window, xpos, ypos);
+#else
+    ctx::Inputs::HandleCursorPos(xpos, ypos);
+#endif
+}
+
 void Window::glfw_scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
     Window *ctx = static_cast<Window *>(glfwGetWindowUserPointer(window));
 
 #if ENABLE_IMGUI
     ctx->overlay.glfw_scroll_callback(window, xoffset, yoffset);
 #else
-
+    ctx::Inputs::HandleMouseScroll(xoffset, yoffset);
 #endif
 }
 

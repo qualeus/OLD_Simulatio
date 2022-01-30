@@ -5,6 +5,14 @@ Inputs::Inputs() {}
 
 Inputs::KEYBOARD Inputs::keyboard = AZERTY;
 
+glm::vec2 Inputs::mouse_position = glm::vec2();
+glm::vec2 Inputs::mouse_velocity = glm::vec2();
+glm::vec2 Inputs::mouse_acceleration = glm::vec2();
+double Inputs::mouse_scroll = 0.0;
+
+glm::vec2 Inputs::pressed_mouse_position[MOUSE_INPUT_SIZE] = {glm::vec2()};
+glm::vec2 Inputs::pressed_mouse_diff[MOUSE_INPUT_SIZE] = {glm::vec2()};
+
 bool Inputs::pressed_mouse[MOUSE_INPUT_SIZE] = {false};
 bool Inputs::current_mouse[MOUSE_INPUT_SIZE] = {false};
 bool Inputs::released_mouse[MOUSE_INPUT_SIZE] = {false};
@@ -26,6 +34,8 @@ void Inputs::ResetKeyboardInputs() {
 void Inputs::ResetMouseInputs() {
     for (int i = 0; i < MOUSE_INPUT_SIZE; i++) { pressed_mouse[i] = false; }
     for (int i = 0; i < MOUSE_INPUT_SIZE; i++) { released_mouse[i] = false; }
+
+    mouse_scroll = 0.0;
 }
 
 void Inputs::AssignKeyboard(KEYBOARD i_keyboard) { keyboard = i_keyboard; }
@@ -77,6 +87,32 @@ void Inputs::HandleMouseInputs(int button, int action) {
     }
 }
 
+void Inputs::HandleCursorPos(double xpos, double ypos) {
+    const glm::vec2 last_pos = mouse_position;
+    const glm::vec2 last_vel = mouse_velocity;
+    const glm::vec2 last_acc = mouse_acceleration;
+
+    mouse_position = glm::vec2(xpos, ypos);
+    mouse_velocity = mouse_position - last_pos;
+    mouse_acceleration = mouse_velocity - last_vel;
+
+    /*
+    std::cout << "POS [" << mouse_position.x << ";" << mouse_position.y <<                         //
+        "]\t\tVEL[" << mouse_velocity.x << "; " << mouse_velocity.y <<                             //
+        "]\t\tACC[" << mouse_acceleration.x << "; " << mouse_acceleration.y << "] " << std::endl;  //
+    */
+}
+
+void Inputs::HandleMouseScroll(double xoffset, double yoffset) { mouse_scroll = yoffset; }
+
+void Inputs::HandleMousePosition() {
+    // /!\ HandleMousePosition must be called after HandleMouseInputs & HandleCursorPos
+    for (int i = 0; i < MOUSE_INPUT_SIZE; i++) {
+        if (pressed_mouse[i]) pressed_mouse_position[i] = mouse_position;
+        if (current_mouse[i]) pressed_mouse_diff[i] = mouse_position - pressed_mouse_position[i];
+    }
+}
+
 bool Inputs::KeyPressed(int key) { return pressed_keys[key]; }
 bool Inputs::KeyDown(int key) { return current_keys[key]; }
 bool Inputs::KeyReleased(int key) { return released_keys[key]; }
@@ -92,6 +128,13 @@ bool Inputs::KeyReleased(std::string key) { return KeyReleased(std::accumulate(k
 bool Inputs::MousePressed(std::string key) { return MousePressed(std::accumulate(key.begin(), key.end(), 0)); }
 bool Inputs::MouseDown(std::string key) { return MouseDown(std::accumulate(key.begin(), key.end(), 0)); }
 bool Inputs::MouseReleased(std::string key) { return MouseReleased(std::accumulate(key.begin(), key.end(), 0)); }
+
+double Inputs::MouseScroll() { return mouse_scroll; }
+glm::vec2 Inputs::MousePosition() { return mouse_position; }
+glm::vec2 Inputs::MouseVelocity() { return mouse_velocity; }
+glm::vec2 Inputs::MouseAcceleration() { return mouse_acceleration; }
+glm::vec2 Inputs::PressedMousePosition(int button) { return pressed_mouse_position[button]; }
+glm::vec2 Inputs::PressedMouseDiff(int button) { return pressed_mouse_diff[button]; }
 
 std::unordered_map<std::string, std::string> Inputs::QWERTY_TO_AZERTY = {
 

@@ -38,6 +38,7 @@ class Overlay {
     void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
     void glfw_char_callback(GLFWwindow* window, unsigned int codepoint);
     void glfw_mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+    void glfw_cursor_pos_callback(GLFWwindow* window, double xpos, double ypos);
     void glfw_scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 };
 

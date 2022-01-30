@@ -1,15 +1,19 @@
 
+#include <stdlib.h>
+
 #include <Context/Renderer.hpp>
 
 int main(void) {
     ctx::Renderer renderer = ctx::Renderer();
-    for (int i = 0; i < 100; ++i) { renderer.system.addCorpse(phy::Circle(rand() % 500 + 250, rand() % 500, rand() % 20 + 20, 1.0f, 2, 0.0f, 0.0f, 0.0f, 0.0f, false, false, false)); }
-
-    renderer.system.addConstraint(phy::Link(renderer.system.get_corpse(0), renderer.system.get_corpse(1), {0, 0}, {0, 0}, 0, 0, true, true, 0, 0, -1, 1.0f, 0.3f, -1000.0f, -300.0f));
-
-    // renderer.system.addCorpse(phy::Polygon({{850, -350}, {950, -350}, {950, 750}, {-50, 750}, {-50, -350}, {50, -350}, {50, 650}, {850, 650}}, 5, 1, 0.0f, 0.0f, 0.0f, 0.0f, true, true, false));
 
     std::cout << gmt::to_string(renderer.system.get_corpses()) << std::endl;
+    for (int i = 0; i < 100; ++i) {
+        float r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        renderer.addCorpse(phy::Circle(i % 10, i + 10, r), 0xffffffff);
+    }
+
+    renderer.addCorpse(phy::Polygon({{0, 0}, {10, 10}, {2, -3}, {7, -2}}), 0xff1322ff);
+
     renderer.Render();
 
     // https://dev.to/pperon/hello-bgfx-4dka

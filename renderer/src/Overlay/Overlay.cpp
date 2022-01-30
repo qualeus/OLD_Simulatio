@@ -74,6 +74,18 @@ void Overlay::glfw_mouse_button_callback(GLFWwindow *window, int button, int act
     }
 }
 
-void Overlay::glfw_scroll_callback(GLFWwindow *window, double xoffset, double yoffset) { imgui_scroll_callback(window, xoffset, yoffset); }
+void Overlay::glfw_cursor_pos_callback(GLFWwindow *window, double xpos, double ypos) {
+    if (!imgui_want_mouse()) {  // Ignore when ImGui has mouse focus
+        ctx::Inputs::HandleCursorPos(xpos, ypos);
+    }
+}
+
+void Overlay::glfw_scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
+    imgui_scroll_callback(window, xoffset, yoffset);
+
+    if (!imgui_want_mouse()) {  // Ignore when ImGui has mouse focus
+        ctx::Inputs::HandleMouseScroll(xoffset, yoffset);
+    }
+}
 
 }  // namespace ovl
