@@ -2,55 +2,78 @@ set (SHADER_BUILD_NAME Shaders)
 
 project(${SHADER_BUILD_NAME})
 
-message("Building ${SHADER_BUILD_NAME}...")
+message("\nBuilding ${SHADER_BUILD_NAME}...")
 
-file(GLOB FS_FILES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/default" "default/*.sc") 
-file(GLOB VS_FILES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/default" "default/*.sc") 
+MACRO(SUBDIRLIST result curdir)
+  FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
+  SET(dirlist "")
+  FOREACH(child ${children})
+    IF(IS_DIRECTORY ${curdir}/${child})
+      LIST(APPEND dirlist ${child})
+    ENDIF()
+  ENDFOREACH()
+  SET(${result} ${dirlist})
+ENDMACRO()
 
-list(FILTER FS_FILES INCLUDE REGEX "^fs.*\\.sc$") 
-list(FILTER VS_FILES INCLUDE REGEX "^vs.*\\.sc$")
+SUBDIRLIST(DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_custom_target(run ALL)
+foreach (directory ${DIRECTORIES})
 
-foreach(file ${FS_FILES})
-    if(WIN32)
-        get_filename_component(bare_file ${file} NAME_WLE)
+    file(GLOB FS_FILES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/${directory}" "${directory}/*.sc") 
+    file(GLOB VS_FILES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/${directory}" "${directory}/*.sc") 
 
-        # message("\n\"tools/shaderc_win.exe\" -i \"tools/include\" -p ps_5_0 -O 3 --type fragment --platform windows -f \"default/${file}\" -o \"default/${bare_file}.bin.hpp\" --varyingdef \"default/varying.def.sc\" --bin2c \"${bare_file}\"")
+    list(FILTER FS_FILES INCLUDE REGEX "^fs.*\\.sc$") 
+    list(FILTER VS_FILES INCLUDE REGEX "^vs.*\\.sc$")
 
-        add_custom_command (
-            OUTPUT "default/${bare_file}.bin.hpp"
-            COMMAND "tools/shaderc_win.exe"
-            -i "tools/include"
-            -p ps_5_0 -O 3
-            --type fragment 
-            --platform "windows"
-            -f "default/${file}" 
-            -o "default/${bare_file}.bin.hpp"
-            --varyingdef "default/varying.def.sc"
-            --bin2c "${bare_file}"
-            DEPENDS "default/${file}" "tools/shaderc_win.exe"
-        )
+    if(FS_FILES)
+        message("\nBuilding Shaders for repertory ${directory}...")
     endif()
+
+    foreach(file ${FS_FILES})
+        if(WIN32)
+            get_filename_component(bare_file ${file} NAME_WLE)
+
+            message("\"tools/shaderc_win.exe\" -i \"tools/include\" -p ps_5_0 -O 3 --type fragment --platform windows -f \"${directory}/${file}\" -o \"${directory}/${bare_file}.bin.hpp\" --varyingdef \"${directory}/varying.def.sc\" --bin2c \"${bare_file}\"")
+
+            execute_process(
+                COMMAND "tools/shaderc_win.exe"
+                -i "tools/include"
+                -p ps_5_0 -O 3
+                --type fragment 
+                --platform "windows"
+                -f "${directory}/${file}" 
+                -o "${directory}/${bare_file}.bin.hpp"
+                --varyingdef "${directory}/varying.def.sc"
+                --bin2c "${bare_file}_dx11"
+                WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            )
+        endif()
+    endforeach()
+
+    foreach(file ${VS_FILES})    
+        if(WIN32)
+            get_filename_component(bare_file ${file} NAME_WLE)
+
+            message("\"tools/shaderc_win.exe\" -i \"tools/include\" -p vs_5_0 -O 3 --type vertex --platform windows -f \"${directory}/${file}\" -o \"${directory}/${bare_file}.bin.hpp\" --varyingdef \"${directory}/varying.def.sc\" --bin2c \"${bare_file}\"")
+
+            execute_process(
+                COMMAND "tools/shaderc_win.exe"
+                -i "tools/include"
+                -p vs_5_0 -O 3
+                --type vertex 
+                --platform "windows"
+                -f "${directory}/${file}" 
+                -o "${directory}/${bare_file}.bin.hpp"
+                --varyingdef "${directory}/varying.def.sc"
+                --bin2c "${bare_file}_dx11"
+                WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            )
+        endif()
+    endforeach()
+
 endforeach()
 
-foreach(file ${VS_FILES})    
-    if(WIN32)
-        get_filename_component(bare_file ${file} NAME_WLE)
+add_custom_target(${SHADER_BUILD_NAME}_BUILDS ALL DEPENDS ${BUILDED_SHADERS})
+# add_dependencies(${SHADER_BUILD_NAME} ${SHADER_BUILD_NAME}_BUILDS)
 
-        # message("\n\"tools/shaderc_win.exe\" -i \"tools/include\" -p vs_5_0 -O 3 --type vertex --platform windows -f \"default/${file}\" -o \"default/${bare_file}.bin.hpp\" --varyingdef \"default/varying.def.sc\" --bin2c \"${bare_file}\"")
-        add_custom_command(
-            OUTPUT "default/${bare_file}.bin.hpp"
-            COMMAND "tools/shaderc_win.exe"
-            -i "tools/include"
-            -p vs_5_0 -O 3
-            --type vertex 
-            --platform "windows"
-            -f "default/${file}" 
-            -o "default/${bare_file}.bin.hpp"
-            --varyingdef "default/varying.def.sc"
-            --bin2c "${bare_file}"
-            DEPENDS "default/${file}" "tools/shaderc_win.exe"
-        )
-    endif()
-endforeach()
+message("\n${SHADER_BUILD_NAME} have been succefully builded.\n")

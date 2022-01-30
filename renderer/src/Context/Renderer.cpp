@@ -3,8 +3,14 @@
 namespace ctx {
 
 Renderer::Renderer() : system(phy::System()), overlay(ovl::GuiManager(&this->system)) {
-    this->window = Window(1000, 800, "Test");
-    this->camera = drw::Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 50.0f));
+    const std::string title = "Test";
+    const std::string sim_title = "Simulatio v" + std::to_string(PROJECT_VERSION_MAJOR) + "."  //
+                                  + std::to_string(PROJECT_VERSION_MINOR) + "."                //
+                                  + std::to_string(PROJECT_VERSION_REVISION)                   //
+                                  + " // " + title;                                            //
+
+    this->window = Window(1000, 800, sim_title);
+    this->camera = drw::Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 10.0f));
 
     this->shaders = {};
     this->meshes = {};
@@ -46,12 +52,12 @@ void Renderer::Loop() {
     this->UpdateCamera();
 
     this->meshes["base"] = drw::Mesh();
-    // this->meshes["circle"] = drw::Mesh();
+    this->meshes["circle"] = drw::Mesh();
 
     this->DrawSystem();
 
     drw::Shapes::Draw(this->meshes["base"], this->shaders["base"]);
-    // drw::Shapes::Draw(this->meshes["circle"], this->shaders["circle"]);
+    drw::Shapes::Draw(this->meshes["circle"], this->shaders["circle"]);
 
     this->Inputs();
 
@@ -129,7 +135,7 @@ void Renderer::DebugInputs() {
 
 void Renderer::CameraInputs() {
     const float CAMERA_STEP = 0.005f;
-    const float CAMERA_ZOOM = 0.01f;
+    const float CAMERA_ZOOM = 0.05f;
 
     if (Inputs::KeyDown(GLFW_KEY_LEFT)) {
         this->camera.set_position(this->camera.get_position() + glm::vec3(CAMERA_STEP, 0, 0));
@@ -264,7 +270,7 @@ void Renderer::DrawConstraint(std::shared_ptr<phy::Constraint> constraint, uint3
 
 void Renderer::DrawCorpseCircle(phy::Circle *circle, uint32_t color) {
     const glm::vec3 center = glm::vec3(circle->get_pos_x(), circle->get_pos_y(), 0);
-    drw::Shapes::DrawQuad(this->meshes["base"], center, circle->get_size(), color);
+    drw::Shapes::DrawQuad(this->meshes["circle"], center, circle->get_size(), color);
 }
 
 void Renderer::DrawCorpsePolygon(phy::Polygon *polygon, uint32_t color) {
