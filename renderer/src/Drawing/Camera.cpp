@@ -18,12 +18,20 @@ void Camera::set_size(glm::vec2 size) {
     this->size = glm::vec2(size.x == 0 ? 1 : size.x, size.y == 0 ? 1 : size.y);  // w,h become zero when glfw window is minimized
 }
 
-glm::mat4 Camera::get_view_matrix() const {
-    return glm::lookAt(this->position, this->towards, glm::vec3(0.0f, 1.0f, 0.0f));  // position, towards, updwards
+void Camera::set_view_matrix(float* view_matrix) {
+    glm::mat4 tview_matrix = glm::mat4();
+    for (int i = 0; i < 16; i++) { view_matrix[i] = view_matrix[i]; }
+    this->view = tview_matrix;
 }
+glm::mat4 Camera::get_view_matrix() const { return this->view; }
 
+void Camera::set_proj_matrix(float* proj_matrix) {
+    glm::mat4 tproj_matrix = glm::mat4();
+    for (int i = 0; i < 16; i++) { proj_matrix[i] = proj_matrix[i]; }
+    this->proj = tproj_matrix;
+}
 glm::mat4 Camera::get_proj_matrix() const {
-    return glm::perspectiveFov(45.0f, this->size.x, this->size.y, 0.1f, 10000.0f);  // perspective
+    return this->proj;  // perspective
 }
 
 }  // namespace drw

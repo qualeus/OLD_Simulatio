@@ -69,7 +69,7 @@ void Renderer::DrawMeshes() {
     drw::Shapes::Draw(this->base_mesh, this->base_shader);
 
     // Circle Mesh => Texture vertex
-    // drw::Shapes::Draw(this->circle_mesh, this->circle_shader);
+    drw::Shapes::Draw(this->circle_mesh, this->circle_shader);
 }
 
 drw::Mesh<drw::VertexCol> Renderer::DeclareColorMesh() {
@@ -86,11 +86,11 @@ drw::Mesh<drw::VertexCol> Renderer::DeclareColorMesh() {
 drw::Mesh<drw::VertexTex> Renderer::DeclareTextureMesh() {
     drw::Mesh<drw::VertexTex> mesh = drw::Mesh<drw::VertexTex>();
 
-    mesh.declaration.begin();                                                               // init
-    mesh.declaration.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float);               // vertex
-    mesh.declaration.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true);           // color
-    mesh.declaration.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float, true, true);  // texture
-    mesh.declaration.end();                                                                 // stop
+    mesh.declaration.begin();                                                      // init
+    mesh.declaration.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float);      // vertex
+    mesh.declaration.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float);     // texture
+    mesh.declaration.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true);  // color
+    mesh.declaration.end();                                                        // stop
 
     return mesh;
 }
@@ -105,9 +105,11 @@ void Renderer::UpdateCamera() {
     // Set view and projection matrix for view 0.
     float view[16];
     bx::mtxLookAt(view, eye, at);
+    this->camera.set_view_matrix(view);
 
     float proj[16];
     bx::mtxProj(proj, 60.0f, (float)this->window.get_width() / (float)this->window.get_height(), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
+    this->camera.set_proj_matrix(proj);
 
     bgfx::setViewTransform(0, view, proj);
 
@@ -128,13 +130,30 @@ void Renderer::Debug() {
     const bgfx::Stats *stats = bgfx::getStats();
 
     const glm::vec3 cam_pos = this->camera.get_position();
+    const glm::vec3 cam_tw = this->camera.get_towards();
+    const glm::vec2 cam_sz = this->camera.get_size();
+    const glm::mat4 cam_vw = this->camera.get_view_matrix();
+    const glm::mat4 cam_pr = this->camera.get_proj_matrix();
     const glm::vec2 cur_pos = Inputs::MousePosition();
 
     bgfx::dbgTextPrintf(0, 0, 0x0f, "\x1b[15;8m SIMULATIO v%i.%i.%i [%s ] \x1b[0m",              //
                         PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR, PROJECT_VERSION_REVISION,  //
                         std::string(gmt::type_name<SIMULATIO_PRECISION>()).c_str());             //
-    bgfx::dbgTextPrintf(0, 1, 0x0f, "\x1b[15;8m Camera (%f; %f; %f)\x1b[0m", cam_pos.x, cam_pos.y, cam_pos.z);
-    bgfx::dbgTextPrintf(0, 2, 0x0f, "\x1b[15;8m Cursor (%f; %f)\x1b[0m", cur_pos.x, cur_pos.y);
+    bgfx::dbgTextPrintf(0, 1, 0x0f, "\x1b[15;8m Camera: position (%f; %f; %f)\x1b[0m", cam_pos.x, cam_pos.y, cam_pos.z);
+    bgfx::dbgTextPrintf(0, 2, 0x0f, "\x1b[15;8m         towards (%f; %f; %f)\x1b[0m", cam_tw.x, cam_tw.y, cam_tw.z);
+    bgfx::dbgTextPrintf(0, 3, 0x0f, "\x1b[15;8m         size (%f; %f)\x1b[0m", cam_sz.x, cam_sz.y);
+
+    bgfx::dbgTextPrintf(0, 5, 0x0f, "\x1b[15;8m         view [%f; %f; %f; %f]", cam_vw[0], cam_vw[1], cam_vw[2], cam_vw[3]);
+    bgfx::dbgTextPrintf(0, 6, 0x0f, "\x1b[15;8m         view [%f; %f; %f; %f]", cam_vw[4], cam_vw[5], cam_vw[6], cam_vw[7]);
+    bgfx::dbgTextPrintf(0, 7, 0x0f, "\x1b[15;8m         view [%f; %f; %f; %f]", cam_vw[8], cam_vw[9], cam_vw[10], cam_vw[11]);
+    bgfx::dbgTextPrintf(0, 8, 0x0f, "\x1b[15;8m         view [%f; %f; %f; %f]", cam_vw[12], cam_vw[13], cam_vw[14], cam_vw[15]);
+
+    bgfx::dbgTextPrintf(0, 10, 0x0f, "\x1b[15;8m         view [%f; %f; %f; %f]", cam_pr[0], cam_pr[1], cam_pr[2], cam_pr[3]);
+    bgfx::dbgTextPrintf(0, 11, 0x0f, "\x1b[15;8m         view [%f; %f; %f; %f]", cam_pr[4], cam_pr[5], cam_pr[6], cam_pr[7]);
+    bgfx::dbgTextPrintf(0, 12, 0x0f, "\x1b[15;8m         view [%f; %f; %f; %f]", cam_pr[8], cam_pr[9], cam_pr[10], cam_pr[11]);
+    bgfx::dbgTextPrintf(0, 13, 0x0f, "\x1b[15;8m         view [%f; %f; %f; %f]", cam_pr[12], cam_pr[13], cam_pr[14], cam_pr[15]);
+
+    bgfx::dbgTextPrintf(0, 15, 0x0f, "\x1b[15;8m Cursor: position (%f; %f)\x1b[0m", cur_pos.x, cur_pos.y);
 
     switch (debug) {
         case 0: bgfx::dbgTextClear(); break;
@@ -211,7 +230,7 @@ void Renderer::CameraInputs() {
 
         const glm::vec3 position_diff = glm::vec3(mouse_diff.x * scroll_ratio, mouse_diff.y * scroll_ratio, 0);
 
-        this->camera.set_position(this->mouse_initial_position + position_diff);
+        // this->camera.set_position(this->mouse_initial_position + position_diff);
         this->camera.set_towards(this->mouse_initial_towards + position_diff);
     }
 
@@ -295,7 +314,8 @@ void Renderer::DrawConstraint(std::shared_ptr<phy::Constraint> constraint, uint3
 void Renderer::DrawCorpseCircle(phy::Circle *circle, uint32_t color) {
     const glm::vec3 center = glm::vec3(circle->get_pos_x(), circle->get_pos_y(), 0);
     // drw::Shapes::DrawQuad(this->circle_mesh, center, circle->get_size(), color);
-    drw::Shapes::DrawQuad(this->base_mesh, center, circle->get_size(), color);
+    // drw::Shapes::DrawQuad(this->base_mesh, center, circle->get_size(), color);
+    drw::Shapes::DrawCircleFan(this->base_mesh, center, circle->get_size() / 2.0f, color);
 }
 
 void Renderer::DrawCorpsePolygon(phy::Polygon *polygon, uint32_t color) {

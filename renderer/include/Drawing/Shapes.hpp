@@ -61,6 +61,8 @@ class Shapes {
     template <typename T>
     static void DrawPolygonOutlined(Mesh<T>& mesh, const std::vector<glm::vec3>& points, const float& thickness, uint32_t color);
 
+    static void DrawCircleFan(Mesh<VertexCol>& mesh, const glm::vec3& pt1, float radius, uint32_t color);
+
     static void Reset();
 };
 

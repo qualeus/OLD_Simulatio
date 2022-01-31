@@ -228,29 +228,27 @@ void Shapes::DrawPolygonOutlined(Mesh<T>& mesh, const std::vector<glm::vec3>& po
 template void Shapes::DrawPolygonOutlined<VertexCol>(Mesh<VertexCol>& mesh, const std::vector<glm::vec3>& points, const float& thickness, uint32_t color);
 template void Shapes::DrawPolygonOutlined<VertexTex>(Mesh<VertexTex>& mesh, const std::vector<glm::vec3>& points, const float& thickness, uint32_t color);
 
-/*
-void Shapes::DrawCircleFan(int x, int y, int radius, sf::Color color, bool outline) {
+void Shapes::DrawCircleFan(Mesh<VertexCol>& mesh, const glm::vec3& pt1, float radius, uint32_t color) {
     // Using a triangle fan to draw the circle shape. It's quite inneficient, better use a shader
-    float cx = static_cast<float>(x);
-    float cy = static_cast<float>(y);
-    float frad = static_cast<float>(radius);
-    int circle resolution = 100;
+    const int circle_resolution = 100;
+    const float fresolution = static_cast<float>(circle_resolution);
 
-    gmt::Vector<float> pP = gmt::Vector<float>(cx + frad, cy);
+    glm::vec3 previous = glm::vec3(pt1.x + radius, pt1.y, pt1.z);
 
     for (int i = 1; i < circle_resolution; i++) {
-        float angle = static_cast<float>(i) * 2.0f * PI / static_cast<float>(circle_resolution - 1);
-        gmt::Vector<float> pN = gmt::Vector<float>(cx + std::cos(angle) * frad, cy + std::sin(angle) * frad);
+        float index = static_cast<float>(i);
 
-        if (outline) {
-            this->DrawLine(pP.x, pP.y, pN.x, pN.y, outline_thickness, color);
-        } else {
-            this->DrawTriangle(pP.x, pP.y, pN.x, pN.y, cx, cy, color);
-        }
-        pP = pN;
+        float angle = index * 2.0f * PI / (fresolution - 1.0f);
+
+        glm::vec3 current = glm::vec3(pt1.x + std::cos(angle) * radius, pt1.y + std::sin(angle) * radius, pt1.z);
+
+        DrawTriangle(mesh, pt1, current, previous, color);
+
+        previous = current;
     }
 }
 
+/*
 void Shapes::DrawCircle(int x, int y, int radius, sf::Color color, bool outline) {
     if (!gmt::Bounds<float>::CircleIntersectBounds(radius, gmt::Vector<float>(x, y), get_screen_bounds())) { return; }
 
