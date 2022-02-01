@@ -33,8 +33,10 @@ foreach (directory ${DIRECTORIES})
         if(WIN32)
             get_filename_component(bare_file ${file} NAME_WLE)
 
-            message("\"tools/shaderc_win.exe\" -i \"tools/include\" -p ps_5_0 -O 3 --type fragment --platform windows -f \"${directory}/${file}\" -o \"${directory}/${bare_file}.bin.hpp\" --varyingdef \"${directory}/varying.def.sc\" --bin2c \"${bare_file}\"")
-
+            # message("\"tools/shaderc_win.exe\" -i \"tools/include\" -p ps_5_0 -O 3 --type fragment --platform windows -f \"${directory}/${file}\" -o \"${directory}/${bare_file}.bin.hpp\" --varyingdef \"${directory}/varying.def.sc\" --bin2c \"${bare_file}\"")
+            
+            message("${directory}/${file} => ${directory}/${bare_file}.bin.hpp")
+            
             execute_process(
                 COMMAND "tools/shaderc_win.exe"
                 -i "tools/include"
@@ -54,8 +56,10 @@ foreach (directory ${DIRECTORIES})
         if(WIN32)
             get_filename_component(bare_file ${file} NAME_WLE)
 
-            message("\"tools/shaderc_win.exe\" -i \"tools/include\" -p vs_5_0 -O 3 --type vertex --platform windows -f \"${directory}/${file}\" -o \"${directory}/${bare_file}.bin.hpp\" --varyingdef \"${directory}/varying.def.sc\" --bin2c \"${bare_file}\"")
+            # message("\"tools/shaderc_win.exe\" -i \"tools/include\" -p vs_5_0 -O 3 --type vertex --platform windows -f \"${directory}/${file}\" -o \"${directory}/${bare_file}.bin.hpp\" --varyingdef \"${directory}/varying.def.sc\" --bin2c \"${bare_file}\"")
 
+            message("${directory}/${file} => ${directory}/${bare_file}.bin.hpp")
+            
             execute_process(
                 COMMAND "tools/shaderc_win.exe"
                 -i "tools/include"
